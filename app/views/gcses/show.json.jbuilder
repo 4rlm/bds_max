@@ -1,0 +1,1 @@
+json.partial! "gcses/gcse", gcse: @gcse

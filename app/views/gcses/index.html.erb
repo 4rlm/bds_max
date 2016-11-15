@@ -1,0 +1,339 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="text-center">GCSE</h1>
+
+<!-- Testing CSV Import Links/Buttons: -->
+<div class="pull-right margin-bottom">
+  <%= link_to 'Import a CSV File', import_page_path, class: 'btn btn-primary' %>
+  <%#= link_to 'Create New Fruit Data', new_fruit_path, class: 'btn btn-success' %>
+</div>
+
+<%= form_tag "/gcses", method: :get, class: 'form-inline'  do %>
+<table class="table">
+    <thead>
+        <tr>
+            <div class="form-group">
+                <%= select_tag :columns, options_for_select(column_list, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
+            </div>
+        </tr>
+        <tr>
+            <th>
+                <%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %>
+            </th> <!-- add -->
+            <% unless @col_domain_status %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq, params[:domain_status]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Domain Status
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_gcse_timestamp %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :gcse_timestamp, params[:gcse_timestamp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>GCSE Time Stamp
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_gcse_query_num %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :gcse_query_num, options_for_select(Gcse.select(:gcse_query_num).map(&:gcse_query_num).uniq, params[:gcse_query_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>GCSE Query Num
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_gcse_result_num %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :gcse_result_num, options_for_select(Gcse.select(:gcse_result_num).map(&:gcse_result_num).uniq, params[:gcse_result_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>GCSE Result Num
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_id %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC ID
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_ult_acct %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_ult_acct, options_for_select(Gcse.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq, params[:sfdc_ult_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Ult Acct
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_acct %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control'  %>
+                    <br><br>SFDC Acct
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_type %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_type, options_for_select(Gcse.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Type
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_street %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC Street
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_city %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_city, options_for_select(Gcse.select(:sfdc_city).map(&:sfdc_city).uniq, params[:sfdc_city]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC City
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_state %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_state, options_for_select(Gcse.select(:sfdc_state).map(&:sfdc_state).uniq, params[:sfdc_state]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC State
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_url_o %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_url_o, params[:sfdc_url_o], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC Url Old
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_domain %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :domain, options_for_select(Gcse.select(:domain).map(&:domain).uniq, params[:domain]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Domain
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_root %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :root, options_for_select(Gcse.select(:root).map(&:root).uniq, params[:root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Root
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_suffix %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :suffix, options_for_select(Gcse.select(:suffix).map(&:suffix).uniq, params[:suffix]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Suffix
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_in_host_pos %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :in_host_pos, options_for_select(Gcse.select(:in_host_pos).map(&:in_host_pos).uniq, params[:in_host_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>In Host Pos
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_in_host_neg %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :in_host_neg, options_for_select(Gcse.select(:in_host_neg).map(&:in_host_neg).uniq, params[:in_host_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>In Host Neg
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_in_host_del %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :in_host_del, options_for_select(Gcse.select(:in_host_del).map(&:in_host_del).uniq, params[:in_host_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>In Host Del
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_in_suffix_del %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :in_suffix_del, options_for_select(Gcse.select(:in_suffix_del).map(&:in_suffix_del).uniq, params[:in_suffix_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>In Suffix Del
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_exclude_root %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :exclude_root, options_for_select(Gcse.select(:exclude_root).map(&:exclude_root).uniq, params[:exclude_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Exclude Root
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_text %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :text, params[:text], placeholder: "-- Enter Keyword --", class: 'form-control'  %>
+                    <br><br>Text
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_in_text_pos %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :in_text_pos, options_for_select(Gcse.select(:in_text_pos).map(&:in_text_pos).uniq, params[:in_text_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>In Text Pos
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_in_text_neg %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :in_text_neg, options_for_select(Gcse.select(:in_text_neg).map(&:in_text_neg).uniq, params[:in_text_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>In Text Neg
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_in_text_del %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :in_text_del, options_for_select(Gcse.select(:in_text_del).map(&:in_text_del).uniq, params[:in_text_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>In Text Del
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_url_encoded %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :url_encoded, params[:url_encoded], placeholder: "-- Enter Keyword --", class: 'form-control'  %>
+                    <br><br>Url Encoded
+                </div>
+            </th>
+            <% end %>
+            <th colspan="3">
+
+            </th>
+        </tr> <!--  -->
+    </thead>
+
+    <tbody>
+        <% @gcses.each do |gcse| %>
+        <tr>
+            <td><%= check_box_tag "status_checks[]",  gcse.id %></td>
+            <% unless @col_domain_status %>
+            <td><%= gcse.domain_status %></td>
+            <% end %>
+            <% unless @col_gcse_timestamp %>
+            <td><%= gcse.gcse_timestamp %></td>
+            <% end %>
+            <% unless @col_gcse_query_num %>
+            <td><%= gcse.gcse_query_num %></td>
+            <% end %>
+            <% unless @col_gcse_result_num %>
+            <td><%= gcse.gcse_result_num %></td>
+            <% end %>
+            <% unless @col_sfdc_id %>
+            <td><%= gcse.sfdc_id %></td>
+            <% end %>
+            <% unless @col_sfdc_ult_acct %>
+            <td><%= gcse.sfdc_ult_acct %></td>
+            <% end %>
+            <% unless @col_sfdc_acct %>
+            <td><%= gcse.sfdc_acct %></td>
+            <% end %>
+            <% unless @col_sfdc_type %>
+            <td><%= gcse.sfdc_type %></td>
+            <% end %>
+            <% unless @col_sfdc_street %>
+            <td><%= gcse.sfdc_street %></td>
+            <% end %>
+            <% unless @col_sfdc_city %>
+            <td><%= gcse.sfdc_city %></td>
+            <% end %>
+            <% unless @col_sfdc_state %>
+            <td><%= gcse.sfdc_state %></td>
+            <% end %>
+            <% unless @col_sfdc_url_o %>
+            <td><%= gcse.sfdc_url_o %></td>
+            <% end %>
+            <% unless @col_domain %>
+            <td><%= gcse.domain %></td>
+            <% end %>
+            <% unless @col_root %>
+            <td><%= gcse.root %></td>
+            <% end %>
+            <% unless @col_suffix %>
+            <td><%= gcse.suffix %></td>
+            <% end %>
+            <% unless @col_in_host_pos %>
+            <td><%= gcse.in_host_pos %></td>
+            <% end %>
+            <% unless @col_in_host_neg %>
+            <td><%= gcse.in_host_neg %></td>
+            <% end %>
+            <% unless @col_in_host_del %>
+            <td><%= gcse.in_host_del %></td>
+            <% end %>
+            <% unless @col_in_suffix_del %>
+            <td><%= gcse.in_suffix_del %></td>
+            <% end %>
+            <% unless @col_exclude_root %>
+            <td><%= gcse.exclude_root %></td>
+            <% end %>
+            <% unless @col_text %>
+            <td><%= gcse.text %></td>
+            <% end %>
+            <% unless @col_in_text_pos %>
+            <td><%= gcse.in_text_pos %></td>
+            <% end %>
+            <% unless @col_in_text_neg %>
+            <td><%= gcse.in_text_neg %></td>
+            <% end %>
+            <% unless @col_in_text_del %>
+            <td><%= gcse.in_text_del %></td>
+            <% end %>
+            <% unless @col_url_encoded %>
+            <td><%= gcse.url_encoded %></td>
+            <% end %>
+            <td><%= link_to 'Show', gcse %></td>
+            <td><%= link_to 'Edit', edit_gcse_path(gcse) %></td>
+            <td><%= link_to 'Destroy', gcse, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+        <% end %> <!-- @gcses.each loop ends -->
+    </tbody>
+</table>
+
+<div class="pull-left">
+    <div class="form-group">
+        <%= select_tag :selected_status, options_for_select(status_list, params[:selected_status]), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
+        <%= submit_tag "Filter Columns or Update Status", class: 'btn btn-primary' %>
+    </div>
+</div>
+
+<% end %> <!-- Filter Headers Form tag ends -->
+
+<div class="pull-right">
+    <%= link_to 'Back to Main', root_path, class: 'btn btn-warning' %>
+    <%= link_to 'New GCSE', new_gcse_path, class: 'btn btn-success' %>
+</div>
+</br>
+</br>
+</br>
+
+<%# will_paginate @gcses %>
+<%= will_paginate @gcses, renderer: BootstrapPagination::Rails  %>
+
+</br>
+</br>
+</br>
+</br>

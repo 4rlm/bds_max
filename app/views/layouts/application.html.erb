@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bigdatasage</title>
+    <%= csrf_meta_tags %>
+
+    <!-- ADD THIS LINK TO CDN: -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+
+    <!-- ADD THIS LINK TO CDN INSIDE NEW DIV, THEN MOVE "YIELD" INSIDE: -->
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <%= javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js" %>
+  </body>
+</html>
