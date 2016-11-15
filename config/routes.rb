@@ -11,5 +11,6 @@ Rails.application.routes.draw do
 
     get 'import_page' => 'gcses#import_page'
 
-    root 'gcses#index'
+    post 'search_result_page' => 'search#search_result'
+    root 'search#index'
 end

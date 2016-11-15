@@ -6,7 +6,9 @@ class GcsesController < ApplicationController
     def index
         # @gcsesp = Gcse.all
         # @gcsesp = Gcse.paginate(:page => params[:page], :per_page => 5)
-        @gcses = Gcse.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
+        selected_data = Gcse.where(domain_status: get_selected_status)
+
+        @gcses = selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
 
         # @gcses = Gcse.filter(filtering_params(params))
 
