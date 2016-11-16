@@ -23,7 +23,7 @@
             <% unless @col_domain_status %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq, params[:domain_status]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :domain_status, options_for_select(@selected_data.select(:domain_status).map(&:domain_status).uniq, params[:domain_status]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>Domain Status
                 </div>
             </th>
@@ -39,7 +39,7 @@
             <% unless @col_gcse_query_num %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :gcse_query_num, options_for_select(Gcse.select(:gcse_query_num).map(&:gcse_query_num).uniq, params[:gcse_query_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :gcse_query_num, options_for_select(@selected_data.select(:gcse_query_num).map(&:gcse_query_num).uniq, params[:gcse_query_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>GCSE Query Num
                 </div>
             </th>
@@ -47,7 +47,7 @@
             <% unless @col_gcse_result_num %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :gcse_result_num, options_for_select(Gcse.select(:gcse_result_num).map(&:gcse_result_num).uniq, params[:gcse_result_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :gcse_result_num, options_for_select(@selected_data.select(:gcse_result_num).map(&:gcse_result_num).uniq, params[:gcse_result_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>GCSE Result Num
                 </div>
             </th>
@@ -63,7 +63,7 @@
             <% unless @col_sfdc_ult_acct %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_ult_acct, options_for_select(Gcse.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq, params[:sfdc_ult_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_ult_acct, options_for_select(blank_remover(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq), params[:sfdc_ult_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC Ult Acct
                 </div>
             </th>
@@ -79,7 +79,7 @@
             <% unless @col_sfdc_type %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_type, options_for_select(Gcse.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC Type
                 </div>
             </th>
@@ -95,7 +95,7 @@
             <% unless @col_sfdc_city %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_city, options_for_select(Gcse.select(:sfdc_city).map(&:sfdc_city).uniq, params[:sfdc_city]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_city, options_for_select(@selected_data.select(:sfdc_city).map(&:sfdc_city).uniq, params[:sfdc_city]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC City
                 </div>
             </th>
@@ -103,7 +103,7 @@
             <% unless @col_sfdc_state %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_state, options_for_select(Gcse.select(:sfdc_state).map(&:sfdc_state).uniq, params[:sfdc_state]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_state, options_for_select(@selected_data.select(:sfdc_state).map(&:sfdc_state).uniq, params[:sfdc_state]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC State
                 </div>
             </th>
@@ -119,7 +119,7 @@
             <% unless @col_domain %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :domain, options_for_select(Gcse.select(:domain).map(&:domain).uniq, params[:domain]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :domain, options_for_select(@selected_data.select(:domain).map(&:domain).uniq, params[:domain]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>Domain
                 </div>
             </th>
@@ -127,7 +127,7 @@
             <% unless @col_root %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :root, options_for_select(Gcse.select(:root).map(&:root).uniq, params[:root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :root, options_for_select(@selected_data.select(:root).map(&:root).uniq, params[:root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>Root
                 </div>
             </th>
@@ -135,7 +135,7 @@
             <% unless @col_suffix %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :suffix, options_for_select(Gcse.select(:suffix).map(&:suffix).uniq, params[:suffix]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :suffix, options_for_select(@selected_data.select(:suffix).map(&:suffix).uniq, params[:suffix]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>Suffix
                 </div>
             </th>
@@ -143,7 +143,7 @@
             <% unless @col_in_host_pos %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :in_host_pos, options_for_select(Gcse.select(:in_host_pos).map(&:in_host_pos).uniq, params[:in_host_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :in_host_pos, options_for_select(@selected_data.select(:in_host_pos).map(&:in_host_pos).uniq, params[:in_host_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Host Pos
                 </div>
             </th>
@@ -151,7 +151,7 @@
             <% unless @col_in_host_neg %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :in_host_neg, options_for_select(Gcse.select(:in_host_neg).map(&:in_host_neg).uniq, params[:in_host_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :in_host_neg, options_for_select(@selected_data.select(:in_host_neg).map(&:in_host_neg).uniq, params[:in_host_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Host Neg
                 </div>
             </th>
@@ -159,7 +159,7 @@
             <% unless @col_in_host_del %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :in_host_del, options_for_select(Gcse.select(:in_host_del).map(&:in_host_del).uniq, params[:in_host_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :in_host_del, options_for_select(@selected_data.select(:in_host_del).map(&:in_host_del).uniq, params[:in_host_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Host Del
                 </div>
             </th>
@@ -167,7 +167,7 @@
             <% unless @col_in_suffix_del %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :in_suffix_del, options_for_select(Gcse.select(:in_suffix_del).map(&:in_suffix_del).uniq, params[:in_suffix_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :in_suffix_del, options_for_select(@selected_data.select(:in_suffix_del).map(&:in_suffix_del).uniq, params[:in_suffix_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Suffix Del
                 </div>
             </th>
@@ -175,7 +175,7 @@
             <% unless @col_exclude_root %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :exclude_root, options_for_select(Gcse.select(:exclude_root).map(&:exclude_root).uniq, params[:exclude_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :exclude_root, options_for_select(@selected_data.select(:exclude_root).map(&:exclude_root).uniq, params[:exclude_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>Exclude Root
                 </div>
             </th>
@@ -191,7 +191,7 @@
             <% unless @col_in_text_pos %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :in_text_pos, options_for_select(Gcse.select(:in_text_pos).map(&:in_text_pos).uniq, params[:in_text_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :in_text_pos, options_for_select(@selected_data.select(:in_text_pos).map(&:in_text_pos).uniq, params[:in_text_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Text Pos
                 </div>
             </th>
@@ -199,7 +199,7 @@
             <% unless @col_in_text_neg %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :in_text_neg, options_for_select(Gcse.select(:in_text_neg).map(&:in_text_neg).uniq, params[:in_text_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :in_text_neg, options_for_select(@selected_data.select(:in_text_neg).map(&:in_text_neg).uniq, params[:in_text_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Text Neg
                 </div>
             </th>
@@ -207,7 +207,7 @@
             <% unless @col_in_text_del %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :in_text_del, options_for_select(Gcse.select(:in_text_del).map(&:in_text_del).uniq, params[:in_text_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :in_text_del, options_for_select(@selected_data.select(:in_text_del).map(&:in_text_del).uniq, params[:in_text_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Text Del
                 </div>
             </th>

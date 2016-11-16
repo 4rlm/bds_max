@@ -13,4 +13,12 @@ module GcsesHelper
         ['unverified', 'unverified']]
     end
 
+    def blank_remover(array)
+        for i in 0...array.length
+            if array[i] == ""
+                array[i] = nil
+            end
+        end
+        array.uniq
+    end
 end
