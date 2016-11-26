@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20161112154024) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "gcses", force: :cascade do |t|
     t.datetime "gcse_timestamp"
     t.integer  "gcse_query_num"
