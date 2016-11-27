@@ -1,0 +1,2 @@
+class ExcludeRoot < ApplicationRecord
+end

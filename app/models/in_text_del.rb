@@ -1,0 +1,2 @@
+class InTextDel < ApplicationRecord
+end

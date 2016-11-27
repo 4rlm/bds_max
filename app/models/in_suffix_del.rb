@@ -1,0 +1,2 @@
+class InSuffixDel < ApplicationRecord
+end

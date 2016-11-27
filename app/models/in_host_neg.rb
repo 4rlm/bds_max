@@ -1,0 +1,2 @@
+class InHostNeg < ApplicationRecord
+end

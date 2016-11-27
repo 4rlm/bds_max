@@ -1,0 +1,2 @@
+class InHostPo < ApplicationRecord
+end

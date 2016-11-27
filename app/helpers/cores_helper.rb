@@ -5,12 +5,13 @@ module CoresHelper
     end
 
     def status_list
-        [['dropdown', 'dropdown'],
-        ['block', 'block'],
-        ['delete', 'delete'],
-        ['imported', 'imported'],
-        ['matched', 'matched'],
-        ['unverified', 'unverified']]
+        [['DF_Result', 'DF_Result'],
+        ['Imported', 'Imported'],
+        ['Matched', 'Matched'],
+        ['No_Matches', 'No_Matches'],
+        ['Isolate', 'Isolate'],
+        ['Destroy', 'Destroy'],
+        ['Junk', 'Junk']]
     end
 
     def blank_remover(array)

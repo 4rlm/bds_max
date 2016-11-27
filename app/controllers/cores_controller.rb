@@ -13,7 +13,7 @@ class CoresController < ApplicationController
             @selected_data = Core.all
         end
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 200)
 
         # @cores = Core.filter(filtering_params(params))
 

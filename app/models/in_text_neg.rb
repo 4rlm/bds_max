@@ -1,0 +1,2 @@
+class InTextNeg < ApplicationRecord
+end

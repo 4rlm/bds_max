@@ -1,0 +1,2 @@
+class InTextPo < ApplicationRecord
+end
