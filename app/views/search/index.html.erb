@@ -1,13 +1,29 @@
-<div id="search-box">
-    <div class="panel panel-info">
-        <div class="panel-heading"><b>Choose Domain Status</b></div>
-        <div class="panel-body">
-            <%= form_tag "/search_result_page", method: :post, class: 'form-inline'  do %>
-            <div class="form-group">
-                <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), include_blank: "-- Select Domain Status --", multiple: true, class: 'selectpicker' %>
+<div id="search-box" class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-info"> <!-- Core Search Box -->
+            <div class="panel-heading"><b>Choose Domain Status For Core</b></div>
+            <div class="panel-body">
+                <%= form_tag "/search_result_page_core", method: :post, class: 'form-inline'  do %>
+                <div class="form-group">
+                    <%= select_tag :bds_status, options_for_select(Core.select(:bds_status).map(&:bds_status).uniq), include_blank: "-- Select Domain Status --", multiple: true, class: 'selectpicker' %>
+                </div>
+                <%= submit_tag "Search", class: 'btn btn-primary' %>
+                <% end %>
             </div>
-            <%= submit_tag "Search", class: 'btn btn-primary' %>
-            <% end %>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="panel panel-info"> <!-- GCSE Search Box -->
+            <div class="panel-heading"><b>Choose Domain Status Fore GCSE</b></div>
+            <div class="panel-body">
+                <%= form_tag "/search_result_page", method: :post, class: 'form-inline'  do %>
+                <div class="form-group">
+                    <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), include_blank: "-- Select Domain Status --", multiple: true, class: 'selectpicker' %>
+                </div>
+                <%= submit_tag "Search", class: 'btn btn-primary' %>
+                <% end %>
+            </div>
         </div>
     </div>
 </div>

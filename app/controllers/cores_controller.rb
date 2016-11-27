@@ -6,7 +6,12 @@ class CoresController < ApplicationController
     def index
         # @coresp = Core.all
         # @coresp = Core.paginate(:page => params[:page], :per_page => 5)
-        @selected_data = Core.where(bds_status: get_selected_status)
+
+        if status = get_selected_status_core
+            @selected_data = Core.where(bds_status: status)
+        else # status is nil
+            @selected_data = Core.all
+        end
 
         @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
 

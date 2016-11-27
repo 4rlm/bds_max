@@ -1,6 +1,6 @@
 module CoresHelper
 
-    def column_list
+    def column_list_core
       Core.column_names[1..-3].map {|col| [col, col] }
     end
 

@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <div class="form-group">
-                <%= select_tag :columns, options_for_select(column_list, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
+                <%= select_tag :columns, options_for_select(column_list_core, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
             </div>
         </tr>
         <tr>
