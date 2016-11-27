@@ -1,0 +1,12 @@
+<h1 class="text-center">All Criteria</h1>
+
+<div id="criteria" class="row">
+    <%= render partial: 'table', locals: { col_header: "Exclude Root", criteria_table: @all_exclude_root }  %>
+    <%= render partial: 'table', locals: { col_header: "In Host Del", criteria_table: @all_in_host_del }  %>
+    <%= render partial: 'table', locals: { col_header: "In Host Neg", criteria_table: @all_in_host_neg }  %>
+    <%= render partial: 'table', locals: { col_header: "In Host Po", criteria_table: @all_in_host_po }  %>
+    <%= render partial: 'table', locals: { col_header: "In Suffix Del", criteria_table: @all_in_suffix_del }  %>
+    <%= render partial: 'table', locals: { col_header: "In Text Del", criteria_table: @all_in_text_del }  %>
+    <%= render partial: 'table', locals: { col_header: "In Text Neg", criteria_table: @all_in_text_neg }  %>
+    <%= render partial: 'table', locals: { col_header: "In Text Po", criteria_table: @all_in_text_po }  %>
+</div> <!-- /.row -->

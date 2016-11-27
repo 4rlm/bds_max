@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+    get 'criteria' => 'criteria#all_criteria'
+
     resources :cores do
         collection { post :import_core_data }
     end
