@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Bigdatasage</title>
     <%= csrf_meta_tags %>
 
@@ -9,15 +9,23 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+</head>
 
-  <body>
+<body>
 
     <!-- ADD THIS LINK TO CDN INSIDE NEW DIV, THEN MOVE "YIELD" INSIDE: -->
     <div class="container">
-      <%= yield %>
+        <nav class="navbar navbar-default">
+            <%= link_to 'Dashboard', root_path, class: 'navbar-brand' %>
+            <ul class="nav navbar-nav">
+                <li><%= link_to 'Core', cores_path %></li>
+                <li><%= link_to 'GCSE', gcses_path %></li>
+              </ul>
+        </nav>
+
+        <%= yield %>
     </div>
 
     <%= javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js" %>
-  </body>
+</body>
 </html>

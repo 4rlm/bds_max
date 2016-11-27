@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161112154024) do
+ActiveRecord::Schema.define(version: 20161127024835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cores", force: :cascade do |t|
+    t.string   "bds_status"
+    t.string   "sfdc_id"
+    t.integer  "sfdc_tier"
+    t.string   "sfdc_sales_person"
+    t.string   "sfdc_type"
+    t.string   "sfdc_ult_grp"
+    t.integer  "sfdc_ult_rt"
+    t.string   "sfdc_group"
+    t.integer  "sfdc_grp_rt"
+    t.string   "sfdc_acct"
+    t.string   "sfdc_street"
+    t.string   "sfdc_city"
+    t.string   "sfdc_state"
+    t.integer  "sfdc_zip"
+    t.string   "sfdc_ph"
+    t.string   "sfdc_url"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "gcses", force: :cascade do |t|
     t.datetime "gcse_timestamp"
