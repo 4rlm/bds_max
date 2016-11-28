@@ -8,15 +8,13 @@ class CoreService  # GoogleSearchClass
     end
 
     # == Core Method starts here.===================|*|
-    def scrape_listing  # search
-        puts ">>>>>>>>>>>>>> service is working"
-
+    def scrape_listing(ids)  # search
         # == Create Counters ======================
         search_query_num = 0
         # url_grand_count = 0
 
         # == Create variables from Core table ==========
-        Core.all.each do |el|
+        Core.where(id: ids).each do |el|
             id = el[:sfdc_id]
             ult_acct = el[:sfdc_ult_grp]
             acct = el[:sfdc_acct]
@@ -69,16 +67,12 @@ class CoreService  # GoogleSearchClass
             # == Loop (1): through each encoded search url. ======
             @agent.get(url_encoded) do |page|
                 search_query_num += 1
-                puts ">>>>># == Puts (1): SFDC account fields and encoded search url. =="
-
                 # === TESTING: ROOT COUNTER (TOP) ===
                 root_count_array = []
                 # === END - TESTING: ROOT COUNTER (TOP) ===
 
                 # == Loop (2): through each link in results of each encoded search. ==
                 page.links.each.with_index(1) do |link, url_export_num|
-                    puts ">>>>>>>>>url_export_num: #{url_export_num}"
-
                     # url_grand_count += 1  # *Grand total*
 
                     # == Counter (2-3) =======================
@@ -172,8 +166,6 @@ class CoreService  # GoogleSearchClass
 
                         add_data_row(full_date, time_start, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
 
-                        puts "----------------END------------------"
-
                     end # Ends: if uri.class.to_s
                 end # Ends: page.links.each
             end # Ends: agent.get(url_encoded)
@@ -183,7 +175,6 @@ class CoreService  # GoogleSearchClass
     # "time_start" variable is not used yet.
     # "root_counter" variable will be added later after adding root_counter column.
     def add_data_row(full_date, time_start, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
-        puts "---------------ADD Data row method-------------------"
         gcse = Gcse.new(
             gcse_timestamp: full_date,
             gcse_query_num: search_query_num,
