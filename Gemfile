@@ -54,3 +54,5 @@ gem 'will_paginate-bootstrap'
 
 
 ruby "2.3.1"
+
+gem 'mechanize'

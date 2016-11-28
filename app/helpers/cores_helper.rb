@@ -4,14 +4,15 @@ module CoresHelper
       Core.column_names[1..-3].map {|col| [col, col] }
     end
 
-    def status_list
+    def core_status_list
         [['DF_Result', 'DF_Result'],
         ['Imported', 'Imported'],
         ['Matched', 'Matched'],
         ['No_Matches', 'No_Matches'],
         ['Isolate', 'Isolate'],
         ['Destroy', 'Destroy'],
-        ['Junk', 'Junk']]
+        ['Junk', 'Junk'],
+        ['Queue', 'Queue']]
     end
 
     def blank_remover(array)

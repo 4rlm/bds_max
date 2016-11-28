@@ -107,6 +107,11 @@ class CoresController < ApplicationController
                 data = Core.find(id)
                 data.update_attribute(:bds_status, params[:selected_status])
             end
+            # Queue
+            if params[:selected_status] == 'Queue'
+                puts ">>>>>>>>>>>>>> queue start"
+                start_queue
+            end
         end
     end
 
@@ -125,4 +130,10 @@ class CoresController < ApplicationController
         params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url)
     end
 
+    def start_queue
+        # CoreService.new.delay.scrape_listing
+        CoreService.new.scrape_listing
+        flash[:notice] = 'Scraping queued!'
+        redirect_to gcses_path
+    end
 end

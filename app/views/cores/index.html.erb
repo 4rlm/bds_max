@@ -138,7 +138,7 @@
 
 <div class="pull-left">
     <div class="form-group">
-        <%= select_tag :selected_status, options_for_select(status_list, params[:selected_status]), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
+        <%= select_tag :selected_status, options_for_select(core_status_list, params[:selected_status]), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
         <%= submit_tag "Filter Columns or Update Status", class: 'btn btn-primary' %>
     </div>
 </div>
