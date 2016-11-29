@@ -4,13 +4,15 @@ class GcsesController < ApplicationController
     # GET /gcses
     # GET /gcses.json
     def index
-        # @gcsesp = Gcse.all
-        # @gcsesp = Gcse.paginate(:page => params[:page], :per_page => 5)
         @selected_data = Gcse.where(domain_status: get_selected_status)
 
         @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 200)
 
-        # @gcses = Gcse.filter(filtering_params(params))
+        @gcses_csv = @selected_data.order(:sfdc_id)
+            respond_to do |format|
+              format.html
+              format.csv { render text: @gcses_csv.to_csv }
+        end
 
         # Exclude selected columns
         if params[:columns].present?

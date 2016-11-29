@@ -4,9 +4,6 @@ class CoresController < ApplicationController
     # GET /cores
     # GET /cores.json
     def index
-        # @coresp = Core.all
-        # @coresp = Core.paginate(:page => params[:page], :per_page => 5)
-
         if status = get_selected_status_core
             @selected_data = Core.where(bds_status: status)
         else # status is nil
@@ -15,19 +12,30 @@ class CoresController < ApplicationController
 
         @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 200)
 
-        # @cores = Core.filter(filtering_params(params))
+        @cores_csv = @selected_data.order(:sfdc_id)
+            respond_to do |format|
+              format.html
+              format.csv { render text: @cores_csv.to_csv }
+        end
 
         # Exclude selected columns
         if params[:columns].present?
             columns = params[:columns]
             @col_bds_status = true if columns.include?("bds_status")
             @col_sfdc_id = true if columns.include?("sfdc_id")
-            @col_sfdc_ult_grp = true if columns.include?("sfdc_ult_grp")
-            @col_sfdc_acct = true if columns.include?("sfdc_acct")
+            @col_sfdc_tier = true if columns.include?("sfdc_tier")
+            @col_sfdc_sales_person = true if columns.include?("sfdc_sales_person")
             @col_sfdc_type = true if columns.include?("sfdc_type")
+            @col_sfdc_ult_rt = true if columns.include?("sfdc_ult_rt")
+            @col_sfdc_grp_rt = true if columns.include?("sfdc_grp_rt")
+            @col_sfdc_ult_grp = true if columns.include?("sfdc_ult_grp")
+            @col_sfdc_group = true if columns.include?("sfdc_group")
+            @col_sfdc_acct = true if columns.include?("sfdc_acct")
             @col_sfdc_street = true if columns.include?("sfdc_street")
             @col_sfdc_city = true if columns.include?("sfdc_city")
             @col_sfdc_state = true if columns.include?("sfdc_state")
+            @col_sfdc_zip = true if columns.include?("sfdc_zip")
+            @col_sfdc_ph = true if columns.include?("sfdc_ph")
             @col_sfdc_url = true if columns.include?("sfdc_url")
         end
 
@@ -122,11 +130,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url)
+        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url)
+        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url)
     end
 
     def start_queue(ids)

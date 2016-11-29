@@ -1,5 +1,15 @@
 class Gcse < ApplicationRecord
 
+
+    def self.to_csv
+        CSV.generate do |csv|
+          csv << column_names
+          all.each do |gcse|
+            csv << gcse.attributes.values_at(*column_names)
+          end
+        end
+      end
+
     require 'csv'
     def self.import_csv(file_name)
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
