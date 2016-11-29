@@ -24,6 +24,51 @@
             </th>
             <% end %>
 
+            <% unless @col_core_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :core_date, options_for_select(formatted_date_list(@selected_data.select(:core_date).map(&:core_date).uniq), params[:core_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Core Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_domainer_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :domainer_date, options_for_select(formatted_date_list(@selected_data.select(:domainer_date).map(&:domainer_date).uniq), params[:domainer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Domainer Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_indexer_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :indexer_date, options_for_select(formatted_date_list(@selected_data.select(:indexer_date).map(&:indexer_date).uniq), params[:indexer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Indexer Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_staffer_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :staffer_date, options_for_select(formatted_date_list(@selected_data.select(:staffer_date).map(&:staffer_date).uniq), params[:staffer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Staffer Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_whois_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :whois_date, options_for_select(formatted_date_list(@selected_data.select(:whois_date).map(&:whois_date).uniq), params[:whois_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>WhoIs Date
+                    </div>
+                </th>
+            <% end %>
+
             <% unless @col_sfdc_sales_person %>
             <th>
                 <div class="form-group">
@@ -169,9 +214,49 @@
         <% @cores.each do |core| %>
         <tr>
             <td><%= check_box_tag "status_checks[]",  core.id %></td>
-            <% unless @col_bds_status %>
 
+            <% unless @col_bds_status %>
             <td><%= core.bds_status %></td>
+            <% end %>
+
+            <% if !@col_core_date %>
+                <% if core.core_date %>
+                    <td><%= core.core_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.core_date %></td>
+                <% end %>
+            <% end %>
+
+            <% if !@col_domainer_date %>
+                <% if core.domainer_date %>
+                    <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.domainer_date %></td>
+                <% end %>
+            <% end %>
+
+            <% if !@col_indexer_date %>
+                <% if core.indexer_date %>
+                    <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.indexer_date %></td>
+                <% end %>
+            <% end %>
+
+            <% if !@col_staffer_date %>
+                <% if core.staffer_date %>
+                    <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.staffer_date %></td>
+                <% end %>
+            <% end %>
+
+            <% if !@col_whois_date %>
+                <% if core.whois_date %>
+                    <td><%= core.whois_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.whois_date %></td>
+                <% end %>
             <% end %>
 
             <% unless @col_sfdc_sales_person %>

@@ -31,6 +31,7 @@ class GcsesController < ApplicationController
             @col_sfdc_url_o = true if columns.include?("sfdc_url_o")
             @col_domain = true if columns.include?("domain")
             @col_root = true if columns.include?("root")
+            @col_root_counter = true if columns.include?("root_counter")
             @col_suffix = true if columns.include?("suffix")
             @col_in_host_pos = true if columns.include?("in_host_pos")
             @col_in_host_neg = true if columns.include?("in_host_neg")

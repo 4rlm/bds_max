@@ -18,10 +18,29 @@ class CoresController < ApplicationController
               format.csv { render text: @cores_csv.to_csv }
         end
 
+        # # By default, following columns are hidden.
+        # @col_core_date = true
+        # @col_domainer_date = true
+        # @col_indexer_date = true
+        # @col_staffer_date = true
+        # @col_whois_date = true
+        # @col_sfdc_id = true
+        # @col_sfdc_tier = true
+        # @col_sfdc_sales_person = true
+        # @col_sfdc_ult_rt = true
+        # @col_sfdc_grp_rt = true
+        # @col_sfdc_zip = true
+        # @col_sfdc_ph = true
+
         # Exclude selected columns
         if params[:columns].present?
             columns = params[:columns]
             @col_bds_status = true if columns.include?("bds_status")
+            @col_core_date = true if columns.include?("core_date")
+            @col_domainer_date = true if columns.include?("domainer_date")
+            @col_indexer_date = true if columns.include?("indexer_date")
+            @col_staffer_date = true if columns.include?("staffer_date")
+            @col_whois_date = true if columns.include?("whois_date")
             @col_sfdc_id = true if columns.include?("sfdc_id")
             @col_sfdc_tier = true if columns.include?("sfdc_tier")
             @col_sfdc_sales_person = true if columns.include?("sfdc_sales_person")

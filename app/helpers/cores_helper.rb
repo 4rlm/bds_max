@@ -5,10 +5,10 @@ module CoresHelper
     end
 
     def core_status_list
-        [['DF_Result', 'DF_Result'],
+        [['Dom Result', 'Dom Result'],
         ['Imported', 'Imported'],
         ['Matched', 'Matched'],
-        ['No_Matches', 'No_Matches'],
+        ['No Matches', 'No Matches'],
         ['Isolate', 'Isolate'],
         ['Destroy', 'Destroy'],
         ['Junk', 'Junk'],
@@ -22,5 +22,9 @@ module CoresHelper
             end
         end
         array.uniq
+    end
+
+    def formatted_date_list(datetime_arr)
+        datetime_arr.map {|datetime| datetime.strftime("%m/%d/%Y") if datetime}.uniq
     end
 end

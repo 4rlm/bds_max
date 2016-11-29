@@ -127,6 +127,14 @@
                 </div>
             </th>
             <% end %>
+            <% unless @col_root_counter %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :root_counter, options_for_select(@selected_data.select(:root_counter).map(&:root_counter).uniq, params[:root_counter]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Root Counter
+                </div>
+            </th>
+            <% end %>
             <% unless @col_suffix %>
             <th>
                 <div class="form-group">
@@ -229,7 +237,7 @@
             <td><%= gcse.domain_status %></td>
             <% end %>
             <% unless @col_gcse_timestamp %>
-            <td><%= gcse.gcse_timestamp %></td>
+            <td><%= gcse.gcse_timestamp.strftime("%m/%d/%Y") %></td>
             <% end %>
             <% unless @col_gcse_query_num %>
             <td><%= gcse.gcse_query_num %></td>
@@ -266,6 +274,9 @@
             <% end %>
             <% unless @col_root %>
             <td><%= gcse.root %></td>
+            <% end %>
+            <% unless @col_root_counter %>
+            <td><%= gcse.root_counter %></td>
             <% end %>
             <% unless @col_suffix %>
             <td><%= gcse.suffix %></td>

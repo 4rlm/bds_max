@@ -13,6 +13,7 @@ class CoreService  # GoogleSearchClass
         search_query_num = 0
         # url_grand_count = 0
 
+
         # == Create variables from Core table ==========
         Core.where(id: ids).each do |el|
             id = el[:sfdc_id]
@@ -23,6 +24,9 @@ class CoreService  # GoogleSearchClass
             city = el[:sfdc_city]
             state = el[:sfdc_state]
             url_o = el[:sfdc_url]
+
+            # Set the time when "el" is being searched.
+            current_time = Time.new
 
             #=== Encoded Search ========================
             # ----- Formatting ------------------------------------------------
@@ -56,13 +60,6 @@ class CoreService  # GoogleSearchClass
 
             url_encoded = "#{url}#{q_combinded}#{num}#{client}#{key}"
             #=== End - Encoded Search =====================
-
-            # == Create date/time_start stamp variables ===========
-            start = Time.new
-            full_date = "#{start.month}/#{start.day}/#{start.year}"
-            time_start = "#{start.hour}:#{start.min}:#{start.sec}"
-            full_date_time_start = "#{full_date} #{time_start}"
-            #====================================
 
             # == Loop (1): through each encoded search url. ======
             @agent.get(url_encoded) do |page|
@@ -100,7 +97,7 @@ class CoreService  # GoogleSearchClass
                         ExcludeRoot.all.map(&:term).each do |term|
                             exclude << term if root == term
                         end
-                        exclude_root = exclude.empty? ? '<blank>' : exclude.join('; ')
+                        exclude_root = exclude.empty? ? '(blank)' : exclude.join('; ')
                         #============================
 
                         #== CSV Filter: 2_in_suffix_del
@@ -108,7 +105,7 @@ class CoreService  # GoogleSearchClass
                         InSuffixDel.all.map(&:term).each do |term|
                             suffix_del << term if suffix == term
                         end
-                        in_suffix_del = suffix_del.empty? ? '<blank>' : suffix_del.join('; ')
+                        in_suffix_del = suffix_del.empty? ? '(blank)' : suffix_del.join('; ')
                         #============================
 
                         #== CSV Filter: 3_in_host_del
@@ -116,7 +113,7 @@ class CoreService  # GoogleSearchClass
                         InHostDel.all.map(&:term).each do |term|
                             host_del << term if hostc.include?(term)
                         end
-                        in_host_del = host_del.empty? ? '<blank>' : host_del.join('; ')
+                        in_host_del = host_del.empty? ? '(blank)' : host_del.join('; ')
                         #============================
 
                         #== CSV Filter: 4_in_host_neg
@@ -124,7 +121,7 @@ class CoreService  # GoogleSearchClass
                         InHostNeg.all.map(&:term).each do |term|
                             host_neg << term if hostc.include?(term)
                         end
-                        in_host_neg = host_neg.empty? ? '<blank>' : host_neg.join('; ')
+                        in_host_neg = host_neg.empty? ? '(blank)' : host_neg.join('; ')
                         #============================
 
                         #== CSV Filter: 5_in_host_pos
@@ -132,7 +129,7 @@ class CoreService  # GoogleSearchClass
                         InHostPo.all.map(&:term).each do |term|
                             host_pos << term if hostc.include?(term)
                         end
-                        in_host_pos = host_pos.empty? ? '<blank>' : host_pos.join('; ')
+                        in_host_pos = host_pos.empty? ? '(blank)' : host_pos.join('; ')
                         #============================
 
                         #== CSV Filter: 6_in_text_del
@@ -140,7 +137,7 @@ class CoreService  # GoogleSearchClass
                         InTextDel.all.map(&:term).each do |term|
                             text_del << term if text.include?(term)
                         end
-                        in_text_del = text_del.empty? ? '<blank>' : text_del.join('; ')
+                        in_text_del = text_del.empty? ? '(blank)' : text_del.join('; ')
                         #============================
 
                         #== CSV Filter: 7_in_text_neg
@@ -148,7 +145,7 @@ class CoreService  # GoogleSearchClass
                         InTextNeg.all.map(&:term).each do |term|
                             text_neg << term if text.include?(term)
                         end
-                        in_text_neg = text_neg.empty? ? '<blank>' : text_neg.join('; ')
+                        in_text_neg = text_neg.empty? ? '(blank)' : text_neg.join('; ')
                         #============================
 
                         #== CSV Filter: 8_in_text_pos
@@ -156,7 +153,7 @@ class CoreService  # GoogleSearchClass
                         InTextPo.all.map(&:term).each do |term|
                             text_pos << term if text.include?(term)
                         end
-                        in_text_pos = text_pos.empty? ? '<blank>' : text_pos.join('; ')
+                        in_text_pos = text_pos.empty? ? '(blank)' : text_pos.join('; ')
                         #============================
 
                         # === TESTING: ROOT COUNTER (BOTTOM) ===
@@ -164,19 +161,24 @@ class CoreService  # GoogleSearchClass
                         root_counter = root_count_array.count(root)
                         # === END - TESTING: ROOT COUNTER (BOTTOM) ===
 
-                        add_data_row(full_date, time_start, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+                        # Create new Gsce objects
+                        add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
 
                     end # Ends: if uri.class.to_s
                 end # Ends: page.links.each
             end # Ends: agent.get(url_encoded)
+
+            #==== Update Core Object ========================
+            # el is from Core.where(id: ids)
+            # Update "domainer_date" column of the queued Core objects.
+            el.update_attributes(domainer_date: current_time, bds_status: "Dom Result")
         end # Ends Core.all.each
     end # Ends scrape_listing  # search
 
-    # "time_start" variable is not used yet.
     # "root_counter" variable will be added later after adding root_counter column.
-    def add_data_row(full_date, time_start, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
         gcse = Gcse.new(
-            gcse_timestamp: full_date,
+            gcse_timestamp: datetime,
             gcse_query_num: search_query_num,
             gcse_result_num: url_export_num,
             sfdc_id: id,
@@ -187,9 +189,10 @@ class CoreService  # GoogleSearchClass
             sfdc_city: city,
             sfdc_state: state,
             sfdc_url_o: url_o,
-            domain_status: "DF_Result",
+            domain_status: "Dom Result",
             domain: domain,
             root: root,
+            root_counter: root_counter,
             suffix: suffix,
             in_host_pos: in_host_pos,
             in_host_neg: in_host_neg,

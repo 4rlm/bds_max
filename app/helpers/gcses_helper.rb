@@ -5,10 +5,10 @@ module GcsesHelper
     end
 
     def status_list
-        [['DF_Result', 'DF_Result'],
+        [['Dom Result', 'Dom Result'],
         ['Imported', 'Imported'],
         ['Matched', 'Matched'],
-        ['No_Matches', 'No_Matches'],
+        ['No Matches', 'No Matches'],
         ['Isolate', 'Isolate'],
         ['Destroy', 'Destroy'],
         ['Junk', 'Junk']]

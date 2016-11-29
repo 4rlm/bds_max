@@ -32,6 +32,7 @@ class Core < ApplicationRecord
     def self.import_csv(file_name)
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
             row_hash = row.to_hash
+            row_hash[:core_date] = Time.new
             Core.create!(row_hash)
         end
     end

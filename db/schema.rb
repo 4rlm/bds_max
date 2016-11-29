@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128052948) do
+ActiveRecord::Schema.define(version: 20161129040018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20161128052948) do
   create_table "cores", force: :cascade do |t|
     t.string   "bds_status"
     t.string   "sfdc_id"
-    t.integer  "sfdc_tier"
+    t.string   "sfdc_tier"
     t.string   "sfdc_sales_person"
     t.string   "sfdc_type"
     t.string   "sfdc_ult_grp"
@@ -34,6 +34,11 @@ ActiveRecord::Schema.define(version: 20161128052948) do
     t.string   "sfdc_url"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.datetime "core_date"
+    t.datetime "domainer_date"
+    t.datetime "indexer_date"
+    t.datetime "staffer_date"
+    t.datetime "whois_date"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -85,6 +90,7 @@ ActiveRecord::Schema.define(version: 20161128052948) do
     t.string   "url_encoded"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "root_counter"
   end
 
   create_table "in_host_dels", force: :cascade do |t|
