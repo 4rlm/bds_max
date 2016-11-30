@@ -116,24 +116,35 @@ class GcsesController < ApplicationController
     end
 
     def batch_status
-        unless params[:status_checks].nil?
-            for id in params[:status_checks]
+        ids = params[:status_checks]
+        status = params[:selected_status]
+        unless ids.nil?
+            for id in ids
                 data = Gcse.find(id)
-                data.update_attribute(:domain_status, params[:selected_status])
+                data.update_attribute(:domain_status, status)
             end
-            junkify_rows(params[:status_checks]) if params[:selected_status] == "Junk"
+            junkify_rows(ids) if status == "Junk"
+            destroy_rows(ids) if status == "Destroy"
         end
     end
 
     # This method deletes the rows which domain_status is "Junk" and adds its new_root to "Junk Roots" table.
+    # Simultaneously delete all rows containing junkify root.
     def junkify_rows(ids)
         rows = Gcse.where(id: ids)
         junk_roots_terms = rows.map(&:root)
         rows.destroy_all
 
         for term in junk_roots_terms
-            ExcludeRoot.create(term: term)
+            Gcse.where(root: term).destroy_all  # Delete rest rows which "root" is "term".
+            ExcludeRoot.find_or_create_by(term: term)  # Create if not exists.
         end
+    end
+
+    # This method deletes the rows which domain_status is "Destroy".
+    def destroy_rows(ids)
+        rows = Gcse.where(id: ids)
+        rows.destroy_all
     end
 
     private

@@ -10,8 +10,8 @@ module GcsesHelper
         ['Matched', 'Matched'],
         ['No Matches', 'No Matches'],
         ['Isolate', 'Isolate'],
-        ['Destroy', 'Destroy'],
-        ['Junk', 'Junk']]
+        ['Junk', 'Junk'],
+        ['Destroy', 'Destroy']]
     end
 
     def blank_remover(array)
