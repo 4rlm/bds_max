@@ -46,7 +46,7 @@ class GcsesController < ApplicationController
             @col_url_encoded = true if columns.include?("url_encoded")
         end
 
-        # Checkbox
+        # Checkbox: multi-selected rows are manipulated in "batch_status".
         batch_status
     end
 
@@ -121,6 +121,18 @@ class GcsesController < ApplicationController
                 data = Gcse.find(id)
                 data.update_attribute(:domain_status, params[:selected_status])
             end
+            junkify_rows(params[:status_checks]) if params[:selected_status] == "Junk"
+        end
+    end
+
+    # This method deletes the rows which domain_status is "Junk" and adds its new_root to "Junk Roots" table.
+    def junkify_rows(ids)
+        rows = Gcse.where(id: ids)
+        junk_roots_terms = rows.map(&:root)
+        rows.destroy_all
+
+        for term in junk_roots_terms
+            ExcludeRoot.create(term: term)
         end
     end
 

@@ -14,10 +14,6 @@
 class CriteriaController < ApplicationController
     def all_criteria
         @all_exclude_root = ExcludeRoot.order(term: :asc)
-            respond_to do |format|
-              format.html
-              format.csv { render text: @all_exclude_root.to_csv }
-        end
 
         @all_in_host_del =   InHostDel.order(term: :asc)
 
