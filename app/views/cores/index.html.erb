@@ -1,5 +1,13 @@
 <p id="notice"><%= notice %></p>
 
+<h1 class="text-center">Core Accounts</h1><br><br>
+
+<div class="pull-right">
+    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Add Record', new_core_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
 
 <%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 <table class="table table-bordered table-hover">
@@ -7,6 +15,7 @@
         <tr>
             <div class="form-group">
                 <%= select_tag :columns, options_for_select(column_list_core, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
+                <%= submit_tag "Submit", class: 'btn btn-success' %>
             </div>
         </tr>
 
@@ -315,22 +324,12 @@
             <td><%= core.sfdc_ph %></td>
             <% end %>
 
-            <!-- <% unless @col_sfdc_url %>
-            <td><%#= core.sfdc_url %></td>
-            <% end %> -->
-
             <% unless @col_sfdc_url %>
-            <td>
-                <%= link_to core.sfdc_url,
-                "http://#{core.sfdc_url}",
-                :target => "_blank" %>
-            </td>
+            <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
             <% end %>
 
             <td><%= link_to 'Show', core %></td>
             <td><%= link_to 'Edit', edit_core_path(core) %></td>
-            <!-- <td><%#= link_to 'Destroy', core, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr> -->
         <td><%= link_to 'Destroy', core, method: :delete %></td>
     </tr>
         <% end %> <!-- @cores.each loop ends -->

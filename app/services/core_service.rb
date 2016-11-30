@@ -25,6 +25,35 @@ class CoreService  # GoogleSearchClass
             state = el[:sfdc_state]
             url_o = el[:sfdc_url]
 
+
+            #-- Split for sfdc_root ---**********new***Test
+            sfdc_root = url_o
+
+            unless sfdc_root == nil
+                if sfdc_root.include?('//')
+                    sfdc_root = sfdc_root.split("//")
+                    sfdc_root = sfdc_root[1]
+                else
+                    sfdc_root
+                end
+
+                if sfdc_root.include?('www')
+                    sfdc_root = sfdc_root.split(".")
+                    sfdc_root = sfdc_root[1]
+                else
+                    sfdc_root
+                end
+
+                if sfdc_root.include?('.')
+                    sfdc_root = sfdc_root.split(".")
+                    sfdc_root = sfdc_root[0]
+                else
+                    sfdc_root
+                end
+            end
+            #-- Split for sfdc_root ---Ends **********new***Test
+
+
             # Set the time when "el" is being searched.
             current_time = Time.new
 
@@ -162,7 +191,7 @@ class CoreService  # GoogleSearchClass
                         # === END - TESTING: ROOT COUNTER (BOTTOM) ===
 
                         # Create new Gsce objects
-                        add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+                        add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
 
                     end # Ends: if uri.class.to_s
                 end # Ends: page.links.each
@@ -176,7 +205,7 @@ class CoreService  # GoogleSearchClass
     end # Ends scrape_listing  # search
 
     # "root_counter" variable will be added later after adding root_counter column.
-    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, domain, root, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, exclude_root, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
         gcse = Gcse.new(
             gcse_timestamp: datetime,
             gcse_query_num: search_query_num,
@@ -188,10 +217,11 @@ class CoreService  # GoogleSearchClass
             sfdc_street: street,
             sfdc_city: city,
             sfdc_state: state,
-            sfdc_url_o: url_o,
             domain_status: "Dom Result",
-            domain: domain,
+            sfdc_url_o: url_o,
+            sfdc_root: sfdc_root,
             root: root,
+            domain: domain,
             root_counter: root_counter,
             suffix: suffix,
             in_host_pos: in_host_pos,

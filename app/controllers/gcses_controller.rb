@@ -29,8 +29,9 @@ class GcsesController < ApplicationController
             @col_sfdc_city = true if columns.include?("sfdc_city")
             @col_sfdc_state = true if columns.include?("sfdc_state")
             @col_sfdc_url_o = true if columns.include?("sfdc_url_o")
-            @col_domain = true if columns.include?("domain")
+            @col_sfdc_root = true if columns.include?("sfdc_root")
             @col_root = true if columns.include?("root")
+            @col_domain = true if columns.include?("domain")
             @col_root_counter = true if columns.include?("root_counter")
             @col_suffix = true if columns.include?("suffix")
             @col_in_host_pos = true if columns.include?("in_host_pos")
@@ -131,11 +132,11 @@ class GcsesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def gcse_params
-        params.require(:gcse).permit(:domain_status, :gcse_timestamp, :gcse_query_num, :gcse_result_num, :sfdc_id, :sfdc_ult_acct, :sfdc_acct, :sfdc_type, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_url_o, :domain, :root, :suffix, :in_host_pos, :in_host_neg, :in_host_del, :in_suffix_del, :exclude_root, :text, :in_text_pos, :in_text_neg, :in_text_del, :url_encoded)
+        params.require(:gcse).permit(:domain_status, :gcse_timestamp, :gcse_query_num, :gcse_result_num, :sfdc_id, :sfdc_ult_acct, :sfdc_acct, :sfdc_type, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_url_o, :sfdc_root, :root, :domain, :root_counter, :suffix, :in_host_pos, :in_host_neg, :in_host_del, :in_suffix_del, :exclude_root, :text, :in_text_pos, :in_text_neg, :in_text_del, :url_encoded)
     end
 
     def filtering_params(params)
-        params.slice(:domain_status, :gcse_timestamp, :gcse_query_num, :gcse_result_num, :sfdc_id, :sfdc_ult_acct, :sfdc_acct, :sfdc_type, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_url_o, :domain, :root, :suffix, :in_host_pos, :in_host_neg, :in_host_del, :in_suffix_del, :exclude_root, :text, :in_text_pos, :in_text_neg, :in_text_del, :url_encoded)
+        params.slice(:domain_status, :gcse_timestamp, :gcse_query_num, :gcse_result_num, :sfdc_id, :sfdc_ult_acct, :sfdc_acct, :sfdc_type, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_url_o, :sfdc_root, :root, :domain, :root_counter, :suffix, :in_host_pos, :in_host_neg, :in_host_del, :in_suffix_del, :exclude_root, :text, :in_text_pos, :in_text_neg, :in_text_del, :url_encoded)
     end
 
 end

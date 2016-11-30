@@ -15,18 +15,17 @@
  */
 
 
-a:link {
-  color: #333333;
-}
-a:visited {
-  color: #FFFFFF;
-}
 a:hover {
-  color: #CCCCCC;
+  background: none;
 }
-a:active {
-  color: #333333;
+table.a:active {
+  color: #3333ff;
+  }
+
+a.btn{
+  color: #fff
 }
+
 
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
