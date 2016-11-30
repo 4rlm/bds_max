@@ -19,6 +19,8 @@ class Core < ApplicationRecord
     scope :sfdc_zip, -> (sfdc_zip) { where sfdc_zip: sfdc_zip }
     scope :sfdc_ph, -> (sfdc_ph) { where sfdc_ph: sfdc_ph }
     scope :sfdc_url, -> (sfdc_url) { where sfdc_url: sfdc_url }
+    scope :matched_url, -> (matched_url) { where matched_url: matched_url }
+    scope :matched_root, -> (matched_root) { where matched_root: matched_root }
 
     def self.to_csv
         CSV.generate do |csv|

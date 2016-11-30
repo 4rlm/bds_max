@@ -29,3 +29,12 @@ a.btn{
 
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+
+.fixed {
+    position: fixed;
+    z-index: 99;
+}
+
+#exclude-col-select {
+    height: 30px;
+}

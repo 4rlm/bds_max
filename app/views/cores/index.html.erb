@@ -214,6 +214,25 @@
             </th>
             <% end %>
 
+            <% unless @col_matched_url %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :matched_url, options_for_select(@selected_data.select(:matched_url).map(&:matched_url).uniq, params[:matched_url]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Matched Url
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_matched_root %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :matched_root, options_for_select(@selected_data.select(:matched_root).map(&:matched_root).uniq, params[:matched_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Matched Root
+                </div>
+            </th>
+            <% end %>
+
+
             <th colspan="3">
             </th>
         </tr> <!--  -->
@@ -326,6 +345,14 @@
 
             <% unless @col_sfdc_url %>
             <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
+            <% end %>
+
+            <% unless @col_matched_url %>
+            <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
+            <% end %>
+
+            <% unless @col_matched_root %>
+            <td><%= core.matched_root %></td>
             <% end %>
 
             <td><%= link_to 'Show', core %></td>

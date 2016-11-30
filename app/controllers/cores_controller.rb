@@ -18,20 +18,6 @@ class CoresController < ApplicationController
               format.csv { render text: @cores_csv.to_csv }
         end
 
-        # # By default, following columns are hidden.
-        # @col_core_date = true
-        # @col_domainer_date = true
-        # @col_indexer_date = true
-        # @col_staffer_date = true
-        # @col_whois_date = true
-        # @col_sfdc_id = true
-        # @col_sfdc_tier = true
-        # @col_sfdc_sales_person = true
-        # @col_sfdc_ult_rt = true
-        # @col_sfdc_grp_rt = true
-        # @col_sfdc_zip = true
-        # @col_sfdc_ph = true
-
         # Exclude selected columns
         if params[:columns].present?
             columns = params[:columns]
@@ -56,6 +42,8 @@ class CoresController < ApplicationController
             @col_sfdc_zip = true if columns.include?("sfdc_zip")
             @col_sfdc_ph = true if columns.include?("sfdc_ph")
             @col_sfdc_url = true if columns.include?("sfdc_url")
+            @col_matched_url = true if columns.include?("matched_url")
+            @col_matched_root = true if columns.include?("matched_root")
         end
 
         # Checkbox
@@ -149,11 +137,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url)
+        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url)
+        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root)
     end
 
     def start_queue(ids)
