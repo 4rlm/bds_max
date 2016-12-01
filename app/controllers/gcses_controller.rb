@@ -125,7 +125,6 @@ class GcsesController < ApplicationController
             end
             junkify_rows(ids) if status == "Junk"
             destroy_rows(ids) if status == "Destroy"
-            # matchify_rows(ids) if status == "Matched"
             matchify_rows(ids) if status == "Matched"
         end
     end
@@ -143,55 +142,38 @@ class GcsesController < ApplicationController
         end
     end
 
-    ## Awesome!  Working Perfectly!===Starts==V2==
-    def matchify_rows(ids)
-        rows = Gcse.where(id: ids)
-        sfdc_id_source = rows.map(&:sfdc_id)
-        domain_source = rows.map(&:domain)
-        root_source = rows.map(&:root)
-
-        for sfdc_id in sfdc_id_source
-            data = Core.find_by(sfdc_id: sfdc_id)
-            data.update_attribute(:bds_status, "Matched")
-            data.update_attribute(:matched_url, domain_source)
-            data.update_attribute(:matched_root, root_source)
-        end
-
-        rows.destroy_all #destroys all domainer rows w/ matched_root
-        for term in root_source
-            Gcse.where(root: term).destroy_all
-        end #destroys all domainer rows w/ matched_root
-    end
-    ## Awesome!  Working Perfectly!===ENDS==V2==
-
-
-    # ## Awesome!  Working Perfectly!===Starts==V1==
-    # def matchify_rows(ids)
-    #     rows = Gcse.where(id: ids)
-    #     sfdc_id_source = rows.map(&:sfdc_id)
-    #     domain_source = rows.map(&:domain)
-    #     root_source = rows.map(&:root)
-    #
-    #     for sfdc_id in sfdc_id_source
-    #         data = Core.find_by(sfdc_id: sfdc_id)
-    #         data.update_attribute(:bds_status, "Matched")
-    #         data.update_attribute(:matched_url, domain_source)
-    #         data.update_attribute(:matched_root, root_source)
-    #     end
-    #
-    #     rows.destroy_all #destroys all domainer rows w/ matched_root
-    #     for term in root_source
-    #         Gcse.where(root: term).destroy_all
-    #     end #destroys all domainer rows w/ matched_root
-    # end
-    # ## Awesome!  Working Perfectly!===ENDS==V1==
-
-
     # This method deletes the rows which domain_status is "Destroy".
     def destroy_rows(ids)
         rows = Gcse.where(id: ids)
         rows.destroy_all
     end
+
+    ## Awesome!  Working Perfectly!===Starts==V2==
+    def matchify_rows(ids)
+        rows = Gcse.where(id: ids)
+        sfdc_id_source = rows.map(&:sfdc_id)  #[142341, 132152]
+        domain_source = rows.map(&:domain) #[http://www.some.com, http://www.any.com]
+        root_source = rows.map(&:root) #[some, any]
+
+        #Updates bds_status, matched_url, and matched_root in Core Table.
+        for i in 0...sfdc_id_source.length
+            data = Core.find_by(sfdc_id: sfdc_id_source[i])
+            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], matched_root: root_source[i])
+            pendingify_rows(sfdc_id_source[i], root_source[i])
+        end
+    end
+
+    # Update domain_status to "Pending" if "sfdc_id" is the same as the matched row's but "root" isn't the same.
+    # Also delete Gcse rows which sfdc_id and root are the same as the matched row's.
+    def pendingify_rows(id, root)
+        gcses = Gcse.where(sfdc_id: id)
+        pendings = gcses.where.not(root: root)
+        for gcse in pendings
+            gcse.update_attribute(:domain_status, "Pending Verification")
+        end
+        gcses.where(root: root).destroy_all
+    end
+
 
     private
     # Use callbacks to share common setup or constraints between actions.

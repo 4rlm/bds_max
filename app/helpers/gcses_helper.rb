@@ -9,6 +9,7 @@ module GcsesHelper
         ['Imported', 'Imported'],
         ['Matched', 'Matched'],
         ['No Matches', 'No Matches'],
+        ['Pending Verification', 'Pending Verification'],
         ['Isolate', 'Isolate'],
         ['Junk', 'Junk'],
         ['Destroy', 'Destroy']]

@@ -9,6 +9,7 @@ module CoresHelper
         ['Imported', 'Imported'],
         ['Matched', 'Matched'],
         ['No Matches', 'No Matches'],
+        ['Pending Verification', 'Pending Verification'],
         ['Isolate', 'Isolate'],
         ['Destroy', 'Destroy'],
         ['Junk', 'Junk'],
