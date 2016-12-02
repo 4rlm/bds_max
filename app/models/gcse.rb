@@ -32,6 +32,13 @@ class Gcse < ApplicationRecord
         results
     end
 
+    def self.solitarible?(root)
+        for term in InHostPo.all.map(&:term)
+            return true if root.include?(term)
+        end
+        false
+    end
+
     # enum status: [:active, :pending, :inactive]
     # scope :status, -> (status) { where status: status }
     # scope :location, -> (location) { where("location like ?", "%#{location}%") }

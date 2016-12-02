@@ -156,29 +156,41 @@ class GcsesController < ApplicationController
         root_source = rows.map(&:root) #["some", "any"]
         sfdc_root_source = rows.map(&:sfdc_root)
 
+        # 1) Compare
         url_results = Gcse.compare(domain_source, sfdc_url_source)
         root_results = Gcse.compare(root_source, sfdc_root_source)
 
-        #Updates bds_status, matched_url, and matched_root in Core Table.
+        # 2) Add Matched rows to Core
+        # Updates bds_status, matched_url, and matched_root in Core Table.
         for i in 0...sfdc_id_source.length
             data = Core.find_by(sfdc_id: sfdc_id_source[i])
             data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root_source[i], url_comparison: url_results[i], root_comparison: root_results[i])
 
-            pendingify_rows(sfdc_id_source[i], root_source[i])
+            # 3) Solitary table, Pending status, destroy_all
+            left_overs(sfdc_id_source[i], root_source[i])
         end
     end
 
-    # Update domain_status to "Pending" if "sfdc_id" is the same as the matched row's but "root" isn't the same.
-    # Also delete Gcse rows which sfdc_id and root are the same as the matched row's.
-    def pendingify_rows(id, root)
+    def left_overs(id, root)
         gcses = Gcse.where(sfdc_id: id)
-        pendings = gcses.where.not(root: root)
-        for gcse in pendings
-            gcse.update_attribute(:domain_status, "Pending Verification")
+        valid_suffixes = [".com", ".net"]
+
+        for gcse in gcses.where.not(root: root)
+            # 3-A) CASE: (sfdc_id && !root) && (Positive Host root && valid suffix)
+            if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
+                # Create a Solitary row if not exists. Then destroy the current gcse row.
+                Solitary.find_or_create_by(solitary_root: gcse.root, solitary_url: gcse.domain)
+                gcse.destroy
+            else # 3-B) CASE: (sfdc_id && !root) && !(Positive Host root && valid suffix)
+                # Update domain_status to "Pending" if "sfdc_id" is the same as the matched row's but "root" isn't the same.
+                gcse.update_attribute(:domain_status, "Pending Verification")
+            end
         end
+
+        # 3-C) CASE: sfdc_id && root
+        # Delete Gcse rows which sfdc_id and root are the same as the matched row's.
         gcses.where(root: root).destroy_all
     end
-
 
     private
     # Use callbacks to share common setup or constraints between actions.
