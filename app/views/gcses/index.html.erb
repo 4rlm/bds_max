@@ -30,30 +30,7 @@
                 </div>
             </th>
             <% end %>
-            <% unless @col_gcse_timestamp %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :gcse_timestamp, options_for_select(formatted_date_list(@selected_data.select(:gcse_timestamp).map(&:gcse_timestamp).uniq), params[:gcse_timestamp]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Domainer Date
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_sfdc_ult_acct %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_ult_acct, options_for_select(blank_remover(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq), params[:sfdc_ult_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Ult Acct
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_sfdc_acct %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_acct, options_for_select(blank_remover(@selected_data.select(:sfdc_acct).map(&:sfdc_acct).uniq), params[:sfdc_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Acct
-                </div>
-            </th>
-            <% end %>
+
             <% unless @col_sfdc_root %>
             <th>
                 <div class="form-group">
@@ -62,6 +39,7 @@
                 </div>
             </th>
             <% end %>
+
             <% unless @col_root %>
             <th>
                 <div class="form-group">
@@ -70,6 +48,25 @@
                 </div>
             </th>
             <% end %>
+
+            <% unless @col_sfdc_acct %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_acct, options_for_select(blank_remover(@selected_data.select(:sfdc_acct).map(&:sfdc_acct).uniq), params[:sfdc_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Acct
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_sfdc_ult_acct %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_ult_acct, options_for_select(blank_remover(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq), params[:sfdc_ult_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Ult Acct
+                </div>
+            </th>
+            <% end %>
+
             <% unless @col_sfdc_url_o %>
             <th>
                 <div class="form-group">
@@ -86,38 +83,8 @@
                 </div>
             </th>
             <% end %>
-            <% unless @col_gcse_query_num %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :gcse_query_num, options_for_select(@selected_data.select(:gcse_query_num).map(&:gcse_query_num).uniq, params[:gcse_query_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>GCSE Query Num
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_gcse_result_num %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :gcse_result_num, options_for_select(@selected_data.select(:gcse_result_num).map(&:gcse_result_num).uniq, params[:gcse_result_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>GCSE Result Num
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_root_counter %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :root_counter, options_for_select(@selected_data.select(:root_counter).map(&:root_counter).uniq, params[:root_counter]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Root Counter
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_suffix %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :suffix, options_for_select(@selected_data.select(:suffix).map(&:suffix).uniq, params[:suffix]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Suffix
-                </div>
-            </th>
-            <% end %>
+
+
             <% unless @col_in_host_pos %>
             <th>
                 <div class="form-group">
@@ -126,6 +93,45 @@
                 </div>
             </th>
             <% end %>
+
+
+
+            <% unless @col_root_counter %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :root_counter, options_for_select(@selected_data.select(:root_counter).map(&:root_counter).uniq, params[:root_counter]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Root Counter
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_gcse_result_num %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :gcse_result_num, options_for_select(@selected_data.select(:gcse_result_num).map(&:gcse_result_num).uniq, params[:gcse_result_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>GCSE Result Num
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_gcse_query_num %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :gcse_query_num, options_for_select(@selected_data.select(:gcse_query_num).map(&:gcse_query_num).uniq, params[:gcse_query_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>GCSE Query Num
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_suffix %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :suffix, options_for_select(@selected_data.select(:suffix).map(&:suffix).uniq, params[:suffix]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Suffix
+                </div>
+            </th>
+            <% end %>
+
             <% unless @col_in_host_neg %>
             <th>
                 <div class="form-group">
@@ -230,6 +236,17 @@
                 </div>
             </th>
             <% end %>
+
+            <% unless @col_gcse_timestamp %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :gcse_timestamp, options_for_select(formatted_date_list(@selected_data.select(:gcse_timestamp).map(&:gcse_timestamp).uniq), params[:gcse_timestamp]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Domainer Date
+                </div>
+            </th>
+            <% end %>
+
+
             <% unless @col_url_encoded %>
             <th>
                 <div class="form-group">
@@ -250,42 +267,51 @@
             <% unless @col_domain_status %>
             <td><%= gcse.domain_status %></td>
             <% end %>
-            <% unless @col_gcse_timestamp %>
-            <td><%= gcse.gcse_timestamp.strftime("%m/%d/%Y") %></td>
-            <% end %>
-            <% unless @col_sfdc_ult_acct %>
-            <td><%= gcse.sfdc_ult_acct %></td>
-            <% end %>
-            <% unless @col_sfdc_acct %>
-            <td><%= gcse.sfdc_acct %></td>
-            <% end %>
+
             <% unless @col_sfdc_root %>
             <td><%= gcse.sfdc_root %></td>
             <% end %>
+
             <% unless @col_root %>
-            <td><%= gcse.root %></td>
+            <td class="yellow"><%= gcse.root %></td>
             <% end %>
+
+            <% unless @col_sfdc_acct %>
+            <td class="yellow"><%= gcse.sfdc_acct %></td>
+            <% end %>
+
+            <% unless @col_sfdc_ult_acct %>
+            <td><%= gcse.sfdc_ult_acct %></td>
+            <% end %>
+
             <% unless @col_sfdc_url_o %>
             <td><%= link_to gcse.sfdc_url_o, "http://#{gcse.sfdc_url_o}", :target => "_blank" %></td>
             <% end %>
+
             <% unless @col_domain %>
-            <td><%= link_to gcse.domain, gcse.domain, :target => "_blank" %></td>
+            <td class="yellow"><%= link_to gcse.domain, gcse.domain, :target => "_blank" %></td>
             <% end %>
-            <% unless @col_gcse_query_num %>
-            <td><%= gcse.gcse_query_num %></td>
-            <% end %>
-            <% unless @col_gcse_result_num %>
-            <td><%= gcse.gcse_result_num %></td>
-            <% end %>
-            <% unless @col_root_counter %>
-            <td><%= gcse.root_counter %></td>
-            <% end %>
-            <% unless @col_suffix %>
-            <td><%= gcse.suffix %></td>
-            <% end %>
+
             <% unless @col_in_host_pos %>
             <td><%= gcse.in_host_pos %></td>
             <% end %>
+
+            <% unless @col_root_counter %>
+            <td><%= gcse.root_counter %></td>
+            <% end %>
+
+            <% unless @col_gcse_result_num %>
+            <td><%= gcse.gcse_result_num %></td>
+            <% end %>
+
+            <% unless @col_gcse_query_num %>
+            <td><%= gcse.gcse_query_num %></td>
+            <% end %>
+
+            <% unless @col_suffix %>
+            <td><%= gcse.suffix %></td>
+            <% end %>
+
             <% unless @col_in_host_neg %>
             <td><%= gcse.in_host_neg %></td>
             <% end %>
@@ -325,6 +351,11 @@
             <% unless @col_sfdc_id %>
             <td><%= gcse.sfdc_id %></td>
             <% end %>
+
+            <% unless @col_gcse_timestamp %>
+            <td><%= gcse.gcse_timestamp.strftime("%m/%d/%Y") %></td>
+            <% end %>
+
             <% unless @col_url_encoded %>
             <td><%= gcse.url_encoded %></td>
             <% end %>

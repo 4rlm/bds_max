@@ -151,14 +151,31 @@ class GcsesController < ApplicationController
     ## Awesome!  Working Perfectly!===Starts==V2==
     def matchify_rows(ids)
         rows = Gcse.where(id: ids)
-        sfdc_id_source = rows.map(&:sfdc_id)  #[142341, 132152]
-        domain_source = rows.map(&:domain) #[http://www.some.com, http://www.any.com]
-        root_source = rows.map(&:root) #[some, any]
+        sfdc_id_source = rows.map(&:sfdc_id)
+        domain_source = rows.map(&:domain)
+        sfdc_url_source = rows.map(&:sfdc_url_o)
+        root_source = rows.map(&:root)
+        sfdc_root_source = rows.map(&:sfdc_root)
+
+        root_comparison = ""
+            if root_source == sfdc_root_source
+              root_comparison = "Same"
+            else
+              root_comparison = "Different"
+            end
+
+        url_comparison = ""
+            if domain_source == sfdc_url_source
+              url_comparison = "Same"
+            else
+              url_comparison = "Different"
+            end
 
         #Updates bds_status, matched_url, and matched_root in Core Table.
         for i in 0...sfdc_id_source.length
             data = Core.find_by(sfdc_id: sfdc_id_source[i])
-            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], matched_root: root_source[i])
+            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root_source[i], root_comparison: root_comparison, url_comparison: url_comparison)
+
             pendingify_rows(sfdc_id_source[i], root_source[i])
         end
     end

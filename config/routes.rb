@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :solitaries
     get 'criteria' => 'criteria#all_criteria'
 
     resources :cores do

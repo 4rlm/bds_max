@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  solitary_root: MyString
+  solitary_url: MyString
+
+two:
+  solitary_root: MyString
+  solitary_url: MyString

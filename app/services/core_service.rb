@@ -195,7 +195,7 @@ class CoreService  # GoogleSearchClass
             #==== Update Core Object ========================
             # el is from Core.where(id: ids)
             # Update "domainer_date" column of the queued Core objects.
-            el.update_attributes(domainer_date: current_time, bds_status: "Dom Result")
+            el.update_attributes(domainer_date: current_time, bds_status: "Dom Result", sfdc_root: sfdc_root)
         end # Ends Core.all.each
     end # Ends scrape_listing  # search
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130153955) do
+ActiveRecord::Schema.define(version: 20161201172315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,9 @@ ActiveRecord::Schema.define(version: 20161130153955) do
     t.datetime "whois_date"
     t.string   "matched_url"
     t.string   "matched_root"
+    t.string   "url_comparison"
+    t.string   "root_comparison"
+    t.string   "sfdc_root"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -136,6 +139,13 @@ ActiveRecord::Schema.define(version: 20161130153955) do
     t.string   "term"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "solitaries", force: :cascade do |t|
+    t.string   "solitary_root"
+    t.string   "solitary_url"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
 end

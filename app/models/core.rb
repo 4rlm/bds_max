@@ -21,6 +21,9 @@ class Core < ApplicationRecord
     scope :sfdc_url, -> (sfdc_url) { where sfdc_url: sfdc_url }
     scope :matched_url, -> (matched_url) { where matched_url: matched_url }
     scope :matched_root, -> (matched_root) { where matched_root: matched_root }
+    scope :url_comparison, -> (url_comparison) { where url_comparison: url_comparison }
+    scope :root_comparison, -> (root_comparison) { where root_comparison: root_comparison }
+    scope :sfdc_root, -> (root_comparison) { where sfdc_root: root_comparison }
 
     def self.to_csv
         CSV.generate do |csv|

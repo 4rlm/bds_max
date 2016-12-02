@@ -33,105 +33,14 @@
             </th>
             <% end %>
 
-            <% unless @col_core_date %>
-                <th>
-                    <div class="form-group">
-                        <%= select_tag :core_date, options_for_select(formatted_date_list(@selected_data.select(:core_date).map(&:core_date).uniq), params[:core_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                        <br><br>Core Date
-                    </div>
-                </th>
-            <% end %>
-
-            <% unless @col_domainer_date %>
-                <th>
-                    <div class="form-group">
-                        <%= select_tag :domainer_date, options_for_select(formatted_date_list(@selected_data.select(:domainer_date).map(&:domainer_date).uniq), params[:domainer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                        <br><br>Domainer Date
-                    </div>
-                </th>
-            <% end %>
-
-            <% unless @col_indexer_date %>
-                <th>
-                    <div class="form-group">
-                        <%= select_tag :indexer_date, options_for_select(formatted_date_list(@selected_data.select(:indexer_date).map(&:indexer_date).uniq), params[:indexer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                        <br><br>Indexer Date
-                    </div>
-                </th>
-            <% end %>
-
-            <% unless @col_staffer_date %>
-                <th>
-                    <div class="form-group">
-                        <%= select_tag :staffer_date, options_for_select(formatted_date_list(@selected_data.select(:staffer_date).map(&:staffer_date).uniq), params[:staffer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                        <br><br>Staffer Date
-                    </div>
-                </th>
-            <% end %>
-
-            <% unless @col_whois_date %>
-                <th>
-                    <div class="form-group">
-                        <%= select_tag :whois_date, options_for_select(formatted_date_list(@selected_data.select(:whois_date).map(&:whois_date).uniq), params[:whois_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                        <br><br>WhoIs Date
-                    </div>
-                </th>
-            <% end %>
-
-            <% unless @col_sfdc_sales_person %>
+            <% unless @col_sfdc_acct %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_sales_person, options_for_select(@selected_data.select(:sfdc_sales_person).map(&:sfdc_sales_person).uniq, params[:sfdc_sales_person]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Salesperson
+                    <%= select_tag :sfdc_acct, options_for_select(@selected_data.select(:sfdc_acct).map(&:sfdc_acct).uniq, params[:sfdc_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Account
                 </div>
             </th>
             <% end %>
-
-            <% unless @col_sfdc_id %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_id, options_for_select(@selected_data.select(:sfdc_id).map(&:sfdc_id).uniq, params[:sfdc_id]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC ID
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_sfdc_tier %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_tier, options_for_select(@selected_data.select(:sfdc_tier).map(&:sfdc_tier).uniq, params[:sfdc_tier]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Tier
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_sfdc_type %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Type
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_sfdc_ult_rt %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_ult_rt, options_for_select(blank_remover(@selected_data.select(:sfdc_ult_rt).map(&:sfdc_ult_rt).uniq), params[:sfdc_ult_rt]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Ult RT
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_sfdc_grp_rt %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_grp_rt, options_for_select(blank_remover(@selected_data.select(:sfdc_grp_rt).map(&:sfdc_grp_rt).uniq), params[:sfdc_grp_rt]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Grp RT
-                </div>
-            </th>
-            <% end %>
-
 
             <% unless @col_sfdc_ult_grp %>
             <th>
@@ -151,14 +60,65 @@
             </th>
             <% end %>
 
-            <% unless @col_sfdc_acct %>
+
+            <% unless @col_url_comparison %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_acct, options_for_select(@selected_data.select(:sfdc_acct).map(&:sfdc_acct).uniq, params[:sfdc_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Account
+                    <%= select_tag :url_comparison, options_for_select(@selected_data.select(:url_comparison).map(&:url_comparison).uniq, params[:url_comparison]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Url Comparison
                 </div>
             </th>
             <% end %>
+
+
+            <% unless @col_sfdc_url %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_url, options_for_select(@selected_data.select(:sfdc_url).map(&:sfdc_url).uniq, params[:sfdc_url]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Url
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_matched_url %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :matched_url, options_for_select(@selected_data.select(:matched_url).map(&:matched_url).uniq, params[:matched_url]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Matched Url
+                </div>
+            </th>
+            <% end %>
+
+
+            <% unless @col_root_comparison %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :root_comparison, options_for_select(@selected_data.select(:root_comparison).map(&:root_comparison).uniq, params[:root_comparison]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Root Comparison
+                </div>
+            </th>
+            <% end %>
+
+
+
+            <% unless @col_sfdc_root %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_root, options_for_select(@selected_data.select(:sfdc_root).map(&:sfdc_root).uniq, params[:sfdc_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Root
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_matched_root %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :matched_root, options_for_select(@selected_data.select(:matched_root).map(&:matched_root).uniq, params[:matched_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Matched Root
+                </div>
+            </th>
+            <% end %>
+
 
             <% unless @col_sfdc_street %>
             <th>
@@ -205,33 +165,104 @@
             </th>
             <% end %>
 
-            <% unless @col_sfdc_url %>
+            <% unless @col_sfdc_tier %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_url, options_for_select(@selected_data.select(:sfdc_url).map(&:sfdc_url).uniq, params[:sfdc_url]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Url
+                    <%= select_tag :sfdc_tier, options_for_select(@selected_data.select(:sfdc_tier).map(&:sfdc_tier).uniq, params[:sfdc_tier]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Tier
                 </div>
             </th>
             <% end %>
 
-            <% unless @col_matched_url %>
+            <% unless @col_sfdc_ult_rt %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :matched_url, options_for_select(@selected_data.select(:matched_url).map(&:matched_url).uniq, params[:matched_url]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Matched Url
+                    <%= select_tag :sfdc_ult_rt, options_for_select(blank_remover(@selected_data.select(:sfdc_ult_rt).map(&:sfdc_ult_rt).uniq), params[:sfdc_ult_rt]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Ult RT
                 </div>
             </th>
             <% end %>
 
-            <% unless @col_matched_root %>
+            <% unless @col_sfdc_grp_rt %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :matched_root, options_for_select(@selected_data.select(:matched_root).map(&:matched_root).uniq, params[:matched_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Matched Root
+                    <%= select_tag :sfdc_grp_rt, options_for_select(blank_remover(@selected_data.select(:sfdc_grp_rt).map(&:sfdc_grp_rt).uniq), params[:sfdc_grp_rt]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Grp RT
                 </div>
             </th>
             <% end %>
 
+            <% unless @col_sfdc_type %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Type
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_sfdc_sales_person %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_sales_person, options_for_select(@selected_data.select(:sfdc_sales_person).map(&:sfdc_sales_person).uniq, params[:sfdc_sales_person]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>Salesperson
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_sfdc_id %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_id, options_for_select(@selected_data.select(:sfdc_id).map(&:sfdc_id).uniq, params[:sfdc_id]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC ID
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_core_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :core_date, options_for_select(formatted_date_list(@selected_data.select(:core_date).map(&:core_date).uniq), params[:core_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Core Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_domainer_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :domainer_date, options_for_select(formatted_date_list(@selected_data.select(:domainer_date).map(&:domainer_date).uniq), params[:domainer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Domainer Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_indexer_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :indexer_date, options_for_select(formatted_date_list(@selected_data.select(:indexer_date).map(&:indexer_date).uniq), params[:indexer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Indexer Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_staffer_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :staffer_date, options_for_select(formatted_date_list(@selected_data.select(:staffer_date).map(&:staffer_date).uniq), params[:staffer_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>Staffer Date
+                    </div>
+                </th>
+            <% end %>
+
+            <% unless @col_whois_date %>
+                <th>
+                    <div class="form-group">
+                        <%= select_tag :whois_date, options_for_select(formatted_date_list(@selected_data.select(:whois_date).map(&:whois_date).uniq), params[:whois_date]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                        <br><br>WhoIs Date
+                    </div>
+                </th>
+            <% end %>
 
             <th colspan="3">
             </th>
@@ -245,6 +276,88 @@
 
             <% unless @col_bds_status %>
             <td><%= core.bds_status %></td>
+            <% end %>
+
+            <% unless @col_sfdc_acct %>
+            <td><%= core.sfdc_acct %></td>
+            <% end %>
+
+            <% unless @col_sfdc_group %>
+            <td><%= core.sfdc_group %></td>
+            <% end %>
+
+            <% unless @col_sfdc_ult_grp %>
+            <td><%= core.sfdc_ult_grp %></td>
+            <% end %>
+
+            <% unless @col_url_comparison %>
+            <td class="yellow"><%= core.url_comparison %></td>
+            <% end %>
+
+            <% unless @col_sfdc_url %>
+            <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
+            <% end %>
+
+            <% unless @col_matched_url %>
+            <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
+            <% end %>
+
+            <% unless @col_root_comparison %>
+            <td class="yellow"><%= core.root_comparison %></td>
+            <% end %>
+
+            <% unless @col_sfdc_root %>
+            <td><%= core.sfdc_root %></td>
+            <% end %>
+
+            <% unless @col_matched_root %>
+            <td><%= core.matched_root %></td>
+            <% end %>
+
+
+            <% unless @col_sfdc_street %>
+            <td><%= core.sfdc_street %></td>
+            <% end %>
+
+            <% unless @col_sfdc_city %>
+            <td><%= core.sfdc_city %></td>
+            <% end %>
+
+            <% unless @col_sfdc_state %>
+            <td><%= core.sfdc_state %></td>
+            <% end %>
+
+            <% unless @col_sfdc_zip %>
+            <td><%= core.sfdc_zip %></td>
+            <% end %>
+
+            <% unless @col_sfdc_ph %>
+            <td><%= core.sfdc_ph %></td>
+            <% end %>
+
+            <% unless @col_sfdc_tier %>
+            <td><%= core.sfdc_tier %></td>
+            <% end %>
+
+            <% unless @col_sfdc_ult_rt %>
+            <td><%= core.sfdc_ult_rt %></td>
+            <% end %>
+
+            <% unless @col_sfdc_grp_rt %>
+            <td><%= core.sfdc_grp_rt %></td>
+            <% end %>
+
+            <% unless @col_sfdc_type %>
+            <td><%= core.sfdc_type %></td>
+            <% end %>
+
+
+            <% unless @col_sfdc_sales_person %>
+            <td><%= core.sfdc_sales_person %></td>
+            <% end %>
+
+            <% unless @col_sfdc_id %>
+            <td><%= core.sfdc_id %></td>
             <% end %>
 
             <% if !@col_core_date %>
@@ -285,74 +398,6 @@
                 <% else %>
                     <td><%= core.whois_date %></td>
                 <% end %>
-            <% end %>
-
-            <% unless @col_sfdc_sales_person %>
-            <td><%= core.sfdc_sales_person %></td>
-            <% end %>
-
-            <% unless @col_sfdc_id %>
-            <td><%= core.sfdc_id %></td>
-            <% end %>
-
-            <% unless @col_sfdc_tier %>
-            <td><%= core.sfdc_tier %></td>
-            <% end %>
-
-            <% unless @col_sfdc_type %>
-            <td><%= core.sfdc_type %></td>
-            <% end %>
-
-            <% unless @col_sfdc_ult_rt %>
-            <td><%= core.sfdc_ult_rt %></td>
-            <% end %>
-
-            <% unless @col_sfdc_grp_rt %>
-            <td><%= core.sfdc_grp_rt %></td>
-            <% end %>
-
-            <% unless @col_sfdc_ult_grp %>
-            <td><%= core.sfdc_ult_grp %></td>
-            <% end %>
-
-            <% unless @col_sfdc_group %>
-            <td><%= core.sfdc_group %></td>
-            <% end %>
-
-            <% unless @col_sfdc_acct %>
-            <td><%= core.sfdc_acct %></td>
-            <% end %>
-
-            <% unless @col_sfdc_street %>
-            <td><%= core.sfdc_street %></td>
-            <% end %>
-
-            <% unless @col_sfdc_city %>
-            <td><%= core.sfdc_city %></td>
-            <% end %>
-
-            <% unless @col_sfdc_state %>
-            <td><%= core.sfdc_state %></td>
-            <% end %>
-
-            <% unless @col_sfdc_zip %>
-            <td><%= core.sfdc_zip %></td>
-            <% end %>
-
-            <% unless @col_sfdc_ph %>
-            <td><%= core.sfdc_ph %></td>
-            <% end %>
-
-            <% unless @col_sfdc_url %>
-            <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
-            <% end %>
-
-            <% unless @col_matched_url %>
-            <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
-            <% end %>
-
-            <% unless @col_matched_root %>
-            <td><%= core.matched_root %></td>
             <% end %>
 
             <td><%= link_to 'Show', core %></td>

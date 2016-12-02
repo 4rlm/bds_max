@@ -1,0 +1,2 @@
+class Solitary < ApplicationRecord
+end

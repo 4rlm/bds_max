@@ -44,6 +44,10 @@ class CoresController < ApplicationController
             @col_sfdc_url = true if columns.include?("sfdc_url")
             @col_matched_url = true if columns.include?("matched_url")
             @col_matched_root = true if columns.include?("matched_root")
+            @col_url_comparison = true if columns.include?("url_comparison")
+            @col_root_comparison = true if columns.include?("root_comparison")
+            @col_sfdc_root = true if columns.include?("sfdc_root")
+
         end
 
         # Checkbox
@@ -137,11 +141,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root)
+        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root)
+        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
     def start_queue(ids)
