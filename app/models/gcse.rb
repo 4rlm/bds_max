@@ -1,5 +1,7 @@
-class Gcse < ApplicationRecord
+require 'csv'
 
+class Gcse < ApplicationRecord
+    include Filterable
 
     def self.to_csv
         CSV.generate do |csv|
@@ -10,7 +12,6 @@ class Gcse < ApplicationRecord
         end
       end
 
-    require 'csv'
     def self.import_csv(file_name)
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
             row_hash = row.to_hash
@@ -18,7 +19,19 @@ class Gcse < ApplicationRecord
         end
     end
 
-    include Filterable
+    # Compare the sfdc urls and new urls, and the sfdc roots and new roots.
+    def self.compare(arr1, arr2)
+        results = []
+        for i in 0...arr1.length
+            if arr1[i] == arr2[i]
+                results << "Same"
+            else
+                results << "Different"
+            end
+        end
+        results
+    end
+
     # enum status: [:active, :pending, :inactive]
     # scope :status, -> (status) { where status: status }
     # scope :location, -> (location) { where("location like ?", "%#{location}%") }
