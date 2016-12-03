@@ -1,0 +1,1 @@
+json.array! @in_host_negs, partial: 'in_host_negs/in_host_neg', as: :in_host_neg

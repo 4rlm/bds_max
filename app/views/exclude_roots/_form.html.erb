@@ -1,0 +1,22 @@
+<%= form_for(exclude_root) do |f| %>
+  <% if exclude_root.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(exclude_root.errors.count, "error") %> prohibited this exclude_root from being saved:</h2>
+
+      <ul>
+      <% exclude_root.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :term %>
+    <%= f.text_field :term %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

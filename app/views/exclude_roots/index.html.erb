@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Exclude Roots</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @exclude_roots.each do |exclude_root| %>
+      <tr>
+        <td><%= exclude_root.term %></td>
+        <td><%= link_to 'Show', exclude_root %></td>
+        <td><%= link_to 'Edit', edit_exclude_root_path(exclude_root) %></td>
+        <td><%= link_to 'Destroy', exclude_root, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Exclude Root', new_exclude_root_path %>

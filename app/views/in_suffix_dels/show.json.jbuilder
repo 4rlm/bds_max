@@ -1,0 +1,1 @@
+json.partial! "in_suffix_dels/in_suffix_del", in_suffix_del: @in_suffix_del

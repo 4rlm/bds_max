@@ -1,0 +1,2 @@
+module InTextDelsHelper
+end

@@ -1,0 +1,1 @@
+json.array! @in_suffix_dels, partial: 'in_suffix_dels/in_suffix_del', as: :in_suffix_del

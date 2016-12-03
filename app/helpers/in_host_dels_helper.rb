@@ -1,0 +1,2 @@
+module InHostDelsHelper
+end

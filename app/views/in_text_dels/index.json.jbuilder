@@ -1,0 +1,1 @@
+json.array! @in_text_dels, partial: 'in_text_dels/in_text_del', as: :in_text_del
