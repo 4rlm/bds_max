@@ -1,27 +1,45 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Exclude Roots</h1>
+<h1 class="text-center">Exclude Roots</h1><br><br>
 
-<table>
-  <thead>
-    <tr>
-      <th>Term</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="pull-right">
+    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Add Record', new_exclude_root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
 
-  <tbody>
-    <% @exclude_roots.each do |exclude_root| %>
-      <tr>
-        <td><%= exclude_root.term %></td>
-        <td><%= link_to 'Show', exclude_root %></td>
-        <td><%= link_to 'Edit', edit_exclude_root_path(exclude_root) %></td>
-        <td><%= link_to 'Destroy', exclude_root, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+<%= form_tag "/exclude_roots", method: :get, class: 'form-inline'  do %>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+            <th>Term</th>
+            <th colspan="3"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @exclude_roots.each do |exclude_root| %>
+        <tr>
+            <td><%= check_box_tag "multi_checks[]",  exclude_root.id %></td>
+            <td><%= exclude_root.term %></td>
+            <td><%= link_to 'Show', exclude_root %></td>
+            <td><%= link_to 'Edit', edit_exclude_root_path(exclude_root) %></td>
+            <td><%= link_to 'Destroy', exclude_root, method: :delete %></td>
+        </tr>
+        <% end %>
+    </tbody>
 </table>
 
-<br>
+<div class="pull-left">
+    <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+</div>
+<% end %>
 
-<%= link_to 'New Exclude Root', new_exclude_root_path %>
+<div class="pull-right">
+    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Add Record', new_exclude_root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
+</div>

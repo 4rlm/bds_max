@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
-  resources :in_text_pos
-  resources :in_text_negs
-  resources :in_text_dels
-  resources :in_suffix_dels
-  resources :in_host_pos
-  resources :in_host_negs
-  resources :in_host_dels
-  resources :exclude_roots
-  resources :solitaries
-    get 'criteria' => 'criteria#all_criteria'
+    resources :in_text_pos
+    resources :in_text_negs
+    resources :in_text_dels
+    resources :in_suffix_dels
+    resources :in_host_pos
+    resources :in_host_negs
+    resources :in_host_dels
+    resources :exclude_roots
+    resources :solitaries
 
     resources :cores do
         collection { post :import_core_data }

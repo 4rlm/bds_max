@@ -5,6 +5,13 @@ class ExcludeRootsController < ApplicationController
   # GET /exclude_roots.json
   def index
     @exclude_roots = ExcludeRoot.all
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        ExcludeRoot.where(id: selects).destroy_all
+    end
+    #================
   end
 
   # GET /exclude_roots/1
