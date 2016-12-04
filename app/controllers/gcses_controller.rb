@@ -4,8 +4,8 @@ class GcsesController < ApplicationController
     # GET /gcses
     # GET /gcses.json
     def index
-        if status = get_selected_status
-            @selected_data = Gcse.where(domain_status: get_selected_status)
+        if status = get_selected_status_gcse
+            @selected_data = Gcse.where(domain_status: status)
         else # status is nil
             @selected_data = Gcse.all
         end

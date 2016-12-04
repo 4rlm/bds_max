@@ -7,8 +7,8 @@ class SearchController < ApplicationController
         redirect_to cores_path
     end
 
-    def search_result
-        set_selected_status(params[:domain_status])
+    def search_result_gcse
+        set_selected_status_gcse(params[:domain_status])
         redirect_to gcses_path
     end
 end
