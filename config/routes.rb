@@ -68,6 +68,6 @@ Rails.application.routes.draw do
     #==== Criteria CSV Imports Ends=========
 
     post 'search_result_page_core' => 'search#search_result_core'
-    post 'search_result_page' => 'search#search_result_gcse'
+    post 'search_result_page_gcse' => 'search#search_result_gcse'
     root 'search#index'
 end

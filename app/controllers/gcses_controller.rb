@@ -4,9 +4,13 @@ class GcsesController < ApplicationController
     # GET /gcses
     # GET /gcses.json
     def index
-        if status = get_selected_status_gcse
-            @selected_data = Gcse.where(domain_status: status)
-        else # status is nil
+        if choice_hash = get_selected_status_gcse
+            clean_choice_hash = {}
+            choice_hash.each do |key, value|
+                clean_choice_hash[key] = value if !value.nil?
+            end
+            @selected_data = Gcse.where(clean_choice_hash)
+        else # choice_hash is nil
             @selected_data = Gcse.all
         end
 

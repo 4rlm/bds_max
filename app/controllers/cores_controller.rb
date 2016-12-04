@@ -4,9 +4,13 @@ class CoresController < ApplicationController
     # GET /cores
     # GET /cores.json
     def index
-        if status = get_selected_status_core
-            @selected_data = Core.where(bds_status: status)
-        else # status is nil
+        if choice_hash = get_selected_status_core
+            clean_choice_hash = {}
+            choice_hash.each do |key, value|
+                clean_choice_hash[key] = value if !value.nil?
+            end
+            @selected_data = Core.where(clean_choice_hash)
+        else # choice_hash is nil
             @selected_data = Core.all
         end
 
