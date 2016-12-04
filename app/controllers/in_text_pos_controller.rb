@@ -4,7 +4,21 @@ class InTextPosController < ApplicationController
   # GET /in_text_pos
   # GET /in_text_pos.json
   def index
-    @in_text_pos = InTextPo.all
+    # @in_text_pos = InTextPo.all
+
+    @in_text_pos = InTextPo.order(:term)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @in_text_pos.to_csv }
+      end
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        InTextPo.where(id: selects).destroy_all
+    end
+    #================
+
   end
 
   # GET /in_text_pos/1
@@ -16,6 +30,18 @@ class InTextPosController < ApplicationController
   def new
     @in_text_po = InTextPo.new
   end
+
+    # Go to the CSV importing page
+    def import_page
+    end
+
+    def import_csv_data
+      file_name = params[:file]
+      InTextPo.import_csv(file_name)
+
+      flash[:notice] = "CSV imported successfully."
+      redirect_to in_text_pos_path
+    end
 
   # GET /in_text_pos/1/edit
   def edit

@@ -4,7 +4,21 @@ class InHostPosController < ApplicationController
   # GET /in_host_pos
   # GET /in_host_pos.json
   def index
-    @in_host_pos = InHostPo.all
+    # @in_host_pos = InHostPo.all
+
+    @in_host_pos = InHostPo.order(:term)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @in_host_pos.to_csv }
+      end
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        InHostPo.where(id: selects).destroy_all
+    end
+    #================
+
   end
 
   # GET /in_host_pos/1
@@ -16,6 +30,20 @@ class InHostPosController < ApplicationController
   def new
     @in_host_po = InHostPo.new
   end
+
+
+    # Go to the CSV importing page
+    def import_page
+    end
+
+    def import_csv_data
+      file_name = params[:file]
+      InHostPo.import_csv(file_name)
+
+      flash[:notice] = "CSV imported successfully."
+      redirect_to in_host_pos_path
+    end
+
 
   # GET /in_host_pos/1/edit
   def edit

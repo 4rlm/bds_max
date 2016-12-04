@@ -33,15 +33,16 @@
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Criteria <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><%= link_to 'Junk Roots', exclude_roots_path %></li>
-                        <li><%= link_to 'InRootPositive', in_host_pos_path %></li>
-                        <li><%= link_to 'InRootNegative', in_host_negs_path %></li>
-                        <li><%= link_to 'InRootDelete', in_host_dels_path %></li>
                         <li role="separator" class="divider"></li>
-                        <li><%= link_to 'InTextPositive', in_text_pos_path %></li>
-                        <li><%= link_to 'InTextNegative', in_text_negs_path %></li>
-                        <li><%= link_to 'InTextDelete', in_text_dels_path %></li>
+                        <li><%= link_to 'InRoot Franchise Terms', in_host_pos_path %></li>
+                        <li><%= link_to 'InRoot Negative Terms', in_host_negs_path %></li>
+                        <li><%= link_to 'InRoot Deleted Terms', in_host_dels_path %></li>
                         <li role="separator" class="divider"></li>
-                        <li><%= link_to 'InSuffixDelete', in_suffix_dels_path %></li>
+                        <li><%= link_to 'InText Franchise Terms', in_text_pos_path %></li>
+                        <li><%= link_to 'InText Negative Terms', in_text_negs_path %></li>
+                        <li><%= link_to 'InText Deleted Terms', in_text_dels_path %></li>
+                        <li role="separator" class="divider"></li>
+                        <li><%= link_to 'InSuffix Delete Terms', in_suffix_dels_path %></li>
                     </ul>
                 </li> <!-- /.dropdown -->
                 <li><%= link_to 'Solitary', solitaries_path %></li>

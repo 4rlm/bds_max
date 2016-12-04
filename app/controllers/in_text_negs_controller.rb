@@ -4,7 +4,21 @@ class InTextNegsController < ApplicationController
   # GET /in_text_negs
   # GET /in_text_negs.json
   def index
-    @in_text_negs = InTextNeg.all
+    # @in_text_negs = InTextNeg.all
+
+    @in_text_negs = InTextNeg.order(:term)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @in_text_negs.to_csv }
+      end
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        InTextNeg.where(id: selects).destroy_all
+    end
+    #================
+
   end
 
   # GET /in_text_negs/1
@@ -16,6 +30,18 @@ class InTextNegsController < ApplicationController
   def new
     @in_text_neg = InTextNeg.new
   end
+
+    # Go to the CSV importing page
+    def import_page
+    end
+
+    def import_csv_data
+      file_name = params[:file]
+      InTextNeg.import_csv(file_name)
+
+      flash[:notice] = "CSV imported successfully."
+      redirect_to in_text_negs_path
+    end
 
   # GET /in_text_negs/1/edit
   def edit

@@ -1,20 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="text-center">Exclude Roots</h1><br><br>
+<h1 class="text-center">Junk Roots</h1>
+<h4 class="text-center">Auto-Deleted</h4>
+<br><br>
 
 <div class="pull-right">
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_exclude_root_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', exclude_root_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', exclude_roots_path(format: "csv"), class: 'btn btn-primary' %>
 </div>
+<br>
+<br>
 
 <%= form_tag "/exclude_roots", method: :get, class: 'form-inline'  do %>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
-            <th>Term</th>
+            <th>Junk Roots (Auto-Deleted)</th>
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -40,6 +44,6 @@
 <div class="pull-right">
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_exclude_root_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', exclude_root_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', exclude_roots_path(format: "csv"), class: 'btn btn-primary' %>
 </div>

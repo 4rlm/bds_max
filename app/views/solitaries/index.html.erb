@@ -1,35 +1,53 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Solitaries</h1>
-
+<h1 class="text-center">Solitary Roots</h1>
+<h4 class="text-center">UnAssigned Dealer URLs</h4>
+<br><br>
 
 <div class="pull-right">
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_solitary_path, class: 'btn btn-primary' %>
-    <%#= link_to 'Import CSV', import_page_path, class: 'btn btn-primary' %>
-    <%#= link_to 'Download CSV', gcses_path(format: "csv"), class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', solitary_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', solitaries_path(format: "csv"), class: 'btn btn-primary' %>
 </div>
+<br>
+<br>
 
+<%= form_tag "/solitaries", method: :get, class: 'form-inline'  do %>
 <table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>Solitary Root</th>
-      <th>Solitary Url</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+    <thead>
+        <tr>
+            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+            <th>UnAssigned Dealer Roots</th>
+            <th>UnAssigned Dealer URLs</th>
+            <th colspan="3"></th>
+        </tr>
+    </thead>
 
-  <tbody>
-    <% @solitaries.each do |solitary| %>
-      <tr>
-        <td><%= solitary.solitary_root %></td>
-        <td><%= solitary.solitary_url %></td>
-        <td><%= link_to 'Show', solitary %></td>
-        <td><%= link_to 'Edit', edit_solitary_path(solitary) %></td>
-        <td><%= link_to 'Destroy', solitary, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+    <tbody>
+        <% @solitaries.each do |solitary| %>
+        <tr>
+            <td><%= check_box_tag "multi_checks[]",  solitary.id %></td>
+
+            <td><%= solitary.solitary_root %></td>
+            <td><%= solitary.solitary_url %></td>
+
+            <td><%= link_to 'Show', solitary %></td>
+            <td><%= link_to 'Edit', edit_solitary_path(solitary) %></td>
+            <td><%= link_to 'Destroy', solitary, method: :delete %></td>
+        </tr>
+        <% end %>
+    </tbody>
 </table>
 
-<br>
+<div class="pull-left">
+    <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+</div>
+<% end %>
+
+<div class="pull-right">
+    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Add Record', new_solitary_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', solitary_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', solitaries_path(format: "csv"), class: 'btn btn-primary' %>
+</div>

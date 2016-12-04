@@ -4,7 +4,21 @@ class InSuffixDelsController < ApplicationController
   # GET /in_suffix_dels
   # GET /in_suffix_dels.json
   def index
-    @in_suffix_dels = InSuffixDel.all
+    # @in_suffix_dels = InSuffixDel.all
+
+    @in_suffix_dels = InSuffixDel.order(:term)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @in_suffix_dels.to_csv }
+      end
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        InSuffixDel.where(id: selects).destroy_all
+    end
+    #================
+
   end
 
   # GET /in_suffix_dels/1
@@ -16,6 +30,19 @@ class InSuffixDelsController < ApplicationController
   def new
     @in_suffix_del = InSuffixDel.new
   end
+
+    # Go to the CSV importing page
+    def import_page
+    end
+
+    def import_csv_data
+      file_name = params[:file]
+      InSuffixDel.import_csv(file_name)
+
+      flash[:notice] = "CSV imported successfully."
+      redirect_to in_suffix_dels_path
+    end
+
 
   # GET /in_suffix_dels/1/edit
   def edit

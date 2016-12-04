@@ -4,7 +4,21 @@ class SolitariesController < ApplicationController
   # GET /solitaries
   # GET /solitaries.json
   def index
-    @solitaries = Solitary.all
+    # @solitaries = Solitary.all
+
+    @solitaries = Solitary.order(:solitary_root)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @solitaries.to_csv }
+      end
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        Solitary.where(id: selects).destroy_all
+    end
+    #================
+
   end
 
   # GET /solitaries/1
@@ -16,6 +30,18 @@ class SolitariesController < ApplicationController
   def new
     @solitary = Solitary.new
   end
+
+    # Go to the CSV importing page
+    def import_page
+    end
+
+    def import_csv_data
+      file_name = params[:file]
+      Solitary.import_csv(file_name)
+
+      flash[:notice] = "CSV imported successfully."
+      redirect_to solitaries_path
+    end
 
   # GET /solitaries/1/edit
   def edit

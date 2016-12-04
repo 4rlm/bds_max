@@ -84,27 +84,6 @@
             </th>
             <% end %>
 
-
-            <% unless @col_in_host_pos %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :in_host_pos, options_for_select(@selected_data.select(:in_host_pos).map(&:in_host_pos).uniq, params[:in_host_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>In Host Pos
-                </div>
-            </th>
-            <% end %>
-
-
-
-            <% unless @col_root_counter %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :root_counter, options_for_select(@selected_data.select(:root_counter).map(&:root_counter).uniq, params[:root_counter]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Root Counter
-                </div>
-            </th>
-            <% end %>
-
             <% unless @col_gcse_result_num %>
             <th>
                 <div class="form-group">
@@ -123,55 +102,15 @@
             </th>
             <% end %>
 
-            <% unless @col_suffix %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :suffix, options_for_select(@selected_data.select(:suffix).map(&:suffix).uniq, params[:suffix]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Suffix
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_in_host_neg %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :in_host_neg, options_for_select(@selected_data.select(:in_host_neg).map(&:in_host_neg).uniq, params[:in_host_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>In Host Neg
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_in_host_del %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :in_host_del, options_for_select(@selected_data.select(:in_host_del).map(&:in_host_del).uniq, params[:in_host_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>In Host Del
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_in_suffix_del %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :in_suffix_del, options_for_select(@selected_data.select(:in_suffix_del).map(&:in_suffix_del).uniq, params[:in_suffix_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>In Suffix Del
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_exclude_root %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :exclude_root, options_for_select(@selected_data.select(:exclude_root).map(&:exclude_root).uniq, params[:exclude_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Exclude Root
-                </div>
-            </th>
-            <% end %>
             <% unless @col_text %>
             <th>
                 <div class="form-group">
-                    <%= text_field_tag :text, params[:text], placeholder: "-- Enter Keyword --", class: 'form-control'  %>
+                    <%= text_field_tag :text, params[:text], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     <br><br>Text
                 </div>
             </th>
             <% end %>
+
             <% unless @col_in_text_pos %>
             <th>
                 <div class="form-group">
@@ -180,14 +119,7 @@
                 </div>
             </th>
             <% end %>
-            <% unless @col_in_text_neg %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :in_text_neg, options_for_select(@selected_data.select(:in_text_neg).map(&:in_text_neg).uniq, params[:in_text_neg]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>In Text Neg
-                </div>
-            </th>
-            <% end %>
+
             <% unless @col_in_text_del %>
             <th>
                 <div class="form-group">
@@ -196,14 +128,7 @@
                 </div>
             </th>
             <% end %>
-            <% unless @col_sfdc_type %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Type
-                </div>
-            </th>
-            <% end %>
+
             <% unless @col_sfdc_street %>
             <th>
                 <div class="form-group">
@@ -212,6 +137,7 @@
                 </div>
             </th>
             <% end %>
+
             <% unless @col_sfdc_city %>
             <th>
                 <div class="form-group">
@@ -228,6 +154,16 @@
                 </div>
             </th>
             <% end %>
+
+            <% unless @col_sfdc_type %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Type
+                </div>
+            </th>
+            <% end %>
+
             <% unless @col_sfdc_id %>
             <th>
                 <div class="form-group">
@@ -246,15 +182,6 @@
             </th>
             <% end %>
 
-
-            <% unless @col_url_encoded %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :url_encoded, options_for_select(blank_remover(@selected_data.select(:url_encoded).map(&:url_encoded).uniq), params[:url_encoded]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>Url Encoded
-                </div>
-            </th>
-            <% end %>
             <th colspan="3">
             </th>
         </tr> <!--  -->
@@ -292,14 +219,6 @@
             <td class="yellow"><%= link_to gcse.domain, gcse.domain, :target => "_blank" %></td>
             <% end %>
 
-            <% unless @col_in_host_pos %>
-            <td><%= gcse.in_host_pos %></td>
-            <% end %>
-
-            <% unless @col_root_counter %>
-            <td><%= gcse.root_counter %></td>
-            <% end %>
-
             <% unless @col_gcse_result_num %>
             <td><%= gcse.gcse_result_num %></td>
             <% end %>
@@ -308,37 +227,18 @@
             <td><%= gcse.gcse_query_num %></td>
             <% end %>
 
-            <% unless @col_suffix %>
-            <td><%= gcse.suffix %></td>
-            <% end %>
-
-            <% unless @col_in_host_neg %>
-            <td><%= gcse.in_host_neg %></td>
-            <% end %>
-            <% unless @col_in_host_del %>
-            <td><%= gcse.in_host_del %></td>
-            <% end %>
-            <% unless @col_in_suffix_del %>
-            <td><%= gcse.in_suffix_del %></td>
-            <% end %>
-            <% unless @col_exclude_root %>
-            <td><%= gcse.exclude_root %></td>
-            <% end %>
             <% unless @col_text %>
             <td><%= gcse.text %></td>
             <% end %>
+
             <% unless @col_in_text_pos %>
             <td><%= gcse.in_text_pos %></td>
             <% end %>
-            <% unless @col_in_text_neg %>
-            <td><%= gcse.in_text_neg %></td>
-            <% end %>
+
             <% unless @col_in_text_del %>
             <td><%= gcse.in_text_del %></td>
             <% end %>
-            <% unless @col_sfdc_type %>
-            <td><%= gcse.sfdc_type %></td>
-            <% end %>
+
             <% unless @col_sfdc_street %>
             <td><%= gcse.sfdc_street %></td>
             <% end %>
@@ -348,6 +248,11 @@
             <% unless @col_sfdc_state %>
             <td><%= gcse.sfdc_state %></td>
             <% end %>
+
+            <% unless @col_sfdc_type %>
+            <td><%= gcse.sfdc_type %></td>
+            <% end %>
+
             <% unless @col_sfdc_id %>
             <td><%= gcse.sfdc_id %></td>
             <% end %>
@@ -356,9 +261,6 @@
             <td><%= gcse.gcse_timestamp.strftime("%m/%d/%Y") %></td>
             <% end %>
 
-            <% unless @col_url_encoded %>
-            <td><%= gcse.url_encoded %></td>
-            <% end %>
             <td><%= link_to 'Show', gcse %></td>
             <td><%= link_to 'Edit', edit_gcse_path(gcse) %></td>
             <td><%= link_to 'Destroy', gcse, method: :delete, data: { confirm: 'Are you sure?' } %></td>

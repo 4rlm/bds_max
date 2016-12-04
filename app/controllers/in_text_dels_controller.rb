@@ -4,7 +4,21 @@ class InTextDelsController < ApplicationController
   # GET /in_text_dels
   # GET /in_text_dels.json
   def index
-    @in_text_dels = InTextDel.all
+    # @in_text_dels = InTextDel.all
+
+    @in_text_dels = InTextDel.order(:term)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @in_text_dels.to_csv }
+      end
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        InTextDel.where(id: selects).destroy_all
+    end
+    #================
+
   end
 
   # GET /in_text_dels/1
@@ -16,6 +30,18 @@ class InTextDelsController < ApplicationController
   def new
     @in_text_del = InTextDel.new
   end
+
+    # Go to the CSV importing page
+    def import_page
+    end
+
+    def import_csv_data
+      file_name = params[:file]
+      InTextDel.import_csv(file_name)
+
+      flash[:notice] = "CSV imported successfully."
+      redirect_to in_text_dels_path
+    end
 
   # GET /in_text_dels/1/edit
   def edit

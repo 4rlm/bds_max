@@ -123,23 +123,10 @@ class CoreService  # GoogleSearchClass
                         # == CSV Filter: 1_exclude_root
                         # If 'root' is NOT included in the ExcludeRoot table,
                         # then the root will create a new row in GCSE table.
-                        unless ExcludeRoot.all.map(&:term).include?(root)
-                            #== CSV Filter: 2_in_suffix_del
-                            suffix_del = []
-                            InSuffixDel.all.map(&:term).each do |term|
-                                suffix_del << term if suffix == term
-                            end
-                            in_suffix_del = suffix_del.empty? ? '(blank)' : suffix_del.join('; ')
-                            #============================
+                        good_roots = !ExcludeRoot.all.map(&:term).include?(root)
+                        good_suffixes = !InSuffixDel.all.map(&:term).include?(suffix)
 
-                            #== CSV Filter: 3_in_host_del
-                            host_del = []
-                            InHostDel.all.map(&:term).each do |term|
-                                host_del << term if hostc.include?(term)
-                            end
-                            in_host_del = host_del.empty? ? '(blank)' : host_del.join('; ')
-                            #============================
-
+                        if good_roots && good_suffixes && check_good_in_host_del(hostc)
                             #== CSV Filter: 4_in_host_neg
                             host_neg = []
                             InHostNeg.all.map(&:term).each do |term|
@@ -180,13 +167,14 @@ class CoreService  # GoogleSearchClass
                             in_text_pos = text_pos.empty? ? '(blank)' : text_pos.join('; ')
                             #============================
 
-                            # === TESTING: ROOT COUNTER (BOTTOM) ===
+                            # === ROOT COUNTER (BOTTOM) ===
                             root_count_array << root
                             root_counter = root_count_array.count(root)
-                            # === END - TESTING: ROOT COUNTER (BOTTOM) ===
 
-                            # Create new Gsce objects
-                            add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+                            if root_counter == 1
+                                # Create new Gsce objects
+                                add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+                            end
                         end # Ends: unless ExcludeRoot.all.map(&:term).include?(root)
                     end # Ends: if uri.class.to_s
                 end # Ends: page.links.each
@@ -200,7 +188,7 @@ class CoreService  # GoogleSearchClass
     end # Ends scrape_listing  # search
 
     # "root_counter" variable will be added later after adding root_counter column.
-    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, in_host_del, in_suffix_del, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
         gcse = Gcse.new(
             gcse_timestamp: datetime,
             gcse_query_num: search_query_num,
@@ -221,8 +209,7 @@ class CoreService  # GoogleSearchClass
             suffix: suffix,
             in_host_pos: in_host_pos,
             in_host_neg: in_host_neg,
-            in_host_del: in_host_del,
-            in_suffix_del: in_suffix_del,
+            # in_host_del: in_host_del,
             text: text,
             in_text_pos: in_text_pos,
             in_text_neg: in_text_neg,
@@ -232,4 +219,10 @@ class CoreService  # GoogleSearchClass
         gcse.save
     end  # Ends add_data_row
 
+    def check_good_in_host_del(hostc)
+        InHostDel.all.map(&:term).each do |term|
+            return false if hostc.include?(term)
+        end
+        true
+    end
 end  # Ends class CoreService  # GoogleSearchClass

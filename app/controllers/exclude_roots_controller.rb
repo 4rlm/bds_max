@@ -4,7 +4,11 @@ class ExcludeRootsController < ApplicationController
   # GET /exclude_roots
   # GET /exclude_roots.json
   def index
-    @exclude_roots = ExcludeRoot.all
+    @exclude_roots = ExcludeRoot.order(:term)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @exclude_roots.to_csv }
+      end
 
     #==== For multi check box
     selects = params[:multi_checks]
@@ -12,6 +16,7 @@ class ExcludeRootsController < ApplicationController
         ExcludeRoot.where(id: selects).destroy_all
     end
     #================
+
   end
 
   # GET /exclude_roots/1
@@ -23,6 +28,19 @@ class ExcludeRootsController < ApplicationController
   def new
     @exclude_root = ExcludeRoot.new
   end
+
+  # Go to the CSV importing page
+  def import_page
+  end
+
+  def import_csv_data
+    file_name = params[:file]
+    ExcludeRoot.import_csv(file_name)
+
+    flash[:notice] = "CSV imported successfully."
+    redirect_to exclude_roots_path
+  end
+
 
   # GET /exclude_roots/1/edit
   def edit
