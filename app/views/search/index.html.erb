@@ -1,3 +1,9 @@
+<p>Core Num: <%= Core.count %></p>
+<p>Gcse Num: <%= Gcse.count %></p>
+<p>Core[imported] Num: <%= Core.where(bds_status: "imported").count %></p>
+<p>Core[Matched] Num: <%= Core.where(bds_status: "Matched").count %></p>
+<p>Core[Dom Result] Num: <%= Core.where(bds_status: "Dom Result").count %></p>
+
 <div id="search-box" class="row">
     <div class="col-sm-6">
         <div class="panel panel-info"> <!-- Core Search Box -->

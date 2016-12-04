@@ -38,6 +38,7 @@ class Core < ApplicationRecord
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
             row_hash = row.to_hash
             row_hash[:core_date] = Time.new
+            row_hash[:bds_status] = row_hash["bds_status"].capitalize
             Core.create!(row_hash)
         end
     end
