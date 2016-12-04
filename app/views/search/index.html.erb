@@ -1,15 +1,158 @@
-<p>Core Num: <%= Core.count %></p>
-<p>Gcse Num: <%= Gcse.count %></p>
-<p>Core[imported] Num: <%= Core.where(bds_status: "imported").count %></p>
-<p>Core[Matched] Num: <%= Core.where(bds_status: "Matched").count %></p>
-<p>Core[Dom Result] Num: <%= Core.where(bds_status: "Dom Result").count %></p>
+<p>Core Num: <%= @core_all %></p>
+<p>Gcse Num: <%= @gcse_all %></p>
+<p>Domainer Query Count: <%= @domainer_query_count %></p>
+<p>Core[Matched] Num: <%=@core_matched_count %></p>
+<p>Core[Dom Result] Num: <%= @core_dom_result_count %></p>
+<br><br>
 
-<div id="search-box" class="row">
-    <div class="col-sm-6">
-        <div class="panel panel-info"> <!-- Core Search Box -->
-            <div class="panel-heading"><b>Search Core Accounts by Status</b></div>
-            <div class="panel-body">
-                <%= form_tag "/search_result_page_core", method: :post  do %>
+
+
+
+<br> <!-- My Panel Starts-->
+<div class="panel panel-default"> <!-- Panel Begins -->
+    <div class="panel-heading"> <!-- panel heading begins -->
+        <h3 class="panel-title">Statistical Summary</h3>
+    </div> <!-- panel heading ends -->
+
+    <div class="panel-body"> <!-- panel body begins -->
+
+        <!-- My Toggable Tabs Section Starts-->
+        <div> <!-- Toggable Tabs Section Begins -->
+            <ul class="nav nav-tabs" role="tablist"> <!-- Nav Tabs Start-->
+                <li role="presentation" class="active"><a href="#core" aria-controls="core" role="tab" data-toggle="tab">Core</a></li>
+
+                <li role="presentation"><a href="#domainer" aria-controls="domainer" role="tab" data-toggle="tab">Domainer</a></li>
+
+                <li role="presentation"><a href="#indexer" aria-controls="indexer" role="tab" data-toggle="tab">Indexer</a></li>
+
+                <li role="presentation"><a href="#staffer" aria-controls="staffer" role="tab" data-toggle="tab">Staffer</a></li>
+            </ul>  <!-- Nav Tabs End-->
+
+            <div class="tab-content">  <!-- Tab Panes Start-->
+                <div role="tabpanel" class="tab-pane active" id="core"> <!-- Core Tab Body Begins -->
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="4" class="text-center warning">Core Accounts Statistics</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <th class="text-center">Core Accounts</th>
+                                <th class="text-center">Domainer Queries</th>
+                                <th class="text-center">Indexer Queries</th>
+                                <th class="text-center">Staffer Queries</th>
+                            </tr>
+                            <tr>
+                                <td><%= number_with_delimiter(@core_all) %></td>
+                                <td>
+                                    <%= @domainer_query_count %>
+                                    (<%= percent_format(@domainer_query_count, @core_all) %>)
+                                </td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- Core Tab Body Ends -->
+
+                <div role="tabpanel" class="tab-pane" id="domainer"> <!-- Domainer Tab Body Begins -->
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="5" class="text-center warning">Domainer Results Statistics</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <th class="text-center">Domainer Queries</th>
+                                <th class="text-center">Matches</th>
+                                <th class="text-center">Updated Roots</th>
+                                <th class="text-center">Updated URLs</th>
+                                <th class="text-center">Solitary URLs</th>
+                            </tr>
+                            <tr>
+                                <td><%= @domainer_query_count %></td>
+                                <td>
+                                    <%= @core_matched_count %>
+                                    (<%= percent_format(@core_matched_count, @domainer_query_count) %>)
+                                </td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- Domainer Tab Body Ends -->
+
+                <div role="tabpanel" class="tab-pane" id="indexer"> <!-- Indexer Tab Body Begins -->
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="4" class="text-center warning">Indexer Results Statistics</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <th class="text-center">N/A</th>
+                                <th class="text-center">N/A</th>
+                                <th class="text-center">N/A</th>
+                                <th class="text-center">N/A</th>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- Indexer Tab Body Ends -->
+
+                <div role="tabpanel" class="tab-pane" id="staffer"> <!-- Staffer Tab Body Begins -->
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="4" class="text-center warning">Staffer Results Statistics</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <th class="text-center">N/A</th>
+                                <th class="text-center">N/A</th>
+                                <th class="text-center">N/A</th>
+                                <th class="text-center">N/A</th>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- Staffer Tab Body Ends -->
+
+            </div> <!-- Tab Panes End-->
+        </div> <!-- My Toggable Tabs Section Ends -->
+    </div> <!-- My Panel Body Ends -->
+
+</div> <!-- My Panel Ends -->
+<br>
+
+
+
+
+    <div id="search-box" class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-info"> <!-- Core Search Box -->
+                <div class="panel-heading"><b>Search Core Accounts</b></div>
+                <div class="panel-body">
+                    <%= form_tag "/search_result_page_core", method: :post  do %>
                     <div class="form-group">
                         <%= label_tag :bds_status, "BDS Status" %>
                         <%= select_tag :bds_status, options_for_select(Core.select(:bds_status).map(&:bds_status).uniq), multiple: true, class: 'selectpicker form-control' %>
@@ -19,23 +162,23 @@
                         <%= select_tag :sfdc_type, options_for_select(Core.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                     <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
-                <% end %>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-6">
-        <div class="panel panel-info"> <!-- GCSE Search Box -->
-            <div class="panel-heading"><b>Search Domain Finder by Status</b></div>
-            <div class="panel-body">
-                <%= form_tag "/search_result_page_gcse", method: :post  do %>
-                <div class="form-group">
-                    <%= label_tag :domain_status, "Domain Status" %>
-                    <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    <% end %>
                 </div>
-                <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
-                <% end %>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="panel panel-info"> <!-- GCSE Search Box -->
+                <div class="panel-heading"><b>Search Domainer Results</b></div>
+                <div class="panel-body">
+                    <%= form_tag "/search_result_page_gcse", method: :post  do %>
+                    <div class="form-group">
+                        <%= label_tag :domain_status, "Domain Status" %>
+                        <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
+                    <% end %>
+                </div>
             </div>
         </div>
     </div>
-</div>
