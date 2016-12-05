@@ -33,7 +33,8 @@ class Gcse < ApplicationRecord
     end
 
     def self.solitarible?(root)
-        for term in InHostPo.all.map(&:term)
+        terms = InHostPo.all.map(&:term)
+        for term in terms
             return true if root.include?(term)
         end
         false

@@ -14,7 +14,7 @@ class GcsesController < ApplicationController
             @selected_data = Gcse.all
         end
 
-        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 200)
+        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
 
         @gcses_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -134,6 +134,7 @@ class GcsesController < ApplicationController
             junkify_rows(ids) if status == "Junk"
             destroy_rows(ids) if status == "Destroy"
             matchify_rows(ids) if status == "Matched"
+            no_matchify_rows(ids) if status == "No Matches"
         end
     end
 
@@ -171,11 +172,14 @@ class GcsesController < ApplicationController
         # 2) Add Matched rows to Core
         # Updates bds_status, matched_url, and matched_root in Core Table.
         for i in 0...sfdc_id_source.length
-            data = Core.find_by(sfdc_id: sfdc_id_source[i])
-            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root_source[i], url_comparison: url_results[i], root_comparison: root_results[i])
+            id = sfdc_id_source[i]
+            root = root_source[i]
+
+            data = Core.find_by(sfdc_id: id)
+            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root, url_comparison: url_results[i], root_comparison: root_results[i])
 
             # 3) Solitary table, Pending status, destroy_all
-            left_overs(sfdc_id_source[i], root_source[i])
+            left_overs(id, root)
         end
     end
 
@@ -198,6 +202,32 @@ class GcsesController < ApplicationController
         # 3-C) CASE: sfdc_id && root
         # Delete Gcse rows which sfdc_id and root are the same as the matched row's.
         gcses.where(root: root).destroy_all
+    end
+
+    def no_matchify_rows(ids)
+        rows = Gcse.where(id: ids)
+        sfdc_id_source = rows.map(&:sfdc_id) #[2341234, 1234134]
+        valid_suffixes = [".com", ".net"]
+
+        for id in sfdc_id_source
+            # 1) Add Matched rows to Core: Updates bds_status.
+            data = Core.find_by(sfdc_id: id)
+            data.update_attributes(bds_status: "No Matches")
+
+            # 2) Solitary table, Pending status
+            gcses = Gcse.where(sfdc_id: id)
+            for gcse in gcses
+                # 2-A) CASE: Positive Host root && valid suffix
+                if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
+                    # Create a Solitary row if not exists. Then destroy the current gcse row.
+                    Solitary.find_or_create_by(solitary_root: gcse.root, solitary_url: gcse.domain)
+                    gcse.destroy
+                else # 2-B) !(Positive Host root && valid suffix)
+                    # Update domain_status to "Pending" if "sfdc_id" is the same as the matched row's.
+                    gcse.update_attribute(:domain_status, "Pending Verification")
+                end
+            end
+        end
     end
 
     private
