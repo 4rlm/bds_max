@@ -1,14 +1,171 @@
-<p>Core Num: <%= @core_all %></p>
-<p>Gcse Num: <%= @gcse_all %></p>
-<p>Domainer Query Count: <%= @domainer_query_count %></p>
-<p>Core[Matched] Num: <%=@core_matched_count %></p>
-<p>Core[Dom Result] Num: <%= @core_dom_result_count %></p>
-<br><br>
+<p id="notice"><%= notice %></p>
+
+<h1 class="text-center">Dashboard</h1>
+<br>
+
+<!-- My Panel Starts-->
+<div class="panel panel-default"> <!-- Panel Begins -->
+    <div class="panel-heading"> <!-- panel heading begins -->
+        <h3 class="panel-title">Search Boxes</h3>
+    </div> <!-- panel heading ends -->
+
+    <div class="panel-body"> <!-- panel body begins -->
+        <!-- My Toggable Tabs Section Starts-->
+        <div> <!-- Toggable Tabs Section Begins -->
+            <ul class="nav nav-tabs" role="tablist"> <!-- Nav Tabs Start-->
+                <li role="presentation" class="active"><a href="#search_core" aria-controls="search_core" role="tab" data-toggle="tab">Search Core</a></li>
+
+                <li role="presentation"><a href="#search_domainer" aria-controls="search_domainer" role="tab" data-toggle="tab">Search Domainer</a></li>
+            </ul>  <!-- Nav Tabs End-->
+
+            <div class="tab-content">  <!-- Tab Panes Start-->
+                <div role="tabpanel" class="tab-pane active" id="search_core"> <!-- Core Tab Body Begins -->
+                    <div class="well well-sm yellow text-center"><b>Search Core</b></div>
+
+                    <%= form_tag "/search_result_page_core", method: :post  do %>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :bds_status, "BDS Status" %>
+                                    <%= select_tag :bds_status, options_for_select(Core.select(:bds_status).map(&:bds_status).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :url_comparison, "Matched URL Indicator" %>
+                                    <%= select_tag :url_comparison, options_for_select(Core.select(:url_comparison).map(&:url_comparison).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :root_comparison, "Matched Root Indicator" %>
+                                    <%= select_tag :root_comparison, options_for_select(Core.select(:root_comparison).map(&:root_comparison).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                        </div> <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_type, "SFDC Type" %>
+                                    <%= select_tag :sfdc_type, options_for_select(Core.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_sales_person, "Sales Person" %>
+                                    <%= select_tag :sfdc_sales_person, options_for_select(Core.select(:sfdc_sales_person).map(&:sfdc_sales_person).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_tier, "Sales Tier" %>
+                                    <%= select_tag :sfdc_tier, options_for_select(Core.select(:sfdc_tier).map(&:sfdc_tier).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                        </div> <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_ult_grp, "Ultimate Group Name" %>
+                                    <%= select_tag :sfdc_ult_grp, options_for_select(Core.select(:sfdc_ult_grp).map(&:sfdc_ult_grp).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_group, "Group Name" %>
+                                    <%= select_tag :sfdc_group, options_for_select(Core.select(:sfdc_group).map(&:sfdc_group).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_city, "City" %>
+                                    <%= select_tag :sfdc_city, options_for_select(Core.select(:sfdc_city).map(&:sfdc_city).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                        </div> <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_state, "State" %>
+                                    <%= select_tag :sfdc_state, options_for_select(Core.select(:sfdc_state).map(&:sfdc_state).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <%= label_tag :sfdc_zip, "Zip" %>
+                                    <%= select_tag :sfdc_zip, options_for_select(Core.select(:sfdc_zip).map(&:sfdc_zip).uniq), multiple: true, class: 'selectpicker form-control' %>
+                                </div>
+                            </div>
+                        </div> <!-- /.row -->
+
+                        <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
+                    <% end %>
+
+                </div> <!-- Core Tab Body Ends -->
+
+                <div role="tabpanel" class="tab-pane" id="search_domainer"> <!-- Domainer Tab Body Begins -->
+
+                    <%= form_tag "/search_result_page_gcse", method: :post  do %>
+                    <div class="form-group">
+                        <%= label_tag :domain_status, "Domain Status" %>
+                        <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <%= label_tag :gcse_result_num, "Query Result #" %>
+                        <%= select_tag :gcse_result_num, options_for_select(Gcse.select(:gcse_result_num).map(&:gcse_result_num).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <%= label_tag :gcse_timestamp, "Query Date" %>
+                        <%= select_tag :gcse_timestamp, options_for_select(Gcse.select(:gcse_timestamp).map(&:gcse_timestamp).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <%= label_tag :sfdc_ult_acct, "Ultimate Group Name" %>
+                        <%= select_tag :sfdc_ult_acct, options_for_select(Gcse.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <%= label_tag :sfdc_acct, "Account Name" %>
+                        <%= select_tag :sfdc_acct, options_for_select(Gcse.select(:sfdc_acct).map(&:sfdc_acct).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <%= label_tag :sfdc_type, "SFDC Type" %>
+                        <%= select_tag :sfdc_type, options_for_select(Gcse.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <%= label_tag :sfdc_city, "City" %>
+                        <%= select_tag :sfdc_city, options_for_select(Gcse.select(:sfdc_city).map(&:sfdc_city).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <%= label_tag :sfdc_state, "State" %>
+                        <%= select_tag :sfdc_state, options_for_select(Gcse.select(:sfdc_state).map(&:sfdc_state).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                    <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
+                    <% end %>
+
+                </div> <!-- Domainer Tab Body Ends -->
+
+            </div> <!-- Tab Panes End-->
+
+        </div> <!-- My Toggable Tabs Section Ends -->
+    </div> <!-- My Panel Body Ends -->
+
+</div> <!-- My Panel Ends -->
 
 
 
 
-<br> <!-- My Panel Starts-->
+
+
+
+
+
+
+
+
+<!-- My Panel Starts-->
 <div class="panel panel-default"> <!-- Panel Begins -->
     <div class="panel-heading"> <!-- panel heading begins -->
         <h3 class="panel-title">Statistical Summary</h3>
@@ -30,6 +187,7 @@
 
             <div class="tab-content">  <!-- Tab Panes Start-->
                 <div role="tabpanel" class="tab-pane active" id="core"> <!-- Core Tab Body Begins -->
+
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -47,8 +205,8 @@
                             <tr>
                                 <td><%= number_with_delimiter(@core_all) %></td>
                                 <td>
-                                    <%= @domainer_query_count %>
-                                    (<%= percent_format(@domainer_query_count, @core_all) %>)
+                                    <%= @domainer_query_count %> |
+                                    <%= percent_format(@domainer_query_count, @core_all) %>
                                 </td>
                                 <td>0</td>
                                 <td>0</td>
@@ -61,27 +219,38 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th colspan="5" class="text-center warning">Domainer Results Statistics</th>
+                                <th colspan="6" class="text-center warning">Domainer Results Statistics</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr>
                                 <th class="text-center">Domainer Queries</th>
+                                <th class="text-center">Unfiltered Results</th>
                                 <th class="text-center">Matches</th>
                                 <th class="text-center">Updated Roots</th>
                                 <th class="text-center">Updated URLs</th>
-                                <th class="text-center">Solitary URLs</th>
+                                <th class="text-center">Newly Discovered Dealerships</th>
                             </tr>
                             <tr>
                                 <td><%= @domainer_query_count %></td>
                                 <td>
-                                    <%= @core_matched_count %>
-                                    (<%= percent_format(@core_matched_count, @domainer_query_count) %>)
+                                    <%= @core_dom_result_count %> |
+                                    <%= percent_format(@core_dom_result_count, @domainer_query_count) %>
                                 </td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <td>
+                                    <%= @core_matched_count %> |
+                                    <%= percent_format(@core_matched_count, @domainer_query_count) %>
+                                </td>
+                                <td><%= @roots_updated %> |
+                                <%= percent_format(@roots_updated, @core_matched_count) %>
+                                </td>
+                                <td><%= @urls_updated %> |
+                                <%= percent_format(@urls_updated, @core_matched_count) %>
+                                </td>
+                                <td><%= @solitary_all %> |
+                                <%= percent_format(@solitary_all, @domainer_query_count) %>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -140,45 +309,110 @@
             </div> <!-- Tab Panes End-->
         </div> <!-- My Toggable Tabs Section Ends -->
     </div> <!-- My Panel Body Ends -->
-
 </div> <!-- My Panel Ends -->
-<br>
 
 
 
 
-    <div id="search-box" class="row">
-        <div class="col-sm-6">
-            <div class="panel panel-info"> <!-- Core Search Box -->
-                <div class="panel-heading"><b>Search Core Accounts</b></div>
-                <div class="panel-body">
-                    <%= form_tag "/search_result_page_core", method: :post  do %>
-                    <div class="form-group">
-                        <%= label_tag :bds_status, "BDS Status" %>
-                        <%= select_tag :bds_status, options_for_select(Core.select(:bds_status).map(&:bds_status).uniq), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                    <div class="form-group">
-                        <%= label_tag :sfdc_type, "SFDC Type" %>
-                        <%= select_tag :sfdc_type, options_for_select(Core.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                    <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
-                    <% end %>
+<div id="search-box" class="row">
+    <div>
+
+        <div class="panel panel-info"> <!-- Core Search Box -->
+            <div class="panel-heading"><b>Search Core Accounts</b></div>
+            <div class="panel-body">
+                <%= form_tag "/search_result_page_core", method: :post  do %>
+
+                <div class="form-group">
+                    <%= label_tag :bds_status, "BDS Status" %>
+                    <%= select_tag :bds_status, options_for_select(Core.select(:bds_status).map(&:bds_status).uniq), multiple: true, class: 'selectpicker form-control' %>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            <div class="panel panel-info"> <!-- GCSE Search Box -->
-                <div class="panel-heading"><b>Search Domainer Results</b></div>
-                <div class="panel-body">
-                    <%= form_tag "/search_result_page_gcse", method: :post  do %>
-                    <div class="form-group">
-                        <%= label_tag :domain_status, "Domain Status" %>
-                        <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                    <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
-                    <% end %>
+                <div class="form-group">
+                    <%= label_tag :url_comparison, "Matched URL Indicator" %>
+                    <%= select_tag :url_comparison, options_for_select(Core.select(:url_comparison).map(&:url_comparison).uniq), multiple: true, class: 'selectpicker form-control' %>
                 </div>
+                <div class="form-group">
+                    <%= label_tag :root_comparison, "Matched Root Indicator" %>
+                    <%= select_tag :root_comparison, options_for_select(Core.select(:root_comparison).map(&:root_comparison).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_type, "SFDC Type" %>
+                    <%= select_tag :sfdc_type, options_for_select(Core.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_sales_person, "Sales Person" %>
+                    <%= select_tag :sfdc_sales_person, options_for_select(Core.select(:sfdc_sales_person).map(&:sfdc_sales_person).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_tier, "Sales Tier" %>
+                    <%= select_tag :sfdc_tier, options_for_select(Core.select(:sfdc_tier).map(&:sfdc_tier).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_ult_grp, "Ultimate Group Name" %>
+                    <%= select_tag :sfdc_ult_grp, options_for_select(Core.select(:sfdc_ult_grp).map(&:sfdc_ult_grp).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_group, "Group Name" %>
+                    <%= select_tag :sfdc_group, options_for_select(Core.select(:sfdc_group).map(&:sfdc_group).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_city, "City" %>
+                    <%= select_tag :sfdc_city, options_for_select(Core.select(:sfdc_city).map(&:sfdc_city).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_state, "State" %>
+                    <%= select_tag :sfdc_state, options_for_select(Core.select(:sfdc_state).map(&:sfdc_state).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_zip, "Zip" %>
+                    <%= select_tag :sfdc_zip, options_for_select(Core.select(:sfdc_zip).map(&:sfdc_zip).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
+                <% end %>
             </div>
         </div>
     </div>
+
+    <!-- GCSE Search Box -->
+    <div>
+        <div class="panel panel-info">
+            <div class="panel-heading"><b>Search Domainer Results</b></div>
+            <div class="panel-body">
+                <%= form_tag "/search_result_page_gcse", method: :post  do %>
+                <div class="form-group">
+                    <%= label_tag :domain_status, "Domain Status" %>
+                    <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :gcse_result_num, "Query Result #" %>
+                    <%= select_tag :gcse_result_num, options_for_select(Gcse.select(:gcse_result_num).map(&:gcse_result_num).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :gcse_timestamp, "Query Date" %>
+                    <%= select_tag :gcse_timestamp, options_for_select(Gcse.select(:gcse_timestamp).map(&:gcse_timestamp).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_ult_acct, "Ultimate Group Name" %>
+                    <%= select_tag :sfdc_ult_acct, options_for_select(Gcse.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_acct, "Account Name" %>
+                    <%= select_tag :sfdc_acct, options_for_select(Gcse.select(:sfdc_acct).map(&:sfdc_acct).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_type, "SFDC Type" %>
+                    <%= select_tag :sfdc_type, options_for_select(Gcse.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_city, "City" %>
+                    <%= select_tag :sfdc_city, options_for_select(Gcse.select(:sfdc_city).map(&:sfdc_city).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= label_tag :sfdc_state, "State" %>
+                    <%= select_tag :sfdc_state, options_for_select(Gcse.select(:sfdc_state).map(&:sfdc_state).uniq), multiple: true, class: 'selectpicker form-control' %>
+                </div>
+                <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
