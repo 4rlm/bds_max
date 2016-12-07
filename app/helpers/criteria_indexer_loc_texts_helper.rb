@@ -1,0 +1,2 @@
+module CriteriaIndexerLocTextsHelper
+end

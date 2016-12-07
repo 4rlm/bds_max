@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161203041119) do
+ActiveRecord::Schema.define(version: 20161207024825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,30 @@ ActiveRecord::Schema.define(version: 20161203041119) do
     t.string   "url_comparison"
     t.string   "root_comparison"
     t.string   "sfdc_root"
+  end
+
+  create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
+    t.string   "term"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "criteria_indexer_loc_texts", force: :cascade do |t|
+    t.string   "term"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "criteria_indexer_staff_hrefs", force: :cascade do |t|
+    t.string   "term"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "criteria_indexer_staff_texts", force: :cascade do |t|
+    t.string   "term"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

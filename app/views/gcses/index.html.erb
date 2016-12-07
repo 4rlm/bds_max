@@ -84,6 +84,41 @@
             </th>
             <% end %>
 
+            <% unless @col_sfdc_street %>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC Street
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_sfdc_city %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_city, options_for_select(@selected_data.select(:sfdc_city).map(&:sfdc_city).uniq, params[:sfdc_city]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC City
+                </div>
+            </th>
+            <% end %>
+            <% unless @col_sfdc_state %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_state, options_for_select(@selected_data.select(:sfdc_state).map(&:sfdc_state).uniq, params[:sfdc_state]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC State
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_sfdc_type %>
+            <th>
+                <div class="form-group">
+                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <br><br>SFDC Type
+                </div>
+            </th>
+            <% end %>
+
             <% unless @col_gcse_result_num %>
             <th>
                 <div class="form-group">
@@ -125,41 +160,6 @@
                 <div class="form-group">
                     <%= select_tag :in_text_del, options_for_select(@selected_data.select(:in_text_del).map(&:in_text_del).uniq, params[:in_text_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
                     <br><br>In Text Del
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_sfdc_street %>
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>SFDC Street
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_sfdc_city %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_city, options_for_select(@selected_data.select(:sfdc_city).map(&:sfdc_city).uniq, params[:sfdc_city]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC City
-                </div>
-            </th>
-            <% end %>
-            <% unless @col_sfdc_state %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_state, options_for_select(@selected_data.select(:sfdc_state).map(&:sfdc_state).uniq, params[:sfdc_state]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC State
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_sfdc_type %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Type
                 </div>
             </th>
             <% end %>
@@ -219,6 +219,20 @@
             <td class="yellow"><%= link_to gcse.domain, gcse.domain, :target => "_blank" %></td>
             <% end %>
 
+            <% unless @col_sfdc_street %>
+            <td><%= gcse.sfdc_street %></td>
+            <% end %>
+            <% unless @col_sfdc_city %>
+            <td><%= gcse.sfdc_city %></td>
+            <% end %>
+            <% unless @col_sfdc_state %>
+            <td><%= gcse.sfdc_state %></td>
+            <% end %>
+
+            <% unless @col_sfdc_type %>
+            <td><%= gcse.sfdc_type %></td>
+            <% end %>
+
             <% unless @col_gcse_result_num %>
             <td><%= gcse.gcse_result_num %></td>
             <% end %>
@@ -237,20 +251,6 @@
 
             <% unless @col_in_text_del %>
             <td><%= gcse.in_text_del %></td>
-            <% end %>
-
-            <% unless @col_sfdc_street %>
-            <td><%= gcse.sfdc_street %></td>
-            <% end %>
-            <% unless @col_sfdc_city %>
-            <td><%= gcse.sfdc_city %></td>
-            <% end %>
-            <% unless @col_sfdc_state %>
-            <td><%= gcse.sfdc_state %></td>
-            <% end %>
-
-            <% unless @col_sfdc_type %>
-            <td><%= gcse.sfdc_type %></td>
             <% end %>
 
             <% unless @col_sfdc_id %>

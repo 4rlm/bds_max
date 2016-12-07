@@ -1,0 +1,1 @@
+json.array! @criteria_indexer_staff_texts, partial: 'criteria_indexer_staff_texts/criteria_indexer_staff_text', as: :criteria_indexer_staff_text

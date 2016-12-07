@@ -1,0 +1,1 @@
+json.array! @criteria_indexer_staff_hrefs, partial: 'criteria_indexer_staff_hrefs/criteria_indexer_staff_href', as: :criteria_indexer_staff_href

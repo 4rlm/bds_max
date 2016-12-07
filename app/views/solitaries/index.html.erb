@@ -4,6 +4,9 @@
 <h4 class="text-center">UnAssigned Dealer URLs</h4>
 <br><br>
 
+
+<h4>Newly Discovered Dealership Links: <%= number_with_delimiter(@solitary_count) %></h4>
+
 <div class="pull-right">
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_solitary_path, class: 'btn btn-primary' %>
@@ -30,7 +33,10 @@
             <td><%= check_box_tag "multi_checks[]",  solitary.id %></td>
 
             <td><%= solitary.solitary_root %></td>
-            <td><%= solitary.solitary_url %></td>
+            <!-- <td><%#= solitary.solitary_url %></td> -->
+
+            <td class="yellow"><%= link_to solitary.solitary_url, solitary.solitary_url, :target => "_blank" %></td>
+
 
             <td><%= link_to 'Show', solitary %></td>
             <td><%= link_to 'Edit', edit_solitary_path(solitary) %></td>

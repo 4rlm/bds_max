@@ -6,6 +6,8 @@ class SolitariesController < ApplicationController
   def index
     # @solitaries = Solitary.all
 
+    @solitary_count = Solitary.count
+
     @solitaries = Solitary.order(:solitary_root)
     respond_to do |format|
           format.html

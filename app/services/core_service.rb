@@ -184,6 +184,16 @@ class CoreService  # GoogleSearchClass
             # el is from Core.where(id: ids)
             # Update "domainer_date" column of the queued Core objects.
             el.update_attributes(domainer_date: current_time, bds_status: "Dom Result", sfdc_root: sfdc_root)
+
+
+            #== Throttle (if needed) =====================
+            delay_time = (30..40).to_a.sample
+            puts "--------------------------------"
+            puts "Please wait #{delay_time} seconds."
+            puts "--------------------------------"
+            sleep(delay_time)
+
+
         end # Ends Core.all.each
     end # Ends scrape_listing  # search
 

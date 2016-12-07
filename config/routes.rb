@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-    resources :in_text_pos
+    resources :criteria_indexer_loc_texts
+    resources :criteria_indexer_loc_hrefs
+    resources :criteria_indexer_staff_hrefs
+    resources :criteria_indexer_staff_texts
+      resources :in_text_pos
     resources :in_text_negs
     resources :in_text_dels
     resources :in_suffix_dels
@@ -65,6 +69,35 @@ Rails.application.routes.draw do
         collection { post :import_csv_data }
     end
     get 'solitary_import_page' => 'solitaries#import_page'
+
+
+
+    resources :criteria_indexer_staff_texts do
+        collection { post :import_csv_data }
+    end
+    get 'criteria_indexer_staff_text_import_page' => 'criteria_indexer_staff_texts#import_page'
+
+
+    resources :criteria_indexer_staff_hrefs do
+        collection { post :import_csv_data }
+    end
+    get 'criteria_indexer_staff_href_import_page' => 'criteria_indexer_staff_hrefs#import_page'
+
+
+    resources :criteria_indexer_loc_hrefs do
+        collection { post :import_csv_data }
+    end
+    get 'criteria_indexer_loc_href_import_page' => 'criteria_indexer_loc_hrefs#import_page'
+
+
+    resources :criteria_indexer_loc_texts do
+        collection { post :import_csv_data }
+    end
+    get 'criteria_indexer_loc_text_import_page' => 'criteria_indexer_loc_texts#import_page'
+
+
+
+
     #==== Criteria CSV Imports Ends=========
 
     post 'search_result_page_core' => 'search#search_result_core'

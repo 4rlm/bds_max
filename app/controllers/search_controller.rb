@@ -4,6 +4,7 @@ class SearchController < ApplicationController
         @core_all = Core.count
         @domainer_query_count = get_domainer_query_count
         @core_matched_count = Core.where(bds_status: "Matched").count
+        @core_no_matches_count = Core.where(bds_status: "No Matches").count
         @core_dom_result_count = Core.where(bds_status: "Dom Result").count
 
         @urls_updated = Core.where(url_comparison: "Different").count

@@ -1,0 +1,1 @@
+json.partial! "criteria_indexer_loc_texts/criteria_indexer_loc_text", criteria_indexer_loc_text: @criteria_indexer_loc_text
