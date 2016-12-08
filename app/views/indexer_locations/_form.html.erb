@@ -1,0 +1,112 @@
+<%= form_for(indexer_location) do |f| %>
+  <% if indexer_location.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(indexer_location.errors.count, "error") %> prohibited this indexer_location from being saved:</h2>
+
+      <ul>
+      <% indexer_location.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :indexer_status %>
+    <%= f.text_field :indexer_status %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_acct %>
+    <%= f.text_field :sfdc_acct %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_group_name %>
+    <%= f.text_field :sfdc_group_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_ult_acct %>
+    <%= f.text_field :sfdc_ult_acct %>
+  </div>
+
+  <div class="field">
+    <%= f.label :root %>
+    <%= f.text_field :root %>
+  </div>
+
+  <div class="field">
+    <%= f.label :domain %>
+    <%= f.text_field :domain %>
+  </div>
+
+  <div class="field">
+    <%= f.label :ip %>
+    <%= f.text_field :ip %>
+  </div>
+
+  <div class="field">
+    <%= f.label :text %>
+    <%= f.text_field :text %>
+  </div>
+
+  <div class="field">
+    <%= f.label :href %>
+    <%= f.text_field :href %>
+  </div>
+
+  <div class="field">
+    <%= f.label :loc_link %>
+    <%= f.text_field :loc_link %>
+  </div>
+
+  <div class="field">
+    <%= f.label :msg %>
+    <%= f.text_field :msg %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_street %>
+    <%= f.text_field :sfdc_street %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_city %>
+    <%= f.text_field :sfdc_city %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_state %>
+    <%= f.text_field :sfdc_state %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_type %>
+    <%= f.text_field :sfdc_type %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_tier %>
+    <%= f.text_field :sfdc_tier %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_sales_person %>
+    <%= f.text_field :sfdc_sales_person %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sfdc_id %>
+    <%= f.text_field :sfdc_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :indexer_timestamp %>
+    <%= f.datetime_select :indexer_timestamp %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+module IndexerLocationsHelper
+end

@@ -1,0 +1,1 @@
+json.partial! "indexer_staffs/indexer_staff", indexer_staff: @indexer_staff

@@ -1,0 +1,1 @@
+json.partial! "indexer_locations/indexer_location", indexer_location: @indexer_location

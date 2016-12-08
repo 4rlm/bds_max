@@ -135,6 +135,7 @@ class GcsesController < ApplicationController
             destroy_rows(ids) if status == "Destroy"
             matchify_rows(ids) if status == "Matched"
             no_matchify_rows(ids) if status == "No Matches"
+            auto_matchify_rows(ids) if status == "Auto-Match"
         end
     end
 
@@ -245,4 +246,18 @@ class GcsesController < ApplicationController
         params.slice(:domain_status, :gcse_timestamp, :gcse_query_num, :gcse_result_num, :sfdc_id, :sfdc_ult_acct, :sfdc_acct, :sfdc_type, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_url_o, :sfdc_root, :root, :domain, :root_counter, :suffix, :in_host_pos, :in_host_neg, :in_host_del, :in_suffix_del, :exclude_root, :text, :in_text_pos, :in_text_neg, :in_text_del, :url_encoded)
     end
 
+    def auto_matchify_rows(ids)
+        gcses = Gcse.where(id: ids, gcse_result_num: 2)
+        ids = []
+
+        for gcse in gcses
+            if gcse.root == gcse.sfdc_root
+                ids << gcse.id
+            else
+                gcses = Gcse.where(sfdc_id: gcse.sfdc_id)
+                gcses.each {|gcse| gcse.update_attribute(:domain_status, "No Auto-Matches")}
+            end
+        end
+        matchify_rows(ids)
+    end
 end

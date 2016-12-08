@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :indexer_locations
+  resources :indexer_staffs
     resources :criteria_indexer_loc_texts
     resources :criteria_indexer_loc_hrefs
     resources :criteria_indexer_staff_hrefs
@@ -70,30 +72,38 @@ Rails.application.routes.draw do
     end
     get 'solitary_import_page' => 'solitaries#import_page'
 
-
-
     resources :criteria_indexer_staff_texts do
         collection { post :import_csv_data }
     end
     get 'criteria_indexer_staff_text_import_page' => 'criteria_indexer_staff_texts#import_page'
-
 
     resources :criteria_indexer_staff_hrefs do
         collection { post :import_csv_data }
     end
     get 'criteria_indexer_staff_href_import_page' => 'criteria_indexer_staff_hrefs#import_page'
 
-
     resources :criteria_indexer_loc_hrefs do
         collection { post :import_csv_data }
     end
     get 'criteria_indexer_loc_href_import_page' => 'criteria_indexer_loc_hrefs#import_page'
 
-
     resources :criteria_indexer_loc_texts do
         collection { post :import_csv_data }
     end
     get 'criteria_indexer_loc_text_import_page' => 'criteria_indexer_loc_texts#import_page'
+
+
+
+    resources :indexer_locations do
+        collection { post :import_csv_data }
+    end
+    get 'indexer_location_import_page' => 'indexer_locations#import_page'
+
+
+    resources :indexer_staffs do
+        collection { post :import_csv_data }
+    end
+    get 'indexer_staff_import_page' => 'indexer_staffs#import_page'
 
 
 
