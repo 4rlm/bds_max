@@ -187,7 +187,7 @@ class CoreService  # GoogleSearchClass
 
 
             #== Throttle (if needed) =====================
-            delay_time = (30..40).to_a.sample
+            delay_time = (30..42).to_a.sample
             puts "--------------------------------"
             puts "Please wait #{delay_time} seconds."
             puts "--------------------------------"

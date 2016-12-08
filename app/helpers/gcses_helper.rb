@@ -7,6 +7,8 @@ module GcsesHelper
     def status_list
         [['Dom Result', 'Dom Result'],
         ['Imported', 'Imported'],
+        ['Auto-Match', 'Auto-Match'],
+        ['No Auto-Matches', 'No Auto-Matches'],
         ['Matched', 'Matched'],
         ['No Matches', 'No Matches'],
         ['Pending Verification', 'Pending Verification'],

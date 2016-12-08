@@ -1,0 +1,94 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="text-center">Location Indexer</h1>
+<br><br>
+
+<div class="pull-right">
+    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Add Record', new_indexer_location_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Import CSV', indexer_location_import_page_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Download CSV', indexer_locations_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
+<br>
+<br>
+
+<%= form_tag "/indexer_locations", method: :get, class: 'form-inline'  do %>
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+        <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+      <th>Indexer status</th>
+      <th>Sfdc acct</th>
+      <th>Sfdc group name</th>
+      <th>Sfdc ult acct</th>
+      <th>Root</th>
+      <th>Domain</th>
+      <th>Ip</th>
+      <th>Text</th>
+      <th>Href</th>
+      <th>Loc link</th>
+      <th>Msg</th>
+      <th>Sfdc street</th>
+      <th>Sfdc city</th>
+      <th>Sfdc state</th>
+      <th>Sfdc type</th>
+      <th>Sfdc tier</th>
+      <th>Sfdc sales person</th>
+      <th>Sfdc</th>
+      <th>Indexer timestamp</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @indexer_locations.each do |indexer_location| %>
+      <tr>
+         <td><%= check_box_tag "multi_checks[]",  indexer_location.id %></td>
+
+        <td><%= indexer_location.indexer_status %></td>
+        <td><%= indexer_location.sfdc_acct %></td>
+        <td><%= indexer_location.sfdc_group_name %></td>
+        <td><%= indexer_location.sfdc_ult_acct %></td>
+        <td><%= indexer_location.root %></td>
+        <td><%= indexer_location.domain %></td>
+        <td><%= indexer_location.ip %></td>
+        <td><%= indexer_location.text %></td>
+        <td><%= indexer_location.href %></td>
+        <td><%= indexer_location.loc_link %></td>
+        <td><%= indexer_location.msg %></td>
+        <td><%= indexer_location.sfdc_street %></td>
+        <td><%= indexer_location.sfdc_city %></td>
+        <td><%= indexer_location.sfdc_state %></td>
+        <td><%= indexer_location.sfdc_type %></td>
+        <td><%= indexer_location.sfdc_tier %></td>
+        <td><%= indexer_location.sfdc_sales_person %></td>
+        <td><%= indexer_location.sfdc_id %></td>
+        <td><%= indexer_location.indexer_timestamp %></td>
+
+        <td><%= link_to 'Show', indexer_location %></td>
+        <td><%= link_to 'Edit', edit_indexer_location_path(indexer_location) %></td>
+
+        <td><%= link_to 'Destroy', indexer_location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pull-left">
+    <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+</div>
+<% end %>
+
+<div class="pull-right">
+    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
+    <%= link_to 'Add Record', new_indexer_location_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Import CSV', criteria_indexer_staff_text_import_page_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Download CSV', criteria_indexer_staff_texts_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
+<br>
+<br>
