@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  resources :indexer_locations
-  resources :indexer_staffs
+    resources :indexer_locations
+    resources :indexer_staffs
     resources :criteria_indexer_loc_texts
     resources :criteria_indexer_loc_hrefs
     resources :criteria_indexer_staff_hrefs
     resources :criteria_indexer_staff_texts
-      resources :in_text_pos
+    resources :in_text_pos
     resources :in_text_negs
     resources :in_text_dels
     resources :in_suffix_dels
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     end
     get 'import_page' => 'gcses#import_page'
 
-#==== Criteria CSV Imports =========
+    #==== Criteria CSV Imports =========
     resources :exclude_roots do
         collection { post :import_csv_data }
     end

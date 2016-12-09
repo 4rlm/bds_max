@@ -3,12 +3,10 @@ require 'mechanize'
 require 'uri'
 
 class CoreService  # GoogleSearchClass
-    def initialize
-        @agent = Mechanize.new
-    end
-
     # == Core Method starts here.===================|*|
     def scrape_listing(ids)  # search
+        @agent = Mechanize.new
+
         # == Create Counters ======================
         search_query_num = 0
         # url_grand_count = 0
@@ -188,6 +186,11 @@ class CoreService  # GoogleSearchClass
 
             #== Throttle (if needed) =====================
             delay_time = (30..42).to_a.sample
+            puts "--------------------------------"
+            puts "SFDC_ID: #{id}"
+            puts "ACCT NAME: #{acct}"
+            puts "SFDC_URL: #{url_o}"
+            puts "SFDC_ROOT: #{sfdc_root}"
             puts "--------------------------------"
             puts "Please wait #{delay_time} seconds."
             puts "--------------------------------"

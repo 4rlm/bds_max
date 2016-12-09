@@ -153,8 +153,8 @@ class CoresController < ApplicationController
     end
 
     def start_queue(ids)
-        # CoreService.new.delay.scrape_listing(ids)
-        CoreService.new.scrape_listing(ids)
+        CoreService.new.delay.scrape_listing(ids)
+        # CoreService.new.scrape_listing(ids)
         flash[:notice] = 'Scraping queued!'
         redirect_to gcses_path
     end
