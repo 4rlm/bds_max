@@ -5,7 +5,7 @@ class Core < ApplicationRecord
 
     scope :bds_status, -> (bds_status) { where bds_status: bds_status }
     scope :sfdc_sales_person, -> (sfdc_sales_person) { where sfdc_sales_person: sfdc_sales_person }
-    scope :sfdc_id, -> (sfdc_id) { where sfdc_id: sfdc_id }
+    scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
     scope :sfdc_tier, -> (sfdc_tier) { where sfdc_tier: sfdc_tier }
     scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type }
     scope :sfdc_ult_rt, -> (sfdc_ult_rt) { where sfdc_ult_rt: sfdc_ult_rt }

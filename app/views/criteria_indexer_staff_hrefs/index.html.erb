@@ -13,21 +13,28 @@
 <br>
 <br>
 
-
 <%= form_tag "/criteria_indexer_staff_hrefs", method: :get, class: 'form-inline'  do %>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+
+            <th>#</th>
+            
             <th>InSuffix Auto-Deleted</th>
             <th colspan="3"></th>
         </tr>
     </thead>
 
     <tbody>
+        <% num = 0 %>
         <% @criteria_indexer_staff_hrefs.each do |criteria_indexer_staff_href| %>
         <tr>
             <td><%= check_box_tag "multi_checks[]",  criteria_indexer_staff_href.id %></td>
+
+            <% num +=1 %>
+            <td><%= num %></td>
+
             <td><%= criteria_indexer_staff_href.term %></td>
             <td><%= link_to 'Show', criteria_indexer_staff_href %></td>
             <td><%= link_to 'Edit', edit_criteria_indexer_staff_href_path(criteria_indexer_staff_href) %></td>

@@ -18,15 +18,23 @@
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+
+            <th>#</th>
+            
             <th>Junk Roots (Auto-Deleted)</th>
             <th colspan="3"></th>
         </tr>
     </thead>
 
     <tbody>
+        <% num = 0 %>
         <% @exclude_roots.each do |exclude_root| %>
         <tr>
             <td><%= check_box_tag "multi_checks[]",  exclude_root.id %></td>
+
+            <% num +=1 %>
+            <td><%= num %></td>
+
             <td><%= exclude_root.term %></td>
             <td><%= link_to 'Show', exclude_root %></td>
             <td><%= link_to 'Edit', edit_exclude_root_path(exclude_root) %></td>

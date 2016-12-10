@@ -47,7 +47,7 @@ class Gcse < ApplicationRecord
     scope :gcse_timestamp, -> (gcse_timestamp) { where gcse_timestamp: gcse_timestamp }
     scope :gcse_query_num, -> (gcse_query_num) { where gcse_query_num: gcse_query_num }
     scope :gcse_result_num, -> (gcse_result_num) { where gcse_result_num: gcse_result_num }
-    scope :sfdc_id, -> (sfdc_id) { where sfdc_id: sfdc_id }
+    scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
     scope :sfdc_ult_acct, -> (sfdc_ult_acct) { where sfdc_ult_acct: sfdc_ult_acct }
     scope :sfdc_acct, -> (sfdc_acct) { where sfdc_acct: sfdc_acct }
     scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type }

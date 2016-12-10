@@ -12,24 +12,31 @@
     <div class="panel-body"> <!-- panel body begins -->
         <%= form_tag "/search_result_page_gcse", method: :post  do %>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-group">
                         <%= label_tag :domain_status, "Domain Status" %>
-                        <%= select_tag :domain_status, options_for_select(Gcse.select(:domain_status).map(&:domain_status).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= select_tag :domain_status, options_for_select(ordered_list(Gcse.select(:domain_status).map(&:domain_status))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-group">
-                        <%= label_tag :gcse_result_num, "Query Result #" %>
-                        <%= select_tag :gcse_result_num, options_for_select(Gcse.select(:gcse_result_num).map(&:gcse_result_num).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= label_tag :sfdc_type, "SFDC Type" %>
+                        <%= select_tag :sfdc_type, options_for_select(ordered_list(Gcse.select(:sfdc_type).map(&:sfdc_type))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <%= label_tag :gcse_result_num, "Result #" %>
+                        <%= select_tag :gcse_result_num, options_for_select(ordered_list(Gcse.select(:gcse_result_num).map(&:gcse_result_num))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
                     <div class="form-group">
                         <%= label_tag :gcse_timestamp, "Query Date" %>
-                        <%= select_tag :gcse_timestamp, options_for_select(Gcse.select(:gcse_timestamp).map(&:gcse_timestamp).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= select_tag :gcse_timestamp, options_for_select(ordered_list(Gcse.select(:gcse_timestamp).map(&:gcse_timestamp))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
 
@@ -37,40 +44,92 @@
 
             <div class="row">
 
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <div class="form-group">
-                        <%= label_tag :sfdc_type, "SFDC Type" %>
-                        <%= select_tag :sfdc_type, options_for_select(Gcse.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= label_tag :sfdc_acct, "Account Name" %>
+                        <%= select_tag :sfdc_acct, options_for_select(ordered_list(Gcse.select(:sfdc_acct).map(&:sfdc_acct))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
                         <%= label_tag :sfdc_ult_acct, "Ultimate Group Name" %>
-                        <%= select_tag :sfdc_ult_acct, options_for_select(Gcse.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= select_tag :sfdc_ult_acct, options_for_select(ordered_list(Gcse.select(:sfdc_ult_acct).map(&:sfdc_ult_acct))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
 
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <div class="form-group">
-                        <%= label_tag :sfdc_acct, "Account Name" %>
-                        <%= select_tag :sfdc_acct, options_for_select(Gcse.select(:sfdc_acct).map(&:sfdc_acct).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= label_tag :sfdc_id, "SFDC ID" %>
+                        <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                        <%#= text_field_tag :sfdc_id, params[Core.find_by(:sfdc_id)], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
 
                 <div class="col-sm-2">
                     <div class="form-group">
                         <%= label_tag :sfdc_city, "City" %>
-                        <%= select_tag :sfdc_city, options_for_select(Gcse.select(:sfdc_city).map(&:sfdc_city).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= select_tag :sfdc_city, options_for_select(ordered_list(Gcse.select(:sfdc_city).map(&:sfdc_city))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
 
                 <div class="col-sm-2">
                     <div class="form-group">
                         <%= label_tag :sfdc_state, "State" %>
-                        <%= select_tag :sfdc_state, options_for_select(Gcse.select(:sfdc_state).map(&:sfdc_state).uniq), multiple: true, class: 'selectpicker form-control' %>
+                        <%= select_tag :sfdc_state, options_for_select(ordered_list(Gcse.select(:sfdc_state).map(&:sfdc_state))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+            <div class="row">
+
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_root, "SFDC Root" %>
+                        <%= select_tag :sfdc_root, options_for_select(ordered_list(Gcse.select(:sfdc_root).map(&:sfdc_root))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <%= label_tag :root, "New Root" %>
+                        <%= select_tag :root, options_for_select(ordered_list(Gcse.select(:root).map(&:root))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_url_o, "SFDC URL" %>
+                        <%= select_tag :sfdc_url_o, options_for_select(ordered_list(Gcse.select(:sfdc_url_o).map(&:sfdc_url_o))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <%= label_tag :domain, "New URL" %>
+                        <%= select_tag :domain, options_for_select(ordered_list(Gcse.select(:domain).map(&:domain))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
             </div> <!-- /.row -->
 
             <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>

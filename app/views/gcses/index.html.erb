@@ -143,7 +143,7 @@
             <% unless @col_sfdc_id %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_id, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_id).map(&:sfdc_id))), params[:sfdc_id]), multiple: true, class: 'selectpicker' %>
+                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     <br><br>SFDC ID
                 </div>
             </th>
@@ -203,9 +203,11 @@
             <% unless @col_sfdc_street %>
             <td><%= gcse.sfdc_street %></td>
             <% end %>
+
             <% unless @col_sfdc_city %>
             <td><%= gcse.sfdc_city %></td>
             <% end %>
+
             <% unless @col_sfdc_state %>
             <td><%= gcse.sfdc_state %></td>
             <% end %>

@@ -21,6 +21,9 @@
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+
+            <th>#</th>
+            
             <th>UnAssigned Dealer Roots</th>
             <th>UnAssigned Dealer URLs</th>
             <th colspan="3"></th>
@@ -28,16 +31,17 @@
     </thead>
 
     <tbody>
+        <% num = 0 %>
         <% @solitaries.each do |solitary| %>
         <tr>
             <td><%= check_box_tag "multi_checks[]",  solitary.id %></td>
 
+            <% num +=1 %>
+            <td><%= num %></td>
+
             <td><%= solitary.solitary_root %></td>
             <!-- <td><%#= solitary.solitary_url %></td> -->
-
             <td class="yellow"><%= link_to solitary.solitary_url, solitary.solitary_url, :target => "_blank" %></td>
-
-
             <td><%= link_to 'Show', solitary %></td>
             <td><%= link_to 'Edit', edit_solitary_path(solitary) %></td>
             <td><%= link_to 'Destroy', solitary, method: :delete %></td>

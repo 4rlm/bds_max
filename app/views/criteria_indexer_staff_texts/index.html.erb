@@ -13,8 +13,6 @@
 <br>
 <br>
 
-
-
 <%= form_tag "/criteria_indexer_staff_texts", method: :get, class: 'form-inline'  do %>
 
 <table class="table table-bordered table-hover">
@@ -22,18 +20,23 @@
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
 
+            <th>#</th>
+
             <th>InSuffix Auto-Deleted</th>
             <th colspan="3"></th>
         </tr>
     </thead>
 
     <tbody>
+        <% num = 0 %>
         <% @criteria_indexer_staff_texts.each do |criteria_indexer_staff_text| %>
         <tr>
             <td><%= check_box_tag "multi_checks[]",  criteria_indexer_staff_text.id %></td>
 
-            <td><%= criteria_indexer_staff_text.term %></td>
+            <% num +=1 %>
+            <td><%= num %></td>
 
+            <td><%= criteria_indexer_staff_text.term %></td>
             <td><%= link_to 'Show', criteria_indexer_staff_text %></td>
             <td><%= link_to 'Edit', edit_criteria_indexer_staff_text_path(criteria_indexer_staff_text) %></td>
 

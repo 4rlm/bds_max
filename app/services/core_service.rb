@@ -88,6 +88,7 @@ class CoreService  # GoogleSearchClass
             url_encoded = "#{url}#{q_combinded}#{num}#{client}#{key}"
             #=== End - Encoded Search =====================
 
+            begin #begin rescue p1 *******************************
             # == Loop (1): through each encoded search url. ======
             @agent.get(url_encoded) do |page|
                 search_query_num += 1
@@ -178,6 +179,34 @@ class CoreService  # GoogleSearchClass
                 end # Ends: page.links.each
             end # Ends: agent.get(url_encoded)
 
+
+
+        rescue  #begin rescue p2
+            $!.message
+            # bad_url = "Error: Please verify website URL."
+            bad_connection = "Google Search Error!"
+
+            #== Rescue Throttle (if needed) =====================
+            forced_delay_time = (240..420).to_a.sample
+            puts "--------------------------------"
+            puts bad_connection
+            puts "--------------------------------"
+            puts "Forced Delay for #{forced_delay_time} seconds."
+            puts "--------------------------------"
+            sleep(forced_delay_time)
+
+            # col_array = [indexer_date, indexer_status, acct, sfdc_group, ult_acct, street, city, state, type, sfdc_tier, sfdc_sales_person, id, root, url, no_ip, $!.message, bad_url, bad_url, bad_url]
+            #
+            # add_indexer_location_row(col_array)
+            # add_indexer_staff_row(col_array)
+
+            # puts bad_url + ": " + "#{url}"
+            # puts $!.message
+            # puts ""
+            $!.message
+        end  #end rescue
+
+
             #==== Update Core Object ========================
             # el is from Core.where(id: ids)
             # Update "domainer_date" column of the queued Core objects.
@@ -185,16 +214,16 @@ class CoreService  # GoogleSearchClass
 
 
             #== Throttle (if needed) =====================
-            delay_time = (30..42).to_a.sample
+            throttle_delay_time = (30..42).to_a.sample
             puts "--------------------------------"
             puts "SFDC_ID: #{id}"
             puts "ACCT NAME: #{acct}"
             puts "SFDC_URL: #{url_o}"
             puts "SFDC_ROOT: #{sfdc_root}"
             puts "--------------------------------"
-            puts "Please wait #{delay_time} seconds."
+            puts "Please wait #{throttle_delay_time} seconds."
             puts "--------------------------------"
-            sleep(delay_time)
+            sleep(throttle_delay_time)
 
 
         end # Ends Core.all.each

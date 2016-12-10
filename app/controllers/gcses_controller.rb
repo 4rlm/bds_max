@@ -228,6 +228,12 @@ class GcsesController < ApplicationController
                     gcse.destroy
                 else # 2-B) !(Positive Host root && valid suffix)
                     # Update domain_status to "Pending" if "sfdc_id" is the same as the matched row's.
+                    # Add root and url to pending verification table if not already included in:
+                    # 1. core table as matched status
+                    # 2. pending table verificationdoes
+                    # 3. solitary table
+                    # 4. excluded root table (junk roots)
+                    # Then destroy from gcse if sfdc_id is same.
                     gcse.update_attribute(:domain_status, "Pending Verification")
                 end
             end
