@@ -21,11 +21,14 @@
         <tr>
             <th>
                 <%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %>
-            </th> <!-- add -->
+            </th>
+
+            <th>#</th>
+
             <% unless @col_domain_status %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :domain_status, options_for_select(@selected_data.select(:domain_status).map(&:domain_status).uniq, params[:domain_status]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :domain_status, options_for_select(ordered_list(@selected_data.select(:domain_status).map(&:domain_status)), params[:domain_status]), multiple: true, class: 'selectpicker' %>
                     <br><br>Domain Status
                 </div>
             </th>
@@ -34,7 +37,7 @@
             <% unless @col_sfdc_root %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_root, options_for_select(@selected_data.select(:sfdc_root).map(&:sfdc_root).uniq, params[:sfdc_root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_root, options_for_select(ordered_list(@selected_data.select(:sfdc_root).map(&:sfdc_root)), params[:sfdc_root]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC Root
                 </div>
             </th>
@@ -43,7 +46,7 @@
             <% unless @col_root %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :root, options_for_select(@selected_data.select(:root).map(&:root).uniq, params[:root]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :root, options_for_select(ordered_list(@selected_data.select(:root).map(&:root)), params[:root]), multiple: true, class: 'selectpicker' %>
                     <br><br>New Root
                 </div>
             </th>
@@ -52,7 +55,7 @@
             <% unless @col_sfdc_acct %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_acct, options_for_select(blank_remover(@selected_data.select(:sfdc_acct).map(&:sfdc_acct).uniq), params[:sfdc_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_acct).map(&:sfdc_acct))), params[:sfdc_acct]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC Acct
                 </div>
             </th>
@@ -61,7 +64,7 @@
             <% unless @col_sfdc_ult_acct %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_ult_acct, options_for_select(blank_remover(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct).uniq), params[:sfdc_ult_acct]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_ult_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct))), params[:sfdc_ult_acct]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC Ult Acct
                 </div>
             </th>
@@ -70,7 +73,7 @@
             <% unless @col_sfdc_url_o %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_url_o, options_for_select(blank_remover(@selected_data.select(:sfdc_url_o).map(&:sfdc_url_o).uniq), params[:sfdc_url_o]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_url_o, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_url_o).map(&:sfdc_url_o))), params[:sfdc_url_o]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC Url
                 </div>
             </th>
@@ -78,7 +81,7 @@
             <% unless @col_domain %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :domain, options_for_select(@selected_data.select(:domain).map(&:domain).uniq, params[:domain]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :domain, options_for_select(ordered_list(@selected_data.select(:domain).map(&:domain)), params[:domain]), multiple: true, class: 'selectpicker' %>
                     <br><br>New Domain
                 </div>
             </th>
@@ -96,7 +99,7 @@
             <% unless @col_sfdc_city %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_city, options_for_select(@selected_data.select(:sfdc_city).map(&:sfdc_city).uniq, params[:sfdc_city]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_city, options_for_select(ordered_list(@selected_data.select(:sfdc_city).map(&:sfdc_city)), params[:sfdc_city]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC City
                 </div>
             </th>
@@ -104,7 +107,7 @@
             <% unless @col_sfdc_state %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_state, options_for_select(@selected_data.select(:sfdc_state).map(&:sfdc_state).uniq, params[:sfdc_state]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_state, options_for_select(ordered_list(@selected_data.select(:sfdc_state).map(&:sfdc_state)), params[:sfdc_state]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC State
                 </div>
             </th>
@@ -113,7 +116,7 @@
             <% unless @col_sfdc_type %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_type, options_for_select(@selected_data.select(:sfdc_type).map(&:sfdc_type).uniq, params[:sfdc_type]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_type, options_for_select(ordered_list(@selected_data.select(:sfdc_type).map(&:sfdc_type)), params[:sfdc_type]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC Type
                 </div>
             </th>
@@ -122,7 +125,7 @@
             <% unless @col_gcse_result_num %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :gcse_result_num, options_for_select(@selected_data.select(:gcse_result_num).map(&:gcse_result_num).uniq, params[:gcse_result_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :gcse_result_num, options_for_select(ordered_list(@selected_data.select(:gcse_result_num).map(&:gcse_result_num)), params[:gcse_result_num]), multiple: true, class: 'selectpicker' %>
                     <br><br>GCSE Result Num
                 </div>
             </th>
@@ -131,7 +134,7 @@
             <% unless @col_gcse_query_num %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :gcse_query_num, options_for_select(@selected_data.select(:gcse_query_num).map(&:gcse_query_num).uniq, params[:gcse_query_num]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :gcse_query_num, options_for_select(ordered_list(@selected_data.select(:gcse_query_num).map(&:gcse_query_num)), params[:gcse_query_num]), multiple: true, class: 'selectpicker' %>
                     <br><br>GCSE Query Num
                 </div>
             </th>
@@ -140,7 +143,7 @@
             <% unless @col_sfdc_id %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_id, options_for_select(blank_remover(@selected_data.select(:sfdc_id).map(&:sfdc_id).uniq), params[:sfdc_id]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_id, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_id).map(&:sfdc_id))), params[:sfdc_id]), multiple: true, class: 'selectpicker' %>
                     <br><br>SFDC ID
                 </div>
             </th>
@@ -149,7 +152,7 @@
             <% unless @col_gcse_timestamp %>
             <th>
                 <div class="form-group">
-                    <%= select_tag :gcse_timestamp, options_for_select(formatted_date_list(@selected_data.select(:gcse_timestamp).map(&:gcse_timestamp).uniq), params[:gcse_timestamp]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :gcse_timestamp, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:gcse_timestamp).map(&:gcse_timestamp))), params[:gcse_timestamp]), multiple: true, class: 'selectpicker' %>
                     <br><br>Domainer Date
                 </div>
             </th>
@@ -161,9 +164,14 @@
     </thead>
 
     <tbody>
+        <% num = 0 %>
         <% @gcses.each do |gcse| %>
         <tr>
             <td><%= check_box_tag "status_checks[]",  gcse.id %></td>
+
+            <% num += 1 %>
+            <td><%= num %></td>
+
             <% unless @col_domain_status %>
             <td><%= gcse.domain_status %></td>
             <% end %>
