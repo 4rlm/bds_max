@@ -1,0 +1,99 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="text-center">Search Core</h1>
+
+<!-- Testing Version -->
+<!-- My Panel Starts-->
+<div class="panel panel-default"> <!-- Panel Begins -->
+    <div class="panel-heading"> <!-- panel heading begins -->
+        <h3 class="panel-title">Search Core</h3>
+    </div> <!-- panel heading ends -->
+
+    <div class="panel-body"> <!-- panel body begins -->
+        <%= form_tag "/search_result_page_core", method: :post  do %>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :bds_status, "BDS Status" %>
+                        <%= select_tag :bds_status, options_for_select(Core.select(:bds_status).map(&:bds_status).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :url_comparison, "Matched URL Indicator" %>
+                        <%= select_tag :url_comparison, options_for_select(Core.select(:url_comparison).map(&:url_comparison).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :root_comparison, "Matched Root Indicator" %>
+                        <%= select_tag :root_comparison, options_for_select(Core.select(:root_comparison).map(&:root_comparison).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+            </div> <!-- /.row -->
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_type, "SFDC Type" %>
+                        <%= select_tag :sfdc_type, options_for_select(Core.select(:sfdc_type).map(&:sfdc_type).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_sales_person, "Sales Person" %>
+                        <%= select_tag :sfdc_sales_person, options_for_select(Core.select(:sfdc_sales_person).map(&:sfdc_sales_person).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_tier, "Sales Tier" %>
+                        <%= select_tag :sfdc_tier, options_for_select(Core.select(:sfdc_tier).map(&:sfdc_tier).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+            </div> <!-- /.row -->
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_ult_grp, "Ultimate Group Name" %>
+                        <%= select_tag :sfdc_ult_grp, options_for_select(Core.select(:sfdc_ult_grp).map(&:sfdc_ult_grp).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_group, "Group Name" %>
+                        <%= select_tag :sfdc_group, options_for_select(Core.select(:sfdc_group).map(&:sfdc_group).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_city, "City" %>
+                        <%= select_tag :sfdc_city, options_for_select(Core.select(:sfdc_city).map(&:sfdc_city).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+            </div> <!-- /.row -->
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_state, "State" %>
+                        <%= select_tag :sfdc_state, options_for_select(Core.select(:sfdc_state).map(&:sfdc_state).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_zip, "Zip" %>
+                        <%= select_tag :sfdc_zip, options_for_select(Core.select(:sfdc_zip).map(&:sfdc_zip).uniq), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+            </div> <!-- /.row -->
+
+            <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
+        <% end %>
+    </div> <!-- My Panel Body Ends -->
+</div> <!-- My Panel Ends -->
+<!-- Testing Version Ends-->

@@ -137,33 +137,6 @@
             </th>
             <% end %>
 
-            <% unless @col_text %>
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :text, params[:text], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>Text
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_in_text_pos %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :in_text_pos, options_for_select(@selected_data.select(:in_text_pos).map(&:in_text_pos).uniq, params[:in_text_pos]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>In Text Pos
-                </div>
-            </th>
-            <% end %>
-
-            <% unless @col_in_text_del %>
-            <th>
-                <div class="form-group">
-                    <%= select_tag :in_text_del, options_for_select(@selected_data.select(:in_text_del).map(&:in_text_del).uniq, params[:in_text_del]), include_blank: "-- Select --", multiple: true, class: 'selectpicker' %>
-                    <br><br>In Text Del
-                </div>
-            </th>
-            <% end %>
-
             <% unless @col_sfdc_id %>
             <th>
                 <div class="form-group">
@@ -239,18 +212,6 @@
 
             <% unless @col_gcse_query_num %>
             <td><%= gcse.gcse_query_num %></td>
-            <% end %>
-
-            <% unless @col_text %>
-            <td><%= gcse.text %></td>
-            <% end %>
-
-            <% unless @col_in_text_pos %>
-            <td><%= gcse.in_text_pos %></td>
-            <% end %>
-
-            <% unless @col_in_text_del %>
-            <td><%= gcse.in_text_del %></td>
             <% end %>
 
             <% unless @col_sfdc_id %>

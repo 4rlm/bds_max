@@ -1,0 +1,1 @@
+json.partial! "pending_verifications/pending_verification", pending_verification: @pending_verification

@@ -14,7 +14,7 @@ class GcsesController < ApplicationController
             @selected_data = Gcse.all
         end
 
-        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
+        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
 
         @gcses_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -61,6 +61,9 @@ class GcsesController < ApplicationController
     # GET /gcses/1
     # GET /gcses/1.json
     def show
+    end
+
+    def search
     end
 
     # GET /gcses/new

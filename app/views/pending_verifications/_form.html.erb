@@ -1,0 +1,27 @@
+<%= form_for(pending_verification) do |f| %>
+  <% if pending_verification.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(pending_verification.errors.count, "error") %> prohibited this pending_verification from being saved:</h2>
+
+      <ul>
+      <% pending_verification.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :root %>
+    <%= f.text_field :root %>
+  </div>
+
+  <div class="field">
+    <%= f.label :domain %>
+    <%= f.text_field :domain %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

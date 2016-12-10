@@ -12,7 +12,7 @@ module GcsesHelper
         ['Matched', 'Matched'],
         ['No Matches', 'No Matches'],
         ['Pending Verification', 'Pending Verification'],
-        ['Isolate', 'Isolate'],
+        ['Solitary', 'Solitary'],
         ['Junk', 'Junk'],
         ['Destroy', 'Destroy']]
     end

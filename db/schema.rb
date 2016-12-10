@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207154227) do
+ActiveRecord::Schema.define(version: 20161209180009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,7 +175,7 @@ ActiveRecord::Schema.define(version: 20161207154227) do
     t.string   "ip"
     t.string   "text"
     t.string   "href"
-    t.string   "loc_link"
+    t.string   "link"
     t.string   "msg"
     t.string   "sfdc_street"
     t.string   "sfdc_city"
@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(version: 20161207154227) do
     t.string   "ip"
     t.string   "text"
     t.string   "href"
-    t.string   "staff_link"
+    t.string   "link"
     t.string   "msg"
     t.string   "sfdc_street"
     t.string   "sfdc_city"
@@ -211,6 +211,13 @@ ActiveRecord::Schema.define(version: 20161207154227) do
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "pending_verifications", force: :cascade do |t|
+    t.string   "root"
+    t.string   "domain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "solitaries", force: :cascade do |t|

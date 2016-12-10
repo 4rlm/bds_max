@@ -14,7 +14,7 @@ class CoresController < ApplicationController
             @selected_data = Core.all
         end
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
 
         @cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -82,6 +82,9 @@ class CoresController < ApplicationController
 
     # GET /cores/1/edit
     def edit
+    end
+
+    def search
     end
 
     # POST /cores
@@ -152,10 +155,19 @@ class CoresController < ApplicationController
         params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
+    # def start_queue(ids)
+    #     CoreService.new.delay.scrape_listing(ids)
+    #     # CoreService.new.scrape_listing(ids)
+    #     flash[:notice] = 'Scraping queued!'
+    #     redirect_to gcses_path
+    # end
+
     def start_queue(ids)
         CoreService.new.delay.scrape_listing(ids)
         # CoreService.new.scrape_listing(ids)
         flash[:notice] = 'Scraping queued!'
         redirect_to gcses_path
     end
+
+
 end

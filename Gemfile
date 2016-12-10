@@ -56,4 +56,6 @@ gem 'will_paginate-bootstrap'
 ruby "2.3.1"
 
 gem 'mechanize'
+# gem 'delayed_job_web'
+gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.0'

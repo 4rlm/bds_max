@@ -1,30 +1,16 @@
 Rails.application.routes.draw do
-    resources :indexer_locations
-    resources :indexer_staffs
-    resources :criteria_indexer_loc_texts
-    resources :criteria_indexer_loc_hrefs
-    resources :criteria_indexer_staff_hrefs
-    resources :criteria_indexer_staff_texts
-    resources :in_text_pos
-    resources :in_text_negs
-    resources :in_text_dels
-    resources :in_suffix_dels
-    resources :in_host_pos
-    resources :in_host_negs
-    resources :in_host_dels
-    resources :exclude_roots
-    resources :solitaries
-
     resources :cores do
         collection { post :import_core_data }
     end
     get 'core_import_page' => 'cores#import_page'
+    get 'core/search' => 'cores#search'
 
     resources :gcses do
         collection { post :import }
         collection { post :batch_status }
     end
     get 'import_page' => 'gcses#import_page'
+    get 'gcse/search' => 'gcses#search'
 
     #==== Criteria CSV Imports =========
     resources :exclude_roots do
@@ -92,24 +78,26 @@ Rails.application.routes.draw do
     end
     get 'criteria_indexer_loc_text_import_page' => 'criteria_indexer_loc_texts#import_page'
 
-
-
     resources :indexer_locations do
         collection { post :import_csv_data }
     end
     get 'indexer_location_import_page' => 'indexer_locations#import_page'
-
 
     resources :indexer_staffs do
         collection { post :import_csv_data }
     end
     get 'indexer_staff_import_page' => 'indexer_staffs#import_page'
 
-
-
-
+    resources :pending_verifications do
+        collection { post :import_csv_data }
+    end
+    get 'pending_verification_import_page' => 'pending_verifications#import_page'
     #==== Criteria CSV Imports Ends=========
 
+    #==== Delayed_Jobs_Interface Starts=========
+    # match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
+    #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
     post 'search_result_page_gcse' => 'search#search_result_gcse'
     root 'search#index'
