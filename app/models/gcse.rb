@@ -61,14 +61,9 @@ class Gcse < ApplicationRecord
     scope :root_counter, -> (root_counter) { where root_counter: root_counter }
     scope :suffix, -> (suffix) { where suffix: suffix }
     scope :in_host_pos, -> (in_host_pos) { where in_host_pos: in_host_pos }
-    scope :in_host_neg, -> (in_host_neg) { where in_host_neg: in_host_neg }
-    scope :in_host_del, -> (in_host_del) { where in_host_del: in_host_del }
-    scope :in_suffix_del, -> (in_suffix_del) { where in_suffix_del: in_suffix_del }
     scope :exclude_root, -> (exclude_root) { where exclude_root: exclude_root }
     scope :text, -> (text) { where("text like ?", "%#{text}%") }
     scope :in_text_pos, -> (in_text_pos) { where in_text_pos: in_text_pos }
-    scope :in_text_neg, -> (in_text_neg) { where in_text_neg: in_text_neg }
     scope :in_text_del, -> (in_text_del) { where in_text_del: in_text_del }
-    scope :url_encoded, -> (url_encoded) { where url_encoded: url_encoded }
 
  end

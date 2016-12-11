@@ -56,14 +56,10 @@
                         <li><%= link_to 'Junk Roots', exclude_roots_path %></li>
                         <li role="separator" class="divider"></li>
                         <li><%= link_to 'InRoot Franchise Terms', in_host_pos_path %></li>
-                        <li><%= link_to 'InRoot Negative Terms', in_host_negs_path %></li>
                         <li><%= link_to 'InRoot Deleted Terms', in_host_dels_path %></li>
                         <li role="separator" class="divider"></li>
                         <li><%= link_to 'InText Franchise Terms', in_text_pos_path %></li>
-                        <li><%= link_to 'InText Negative Terms', in_text_negs_path %></li>
                         <li><%= link_to 'InText Deleted Terms', in_text_dels_path %></li>
-                        <li role="separator" class="divider"></li>
-                        <li><%= link_to 'InSuffix Delete Terms', in_suffix_dels_path %></li>
                         <li role="separator" class="divider"></li>
                         <li><%= link_to 'Indexer Location Hrefs', criteria_indexer_loc_hrefs_path %></li>
                         <li><%= link_to 'Indexer Location Texts', criteria_indexer_loc_texts_path %></li>
@@ -84,7 +80,7 @@
 
         <%= yield %>
     </div>
-
+    <br><br><br><br><br>
     <%= javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js" %>
 </body>
 </html>

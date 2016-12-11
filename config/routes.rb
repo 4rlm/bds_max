@@ -23,30 +23,15 @@ Rails.application.routes.draw do
     end
     get 'in_host_del_import_page' => 'in_host_dels#import_page'
 
-    resources :in_host_negs do
-        collection { post :import_csv_data }
-    end
-    get 'in_host_neg_import_page' => 'in_host_negs#import_page'
-
     resources :in_host_pos do
         collection { post :import_csv_data }
     end
     get 'in_host_po_import_page' => 'in_host_pos#import_page'
 
-    resources :in_suffix_dels do
-        collection { post :import_csv_data }
-    end
-    get 'in_suffix_del_import_page' => 'in_suffix_dels#import_page'
-
     resources :in_text_dels do
         collection { post :import_csv_data }
     end
     get 'in_text_del_import_page' => 'in_text_dels#import_page'
-
-    resources :in_text_negs do
-        collection { post :import_csv_data }
-    end
-    get 'in_text_neg_import_page' => 'in_text_negs#import_page'
 
     resources :in_text_pos do
         collection { post :import_csv_data }

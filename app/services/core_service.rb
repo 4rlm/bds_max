@@ -89,123 +89,95 @@ class CoreService  # GoogleSearchClass
             #=== End - Encoded Search =====================
 
             begin #begin rescue p1 *******************************
-            # == Loop (1): through each encoded search url. ======
-            @agent.get(url_encoded) do |page|
-                search_query_num += 1
-                # === TESTING: ROOT COUNTER (TOP) ===
-                root_count_array = []
-                # === END - TESTING: ROOT COUNTER (TOP) ===
+                # == Loop (1): through each encoded search url. ======
+                @agent.get(url_encoded) do |page|
+                    search_query_num += 1
+                    # === TESTING: ROOT COUNTER (TOP) ===
+                    root_count_array = []
+                    # === END - TESTING: ROOT COUNTER (TOP) ===
 
-                # == Loop (2): through each link in results of each encoded search. ==
-                page.links.each.with_index(1) do |link, url_export_num|
-                    # url_grand_count += 1  # *Grand total*
+                    # == Loop (2): through each link in results of each encoded search. ==
+                    page.links.each.with_index(1) do |link, url_export_num|
+                        # url_grand_count += 1  # *Grand total*
 
-                    # == Counter (2-3) =======================
+                        # == Counter (2-3) =======================
 
-                    # == Variables: Send link url to URI gem and get text of link.==
-                    uri = URI(link.href.to_s)
-                    text = link.text.downcase
+                        # == Variables: Send link url to URI gem and get text of link.==
+                        uri = URI(link.href.to_s)
+                        text = link.text.downcase
 
-                    # == IF: Only get http/s urls. ==================
-                    if uri.class.to_s == "URI::HTTP" || uri.class.to_s == "URI::HTTPS"
-                        # text = URI(link.text.to_s)
-                        schemec = uri.scheme
-                        hostc = uri.host
+                        # == IF: Only get http/s urls. ==================
+                        if uri.class.to_s == "URI::HTTP" || uri.class.to_s == "URI::HTTPS"
+                            # text = URI(link.text.to_s)
+                            schemec = uri.scheme
+                            hostc = uri.host
 
-                        #-- Split for Domain Suffix ---
-                        root = hostc.split('.')[-2]
-                        host_split = hostc.split('.')[-1]
-                        suffix = ".#{host_split}"
+                            #-- Split for Domain Suffix ---
+                            root = hostc.split('.')[-2]
+                            host_split = hostc.split('.')[-1]
+                            suffix = ".#{host_split}"
 
-                        domain = schemec + "://" + hostc + "/"
+                            domain = schemec + "://" + hostc + "/"
 
-                        # == CSV Filter: 1_exclude_root
-                        # If 'root' is NOT included in the ExcludeRoot table,
-                        # then the root will create a new row in GCSE table.
-                        good_roots = !ExcludeRoot.all.map(&:term).include?(root)
-                        good_suffixes = !InSuffixDel.all.map(&:term).include?(suffix)
+                            # == CSV Filter: 1_exclude_root
+                            # If 'root' is NOT included in the ExcludeRoot table,
+                            # then the root will create a new row in GCSE table.
+                            good_roots = !ExcludeRoot.all.map(&:term).include?(root)
+                            good_suffixes = [".com", ".net"].include?(suffix)
 
-                        if good_roots && good_suffixes && check_good_in_host_del(hostc)
-                            #== CSV Filter: 4_in_host_neg
-                            host_neg = []
-                            InHostNeg.all.map(&:term).each do |term|
-                                host_neg << term if hostc.include?(term)
-                            end
-                            in_host_neg = host_neg.empty? ? '(blank)' : host_neg.join('; ')
-                            #============================
+                            if good_roots && good_suffixes && check_good_in_host_del(hostc)
+                                #== CSV Filter: 5_in_host_pos
+                                host_pos = []
+                                InHostPo.all.map(&:term).each do |term|
+                                    host_pos << term if hostc.include?(term)
+                                end
+                                in_host_pos = host_pos.empty? ? '(blank)' : host_pos.join('; ')
+                                #============================
 
-                            #== CSV Filter: 5_in_host_pos
-                            host_pos = []
-                            InHostPo.all.map(&:term).each do |term|
-                                host_pos << term if hostc.include?(term)
-                            end
-                            in_host_pos = host_pos.empty? ? '(blank)' : host_pos.join('; ')
-                            #============================
+                                #== CSV Filter: 6_in_text_del
+                                text_del = []
+                                InTextDel.all.map(&:term).each do |term|
+                                    text_del << term if text.include?(term)
+                                end
+                                in_text_del = text_del.empty? ? '(blank)' : text_del.join('; ')
+                                #============================
 
-                            #== CSV Filter: 6_in_text_del
-                            text_del = []
-                            InTextDel.all.map(&:term).each do |term|
-                                text_del << term if text.include?(term)
-                            end
-                            in_text_del = text_del.empty? ? '(blank)' : text_del.join('; ')
-                            #============================
+                                #== CSV Filter: 8_in_text_pos
+                                text_pos = []
+                                InTextPo.all.map(&:term).each do |term|
+                                    text_pos << term if text.include?(term)
+                                end
+                                in_text_pos = text_pos.empty? ? '(blank)' : text_pos.join('; ')
+                                #============================
 
-                            #== CSV Filter: 7_in_text_neg
-                            text_neg = []
-                            InTextNeg.all.map(&:term).each do |term|
-                                text_neg << term if text.include?(term)
-                            end
-                            in_text_neg = text_neg.empty? ? '(blank)' : text_neg.join('; ')
-                            #============================
+                                # === ROOT COUNTER (BOTTOM) ===
+                                root_count_array << root
+                                root_counter = root_count_array.count(root)
 
-                            #== CSV Filter: 8_in_text_pos
-                            text_pos = []
-                            InTextPo.all.map(&:term).each do |term|
-                                text_pos << term if text.include?(term)
-                            end
-                            in_text_pos = text_pos.empty? ? '(blank)' : text_pos.join('; ')
-                            #============================
-
-                            # === ROOT COUNTER (BOTTOM) ===
-                            root_count_array << root
-                            root_counter = root_count_array.count(root)
-
-                            if root_counter == 1
-                                # Create new Gsce objects
-                                add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
-                            end
-                        end # Ends: unless ExcludeRoot.all.map(&:term).include?(root)
-                    end # Ends: if uri.class.to_s
-                end # Ends: page.links.each
-            end # Ends: agent.get(url_encoded)
+                                if root_counter == 1
+                                    # Create new Gsce objects
+                                    add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, text, in_text_pos, in_text_del)
+                                end
+                            end # Ends: unless ExcludeRoot.all.map(&:term).include?(root)
+                        end # Ends: if uri.class.to_s
+                    end # Ends: page.links.each
+                end # Ends: agent.get(url_encoded)
 
 
+            rescue  #begin rescue p2
+                $!.message
+                bad_connection = "Google Search Error!"
 
-        rescue  #begin rescue p2
-            $!.message
-            # bad_url = "Error: Please verify website URL."
-            bad_connection = "Google Search Error!"
-
-            #== Rescue Throttle (if needed) =====================
-            forced_delay_time = (240..420).to_a.sample
-            puts "--------------------------------"
-            puts bad_connection
-            puts "--------------------------------"
-            puts "Forced Delay for #{forced_delay_time} seconds."
-            puts "--------------------------------"
-            sleep(forced_delay_time)
-
-            # col_array = [indexer_date, indexer_status, acct, sfdc_group, ult_acct, street, city, state, type, sfdc_tier, sfdc_sales_person, id, root, url, no_ip, $!.message, bad_url, bad_url, bad_url]
-            #
-            # add_indexer_location_row(col_array)
-            # add_indexer_staff_row(col_array)
-
-            # puts bad_url + ": " + "#{url}"
-            # puts $!.message
-            # puts ""
-            $!.message
-        end  #end rescue
-
+                #== Rescue Throttle (if needed) =====================
+                forced_delay_time = (240..420).to_a.sample
+                puts "--------------------------------"
+                puts bad_connection
+                puts "--------------------------------"
+                puts "Forced Delay for #{forced_delay_time} seconds."
+                puts "--------------------------------"
+                sleep(forced_delay_time)
+                puts $!.message
+            end  #end rescue
 
             #==== Update Core Object ========================
             # el is from Core.where(id: ids)
@@ -230,7 +202,7 @@ class CoreService  # GoogleSearchClass
     end # Ends scrape_listing  # search
 
     # "root_counter" variable will be added later after adding root_counter column.
-    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, text, in_text_pos, in_text_del)
         gcse = Gcse.new(
             gcse_timestamp: datetime,
             gcse_query_num: search_query_num,
@@ -250,13 +222,9 @@ class CoreService  # GoogleSearchClass
             root_counter: root_counter,
             suffix: suffix,
             in_host_pos: in_host_pos,
-            in_host_neg: in_host_neg,
-            # in_host_del: in_host_del,
             text: text,
             in_text_pos: in_text_pos,
-            in_text_neg: in_text_neg,
-            in_text_del: in_text_del,
-            url_encoded: url_encoded
+            in_text_del: in_text_del
         )
         gcse.save
     end  # Ends add_data_row

@@ -1,1 +1,0 @@
-json.partial! "in_host_negs/in_host_neg", in_host_neg: @in_host_neg
