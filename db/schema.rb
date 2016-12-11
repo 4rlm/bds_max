@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161209180009) do
+ActiveRecord::Schema.define(version: 20161211020931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,15 +108,10 @@ ActiveRecord::Schema.define(version: 20161209180009) do
     t.string   "root"
     t.string   "suffix"
     t.string   "in_host_pos"
-    t.string   "in_host_neg"
-    t.string   "in_host_del"
-    t.string   "in_suffix_del"
     t.string   "exclude_root"
     t.string   "text"
     t.string   "in_text_pos"
-    t.string   "in_text_neg"
     t.string   "in_text_del"
-    t.string   "url_encoded"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "root_counter"
@@ -129,31 +124,13 @@ ActiveRecord::Schema.define(version: 20161209180009) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "in_host_negs", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "in_host_pos", force: :cascade do |t|
     t.string   "term"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "in_suffix_dels", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "in_text_dels", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "in_text_negs", force: :cascade do |t|
     t.string   "term"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

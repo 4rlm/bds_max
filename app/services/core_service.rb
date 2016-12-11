@@ -88,7 +88,7 @@ class CoreService  # GoogleSearchClass
             url_encoded = "#{url}#{q_combinded}#{num}#{client}#{key}"
             #=== End - Encoded Search =====================
 
-            begin #begin rescue p1 *******************************
+            # begin #begin rescue p1 *******************************
             # == Loop (1): through each encoded search url. ======
             @agent.get(url_encoded) do |page|
                 search_query_num += 1
@@ -123,17 +123,9 @@ class CoreService  # GoogleSearchClass
                         # If 'root' is NOT included in the ExcludeRoot table,
                         # then the root will create a new row in GCSE table.
                         good_roots = !ExcludeRoot.all.map(&:term).include?(root)
-                        good_suffixes = !InSuffixDel.all.map(&:term).include?(suffix)
+                        good_suffixes = [".com", ".net"].include?(suffix)
 
                         if good_roots && good_suffixes && check_good_in_host_del(hostc)
-                            #== CSV Filter: 4_in_host_neg
-                            host_neg = []
-                            InHostNeg.all.map(&:term).each do |term|
-                                host_neg << term if hostc.include?(term)
-                            end
-                            in_host_neg = host_neg.empty? ? '(blank)' : host_neg.join('; ')
-                            #============================
-
                             #== CSV Filter: 5_in_host_pos
                             host_pos = []
                             InHostPo.all.map(&:term).each do |term|
@@ -150,14 +142,6 @@ class CoreService  # GoogleSearchClass
                             in_text_del = text_del.empty? ? '(blank)' : text_del.join('; ')
                             #============================
 
-                            #== CSV Filter: 7_in_text_neg
-                            text_neg = []
-                            InTextNeg.all.map(&:term).each do |term|
-                                text_neg << term if text.include?(term)
-                            end
-                            in_text_neg = text_neg.empty? ? '(blank)' : text_neg.join('; ')
-                            #============================
-
                             #== CSV Filter: 8_in_text_pos
                             text_pos = []
                             InTextPo.all.map(&:term).each do |term|
@@ -172,7 +156,7 @@ class CoreService  # GoogleSearchClass
 
                             if root_counter == 1
                                 # Create new Gsce objects
-                                add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+                                add_data_row(current_time, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, text, in_text_pos, in_text_del)
                             end
                         end # Ends: unless ExcludeRoot.all.map(&:term).include?(root)
                     end # Ends: if uri.class.to_s
@@ -180,7 +164,7 @@ class CoreService  # GoogleSearchClass
             end # Ends: agent.get(url_encoded)
 
 
-
+=begin
         rescue  #begin rescue p2
             $!.message
             # bad_url = "Error: Please verify website URL."
@@ -205,7 +189,7 @@ class CoreService  # GoogleSearchClass
             # puts ""
             $!.message
         end  #end rescue
-
+=end
 
             #==== Update Core Object ========================
             # el is from Core.where(id: ids)
@@ -230,7 +214,7 @@ class CoreService  # GoogleSearchClass
     end # Ends scrape_listing  # search
 
     # "root_counter" variable will be added later after adding root_counter column.
-    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, in_host_neg, text, in_text_pos, in_text_neg, in_text_del, url_encoded)
+    def add_data_row(datetime, search_query_num, url_export_num, id, ult_acct, acct, type, street, city, state, url_o, sfdc_root, root, domain, root_counter, suffix, in_host_pos, text, in_text_pos, in_text_del)
         gcse = Gcse.new(
             gcse_timestamp: datetime,
             gcse_query_num: search_query_num,
@@ -250,13 +234,9 @@ class CoreService  # GoogleSearchClass
             root_counter: root_counter,
             suffix: suffix,
             in_host_pos: in_host_pos,
-            in_host_neg: in_host_neg,
-            # in_host_del: in_host_del,
             text: text,
             in_text_pos: in_text_pos,
-            in_text_neg: in_text_neg,
-            in_text_del: in_text_del,
-            url_encoded: url_encoded
+            in_text_del: in_text_del
         )
         gcse.save
     end  # Ends add_data_row

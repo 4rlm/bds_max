@@ -1,1 +1,0 @@
-json.partial! "in_text_negs/in_text_neg", in_text_neg: @in_text_neg
