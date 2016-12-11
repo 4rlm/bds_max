@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :in_host_dels
     resources :cores do
         collection { post :import_core_data }
     end
