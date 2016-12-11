@@ -182,7 +182,7 @@ class GcsesController < ApplicationController
             data = Core.find_by(sfdc_id: id)
             data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root, url_comparison: url_results[i], root_comparison: root_results[i])
 
-            # 3) Solitary table, Pending status, destroy_all
+            # 3) Solitary table, Pending table, destroy_all
             left_overs(id, root)
         end
     end
@@ -195,16 +195,20 @@ class GcsesController < ApplicationController
             # 3-A) CASE: (sfdc_id && !root) && (Positive Host root && valid suffix)
             if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
                 # Create a Solitary row if not exists. Then destroy the current gcse row.
-                Solitary.find_or_create_by(solitary_root: gcse.root, solitary_url: gcse.domain)
+                create_solitary(gcse)
+                puts "\n\n>>>>> Delete after created solitary: #{gcse.root}\n\n"
                 gcse.destroy
             else # 3-B) CASE: (sfdc_id && !root) && !(Positive Host root && valid suffix)
-                # Update domain_status to "Pending" if "sfdc_id" is the same as the matched row's but "root" isn't the same.
-                gcse.update_attribute(:domain_status, "Pending Verification")
+                # Create with root and url in pending verification table if not already included in Core, PendingVerification, Solitary, ExcludeRoot
+                create_pending_verification(gcse)
+                puts "\n\n>>>>> Delete after created pending_verification: #{gcse.root}\n\n"
+                gcse.destroy
             end
         end
 
         # 3-C) CASE: sfdc_id && root
         # Delete Gcse rows which sfdc_id and root are the same as the matched row's.
+        puts "\n\n>>>>> Delete Bunch: #{gcses.where(root: root).map(&:root).join(", ")}\n\n"
         gcses.where(root: root).destroy_all
     end
 
@@ -224,17 +228,14 @@ class GcsesController < ApplicationController
                 # 2-A) CASE: Positive Host root && valid suffix
                 if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
                     # Create a Solitary row if not exists. Then destroy the current gcse row.
-                    Solitary.find_or_create_by(solitary_root: gcse.root, solitary_url: gcse.domain)
+                    create_solitary(gcse)
+                    puts "\n\n>>>>> Delete after created solitary: #{gcse.root}\n\n"
                     gcse.destroy
                 else # 2-B) !(Positive Host root && valid suffix)
-                    # Update domain_status to "Pending" if "sfdc_id" is the same as the matched row's.
-                    # Add root and url to pending verification table if not already included in:
-                    # 1. core table as matched status
-                    # 2. pending table verificationdoes
-                    # 3. solitary table
-                    # 4. excluded root table (junk roots)
-                    # Then destroy from gcse if sfdc_id is same.
-                    gcse.update_attribute(:domain_status, "Pending Verification")
+                    # Create with root and url in pending verification table if not already included in Core, PendingVerification, Solitary, ExcludeRoot
+                    create_pending_verification(gcse)
+                    puts "\n\n>>>>> Delete after created pending_verification: #{gcse.root}\n\n"
+                    gcse.destroy
                 end
             end
         end
@@ -268,5 +269,61 @@ class GcsesController < ApplicationController
             end
         end
         matchify_rows(ids)
+    end
+
+    def check_core_if_exists?(root, domain)
+        Core.all.each do |core|
+            root_bool = core.sfdc_root == root || core.matched_root == root
+            url_bool = core.sfdc_url == domain || core.matched_url == domain
+
+            if root_bool && url_bool
+                return true
+            end
+        end
+        false
+    end
+
+    def check_solitary_if_exists?(root, domain)
+        result_arr = Solitary.where(solitary_root: root, solitary_url: domain)
+        return result_arr.any? ? true : false
+    end
+
+    def check_exclude_root_if_exists?(root)
+        result_arr = ExcludeRoot.where(term: root)
+        return result_arr.any? ? true : false
+    end
+
+    def check_if_text_include_pos?(text)
+        InTextPo.all.each do |po|
+            if text.include?(po.term)
+                return true
+            end
+        end
+        false
+    end
+
+    def check_if_text_include_del?(text)
+        InTextDel.all.each do |del|
+            if text.include?(del.term)
+                return false
+            end
+        end
+        true
+    end
+
+    def create_solitary(gcse)
+        existance = check_core_if_exists?(gcse.root, gcse.domain) || check_exclude_root_if_exists?(gcse.root)
+        if !existance
+            Solitary.find_or_create_by(solitary_root: gcse.root, solitary_url: gcse.domain)
+        end
+    end
+
+    def create_pending_verification(gcse)
+        existance = check_core_if_exists?(gcse.root, gcse.domain) || check_solitary_if_exists?(gcse.root, gcse.domain) || check_exclude_root_if_exists?(gcse.root)
+        inclusion = check_if_text_include_pos?(gcse.text) && check_if_text_include_del?(gcse.text)
+
+        if !existance && inclusion
+            PendingVerification.find_or_create_by(root: gcse.root, domain: gcse.domain)
+        end
     end
 end
