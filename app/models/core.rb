@@ -38,8 +38,42 @@ class Core < ApplicationRecord
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
             row_hash = row.to_hash
             row_hash[:core_date] = Time.new
-            row_hash[:bds_status] = row_hash["bds_status"].capitalize
+
+            # ========= CSV column formatting =========
+            # Capitalize columns
+            row_hash[:bds_status] = Core.capitalized(row_hash["bds_status"])
+            row_hash[:sfdc_tier] = Core.capitalized(row_hash["sfdc_tier"])
+            row_hash[:sfdc_sales_person] = Core.capitalized(row_hash["sfdc_sales_person"])
+            row_hash[:sfdc_type] = Core.capitalized(row_hash["sfdc_type"])
+            row_hash[:sfdc_ult_grp] = Core.capitalized(row_hash["sfdc_ult_grp"])
+            row_hash[:sfdc_group] = Core.capitalized(row_hash["sfdc_group"])
+            row_hash[:sfdc_acct] = Core.capitalized(row_hash["sfdc_acct"])
+            row_hash[:sfdc_street] = Core.capitalized(row_hash["sfdc_street"])
+            row_hash[:sfdc_city] = Core.capitalized(row_hash["sfdc_city"])
+
+            # Upcase column
+            row_hash[:sfdc_state] = Core.upcased(row_hash["sfdc_state"])
+
+            # Downcase columns
+            row_hash[:sfdc_url] = Core.downcased(row_hash["sfdc_url"])
+            row_hash[:sfdc_root] = Core.downcased(row_hash["sfdc_root"])
+            # ========= Ends CSV column formatting =========
+
             Core.create!(row_hash)
         end
     end
+
+    # ========= CSV column formatting =========
+    def self.capitalized(str)
+        str.split.map(&:capitalize)*" " unless str.nil?
+    end
+
+    def self.upcased(str)
+        str.upcase unless str.nil?
+    end
+
+    def self.downcased(str)
+        str.downcase unless str.nil?
+    end
+    # ========= Ends CSV column formatting =========
  end

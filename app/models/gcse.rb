@@ -15,6 +15,32 @@ class Gcse < ApplicationRecord
     def self.import_csv(file_name)
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
             row_hash = row.to_hash
+
+            # ========= CSV column formatting =========
+            # Capitalize columns
+            row_hash[:sfdc_ult_acct] = Gcse.capitalized(row_hash["sfdc_ult_acct"])
+            row_hash[:sfdc_acct] = Gcse.capitalized(row_hash["sfdc_acct"])
+            row_hash[:sfdc_type] = Gcse.capitalized(row_hash["sfdc_type"])
+            row_hash[:sfdc_street] = Gcse.capitalized(row_hash["sfdc_street"])
+            row_hash[:sfdc_city] = Gcse.capitalized(row_hash["sfdc_city"])
+            row_hash[:domain_status] = Gcse.capitalized(row_hash["domain_status"])
+
+            # Upcase column
+            row_hash[:sfdc_state] = Gcse.upcased(row_hash["sfdc_state"])
+
+            # Downcase columns
+            row_hash[:sfdc_url_o] = Gcse.downcased(row_hash["sfdc_url_o"])
+            row_hash[:domain] = Gcse.downcased(row_hash["domain"])
+            row_hash[:root] = Gcse.downcased(row_hash["root"])
+            row_hash[:suffix] = Gcse.downcased(row_hash["suffix"])
+            row_hash[:in_host_pos] = Gcse.downcased(row_hash["in_host_pos"])
+            row_hash[:exclude_root] = Gcse.downcased(row_hash["exclude_root"])
+            row_hash[:text] = Gcse.downcased(row_hash["text"])
+            row_hash[:in_text_pos] = Gcse.downcased(row_hash["in_text_pos"])
+            row_hash[:in_text_del] = Gcse.downcased(row_hash["in_text_del"])
+            row_hash[:sfdc_root] = Gcse.downcased(row_hash["sfdc_root"])
+            # ========= Ends CSV column formatting =========
+
             Gcse.create!(row_hash)
         end
     end
@@ -39,6 +65,21 @@ class Gcse < ApplicationRecord
         end
         false
     end
+
+    # ========= CSV column formatting =========
+    # CSV column formatting=========
+    def self.capitalized(str)
+        str.split.map(&:capitalize)*" " unless str.nil?
+    end
+
+    def self.upcased(str)
+        str.upcase unless str.nil?
+    end
+
+    def self.downcased(str)
+        str.downcase unless str.nil?
+    end
+    # ========= Ends CSV column formatting =========
 
     # enum status: [:active, :pending, :inactive]
     # scope :status, -> (status) { where status: status }
