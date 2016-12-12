@@ -128,6 +128,12 @@ class GcsesController < ApplicationController
         redirect_to gcses_path
     end
 
+    def quick_search_btn
+        # set_selected_status_gcse({"domain_status"=>["Dom Result"], "gcse_result_num"=>["2"]})
+        set_selected_status_gcse({"gcse_result_num"=>["2"]})
+        redirect_to gcses_path
+    end
+
     def batch_status
         ids = params[:status_checks]
         status = params[:selected_status]

@@ -127,6 +127,12 @@ class CoresController < ApplicationController
         end
     end
 
+    def core_comp_cleaner_btn
+        CoreService.new.core_comp_cleaner_btn
+        flash[:notice] = "Core(Comparison) cleaned successfully."
+        redirect_to cores_path
+    end
+
     def batch_status
         unless params[:status_checks].nil?
             for id in params[:status_checks]

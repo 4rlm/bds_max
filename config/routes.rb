@@ -82,9 +82,13 @@ Rails.application.routes.draw do
     #==== Delayed_Jobs_Interface Starts=========
     # match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
-    # Clean Data Buttons
-    get 'gcse_cleaner_btn' => 'gcses#gcse_cleaner_btn'
-    get 'solitary_cleaner_btn' => 'solitaries#solitary_cleaner_btn'
+    # # Clean Data Buttons
+    # get 'gcse_cleaner_btn' => 'gcses#gcse_cleaner_btn'
+    # get 'solitary_cleaner_btn' => 'solitaries#solitary_cleaner_btn'
+    # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
+
+    # Quick Search Button
+    get 'quick_search_btn' => 'gcses#quick_search_btn'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'

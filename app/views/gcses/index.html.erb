@@ -3,6 +3,7 @@
 <h1 class="text-center">Domainer</h1><br><br>
 
 <div class="pull-right">
+    <%= link_to "Quick Search", quick_search_btn_path, class: 'btn btn-info' %>
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_gcse_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', gcse_import_page_path, class: 'btn btn-primary' %>
@@ -13,7 +14,7 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr id="exclude-col-select">
-            <div class="form-group fixed">
+            <div class="form-group">
                 <%= select_tag :columns, options_for_select(column_list, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
                 <%= submit_tag "Submit", class: 'btn btn-success' %>
             </div>
@@ -250,6 +251,7 @@
 <% end %> <!-- Filter Headers Form tag ends -->
 
 <div class="pull-right">
+    <%= link_to "Quick Search", quick_search_btn_path, class: 'btn btn-info' %>
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_gcse_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', gcse_import_page_path, class: 'btn btn-primary' %>
