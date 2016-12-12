@@ -1,5 +1,6 @@
 class GcsesController < ApplicationController
     before_action :set_gcse, only: [:show, :edit, :update, :destroy]
+    before_action :set_gcse_service, only: [:gcse_cleaner_btn]
 
     # GET /gcses
     # GET /gcses.json
@@ -121,6 +122,12 @@ class GcsesController < ApplicationController
         end
     end
 
+    def gcse_cleaner_btn
+        @gcse_service.gcse_cleaner_btn
+        flash[:notice] = "Gcse cleaned successfully."
+        redirect_to gcses_path
+    end
+
     def batch_status
         ids = params[:status_checks]
         status = params[:selected_status]
@@ -176,6 +183,10 @@ class GcsesController < ApplicationController
 
             data = Core.find_by(sfdc_id: id)
             data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root, url_comparison: url_results[i], root_comparison: root_results[i])
+
+            # When 'data' in Core is updated to "Matched", check if its url exists in Solitary.
+            # If so, delete the matched url in Solitary.
+            SolitaryService.new.check_solitary_for_matched(data.matched_url)
 
             # 3) Solitary table, Pending table, destroy_all
             left_overs(id, root)
@@ -251,6 +262,11 @@ class GcsesController < ApplicationController
         params.slice(:domain_status, :gcse_timestamp, :gcse_query_num, :gcse_result_num, :sfdc_id, :sfdc_ult_acct, :sfdc_acct, :sfdc_type, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_url_o, :sfdc_root, :root, :domain, :root_counter, :suffix, :in_host_pos, :exclude_root, :text, :in_text_pos, :in_text_del)
     end
 
+    def set_gcse_service
+        @gcse_service = GcseService.new
+    end
+
+
     def auto_matchify_rows(ids)
         gcses = Gcse.where(id: ids, gcse_result_num: 2)
         ids = []
@@ -267,13 +283,12 @@ class GcsesController < ApplicationController
     end
 
     def check_core_if_exists?(root, domain)
-        Core.all.each do |core|
-            root_bool = core.sfdc_root == root || core.matched_root == root
-            url_bool = core.sfdc_url == domain || core.matched_url == domain
+        cores = Core.all
+        root_bool = cores.map(&:sfdc_root).include?(root) || cores.map(&:matched_root).include?(root)
+        url_bool = cores.map(&:sfdc_url).include?(domain) || cores.map(&:matched_url).include?(domain)
 
-            if root_bool && url_bool
-                return true
-            end
+        if root_bool && url_bool
+            return true
         end
         false
     end

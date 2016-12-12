@@ -89,6 +89,12 @@ class SolitariesController < ApplicationController
     end
   end
 
+  def solitary_cleaner_btn
+      SolitaryService.new.solitary_cleaner_btn
+      flash[:notice] = "Solitary cleaned successfully."
+      redirect_to solitaries_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_solitary

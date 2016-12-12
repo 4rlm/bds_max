@@ -41,7 +41,11 @@ class Gcse < ApplicationRecord
             row_hash[:sfdc_root] = Gcse.downcased(row_hash["sfdc_root"])
             # ========= Ends CSV column formatting =========
 
-            Gcse.create!(row_hash)
+            gcse = Gcse.create(row_hash)
+
+            # if row_hash[:domain_status] == "Pending Verification"
+            #     GcseService.new.data_cleaner(gcse)
+            # end
         end
     end
 
