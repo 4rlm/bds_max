@@ -14,7 +14,7 @@ class CoresController < ApplicationController
             @selected_data = Core.all
         end
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 250)
 
         @cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -130,6 +130,12 @@ class CoresController < ApplicationController
     def core_comp_cleaner_btn
         CoreService.new.core_comp_cleaner_btn
         flash[:notice] = "Core(Comparison) cleaned successfully."
+        redirect_to cores_path
+    end
+
+    def quick_core_view_queue
+        set_selected_status_core({"bds_status"=>["Queue"]})
+
         redirect_to cores_path
     end
 

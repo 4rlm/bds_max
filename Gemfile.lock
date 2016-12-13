@@ -38,6 +38,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     arel (7.1.4)
     autoprefixer-rails (6.5.1.1)
       execjs
@@ -68,8 +70,13 @@ GEM
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    google_custom_search_api (2.0.0)
+      addressable
+      httparty
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jbuilder (2.6.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -101,6 +108,7 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.9.1)
     multi_json (1.12.1)
+    multi_xml (0.6.0)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
     nio4r (1.2.1)
@@ -108,6 +116,7 @@ GEM
       mini_portile2 (~> 2.1.0)
     ntlm-http (0.1.1)
     pg (0.19.0)
+    public_suffix (2.0.4)
     puma (3.6.0)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -188,6 +197,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   daemons
   delayed_job_active_record (~> 4.0)
+  google_custom_search_api
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)

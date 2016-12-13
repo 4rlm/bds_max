@@ -15,7 +15,7 @@ class GcsesController < ApplicationController
             @selected_data = Gcse.all
         end
 
-        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
+        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 250)
 
         @gcses_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -128,9 +128,15 @@ class GcsesController < ApplicationController
         redirect_to gcses_path
     end
 
-    def quick_search_btn
-        # set_selected_status_gcse({"domain_status"=>["Dom Result"], "gcse_result_num"=>["2"]})
-        set_selected_status_gcse({"gcse_result_num"=>["2"]})
+    def quick_dom_dom_res_2
+        set_selected_status_gcse({"domain_status"=>["Dom Result"], "gcse_result_num"=>["2"]})
+        # set_selected_status_gcse({"gcse_result_num"=>["2"]})
+        redirect_to gcses_path
+    end
+
+    def quick_dom_no_auto_match_2
+        set_selected_status_gcse({"domain_status"=>["No Auto-Matches"], "gcse_result_num"=>["2"]})
+        # set_selected_status_gcse({"gcse_result_num"=>["2"]})
         redirect_to gcses_path
     end
 

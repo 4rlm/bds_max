@@ -3,8 +3,6 @@
 <h1 class="text-center">Domainer</h1><br><br>
 
 <div class="pull-right">
-    <%= link_to "Quick Search", quick_search_btn_path, class: 'btn btn-info' %>
-    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_gcse_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', gcse_import_page_path, class: 'btn btn-primary' %>
     <%= link_to 'Download CSV', gcses_path(format: "csv"), class: 'btn btn-primary' %>
@@ -251,8 +249,6 @@
 <% end %> <!-- Filter Headers Form tag ends -->
 
 <div class="pull-right">
-    <%= link_to "Quick Search", quick_search_btn_path, class: 'btn btn-info' %>
-    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_gcse_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', gcse_import_page_path, class: 'btn btn-primary' %>
     <%= link_to 'Download CSV', gcses_path(format: "csv"), class: 'btn btn-primary' %>

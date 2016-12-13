@@ -194,7 +194,7 @@ class CoreService
                 bad_connection = "Google Search Error!"
 
                 #== Rescue Throttle (if needed) =====================
-                forced_delay_time = (240..420).to_a.sample
+                forced_delay_time = (240..320).to_a.sample
                 puts "--------------------------------"
                 puts bad_connection
                 puts "--------------------------------"
@@ -211,7 +211,7 @@ class CoreService
 
 
             #== Throttle (if needed) =====================
-            throttle_delay_time = (30..42).to_a.sample
+            throttle_delay_time = (30..50).to_a.sample
             puts "--------------------------------"
             puts "SFDC_ID: #{id}"
             puts "ACCT NAME: #{acct}"
