@@ -129,13 +129,13 @@ class GcsesController < ApplicationController
     end
 
     def quick_dom_dom_res_2
-        set_selected_status_gcse({"domain_status"=>["Dom Result"], "gcse_result_num"=>["2"]})
+        set_selected_status_gcse({"domain_status"=>["Dom Result"], "gcse_result_num"=>["2", "35"]})
         # set_selected_status_gcse({"gcse_result_num"=>["2"]})
         redirect_to gcses_path
     end
 
     def quick_dom_no_auto_match_2
-        set_selected_status_gcse({"domain_status"=>["No Auto-Matches"], "gcse_result_num"=>["2"]})
+        set_selected_status_gcse({"domain_status"=>["No Auto-Matches"], "gcse_result_num"=>["2", "35"]})
         # set_selected_status_gcse({"gcse_result_num"=>["2"]})
         redirect_to gcses_path
     end
@@ -280,7 +280,7 @@ class GcsesController < ApplicationController
 
 
     def auto_matchify_rows(ids)
-        gcses = Gcse.where(id: ids, gcse_result_num: 2)
+        gcses = Gcse.where(id: ids, gcse_result_num: 2) || Gcse.where(id: ids, gcse_result_num: 35)
         ids = []
 
         for gcse in gcses

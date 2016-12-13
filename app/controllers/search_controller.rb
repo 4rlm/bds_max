@@ -1,13 +1,39 @@
 class SearchController < ApplicationController
     def index
 
-        # ====== Google API Starts =========
+        # == Google API Starts ==Test ! Starts ===
+
         if params[:q]
-          page = params[:page] || 1
+          page = params[:page]
           @results = GoogleCustomSearchApi.search(params[:q], page: page)
         end
-        # ====== Google API Ends =========
-        
+
+
+        # @results = GoogleCustomSearchApi.search(@test_encoded_search)
+
+
+        # @results = GoogleCustomSearchApi.search("poker", page: 2)
+        # @results.pages == 10
+        # @results.current_page == 2
+        # @results.next_page == 3
+        # @results.previous_page == 1
+        # @results = GoogleCustomSearchApi.search_and_return_all_results('grossinger toyota')
+        # @results = search_and_return_all_results('grossinger toyota')
+        # @results.first.items.size # == 10
+
+
+
+
+        # == Google API Starts ==Test ! Ends ===
+
+
+        # == Google API Starts ==Perfect! Starts ===
+        # if params[:q]
+        #   page = params[:page] || 1
+        #   @results = GoogleCustomSearchApi.search(params[:q], page: page)
+        # end
+        # == Google API Starts ==Perfect! Ends ===
+
 
 
 
@@ -130,6 +156,68 @@ class SearchController < ApplicationController
         set_selected_status_gcse({domain_status: params[:domain_status], gcse_result_num: params[:gcse_result_num], gcse_timestamp: params[:gcse_timestamp], sfdc_ult_acct: params[:sfdc_ult_acct], sfdc_acct: params[:sfdc_acct], sfdc_type: params[:sfdc_type], sfdc_city: params[:sfdc_city], sfdc_state: params[:sfdc_state]})
         redirect_to gcses_path
     end
+
+
+    # == Google API Testing Search Methods - Starts ===
+
+    # == Testing MY Google API - Search Method V1 - Perfect! ==
+    # def test_encoded_search
+    #     q = "automobile dealerships in hawaii"
+    # end
+    # == Testing MY Google API - Search Method V1 - Ends  ==
+
+
+    # == Testing MY Google API - Search Method V2 ==
+    def test_encoded_search
+        # q = "automobile dealerships in hawaii"
+
+        #-----------------
+        acct = "Larry H. Miller Hyundai Peoria"
+        street = "8425 W Bell Rd"
+        city = "Peoria"
+        state = "AZ"
+
+        #-----------------
+        # if acct != nil
+            acct_gs = acct.gsub(/[ ]/, '%20')
+            acct_q = "#{acct_gs}+"
+        # end
+        # if street != nil
+            street_gs = street.gsub(/[ ]/, '%20')
+            street_q = "#{street_gs}+"
+        # end
+        # if city != nil
+            city_gs = city.gsub(/[ ]/, '%20')
+            city_q = "#{city_gs}+"
+        # end
+        # if state != nil
+            state_st = state
+        # end
+
+        #-----------------
+        # q = "#{acct}#{city},#{state}"
+
+
+        # num = "&num=100"
+        # client = "&client=google-csbe"
+        # key = "&cx=016494735141549134606:xzyw78w1vn0"
+        # tag1 = "&as_oq=auto+automobile+car+cars+vehicle+vehicles"
+        # tag2 = "&as_oq=dealer+dealership+group"
+
+        # q_combinded = "q=#{acct_q}#{street_q}#{city_q}#{state_st}"
+        # acct_req = "&as_epq=#{acct_gs}"
+        # acct_opt = "&oq=#{acct_gs}"
+
+        # q = "#{acct_q}#{street_q}#{city_q}#{state_st}"
+        # q = "#{acct}#{street}#{city}#{state}#{num}"
+        # q = "automobile dealerships in hawaii"
+
+    end
+    # == Testing MY Google API - Search Method V2 - Ends  ==
+
+
+
+    # == Google API Testing Search Methods - Ends ===
 
 
     private

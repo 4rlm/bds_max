@@ -16,26 +16,27 @@
       <% end %>
     </div>
   </div>
+  <br>
 
   <% if @results && !@results.items.empty? %>
     <div class='container'>
       <% @results.items.each do |item| %>
         <div class='row'>
           <h4><%= link_to item.htmlTitle.html_safe, item.link %></h4>
-          <div>
-            <% if item['pagemap'] &&
+          <!-- <div> -->
+            <!-- <% if item['pagemap'] &&
                   item['pagemap']['cse_thumbnail'] &&
-                  img = item.pagemap.cse_thumbnail.first %>
-              <div class='col-sm-2'>
-                <%= image_tag(img.src, width: '200px') %>
-              </div>
-              <div class='col-sm-10'>
-                <%= item.htmlSnippet.html_safe %>
-              </div>
-            <% else %>
-              <%= item.htmlSnippet.html_safe %>
-            <% end %>
-          </div>
+                  img = item.pagemap.cse_thumbnail.first %> -->
+              <!-- <div class='col-sm-2'> -->
+                <%#= image_tag(img.src, width: '200px') %>
+              <!-- </div> -->
+              <!-- <div class='col-sm-10'> -->
+                <%#= item.htmlSnippet.html_safe %>
+              <!-- </div> -->
+            <!-- <% else %> -->
+              <%#= item.htmlSnippet.html_safe %>
+            <!-- <% end %> -->
+          <!-- </div> -->
         </div>
       <% end %>
     </div>
