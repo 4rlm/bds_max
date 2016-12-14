@@ -119,11 +119,10 @@ class CoreService
 
 
             #== Starts - Google Encoded Search == Testing 1-- Starts ==
-
             url = "http://localhost:3000/search?utf8=%E2%9C%93&"
+            # url = "http://localhost:3000/search?"
             # num = "&num=90"
             q_combinded = "q=#{acct_q}#{street_q}#{city_q}#{state_st}#{zip_st}"
-
             url_encoded = "#{url}#{q_combinded}"
             #== Ends - Google Encoded Search == Testing 2-- Ends ==
 
@@ -209,7 +208,7 @@ class CoreService
                 bad_connection = "Google Search Error!"
 
                 #== Rescue Throttle (if needed) =====================
-                forced_delay_time = (60..120).to_a.sample
+                forced_delay_time = (15..20).to_a.sample
                 puts "--------------------------------"
                 puts bad_connection
                 puts "--------------------------------"
@@ -226,7 +225,7 @@ class CoreService
 
 
             #== Throttle (if needed) =====================
-            throttle_delay_time = (2..8).to_a.sample
+            throttle_delay_time = (1..2).to_a.sample
             puts "--------------------------------"
             puts "SFDC_ID: #{id}"
             puts "ACCT NAME: #{acct}"

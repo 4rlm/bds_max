@@ -84,6 +84,7 @@ Rails.application.routes.draw do
 
     # # Clean Data Buttons
     # get 'gcse_cleaner_btn' => 'gcses#gcse_cleaner_btn'
+    get 'auto_match_btn' => 'gcses#auto_match_btn'
     # get 'solitary_cleaner_btn' => 'solitaries#solitary_cleaner_btn'
     # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
 
