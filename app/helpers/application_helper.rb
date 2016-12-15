@@ -8,4 +8,8 @@ module ApplicationHelper
             arr.sort
         end
     end
+
+    def sfdc_type_list
+        ["Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
+    end
 end

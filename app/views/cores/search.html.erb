@@ -18,14 +18,33 @@
                         <%= select_tag :bds_status, options_for_select(ordered_list(Core.select(:bds_status).map(&:bds_status))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_sales_person, "Sales Person" %>
+                        <%= select_tag :sfdc_sales_person, options_for_select(ordered_list(Core.select(:sfdc_sales_person).map(&:sfdc_sales_person))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_type, "Type" %>
+                        <%= select_tag :sfdc_type, options_for_select(ordered_list(Core.select(:sfdc_type).map(&:sfdc_type))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+            </div> <!-- /.row -->
 
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_tier, "Sales Tier" %>
+                        <%= select_tag :sfdc_tier, options_for_select(ordered_list(Core.select(:sfdc_tier).map(&:sfdc_tier))), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :url_comparison, "Matched URL Indicator" %>
                         <%= select_tag :url_comparison, options_for_select(ordered_list(Core.select(:url_comparison).map(&:url_comparison))), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
-
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :root_comparison, "Matched Root Indicator" %>
@@ -35,84 +54,60 @@
             </div> <!-- /.row -->
 
             <div class="row">
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_type, "Type" %>
-                        <%= select_tag :sfdc_type, options_for_select(ordered_list(Core.select(:sfdc_type).map(&:sfdc_type))), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_tier, "Sales Tier" %>
-                        <%= select_tag :sfdc_tier, options_for_select(ordered_list(Core.select(:sfdc_tier).map(&:sfdc_tier))), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_sales_person, "Sales Person" %>
-                        <%= select_tag :sfdc_sales_person, options_for_select(ordered_list(Core.select(:sfdc_sales_person).map(&:sfdc_sales_person))), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-            </div> <!-- /.row -->
-
-            <div class="row">
-
+                <!-- ==== Change to key word search ==== -->
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :sfdc_acct, "Account Name" %>
-
-                        <%= select_tag :sfdc_acct, options_for_select(ordered_list(Core.select(:sfdc_acct).map(&:sfdc_acct))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
 
+                <!-- ==== Change to key word search ==== -->
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :sfdc_group, "Group Name" %>
-                        <%= select_tag :sfdc_group, options_for_select(ordered_list(Core.select(:sfdc_group).map(&:sfdc_group))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
 
+                <!-- ==== Change to key word search ==== -->
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :sfdc_ult_grp, "Ultimate Group Name" %>
-                        <%= select_tag :sfdc_ult_grp, options_for_select(ordered_list(Core.select(:sfdc_ult_grp).map(&:sfdc_ult_grp))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= text_field_tag :sfdc_ult_grp, params[:sfdc_ult_grp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
             </div> <!-- /.row -->
 
             <div class="row">
-
+                <!-- ==== Change to key word search ==== -->
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :sfdc_id, "SFDC ID" %>
                         <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                        <%#= text_field_tag :sfdc_id, params[Core.find_by(:sfdc_id)], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
 
                 <div class="col-sm-4">
                     <div class="form-group">
-
+                        <!-- ==== Change to key word search ==== -->
                         <%= label_tag :sfdc_city, "City" %>
-
-                        <%= select_tag :sfdc_city, options_for_select(ordered_list(Core.select(:sfdc_city).map(&:sfdc_city))), multiple: true, class: 'selectpicker form-control' %>
-
+                        <%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
-
+                <!-- ==== Change to key word search ==== -->
                 <div class="col-sm-2">
                     <div class="form-group">
                         <%= label_tag :sfdc_state, "State" %>
-                        <%= select_tag :sfdc_state, options_for_select(ordered_list(Core.select(:sfdc_state).map(&:sfdc_state))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
+
+                <!-- ==== Change to key word search ==== -->
                 <div class="col-sm-2">
                     <div class="form-group">
                         <%= label_tag :sfdc_zip, "Zip" %>
-                        <%= select_tag :sfdc_zip, options_for_select(ordered_list(Core.select(:sfdc_zip).map(&:sfdc_zip))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                     </div>
                 </div>
             </div> <!-- /.row -->

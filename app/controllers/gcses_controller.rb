@@ -8,7 +8,7 @@ class GcsesController < ApplicationController
         if choice_hash = get_selected_status_gcse
             clean_choice_hash = {}
             choice_hash.each do |key, value|
-                clean_choice_hash[key] = value if !value.nil?
+                clean_choice_hash[key] = value if !value.nil? && value != ""
             end
             @selected_data = Gcse.where(clean_choice_hash)
         else # choice_hash is nil
