@@ -84,14 +84,23 @@ Rails.application.routes.draw do
 
     # # Clean Data Buttons
     # get 'gcse_cleaner_btn' => 'gcses#gcse_cleaner_btn'
+    get 'auto_match_btn' => 'gcses#auto_match_btn'
     # get 'solitary_cleaner_btn' => 'solitaries#solitary_cleaner_btn'
     # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
 
     # Quick Search Button
-    get 'quick_search_btn' => 'gcses#quick_search_btn'
+    get 'quick_dom_dom_res_2' => 'gcses#quick_dom_dom_res_2'
+    get 'quick_dom_no_auto_match_2' => 'gcses#quick_dom_no_auto_match_2'
+
+    get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
+
+
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
     post 'search_result_page_gcse' => 'search#search_result_gcse'
     root 'search#index'
+
+    # === Google API Route ===
+    get '/search' => 'search#index'
 end

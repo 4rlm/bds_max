@@ -7,14 +7,14 @@ class CoresController < ApplicationController
         if choice_hash = get_selected_status_core
             clean_choice_hash = {}
             choice_hash.each do |key, value|
-                clean_choice_hash[key] = value if !value.nil?
+                clean_choice_hash[key] = value if !value.nil? && value != ""
             end
             @selected_data = Core.where(clean_choice_hash)
         else # choice_hash is nil
             @selected_data = Core.all
         end
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 350)
 
         @cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -130,6 +130,12 @@ class CoresController < ApplicationController
     def core_comp_cleaner_btn
         CoreService.new.core_comp_cleaner_btn
         flash[:notice] = "Core(Comparison) cleaned successfully."
+        redirect_to cores_path
+    end
+
+    def quick_core_view_queue
+        set_selected_status_core({"bds_status"=>["Queue"]})
+
         redirect_to cores_path
     end
 

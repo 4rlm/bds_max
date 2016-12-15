@@ -1,6 +1,168 @@
 <p id="notice"><%= notice %></p>
 
+
+<!-- #======== Google API Starts ========== -->
+<section class='search-section'>
+  <div class='text-center titles-with-yellow'>
+    <h1>Search<h1>
+  </div>
+  <div class='container'>
+    <div class='text-center search-bar'>
+      <%= form_tag search_path, method: :get  do %>
+        <div class="inner-addon right-addon">
+          <i class="glyphicon glyphicon-search"></i>
+          <%= text_field_tag :q, params[:q], class: 'form-control' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <br>
+
+  <% if @results && !@results.items.empty? %>
+    <div class='container'>
+      <% @results.items.each do |item| %>
+        <div class='row'>
+          <h4><%= link_to item.htmlTitle.html_safe, item.link %></h4>
+          <!-- <div> -->
+            <!-- <% if item['pagemap'] &&
+                  item['pagemap']['cse_thumbnail'] &&
+                  img = item.pagemap.cse_thumbnail.first %> -->
+              <!-- <div class='col-sm-2'> -->
+                <%#= image_tag(img.src, width: '200px') %>
+              <!-- </div> -->
+              <!-- <div class='col-sm-10'> -->
+                <%#= item.htmlSnippet.html_safe %>
+              <!-- </div> -->
+            <!-- <% else %> -->
+              <%#= item.htmlSnippet.html_safe %>
+            <!-- <% end %> -->
+          <!-- </div> -->
+        </div>
+      <% end %>
+    </div>
+    <div class='container search-prev-next'>
+      <div class='row text-center'>
+        <% if @results.previous_page %>
+          <%= link_to '<< Previous',
+            search_path(q: params[:q], page: @results.previous_page),
+            class: 'btn' %>
+        <% end %>
+        <% @results.pages.times do |i| %>
+          <%= link_to i + 1,
+            search_path(q: params[:q], page: i+1),
+            class: 'btn btn-page' %>
+        <% end %>
+        <% if @results.next_page %>
+          <%= link_to 'Next >>',
+            search_path(q: params[:q],
+                        page: @results.next_page),
+            class: 'btn' %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <h4>No results</h4>
+  <% end %>
+</section>
+
+<!-- #======== Google API Ends ========== -->
+
+
+
 <h1 class="text-center">Dashboard</h1>
+<br>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2 class="text-center">Core Accounts</h2>
+        <br>
+
+        <div class="col-md-6">
+            <h4>BDS Status</h4>
+            <p>All: <%= @core_all %></p>
+            <p>Imported: <%= @core_bds_status_imported %></p>
+            <p>Queue: <%= @core_bds_status_queue %></p>
+            <p>Dom Result: <%= @core_bds_status_dom_result %></p>
+            <p>Matched: <%= @core_bds_status_matched %></p>
+            <p>No Matches: <%= @core_bds_status_no_matches %></p>
+            <br>
+
+            <h4>URL Comparison</h4>
+            <p>Same URL: <%= @core_url_comparison_same %></p>
+            <p>Updated URL: <%= @core_url_comparison_different %></p>
+            <br>
+            <h4>Root Comparison</h4>
+            <p>Same Root: <%= @core_root_comparison_same %></p>
+            <p>Updated Root: <%= @core_root_comparison_different %></p>
+            <br>
+
+            <h4>Sales Tier</h4>
+            <p>Sales Tier 1: <%= @core_tier_1 %></p>
+            <p>Sales Tier 2: <%= @core_tier_2 %></p>
+            <p>Sales Tier 3: <%= @core_tier_3 %></p>
+            <p>Sales Tier 4: <%= @core_tier_4 %></p>
+            <p>Sales Tier 5: <%= @core_tier_5 %></p>
+        </div>
+
+
+        <div class="col-md-6">
+            <h4>Type</h4>
+            <p>Canceled: <%= @core_type_canceled %></p>
+            <p>Current Account: <%= @core_type_current_account %></p>
+            <p>Current Sub-account: <%= @core_type_current_sub_account %></p>
+            <p>Distribution Partner: <%= @core_type_distribution_partner %></p>
+            <p>Do Not Solicit: <%= @core_type_do_not_solicit %></p>
+            <p>Failure To Launch: <%= @core_type_failure_to_launch %></p>
+            <p>Group Division: <%= @core_type_group_division %></p>
+            <p>Group Name: <%= @core_type_group_name %></p>
+            <p>Inactive: <%= @core_type_inactive %></p>
+            <p>Influencer: <%= @core_type_influencer %></p>
+            <p>Max Digital Demo Store: <%= @core_type_max_digital_demo_store %></p>
+            <p>Prospect: <%= @core_type_prospect %></p>
+            <p>Prospect Sub-account: <%= @core_type_prospect_sub_account %></p>
+            <p>Vendor: <%= @core_type_vendor %></p>
+            <br>
+
+            <h4>Sales Person</h4>
+            <p>Marc Peckler: <%= @core_sp_peckler %></p>
+            <p>Ben Rosen: <%= @core_sp_rosen %></p>
+            <p>Jason Price: <%= @core_sp_price %></p>
+            <p>Sarah Thompson: <%= @core_sp_thompson %></p>
+            <p>Justin Huffmeyer: <%= @core_sp_huffmeyer %></p>
+
+        </div>
+    </div> <!-- col-md-6 ends -->
+
+    <div class="col-md-6">
+        <h2 class="text-center">Domainer</h2>
+        <br>
+        <h4>Summary</h4>
+        <p>Queries Submitted: <%= @gcse_query_count %></p>
+        <p>Current Query Results: <%= @gcse_all %></p>
+        <br>
+
+        <h4>Status</h4>
+        <p>Dom Results: <%= @gcse_domain_status_dom_result %></p>
+        <p>No Auto-Matches: <%= @gcse_domain_status_no_auto_matches %></p>
+        <br>
+
+        <p>Solitary: <%= @solitary_all %></p>
+    </div> <!-- col-md-6 ends -->
+</div> <!-- Row ends -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!-- <h2>Clean Data</h2> -->
+<%#= link_to "Clean Gcse", gcse_cleaner_btn_path, class: 'btn btn-lg btn-warning' %>
+<%#= link_to "Clean Solitary", solitary_cleaner_btn_path, class: 'btn btn-lg btn-warning' %>
+<%#= link_to "Clean Core Comparison", core_comp_cleaner_btn_path, class: 'btn btn-lg btn-warning' %>
+
+
+
 
 <!-- My Panel Starts-->
 <div class="panel panel-default"> <!-- Panel Begins -->
@@ -40,13 +202,13 @@
                                 <th class="text-center">Staffer Queries</th>
                             </tr>
                             <tr>
-                                <td><%= number_with_delimiter(@core_all) %></td>
-                                <td>
-                                    <%= @domainer_query_count %> |
-                                    <%= percent_format(@domainer_query_count, @core_all) %>
-                                </td>
-                                <td>0</td>
-                                <td>0</td>
+                                <p><%#= number_with_delimiter(@core_all) %></p>
+                                <p>
+                                    <%#= @domainer_query_count %> |
+                                    <%#= percent_format(@domainer_query_count, @core_all) %>
+                                </p>
+                                <p>0</p>
+                                <p>0</p>
                             </tr>
                         </tbody>
                     </table>
@@ -69,20 +231,20 @@
                             </tr>
 
                             <tr>
-                                <td><%= @domainer_query_count %></td>
-                                <td>
-                                    <%= @core_dom_result_count %> |
-                                    <%= percent_format(@core_dom_result_count, @domainer_query_count) %>
-                                </td>
-                                <td>
-                                    <%= @core_matched_count %> |
-                                    <%= percent_format(@core_matched_count, @domainer_query_count) %>
-                                </td>
+                                <p><%#= @domainer_query_count %></p>
+                                <p>
+                                    <%#= @core_dom_result_count %> |
+                                    <%#= percent_format(@core_dom_result_count, @domainer_query_count) %>
+                                </p>
+                                <p>
+                                    <%#= @core_matched_count %> |
+                                    <%#= percent_format(@core_matched_count, @domainer_query_count) %>
+                                </p>
 
-                                <td>
-                                    <%= @core_no_matches_count %> |
-                                    <%= percent_format(@core_no_matches_count, @domainer_query_count) %>
-                                </td>
+                                <p>
+                                    <%#= @core_no_matches_count %> |
+                                    <%#= percent_format(@core_no_matches_count, @domainer_query_count) %>
+                                </p>
 
                                 <tr>
                                     <th class="text-center">Updated Roots</th>
@@ -91,15 +253,15 @@
                                 </tr>
 
 
-                                <td><%= @roots_updated %> |
+                                <p><%#= @roots_updated %> |
                                 <%= percent_format(@roots_updated, @core_matched_count) %>
-                                </td>
-                                <td><%= @urls_updated %> |
-                                <%= percent_format(@urls_updated, @core_matched_count) %>
-                                </td>
-                                <td colspan="2"><%= @solitary_all %> |
-                                <%= percent_format(@solitary_all, @domainer_query_count) %>
-                                </td>
+                                </p>
+                                <p><%#= @urls_updated %> |
+                                <%#= percent_format(@urls_updated, @core_matched_count) %>
+                                </p>
+                                <p colspan="2"><%#= @solitary_all %> |
+                                <%#= percent_format(@solitary_all, @domainer_query_count) %>
+                                </p>
                             </tr>
                         </tbody>
                     </table>
@@ -121,10 +283,10 @@
                                 <th class="text-center">N/A</th>
                             </tr>
                             <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <p>0</p>
+                                <p>0</p>
+                                <p>0</p>
+                                <p>0</p>
                             </tr>
                         </tbody>
                     </table>
@@ -146,10 +308,10 @@
                                 <th class="text-center">N/A</th>
                             </tr>
                             <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <p>0</p>
+                                <p>0</p>
+                                <p>0</p>
+                                <p>0</p>
                             </tr>
                         </tbody>
                     </table>
@@ -160,7 +322,4 @@
     </div> <!-- My Panel Body Ends -->
 </div> <!-- My Panel Ends -->
 
-<!-- <h2>Clean Data</h2> -->
-<%#= link_to "Clean Gcse", gcse_cleaner_btn_path, class: 'btn btn-lg btn-warning' %>
-<%#= link_to "Clean Solitary", solitary_cleaner_btn_path, class: 'btn btn-lg btn-warning' %>
-<%#= link_to "Clean Core Comparison", core_comp_cleaner_btn_path, class: 'btn btn-lg btn-warning' %>
+<%= link_to "Auto Match", auto_match_btn_path, class: 'btn btn-warning' %>

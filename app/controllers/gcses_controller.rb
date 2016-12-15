@@ -8,14 +8,14 @@ class GcsesController < ApplicationController
         if choice_hash = get_selected_status_gcse
             clean_choice_hash = {}
             choice_hash.each do |key, value|
-                clean_choice_hash[key] = value if !value.nil?
+                clean_choice_hash[key] = value if !value.nil? && value != ""
             end
             @selected_data = Gcse.where(clean_choice_hash)
         else # choice_hash is nil
             @selected_data = Gcse.all
         end
 
-        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
+        @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 350)
 
         @gcses_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -128,9 +128,19 @@ class GcsesController < ApplicationController
         redirect_to gcses_path
     end
 
-    def quick_search_btn
-        # set_selected_status_gcse({"domain_status"=>["Dom Result"], "gcse_result_num"=>["2"]})
-        set_selected_status_gcse({"gcse_result_num"=>["2"]})
+    def auto_match_btn
+        auto_matchify_rows(Gcse.where(domain_status: "Dom Result"))
+    end
+
+    def quick_dom_dom_res_2
+        set_selected_status_gcse({"domain_status"=>["Dom Result"], "gcse_result_num"=>["35"]})
+        # set_selected_status_gcse({"gcse_result_num"=>["2"]})
+        redirect_to gcses_path
+    end
+
+    def quick_dom_no_auto_match_2
+        set_selected_status_gcse({"domain_status"=>["No Auto-Matches"], "gcse_result_num"=>["35"]})
+        # set_selected_status_gcse({"gcse_result_num"=>["2"]})
         redirect_to gcses_path
     end
 
@@ -142,11 +152,12 @@ class GcsesController < ApplicationController
                 data = Gcse.find(id)
                 data.update_attribute(:domain_status, status)
             end
+            gcses = Gcse.where(id: ids)
             junkify_rows(ids) if status == "Junk"
             destroy_rows(ids) if status == "Destroy"
-            matchify_rows(ids) if status == "Matched"
+            matchify_rows(gcses) if status == "Matched"
             no_matchify_rows(ids) if status == "No Matches"
-            auto_matchify_rows(ids) if status == "Auto-Match"
+            auto_matchify_rows(gcses) if status == "Auto-Match"
         end
     end
 
@@ -169,19 +180,18 @@ class GcsesController < ApplicationController
         rows.destroy_all
     end
 
-    def matchify_rows(ids)
-        rows = Gcse.where(id: ids)
-        sfdc_id_source = rows.map(&:sfdc_id) #[2341234, 1234134]
-        domain_source = rows.map(&:domain) #["http://www.some.com", "http://www.any.com"]
-        sfdc_url_source = rows.map(&:sfdc_url_o)
-        root_source = rows.map(&:root) #["some", "any"]
-        sfdc_root_source = rows.map(&:sfdc_root)
+    def matchify_rows(gcses)
+        sfdc_id_source = gcses.map(&:sfdc_id) #[2341234, 1234134]
+        domain_source = gcses.map(&:domain) #["http://www.some.com", "http://www.any.com"]
+        sfdc_url_source = gcses.map(&:sfdc_url_o)
+        root_source = gcses.map(&:root) #["some", "any"]
+        sfdc_root_source = gcses.map(&:sfdc_root)
 
         # 1) Compare
         url_results = Gcse.compare(domain_source, sfdc_url_source)
         root_results = Gcse.compare(root_source, sfdc_root_source)
 
-        # 2) Add Matched rows to Core
+        # 2) Add Matched gcses to Core
         # Updates bds_status, matched_url, and matched_root in Core Table.
         for i in 0...sfdc_id_source.length
             id = sfdc_id_source[i]
@@ -273,8 +283,8 @@ class GcsesController < ApplicationController
     end
 
 
-    def auto_matchify_rows(ids)
-        gcses = Gcse.where(id: ids, gcse_result_num: 2)
+    def auto_matchify_rows(gcses)
+        # gcses = Gcse.where(id: ids, gcse_result_num: 2)
         ids = []
 
         for gcse in gcses
@@ -285,7 +295,7 @@ class GcsesController < ApplicationController
                 gcses.each {|gcse| gcse.update_attribute(:domain_status, "No Auto-Matches")}
             end
         end
-        matchify_rows(ids)
+        matchify_rows(Gcse.where(id: ids))
     end
 
     def check_core_if_exists?(root, domain)

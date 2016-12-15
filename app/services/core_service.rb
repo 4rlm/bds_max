@@ -46,6 +46,7 @@ class CoreService
             street = el[:sfdc_street]
             city = el[:sfdc_city]
             state = el[:sfdc_state]
+            zip = el[:sfdc_zip]
             url_o = el[:sfdc_url]
 
 
@@ -95,23 +96,36 @@ class CoreService
                 city_q = "#{city_gs}+"
             end
             if state != nil
-                state_st = state
+                state_st = "#{state}+"
+            end
+            if zip != nil
+                zip_st = zip
             end
 
-            # ----- Encoding Begins -----------------------------------------
-            url = "http://www.google.com/search?"
-            num = "&num=1000"
-            client = "&client=google-csbe"
-            key = "&cx=016494735141549134606:xzyw78w1vn0"
-            tag1 = "&as_oq=auto+automobile+car+cars+vehicle+vehicles"
-            tag2 = "&as_oq=dealer+dealership+group"
+            # ----- Encoding Begins ------ Original --------------
+            # url = "http://www.google.com/search?"
+            # num = "&num=1000"
+            # client = "&client=google-csbe"
+            # key = "&cx=016494735141549134606:xzyw78w1vn0"
+            # tag1 = "&as_oq=auto+automobile+car+cars+vehicle+vehicles"
+            # tag2 = "&as_oq=dealer+dealership+group"
+            #
+            # q_combinded = "q=#{acct_q}#{street_q}#{city_q}#{state_st}"
+            # acct_req = "&as_epq=#{acct_gs}"
+            # acct_opt = "&oq=#{acct_gs}"
+            #
+            # url_encoded = "#{url}#{q_combinded}#{num}#{client}#{key}"
+            #=== End - Encoded Search == Original =======
 
-            q_combinded = "q=#{acct_q}#{street_q}#{city_q}#{state_st}"
-            acct_req = "&as_epq=#{acct_gs}"
-            acct_opt = "&oq=#{acct_gs}"
 
-            url_encoded = "#{url}#{q_combinded}#{num}#{client}#{key}"
-            #=== End - Encoded Search =====================
+            #== Starts - Google Encoded Search == Testing 1-- Starts ==
+            url = "http://localhost:3000/search?utf8=%E2%9C%93&"
+            # url = "http://localhost:3000/search?"
+            # num = "&num=90"
+            q_combinded = "q=#{acct_q}#{street_q}#{city_q}#{state_st}#{zip_st}"
+            url_encoded = "#{url}#{q_combinded}"
+            #== Ends - Google Encoded Search == Testing 2-- Ends ==
+
 
             begin #begin rescue p1 *******************************
                 # == Loop (1): through each encoded search url. ======
@@ -194,7 +208,7 @@ class CoreService
                 bad_connection = "Google Search Error!"
 
                 #== Rescue Throttle (if needed) =====================
-                forced_delay_time = (240..420).to_a.sample
+                forced_delay_time = (15..20).to_a.sample
                 puts "--------------------------------"
                 puts bad_connection
                 puts "--------------------------------"
@@ -211,7 +225,7 @@ class CoreService
 
 
             #== Throttle (if needed) =====================
-            throttle_delay_time = (30..42).to_a.sample
+            throttle_delay_time = (1..2).to_a.sample
             puts "--------------------------------"
             puts "SFDC_ID: #{id}"
             puts "ACCT NAME: #{acct}"
