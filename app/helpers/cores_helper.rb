@@ -16,6 +16,41 @@ module CoresHelper
         ['Queue', 'Queue']]
     end
 
+    def sfdc_sales_person_list
+        ["Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
+    end
+
+    def bds_status_list
+        ["Destroy", "Dom Result", "Imported", "Matched", "No Matches", "Queue"]
+    end
+
+    def sfdc_tier_list
+        ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
+    end
+
+    def url_comparison_list
+        ["Different", "Same"]
+    end
+
+    def root_comparison_list
+        ["Different", "Same"]
+    end
+
+
+    def indexer_status_list
+        ["Ready", "Queued", "No Matches", "Matched"]
+    end
+
+    def staffer_status_list
+        ["Ready", "Queued", "No Matches", "Matched"]
+    end
+
+    def whois_status_list
+        ["Ready", "Queued", "No Matches", "Matched"]
+    end
+
+
+
     def blank_remover(array)
         for i in 0...array.length
             if array[i] == ""
