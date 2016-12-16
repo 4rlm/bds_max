@@ -15,7 +15,9 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <%= label_tag :domain_status, "Domain Status" %>
+
                     <%= select_tag :domain_status, options_for_select(status_list), multiple: true, class: 'selectpicker form-control' %>
+
                 </div>
             </div>
 
@@ -31,9 +33,6 @@
                     <%= label_tag :gcse_result_num, "Result #" %>
                     <!-- == Change to Keyword Search == -->
                     <%= text_field_tag :gcse_result_num, params[:gcse_result_num], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :gcse_result_num, options_for_select(ordered_list(Gcse.select(:gcse_result_num).map(&:gcse_result_num))), multiple: true, class: 'selectpicker form-control' %>
-
                 </div>
             </div>
 
@@ -57,9 +56,6 @@
                     <%= label_tag :sfdc_acct, "Account Name" %>
                     <!-- == Change to Keyword Search == -->
                     <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_acct, options_for_select(ordered_list(Gcse.select(:sfdc_acct).map(&:sfdc_acct))), multiple: true, class: 'selectpicker form-control' %>
-
                 </div>
             </div>
 
@@ -68,9 +64,6 @@
                     <%= label_tag :sfdc_ult_acct, "Ultimate Group Name" %>
                     <!-- == Change to Keyword Search == -->
                     <%= text_field_tag :sfdc_ult_acct, params[:sfdc_ult_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_ult_acct, options_for_select(ordered_list(Gcse.select(:sfdc_ult_acct).map(&:sfdc_ult_acct))), multiple: true, class: 'selectpicker form-control' %>
-
                 </div>
             </div>
 
@@ -78,7 +71,6 @@
                 <div class="form-group">
                     <%= label_tag :sfdc_id, "SFDC ID" %>
                     <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <%#= text_field_tag :sfdc_id, params[Gcse.find_by(:sfdc_id)], placeholder: "-- Enter Keyword --", class: 'form-control' %>
                 </div>
             </div>
 
@@ -87,9 +79,6 @@
                     <%= label_tag :sfdc_city, "City" %>
                     <!-- == Change to Keyword Search == -->
                     <%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_city, options_for_select(ordered_list(Gcse.select(:sfdc_city).map(&:sfdc_city))), multiple: true, class: 'selectpicker form-control' %>
-
                 </div>
             </div>
 
@@ -97,9 +86,6 @@
                 <div class="form-group">
                     <%= label_tag :sfdc_state, "State" %>
                     <%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_state, options_for_select(ordered_list(Gcse.select(:sfdc_state).map(&:sfdc_state))), multiple: true, class: 'selectpicker form-control' %>
-
                 </div>
             </div>
         </div>

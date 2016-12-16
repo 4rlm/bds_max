@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161211020931) do
+ActiveRecord::Schema.define(version: 20161215230318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20161211020931) do
     t.integer  "sfdc_zip"
     t.string   "sfdc_ph"
     t.string   "sfdc_url"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.datetime "core_date"
     t.datetime "domainer_date"
     t.datetime "indexer_date"
@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 20161211020931) do
     t.string   "url_comparison"
     t.string   "root_comparison"
     t.string   "sfdc_root"
+    t.string   "staff_indexer_status"
+    t.string   "location_indexer_status"
+    t.string   "inventory_indexer_status"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|

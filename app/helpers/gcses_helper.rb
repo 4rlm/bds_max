@@ -17,6 +17,12 @@ module GcsesHelper
         ['Destroy', 'Destroy']]
     end
 
+
+    def sfdc_tier_list
+        ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
+    end
+
+
     def blank_remover(array)
         for i in 0...array.length
             if array[i] == ""

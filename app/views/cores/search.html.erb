@@ -12,43 +12,109 @@
     <div class="panel-body"> <!-- panel body begins -->
         <%= form_tag "/search_result_page_core", method: :post  do %>
             <div class="row">
-                <div class="col-sm-4">
+
+                <div class="col-sm-2">
                     <div class="form-group">
-                        <%= label_tag :bds_status, "BDS Status" %>
-                        <%= select_tag :bds_status, options_for_select(ordered_list(Core.select(:bds_status).map(&:bds_status))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= label_tag :bds_status, "Domainer Status" %>
+                        <%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
-                <div class="col-sm-4">
+
+                <!-- == 3 New Indexer Columns =Starts= -->
+
+                <div class="col-sm-2">
                     <div class="form-group">
-                        <%= label_tag :sfdc_sales_person, "Sales Person" %>
-                        <%= select_tag :sfdc_sales_person, options_for_select(ordered_list(Core.select(:sfdc_sales_person).map(&:sfdc_sales_person))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= label_tag :staff_indexer_status, "Staff Indexer Status" %>
+                        <%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
-                <div class="col-sm-4">
+
+                <div class="col-sm-2">
                     <div class="form-group">
-                        <%= label_tag :sfdc_type, "Type" %>
-                        <%= select_tag :sfdc_type, options_for_select(ordered_list(Core.select(:sfdc_type).map(&:sfdc_type))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= label_tag :location_indexer_status, "Location Indexer Status" %>
+                        <%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
+
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <%= label_tag :inventory_indexer_status, "Inv Indexer Status" %>
+                        <%= select_tag :inventory_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <!-- == 3 New Indexer Columns =Ends= -->
+
+                <!-- = 2 Future Columns (placeholders) Starts= -->
+
+                <!-- Staffer Status-->
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <%= label_tag :staffer_status, "Staffer Status" %>
+                        <%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <!-- WhoIs Status -->
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <%= label_tag :whois_status, "WhoIs Status" %>
+                        <%= select_tag :whois_status, options_for_select(whois_status_list), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+                <!-- = 2 Future Columns (placeholders) Ends= -->
+
+
+                <!-- = 2 Future Columns (placeholders) = -->
             </div> <!-- /.row -->
 
             <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_sales_person, "Sales Person" %>
+                        <%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <%= label_tag :sfdc_type, "Type" %>
+                        <%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control' %>
+                    </div>
+                </div>
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :sfdc_tier, "Sales Tier" %>
-                        <%= select_tag :sfdc_tier, options_for_select(ordered_list(Core.select(:sfdc_tier).map(&:sfdc_tier))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
+
+                </div>
+
+
+        <div class="row">
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <%= label_tag :sfdc_id, "SFDC ID" %>
+                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                </div>
+            </div>
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :url_comparison, "Matched URL Indicator" %>
-                        <%= select_tag :url_comparison, options_for_select(ordered_list(Core.select(:url_comparison).map(&:url_comparison))), multiple: true, class: 'selectpicker form-control' %>
+
+                        <%= select_tag :url_comparison, options_for_select(url_comparison_list), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <%= label_tag :root_comparison, "Matched Root Indicator" %>
-                        <%= select_tag :root_comparison, options_for_select(ordered_list(Core.select(:root_comparison).map(&:root_comparison))), multiple: true, class: 'selectpicker form-control' %>
+                        <%= select_tag :root_comparison, options_for_select(root_comparison_list), multiple: true, class: 'selectpicker form-control' %>
                     </div>
                 </div>
             </div> <!-- /.row -->
@@ -81,12 +147,6 @@
 
             <div class="row">
                 <!-- ==== Change to key word search ==== -->
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_id, "SFDC ID" %>
-                        <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    </div>
-                </div>
 
                 <div class="col-sm-4">
                     <div class="form-group">

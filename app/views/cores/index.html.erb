@@ -28,11 +28,57 @@
             <% unless @col_bds_status %>
             <th>
                 <div class="form-group">
+
                     <%= select_tag :bds_status, options_for_select(ordered_list(@selected_data.select(:bds_status).map(&:bds_status)), params[:bds_status]), multiple: true, class: 'selectpicker' %>
+
                     <br><br>BDS Status
                 </div>
             </th>
             <% end %>
+
+
+            <!-- ====== 3 New Indexer Columns ====== -->
+
+            <% unless @col_bds_status %>
+            <th>
+                <div class="form-group">
+
+                    <%= select_tag :staff_indexer_status, options_for_select(ordered_list(@selected_data.select(:staff_indexer_status).map(&:staff_indexer_status)), params[:staff_indexer_status]), multiple: true, class: 'selectpicker' %>
+
+                    <br><br>Staff Indexer Status
+                </div>
+            </th>
+            <% end %>
+
+            <% unless @col_bds_status %>
+            <th>
+                <div class="form-group">
+
+                    <%= select_tag :location_indexer_status, options_for_select(ordered_list(@selected_data.select(:location_indexer_status).map(&:location_indexer_status)), params[:location_indexer_status]), multiple: true, class: 'selectpicker' %>
+
+                    <br><br>Location Indexer Status
+                </div>
+            </th>
+            <% end %>
+
+
+            <% unless @col_bds_status %>
+            <th>
+                <div class="form-group">
+
+                    <%= select_tag :inventory_indexer_status, options_for_select(ordered_list(@selected_data.select(:inventory_indexer_status).map(&:inventory_indexer_status)), params[:inventory_indexer_status]), multiple: true, class: 'selectpicker' %>
+
+                    <br><br>Inventory Indexer Status
+                </div>
+            </th>
+            <% end %>
+
+            <!-- ====== 3 New Indexer Columns ====== -->
+
+
+
+
+
 
             <% unless @col_sfdc_acct %>
             <th>
@@ -346,6 +392,30 @@
             <% unless @col_bds_status %>
             <td><%= core.bds_status %></td>
             <% end %>
+
+
+
+
+
+            <!-- ====== 3 New Indexer Columns ====== -->
+
+            <!-- <% unless @col_bds_status %> -->
+            <td><%= core.staff_indexer_status %></td>
+            <!-- <% end %> -->
+
+            <!-- <% unless @col_bds_status %> -->
+            <td><%= core.location_indexer_status %></td>
+            <!-- <% end %> -->
+
+            <!-- <% unless @col_bds_status %> -->
+            <td><%= core.inventory_indexer_status %></td>
+            <!-- <% end %> -->
+
+            <!-- ====== 3 New Indexer Columns ====== -->
+
+
+
+
 
             <% unless @col_sfdc_acct %>
             <td><%= core.sfdc_acct %></td>

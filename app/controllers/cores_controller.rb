@@ -26,6 +26,11 @@ class CoresController < ApplicationController
         if params[:columns].present?
             columns = params[:columns]
             @col_bds_status = true if columns.include?("bds_status")
+
+            @col_staff_indexer_status = true if columns.include?("staff_indexer_status")
+            @col_location_indexer_status = true if columns.include?("location_indexer_status")
+            @col_inventory_indexer_status = true if columns.include?("inventory_indexer_status")
+            
             @col_core_date = true if columns.include?("core_date")
             @col_domainer_date = true if columns.include?("domainer_date")
             @col_indexer_date = true if columns.include?("indexer_date")
@@ -160,11 +165,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
+        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
+        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
     # def start_queue(ids)

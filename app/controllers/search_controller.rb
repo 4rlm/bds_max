@@ -72,7 +72,7 @@ class SearchController < ApplicationController
         # Core Salesperson: Sarah Thompson
         @core_sp_thompson = Core.where(sfdc_sales_person: "Sarah Thompson").count
         # Core Salesperson: Justin Huffmeyer
-        @core_sp_huffmeyer = Core.where(sfdc_sales_person: "Justin Huffmeyer").count
+        @core_sp_huffmeyer = Core.where(sfdc_sales_person: "Justin Hufmeyer").count
         #============
 
         # Core Type: Canceled
