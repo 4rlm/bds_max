@@ -352,4 +352,10 @@ class GcsesController < ApplicationController
             PendingVerification.find_or_create_by(root: gcse.root, domain: gcse.domain)
         end
     end
+
+    # def start_queue(ids)
+    #     IndexerService.new.delay.start_indexer(ids)
+    #     flash[:notice] = 'Indexer Starts!'
+    #     redirect_to gcses_path
+    # end
 end

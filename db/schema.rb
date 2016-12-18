@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215230318) do
+ActiveRecord::Schema.define(version: 20161218042505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,19 +150,11 @@ ActiveRecord::Schema.define(version: 20161215230318) do
     t.string   "sfdc_acct"
     t.string   "sfdc_group_name"
     t.string   "sfdc_ult_acct"
-    t.string   "root"
     t.string   "domain"
     t.string   "ip"
     t.string   "text"
     t.string   "href"
     t.string   "link"
-    t.string   "msg"
-    t.string   "sfdc_street"
-    t.string   "sfdc_city"
-    t.string   "sfdc_state"
-    t.string   "sfdc_type"
-    t.string   "sfdc_tier"
-    t.string   "sfdc_sales_person"
     t.string   "sfdc_id"
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
@@ -174,19 +166,11 @@ ActiveRecord::Schema.define(version: 20161215230318) do
     t.string   "sfdc_acct"
     t.string   "sfdc_group_name"
     t.string   "sfdc_ult_acct"
-    t.string   "root"
     t.string   "domain"
     t.string   "ip"
     t.string   "text"
     t.string   "href"
     t.string   "link"
-    t.string   "msg"
-    t.string   "sfdc_street"
-    t.string   "sfdc_city"
-    t.string   "sfdc_state"
-    t.string   "sfdc_type"
-    t.string   "sfdc_tier"
-    t.string   "sfdc_sales_person"
     t.string   "sfdc_id"
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false

@@ -30,7 +30,7 @@ class CoreService
 
     # == Core Method starts here.===================|*|
     def scrape_listing(ids)  # search
-        @agent = Mechanize.new
+        agent = Mechanize.new
 
         # == Create Counters ======================
         search_query_num = 0
@@ -129,7 +129,7 @@ class CoreService
 
             begin #begin rescue p1 *******************************
                 # == Loop (1): through each encoded search url. ======
-                @agent.get(url_encoded) do |page|
+                agent.get(url_encoded) do |page|
                     search_query_num += 1
                     # === TESTING: ROOT COUNTER (TOP) ===
                     root_count_array = []
