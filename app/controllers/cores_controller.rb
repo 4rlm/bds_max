@@ -148,8 +148,8 @@ class CoresController < ApplicationController
     end
 
     def start_indexer(ids)
-        # IndexerService.new.delay.start_indexer(ids)
-        IndexerService.new.start_indexer(ids)
+        IndexerService.new.delay.start_indexer(ids)
+        # IndexerService.new.start_indexer(ids)
         flash[:notice] = 'Indexer starts!'
         redirect_to indexer_staffs_path
     end

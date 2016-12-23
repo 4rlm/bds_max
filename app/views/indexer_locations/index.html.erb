@@ -6,9 +6,7 @@
 <div class="pull-right">
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_indexer_location_path, class: 'btn btn-primary' %>
-
     <%= link_to 'Import CSV', indexer_location_import_page_path, class: 'btn btn-primary' %>
-
     <%= link_to 'Download CSV', indexer_locations_path(format: "csv"), class: 'btn btn-primary' %>
 </div>
 <br>
@@ -21,24 +19,108 @@
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
 
+<!-- indexer_status
+sfdc_acct
+sfdc_group_name
+sfdc_ult_acct
+domain
+ip
+text
+href
+link
+sfdc_id
+indexer_timestamp -->
+
             <th>#</th>
-            <th>Indexer status</th>
-            <th>Sfdc acct</th>
-            <th>Sfdc group name</th>
-            <th>Sfdc ult acct</th>
-            <th>Domain</th>
-            <th>Ip</th>
-            <th>Text</th>
-            <th>Href</th>
-            <th>Loc link</th>
-            <th>Sfdc street</th>
-            <th>Sfdc city</th>
-            <th>Sfdc state</th>
-            <th>Sfdc type</th>
-            <th>Sfdc tier</th>
-            <th>Sfdc sales person</th>
-            <th>Sfdc</th>
-            <th>Indexer timestamp</th>
+
+            <!-- <th>Indexer status</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :indexer_status, params[:indexer_status], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>Indexer status
+                </div>
+            </th>
+
+            <!-- <th>SFDC acct</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC acct
+                </div>
+            </th>
+
+            <!-- <th>SFDC group name</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_group_name, params[:sfdc_group_name], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC group name
+                </div>
+            </th>
+
+            <!-- <th>SFDC ult acct</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_ult_acct, params[:sfdc_ult_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC ult acct
+                </div>
+            </th>
+
+            <!-- <th>Domain</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :domain, params[:domain], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>Domain
+                </div>
+            </th>
+
+            <!-- <th>IP</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :ip, params[:ip], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>IP
+                </div>
+            </th>
+
+            <!-- <th>Text</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :text, params[:text], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>Text
+                </div>
+            </th>
+
+            <!-- <th>Href</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :href, params[:href], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>Href
+                </div>
+            </th>
+
+            <!-- <th>Staff link</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :link, params[:link], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>Staff link
+                </div>
+            </th>
+
+            <!-- <th>SFDC ID</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>SFDC ID
+                </div>
+            </th>
+
+            <!-- <th>Indexer timestamp</th> -->
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :indexer_timestamp, params[:indexer_timestamp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>Indexer timestamp
+                </div>
+            </th>
+
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -81,9 +163,7 @@
 <div class="pull-right">
     <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_indexer_location_path, class: 'btn btn-primary' %>
-
     <%= link_to 'Import CSV', criteria_indexer_staff_text_import_page_path, class: 'btn btn-primary' %>
-
     <%= link_to 'Download CSV', criteria_indexer_staff_texts_path(format: "csv"), class: 'btn btn-primary' %>
 </div>
 <br>

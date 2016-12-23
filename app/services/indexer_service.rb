@@ -32,11 +32,11 @@ class IndexerService
                 url = @cols_hash[:domain]
                 page = agent.get(url)
 
-                page_finder(locations_text_list, locations_href_list, url, page)
-                page_finder(staff_text_list, staff_href_list, url, page)
+                page_finder(locations_text_list, locations_href_list, url, page, "location")
+                page_finder(staff_text_list, staff_href_list, url, page, "staff")
 
                 # Throttle V1
-                delay_time = rand(15)
+                delay_time = rand(30)
                 sleep(delay_time)
 
                 # Throttle V2
@@ -53,38 +53,26 @@ class IndexerService
                 # sleep(throttle_delay_time)
 
             rescue
-                add_indexer_row_with("Error", "IP Not Found", "(none)", "(none)", $!.message)
+                add_indexer_row_with("Error", "IP Not Found", "(none)", "(none)", $!.message, "error")
             end
 
         end # Ends cores Loop
     end # Ends start_indexer(ids)
 
-    # # Adam Version Starts
-    # def page_finder(text_list, href_list, url, page)
-    #     for i in 0...(text_list.length)
-    #         if pages = page.link_with(:text => text_list[i])
-    #             url_split_joiner(url, pages)
-    #             break
-    #         end
-    #     end
-    # # Adam Version Ends
-
-    # Original Starts
-    def page_finder(text_list, href_list, url, page)
+    def page_finder(text_list, href_list, url, page, mode)
         for text in text_list
             if pages = page.link_with(:text => text)
                 # binding.pry
-                url_split_joiner(url, pages)
+                url_split_joiner(url, pages, mode)
                 break
             end
         end
-    # Original Ends
 
         if !pages
             for href in href_list
                 if pages = page.link_with(:href => href)
                     # binding.pry
-                    url_split_joiner(url, pages)
+                    url_split_joiner(url, pages, mode)
                     break
                 end
             end
@@ -93,14 +81,14 @@ class IndexerService
                 ip = ip_grab(url)
 
                 # binding.pry
-                add_indexer_row_with("No Matches", ip, "(none)", "(none)", "(none)")
+                add_indexer_row_with("No Matches", ip, "(none)", "(none)", "(none)", mode)
 
                 # puts "NO MATCHES.  Found IP " + ip + " for " +  url
             end
         end
     end # Ends page_finder
 
-    def url_split_joiner(url, pages)
+    def url_split_joiner(url, pages, mode)
         url_s = url.split('/')
         url_http = url_s[0]
         url_www = url_s[2]
@@ -108,7 +96,7 @@ class IndexerService
         ip = ip_grab(url)
         joined_url = validater(url_http, '//', url_www, pages.href)
 
-        add_indexer_row_with("Matched", ip, pages.text.strip, pages.href, joined_url)
+        add_indexer_row_with("Matched", ip, pages.text.strip, pages.href, joined_url, mode)
     end
 
     def ip_grab(url)
@@ -117,7 +105,7 @@ class IndexerService
         IPSocket::getaddress(url_www)
     end
 
-    def add_indexer_row_with(status, ip, text, href, link)
+    def add_indexer_row_with(status, ip, text, href, link, mode)
         # binding.pry
         @cols_hash[:indexer_status] = status
         @cols_hash[:ip] = ip
@@ -125,9 +113,8 @@ class IndexerService
         @cols_hash[:href] = href
         @cols_hash[:link] = link
 
-        puts "\n>>>>Gahee @cols_hash: #{@cols_hash}\n"
-        IndexerLocation.create(@cols_hash)
-        IndexerStaff.create(@cols_hash)
+        IndexerLocation.create(@cols_hash) if mode == "location" || mode == "error"
+        IndexerStaff.create(@cols_hash)if mode == "staff" || mode == "error"
     end
 
     def validater(url_http, dbl_slash, url_www, dirty_url)
