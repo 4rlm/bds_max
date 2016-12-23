@@ -47,8 +47,8 @@ class SearchController < ApplicationController
 
         # Core BDS Status: Imported
         @core_bds_status_imported = Core.where(bds_status: "Imported").count
-        # Core BDS Status: Queue
-        @core_bds_status_queue = Core.where(bds_status: "Queue").count
+        # Core BDS Status: Queue Domainer
+        @core_bds_status_queue = Core.where(bds_status: "Queue Domainer").count
         # Core BDS Status: Dom Result
         @core_bds_status_dom_result = Core.where(bds_status: "Dom Result").count
         # Core BDS Status: Matched

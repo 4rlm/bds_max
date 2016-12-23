@@ -23,33 +23,6 @@ class GcsesController < ApplicationController
               format.csv { render text: @gcses_csv.to_csv }
         end
 
-        # Exclude selected columns
-        if params[:columns].present?
-            columns = params[:columns]
-            @col_domain_status = true if columns.include?("domain_status")
-            @col_gcse_timestamp = true if columns.include?("gcse_timestamp")
-            @col_gcse_query_num = true if columns.include?("gcse_query_num")
-            @col_gcse_result_num = true if columns.include?("gcse_result_num")
-            @col_sfdc_id = true if columns.include?("sfdc_id")
-            @col_sfdc_ult_acct = true if columns.include?("sfdc_ult_acct")
-            @col_sfdc_acct = true if columns.include?("sfdc_acct")
-            @col_sfdc_type = true if columns.include?("sfdc_type")
-            @col_sfdc_street = true if columns.include?("sfdc_street")
-            @col_sfdc_city = true if columns.include?("sfdc_city")
-            @col_sfdc_state = true if columns.include?("sfdc_state")
-            @col_sfdc_url_o = true if columns.include?("sfdc_url_o")
-            @col_sfdc_root = true if columns.include?("sfdc_root")
-            @col_root = true if columns.include?("root")
-            @col_domain = true if columns.include?("domain")
-            @col_root_counter = true if columns.include?("root_counter")
-            @col_suffix = true if columns.include?("suffix")
-            @col_in_host_pos = true if columns.include?("in_host_pos")
-            @col_exclude_root = true if columns.include?("exclude_root")
-            @col_text = true if columns.include?("text")
-            @col_in_text_pos = true if columns.include?("in_text_pos")
-            @col_in_text_del = true if columns.include?("in_text_del")
-        end
-
         # Checkbox: multi-selected rows are manipulated in "batch_status".
         batch_status
     end
@@ -200,7 +173,7 @@ class GcsesController < ApplicationController
             root = root_source[i]
 
             data = Core.find_by(sfdc_id: id)
-            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root, url_comparison: url_results[i], root_comparison: root_results[i])
+            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root, url_comparison: url_results[i], root_comparison: root_results[i], staff_indexer_status: "Ready", location_indexer_status: "Ready", inventory_indexer_status: "Ready")
 
             # When 'data' in Core is updated to "Matched", check if its url exists in Solitary.
             # If so, delete the matched url in Solitary.
@@ -353,11 +326,5 @@ class GcsesController < ApplicationController
         if !existance && inclusion
             PendingVerification.find_or_create_by(root: gcse.root, domain: gcse.domain)
         end
-    end
-
-    def start_queue(ids)
-        IndexerService.new.delay.start_indexer(ids)
-        flash[:notice] = 'Indexer Starts!'
-        redirect_to gcses_path
     end
 end

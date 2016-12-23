@@ -1,19 +1,6 @@
 module CoresHelper
-
-    def column_list_core
-      Core.column_names[1..-3].map {|col| [col, col] }
-    end
-
     def core_status_list
-        [['Dom Result', 'Dom Result'],
-        ['Imported', 'Imported'],
-        ['Matched', 'Matched'],
-        ['No Matches', 'No Matches'],
-        ['Pending Verification', 'Pending Verification'],
-        ['Isolate', 'Isolate'],
-        ['Destroy', 'Destroy'],
-        ['Junk', 'Junk'],
-        ['Queue', 'Queue']]
+        ['Dom Result', 'Imported', 'Matched', 'No Matches', 'Pending Verification', 'Isolate', 'Destroy', 'Junk', 'Queue Domainer', 'Queue Indexer']
     end
 
     def sfdc_sales_person_list
@@ -21,7 +8,7 @@ module CoresHelper
     end
 
     def bds_status_list
-        ["Destroy", "Dom Result", "Imported", "Matched", "No Matches", "Queue"]
+        ["Destroy", "Dom Result", "Imported", "Matched", "No Matches", "Queue Domainer", "Queue Indexer"]
     end
 
     def sfdc_tier_list
@@ -36,7 +23,6 @@ module CoresHelper
         ["Different", "Same"]
     end
 
-
     def indexer_status_list
         ["Ready", "Queued", "No Matches", "Matched"]
     end
@@ -48,8 +34,6 @@ module CoresHelper
     def whois_status_list
         ["Ready", "Queued", "No Matches", "Matched"]
     end
-
-
 
     def blank_remover(array)
         for i in 0...array.length

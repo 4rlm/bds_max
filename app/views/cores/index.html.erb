@@ -1,10 +1,8 @@
-<p id="notice"><%= notice %></p>
-
 <h1 class="text-center">Core Accounts</h1><br><br>
 
+<%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 <div class="row" style="font-size:12px;">
     <div class="col-md-3">
-        <%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
         <table class="table table-bordered table-hover">
             <tr>
                 <th colspan="3" style="background: #00ffff; text-align: center;">Status Filter</th>
@@ -216,6 +214,7 @@
 
 </div>
 
+<%= submit_tag "Submit", class: 'btn btn-success' %>
 
 <div class="pull-right">
     <%= link_to 'Add Record', new_core_path, class: 'btn btn-primary' %>
@@ -223,526 +222,134 @@
     <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
 </div>
 
-<%#= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 <table class="table table-bordered table-hover">
     <thead>
-
-        <!-- <tr>
-            <div class="form-group">
-                <%= select_tag :columns, options_for_select(column_list_core, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
-                <%= submit_tag "Submit", class: 'btn btn-success' %>
-            </div>
-        </tr> -->
-
-        <%= submit_tag "Submit", class: 'btn btn-success' %>
-
         <tr>
-            <th>
-                <%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %>
-            </th> <!-- add -->
-
+            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
-
-            <!-- <% unless @col_bds_status %> -->
-
-            <th>BDS Status
-                <!-- <div class="form-group">
-                    <%= select_tag :bds_status, options_for_select(ordered_list(@selected_data.select(:bds_status).map(&:bds_status)), params[:bds_status]), multiple: true, class: 'selectpicker' %>
-                    <br><br>BDS Status
-                </div> -->
-            </th>
-
-            <!-- <% end %> -->
-
-
+            <th>BDS Status</th>
             <!-- ====== 3 New Indexer Columns ====== -->
-
-            <!-- <% unless @col_bds_status %> -->
-            <th>Staff Indexer Status
-                <!-- <div class="form-group"> -->
-                    <%#= select_tag :staff_indexer_status, options_for_select(ordered_list(@selected_data.select(:staff_indexer_status).map(&:staff_indexer_status)), params[:staff_indexer_status]), multiple: true, class: 'selectpicker' %>
-                    <!-- <br><br>Staff Indexer Status
-                </div> -->
-            </th>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_bds_status %> -->
-            <th>Location Indexer Status
-                <!-- <div class="form-group"> -->
-                    <%#= select_tag :location_indexer_status, options_for_select(ordered_list(@selected_data.select(:location_indexer_status).map(&:location_indexer_status)), params[:location_indexer_status]), multiple: true, class: 'selectpicker' %>
-                    <!-- <br><br>Location Indexer Status
-                </div> -->
-            </th>
-            <!-- <% end %> -->
-
-
-            <!-- <% unless @col_bds_status %> -->
-            <th>Inventory Indexer Status
-                <!-- <div class="form-group"> -->
-                    <%#= select_tag :inventory_indexer_status, options_for_select(ordered_list(@selected_data.select(:inventory_indexer_status).map(&:inventory_indexer_status)), params[:inventory_indexer_status]), multiple: true, class: 'selectpicker' %>
-                    <!-- <br><br>Inventory Indexer Status
-                </div> -->
-            </th>
-            <!-- <% end %> -->
-
+            <th>Staff Indexer Status</th>
+            <th>Location Indexer Status</th>
+            <th>Inventory Indexer Status</th>
             <!-- ====== 3 New Indexer Columns ====== -->
-
-            <!-- <% unless @col_sfdc_acct %> -->
-            <th>Account
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_acct, options_for_select(ordered_list(@selected_data.select(:sfdc_acct).map(&:sfdc_acct)), params[:sfdc_acct]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Account
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_ult_grp %> -->
-            <th>Ultimate Group
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_ult_grp, params[:sfdc_ult_grp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_ult_grp, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_ult_grp).map(&:sfdc_ult_grp))), params[:sfdc_ult_grp]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Ultimate Group
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_group %> -->
-            <th>Group Name
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#=
-                     :sfdc_group, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_group).map(&:sfdc_group))), params[:sfdc_group]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Group Name
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-
-            <% unless @col_url_comparison %> -->
-            <th>Url Comparison
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :url_comparison, params[:url_comparison], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :url_comparison, options_for_select(ordered_list(@selected_data.select(:url_comparison).map(&:url_comparison)), params[:url_comparison]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Url Comparison
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_url %> -->
-            <th>SFDC Url
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_url, options_for_select(ordered_list(@selected_data.select(:sfdc_url).map(&:sfdc_url)), params[:sfdc_url]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>SFDC Url
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_matched_url %> -->
-            <th>Matched Url
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :matched_url, params[:matched_url], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :matched_url, options_for_select(ordered_list(@selected_data.select(:matched_url).map(&:matched_url)), params[:matched_url]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Matched Url
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_root_comparison %> -->
-            <th>Root Comparison
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :root_comparison, params[:root_comparison], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :root_comparison, options_for_select(ordered_list(@selected_data.select(:root_comparison).map(&:root_comparison)), params[:root_comparison]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Root Comparison
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_root %> -->
-            <th>SFDC Root
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_root, options_for_select(ordered_list(@selected_data.select(:sfdc_root).map(&:sfdc_root)), params[:sfdc_root]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>SFDC Root
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_matched_root %> -->
-            <th>Matched Root
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :matched_root, params[:matched_root], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :matched_root, options_for_select(ordered_list(@selected_data.select(:matched_root).map(&:matched_root)), params[:matched_root]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Matched Root
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_street %> -->
-            <th>SFDC Street
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_street, options_for_select(ordered_list(@selected_data.select(:sfdc_street).map(&:sfdc_street)), params[:sfdc_street]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>SFDC Street
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_city %> -->
-            <th>SFDC City
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_city, options_for_select(ordered_list(@selected_data.select(:sfdc_city).map(&:sfdc_city)), params[:sfdc_city]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>SFDC City
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_state %> -->
-            <th>SFDC State
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_state, options_for_select(ordered_list(@selected_data.select(:sfdc_state).map(&:sfdc_state)), params[:sfdc_state]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>SFDC State
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_zip %> -->
-            <th>SFDC Zip
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_zip, options_for_select(ordered_list(@selected_data.select(:sfdc_zip).map(&:sfdc_zip)), params[:sfdc_zip]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>SFDC Zip
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_ph %> -->
-            <th>SFDC Ph
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_ph, params[:sfdc_ph], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_ph, options_for_select(ordered_list(@selected_data.select(:sfdc_ph).map(&:sfdc_ph)), params[:sfdc_ph]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>SFDC Ph
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_tier %> -->
-            <th>Tier
-                <!-- <div class="form-group"> -->
-                    <%#= select_tag :sfdc_tier, options_for_select(ordered_list(@selected_data.select(:sfdc_tier).map(&:sfdc_tier)), params[:sfdc_tier]),  multiple: true, class: 'selectpicker' %>
-                    <!-- <br><br>Tier
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_ult_rt %> -->
-            <th>Ult RT
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_ult_rt, params[:sfdc_ult_rt], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_ult_rt, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_ult_rt).map(&:sfdc_ult_rt))), params[:sfdc_ult_rt]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Ult RT
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_grp_rt %> -->
-            <th>Grp RT
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_grp_rt, params[:sfdc_grp_rt], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                    <%#= select_tag :sfdc_grp_rt, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_grp_rt).map(&:sfdc_grp_rt))), params[:sfdc_grp_rt]),  multiple: true, class: 'selectpicker' %>
-
-                    <!-- <br><br>Grp RT
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_type %> -->
-            <th>Type
-                <!-- <div class="form-group"> -->
-                    <%#= select_tag :sfdc_type, options_for_select(ordered_list(@selected_data.select(:sfdc_type).map(&:sfdc_type)), params[:sfdc_type]),  multiple: true, class: 'selectpicker' %>
-                    <!-- <br><br>Type
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_sales_person %> -->
-            <th>Salesperson
-                <!-- <div class="form-group"> -->
-                    <%#= select_tag :sfdc_sales_person, options_for_select(ordered_list(@selected_data.select(:sfdc_sales_person).map(&:sfdc_sales_person)), params[:sfdc_sales_person]),  multiple: true, class: 'selectpicker' %>
-                    <!-- <br><br>Salesperson -->
-                <!-- </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_id %> -->
-            <th>SFDC ID
-                <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- <br><br>SFDC ID
-                </div> -->
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_core_date %> -->
-                <th>
-                    <div class="form-group">
+            <th>Account</th>
+            <th>Ultimate Group</th>
+            <th>Group Name</th>
+            <th>Url Comparison</th>
+            <th>SFDC Url</th>
+            <th>Matched Url</th>
+            <th>Root Comparison</th>
+            <th>SFDC Root</th>
+            <th>Matched Root</th>
+            <th>SFDC Street</th>
+            <th>SFDC City</th>
+            <th>SFDC State</th>
+            <th>SFDC Zip</th>
+            <th>SFDC Ph</th>
+            <th>Tier</th>
+            <th>Ult RT</th>
+            <th>Grp RT</th>
+            <th>Type</th>
+            <th>Salesperson</th>
+            <th>SFDC ID</th>
+            <th>
+                <div class="form-group">
                     <%= text_field_tag :core_date, params[:core_date], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                        <%#= select_tag :core_date, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:core_date).map(&:core_date))), params[:core_date]),  multiple: true, class: 'selectpicker' %>
-
-                        <br><br>Core Date
-                    </div>
-                </th>
-            <!-- <% end %>
-
-            <% unless @col_domainer_date %> -->
-                <th>Domainer Date
-                    <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :domainer_date, params[:domainer_date], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                        <%#= select_tag :domainer_date, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:domainer_date).map(&:domainer_date))), params[:domainer_date]),  multiple: true, class: 'selectpicker' %>
-
-                        <!-- <br><br>Domainer Date
-                    </div> -->
-                </th>
-            <!-- <% end %>
-
-            <% unless @col_indexer_date %> -->
-                <th>
-                    <div class="form-group">
-                    <%= text_field_tag :indexer_date, params[:indexer_date], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                        <%#= select_tag :indexer_date, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:indexer_date).map(&:indexer_date))), params[:indexer_date]),  multiple: true, class: 'selectpicker' %>
-
-                        <br><br>Indexer Date
-                    </div>
-                </th>
-            <!-- <% end %>
-
-            <% unless @col_staffer_date %> -->
-                <th>Staffer Date
-                    <!-- <div class="form-group"> -->
-                    <%#= text_field_tag :staffer_date, params[:staffer_date], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                        <%#= select_tag :staffer_date, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:staffer_date).map(&:staffer_date))), params[:staffer_date]),  multiple: true, class: 'selectpicker' %>
-
-                        <!-- <br><br>Staffer Date
-                    </div> -->
-                </th>
-            <!-- <% end %>
-
-            <% unless @col_whois_date %> -->
-                <th>WhoIs Date
-                    <!-- <div class="form-group"> -->
-                        <%#= text_field_tag :whois_date, params[:whois_date], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-
-                        <%#= select_tag :whois_date, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:whois_date).map(&:whois_date))), params[:whois_date]),  multiple: true, class: 'selectpicker' %>
-
-                        <!-- <br><br>WhoIs Date
-                    </div> -->
-                </th>
-            <!-- <% end %> -->
-
-            <th colspan="3">
+                    <br><br>Core Date
+                </div>
             </th>
-        </tr> <!--  -->
+            <th>Domainer Date</th>
+            <th>
+                <div class="form-group">
+                    <%= text_field_tag :indexer_date, params[:indexer_date], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <br><br>Indexer Date
+                </div>
+            </th>
+            <th>Staffer Date</th>
+            <th>WhoIs Date</th>
+            <th colspan="3"></th>
+        </tr>
     </thead>
 
     <tbody>
         <% num = 0 %>
         <% @cores.each do |core| %>
-        <tr>
-            <td><%= check_box_tag "status_checks[]",  core.id %></td>
+            <tr>
+                <td><%= check_box_tag "status_checks[]",  core.id %></td>
 
-            <% num +=1 %>
-            <td><%= num %></td>
+                <% num +=1 %>
+                <td><%= num %></td>
+                <td><%= core.bds_status %></td>
 
-            <!-- <% unless @col_bds_status %> -->
-            <td><%= core.bds_status %></td>
-            <!-- <% end %> -->
+                <!-- ====== 3 New Indexer Columns ====== -->
+                <td><%= core.staff_indexer_status %></td>
+                <td><%= core.location_indexer_status %></td>
+                <td><%= core.inventory_indexer_status %></td>
 
-            <!-- ====== 3 New Indexer Columns ====== -->
+                <!-- ====== 3 New Indexer Columns ====== -->
+                <td><%= core.sfdc_acct %></td>
+                <td><%= core.sfdc_group %></td>
+                <td><%= core.sfdc_ult_grp %></td>
+                <td class="yellow"><%= core.url_comparison %></td>
+                <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
+                <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
+                <td class="yellow"><%= core.root_comparison %></td>
+                <td><%= core.sfdc_root %></td>
+                <td><%= core.matched_root %></td>
+                <td><%= core.sfdc_street %></td>
+                <td><%= core.sfdc_city %></td>
+                <td><%= core.sfdc_state %></td>
+                <td><%= core.sfdc_zip %></td>
+                <td><%= core.sfdc_ph %></td>
+                <td><%= core.sfdc_tier %></td>
+                <td><%= core.sfdc_ult_rt %></td>
+                <td><%= core.sfdc_grp_rt %></td>
+                <td><%= core.sfdc_type %></td>
+                <td><%= core.sfdc_sales_person %></td>
+                <td><%= core.sfdc_id %></td>
 
-            <!-- <% unless @col_bds_status %> -->
-            <td><%= core.staff_indexer_status %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_bds_status %> -->
-            <td><%= core.location_indexer_status %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_bds_status %> -->
-            <td><%= core.inventory_indexer_status %></td>
-            <!-- <% end %> -->
-
-            <!-- ====== 3 New Indexer Columns ====== -->
-
-            <!-- <% unless @col_sfdc_acct %> -->
-            <td><%= core.sfdc_acct %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_group %> -->
-            <td><%= core.sfdc_group %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_ult_grp %> -->
-            <td><%= core.sfdc_ult_grp %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_url_comparison %> -->
-            <td class="yellow"><%= core.url_comparison %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_url %> -->
-            <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_matched_url %> -->
-            <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_root_comparison %> -->
-            <td class="yellow"><%= core.root_comparison %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_root %> -->
-            <td><%= core.sfdc_root %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_matched_root %> -->
-            <td><%= core.matched_root %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_street %> -->
-            <td><%= core.sfdc_street %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_city %> -->
-            <td><%= core.sfdc_city %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_state %> -->
-            <td><%= core.sfdc_state %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_zip %> -->
-            <td><%= core.sfdc_zip %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_ph %> -->
-            <td><%= core.sfdc_ph %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_tier %> -->
-            <td><%= core.sfdc_tier %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_ult_rt %> -->
-            <td><%= core.sfdc_ult_rt %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_grp_rt %> -->
-            <td><%= core.sfdc_grp_rt %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_type %> -->
-            <td><%= core.sfdc_type %></td>
-            <!-- <% end %> -->
-
-
-            <!-- <% unless @col_sfdc_sales_person %> -->
-            <td><%= core.sfdc_sales_person %></td>
-            <!-- <% end %> -->
-
-            <!-- <% unless @col_sfdc_id %> -->
-            <td><%= core.sfdc_id %></td>
-            <!-- <% end %> -->
-
-            <!-- <% if !@col_core_date %> -->
                 <% if core.core_date %>
                     <td><%= core.core_date.strftime("%m/%d/%Y") %></td>
                 <% else %>
                     <td><%= core.core_date %></td>
                 <% end %>
-            <!-- <% end %> -->
 
-            <!-- <% if !@col_domainer_date %> -->
                 <% if core.domainer_date %>
                     <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
                 <% else %>
                     <td><%= core.domainer_date %></td>
                 <% end %>
-            <!-- <% end %> -->
 
-            <!-- <% if !@col_indexer_date %> -->
                 <% if core.indexer_date %>
                     <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
                 <% else %>
                     <td><%= core.indexer_date %></td>
                 <% end %>
-            <!-- <% end %> -->
 
-            <!-- <% if !@col_staffer_date %> -->
                 <% if core.staffer_date %>
                     <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
                 <% else %>
                     <td><%= core.staffer_date %></td>
                 <% end %>
-            <!-- <% end %> -->
 
-            <!-- <% if !@col_whois_date %> -->
                 <% if core.whois_date %>
                     <td><%= core.whois_date.strftime("%m/%d/%Y") %></td>
                 <% else %>
                     <td><%= core.whois_date %></td>
                 <% end %>
-            <!-- <% end %> -->
 
-            <td><%= link_to 'Show', core %></td>
-            <td><%= link_to 'Edit', edit_core_path(core) %></td>
-        <td><%= link_to 'Destroy', core, method: :delete %></td>
-    </tr>
+                <td><%= link_to 'Show', core %></td>
+                <td><%= link_to 'Edit', edit_core_path(core) %></td>
+                <td><%= link_to 'Destroy', core, method: :delete %></td>
+            </tr>
         <% end %> <!-- @cores.each loop ends -->
     </tbody>
 </table>
 
 <div class="pull-left">
     <div class="form-group">
-        <%= select_tag :selected_status, options_for_select(core_status_list, params[:selected_status]), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
+        <%= select_tag :selected_status, options_for_select(core_status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
         <%= submit_tag "Submit", class: 'btn btn-success' %>
     </div>
 </div>

@@ -1,27 +1,11 @@
 module GcsesHelper
-
-    def column_list
-      Gcse.column_names[1..-3].map {|col| [col, col] }
-    end
-
     def status_list
-        [['Dom Result', 'Dom Result'],
-        ['Imported', 'Imported'],
-        ['Auto-Match', 'Auto-Match'],
-        ['No Auto-Matches', 'No Auto-Matches'],
-        ['Matched', 'Matched'],
-        ['No Matches', 'No Matches'],
-        ['Pending Verification', 'Pending Verification'],
-        ['Solitary', 'Solitary'],
-        ['Junk', 'Junk'],
-        ['Destroy', 'Destroy']]
+        ['Dom Result', 'Imported', 'Auto-Match', 'No Auto-Matches', 'Matched', 'No Matches', 'Pending Verification', 'Solitary', 'Junk', 'Destroy']
     end
-
 
     def sfdc_tier_list
         ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
     end
-
 
     def blank_remover(array)
         for i in 0...array.length

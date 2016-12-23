@@ -22,43 +22,6 @@ class CoresController < ApplicationController
               format.csv { render text: @cores_csv.to_csv }
         end
 
-        # Exclude selected columns
-        if params[:columns].present?
-            columns = params[:columns]
-            @col_bds_status = true if columns.include?("bds_status")
-
-            @col_staff_indexer_status = true if columns.include?("staff_indexer_status")
-            @col_location_indexer_status = true if columns.include?("location_indexer_status")
-            @col_inventory_indexer_status = true if columns.include?("inventory_indexer_status")
-            
-            @col_core_date = true if columns.include?("core_date")
-            @col_domainer_date = true if columns.include?("domainer_date")
-            @col_indexer_date = true if columns.include?("indexer_date")
-            @col_staffer_date = true if columns.include?("staffer_date")
-            @col_whois_date = true if columns.include?("whois_date")
-            @col_sfdc_id = true if columns.include?("sfdc_id")
-            @col_sfdc_tier = true if columns.include?("sfdc_tier")
-            @col_sfdc_sales_person = true if columns.include?("sfdc_sales_person")
-            @col_sfdc_type = true if columns.include?("sfdc_type")
-            @col_sfdc_ult_rt = true if columns.include?("sfdc_ult_rt")
-            @col_sfdc_grp_rt = true if columns.include?("sfdc_grp_rt")
-            @col_sfdc_ult_grp = true if columns.include?("sfdc_ult_grp")
-            @col_sfdc_group = true if columns.include?("sfdc_group")
-            @col_sfdc_acct = true if columns.include?("sfdc_acct")
-            @col_sfdc_street = true if columns.include?("sfdc_street")
-            @col_sfdc_city = true if columns.include?("sfdc_city")
-            @col_sfdc_state = true if columns.include?("sfdc_state")
-            @col_sfdc_zip = true if columns.include?("sfdc_zip")
-            @col_sfdc_ph = true if columns.include?("sfdc_ph")
-            @col_sfdc_url = true if columns.include?("sfdc_url")
-            @col_matched_url = true if columns.include?("matched_url")
-            @col_matched_root = true if columns.include?("matched_root")
-            @col_url_comparison = true if columns.include?("url_comparison")
-            @col_root_comparison = true if columns.include?("root_comparison")
-            @col_sfdc_root = true if columns.include?("sfdc_root")
-
-        end
-
         # Checkbox
         batch_status
     end
@@ -139,20 +102,25 @@ class CoresController < ApplicationController
     end
 
     def quick_core_view_queue
-        set_selected_status_core({"bds_status"=>["Queue"]})
+        set_selected_status_core({"bds_status"=>["Queue Domainer"]})
 
         redirect_to cores_path
     end
 
     def batch_status
-        unless params[:status_checks].nil?
-            for id in params[:status_checks]
+        ids = params[:status_checks]
+        status = params[:selected_status]
+
+        unless ids.nil?
+            for id in ids
                 data = Core.find(id)
-                data.update_attribute(:bds_status, params[:selected_status])
+                data.update_attribute(:bds_status, status)
             end
             # Queue
-            if params[:selected_status] == 'Queue'
-                start_queue(params[:status_checks])
+            if status == 'Queue Domainer'
+                start_domainer(ids)
+            elsif status == 'Queue Indexer'
+                start_indexer(ids)
             end
         end
     end
@@ -172,19 +140,18 @@ class CoresController < ApplicationController
         params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
-    # def start_queue(ids)
-    #     CoreService.new.delay.scrape_listing(ids)
-    #     # CoreService.new.scrape_listing(ids)
-    #     flash[:notice] = 'Scraping queued!'
-    #     redirect_to gcses_path
-    # end
-
-    def start_queue(ids)
+    def start_domainer(ids)
         CoreService.new.delay.scrape_listing(ids)
         # CoreService.new.scrape_listing(ids)
-        flash[:notice] = 'Scraping queued!'
+        flash[:notice] = 'Domainer starts!'
         redirect_to gcses_path
     end
 
+    def start_indexer(ids)
+        # IndexerService.new.delay.start_indexer(ids)
+        IndexerService.new.start_indexer(ids)
+        flash[:notice] = 'Indexer starts!'
+        redirect_to indexer_staffs_path
+    end
 
 end

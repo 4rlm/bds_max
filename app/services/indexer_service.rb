@@ -3,12 +3,13 @@ require 'mechanize'
 require 'uri'
 require 'nokogiri'
 require 'socket'
+require 'pry'
 
 class IndexerService
     def start_indexer(ids)
         agent = Mechanize.new
         locations_text_list = CriteriaIndexerLocText.all.map(&:term)
-        locations_href_list CriteriaIndexerLocHref.all.map(&:term)
+        locations_href_list = CriteriaIndexerLocHref.all.map(&:term)
         staff_text_list = CriteriaIndexerStaffText.all.map(&:term)
         staff_href_list = CriteriaIndexerStaffHref.all.map(&:term)
 
@@ -34,9 +35,23 @@ class IndexerService
                 page_finder(locations_text_list, locations_href_list, url, page)
                 page_finder(staff_text_list, staff_href_list, url, page)
 
-                # Throttle
-                # delay_time = rand(42)
+                # Throttle V1
+                # delay_time = rand(10..20)
                 # sleep(delay_time)
+
+                # Throttle V2
+                #== Throttle (if needed) =====================
+                # throttle_delay_time = (1..2).to_a.sample
+                # puts "--------------------------------"
+                # puts "SFDC_ID: #{id}"
+                # puts "ACCT NAME: #{acct}"
+                # puts "SFDC_URL: #{url_o}"
+                # puts "SFDC_ROOT: #{sfdc_root}"
+                # puts "--------------------------------"
+                # puts "Please wait #{throttle_delay_time} seconds."
+                # puts "--------------------------------"
+                # sleep(throttle_delay_time)
+
             rescue
                 add_indexer_row_with("Error", "IP Not Found", "(none)", "(none)", $!.message)
             end
@@ -47,6 +62,7 @@ class IndexerService
     def page_finder(text_list, href_list, url, page)
         for text in text_list
             if pages = page.link_with(:text => text)
+                binding.pry
                 url_split_joiner(url, pages)
                 break
             end
@@ -55,6 +71,7 @@ class IndexerService
         if !pages
             for href in href_list
                 if pages = page.link_with(:href => href)
+                    binding.pry
                     url_split_joiner(url, pages)
                     break
                 end
@@ -63,6 +80,7 @@ class IndexerService
             if !pages
                 ip = ip_grab(url)
 
+                binding.pry
                 add_indexer_row_with("No Matches", ip, "(none)", "(none)", "(none)")
 
                 puts "NO MATCHES.  Found IP " + ip + " for " +  url
@@ -88,14 +106,16 @@ class IndexerService
     end
 
     def add_indexer_row_with(status, ip, text, href, link)
+        binding.pry
         @cols_hash[:indexer_status] = status
         @cols_hash[:ip] = ip
         @cols_hash[:text] = text
         @cols_hash[:href] = href
         @cols_hash[:link] = link
 
-        indexer_location = IndexerLocation.create(@col_values)
-        indexer_staff = IndexerStaff.create(@col_values)
+        puts "\n>>>>Gahee @cols_hash: #{@cols_hash}\n"
+        IndexerLocation.create(@cols_hash)
+        IndexerStaff.create(@cols_hash)
     end
 
     def validater(url_http, dbl_slash, url_www, dirty_url)
