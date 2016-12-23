@@ -9,9 +9,9 @@ class IndexerService
     def start_indexer(ids)
         agent = Mechanize.new
         locations_text_list = CriteriaIndexerLocText.all.map(&:term)
-        locations_href_list = CriteriaIndexerLocHref.all.map(&:term)
+        locations_href_list = to_regexp(CriteriaIndexerLocHref.all.map(&:term))
         staff_text_list = CriteriaIndexerStaffText.all.map(&:term)
-        staff_href_list = CriteriaIndexerStaffHref.all.map(&:term)
+        staff_href_list = to_regexp(CriteriaIndexerStaffHref.all.map(&:term))
 
         Core.where(id: ids).each do |el|
             @cols_hash = {
@@ -36,12 +36,12 @@ class IndexerService
                 page_finder(staff_text_list, staff_href_list, url, page)
 
                 # Throttle V1
-                # delay_time = rand(10..20)
-                # sleep(delay_time)
+                delay_time = rand(15)
+                sleep(delay_time)
 
                 # Throttle V2
                 #== Throttle (if needed) =====================
-                # throttle_delay_time = (1..2).to_a.sample
+                # throttle_delay_time = (3..20).to_a.sample
                 # puts "--------------------------------"
                 # puts "SFDC_ID: #{id}"
                 # puts "ACCT NAME: #{acct}"
@@ -59,19 +59,31 @@ class IndexerService
         end # Ends cores Loop
     end # Ends start_indexer(ids)
 
+    # # Adam Version Starts
+    # def page_finder(text_list, href_list, url, page)
+    #     for i in 0...(text_list.length)
+    #         if pages = page.link_with(:text => text_list[i])
+    #             url_split_joiner(url, pages)
+    #             break
+    #         end
+    #     end
+    # # Adam Version Ends
+
+    # Original Starts
     def page_finder(text_list, href_list, url, page)
         for text in text_list
             if pages = page.link_with(:text => text)
-                binding.pry
+                # binding.pry
                 url_split_joiner(url, pages)
                 break
             end
         end
+    # Original Ends
 
         if !pages
             for href in href_list
                 if pages = page.link_with(:href => href)
-                    binding.pry
+                    # binding.pry
                     url_split_joiner(url, pages)
                     break
                 end
@@ -80,10 +92,10 @@ class IndexerService
             if !pages
                 ip = ip_grab(url)
 
-                binding.pry
+                # binding.pry
                 add_indexer_row_with("No Matches", ip, "(none)", "(none)", "(none)")
 
-                puts "NO MATCHES.  Found IP " + ip + " for " +  url
+                # puts "NO MATCHES.  Found IP " + ip + " for " +  url
             end
         end
     end # Ends page_finder
@@ -106,7 +118,7 @@ class IndexerService
     end
 
     def add_indexer_row_with(status, ip, text, href, link)
-        binding.pry
+        # binding.pry
         @cols_hash[:indexer_status] = status
         @cols_hash[:ip] = ip
         @cols_hash[:text] = text
@@ -124,6 +136,10 @@ class IndexerService
         else
             url_http + dbl_slash + url_www + dirty_url
         end
+    end
+
+    def to_regexp(arr)
+        arr.map {|str| Regexp.new(str)}
     end
 
 end # IndexerService class Ends ---

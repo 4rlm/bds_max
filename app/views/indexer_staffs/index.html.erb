@@ -44,14 +44,13 @@
             <td><%= indexer_staff.sfdc_acct %></td>
             <td><%= indexer_staff.sfdc_group_name %></td>
             <td><%= indexer_staff.sfdc_ult_acct %></td>
-            <td><%= indexer_staff.domain %></td>
+            <td><%= link_to indexer_staff.domain, indexer_staff.domain, :target => "_blank" %></td>
             <td><%= indexer_staff.ip %></td>
             <td><%= indexer_staff.text %></td>
             <td><%= indexer_staff.href %></td>
-            <td><%= indexer_staff.link %></td>
+            <td><%= link_to indexer_staff.link, indexer_staff.link, :target => "_blank" %></td>
             <td><%= indexer_staff.sfdc_id %></td>
             <td><%= indexer_staff.indexer_timestamp %></td>
-
             <td><%= link_to 'Show', indexer_staff %></td>
             <td><%= link_to 'Edit', edit_indexer_staff_path(indexer_staff) %></td>
             <td><%= link_to 'Destroy', indexer_staff, method: :delete, data: { confirm: 'Are you sure?' } %></td>
