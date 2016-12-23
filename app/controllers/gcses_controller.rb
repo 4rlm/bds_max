@@ -355,9 +355,9 @@ class GcsesController < ApplicationController
         end
     end
 
-    # def start_queue(ids)
-    #     IndexerService.new.delay.start_indexer(ids)
-    #     flash[:notice] = 'Indexer Starts!'
-    #     redirect_to gcses_path
-    # end
+    def start_queue(ids)
+        IndexerService.new.delay.start_indexer(ids)
+        flash[:notice] = 'Indexer Starts!'
+        redirect_to gcses_path
+    end
 end

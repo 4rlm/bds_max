@@ -17,20 +17,16 @@
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
-
             <th>#</th>
-
             <th>Indexer status</th>
             <th>Sfdc acct</th>
             <th>Sfdc group name</th>
             <th>Sfdc ult acct</th>
-            <th>Root</th>
             <th>Domain</th>
             <th>Ip</th>
             <th>Text</th>
             <th>Href</th>
             <th>Staff link</th>
-            <th>Msg</th>
             <th>Sfdc street</th>
             <th>Sfdc city</th>
             <th>Sfdc state</th>
@@ -48,21 +44,17 @@
         <% @indexer_staffs.each do |indexer_staff| %>
         <tr>
             <td><%= check_box_tag "multi_checks[]",  indexer_staff.id %></td>
-
             <% num +=1 %>
             <td><%= num %></td>
-
             <td><%= indexer_staff.indexer_status %></td>
             <td><%= indexer_staff.sfdc_acct %></td>
             <td><%= indexer_staff.sfdc_group_name %></td>
             <td><%= indexer_staff.sfdc_ult_acct %></td>
-            <td><%= indexer_staff.root %></td>
             <td><%= indexer_staff.domain %></td>
             <td><%= indexer_staff.ip %></td>
             <td><%= indexer_staff.text %></td>
             <td><%= indexer_staff.href %></td>
             <td><%= indexer_staff.link %></td>
-            <td><%= indexer_staff.msg %></td>
             <td><%= indexer_staff.sfdc_street %></td>
             <td><%= indexer_staff.sfdc_city %></td>
             <td><%= indexer_staff.sfdc_state %></td>
@@ -71,6 +63,7 @@
             <td><%= indexer_staff.sfdc_sales_person %></td>
             <td><%= indexer_staff.sfdc_id %></td>
             <td><%= indexer_staff.indexer_timestamp %></td>
+
             <td><%= link_to 'Show', indexer_staff %></td>
             <td><%= link_to 'Edit', edit_indexer_staff_path(indexer_staff) %></td>
             <td><%= link_to 'Destroy', indexer_staff, method: :delete, data: { confirm: 'Are you sure?' } %></td>
