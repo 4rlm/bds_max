@@ -11,10 +11,6 @@ class IndexerLocationsController < ApplicationController
     end
 
 
-    @posts = IndexerLocations.paginate(:page => params[:page], :per_page => 30)
-
-    # @indexer_locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 350)
-
     #==== For multi check box
     selects = params[:multi_checks]
     unless selects.nil?

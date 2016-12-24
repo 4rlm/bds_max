@@ -19,18 +19,6 @@
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
 
 
-<!-- indexer_status
-sfdc_acct
-sfdc_group_name
-sfdc_ult_acct
-domain
-ip
-text
-href
-link
-sfdc_id
-indexer_timestamp -->
-
             <th>#</th>
 
             <!-- <th>Indexer status</th> -->
@@ -162,21 +150,8 @@ indexer_timestamp -->
     <%= link_to 'Import CSV', criteria_indexer_staff_text_import_page_path, class: 'btn btn-primary' %>
     <%= link_to 'Download CSV', criteria_indexer_staff_texts_path(format: "csv"), class: 'btn btn-primary' %>
 </div>
-<br>
-<br>
+<br> <br>
 
-<br>
+<%= will_paginate @paginates, renderer: BootstrapPagination::Rails  %>
 
-
-</div>
-</br>
-</br>
-</br>
-
-<%#= will_paginate @paginates, renderer: BootstrapPagination::Rails  %>
-
-
-</br>
-</br>
-</br>
-</br>
+<br> <br> <br> <br>

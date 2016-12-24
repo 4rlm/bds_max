@@ -11,6 +11,19 @@ class IndexerStaffsController < ApplicationController
     end
 
 
+    #---------  Adam's Trial - Starts -------
+    # @all_indexer_staffs = IndexerStaff.all
+
+    # @paginates = @all_indexer_staffs.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 350)
+
+    # @paginates = @all_indexer_staffs.paginate(:page => params[:page], :per_page => 350)
+
+    @paginates = IndexerStaff.paginate(:page => params[:page], :per_page => 350)
+
+
+    #---------  Adam's Trial - Ends -------
+
+
     #==== For multi check box
     selects = params[:multi_checks]
     unless selects.nil?
@@ -97,5 +110,9 @@ class IndexerStaffsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_staff_params
       params.require(:indexer_staff).permit(:indexer_status, :sfdc_acct, :sfdc_group_name, :sfdc_ult_acct, :root, :domain, :ip, :text, :href, :staff_link, :msg, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_id, :indexer_timestamp)
+    end
+
+    def filtering_params(params)
+        params.slice(:indexer_status, :sfdc_acct, :sfdc_group_name, :sfdc_ult_acct, :root, :domain, :ip, :text, :href, :staff_link, :msg, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_id, :indexer_timestamp)
     end
 end

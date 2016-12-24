@@ -44,7 +44,7 @@ a.btn{
 }
 
 // Adam Trial Starts
-.selectpicker {
+select.selectpicker.select-block {
     color: blue !important;
     background-color: red;
     font-style: italic;
@@ -56,3 +56,14 @@ a.btn{
     font-style: italic;
 }
 // Adam Trial Ends
+
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 100%;
+    li a {
+        font-size: 12px;
+    }
+}
+
+.bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text {
+    margin-right: 0;
+}

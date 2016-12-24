@@ -17,7 +17,7 @@
 }
 // Adam Trial Ends
 
-
+ // View Cores Layout
 .account-profile-container {
     border: 1px solid gray;
     border-radius: 5px;
@@ -26,13 +26,31 @@
 
 .account-profile-container .account-profile-table{
     margin-bottom: 2px;
-
 }
 
 .account-profile-header {
     color: white;
     font-weight: bold;
     background-image:linear-gradient(#a0aeff, #667cf9);
+    text-align: center;
+    border-radius: 5px;
+}
+
+ // Cores Filter
+.core-filter-container {
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px gray;
+}
+
+.core-filter-container .core-filter-table{
+    margin-bottom: 2px;
+}
+
+.core-filter-header {
+    color: white;
+    font-weight: bold;
+    background-image:linear-gradient(#ffc14d, #ffaf1a);
     text-align: center;
     border-radius: 5px;
 }

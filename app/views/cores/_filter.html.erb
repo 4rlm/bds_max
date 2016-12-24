@@ -1,0 +1,237 @@
+<h1>New Filter</h1>
+<div class="core-filter-container">
+    <div class="row" style="font-size:12px;">
+    <th>#</th>
+
+        <!-- Account Name Table Filter -->
+        <div class="col-md-12">
+            <table class="core-filter-table table table-bordered table-hover">
+                <tr>
+                    <th class="core-filter-header" colspan="7">Account Name</th>
+                </tr>
+                <tr>
+                    <th>SFDC</th>
+                    <th>Account:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></td>
+                    <th>Group:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group } %></td>
+                    <th>Ultimate:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_grp } %></td>
+                </tr>
+                <tr>
+                    <th>Matched</th>
+                    <th>Account:</th>
+                    <td>sample account</td>
+                    <th>Group:</th>
+                    <td>sample group</td>
+                    <th>Ultimate:</th>
+                    <td>sample ultimate</td>
+                </tr>
+                <tr>
+                    <th>Indicator</th>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+    <!-- Physical Address Table Filter -->
+    <div class="row" style="font-size:12px;">
+        <div class="col-md-12">
+            <table class="core-filter-table table table-bordered table-hover">
+                <tr>
+                    <th class="core-filter-header" colspan="11">Physical Address</th>
+                </tr>
+                <tr>
+                    <th>SFDC</th>
+                    <th>Street:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_street } %></td>
+                    <th>City:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_city } %></td>
+                    <th>State:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_state } %></td>
+                    <th>Zip:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_zip } %></td>
+                    <th>Phone:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ph } %></td>
+                </tr>
+                <tr>
+                    <th>Matched</th>
+                    <th>Street:</th>
+                    <td>sample street</td>
+                    <th>City:</th>
+                    <td>sample city</td>
+                    <th>State:</th>
+                    <td>sample state</td>
+                    <th>Zip:</th>
+                    <td>sample zip</td>
+                    <th>Phone:</th>
+                    <td>sample phone</td>
+                </tr>
+                <tr>
+                    <th>Indicator</th>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+    <!-- Website Table Filter  -->
+    <div class="row" style="font-size:12px;">
+        <div class="col-md-5">
+            <table class="core-filter-table table table-bordered table-hover">
+                <tr>
+                    <th class="core-filter-header" colspan="5">Website</th>
+                </tr>
+                <tr>
+                    <th>SFDC</th>
+                    <th>Website:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_url } %></td>
+                    <th>Root:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_root } %></td>
+                </tr>
+                <tr>
+                    <th>Matched</th>
+                    <th>Website:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :matched_url } %></td>
+                    <th>Root:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :matched_root } %></td>
+                </tr>
+                <tr>
+                    <th>Indicator</th>
+                    <td></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :url_comparison } %></td>
+                    <td></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :root_comparison } %></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Strategic Table Filter -->
+        <div class="col-md-6">
+            <table class="core-filter-table table table-bordered table-hover">
+                <tr>
+                    <th class="core-filter-header" colspan="6">Strategic</th>
+                </tr>
+                <tr>
+                    <th>Sales Tier:</th>
+                    <td><%= render partial: 'layouts/select_tag', locals: { col: :sfdc_tier } %></td>
+                    <th>Group RT:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_grp_rt } %></td>
+                    <th>Ultimate RT:</th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_rt } %></td>
+                </tr>
+                <tr>
+                    <th>Sales Tier:</th>
+                    <td>sample</td>
+                    <th>Group RT:</th>
+                    <td>sample</td>
+                    <th>Ultimate RT:</th>
+                    <td>sample</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                    <td></td>
+                    <td>sample</td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+    <!-- Status Table Filter -->
+    <div class="row" style="font-size:12px;">
+        <div class="col-md-6">
+            <table class="core-filter-table table table-bordered table-hover">
+                <tr>
+                    <th class="core-filter-header" colspan="6">Status</th>
+                </tr>
+                <tr>
+                    <th>Domainer</th>
+                    <th>Staff Link</th>
+                    <th>Location Link</th>
+                    <th>Inventory Link</th>
+                    <th>Staffer</th>
+                    <th>WhoIs</th>
+                </tr>
+                <tr>
+                    <td><%= render partial: 'layouts/select_tag', locals: { col: :bds_status } %></td>
+                    <td><%= render partial: 'layouts/select_tag', locals: { col: :staff_indexer_status } %></td>
+                    <td><%= render partial: 'layouts/select_tag', locals: { col: :location_indexer_status } %></td>
+                    <td><%= render partial: 'layouts/select_tag', locals: { col: :inventory_indexer_status } %></td>
+                    <td>status sample</td>
+                    <td>status sample</td>
+                </tr>
+                <tr>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domainer_date } %></td>
+                    <td>date sample</td>
+                    <td>date sample</td>
+                    <td>date sample</td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :whois_date } %></td>
+                </tr>
+                <tr>
+                    <td>link sample</td>
+                    <td>link sample</td>
+                    <td>link sample</td>
+                    <td>link sample</td>
+                    <td>link sample</td>
+                    <td>link sample</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="col-md-5"> <!-- Upper Col Starts-->
+            <div class="row"> <!-- Sub Row -->
+
+                <!-- Category Table Filter -->
+                <div class="col-md-12">
+                    <table class="core-filter-table table table-bordered table-hover">
+                        <tr>
+                            <th class="core-filter-header" colspan="2">Category</th>
+                        </tr>
+                        <tr>
+                            <th>Sales Person</th>
+                            <td><%= render partial: 'layouts/select_tag', locals: { col: :sfdc_sales_person } %></td>
+                        </tr>
+                        <tr>
+                            <th>Type</th>
+                            <td><%= render partial: 'layouts/select_tag', locals: { col: :sfdc_type } %></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Action Table Filter -->
+                <div class="col-md-12">
+                    <table class="core-filter-table table table-bordered table-hover">
+                        <tr>
+                            <th class="core-filter-header" colspan="3">Action (SFDC ID) - Temp</th>
+                        </tr>
+                        <tr>
+                            <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div> <!-- Sub-Row Ends -->
+        </div>   <!-- Upper Col Ends-->
+    </div>  <!-- row ends -->
+</div> <!-- Account Profile Ends -->
