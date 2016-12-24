@@ -28,6 +28,8 @@ class IndexerService
                 link: nil
             }
 
+            current_time = Time.new
+
             begin
                 url = @cols_hash[:domain]
                 page = agent.get(url)
@@ -38,6 +40,8 @@ class IndexerService
             rescue
                 add_indexer_row_with("Error", "IP Not Found", "(none)", "(none)", $!.message, "error")
             end
+
+            el.update_attributes(indexer_date: current_time, bds_status: "Indexer Result")
 
             # Throttle V1
             # delay_time = rand(30)
