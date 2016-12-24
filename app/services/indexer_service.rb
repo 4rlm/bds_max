@@ -35,26 +35,21 @@ class IndexerService
                 page_finder(locations_text_list, locations_href_list, url, page, "location")
                 page_finder(staff_text_list, staff_href_list, url, page, "staff")
 
-                # Throttle V1
-                delay_time = rand(30)
-                sleep(delay_time)
-
-                # Throttle V2
-                #== Throttle (if needed) =====================
-                # throttle_delay_time = (3..20).to_a.sample
-                # puts "--------------------------------"
-                # puts "SFDC_ID: #{id}"
-                # puts "ACCT NAME: #{acct}"
-                # puts "SFDC_URL: #{url_o}"
-                # puts "SFDC_ROOT: #{sfdc_root}"
-                # puts "--------------------------------"
-                # puts "Please wait #{throttle_delay_time} seconds."
-                # puts "--------------------------------"
-                # sleep(throttle_delay_time)
-
             rescue
                 add_indexer_row_with("Error", "IP Not Found", "(none)", "(none)", $!.message, "error")
             end
+
+            # Throttle V1
+            # delay_time = rand(30)
+            # sleep(delay_time)
+
+            # Throttle V2
+            #== Throttle (if needed) =====================
+            throttle_delay_time = (3..20).to_a.sample
+            puts "--------------------------------"
+            puts "Please wait #{throttle_delay_time} seconds."
+            puts "--------------------------------"
+            sleep(throttle_delay_time)
 
         end # Ends cores Loop
     end # Ends start_indexer(ids)
@@ -78,7 +73,8 @@ class IndexerService
             end
 
             if !pages
-                ip = ip_grab(url)
+                # ip = ip_grab(url)
+                ip = "(none)"
 
                 # binding.pry
                 add_indexer_row_with("No Matches", ip, "(none)", "(none)", "(none)", mode)
@@ -93,17 +89,18 @@ class IndexerService
         url_http = url_s[0]
         url_www = url_s[2]
 
-        ip = ip_grab(url)
+        ip = "(none)"
+        # ip = ip_grab(url)
         joined_url = validater(url_http, '//', url_www, pages.href)
 
         add_indexer_row_with("Matched", ip, pages.text.strip, pages.href, joined_url, mode)
     end
 
-    def ip_grab(url)
-        url_s = url.split('/')
-        url_www = url_s[2]
-        IPSocket::getaddress(url_www)
-    end
+    # def ip_grab(url)
+    #     url_s = url.split('/')
+    #     url_www = url_s[2]
+    #     IPSocket::getaddress(url_www)
+    # end
 
     def add_indexer_row_with(status, ip, text, href, link, mode)
         # binding.pry

@@ -1,0 +1,62 @@
+<tr>
+    <td><%= check_box_tag "status_checks[]",  core.id %></td>
+    <td><%= num %></td>
+    <td><%= core.bds_status %></td>
+    <td><%= core.staff_indexer_status %></td>
+    <td><%= core.location_indexer_status %></td>
+    <td><%= core.inventory_indexer_status %></td>
+    <td><%= core.sfdc_acct %></td>
+    <td><%= core.sfdc_group %></td>
+    <td><%= core.sfdc_ult_grp %></td>
+    <td class="yellow"><%= core.url_comparison %></td>
+    <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
+    <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
+    <td class="yellow"><%= core.root_comparison %></td>
+    <td><%= core.sfdc_root %></td>
+    <td><%= core.matched_root %></td>
+    <td><%= core.sfdc_street %></td>
+    <td><%= core.sfdc_city %></td>
+    <td><%= core.sfdc_state %></td>
+    <td><%= core.sfdc_zip %></td>
+    <td><%= core.sfdc_ph %></td>
+    <td><%= core.sfdc_tier %></td>
+    <td><%= core.sfdc_ult_rt %></td>
+    <td><%= core.sfdc_grp_rt %></td>
+    <td><%= core.sfdc_type %></td>
+    <td><%= core.sfdc_sales_person %></td>
+    <td><%= core.sfdc_id %></td>
+
+    <% if core.core_date %>
+        <td><%= core.core_date.strftime("%m/%d/%Y") %></td>
+    <% else %>
+        <td><%= core.core_date %></td>
+    <% end %>
+
+    <% if core.domainer_date %>
+        <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
+    <% else %>
+        <td><%= core.domainer_date %></td>
+    <% end %>
+
+    <% if core.indexer_date %>
+        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+    <% else %>
+        <td><%= core.indexer_date %></td>
+    <% end %>
+
+    <% if core.staffer_date %>
+        <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
+    <% else %>
+        <td><%= core.staffer_date %></td>
+    <% end %>
+
+    <% if core.whois_date %>
+        <td><%= core.whois_date.strftime("%m/%d/%Y") %></td>
+    <% else %>
+        <td><%= core.whois_date %></td>
+    <% end %>
+
+    <td><%= link_to 'Show', core %></td>
+    <td><%= link_to 'Edit', edit_core_path(core) %></td>
+    <td><%= link_to 'Destroy', core, method: :delete %></td>
+</tr>

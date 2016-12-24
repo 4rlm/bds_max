@@ -16,3 +16,23 @@
     font-style: italic;
 }
 // Adam Trial Ends
+
+
+.account-profile-container {
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px gray;
+}
+
+.account-profile-container .account-profile-table{
+    margin-bottom: 2px;
+
+}
+
+.account-profile-header {
+    color: white;
+    font-weight: bold;
+    background-image:linear-gradient(#a0aeff, #667cf9);
+    text-align: center;
+    border-radius: 5px;
+}
