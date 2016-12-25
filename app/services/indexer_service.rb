@@ -14,21 +14,22 @@ class IndexerService
         staff_href_list = to_regexp(CriteriaIndexerStaffHref.all.map(&:term))
 
         Core.where(id: ids).each do |el|
+            current_time = Time.new
+
             @cols_hash = {
-                indexer_timestamp: Time.new,
+                indexer_timestamp: current_time,
                 indexer_status: nil,
-                sfdc_acct: el[:sfdc_acct],
-                sfdc_group_name: el[:sfdc_group],
-                sfdc_ult_acct: el[:sfdc_ult_grp],
-                sfdc_id: el[:sfdc_id],
+                sfdc_acct: nil,
+                sfdc_group_name: nil,
+                sfdc_ult_acct: nil,
+                sfdc_id: nil,
                 domain: el[:matched_url],
+                core_id: el[:id],
                 ip: nil,
                 text: nil,
                 href: nil,
                 link: nil
             }
-
-            current_time = Time.new
 
             begin
                 url = @cols_hash[:domain]
@@ -49,7 +50,7 @@ class IndexerService
 
             # Throttle V2
             #== Throttle (if needed) =====================
-            throttle_delay_time = (3..20).to_a.sample
+            throttle_delay_time = (1..3).to_a.sample
             puts "--------------------------------"
             puts "Please wait #{throttle_delay_time} seconds."
             puts "--------------------------------"

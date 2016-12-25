@@ -121,7 +121,7 @@
             <% num +=1 %>
             <td><%= num %></td>
             <td><%= indexer_staff.indexer_status %></td>
-            <td><%= indexer_staff.sfdc_acct %></td>
+            <td><%= Core.find(indexer_staff.core_id).sfdc_acct %></td>
             <td><%= indexer_staff.sfdc_group_name %></td>
             <td><%= indexer_staff.sfdc_ult_acct %></td>
             <td><%= link_to indexer_staff.domain, indexer_staff.domain, :target => "_blank" %></td>

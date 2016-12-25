@@ -1,6 +1,7 @@
 require 'csv'
 
 class IndexerLocation < ApplicationRecord
+    belongs_to :core
 
     def self.to_csv
         CSV.generate do |csv|

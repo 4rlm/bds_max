@@ -1,149 +1,157 @@
+
 <div class="account-profile-container">
-    <div class="row" style="font-size:12px;">
-    <th>#</th>
-        <div class="col-md-12">
+
+    <div class="row profile-row" style="font-size:12px;">
+
+        <div class="profile-col col-md-12">
             <table class="account-profile-table table table-bordered table-hover">
                 <tr>
-                    <th class="account-profile-header" colspan="7">Account Name</th>
+                    <th class="th-1 t5"><%= check_box_tag "status_checks[]",  core.id %></th>
+                    <th class="th-1 t4"># <%= num %></th>
+                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Profile</th>
+                    <th class="th-2">Sales Person:</th>
+                    <td><%= core.sfdc_sales_person %></td>
+                    <th class="th-2">Type:</th>
+                    <td><%= core.sfdc_type %></td>
+                    <td class='details-btn' >
+                        <%= link_to core, method: :details do %>
+                            <span class="glyphicon glyphicon-folder-open"></span>
+                        <% end %>
+                    </td>
+                    <td class='edit-btn' >
+                        <%= link_to core, method: :edit do %>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        <% end %>
+                    </td>
+                    <td class='delete-btn' >
+                        <%= link_to core, method: :delete do %>
+                            <span class="glyphicon glyphicon-trash"></span>
+                        <% end %>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row profile-row" style="font-size:12px;">
+        <div class="profile-col col-md-12">
+            <table class="account-profile-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Account</th>
+                    <th class="th-2">Account Name</th>
+                    <th class="th-2">Group Name</th>
+                    <th class="th-2">Ultimate Group Name</th>
+                    <th class="th-2">Sales Tier</th>
+                    <th class="th-2">Group RT</th>
+                    <th class="th-2">Ult RT</th>
                 </tr>
                 <tr>
-                    <th>SFDC</th>
-                    <th>Account:</th>
+                    <th class="t3">SFDC</th>
                     <td><%= core.sfdc_acct %></td>
-                    <th>Group:</th>
                     <td><%= core.sfdc_group %></td>
-                    <th>Ultimate:</th>
                     <td><%= core.sfdc_ult_grp %></td>
-                </tr>
-                <tr>
-                    <th>Matched</th>
-                    <th>Account:</th>
-                    <td>sample account</td>
-                    <th>Group:</th>
-                    <td>sample group</td>
-                    <th>Ultimate:</th>
-                    <td>sample ultimate</td>
-                </tr>
-                <tr>
-                    <th>Indicator</th>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
-                </tr>
-            </table>
-        </div>
-    </div>  <!-- row ends -->
-
-    <div class="row" style="font-size:12px;">
-        <div class="col-md-12">
-            <table class="account-profile-table table table-bordered table-hover">
-                <tr>
-                    <th class="account-profile-header" colspan="11">Physical Address</th>
-                </tr>
-                <tr>
-                    <th>SFDC</th>
-                    <th>Street:</th>
-                    <td><%= core.sfdc_street %></td>
-                    <th>City:</th>
-                    <td><%= core.sfdc_city %></td>
-                    <th>State:</th>
-                    <td><%= core.sfdc_state %></td>
-                    <th>Zip:</th>
-                    <td><%= core.sfdc_zip %></td>
-                    <th>Phone:</th>
-                    <td><%= core.sfdc_ph %></td>
-                </tr>
-                <tr>
-                    <th>Matched</th>
-                    <th>Street:</th>
-                    <td>sample street</td>
-                    <th>City:</th>
-                    <td>sample city</td>
-                    <th>State:</th>
-                    <td>sample state</td>
-                    <th>Zip:</th>
-                    <td>sample zip</td>
-                    <th>Phone:</th>
-                    <td>sample phone</td>
-                </tr>
-                <tr>
-                    <th>Indicator</th>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
-                </tr>
-            </table>
-        </div>
-    </div>  <!-- row ends -->
-
-    <div class="row" style="font-size:12px;">
-        <div class="col-md-5">
-            <table class="account-profile-table table table-bordered table-hover">
-                <tr>
-                    <th class="account-profile-header" colspan="5">Website</th>
-                </tr>
-                <tr>
-                    <th>SFDC</th>
-                    <th>Website:</th>
-                    <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
-                    <th>Root:</th>
-                    <td><%= core.sfdc_root %></td>
-                </tr>
-                <tr>
-                    <th>Matched</th>
-                    <th>Website:</th>
-                    <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
-                    <th>Root:</th>
-                    <td><%= core.matched_root %></td>
-                </tr>
-                <tr>
-                    <th>Indicator</th>
-                    <td></td>
-                    <td class="yellow"><%= core.url_comparison %></td>
-                    <td></td>
-                    <td class="yellow"><%= core.root_comparison %></td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="col-md-6">
-            <table class="account-profile-table table table-bordered table-hover">
-                <tr>
-                    <th class="account-profile-header" colspan="6">Strategic</th>
-                </tr>
-                <tr>
-                    <th>Sales Tier:</th>
                     <td><%= core.sfdc_tier %></td>
-                    <th>Group RT:</th>
                     <td><%= core.sfdc_grp_rt %></td>
-                    <th>Ultimate RT:</th>
                     <td><%= core.sfdc_ult_rt %></td>
                 </tr>
                 <tr>
-                    <th>Sales Tier:</th>
-                    <td>sample</td>
-                    <th>Group RT:</th>
-                    <td>sample</td>
-                    <th>Ultimate RT:</th>
-                    <td>sample</td>
+                    <th class="t3">Matched</th>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+
                 </tr>
                 <tr>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
-                    <td></td>
-                    <td>sample</td>
+                    <th class="t3">Indicator</th>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row" style="font-size:12px;">
+        <div class="col-md-12">
+            <table class="account-profile-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Address</th>
+                    <th class="th-2">Street</th>
+                    <th class="th-2">City</th>
+                    <th class="th-2">State</th>
+                    <th class="th-2">Zip</th>
+                    <th class="th-2">Phone</th>
+                </tr>
+                <tr>
+                    <th class="t3">SFDC</th>
+                    <td><%= core.sfdc_street %></td>
+                    <td><%= core.sfdc_city %></td>
+                    <td><%= core.sfdc_state %></td>
+                    <td><%= core.sfdc_zip %></td>
+                    <td><%= core.sfdc_ph %></td>
+                </tr>
+                <tr>
+                    <th class="t3">Matched</th>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="t3">Indicator</th>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+    <div class="row" style="font-size:12px;">
+        <div class="col-md-12">
+            <table class="account-profile-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Digital</th>
+                    <th class="th-2">Website</th>
+                    <th class="th-2">Root</th>
+                    <th class="th-2">Template</th>
+                    <th class="th-2">IP</th>
+                    <th class="th-2">DNS-1</th>
+                    <th class="th-2">DNS-2</th>
+                </tr>
+                <tr>
+                    <th class="t3">SFDC</th>
+                    <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
+                    <td><%= core.sfdc_root %></td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="t3">Matched</th>
+                    <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
+                    <td><%= core.matched_root %></td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="t3">Indicator</th>
+                    <td class="yellow"><%= core.url_comparison %></td>
+                    <td class="yellow"><%= core.root_comparison %></td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
                 </tr>
             </table>
         </div>
@@ -151,78 +159,87 @@
 
 
     <div class="row" style="font-size:12px;">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <table class="account-profile-table table table-bordered table-hover">
                 <tr>
-                    <th class="account-profile-header" colspan="6">Status</th>
+                    <th class="th-1 td">Modules</th>
+                    <th class="th-2">Core</th>
+                    <th class="th-2">Domainer</th>
+                    <th class="th-2">Staff Index</th>
+                    <th class="th-2">Location Index</th>
+                    <th class="th-2">Inventory Index</th>
+                    <th class="th-2">Staffer</th>
+                    <th class="th-2">WhoIs</th>
                 </tr>
                 <tr>
-                    <th>Domainer</th>
-                    <th>Staff Link</th>
-                    <th>Location Link</th>
-                    <th>Inventory Link</th>
-                    <th>Staffer</th>
-                    <th>WhoIs</th>
-                </tr>
-                <tr>
+                    <th class="t3">Status</th>
                     <td><%= core.bds_status %></td>
+                    <td><%= get_gcse_domain_status(core) %></td>
                     <td><%= core.staff_indexer_status %></td>
-                    <td><%= core.location_indexer_status %></td>
+                    <!-- <td><%#= get_indexer_location_indexer_status(core) %></td> -->
+                    <!-- <td><%#= IndexerLocation.find_by(sfdc_id: core.sfdc_id).indexer_status %></td> -->
                     <td><%= core.inventory_indexer_status %></td>
-                    <td>status sample</td>
-                    <td>status sample</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
                 </tr>
                 <tr>
-                    <td>date sample</td>
-                    <td>date sample</td>
-                    <td>date sample</td>
-                    <td>date sample</td>
-                    <td>date sample</td>
-                    <td>date sample</td>
+                    <th class="t3">Date</th>
+
+                    <% if core.core_date %>
+                        <td><%= core.core_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.core_date %></td>
+                    <% end %>
+
+                    <% if core.domainer_date %>
+                        <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.domainer_date %></td>
+                    <% end %>
+
+                    <% if core.indexer_date %>
+                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.indexer_date %></td>
+                    <% end %>
+
+                    <% if core.indexer_date %>
+                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.indexer_date %></td>
+                    <% end %>
+
+                    <% if core.indexer_date %>
+                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.indexer_date %></td>
+                    <% end %>
+
+                    <% if core.staffer_date %>
+                        <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.staffer_date %></td>
+                    <% end %>
+
+                    <% if core.whois_date %>
+                        <td><%= core.whois_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.whois_date %></td>
+                    <% end %>
                 </tr>
                 <tr>
-                    <td>link sample</td>
-                    <td>link sample</td>
-                    <td>link sample</td>
-                    <td>link sample</td>
-                    <td>link sample</td>
-                    <td>link sample</td>
+                    <th class="t3">Link</th>
+                    <td></td>
+                    <td></td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td></td>
                 </tr>
             </table>
         </div>
-
-        <div class="col-md-5"> <!-- Upper Col Starts-->
-            <div class="row"> <!-- Sub Row -->
-
-                <div class="col-md-12">
-                    <table class="account-profile-table table table-bordered table-hover">
-                        <tr>
-                            <th class="account-profile-header" colspan="2">Category</th>
-                        </tr>
-                        <tr>
-                            <th>Sales Person</th>
-                            <td><%= core.sfdc_sales_person %></td>
-                        </tr>
-                        <tr>
-                            <th>Type</th>
-                            <td><%= core.sfdc_type %></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="col-md-12">
-                    <table class="account-profile-table table table-bordered table-hover">
-                        <tr>
-                            <th class="account-profile-header" colspan="3">Action</th>
-                        </tr>
-                        <tr>
-                            <td><%= link_to 'Edit', edit_core_path(core) %></td>
-                            <td><%= link_to 'Show', core %></td>
-                            <td><%= link_to 'Destroy', core, method: :delete %></td>
-                        </tr>
-                    </table>
-                </div>
-            </div> <!-- Sub-Row Ends -->
-        </div>   <!-- Upper Col Ends-->
     </div>  <!-- row ends -->
+
+
 </div> <!-- Account Profile Ends -->

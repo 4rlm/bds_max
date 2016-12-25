@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161218042505) do
+ActiveRecord::Schema.define(version: 20161224175333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,8 @@ ActiveRecord::Schema.define(version: 20161218042505) do
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "core_id"
+    t.index ["core_id"], name: "index_indexer_locations_on_core_id", using: :btree
   end
 
   create_table "indexer_staffs", force: :cascade do |t|
@@ -175,6 +177,8 @@ ActiveRecord::Schema.define(version: 20161218042505) do
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "core_id"
+    t.index ["core_id"], name: "index_indexer_staffs_on_core_id", using: :btree
   end
 
   create_table "pending_verifications", force: :cascade do |t|

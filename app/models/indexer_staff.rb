@@ -1,6 +1,8 @@
 require 'csv'
 
 class IndexerStaff < ApplicationRecord
+    belongs_to :core
+
     include Filterable
 
     # == Multi-Select Search ==

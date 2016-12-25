@@ -1,10 +1,14 @@
 <h1 class="text-center">Core Accounts</h1><br><br>
 
+<h1>Newer Filter Starts Here</h1>
+<!-- link to new filter -->
+<%= render partial: 'new_filter', locals: {  } %>
+
+
 
 <h1>New Filter Starts Here</h1>
 <!-- link to new filter -->
 <%= render partial: 'filter', locals: {  } %>
-
 
 
 
@@ -317,9 +321,7 @@
 <h1>Vertical View</h1>
 <% num = 0 %>
 <% @cores.each do |core| %>
-    <%= check_box_tag "status_checks[]",  core.id %></td>
     <% num +=1 %>
-    <p class="lead"><%= num %></p>
-    <%= render partial: 'new_layout', locals: { core: core } %>
+    <%= render partial: 'new_layout', locals: { core: core, num: num } %>
 <% end %>
  <!-- ### Vertical Ends Here (from render) ### -->
