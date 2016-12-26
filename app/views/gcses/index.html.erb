@@ -1,25 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <h1 class="text-center">Domainer</h1><br><br>
-
-
-<!-- Adam New Form - Starts -->
-
-
-<!-- Adam New Form - Ends -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="pull-right">
     <%= link_to 'Add Record', new_gcse_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', gcse_import_page_path, class: 'btn btn-primary' %>
@@ -29,277 +10,57 @@
 <%= form_tag "/gcses", method: :get, class: 'form-inline'  do %>
 <table class="table table-bordered table-hover">
     <thead>
-        <!-- <tr id="exclude-col-select">
-            <div class="form-group"> -->
-                <%#= select_tag :columns, options_for_select(column_list, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
-                <%= submit_tag "Submit", class: 'btn btn-success' %>
-            <!-- </div>
-        </tr> -->
+        <%= submit_tag "Submit", class: 'btn btn-success' %>
         <tr>
-            <th>
-                <%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %>
-            </th>
-
+            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
-
-            <!-- <% unless @col_domain_status %> -->
-            <th>
-                <div class="form-group">
-                    <%= select_tag :domain_status, options_for_select(ordered_list(@selected_data.select(:domain_status).map(&:domain_status)), params[:domain_status]), multiple: true, class: 'selectpicker' %>
-                    <br><br>Domain Status
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_root %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :sfdc_root, options_for_select(ordered_list(@selected_data.select(:sfdc_root).map(&:sfdc_root)), params[:sfdc_root]), multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Root
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_root %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :root, params[:root], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :root, options_for_select(ordered_list(@selected_data.select(:root).map(&:root)), params[:root]), multiple: true, class: 'selectpicker' %>
-                    <br><br>New Root
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_acct %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :sfdc_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_acct).map(&:sfdc_acct))), params[:sfdc_acct]), multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Acct
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_ult_acct %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :sfdc_ult_acct, params[:sfdc_ult_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :sfdc_ult_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct))), params[:sfdc_ult_acct]), multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Ult Acct
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_url_o %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :sfdc_url_o, params[:sfdc_url_o], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :sfdc_url_o, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_url_o).map(&:sfdc_url_o))), params[:sfdc_url_o]), multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Url
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_domain %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :domain, params[:domain], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :domain, options_for_select(ordered_list(@selected_data.select(:domain).map(&:domain)), params[:domain]), multiple: true, class: 'selectpicker' %>
-                    <br><br>New Domain
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_street %> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>SFDC Street
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_city %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :sfdc_city, options_for_select(ordered_list(@selected_data.select(:sfdc_city).map(&:sfdc_city)), params[:sfdc_city]), multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC City
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_state %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :sfdc_state, options_for_select(ordered_list(@selected_data.select(:sfdc_state).map(&:sfdc_state)), params[:sfdc_state]), multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC State
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_type %> -->
-            <th>
-                <div class="form-group">
-                    <%= select_tag :sfdc_type, options_for_select(ordered_list(@selected_data.select(:sfdc_type).map(&:sfdc_type)), params[:sfdc_type]), multiple: true, class: 'selectpicker' %>
-                    <br><br>SFDC Type
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_gcse_result_num %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :gcse_result_num, params[:gcse_result_num], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :gcse_result_num, options_for_select(ordered_list(@selected_data.select(:gcse_result_num).map(&:gcse_result_num)), params[:gcse_result_num]), multiple: true, class: 'selectpicker' %>
-                    <br><br>GCSE Result Num
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_gcse_query_num %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :gcse_query_num, params[:gcse_query_num], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :gcse_query_num, options_for_select(ordered_list(@selected_data.select(:gcse_query_num).map(&:gcse_query_num)), params[:gcse_query_num]), multiple: true, class: 'selectpicker' %>
-                    <br><br>GCSE Query Num
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_id %> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>SFDC ID
-                </div>
-            </th>
-            <!-- <% end %>
-
-            <% unless @col_gcse_timestamp %> -->
-            <th>
-                <div class="form-group">
-
-                    <%= text_field_tag :gcse_timestamp, params[:gcse_timestamp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <!-- == Change to Keyword Search == -->
-
-                    <%#= select_tag :gcse_timestamp, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:gcse_timestamp).map(&:gcse_timestamp))), params[:gcse_timestamp]), multiple: true, class: 'selectpicker' %>
-                    <br><br>Domainer Date
-                </div>
-            </th>
-            <!-- <% end %> -->
-
-            <th colspan="3">
-            </th>
-        </tr> <!--  -->
+            <th><%= render partial: 'layouts/select_tag', locals: { col: :domain_status } %> Domain Status</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_root } %> SFDC Root</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :root } %> New Root</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %> SFDC Acct</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_acct } %> SFDC Ult Acct</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_url_o } %> SFDC Url</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %> New Domain</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_street } %> SFDC Street</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_city } %> SFDC City</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_state } %> SFDC State</th>
+            <th><%= render partial: 'layouts/sfdc_select_tag', locals: { col: :sfdc_type } %> SFDC Type</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :gcse_result_num } %> GCSE Result Num</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :gcse_query_num } %> GCSE Query Num</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %> SFDC ID</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :gcse_timestamp } %> Domainer Date</th>
+            <th colspan="3"></th>
+        </tr>
     </thead>
 
     <tbody>
         <% num = 0 %>
         <% @gcses.each do |gcse| %>
-        <tr>
-            <td><%= check_box_tag "status_checks[]",  gcse.id %></td>
+            <tr>
+                <td><%= check_box_tag "status_checks[]",  gcse.id %></td>
+                <% num += 1 %>
+                <td><%= num %></td>
+                <td><%= gcse.domain_status %></td>
+                <td><%=  gcse.core.sfdc_root%></td>
+                <td class="yellow"><%= gcse.root %></td>
+                <td class="yellow"><%= gcse.core.sfdc_acct %></td>
+                <td><%= gcse.core.sfdc_ult_grp %></td>
+                <td><%= link_to gcse.core.sfdc_url, "http://#{gcse.core.sfdc_url}", :target => "_blank" %></td>
+                <td class="yellow"><%= link_to gcse.domain, gcse.domain, :target => "_blank" %></td>
+                <td><%= gcse.core.sfdc_street %></td>
+                <td><%= gcse.core.sfdc_city %></td>
+                <td><%= gcse.core.sfdc_state %></td>
+                <td><%= gcse.core.sfdc_type %></td>
+                <td><%= gcse.gcse_result_num %></td>
+                <td><%= gcse.gcse_query_num %></td>
+                <td><%= gcse.core.sfdc_id %></td>
+                <td><%= gcse.gcse_timestamp%></td>
+                <td><%#= gcse.gcse_timestamp.strftime("%m/%d/%Y") %></td>
 
-            <% num += 1 %>
-            <td><%= num %></td>
-
-            <!-- <% unless @col_domain_status %> -->
-            <td><%= gcse.domain_status %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_root %> -->
-            <td><%= gcse.sfdc_root %></td>
-            <!-- <% end %>
-
-            <% unless @col_root %> -->
-            <td class="yellow"><%= gcse.root %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_acct %> -->
-            <td class="yellow"><%= gcse.sfdc_acct %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_ult_acct %> -->
-            <td><%= gcse.sfdc_ult_acct %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_url_o %> -->
-            <td><%= link_to gcse.sfdc_url_o, "http://#{gcse.sfdc_url_o}", :target => "_blank" %></td>
-            <!-- <% end %>
-
-            <% unless @col_domain %> -->
-            <td class="yellow"><%= link_to gcse.domain, gcse.domain, :target => "_blank" %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_street %> -->
-            <td><%= gcse.sfdc_street %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_city %> -->
-            <td><%= gcse.sfdc_city %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_state %> -->
-            <td><%= gcse.sfdc_state %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_type %> -->
-            <td><%= gcse.sfdc_type %></td>
-            <!-- <% end %>
-
-            <% unless @col_gcse_result_num %> -->
-            <td><%= gcse.gcse_result_num %></td>
-            <!-- <% end %>
-
-            <% unless @col_gcse_query_num %> -->
-            <td><%= gcse.gcse_query_num %></td>
-            <!-- <% end %>
-
-            <% unless @col_sfdc_id %> -->
-            <td><%= gcse.sfdc_id %></td>
-            <!-- <% end %>
-
-            <% unless @col_gcse_timestamp %> -->
-            <td><%= gcse.gcse_timestamp%></td>
-            <td><%#= gcse.gcse_timestamp.strftime("%m/%d/%Y") %></td>
-            <!-- <% end %> -->
-
-            <td><%= link_to 'Show', gcse %></td>
-            <td><%= link_to 'Edit', edit_gcse_path(gcse) %></td>
-            <td><%= link_to 'Destroy', gcse, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
+                <td><%= link_to 'Show', gcse %></td>
+                <td><%= link_to 'Edit', edit_gcse_path(gcse) %></td>
+                <td><%= link_to 'Destroy', gcse, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
         <% end %> <!-- @gcses.each loop ends -->
     </tbody>
 </table>
@@ -319,14 +80,5 @@
     <%= link_to 'Download CSV', gcses_path(format: "csv"), class: 'btn btn-primary' %>
 </div>
 
-</br>
-</br>
-</br>
-
 <%# will_paginate @gcses %>
 <%= will_paginate @gcses, renderer: BootstrapPagination::Rails  %>
-
-</br>
-</br>
-</br>
-</br>

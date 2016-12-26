@@ -1,6 +1,8 @@
 require 'csv'
 
 class Gcse < ApplicationRecord
+    belongs_to :core
+
     include Filterable
 
     def self.to_csv
@@ -11,7 +13,7 @@ class Gcse < ApplicationRecord
             end
         end
     end
-    
+
     def self.import_csv(file_name)
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
             row_hash = row.to_hash
@@ -94,11 +96,11 @@ class Gcse < ApplicationRecord
     scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type }
 
     # == Key Word Search ==
-    scope :gcse_query_num, -> (gcse_query_num) { where("gcse_query_num like ?", "%#{gcse_query_num}%") }
+    scope :gcse_query_num, -> (gcse_query_num) { where(gcse_query_num: "#{gcse_query_num}") }
     scope :gcse_timestamp, -> (gcse_timestamp) { where("gcse_timestamp like ?", "%#{gcse_timestamp}%") }
 
     # scope :gcse_result_num, -> (gcse_result_num) { where gcse_result_num: gcse_result_num }
-    scope :gcse_result_num, -> (gcse_result_num) { where("gcse_result_num like ?", "%#{gcse_result_num}%") }
+    scope :gcse_result_num, -> (gcse_result_num) { where(gcse_result_num: "#{gcse_result_num}") }
     # scope :sfdc_ult_acct, -> (sfdc_ult_acct) { where sfdc_ult_acct: sfdc_ult_acct }
     scope :sfdc_ult_acct, -> (sfdc_ult_acct) { where("sfdc_ult_acct like ?", "%#{sfdc_ult_acct}%") }
     # scope :sfdc_acct, -> (sfdc_acct) { where sfdc_acct: sfdc_acct }
@@ -115,10 +117,8 @@ class Gcse < ApplicationRecord
     scope :root, -> (root) { where("root like ?", "%#{root}%") }
     # scope :domain, -> (domain) { where domain: domain }
     scope :domain, -> (domain) { where("domain like ?", "%#{domain}%") }
-    # scope :root_counter, -> (root_counter) { where root_counter: root_counter }
-    scope :root_counter, -> (root_counter) { where("root_counter like ?", "%#{root_counter}%") }
     # scope :root_counter, -> (suffix) { where suffix: suffix }
-    scope :root_counter, -> (root_counter) { where("root_counter like ?", "%#{root_counter}%") }
+    scope :root_counter, -> (root_counter) { where("root_counter", "#{root_counter}") }
     # scope :in_host_pos, -> (in_host_pos) { where in_host_pos: in_host_pos }
     scope :in_host_pos, -> (in_host_pos) { where("in_host_pos like ?", "%#{in_host_pos}%") }
     # scope :exclude_root, -> (exclude_root) { where exclude_root: exclude_root }

@@ -1,16 +1,23 @@
 class GcsesController < ApplicationController
     before_action :set_gcse, only: [:show, :edit, :update, :destroy]
-    before_action :set_gcse_service, only: [:gcse_cleaner_btn]
+    before_action :set_gcse_service, only: [:index, :gcse_cleaner_btn]
 
     # GET /gcses
     # GET /gcses.json
     def index
         if choice_hash = get_selected_status_gcse
             clean_choice_hash = {}
+            core_ids = []
             choice_hash.each do |key, value|
-                clean_choice_hash[key] = value if !value.nil? && value != ""
+                if !value.nil? && value != ""
+                    if @gcse_service.col_exist(key)
+                        clean_choice_hash[key] = value
+                    else
+                        core_ids += @gcse_service.get_core_ids_for_key(key, value)
+                    end
+                end
             end
-            @selected_data = Gcse.where(clean_choice_hash)
+            @selected_data = Gcse.where(clean_choice_hash.merge(core_id: core_ids))
         else # choice_hash is nil
             @selected_data = Gcse.all
         end
@@ -18,7 +25,7 @@ class GcsesController < ApplicationController
         @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 350)
 
         @gcses_csv = @selected_data.order(:sfdc_id)
-            respond_to do |format|
+        respond_to do |format|
               format.html
               format.csv { render text: @gcses_csv.to_csv }
         end
