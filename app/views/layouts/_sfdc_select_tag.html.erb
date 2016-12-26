@@ -1,0 +1,2 @@
+<% ids = @selected_data.select(:core_id).map(&:core_id) %>
+<%= select_tag col, options_for_select(ordered_list(Core.where(id: ids).map(&col)), params[col]), multiple: true, class: 'selectpicker', title: "[]" %>

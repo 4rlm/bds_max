@@ -3,6 +3,7 @@ require 'csv'
 class Core < ApplicationRecord
     has_one :indexer_staffs
     has_one :indexer_locations
+    has_many :gcses
 
     include Filterable
 

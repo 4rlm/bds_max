@@ -81,4 +81,12 @@ class GcseService
         end
     end
 
+    def col_exist(key)
+        ActiveRecord::Base.connection.column_exists?("gcses", key)
+    end
+
+    def get_core_ids_for_key(key, value)
+        ids = Gcse.select(:core_id).map(&:core_id).uniq
+        Core.where("id" => ids, key => value).map(&:id)
+    end
 end
