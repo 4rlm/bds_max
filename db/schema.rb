@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161224175333) do
+ActiveRecord::Schema.define(version: 20161226040338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,14 +98,6 @@ ActiveRecord::Schema.define(version: 20161224175333) do
     t.datetime "gcse_timestamp"
     t.integer  "gcse_query_num"
     t.integer  "gcse_result_num"
-    t.string   "sfdc_id"
-    t.string   "sfdc_ult_acct"
-    t.string   "sfdc_acct"
-    t.string   "sfdc_type"
-    t.string   "sfdc_street"
-    t.string   "sfdc_city"
-    t.string   "sfdc_state"
-    t.string   "sfdc_url_o"
     t.string   "domain_status"
     t.string   "domain"
     t.string   "root"
@@ -118,6 +110,14 @@ ActiveRecord::Schema.define(version: 20161224175333) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "root_counter"
+    t.string   "sfdc_id"
+    t.string   "sfdc_ult_acct"
+    t.string   "sfdc_acct"
+    t.string   "sfdc_type"
+    t.string   "sfdc_street"
+    t.string   "sfdc_city"
+    t.string   "sfdc_state"
+    t.string   "sfdc_url_o"
     t.string   "sfdc_root"
   end
 
