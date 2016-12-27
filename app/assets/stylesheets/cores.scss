@@ -3,23 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-// Adam Trial Starts
-.selectpicker {
-    color: blue !important;
-    background-color: red;
-    font-style: italic;
-}
-
-.form-control {
-    color: blue !important;
-    background-color: yellow;
-    font-style: italic;
-}
-// Adam Trial Ends
-
-
-
-
 
 // Cores Layout (Universal) - Starts
 .cores-layout {
@@ -63,7 +46,7 @@
 }
 
 .cores-layout-table td {
-    text-align: left;
+    // text-align: left;
 }
 
 table.cores-layout-table {
@@ -96,6 +79,32 @@ table.cores-layout-table {
 
 .cores-layout-table .t5 {
     width: 35px;
+}
+
+
+.cores-layout-table .w-lg {
+    // min-width: 30px;
+    width: 350px;
+}
+
+.cores-layout-table .w-md {
+    // min-width: 30px;
+    width: 160px;
+}
+
+.cores-layout-table .w-sm {
+    // min-width: 30px;
+    width: 115px;
+}
+
+.cores-layout-table .w-xsm {
+    // min-width: 30px;
+    width: 75px;
+}
+
+.cores-layout-table .w-xxsm {
+    // min-width: 30px;
+    width: 30px;
 }
 
 // Cores Layout (Universal) - Ends
