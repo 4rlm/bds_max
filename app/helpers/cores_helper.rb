@@ -8,7 +8,7 @@ module CoresHelper
     end
 
     def bds_status_list
-        ["Destroy", "Dom Result", "Imported", "Matched", "No Matches", "Queue Domainer", "Queue Indexer", 'Indexer Result']
+        ["Destroy", "Dom Result", "Imported", "Matched", "No Matches", "Queue Domainer", "Queue Indexer", 'Indexer Result', 'Testing Status']
     end
 
     def sfdc_tier_list

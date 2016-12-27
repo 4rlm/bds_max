@@ -1,7 +1,7 @@
 require 'csv'
 
 class IndexerStaff < ApplicationRecord
-    belongs_to :core
+    belongs_to :core, inverse_of: :indexer_staff
 
     include Filterable
 

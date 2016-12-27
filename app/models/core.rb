@@ -1,8 +1,8 @@
 require 'csv'
 
 class Core < ApplicationRecord
-    has_one :indexer_staffs
-    has_one :indexer_locations
+    has_one :indexer_staff, inverse_of: :core
+    has_one :indexer_location, inverse_of: :core
 
     include Filterable
 
