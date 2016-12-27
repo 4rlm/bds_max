@@ -1,23 +1,18 @@
 
-<div class="cores-layout account-profile-container">
+<div class="account-profile-container">
 
-    <div class="row profile-row">
+    <div class="row profile-row" style="font-size:12px;">
 
         <div class="profile-col col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="account-profile-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t5"><%= check_box_tag "status_checks[]",  core.id %></th>
-                    <th class="th-1 t4"><%= num %></th>
+                    <th class="th-1 t4"># <%= num %></th>
                     <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Profile</th>
-
                     <th class="th-2">Sales Person:</th>
                     <td><%= core.sfdc_sales_person %></td>
                     <th class="th-2">Type:</th>
                     <td><%= core.sfdc_type %></td>
-
-                    <th class="th-2">SFDC ID:</th>
-                    <td><%= core.sfdc_id %></td>
-
                     <td class='details-btn' >
                         <%= link_to core, method: :details do %>
                             <span class="glyphicon glyphicon-folder-open"></span>
@@ -38,9 +33,9 @@
         </div>
     </div>
 
-    <div class="row profile-row">
+    <div class="row profile-row" style="font-size:12px;">
         <div class="profile-col col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="account-profile-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Account</th>
                     <th class="th-2">Account Name</th>
@@ -51,7 +46,7 @@
                     <th class="th-2">Ult RT</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
+                    <th class="t3">SFDC</th>
                     <td><%= core.sfdc_acct %></td>
                     <td><%= core.sfdc_group %></td>
                     <td><%= core.sfdc_ult_grp %></td>
@@ -60,7 +55,7 @@
                     <td><%= core.sfdc_ult_rt %></td>
                 </tr>
                 <tr>
-                    <th class="th-2">Matched</th>
+                    <th class="t3">Matched</th>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -70,7 +65,7 @@
 
                 </tr>
                 <tr>
-                    <th class="th-2">Indicator</th>
+                    <th class="t3">Indicator</th>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -83,9 +78,9 @@
     </div>
 
 
-    <div class="row">
+    <div class="row" style="font-size:12px;">
         <div class="col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="account-profile-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Address</th>
                     <th class="th-2">Street</th>
@@ -95,7 +90,7 @@
                     <th class="th-2">Phone</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
+                    <th class="t3">SFDC</th>
                     <td><%= core.sfdc_street %></td>
                     <td><%= core.sfdc_city %></td>
                     <td><%= core.sfdc_state %></td>
@@ -103,7 +98,7 @@
                     <td><%= core.sfdc_ph %></td>
                 </tr>
                 <tr>
-                    <th class="th-2">Matched</th>
+                    <th class="t3">Matched</th>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -111,7 +106,7 @@
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Indicator</th>
+                    <th class="t3">Indicator</th>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -122,9 +117,9 @@
         </div>
     </div>  <!-- row ends -->
 
-    <div class="row">
+    <div class="row" style="font-size:12px;">
         <div class="col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="account-profile-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Digital</th>
                     <th class="th-2">Website</th>
@@ -135,13 +130,13 @@
                     <th class="th-2">DNS-2</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
+                    <th class="t3">SFDC</th>
                     <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
                     <td><%= core.sfdc_root %></td>
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Matched</th>
+                    <th class="t3">Matched</th>
                     <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
                     <td><%= core.matched_root %></td>
                     <td>n/a</td>
@@ -150,7 +145,7 @@
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Indicator</th>
+                    <th class="t3">Indicator</th>
                     <td class="yellow"><%= core.url_comparison %></td>
                     <td class="yellow"><%= core.root_comparison %></td>
                     <td class="yellow">n/a</td>
@@ -163,11 +158,11 @@
     </div>  <!-- row ends -->
 
 
-    <div class="row">
+    <div class="row" style="font-size:12px;">
         <div class="col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="account-profile-table table table-bordered table-hover">
                 <tr>
-                    <th class="th-1 t3">Modules</th>
+                    <th class="th-1 td">Modules</th>
                     <th class="th-2">Core</th>
                     <th class="th-2">Domainer</th>
                     <th class="th-2">Staff Index</th>
@@ -177,7 +172,7 @@
                     <th class="th-2">WhoIs</th>
                 </tr>
                 <tr>
-                    <th class="th-2">Status</th>
+                    <th class="t3">Status</th>
                     <td><%= core.bds_status %></td>
                     <td><%= get_gcse_domain_status(core) %></td>
                     <td><%= core.staff_indexer_status %></td>
@@ -188,7 +183,7 @@
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Date</th>
+                    <th class="t3">Date</th>
 
                     <% if core.core_date %>
                         <td><%= core.core_date.strftime("%m/%d/%Y") %></td>
@@ -233,7 +228,7 @@
                     <% end %>
                 </tr>
                 <tr>
-                    <th class="th-2">Link</th>
+                    <th class="t3">Link</th>
                     <td></td>
                     <td></td>
                     <td>link</td>
