@@ -1,8 +1,6 @@
 require 'csv'
 
 class IndexerLocation < ApplicationRecord
-    belongs_to :core, inverse_of: :indexer_location
-
     include Filterable
 
     # == Multi-Select Search ==

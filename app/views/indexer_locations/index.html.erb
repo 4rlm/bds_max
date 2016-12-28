@@ -33,15 +33,15 @@
             <% num +=1 %>
             <td><%= num %></td>
             <td><%= indexer_location.indexer_status %></td>
-            <td><%= Core.find(indexer_location.core_id).sfdc_acct %></td>
-            <td><%= Core.find(indexer_location.core_id).sfdc_group %></td>
-            <td><%= Core.find(indexer_location.core_id).sfdc_ult_grp %></td>
+            <td><%= indexer_location.sfdc_acct %></td>
+            <td><%= indexer_location.sfdc_group_name %></td>
+            <td><%= indexer_location.sfdc_ult_acct %></td>
             <td><%= link_to indexer_location.domain, indexer_location.domain, :target => "_blank" %></td>
             <td><%= indexer_location.ip %></td>
             <td><%= indexer_location.text %></td>
             <td><%= indexer_location.href %></td>
             <td><%= link_to indexer_location.link, indexer_location.link, :target => "_blank" %></td>
-            <td><%= Core.find(indexer_location.core_id).sfdc_id %></td>
+            <td><%= indexer_location.sfdc_id %></td>
             <td><%= indexer_location.indexer_timestamp %></td>
             <td><%= link_to 'Show', indexer_location %></td>
             <td><%= link_to 'Edit', edit_indexer_location_path(indexer_location) %></td>

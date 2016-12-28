@@ -117,7 +117,6 @@ class IndexerStaffsController < ApplicationController
             staff = IndexerStaff.find(id)
             staff.update_attribute(:indexer_status, status)
             flash[:notice] = "Successfully updated"
-            binding.pry
             # Adam's Try
             core = Core.find_by(sfdc_id: staff.sfdc_id)
             core.update_attribute(:staff_indexer_status, status)

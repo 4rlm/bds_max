@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161226040338) do
+ActiveRecord::Schema.define(version: 20161228155819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,10 @@ ActiveRecord::Schema.define(version: 20161226040338) do
     t.string   "staff_indexer_status"
     t.string   "location_indexer_status"
     t.string   "inventory_indexer_status"
+    t.string   "staff_link"
+    t.string   "staff_text"
+    t.string   "location_link"
+    t.string   "location_text"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -159,8 +163,6 @@ ActiveRecord::Schema.define(version: 20161226040338) do
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "core_id"
-    t.index ["core_id"], name: "index_indexer_locations_on_core_id", using: :btree
   end
 
   create_table "indexer_staffs", force: :cascade do |t|
@@ -177,8 +179,6 @@ ActiveRecord::Schema.define(version: 20161226040338) do
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "core_id"
-    t.index ["core_id"], name: "index_indexer_staffs_on_core_id", using: :btree
   end
 
   create_table "pending_verifications", force: :cascade do |t|

@@ -17,18 +17,17 @@ class IndexerService
             current_time = Time.new
 
             @cols_hash = {
-                indexer_timestamp: current_time,
                 indexer_status: nil,
                 sfdc_acct: el[:sfdc_acct],
                 sfdc_group_name: el[:sfdc_group],
                 sfdc_ult_acct: el[:sfdc_ult_grp],
-                sfdc_id: el[:sfdc_id],
                 domain: el[:matched_url],
-                core_id: el[:id],
                 ip: nil,
                 text: nil,
                 href: nil,
-                link: nil
+                link: nil,
+                sfdc_id: el[:sfdc_id],
+                indexer_timestamp: current_time
             }
 
             begin
@@ -114,9 +113,17 @@ class IndexerService
         @cols_hash[:text] = text
         @cols_hash[:href] = href
         @cols_hash[:link] = link
+        core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
 
-        IndexerLocation.create(@cols_hash) if mode == "location" || mode == "error"
-        IndexerStaff.create(@cols_hash)if mode == "staff" || mode == "error"
+        if mode == "location" || mode == "error"
+            IndexerLocation.create(@cols_hash)
+            core.update_attributes(location_indexer_status: status, location_link: link, location_text: text)
+        end
+
+        if mode == "staff" || mode == "error"
+            IndexerStaff.create(@cols_hash)
+            core.update_attributes(staff_indexer_status: status, staff_link: link, staff_text: text)
+        end
     end
 
     def validater(url_http, dbl_slash, url_www, dirty_url)
