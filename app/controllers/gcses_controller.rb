@@ -103,7 +103,7 @@ class GcsesController < ApplicationController
 
     def auto_match_btn
         auto_matchify_rows(Gcse.where(domain_status: "Dom Result"))
-        flash[:notice] = "Auto Matching is completed successfully."
+        flash[:notice] = "Auto Matching successfully completed."
         redirect_to gcses_path
     end
 

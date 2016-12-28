@@ -61,7 +61,7 @@ class IndexerStaffsController < ApplicationController
 
         respond_to do |format|
             if @indexer_staff.save
-                format.html { redirect_to @indexer_staff, notice: 'Indexer staff was successfully created.' }
+                format.html { redirect_to @indexer_staff, notice: 'Indexer staff successfully created.' }
                 format.json { render :show, status: :created, location: @indexer_staff }
             else
                 format.html { render :new }
@@ -75,7 +75,7 @@ class IndexerStaffsController < ApplicationController
     def update
         respond_to do |format|
             if @indexer_staff.update(indexer_staff_params)
-                format.html { redirect_to @indexer_staff, notice: 'Indexer staff was successfully updated.' }
+                format.html { redirect_to @indexer_staff, notice: 'Indexer staff successfully updated.' }
                 format.json { render :show, status: :ok, location: @indexer_staff }
             else
                 format.html { render :edit }
@@ -89,7 +89,7 @@ class IndexerStaffsController < ApplicationController
     def destroy
         @indexer_staff.destroy
         respond_to do |format|
-            format.html { redirect_to indexer_staffs_url, notice: 'Indexer staff was successfully destroyed.' }
+            format.html { redirect_to indexer_staffs_url, notice: 'Indexer staff successfully destroyed.' }
             format.json { head :no_content }
         end
     end
@@ -117,7 +117,25 @@ class IndexerStaffsController < ApplicationController
             staff = IndexerStaff.find(id)
             staff.update_attribute(:indexer_status, status)
             flash[:notice] = "Successfully updated"
+            binding.pry
+            # Adam's Try
+            core = Core.find_by(sfdc_id: staff.sfdc_id)
+            core.update_attribute(:staff_indexer_status, status)
         end
 
+        # Adam's try starts: see gcses_controller/matchify_rows/line 122 for ex.
+        # staff = IndexerStaff.where(id: id)
+        # core_staff_indexer_status_updater(staff)
+
     end
+    #
+    # # Adam's Try - Starts
+    # # see gcses_controller/matchify_rows/line 176 for ex.
+    # def core_staff_indexer_status_updater(staff)
+    #     id = staff.map(&:sfdc_id)
+    #     core = Core.find_by(sfdc_id: id)
+    #     core.update_attribute(staff_indexer_status: "ajb_testing status")
+    # end
+    # # Adam's Try - Ends
+
 end
