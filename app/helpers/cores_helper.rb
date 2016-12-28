@@ -64,6 +64,19 @@ module CoresHelper
     #     end
     # end
 
+    def get_if_indexer_staff(core)
+        if core.indexer_staff
+            core.indexer_staff.indexer_status
+        else
+            "N/A"
+        end
+    end
 
-
+    def indexer_list
+        core_ids = IndexerStaff.all.map(&:core_id)
+        cores_w_staff = @selected_data.where(id: core_ids).map do |core|
+            core.indexer_staff if core.indexer_staff
+        end
+        ordered_list(cores_w_staff.map(&:indexer_status))
+    end
 end

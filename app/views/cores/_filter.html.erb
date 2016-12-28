@@ -160,7 +160,7 @@
                     <th class="th-2 th-2a">Status</th>
                     <td><%= render partial: 'layouts/select_tag', locals: { col: :bds_status } %></td>
                     <td></td>
-                    <td><%= select_tag "indexer_staff[indexer_status]", options_for_select(ordered_list(@selected_data.map(&:indexer_staff).map(&:indexer_status))), multiple: true, class: 'selectpicker', title: "[]" %></td>
+                    <td><%= select_tag "indexer_staff[indexer_status]", options_for_select(indexer_list), multiple: true, class: 'selectpicker', title: "[]" %></td>
                     <td><%= render partial: 'layouts/select_tag', locals: { col: :location_indexer_status } %></td>
                     <td><%= render partial: 'layouts/select_tag', locals: { col: :inventory_indexer_status } %></td>
                     <td>n/a</td>
