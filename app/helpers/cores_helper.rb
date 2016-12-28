@@ -56,6 +56,7 @@ module CoresHelper
         end
     end
 
+
     # def get_indexer_location_indexer_status(core)
     #     if indexer_location = IndexerLocation.find_by(sfdc_id: core.sfdc_id)
     #         indexer_location.indexer_status

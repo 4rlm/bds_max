@@ -14,54 +14,25 @@
 
 <!-- ### Horizontal View Starts Here ### -->
 <h3 class="section-header">Core Profiles</h3>
-<table class="list-table table table-bordered table-hover">
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
-
             <th>#</th>
-            <th class="w-md">BDS Status</th>
-            <th class="w-md">Staff Indexer Status</th>
-            <th class="w-md">Location Indexer Status</th>
-            <th class="w-md">Inventory Indexer Status</th>
+            <th class="w-md">Core</th>
+            <th class="w-md">Domainer</th>
+            <th class="w-md">Staff Index</th>
+            <th class="w-md">Location Index</th>
+            <th class="w-md">Inventory Index</th>
+            <th class="w-md">Staffer</th>
+            <th class="w-md">WhoIs</th>
             <th class="w-md">Account</th>
-            <th class="w-md">Ultimate Group</th>
             <th class="w-md">Group Name</th>
-            <th class="w-md">Url Comparison</th>
-            <th class="w-md">SFDC Url</th>
-            <th class="w-md">Matched Url</th>
-            <th class="w-md">Root Comparison</th>
-            <th class="w-md">SFDC Root</th>
-            <th class="w-md">Matched Root</th>
-            <th class="w-md">SFDC Street</th>
             <th class="w-md">SFDC City</th>
             <th class="w-md">SFDC State</th>
-            <th class="w-md">SFDC Zip</th>
-            <th class="w-md">SFDC Ph</th>
-            <th class="w-md">Tier</th>
-            <th class="w-md">Ult RT</th>
-            <th class="w-md">Grp RT</th>
             <th class="w-md">Type</th>
             <th class="w-md">Salesperson</th>
             <th class="w-md">SFDC ID</th>
-
-            <th>
-                <div class="form-group">
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :core_date } %></td>
-                    <br><br>Core Date
-                </div>
-            </th>
-            <th>Domainer Date</th>
-            <th>
-                <div class="form-group">
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_date } %></td>
-                    <br><br>Indexer Date
-                </div>
-            </th>
-            <th>Staffer Date</th>
-            <th>WhoIs Date</th>
-
-
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -77,8 +48,12 @@
 
 <div class="pull-left">
     <div class="form-group">
-        <%= select_tag :selected_status, options_for_select(core_status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
-        <%= submit_tag "Submit", class: 'btn btn-success' %>
+        <div class="submit-button-area">        
+            <%= select_tag :selected_status, options_for_select(core_status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
+        </div>
+        <div class="submit-button-area">
+            <%= submit_tag "Submit", class: 'btn btn-success' %>
+        </div>
     </div>
 </div>
 

@@ -22,18 +22,49 @@
     width: 95%;
 }
 
+// HORIZONTAL LIST VIEW - PROFILES - Starts
 .page-header{
     text-align: center;
 }
 
 .section-header{
-    text-align: left;
+    text-align: left
 }
+
+
 
 .list-table th, .list-table td {
-    min-width: 150px;
+    text-align: center;
+    border: solid 1px #137fa0;
+    font-weight: normal;
+    white-space:nowrap;
+
 }
 
+.list-table th {
+    text-align: center;
+    color: white;
+    background-image:linear-gradient(#32bde7, #1bb5e4);
+    font-size: 105%;
+}
+
+.list-table td {
+    font-size: 12px;
+}
+
+.list-table .w-md {
+    // min-width: 250px;
+}
+
+// SUBMIT BUTTON --
+.submit-button-area {
+    display: inline-block;
+    vertical-align: top;
+    width: auto;
+}
+
+
+// HORIZONTAL LIST VIEW - PROFILES - Ends
 
 a:hover {
   background: none;
@@ -126,3 +157,41 @@ select.selectpicker.select-block {
 .navbar .nav li a {
     color: #137fa0;
 }
+
+
+// Indicators -- Starts
+
+.yes a {
+    display: block;
+    text-decoration: none;
+    font-weight: normal;
+    border-radius: 7px;
+    border: 1px solid #137fa0;
+    padding: 2px 0 2px 0;
+    margin: 0;
+}
+
+.yes a {
+   background-image:linear-gradient(#73d9d7, #268c8a);
+   color: white;
+
+}
+
+.yes a:hover {
+   background-image:linear-gradient(#268c8a, #73d9d7);
+}
+
+.same {
+    background-image:linear-gradient(#ebfafa, #afe9e9);
+}
+
+.different {
+    background-image:linear-gradient(#ffe7e6, #ffa099);
+    // background: #ff1100;
+}
+
+// Indicators -- Ends
+
+
+
+// style="background: green; color: white; border-radius: 5px; a:visited:white;"

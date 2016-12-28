@@ -9,7 +9,7 @@
 </div>
 
 <%= form_tag "/gcses", method: :get, class: 'form-inline'  do %>
-<table class="table table-bordered table-hover">
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
     <thead>
         <!-- <tr id="exclude-col-select">
             <div class="form-group"> -->
@@ -288,8 +288,12 @@
 
 <div class="pull-left">
     <div class="form-group">
-        <%= select_tag :selected_status, options_for_select(status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker', title: "[]" %>
-        <%= submit_tag "Submit", class: 'btn btn-success' %>
+        <div class="submit-button-area">
+            <%= select_tag :selected_status, options_for_select(status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker', title: "[]" %>
+        </div>
+        <div class="submit-button-area">
+            <%= submit_tag "Submit", class: 'btn btn-success' %>
+        </div>
     </div>
 </div>
 

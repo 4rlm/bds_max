@@ -4,7 +4,7 @@
 
 <%= form_tag "/search_result_page_core", method: :post  do %>
 
-<div class="cores-layout core-search-container">
+<div class="text-nowrap cores-layout core-search-container">
     <div class="row filter-row">
         <div class="filter-col col-md-12">
             <table class="cores-layout-table core-search-table table table-bordered table-hover">
@@ -161,8 +161,11 @@
                     <th class="th-2">Status</th>
                     <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td></td>
+
                     <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td></td>
                     <td>n/a</td>
                 </tr>

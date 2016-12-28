@@ -1,4 +1,4 @@
-<div class="cores-layout account-profile-container">
+<div class="text-nowrap cores-layout account-profile-container">
 
     <div class="row profile-row">
 
@@ -150,8 +150,25 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Indicator</th>
-                    <td class="yellow"><%= core.url_comparison %></td>
-                    <td class="yellow"><%= core.root_comparison %></td>
+
+                    <!-- <td class="same"><%#= core.url_comparison %></td> -->
+
+                    <% if core.url_comparison == "Same" %>
+                        <td class="same"><%= core.url_comparison %></td>
+                    <% elsif core.url_comparison == "Different" %>
+                        <td class="different"><%= core.url_comparison %></td>
+                    <% else %>
+                        <td><%= core.url_comparison %></td>
+                    <% end %>
+
+                    <% if core.root_comparison == "Same" %>
+                        <td class="same"><%= core.root_comparison %></td>
+                    <% elsif core.root_comparison == "Different" %>
+                        <td class="different"><%= core.root_comparison %></td>
+                    <% else %>
+                        <td><%= core.root_comparison %></td>
+                    <% end %>
+
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -180,8 +197,7 @@
                     <td><%= core.bds_status %></td>
                     <td><%= get_gcse_domain_status(core) %></td>
                     <td><%= core.staff_indexer_status %></td>
-                    <td><%#= get_indexer_location_indexer_status(core) %></td>
-                    <!-- <td><%#= IndexerLocation.find_by(sfdc_id: core.sfdc_id).indexer_status %></td> -->
+                    <td><%= core.location_indexer_status %></td>
                     <td><%= core.inventory_indexer_status %></td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -213,33 +229,30 @@
                         <td><%= core.indexer_date %></td>
                     <% end %>
 
-                    <% if core.indexer_date %>
-                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.indexer_date %></td>
-                    <% end %>
-
-                    <% if core.staffer_date %>
-                        <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.staffer_date %></td>
-                    <% end %>
-
-                    <% if core.whois_date %>
-                        <td><%= core.whois_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.whois_date %></td>
-                    <% end %>
+                        <td>n/a</td>
+                        <td>n/a</td>
+                        <td>n/a</td>
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Link</th>
                     <td></td>
                     <td></td>
-                    <td>link</td>
-                    <td>link</td>
-                    <td>link</td>
-                    <td>link</td>
-                    <td></td>
+
+                    <% if core.staff_text && core.staff_text != "(none)"%>
+                        <td class="yes"><%= link_to core.staff_text, core.staff_link, :target => "_blank" %></td>
+                    <% else %>
+                        <td><%= core.staff_text %></td>
+                    <% end %>
+
+                    <% if core.location_text && core.location_text != "(none)"%>
+                        <td class="yes"><%= link_to core.location_text, core.location_link, :target => "_blank" %></td>
+                    <% else %>
+                        <td><%= core.location_text %></td>
+                    <% end %>
+
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
                 </tr>
             </table>
         </div>

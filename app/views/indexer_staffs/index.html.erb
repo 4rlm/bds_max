@@ -5,22 +5,22 @@
 </div><br><br>
 
 <%= form_tag "/indexer_staffs", method: :get, class: 'form-inline'  do %>
-<table class="table table-bordered table-hover">
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_status } %> Indexer status</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %> SFDC acct</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group_name } %> SFDC group name</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_acct } %> SFDC ult acct</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %> Domain</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :ip } %> IP</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :text } %> Text</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :href } %> Href</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :link } %> Staff link</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %> SFDC ID</th>
-            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_timestamp } %> Indexer timestamp</th>
+            <th>Indexer Status<br><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_status } %></th>
+            <th>SFDC Account<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></th>
+            <th>SFDC Group<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group_name } %></th>
+            <th>SFDC Ult Acct<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_acct } %></th>
+            <th>Domain<br><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></th>
+            <th>IP<br><%= render partial: 'layouts/text_field_tag', locals: { col: :ip } %></th>
+            <th>Text<br><%= render partial: 'layouts/text_field_tag', locals: { col: :text } %></th>
+            <th>Href<br><%= render partial: 'layouts/text_field_tag', locals: { col: :href } %></th>
+            <th>Staff Link<br><%= render partial: 'layouts/text_field_tag', locals: { col: :link } %></th>
+            <th>SFDC ID<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></th>
+            <th>Indexer Timestamp<br><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_timestamp } %></th>
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -52,14 +52,18 @@
 </table>
 
 <div class="pull-left">
-    <%= select_tag :selected_status, options_for_select(indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
-    <%= submit_tag "Submit", class: 'btn btn-success' %>
+    <div class="submit-button-area">
+        <%= select_tag :selected_status, options_for_select(indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+    </div>
+    <div class="submit-button-area">
+        <%= submit_tag "Submit", class: 'btn btn-success' %>
+    </div>
 </div>
 <% end %>
 
 <div class="pull-right">
     <%= render partial: 'buttons' %>
-</div><br><br>
+</div>
 
 <%#= will_paginate @paginates, renderer: BootstrapPagination::Rails  %>
-<br><br><br><br>
+<br>
