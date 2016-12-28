@@ -1,126 +1,26 @@
-<p id="notice"><%= notice %></p>
-
-<h1 class="text-center">Location Indexer</h1>
-<br><br>
+<h1 class="text-center">Location Indexer</h1><br><br>
 
 <div class="pull-right">
-    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
-    <%= link_to 'Add Record', new_indexer_location_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', indexer_location_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', indexer_locations_path(format: "csv"), class: 'btn btn-primary' %>
-</div>
-<br>
-<br>
+    <%= render partial: 'buttons' %>
+</div><br><br>
 
 <%= form_tag "/indexer_locations", method: :get, class: 'form-inline'  do %>
-
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
-
-<!-- indexer_status
-sfdc_acct
-sfdc_group_name
-sfdc_ult_acct
-domain
-ip
-text
-href
-link
-sfdc_id
-indexer_timestamp -->
-
             <th>#</th>
-
-            <!-- <th>Indexer status</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :indexer_status, params[:indexer_status], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>Indexer status
-                </div>
-            </th>
-
-            <!-- <th>SFDC acct</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>SFDC acct
-                </div>
-            </th>
-
-            <!-- <th>SFDC group name</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :sfdc_group_name, params[:sfdc_group_name], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>SFDC group name
-                </div>
-            </th>
-
-            <!-- <th>SFDC ult acct</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :sfdc_ult_acct, params[:sfdc_ult_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>SFDC ult acct
-                </div>
-            </th>
-
-            <!-- <th>Domain</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :domain, params[:domain], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>Domain
-                </div>
-            </th>
-
-            <!-- <th>IP</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :ip, params[:ip], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>IP
-                </div>
-            </th>
-
-            <!-- <th>Text</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :text, params[:text], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>Text
-                </div>
-            </th>
-
-            <!-- <th>Href</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :href, params[:href], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>Href
-                </div>
-            </th>
-
-            <!-- <th>Staff link</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :link, params[:link], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>Staff link
-                </div>
-            </th>
-
-            <!-- <th>SFDC ID</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>SFDC ID
-                </div>
-            </th>
-
-            <!-- <th>Indexer timestamp</th> -->
-            <th>
-                <div class="form-group">
-                    <%= text_field_tag :indexer_timestamp, params[:indexer_timestamp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    <br><br>Indexer timestamp
-                </div>
-            </th>
-
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_status } %> Indexer status</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %> SFDC acct</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group_name } %> SFDC group name</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_acct } %> SFDC ult acct</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %> Domain</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :ip } %> IP</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :text } %> Text</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :href } %> Href</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :link } %> Staff link</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %> SFDC ID</th>
+            <th><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_timestamp } %> Indexer timestamp</th>
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -130,25 +30,21 @@ indexer_timestamp -->
         <% @indexer_locations.each do |indexer_location| %>
         <tr>
             <td><%= check_box_tag "multi_checks[]",  indexer_location.id %></td>
-
             <% num +=1 %>
             <td><%= num %></td>
-
             <td><%= indexer_location.indexer_status %></td>
-            <td><%= indexer_location.sfdc_acct %></td>
-            <td><%= indexer_location.sfdc_group_name %></td>
-            <td><%= indexer_location.sfdc_ult_acct %></td>
+            <td><%= Core.find(indexer_location.core_id).sfdc_acct %></td>
+            <td><%= Core.find(indexer_location.core_id).sfdc_group %></td>
+            <td><%= Core.find(indexer_location.core_id).sfdc_ult_grp %></td>
             <td><%= link_to indexer_location.domain, indexer_location.domain, :target => "_blank" %></td>
             <td><%= indexer_location.ip %></td>
             <td><%= indexer_location.text %></td>
             <td><%= indexer_location.href %></td>
             <td><%= link_to indexer_location.link, indexer_location.link, :target => "_blank" %></td>
-            <td><%= indexer_location.sfdc_id %></td>
+            <td><%= Core.find(indexer_location.core_id).sfdc_id %></td>
             <td><%= indexer_location.indexer_timestamp %></td>
-
             <td><%= link_to 'Show', indexer_location %></td>
             <td><%= link_to 'Edit', edit_indexer_location_path(indexer_location) %></td>
-
             <td><%= link_to 'Destroy', indexer_location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
         <% end %>
@@ -156,15 +52,11 @@ indexer_timestamp -->
 </table>
 
 <div class="pull-left">
-    <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+    <%= select_tag :selected_status, options_for_select(indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+    <%= submit_tag "Submit", class: 'btn btn-success' %>
 </div>
 <% end %>
 
 <div class="pull-right">
-    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
-    <%= link_to 'Add Record', new_indexer_location_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', criteria_indexer_staff_text_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', criteria_indexer_staff_texts_path(format: "csv"), class: 'btn btn-primary' %>
-</div>
-</div>
-</br> </br>
+    <%= render partial: 'buttons' %>
+</div></br></br>

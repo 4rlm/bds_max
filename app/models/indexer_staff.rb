@@ -18,19 +18,6 @@ class IndexerStaff < ApplicationRecord
     scope :sfdc_id, -> (sfdc_id) { where sfdc_id: sfdc_id }
     scope :indexer_timestamp, -> (indexer_timestamp) { where indexer_timestamp: indexer_timestamp }
 
-# indexer_status
-# sfdc_acct
-# sfdc_group_name
-# sfdc_ult_acct
-# domain
-# ip
-# text
-# href
-# link
-# sfdc_id
-# indexer_timestamp
-
-
     # == Key Word Search ==
     scope :indexer_status, -> (indexer_status) { where("indexer_status like ?", "%#{indexer_status}%") }
     scope :sfdc_acct, -> (sfdc_acct) { where("sfdc_acct like ?", "%#{sfdc_acct}%") }

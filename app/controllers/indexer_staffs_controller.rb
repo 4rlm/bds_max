@@ -4,10 +4,10 @@ class IndexerStaffsController < ApplicationController
     # GET /indexer_staffs
     # GET /indexer_staffs.json
     def index
-        @indexer_staffs = IndexerStaff.order(:domain)
+        @staffs = IndexerStaff.order(:domain)
         respond_to do |format|
             format.html
-            format.csv { render text: @indexer_staffs.to_csv }
+            format.csv { render text: @staffs.to_csv }
         end
 
 
@@ -18,11 +18,11 @@ class IndexerStaffsController < ApplicationController
 
         # @paginates = @all_indexer_staffs.paginate(:page => params[:page], :per_page => 350)
 
-        @paginates = IndexerStaff.paginate(:page => params[:page], :per_page => 350)
+        # @paginates = IndexerStaff.paginate(:page => params[:page], :per_page => 350)
 
 
         #---------  Adam's Trial - Ends -------
-
+        @indexer_staffs = @staffs.filter(filtering_params(params))
         batch_status
     end
 
@@ -106,7 +106,7 @@ class IndexerStaffsController < ApplicationController
     end
 
     def filtering_params(params)
-        params.slice(:indexer_status, :sfdc_acct, :sfdc_group_name, :sfdc_ult_acct, :root, :domain, :ip, :text, :href, :staff_link, :msg, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_id, :indexer_timestamp)
+        params.slice(:indexer_status, :sfdc_acct, :sfdc_group, :sfdc_ult_grp, :domain, :text, :href, :link, :sfdc_id, :indexer_timestamp)
     end
 
     def batch_status
