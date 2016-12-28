@@ -179,7 +179,7 @@
                     <th class="th-2 th-2a">Status</th>
                     <td><%= core.bds_status %></td>
                     <td><%= get_gcse_domain_status(core) %></td>
-                    <td><%= core.indexer_staff.indexer_status %></td>
+                    <td><%= get_if_indexer_staff(core) %></td>
                     <td><%#= get_indexer_location_indexer_status(core) %></td>
                     <!-- <td><%#= IndexerLocation.find_by(sfdc_id: core.sfdc_id).indexer_status %></td> -->
                     <td><%= core.inventory_indexer_status %></td>
