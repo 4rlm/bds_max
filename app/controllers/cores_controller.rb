@@ -14,7 +14,7 @@ class CoresController < ApplicationController
             @selected_data = Core.all
         end
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 5)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 15)
 
         @cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|

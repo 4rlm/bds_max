@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="text-center">Search Domainer</h1>
+<h3 class="page-header">Search Domainer</h3>
 
 <!-- Testing Version -->
 <!-- My Panel Starts-->
@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <%= label_tag :domain_status, "Domain Status" %>
 
-                    <%= select_tag :domain_status, options_for_select(status_list), multiple: true, class: 'selectpicker form-control' %>
+                    <%= select_tag :domain_status, options_for_select(status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %>
 
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <%= label_tag :sfdc_type, "SFDC Type" %>
-                    <%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control' %>
+                    <%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %>
                 </div>
             </div>
 

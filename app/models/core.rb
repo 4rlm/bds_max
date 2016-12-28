@@ -22,10 +22,14 @@ class Core < ApplicationRecord
     # == Key Word Search ==
     scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
     # scope :sfdc_ult_rt, -> (sfdc_ult_rt) { where sfdc_ult_rt: sfdc_ult_rt }
+
     scope :sfdc_ult_rt, -> (sfdc_ult_rt) { where("sfdc_ult_rt like ?", "%#{sfdc_ult_rt}%") }
     # scope :sfdc_grp_rt, -> (sfdc_grp_rt) { where sfdc_grp_rt: sfdc_grp_rt }
+
     scope :sfdc_grp_rt, -> (sfdc_grp_rt) { where("sfdc_grp_rt like ?", "%#{sfdc_grp_rt}%") }
     # scope :sfdc_ult_grp, -> (sfdc_ult_grp) { where sfdc_ult_grp: sfdc_ult_grp }
+
+
     scope :sfdc_ult_grp, -> (sfdc_ult_grp) { where("sfdc_ult_grp like ?", "%#{sfdc_ult_grp}%") }
     # scope :sfdc_group, -> (sfdc_group) { where sfdc_group: sfdc_group }
     scope :sfdc_group, -> (sfdc_group) { where("sfdc_group like ?", "%#{sfdc_group}%") }

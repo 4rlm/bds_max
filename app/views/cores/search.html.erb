@@ -1,179 +1,195 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="text-center">Search Core</h1>
+<h3 class="section-header">Core Advanced Search</h3>
 
-<!-- Testing Version -->
-<!-- My Panel Starts-->
-<div class="panel panel-default"> <!-- Panel Begins -->
-    <div class="panel-heading"> <!-- panel heading begins -->
-        <h3 class="panel-title">Search Core</h3>
-    </div> <!-- panel heading ends -->
+<%= form_tag "/search_result_page_core", method: :post  do %>
 
-    <div class="panel-body"> <!-- panel body begins -->
-        <%= form_tag "/search_result_page_core", method: :post  do %>
-            <div class="row">
+<div class="cores-layout core-search-container">
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Filter</th>
+                    <th class="th-2 w-sm">Sales Person:</th>
+                    <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <th class="th-2 w-xsm">Type:</th>
+                    <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <th class="th-2 w-xsm">SFDC ID:</th>
+                    <td class="w-md"><%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :bds_status, "Domainer Status" %>
-                        <%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Account</th>
+                    <th class="th-2">Account Name</th>
+                    <th class="th-2">Group Name</th>
+                    <th class="th-2">Ultimate Group Name</th>
+                    <th class="th-2 w-md">Sales Tier</th>
+                    <th class="th-2 w-xsm">Group RT</th>
+                    <th class="th-2 w-xsm">Ult RT</th>
+                </tr>
+                <tr>
+                    <th class="th-2 th-2a">SFDC</th>
+                    <td><%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= text_field_tag :sfdc_ult_grp, params[:sfdc_ult_grp], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= text_field_tag :sfdc_grp_rt, params[:sfdc_grp_rt], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= text_field_tag :sfdc_ult_rt, params[:sfdc_ult_rt], placeholder: "----", class: 'form-control' %></td>
 
-                <!-- == 3 New Indexer Columns =Starts= -->
+                </tr>
+                <tr>
+                    <th class="th-2 th-2b">Matched</th>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="th-2 th-2c">Indicator</th>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :staff_indexer_status, "Staff Indexer Status" %>
-                        <%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Address</th>
+                    <th class="th-2">Street</th>
+                    <th class="th-2 w-lg">City</th>
+                    <th class="th-2 w-xxsm">State</th>
+                    <th class="th-2 w-xsm">Zip</th>
+                    <th class="th-2 w-md">Phone</th>
+                </tr>
+                <tr>
+                    <th class="th-2">SFDC</th>
+                    <td><%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= text_field_tag :sfdc_ph, params[:sfdc_ph], placeholder: "----", class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Matched</th>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="th-2">Indicator</th>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
 
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :location_indexer_status, "Location Indexer Status" %>
-                        <%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Digital</th>
+                    <th class="th-2">Website</th>
+                    <th class="th-2">Root</th>
+                    <th class="th-2">Template</th>
+                    <th class="th-2">IP</th>
+                    <th class="th-2">DNS-1</th>
+                    <th class="th-2">DNS-2</th>
+                </tr>
+                <tr>
+                    <th class="th-2">SFDC</th>
+                    <td></td>
+                    <td></td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="th-2">Matched</th>
+                    <td></td>
+                    <td></td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="th-2">Indicator</th>
+                    <td class="yellow"><%= select_tag :url_comparison, options_for_select(url_comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="yellow"><%= select_tag :root_comparison, options_for_select(root_comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                    <td class="yellow">n/a</td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
 
+    <div class="row">
+        <div class="col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Modules</th>
+                    <th class="th-2">Core</th>
+                    <th class="th-2">Domainer</th>
+                    <th class="th-2">Staff Index</th>
+                    <th class="th-2">Location Index</th>
+                    <th class="th-2">Inventory Index</th>
+                    <th class="th-2">Staffer</th>
+                    <th class="th-2">WhoIs</th>
+                </tr>
+                <tr>
+                    <th class="th-2">Status</th>
+                    <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td></td>
+                    <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td></td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <th class="th-2">Date</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Link</th>
+                    <td></td>
+                    <td></td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+</div> <!-- core-search-container Ends -->
+<br>
 
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :inventory_indexer_status, "Inv Indexer Status" %>
-                        <%= select_tag :inventory_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-
-                <!-- == 3 New Indexer Columns =Ends= -->
-
-                <!-- = 2 Future Columns (placeholders) Starts= -->
-
-                <!-- Staffer Status-->
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :staffer_status, "Staffer Status" %>
-                        <%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-
-                <!-- WhoIs Status -->
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :whois_status, "WhoIs Status" %>
-                        <%= select_tag :whois_status, options_for_select(whois_status_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-                <!-- = 2 Future Columns (placeholders) Ends= -->
-
-
-                <!-- = 2 Future Columns (placeholders) = -->
-            </div> <!-- /.row -->
-
-            <div class="row">
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_sales_person, "Sales Person" %>
-                        <%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_type, "Type" %>
-                        <%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_tier, "Sales Tier" %>
-                        <%= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-
-                </div>
-
-
-        <div class="row">
-
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <%= label_tag :sfdc_id, "SFDC ID" %>
-                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                </div>
-            </div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :url_comparison, "Matched URL Indicator" %>
-
-                        <%= select_tag :url_comparison, options_for_select(url_comparison_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :root_comparison, "Matched Root Indicator" %>
-                        <%= select_tag :root_comparison, options_for_select(root_comparison_list), multiple: true, class: 'selectpicker form-control' %>
-                    </div>
-                </div>
-            </div> <!-- /.row -->
-
-            <div class="row">
-                <!-- ==== Change to key word search ==== -->
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_acct, "Account Name" %>
-                        <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    </div>
-                </div>
-
-                <!-- ==== Change to key word search ==== -->
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_group, "Group Name" %>
-                        <%= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    </div>
-                </div>
-
-                <!-- ==== Change to key word search ==== -->
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_ult_grp, "Ultimate Group Name" %>
-                        <%= text_field_tag :sfdc_ult_grp, params[:sfdc_ult_grp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    </div>
-                </div>
-            </div> <!-- /.row -->
-
-            <div class="row">
-                <!-- ==== Change to key word search ==== -->
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <!-- ==== Change to key word search ==== -->
-                        <%= label_tag :sfdc_city, "City" %>
-                        <%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    </div>
-                </div>
-                <!-- ==== Change to key word search ==== -->
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_state, "State" %>
-                        <%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    </div>
-                </div>
-
-                <!-- ==== Change to key word search ==== -->
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <%= label_tag :sfdc_zip, "Zip" %>
-                        <%= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "-- Enter Keyword --", class: 'form-control' %>
-                    </div>
-                </div>
-            </div> <!-- /.row -->
-
-            <%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
-        <% end %>
-    </div> <!-- My Panel Body Ends -->
-</div> <!-- My Panel Ends -->
-<!-- Testing Version Ends-->
+<%= submit_tag "Search", class: 'btn btn-primary pull-right' %>
+<% end %>

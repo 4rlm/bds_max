@@ -1,24 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="text-center">Domainer</h1><br><br>
-
-
-<!-- Adam New Form - Starts -->
-
-
-<!-- Adam New Form - Ends -->
-
-
-
-
-
-
-
-
-
-
-
-
+<h2 class="page-header">Domainer</h2>
 
 <div class="pull-right">
     <%= link_to 'Add Record', new_gcse_path, class: 'btn btn-primary' %>
@@ -31,7 +13,7 @@
     <thead>
         <!-- <tr id="exclude-col-select">
             <div class="form-group"> -->
-                <%#= select_tag :columns, options_for_select(column_list, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker' %>
+                <%#= select_tag :columns, options_for_select(column_list, params[:columns]), title: 'Exclude Columns', multiple: true, class: 'selectpicker', title: "[]" %>
                 <%= submit_tag "Submit", class: 'btn btn-success' %>
             <!-- </div>
         </tr> -->
@@ -45,7 +27,7 @@
             <!-- <% unless @col_domain_status %> -->
             <th>
                 <div class="form-group">
-                    <%= select_tag :domain_status, options_for_select(ordered_list(@selected_data.select(:domain_status).map(&:domain_status)), params[:domain_status]), multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :domain_status, options_for_select(ordered_list(@selected_data.select(:domain_status).map(&:domain_status)), params[:domain_status]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>Domain Status
                 </div>
             </th>
@@ -55,10 +37,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :sfdc_root, options_for_select(ordered_list(@selected_data.select(:sfdc_root).map(&:sfdc_root)), params[:sfdc_root]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :sfdc_root, options_for_select(ordered_list(@selected_data.select(:sfdc_root).map(&:sfdc_root)), params[:sfdc_root]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>SFDC Root
                 </div>
             </th>
@@ -68,10 +50,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :root, params[:root], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :root, params[:root], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :root, options_for_select(ordered_list(@selected_data.select(:root).map(&:root)), params[:root]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :root, options_for_select(ordered_list(@selected_data.select(:root).map(&:root)), params[:root]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>New Root
                 </div>
             </th>
@@ -81,10 +63,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :sfdc_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_acct).map(&:sfdc_acct))), params[:sfdc_acct]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :sfdc_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_acct).map(&:sfdc_acct))), params[:sfdc_acct]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>SFDC Acct
                 </div>
             </th>
@@ -94,10 +76,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :sfdc_ult_acct, params[:sfdc_ult_acct], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_ult_acct, params[:sfdc_ult_acct], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :sfdc_ult_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct))), params[:sfdc_ult_acct]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :sfdc_ult_acct, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_ult_acct).map(&:sfdc_ult_acct))), params[:sfdc_ult_acct]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>SFDC Ult Acct
                 </div>
             </th>
@@ -107,10 +89,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :sfdc_url_o, params[:sfdc_url_o], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_url_o, params[:sfdc_url_o], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :sfdc_url_o, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_url_o).map(&:sfdc_url_o))), params[:sfdc_url_o]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :sfdc_url_o, options_for_select(blank_remover(ordered_list(@selected_data.select(:sfdc_url_o).map(&:sfdc_url_o))), params[:sfdc_url_o]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>SFDC Url
                 </div>
             </th>
@@ -120,10 +102,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :domain, params[:domain], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :domain, params[:domain], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :domain, options_for_select(ordered_list(@selected_data.select(:domain).map(&:domain)), params[:domain]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :domain, options_for_select(ordered_list(@selected_data.select(:domain).map(&:domain)), params[:domain]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>New Domain
                 </div>
             </th>
@@ -132,7 +114,7 @@
             <% unless @col_sfdc_street %> -->
             <th>
                 <div class="form-group">
-                    <%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "----", class: 'form-control' %>
                     <br><br>SFDC Street
                 </div>
             </th>
@@ -142,10 +124,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :sfdc_city, options_for_select(ordered_list(@selected_data.select(:sfdc_city).map(&:sfdc_city)), params[:sfdc_city]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :sfdc_city, options_for_select(ordered_list(@selected_data.select(:sfdc_city).map(&:sfdc_city)), params[:sfdc_city]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>SFDC City
                 </div>
             </th>
@@ -155,10 +137,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :sfdc_state, options_for_select(ordered_list(@selected_data.select(:sfdc_state).map(&:sfdc_state)), params[:sfdc_state]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :sfdc_state, options_for_select(ordered_list(@selected_data.select(:sfdc_state).map(&:sfdc_state)), params[:sfdc_state]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>SFDC State
                 </div>
             </th>
@@ -167,7 +149,7 @@
             <% unless @col_sfdc_type %> -->
             <th>
                 <div class="form-group">
-                    <%= select_tag :sfdc_type, options_for_select(ordered_list(@selected_data.select(:sfdc_type).map(&:sfdc_type)), params[:sfdc_type]), multiple: true, class: 'selectpicker' %>
+                    <%= select_tag :sfdc_type, options_for_select(ordered_list(@selected_data.select(:sfdc_type).map(&:sfdc_type)), params[:sfdc_type]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>SFDC Type
                 </div>
             </th>
@@ -177,10 +159,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :gcse_result_num, params[:gcse_result_num], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :gcse_result_num, params[:gcse_result_num], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :gcse_result_num, options_for_select(ordered_list(@selected_data.select(:gcse_result_num).map(&:gcse_result_num)), params[:gcse_result_num]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :gcse_result_num, options_for_select(ordered_list(@selected_data.select(:gcse_result_num).map(&:gcse_result_num)), params[:gcse_result_num]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>GCSE Result Num
                 </div>
             </th>
@@ -190,10 +172,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :gcse_query_num, params[:gcse_query_num], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :gcse_query_num, params[:gcse_query_num], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :gcse_query_num, options_for_select(ordered_list(@selected_data.select(:gcse_query_num).map(&:gcse_query_num)), params[:gcse_query_num]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :gcse_query_num, options_for_select(ordered_list(@selected_data.select(:gcse_query_num).map(&:gcse_query_num)), params[:gcse_query_num]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>GCSE Query Num
                 </div>
             </th>
@@ -202,7 +184,7 @@
             <% unless @col_sfdc_id %> -->
             <th>
                 <div class="form-group">
-                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %>
                     <br><br>SFDC ID
                 </div>
             </th>
@@ -212,10 +194,10 @@
             <th>
                 <div class="form-group">
 
-                    <%= text_field_tag :gcse_timestamp, params[:gcse_timestamp], placeholder: "-- Enter Keyword --", class: 'form-control' %>
+                    <%= text_field_tag :gcse_timestamp, params[:gcse_timestamp], placeholder: "----", class: 'form-control' %>
                     <!-- == Change to Keyword Search == -->
 
-                    <%#= select_tag :gcse_timestamp, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:gcse_timestamp).map(&:gcse_timestamp))), params[:gcse_timestamp]), multiple: true, class: 'selectpicker' %>
+                    <%#= select_tag :gcse_timestamp, options_for_select(formatted_date_list(ordered_list(@selected_data.select(:gcse_timestamp).map(&:gcse_timestamp))), params[:gcse_timestamp]), multiple: true, class: 'selectpicker', title: "[]" %>
                     <br><br>Domainer Date
                 </div>
             </th>
@@ -306,7 +288,7 @@
 
 <div class="pull-left">
     <div class="form-group">
-        <%= select_tag :selected_status, options_for_select(status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
+        <%= select_tag :selected_status, options_for_select(status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker', title: "[]" %>
         <%= submit_tag "Submit", class: 'btn btn-success' %>
     </div>
 </div>

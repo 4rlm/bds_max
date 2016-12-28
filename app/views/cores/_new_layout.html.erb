@@ -1,4 +1,3 @@
-
 <div class="cores-layout account-profile-container">
 
     <div class="row profile-row">
@@ -51,7 +50,7 @@
                     <th class="th-2 w-xsm">Ult RT</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
+                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= core.sfdc_acct %></td>
                     <td><%= core.sfdc_group %></td>
                     <td><%= core.sfdc_ult_grp %></td>
@@ -60,7 +59,7 @@
                     <td><%= core.sfdc_ult_rt %></td>
                 </tr>
                 <tr>
-                    <th class="th-2">Matched</th>
+                    <th class="th-2 th-2b">Matched</th>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -70,7 +69,7 @@
 
                 </tr>
                 <tr>
-                    <th class="th-2">Indicator</th>
+                    <th class="th-2 th-2c">Indicator</th>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -95,7 +94,7 @@
                     <th class="th-2 w-md">Phone</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
+                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= core.sfdc_street %></td>
                     <td><%= core.sfdc_city %></td>
                     <td><%= core.sfdc_state %></td>
@@ -103,7 +102,7 @@
                     <td><%= core.sfdc_ph %></td>
                 </tr>
                 <tr>
-                    <th class="th-2">Matched</th>
+                    <th class="th-2 th-2b">Matched</th>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -111,7 +110,7 @@
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Indicator</th>
+                    <th class="th-2 th-2c">Indicator</th>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -135,13 +134,13 @@
                     <th class="th-2">DNS-2</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
+                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
                     <td><%= core.sfdc_root %></td>
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Matched</th>
+                    <th class="th-2 th-2b">Matched</th>
                     <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
                     <td><%= core.matched_root %></td>
                     <td>n/a</td>
@@ -150,7 +149,7 @@
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Indicator</th>
+                    <th class="th-2 th-2c">Indicator</th>
                     <td class="yellow"><%= core.url_comparison %></td>
                     <td class="yellow"><%= core.root_comparison %></td>
                     <td class="yellow">n/a</td>
@@ -177,18 +176,18 @@
                     <th class="th-2">WhoIs</th>
                 </tr>
                 <tr>
-                    <th class="th-2">Status</th>
+                    <th class="th-2 th-2a">Status</th>
                     <td><%= core.bds_status %></td>
                     <td><%= get_gcse_domain_status(core) %></td>
-                    <td><%= core.indexer_staff.indexer_status %></td>
-                    <!-- <td><%#= get_indexer_location_indexer_status(core) %></td> -->
+                    <td><%#= core.indexer_staff.indexer_status %></td>
+                    <td><%#= get_indexer_location_indexer_status(core) %></td>
                     <!-- <td><%#= IndexerLocation.find_by(sfdc_id: core.sfdc_id).indexer_status %></td> -->
                     <td><%= core.inventory_indexer_status %></td>
                     <td>n/a</td>
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2">Date</th>
+                    <th class="th-2 th-2b">Date</th>
 
                     <% if core.core_date %>
                         <td><%= core.core_date.strftime("%m/%d/%Y") %></td>
@@ -233,7 +232,7 @@
                     <% end %>
                 </tr>
                 <tr>
-                    <th class="th-2">Link</th>
+                    <th class="th-2 th-2c">Link</th>
                     <td></td>
                     <td></td>
                     <td>link</td>

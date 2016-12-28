@@ -1,49 +1,49 @@
-<h1 class="text-center">Core Accounts</h1>
+<h1 class="page-header">Core Accounts</h1>
 
 
 <%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 
 <!-- link to _filter partial -->
+ <h3 class="section-header">Core Filter</h3>
 <%= render partial: 'filter', locals: {  } %>
-
 
 <%= submit_tag "Submit", class: 'btn btn-success' %>
 
 <%= render partial: 'buttons' %>
 
 
- <!-- ### Horizontal View Starts Here ### -->
- <h1>Horizontal View</h1>
-<table class="table table-bordered table-hover">
+<!-- ### Horizontal View Starts Here ### -->
+<h3 class="section-header">Core Profiles</h3>
+<table class="list-table table table-bordered table-hover">
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
 
             <th>#</th>
-            <th>BDS Status</th>
-            <th>Staff Indexer Status</th>
-            <th>Location Indexer Status</th>
-            <th>Inventory Indexer Status</th>
-            <th>Account</th>
-            <th>Ultimate Group</th>
-            <th>Group Name</th>
-            <th>Url Comparison</th>
-            <th>SFDC Url</th>
-            <th>Matched Url</th>
-            <th>Root Comparison</th>
-            <th>SFDC Root</th>
-            <th>Matched Root</th>
-            <th>SFDC Street</th>
-            <th>SFDC City</th>
-            <th>SFDC State</th>
-            <th>SFDC Zip</th>
-            <th>SFDC Ph</th>
-            <th>Tier</th>
-            <th>Ult RT</th>
-            <th>Grp RT</th>
-            <th>Type</th>
-            <th>Salesperson</th>
-            <th>SFDC ID</th>
+            <th class="w-md">BDS Status</th>
+            <th class="w-md">Staff Indexer Status</th>
+            <th class="w-md">Location Indexer Status</th>
+            <th class="w-md">Inventory Indexer Status</th>
+            <th class="w-md">Account</th>
+            <th class="w-md">Ultimate Group</th>
+            <th class="w-md">Group Name</th>
+            <th class="w-md">Url Comparison</th>
+            <th class="w-md">SFDC Url</th>
+            <th class="w-md">Matched Url</th>
+            <th class="w-md">Root Comparison</th>
+            <th class="w-md">SFDC Root</th>
+            <th class="w-md">Matched Root</th>
+            <th class="w-md">SFDC Street</th>
+            <th class="w-md">SFDC City</th>
+            <th class="w-md">SFDC State</th>
+            <th class="w-md">SFDC Zip</th>
+            <th class="w-md">SFDC Ph</th>
+            <th class="w-md">Tier</th>
+            <th class="w-md">Ult RT</th>
+            <th class="w-md">Grp RT</th>
+            <th class="w-md">Type</th>
+            <th class="w-md">Salesperson</th>
+            <th class="w-md">SFDC ID</th>
 
             <th>
                 <div class="form-group">
@@ -93,7 +93,8 @@
 
 
  <!-- ### Vertical View Starts Here (from render) ### -->
-<h1>Vertical View</h1>
+ <h3 class="section-header">Core Profiles</h3>
+
 <% num = 0 %>
 <% @cores.each do |core| %>
     <% num +=1 %>

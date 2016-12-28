@@ -1,17 +1,19 @@
-<div class="cores-layout account-filter-container">
+<h1>1. _new_filter</h1>
+
+<div class="cores-layout core-search-container">
 
     <div class="row filter-row">
         <div class="filter-col col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Filter</th>
                     <th class="th-2 w-sm">Sales Person:</th>
-                    <td><%= render partial: 'layouts/select_tag', locals: { col: :sfdc_sales_person } %></td>
+                    <td></td>
                     <th class="th-2 w-xsm">Type:</th>
-                    <td><%= render partial: 'layouts/select_tag', locals: { col: :sfdc_type } %></td>
+                    <td></td>
 
                     <th class="th-2 w-xsm">SFDC ID:</th>
-                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
+                    <td class="w-md"></td>
                 </tr>
             </table>
         </div>
@@ -19,7 +21,7 @@
 
     <div class="row filter-row">
         <div class="filter-col col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Account</th>
                     <th class="th-2">Account Name</th>
@@ -30,17 +32,17 @@
                     <th class="th-2 w-xsm">Ult RT</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_grp } %></td>
-                    <td><%= render partial: 'layouts/select_tag', locals: { col: :sfdc_tier } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_grp_rt } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_rt } %></td>
+                    <th class="th-2">SFDC</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
 
                 </tr>
                 <tr>
-                    <th class="th-2 th-2b">Matched</th>
+                    <th class="th-2">Matched</th>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -49,7 +51,7 @@
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2c">Indicator</th>
+                    <th class="th-2">Indicator</th>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -63,7 +65,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Address</th>
                     <th class="th-2">Street</th>
@@ -73,18 +75,15 @@
                     <th class="th-2 w-md">Phone</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_street } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_city } %></td>
-
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_state } %></td>
-
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_zip } %></td>
-
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ph } %></td>
+                    <th class="th-2">SFDC</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2b">Matched</th>
+                    <th class="th-2">Matched</th>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -92,7 +91,7 @@
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2c">Indicator</th>
+                    <th class="th-2">Indicator</th>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -105,7 +104,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Digital</th>
                     <th class="th-2">Website</th>
@@ -116,24 +115,24 @@
                     <th class="th-2">DNS-2</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_url } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_root } %></td>
+                    <th class="th-2">SFDC</th>
+                    <td></td>
+                    <td></td>
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2b">Matched</th>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :matched_url } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :matched_root } %></td>
+                    <th class="th-2">Matched</th>
+                    <td></td>
+                    <td></td>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2c">Indicator</th>
-                    <td class="yellow"><%= render partial: 'layouts/text_field_tag', locals: { col: :url_comparison } %></td>
-                    <td class="yellow"><%= render partial: 'layouts/text_field_tag', locals: { col: :root_comparison } %></td>
+                    <th class="th-2">Indicator</th>
+                    <td class="yellow"></td>
+                    <td class="yellow"></td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -145,7 +144,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Modules</th>
                     <th class="th-2">Core</th>
@@ -157,25 +156,25 @@
                     <th class="th-2">WhoIs</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">Status</th>
-                    <td><%= render partial: 'layouts/select_tag', locals: { col: :bds_status } %></td>
+                    <th class="th-2">Status</th>
                     <td></td>
-                    <td><%#= select_tag "indexer_staff[indexer_status]", options_for_select(ordered_list(@selected_data.map(&:indexer_staff).map(&:indexer_status))), multiple: true, class: 'selectpicker', title: "[]" %></td>
-                    <td><%= render partial: 'layouts/select_tag', locals: { col: :location_indexer_status } %></td>
-                    <td><%= render partial: 'layouts/select_tag', locals: { col: :inventory_indexer_status } %></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>n/a</td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2b">Date</th>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domainer_date } %></td>
+                    <th class="th-2">Date</th>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2c">Link</th>
+                    <th class="th-2">Link</th>
                     <td></td>
                     <td></td>
                     <td>link</td>
@@ -187,6 +186,6 @@
             </table>
         </div>
     </div>  <!-- row ends -->
-</div> <!-- account-filter-container Ends -->
+</div> <!-- core-search-container Ends -->
 
 <br> <br>
