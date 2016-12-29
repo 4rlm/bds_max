@@ -11,7 +11,7 @@ class Gcse < ApplicationRecord
             end
         end
     end
-    
+
     def self.import_csv(file_name)
         CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
             row_hash = row.to_hash
@@ -73,7 +73,14 @@ class Gcse < ApplicationRecord
     # ========= CSV column formatting =========
     # CSV column formatting=========
     def self.capitalized(str)
-        str.split.map(&:capitalize)*" " unless str.nil?
+        return if str.nil?
+        sub_caps = str.split.map(&:capitalize)*" " # "No Auto-matches"
+
+        if sub_caps.include?('-')
+            index = sub_caps.index('-') + 1
+            sub_caps[index] = sub_caps[index].upcase # m => M
+        end
+        sub_caps
     end
 
     def self.upcased(str)

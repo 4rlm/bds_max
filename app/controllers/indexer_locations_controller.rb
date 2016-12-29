@@ -104,7 +104,9 @@ class IndexerLocationsController < ApplicationController
             location = IndexerLocation.find(id)
             location.update_attribute(:indexer_status, status)
             flash[:notice] = "Successfully updated"
-        end
 
+            core = Core.find_by(sfdc_id: location.sfdc_id)
+            core.update_attribute(:location_indexer_status, status)
+        end
     end
 end

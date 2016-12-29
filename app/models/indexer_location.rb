@@ -4,17 +4,17 @@ class IndexerLocation < ApplicationRecord
     include Filterable
 
     # == Multi-Select Search ==
-    scope :indexer_status, -> (indexer_status) { where indexer_status: indexer_status }
-    scope :sfdc_acct, -> (sfdc_acct) { where sfdc_acct: sfdc_acct }
-    scope :sfdc_group_name, -> (sfdc_group_name) { where sfdc_group_name: sfdc_group_name }
-    scope :sfdc_group_name, -> (sfdc_group_name) { where sfdc_group_name: sfdc_group_name }
-    scope :sfdc_ult_acct, -> (sfdc_ult_acct) { where sfdc_ult_acct: sfdc_ult_acct }
-    scope :domain, -> (domain) { where domain: domain }
-    scope :ip, -> (ip) { where ip: ip }
-    scope :text, -> (text) { where text: text }
-    scope :link, -> (link) { where link: link }
-    scope :sfdc_id, -> (sfdc_id) { where sfdc_id: sfdc_id }
-    scope :indexer_timestamp, -> (indexer_timestamp) { where indexer_timestamp: indexer_timestamp }
+    # scope :indexer_status, -> (indexer_status) { where indexer_status: indexer_status }
+    # scope :sfdc_acct, -> (sfdc_acct) { where sfdc_acct: sfdc_acct }
+    # scope :sfdc_group_name, -> (sfdc_group_name) { where sfdc_group_name: sfdc_group_name }
+    # scope :sfdc_group_name, -> (sfdc_group_name) { where sfdc_group_name: sfdc_group_name }
+    # scope :sfdc_ult_acct, -> (sfdc_ult_acct) { where sfdc_ult_acct: sfdc_ult_acct }
+    # scope :domain, -> (domain) { where domain: domain }
+    # scope :ip, -> (ip) { where ip: ip }
+    # scope :text, -> (text) { where text: text }
+    # scope :link, -> (link) { where link: link }
+    # scope :sfdc_id, -> (sfdc_id) { where sfdc_id: sfdc_id }
+    # scope :indexer_timestamp, -> (indexer_timestamp) { where indexer_timestamp: indexer_timestamp }
 
     # == Key Word Search ==
     scope :indexer_status, -> (indexer_status) { where("indexer_status like ?", "%#{indexer_status}%") }

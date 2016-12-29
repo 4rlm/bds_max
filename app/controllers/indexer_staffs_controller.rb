@@ -117,24 +117,9 @@ class IndexerStaffsController < ApplicationController
             staff = IndexerStaff.find(id)
             staff.update_attribute(:indexer_status, status)
             flash[:notice] = "Successfully updated"
-            # Adam's Try
+            
             core = Core.find_by(sfdc_id: staff.sfdc_id)
             core.update_attribute(:staff_indexer_status, status)
         end
-
-        # Adam's try starts: see gcses_controller/matchify_rows/line 122 for ex.
-        # staff = IndexerStaff.where(id: id)
-        # core_staff_indexer_status_updater(staff)
-
     end
-    #
-    # # Adam's Try - Starts
-    # # see gcses_controller/matchify_rows/line 176 for ex.
-    # def core_staff_indexer_status_updater(staff)
-    #     id = staff.map(&:sfdc_id)
-    #     core = Core.find_by(sfdc_id: id)
-    #     core.update_attribute(staff_indexer_status: "ajb_testing status")
-    # end
-    # # Adam's Try - Ends
-
 end

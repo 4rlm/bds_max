@@ -23,9 +23,9 @@ module CoresHelper
         ["Different", "Same"]
     end
 
-    def indexer_status_list
-        ["Ready", "Queued", "No Matches", "Matched", "Error"]
-    end
+    # def indexer_status_list
+    #     ["Ready", "Queued", "No Matches", "Matched", "Error"]
+    # end
 
     def staffer_status_list
         ["Ready", "Queued", "No Matches", "Matched"]
