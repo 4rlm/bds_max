@@ -4,6 +4,7 @@ class IndexerLocationsController < ApplicationController
     # GET /indexer_locations
     # GET /indexer_locations.json
     def index
+        @selected_data = IndexerLocation.all
         @locations = IndexerLocation.order(:domain)
         respond_to do |format|
             format.html
@@ -108,5 +109,13 @@ class IndexerLocationsController < ApplicationController
             core = Core.find_by(sfdc_id: location.sfdc_id)
             core.update_attribute(:location_indexer_status, status)
         end
+        
+        destroy_rows(ids) if status == "Destroy"
     end
+
+    def destroy_rows(ids)
+        rows = IndexerLocation.where(id: ids)
+        rows.destroy_all
+    end
+
 end

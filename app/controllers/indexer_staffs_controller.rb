@@ -4,6 +4,7 @@ class IndexerStaffsController < ApplicationController
     # GET /indexer_staffs
     # GET /indexer_staffs.json
     def index
+        @selected_data = IndexerStaff.all
         @staffs = IndexerStaff.order(:domain)
         respond_to do |format|
             format.html
@@ -117,9 +118,17 @@ class IndexerStaffsController < ApplicationController
             staff = IndexerStaff.find(id)
             staff.update_attribute(:indexer_status, status)
             flash[:notice] = "Successfully updated"
-            
+
             core = Core.find_by(sfdc_id: staff.sfdc_id)
             core.update_attribute(:staff_indexer_status, status)
         end
+
+        destroy_rows(ids) if status == "Destroy"
     end
+
+    def destroy_rows(ids)
+        rows = IndexerStaff.where(id: ids)
+        rows.destroy_all
+    end
+
 end

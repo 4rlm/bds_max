@@ -24,22 +24,23 @@
          margin: 0;
      }
  }
+// MOVED TO APPLICATION.SCSS
+//  .details-btn, .edit-btn {
+//     background-image:linear-gradient(#1798c1, #137fa0);
+//  }
+//
+//  .details-btn:hover, .edit-btn:hover {
+//     background-image:linear-gradient(#137fa0, #1798c1);
+//  }
+//
+// .delete-btn {
+//     background-image:linear-gradient(#da2531, #ae1e27);
+//  }
+//
+//  .delete-btn:hover {
+//     background-image:linear-gradient(#ae1e27, #da2531);
+//   }
 
- .details-btn, .edit-btn {
-    background-image:linear-gradient(#1798c1, #137fa0);
- }
-
- .details-btn:hover, .edit-btn:hover {
-    background-image:linear-gradient(#137fa0, #1798c1);
- }
-
-.delete-btn {
-    background-image:linear-gradient(#da2531, #ae1e27);
- }
-
- .delete-btn:hover {
-    background-image:linear-gradient(#ae1e27, #da2531);
-  }
 
 .cores-layout-table td, .cores-layout-table th {
     padding: 0;
