@@ -49,7 +49,7 @@ class IndexerService
 
             # Throttle V2
             #== Throttle (if needed) =====================
-            throttle_delay_time = (4..9).to_a.sample
+            throttle_delay_time = (5..10).to_a.sample
             puts "--------------------------------"
             puts "Please wait #{throttle_delay_time} seconds."
             puts "--------------------------------"

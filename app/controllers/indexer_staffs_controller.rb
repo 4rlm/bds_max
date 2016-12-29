@@ -1,29 +1,25 @@
 class IndexerStaffsController < ApplicationController
     before_action :set_indexer_staff, only: [:show, :edit, :update, :destroy]
 
+
+
     # GET /indexer_staffs
     # GET /indexer_staffs.json
     def index
         @selected_data = IndexerStaff.all
-        @staffs = IndexerStaff.order(:domain)
+        @staffs = IndexerStaff.order(indexer_timestamp: :desc)
         respond_to do |format|
             format.html
             format.csv { render text: @staffs.to_csv }
         end
 
+        # Original !!!
+        # @indexer_staffs = @staffs.filter(filtering_params(params))
 
-        #---------  Adam's Trial - Starts -------
-        # @all_indexer_staffs = IndexerStaff.all
-
-        # @paginates = @all_indexer_staffs.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 350)
-
-        # @paginates = @all_indexer_staffs.paginate(:page => params[:page], :per_page => 350)
-
-        # @paginates = IndexerStaff.paginate(:page => params[:page], :per_page => 350)
-
-
+        #---------  Adam's Trial - Starts --- WORKS WELL!
+        @indexer_staffs = @staffs.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
         #---------  Adam's Trial - Ends -------
-        @indexer_staffs = @staffs.filter(filtering_params(params))
+
         batch_status
     end
 

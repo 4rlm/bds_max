@@ -16,26 +16,25 @@
     <td><%= core.sfdc_sales_person %></td>
     <td><%= core.sfdc_id %></td>
 
-
-
     <!-- <td><%#= link_to 'Show', core %></td> -->
-
-
-    <td class='details-btn'>
-        <%= link_to core, class: "btn btn-default" do %>
-            <i class="glyphicon glyphicon-folder-open"></i>
+    <td class='details-btn' >
+        <%= link_to core, method: :details do %>
+            <span class="glyphicon glyphicon-folder-open"></span>
         <% end %>
     </td>
 
+    <!-- <td><%#= link_to 'Edit', edit_core_path(core) %></td> -->
     <td class='edit-btn' >
         <%= link_to core, method: :edit do %>
             <span class="glyphicon glyphicon-pencil"></span>
         <% end %>
     </td>
 
-
-    <!-- <td><%#= link_to 'Edit', edit_core_path(core) %></td> -->
-
-    <td><%= link_to 'Destroy', core, method: :delete %></td>
+    <!-- <td><%= link_to 'Destroy', core, method: :delete %></td> -->
+    <td class='delete-btn' >
+        <%= link_to core, method: :delete do %>
+            <span class="glyphicon glyphicon-trash"></span>
+        <% end %>
+    </td>
 
 </tr>
