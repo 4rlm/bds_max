@@ -1,6 +1,6 @@
 class GcsesController < ApplicationController
     before_action :set_gcse, only: [:show, :edit, :update, :destroy]
-    before_action :set_gcse_service, only: [:gcse_cleaner_btn]
+    before_action :set_gcse_service, only: [:gcse_cleaner_btn, :index, :auto_match_btn]
 
     # GET /gcses
     # GET /gcses.json
@@ -102,7 +102,9 @@ class GcsesController < ApplicationController
     end
 
     def auto_match_btn
-        auto_matchify_rows(Gcse.where(domain_status: "Dom Result"))
+        # auto_matchify_rows(Gcse.where(domain_status: "Dom Result"))  # Only for "Dom Result"
+        # auto_matchify_rows(Gcse.all[0...3000])  # For testing purposes
+        auto_matchify_rows(Gcse.all)  # For All Gcse
         flash[:notice] = "Auto Matching successfully completed."
         redirect_to gcses_path
     end
@@ -263,7 +265,7 @@ class GcsesController < ApplicationController
         ids = []
 
         for gcse in gcses
-            if gcse.root == gcse.sfdc_root
+            if @gcse_service.auto_root_acct_match(gcse)
                 ids << gcse.id
             else
                 gcses = Gcse.where(sfdc_id: gcse.sfdc_id)

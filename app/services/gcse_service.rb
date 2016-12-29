@@ -54,6 +54,32 @@ class GcseService
         true
     end
 
+    def auto_root_acct_match(gcse)
+        ori = gcse.sfdc_acct
+        acct = gcse.sfdc_acct
+        return true if gcse.root == acct
+
+        afters = [",", " - ", "("]
+        for a in afters
+            if acct.include?(a)
+                index = acct.index(a)
+                acct = acct[0...index]
+            end
+        end
+
+        parts = acct.downcase.split
+        drops = [",", ".", "co", "llc", "inc", "&", ":", "-", "'", "/", "ltd"]
+        for d in drops
+            parts.delete(d) if parts.include?(d)
+        end
+
+        modified = parts.map(&:strip).join
+        result = gcse.root == modified
+
+        puts "\n\n>>>>> MODIFIED: #{ori} VS #{modified}\n\n" if result
+        return result
+    end
+
     # This cleans the existing Gcse table.
     def gcse_cleaner_btn
         sfdc_ids = Gcse.all.map(&:sfdc_id)

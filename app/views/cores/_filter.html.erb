@@ -132,8 +132,8 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Indicator</th>
-                    <td class="yellow"><%= render partial: 'layouts/text_field_tag', locals: { col: :url_comparison } %></td>
-                    <td class="yellow"><%= render partial: 'layouts/text_field_tag', locals: { col: :root_comparison } %></td>
+                    <td class="yellow"><%= select_tag :url_comparison, options_for_select(url_comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="yellow"><%= select_tag :root_comparison, options_for_select(root_comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
