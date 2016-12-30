@@ -16,7 +16,7 @@ class IndexerLocationsController < ApplicationController
         # @indexer_locations = @locations.filter(filtering_params(params))
 
         #---------  Adam's Trial - Starts --- WORKS WELL!
-        @indexer_locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
+        @indexer_locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
         #---------  Adam's Trial - Ends -------
 
         batch_status

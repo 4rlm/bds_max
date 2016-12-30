@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161228155819) do
+ActiveRecord::Schema.define(version: 20161230124427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,6 +193,44 @@ ActiveRecord::Schema.define(version: 20161228155819) do
     t.string   "solitary_url"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "staffers", force: :cascade do |t|
+    t.string   "staffer_status"
+    t.string   "cont_status"
+    t.string   "cont_source"
+    t.string   "sfdc_id"
+    t.string   "sfdc_sales_person"
+    t.string   "sfdc_type"
+    t.string   "sfdc_acct"
+    t.string   "site_acct"
+    t.string   "sfdc_group"
+    t.string   "sfdc_ult_grp"
+    t.string   "site_street"
+    t.string   "site_city"
+    t.string   "site_state"
+    t.integer  "site_zip"
+    t.string   "site_ph"
+    t.string   "sfdc_cont_fname"
+    t.string   "sfdc_cont_lname"
+    t.string   "sfdc_cont_job"
+    t.string   "sfdc_cont_phone"
+    t.string   "sfdc_cont_email"
+    t.string   "sfdc_cont_inactive"
+    t.string   "sfdc_cont_id"
+    t.integer  "sfdc_cont_influence"
+    t.string   "site_cont_fname"
+    t.string   "site_cont_lname"
+    t.string   "site_cont_fullname"
+    t.string   "site_cont_job"
+    t.string   "site_cont_job_raw"
+    t.string   "site_cont_phone"
+    t.string   "site_cont_email"
+    t.integer  "site_cont_influence"
+    t.string   "template"
+    t.datetime "staffer_date"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
 end

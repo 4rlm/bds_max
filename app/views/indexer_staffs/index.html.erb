@@ -2,10 +2,11 @@
 
 <div class="pull-right">
     <%= render partial: 'buttons' %>
-</div><br><br>
+</div><br>
 
 <%= form_tag "/indexer_staffs", method: :get, class: 'form-inline'  do %>
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
