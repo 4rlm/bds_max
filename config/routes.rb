@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :staffers do
+      collection { post :import_csv_data }
+  end
+  get 'staffer/import_page' => 'staffers#import_page'
+
     resources :cores do
         collection { post :import_core_data }
     end

@@ -4,12 +4,21 @@ class IndexerLocationsController < ApplicationController
     # GET /indexer_locations
     # GET /indexer_locations.json
     def index
-        @locations = IndexerLocation.order(:domain)
+        @selected_data = IndexerLocation.all
+        # @locations = IndexerLocation.order(:domain)
+        @locations = IndexerLocation.order(indexer_timestamp: :desc)
         respond_to do |format|
             format.html
             format.csv { render text: @locations.to_csv }
         end
-        @indexer_locations = @locations.filter(filtering_params(params))
+
+        # Original !!!
+        # @indexer_locations = @locations.filter(filtering_params(params))
+
+        #---------  Adam's Trial - Starts --- WORKS WELL!
+        @indexer_locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
+        #---------  Adam's Trial - Ends -------
+
         batch_status
     end
 
@@ -108,5 +117,13 @@ class IndexerLocationsController < ApplicationController
             core = Core.find_by(sfdc_id: location.sfdc_id)
             core.update_attribute(:location_indexer_status, status)
         end
+
+        destroy_rows(ids) if status == "Destroy"
     end
+
+    def destroy_rows(ids)
+        rows = IndexerLocation.where(id: ids)
+        rows.destroy_all
+    end
+
 end

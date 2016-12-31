@@ -303,16 +303,8 @@
     <%= link_to 'Add Record', new_gcse_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', gcse_import_page_path, class: 'btn btn-primary' %>
     <%= link_to 'Download CSV', gcses_path(format: "csv"), class: 'btn btn-primary' %>
-</div>
+</div> </br>
 
-</br>
-</br>
-</br>
-
-<%# will_paginate @gcses %>
 <%= will_paginate @gcses, renderer: BootstrapPagination::Rails  %>
 
-</br>
-</br>
-</br>
 </br>

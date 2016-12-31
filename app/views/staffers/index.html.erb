@@ -1,0 +1,159 @@
+<!-- <p id="notice" class="text-center"><%= notice %></p> -->
+
+<h1 class="text-center">Contacts</h1><br><br>
+
+<div class="pull-right">
+    <%= render partial: 'buttons' %>
+</div><br>
+
+<%= form_tag "/staffers", method: :get, class: 'form-inline'  do %>
+
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+
+  <thead>
+    <tr>
+        <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+        <th>#</th>
+
+      <th>Staffer Status<br><%= render partial: 'layouts/select_tag', locals: { col: :staffer_status } %></th>
+
+      <th>Contact Status<br><%= render partial: 'layouts/text_field_tag', locals: { col: :cont_status } %></th>
+
+      <th>Contact Source<br><%= render partial: 'layouts/text_field_tag', locals: { col: :cont_source } %></th>
+
+      <th>Sfdc Account ID<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></th>
+
+      <th>Sfdc sales person<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_sales_person } %></th>
+
+      <th>Sfdc type<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_type } %></th>
+
+      <th>Sfdc acct<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></th>
+
+      <th>Site acct<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_acct } %></th>
+
+      <th>Sfdc group<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group } %></th>
+
+      <th>Sfdc ult grp<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_grp } %></th>
+
+      <th>Site street<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_street } %></th>
+
+      <th>Site city<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_city } %></th>
+
+      <th>Site state<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_state } %></th>
+
+      <th>Site zip<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_zip } %></th>
+
+      <th>Site ph<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_ph } %></th>
+
+      <th>Sfdc cont fname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_fname } %></th>
+
+      <th>Sfdc cont lname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_lname } %></th>
+
+      <th>Sfdc cont job<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_job } %></th>
+
+      <th>Sfdc cont phone<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_phone } %></th>
+
+      <th>Sfdc cont email<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_email } %></th>
+
+      <th>Sfdc cont inactive<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_inactive } %></th>
+
+      <th>Sfdc Contact ID<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_id } %></th>
+
+      <th>Sfdc cont influence<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_influence } %></th>
+
+      <th>Site cont fname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_fname } %></th>
+
+      <th>Site cont lname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_lname } %></th>
+
+      <th>Site cont fullname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_fullname } %></th>
+
+      <th>Site cont job<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_job } %></th>
+
+      <th>Site cont job raw<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_job_raw } %></th>
+
+      <th>Site cont phone<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_phone } %></th>
+
+      <th>Site cont email<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_email } %></th>
+
+      <th>Site cont influence<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_influence } %></th>
+
+      <th>Template<br><%= render partial: 'layouts/text_field_tag', locals: { col: :template } %></th>
+
+      <th>Staffer date<br><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></th>
+
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% num = 0 %>
+    <% @staffers.each do |staffer| %>
+      <tr>
+
+      <td><%= check_box_tag "multi_checks[]",  staffer.id %></td>
+      <% num +=1 %>
+      <td><%= num %></td>
+
+        <td><%= staffer.staffer_status %></td>
+        <td><%= staffer.cont_status %></td>
+        <td><%= staffer.cont_source %></td>
+        <td><%= staffer.sfdc_id %></td>
+        <td><%= staffer.sfdc_sales_person %></td>
+        <td><%= staffer.sfdc_type %></td>
+        <td><%= staffer.sfdc_acct %></td>
+        <td><%= staffer.site_acct %></td>
+        <td><%= staffer.sfdc_group %></td>
+        <td><%= staffer.sfdc_ult_grp %></td>
+        <td><%= staffer.site_street %></td>
+        <td><%= staffer.site_city %></td>
+        <td><%= staffer.site_state %></td>
+        <td><%= staffer.site_zip %></td>
+        <td><%= staffer.site_ph %></td>
+        <td><%= staffer.sfdc_cont_fname %></td>
+        <td><%= staffer.sfdc_cont_lname %></td>
+        <td><%= staffer.sfdc_cont_job %></td>
+        <td><%= staffer.sfdc_cont_phone %></td>
+        <td><%= staffer.sfdc_cont_email %></td>
+        <td><%= staffer.sfdc_cont_inactive %></td>
+        <td><%= staffer.sfdc_cont_id %></td>
+        <td><%= staffer.sfdc_cont_influence %></td>
+        <td><%= staffer.site_cont_fname %></td>
+        <td><%= staffer.site_cont_lname %></td>
+        <td><%= staffer.site_cont_fullname %></td>
+        <td><%= staffer.site_cont_job %></td>
+        <td><%= staffer.site_cont_job_raw %></td>
+        <td><%= staffer.site_cont_phone %></td>
+        <td><%= staffer.site_cont_email %></td>
+        <td><%= staffer.site_cont_influence %></td>
+        <td><%= staffer.template %></td>
+        <td><%= staffer.staffer_date %></td>
+        <td><%= link_to 'Show', staffer %></td>
+        <td><%= link_to 'Edit', edit_staffer_path(staffer) %></td>
+        <td><%= link_to 'Destroy', staffer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div class="pull-left">
+    <div class="submit-button-area">
+        <%= select_tag :selected_status, options_for_select(staffer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+    </div>
+    <div class="submit-button-area">
+        <%= submit_tag "Submit", class: 'btn btn-success' %>
+    </div>
+</div>
+<% end %>
+
+<div class="pull-right">
+    <%= render partial: 'buttons' %>
+</div> <br>
+
+<%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
+
+
+
+<br>
+
+<%#= link_to 'New Staffer', new_staffer_path %>

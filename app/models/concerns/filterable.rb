@@ -5,7 +5,9 @@ module Filterable
         def filter(filtering_params)
             results = self.where(nil)
             filtering_params.each do |key, value|
-                results = results.public_send(key, value) if value.present?
+                if value.present?
+                    results = results.public_send(key, value)
+                end
             end
             results
         end
