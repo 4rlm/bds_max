@@ -14,7 +14,15 @@ class CoresController < ApplicationController
             @selected_data = Core.all
         end
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
+        # ids = @selected_data[0...250].map(&:id)
+
+        # @cores_limit = @selected_data.limit(30)
+        #
+        # @cores = @cores_limit.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 15)
+
+        @cores = @selected_data.limit(250).filter(filtering_params(params))
+
+        # .paginate(:page => params[:page], :per_page => 15)
 
         @cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|

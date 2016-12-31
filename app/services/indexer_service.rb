@@ -49,11 +49,11 @@ class IndexerService
 
             # Throttle V2
             #== Throttle (if needed) =====================
-            throttle_delay_time = (5..10).to_a.sample
+            # throttle_delay_time = (1..2).to_a.sample
+            puts "Completed"
+            # puts "Please wait #{throttle_delay_time} seconds."
             puts "--------------------------------"
-            puts "Please wait #{throttle_delay_time} seconds."
-            puts "--------------------------------"
-            sleep(throttle_delay_time)
+            # sleep(throttle_delay_time)
 
         end # Ends cores Loop
     end # Ends start_indexer(ids)

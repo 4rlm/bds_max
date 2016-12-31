@@ -11,9 +11,7 @@
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
-
             <th>Indexer Status<br><%= render partial: 'layouts/select_tag', locals: { col: :indexer_status } %></th>
-
             <th>SFDC Account<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></th>
             <th>SFDC Group<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group_name } %></th>
             <th>SFDC Ult Acct<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_acct } %></th>

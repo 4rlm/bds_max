@@ -3,29 +3,24 @@ class StaffersController < ApplicationController
 
   # GET /staffers
   # GET /staffers.json
-  # def index
-  #   @staffers = Staffer.all
-  # end
 
-# NEW INDEX - starts
 def index
-    @selected_data = Staffer.all
-    @staffers = Staffer.order(staffer_date: :desc)
+    @selected_data = Staffer.order(sfdc_id: :desc)
+
     respond_to do |format|
         format.html
-        format.csv { render text: @staffers.to_csv }
+        format.csv { render text: @selected_data.to_csv }
     end
 
     # Original !!!
-    # @indexer_staffs = @staffs.filter(filtering_params(params))
+    # @paginate_staffers = @staffers.filter(filtering_params(params))
 
-    #---------  Adam's Trial - Starts
-    # @paginate_staffers = @staffers.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
-    #---------  Adam's Trial - Ends -------
+    #---------  Adam's Trial 1 w/ Filters- Starts
+    @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
+    #---------  Adam's Trial 1 - Ends -------
 
     batch_status
 end
-# NEW INDEX -ends
 
   # GET /staffers/1
   # GET /staffers/1.json
@@ -104,6 +99,10 @@ end
     def staffer_params
       params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_inactive, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date)
     end
+
+      def filtering_params(params)
+          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_inactive, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date)
+        end
 
 
     def batch_status

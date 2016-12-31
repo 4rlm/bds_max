@@ -15,39 +15,72 @@
         <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
         <th>#</th>
 
-      <th>Staffer status</th>
-      <th>Cont status</th>
-      <th>Cont source</th>
-      <th>Sfdc Account ID</th>
-      <th>Sfdc sales person</th>
-      <th>Sfdc type</th>
-      <th>Sfdc acct</th>
-      <th>Site acct</th>
-      <th>Sfdc group</th>
-      <th>Sfdc ult grp</th>
-      <th>Site street</th>
-      <th>Site city</th>
-      <th>Site state</th>
-      <th>Site zip</th>
-      <th>Site ph</th>
-      <th>Sfdc cont fname</th>
-      <th>Sfdc cont lname</th>
-      <th>Sfdc cont job</th>
-      <th>Sfdc cont phone</th>
-      <th>Sfdc cont email</th>
-      <th>Sfdc cont inactive</th>
-      <th>Sfdc Contact ID</th>
-      <th>Sfdc cont influence</th>
-      <th>Site cont fname</th>
-      <th>Site cont lname</th>
-      <th>Site cont fullname</th>
-      <th>Site cont job</th>
-      <th>Site cont job raw</th>
-      <th>Site cont phone</th>
-      <th>Site cont email</th>
-      <th>Site cont influence</th>
-      <th>Template</th>
-      <th>Staffer date</th>
+      <th>Staffer Status<br><%= render partial: 'layouts/select_tag', locals: { col: :staffer_status } %></th>
+
+      <th>Contact Status<br><%= render partial: 'layouts/text_field_tag', locals: { col: :cont_status } %></th>
+
+      <th>Contact Source<br><%= render partial: 'layouts/text_field_tag', locals: { col: :cont_source } %></th>
+
+      <th>Sfdc Account ID<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></th>
+
+      <th>Sfdc sales person<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_sales_person } %></th>
+
+      <th>Sfdc type<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_type } %></th>
+
+      <th>Sfdc acct<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></th>
+
+      <th>Site acct<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_acct } %></th>
+
+      <th>Sfdc group<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group } %></th>
+
+      <th>Sfdc ult grp<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_grp } %></th>
+
+      <th>Site street<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_street } %></th>
+
+      <th>Site city<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_city } %></th>
+
+      <th>Site state<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_state } %></th>
+
+      <th>Site zip<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_zip } %></th>
+
+      <th>Site ph<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_ph } %></th>
+
+      <th>Sfdc cont fname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_fname } %></th>
+
+      <th>Sfdc cont lname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_lname } %></th>
+
+      <th>Sfdc cont job<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_job } %></th>
+
+      <th>Sfdc cont phone<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_phone } %></th>
+
+      <th>Sfdc cont email<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_email } %></th>
+
+      <th>Sfdc cont inactive<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_inactive } %></th>
+
+      <th>Sfdc Contact ID<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_id } %></th>
+
+      <th>Sfdc cont influence<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_influence } %></th>
+
+      <th>Site cont fname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_fname } %></th>
+
+      <th>Site cont lname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_lname } %></th>
+
+      <th>Site cont fullname<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_fullname } %></th>
+
+      <th>Site cont job<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_job } %></th>
+
+      <th>Site cont job raw<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_job_raw } %></th>
+
+      <th>Site cont phone<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_phone } %></th>
+
+      <th>Site cont email<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_email } %></th>
+
+      <th>Site cont influence<br><%= render partial: 'layouts/text_field_tag', locals: { col: :site_cont_influence } %></th>
+
+      <th>Template<br><%= render partial: 'layouts/text_field_tag', locals: { col: :template } %></th>
+
+      <th>Staffer date<br><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></th>
+
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -117,9 +150,7 @@
     <%= render partial: 'buttons' %>
 </div> <br>
 
-<%#= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
-
-
+<%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
 
 
 
