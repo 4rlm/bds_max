@@ -16,7 +16,7 @@ class CoresController < ApplicationController
 
         # @cores = @cores_limit.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 15)
 
-        @cores = @selected_data.filter(filtering_params(params)).limit(300)
+        @cores = @selected_data.filter(filtering_params(params)).limit(10)
 
         cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -123,6 +123,8 @@ class CoresController < ApplicationController
                 start_domainer(ids)
             elsif status == 'Queue Indexer'
                 start_indexer(ids)
+            elsif status == 'Queue Staffer'
+                start_staffer(ids)
             end
         end
     end
@@ -135,25 +137,33 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
+        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
+        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
 
     def start_domainer(ids)
         CoreService.new.delay.scrape_listing(ids)
         # CoreService.new.scrape_listing(ids)
-        flash[:notice] = 'Domainer starts!'
+        flash[:notice] = 'Domainer started!'
         redirect_to gcses_path
     end
 
     def start_indexer(ids)
         IndexerService.new.delay.start_indexer(ids)
         # IndexerService.new.start_indexer(ids)
-        flash[:notice] = 'Indexer starts!'
+        flash[:notice] = 'Indexer started!'
         redirect_to indexer_staffs_path
+    end
+
+    def start_staffer(ids)
+        # StafferService.new.delay.start_staffer(ids)
+        StafferService.new.start_staffer(ids)
+
+        flash[:notice] = 'Staffer started!'
+        redirect_to staffers_path
     end
 
 end

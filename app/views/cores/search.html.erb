@@ -149,24 +149,29 @@
             <table class="cores-layout-table core-search-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Modules</th>
-                    <th class="th-2">Core</th>
+                    <th class="th-2">Accounts</th>
                     <th class="th-2">Domainer</th>
                     <th class="th-2">Staff Index</th>
                     <th class="th-2">Location Index</th>
                     <th class="th-2">Inventory Index</th>
-                    <th class="th-2">Staffer</th>
+                    <th class="th-2">Contacts</th>
                     <th class="th-2">WhoIs</th>
                 </tr>
                 <tr>
                     <th class="th-2">Status</th>
+
                     <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td></td>
+
+                    <td>n/a</td>
 
                     <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                     <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                     <td></td>
+
+                    <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td>n/a</td>
                 </tr>
                 <tr>

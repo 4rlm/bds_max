@@ -1,0 +1,90 @@
+<!-- ### Horizontal View Starts Here ### -->
+
+<h3 class="section-header">Account Profiles - List View</h3>
+<%= render partial: 'buttons' %>
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+    <thead>
+        <tr>
+            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+            <th>#</th>
+            <th class="w-md">Core</th>
+            <th class="w-md">Domainer</th>
+            <th class="w-md">Staff Index</th>
+            <th class="w-md">Location Index</th>
+            <th class="w-md">Inventory Index</th>
+            <th class="w-md">Staffer</th>
+            <th class="w-md">WhoIs</th>
+            <th class="w-md">Account</th>
+            <th class="w-md">Group Name</th>
+            <th class="w-md">SFDC City</th>
+            <th class="w-md">SFDC State</th>
+            <th class="w-md">Type</th>
+            <th class="w-md">Salesperson</th>
+            <th class="w-md">SFDC ID</th>
+            <th colspan="3"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% num = 0 %>
+        <% @cores.each do |core| %>
+            <% num +=1 %>
+            <tr>
+                <td><%= check_box_tag "status_checks[]",  core.id %></td>
+                <td><%= num %></td>
+                <td><%= core.bds_status %></td>
+                <td><%= core.domain_status %></td>
+                <td><%= core.staff_indexer_status %></td>
+                <td><%= core.location_indexer_status %></td>
+                <td><%= core.inventory_indexer_status %></td>
+
+                <td><%= core.staffer_status %></td>
+
+                <td>n/a</td>
+                <td><%= core.sfdc_acct %></td>
+                <td><%= core.sfdc_group %></td>
+                <td><%= core.sfdc_city %></td>
+                <td><%= core.sfdc_state %></td>
+                <td><%= core.sfdc_type %></td>
+                <td><%= core.sfdc_sales_person %></td>
+                <td><%= core.sfdc_id %></td>
+
+                <!-- <td><%#= link_to 'Show', core %></td> -->
+                <td class='details-btn' >
+                    <%= link_to core, method: :details do %>
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                    <% end %>
+                </td>
+
+                <!-- <td><%#= link_to 'Edit', edit_core_path(core) %></td> -->
+                <td class='edit-btn' >
+                    <%= link_to core, method: :edit do %>
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    <% end %>
+                </td>
+
+                <!-- <td><%= link_to 'Destroy', core, method: :delete %></td> -->
+                <td class='delete-btn' >
+                    <%= link_to core, method: :delete do %>
+                        <span class="glyphicon glyphicon-trash"></span>
+                    <% end %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<%= render partial: 'buttons' %>
+
+<div class="pull-left">
+    <div class="form-group">
+        <div class="submit-button-area">
+            <%= select_tag :selected_status, options_for_select(core_status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
+        </div>
+        <div class="submit-button-area">
+            <%= submit_tag "Submit", class: 'btn btn-success' %>
+        </div>
+    </div>
+</div>
+<br>
+
+<%#= will_paginate @cores, renderer: BootstrapPagination::Rails  %>

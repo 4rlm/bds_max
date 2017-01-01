@@ -1,3 +1,7 @@
+<% num = 0 %>
+<% @cores.each do |core| %>
+    <% num +=1 %>
+
 <div class="text-nowrap cores-layout account-profile-container">
 
     <div class="row profile-row">
@@ -198,11 +202,11 @@
                 <tr>
                     <th class="th-2 th-2a">Status</th>
                     <td><%= core.bds_status %></td>
-                    <td><%= get_gcse_domain_status(core) %></td>
+                    <td><%= core.domain_status %></td>
                     <td><%= core.staff_indexer_status %></td>
                     <td><%= core.location_indexer_status %></td>
                     <td><%= core.inventory_indexer_status %></td>
-                    <td>n/a</td>
+                    <td><%= core.staffer_status %></td>
                     <td>n/a</td>
                 </tr>
                 <tr>
@@ -232,8 +236,18 @@
                         <td><%= core.indexer_date %></td>
                     <% end %>
 
-                        <td>n/a</td>
-                        <td>n/a</td>
+                    <% if core.indexer_date %>
+                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.indexer_date %></td>
+                    <% end %>
+
+                    <% if core.staffer_date %>
+                        <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.staffer_date %></td>
+                    <% end %>
+
                         <td>n/a</td>
                 </tr>
                 <tr>
@@ -263,3 +277,6 @@
 
 
 </div> <!-- Account Profile Ends -->
+
+
+<% end %> -->

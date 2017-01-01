@@ -1,6 +1,6 @@
 module CoresHelper
     def core_status_list
-        ['Dom Result', 'Imported', 'Matched', 'No Matches', 'Pending Verification', 'Isolate', 'Destroy', 'Junk', 'Queue Domainer', 'Queue Indexer', 'Indexer Result']
+        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Destroy']
     end
 
     def sfdc_sales_person_list
@@ -8,7 +8,7 @@ module CoresHelper
     end
 
     def bds_status_list
-        ["Destroy", "Dom Result", "Imported", "Matched", "No Matches", "Queue Domainer", "Queue Indexer", 'Indexer Result', 'Testing Status']
+        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Destroy']
     end
 
     def sfdc_tier_list

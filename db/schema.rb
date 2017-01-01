@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161231035230) do
+ActiveRecord::Schema.define(version: 20170101150603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20161231035230) do
     t.string   "sfdc_franch_indicator"
     t.string   "site_franch_indicator"
     t.string   "franch_indicator"
+    t.string   "franchise"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -240,9 +241,8 @@ ActiveRecord::Schema.define(version: 20161231035230) do
     t.string   "sfdc_cont_job"
     t.string   "sfdc_cont_phone"
     t.string   "sfdc_cont_email"
-    t.string   "sfdc_cont_inactive"
     t.string   "sfdc_cont_id"
-    t.integer  "sfdc_cont_influence"
+    t.string   "sfdc_cont_influence"
     t.string   "site_cont_fname"
     t.string   "site_cont_lname"
     t.string   "site_cont_fullname"
@@ -250,11 +250,16 @@ ActiveRecord::Schema.define(version: 20161231035230) do
     t.string   "site_cont_job_raw"
     t.string   "site_cont_phone"
     t.string   "site_cont_email"
-    t.integer  "site_cont_influence"
+    t.string   "site_cont_influence"
     t.string   "template"
     t.datetime "staffer_date"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.string   "staff_link"
+    t.string   "staff_text"
+    t.integer  "sfdc_cont_active"
+    t.string   "sfdc_tier"
+    t.string   "domain"
   end
 
 end

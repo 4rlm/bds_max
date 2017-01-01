@@ -97,11 +97,11 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def staffer_params
-      params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_inactive, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date)
+      params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_active, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date, :staff_link, :staff_text, :sfdc_tier, :domain)
     end
 
       def filtering_params(params)
-          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_inactive, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date)
+          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_active, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date, :staff_link, :staff_text, :sfdc_tier, :domain)
         end
 
 

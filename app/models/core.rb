@@ -10,6 +10,8 @@ class Core < ApplicationRecord
     scope :location_indexer_status, -> (location_indexer_status) { where location_indexer_status: location_indexer_status }
     scope :inventory_indexer_status, -> (inventory_indexer_status) { where inventory_indexer_status: inventory_indexer_status }
 
+    scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
+
     scope :sfdc_sales_person, -> (sfdc_sales_person) { where sfdc_sales_person: sfdc_sales_person }
     scope :sfdc_tier, -> (sfdc_tier) { where sfdc_tier: sfdc_tier }
     scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type }

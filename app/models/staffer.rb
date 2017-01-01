@@ -24,7 +24,7 @@ class Staffer < ApplicationRecord
         # scope :sfdc_cont_job, -> (sfdc_cont_job) { where sfdc_cont_job: sfdc_cont_job }
         # scope :sfdc_cont_phone, -> (sfdc_cont_phone) { where sfdc_cont_phone: sfdc_cont_phone }
         # scope :sfdc_cont_email, -> (sfdc_cont_email) { where sfdc_cont_email: sfdc_cont_email }
-        # scope :sfdc_cont_inactive, -> (sfdc_cont_inactive) { where sfdc_cont_inactive: sfdc_cont_inactive }
+        # scope :sfdc_cont_active, -> (sfdc_cont_active) { where sfdc_cont_active: sfdc_cont_active }
         # scope :sfdc_cont_id, -> (sfdc_cont_id) { where sfdc_cont_id: sfdc_cont_id }
         # scope :sfdc_cont_influence, -> (sfdc_cont_influence) { where sfdc_cont_influence: sfdc_cont_influence }
         # scope :site_cont_fname, -> (site_cont_fname) { where site_cont_fname: site_cont_fname }
@@ -37,6 +37,13 @@ class Staffer < ApplicationRecord
         # scope :site_cont_influence, -> (site_cont_influence) { where site_cont_influence: site_cont_influence }
         # scope :template, -> (template) { where template: template }
         # scope :staffer_date, -> (staffer_date) { where staffer_date: staffer_date }
+
+        # scope :staff_link, -> (staff_link) { where staff_link: staff_link }
+        # scope :staff_text, -> (staff_text) { where staff_text: staff_text }
+        # scope :sfdc_tier, -> (sfdc_tier) { where sfdc_tier: sfdc_tier }
+        # scope :domain, -> (domain) { where domain: domain }
+
+
 
         # == Key Word Search ==
         # scope :staffer_status, -> (staffer_status) { where("staffer_status like ?", "%#{staffer_status}%") }
@@ -59,7 +66,7 @@ class Staffer < ApplicationRecord
         scope :sfdc_cont_job, -> (sfdc_cont_job) { where("sfdc_cont_job like ?", "%#{sfdc_cont_job}%") }
         scope :sfdc_cont_phone, -> (sfdc_cont_phone) { where("sfdc_cont_phone like ?", "%#{sfdc_cont_phone}%") }
         scope :sfdc_cont_email, -> (sfdc_cont_email) { where("sfdc_cont_email like ?", "%#{sfdc_cont_email}%") }
-        scope :sfdc_cont_inactive, -> (sfdc_cont_inactive) { where("sfdc_cont_inactive like ?", "%#{sfdc_cont_inactive}%") }
+        scope :sfdc_cont_active, -> (sfdc_cont_active) { where("sfdc_cont_active like ?", "%#{sfdc_cont_active}%") }
         scope :sfdc_cont_id, -> (sfdc_cont_id) { where("sfdc_cont_id like ?", "%#{sfdc_cont_id}%") }
         scope :sfdc_cont_influence, -> (sfdc_cont_influence) { where("sfdc_cont_influence like ?", "%#{sfdc_cont_influence}%") }
         scope :site_cont_fname, -> (site_cont_fname) { where("site_cont_fname like ?", "%#{site_cont_fname}%") }
@@ -72,6 +79,10 @@ class Staffer < ApplicationRecord
         scope :site_cont_influence, -> (site_cont_influence) { where("site_cont_influence like ?", "%#{site_cont_influence}%") }
         scope :template, -> (template) { where("template like ?", "%#{template}%") }
         scope :staffer_date, -> (staffer_date) { where("staffer_date like ?", "%#{staffer_date}%") }
+        scope :staff_link, -> (staff_link) { where("staff_link like ?", "%#{staff_link}%") }
+        scope :staff_text, -> (staff_text) { where("staff_text like ?", "%#{staff_text}%") }
+        scope :sfdc_tier, -> (sfdc_tier) { where("sfdc_tier like ?", "%#{sfdc_tier}%") }
+        scope :domain, -> (domain) { where("domain like ?", "%#{site_cont_email}%") }
 
 
         def self.to_csv
