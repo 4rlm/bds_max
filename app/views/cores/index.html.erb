@@ -41,12 +41,11 @@
         <% num = 0 %>
         <% @cores.each do |core| %>
             <% num +=1 %>
-            <%#= render partial: 'old_layout', locals: { core: core, num: num } %>
             <tr>
                 <td><%= check_box_tag "status_checks[]",  core.id %></td>
                 <td><%= num %></td>
                 <td><%= core.bds_status %></td>
-                <td><%= get_gcse_domain_status(core) %></td>
+                <td><%= core.domain_status %></td>
                 <td><%= core.staff_indexer_status %></td>
                 <td><%= core.location_indexer_status %></td>
                 <td><%= core.inventory_indexer_status %></td>

@@ -14,20 +14,14 @@ class CoresController < ApplicationController
             @selected_data = Core.all
         end
 
-        # ids = @selected_data[0...250].map(&:id)
-
-        # @cores_limit = @selected_data.limit(30)
-        #
         # @cores = @cores_limit.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 15)
 
-        @cores = @selected_data.limit(250).filter(filtering_params(params))
+        @cores = @selected_data.filter(filtering_params(params)).limit(300)
 
-        # .paginate(:page => params[:page], :per_page => 15)
-
-        @cores_csv = @selected_data.order(:sfdc_id)
+        cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
               format.html
-              format.csv { render text: @cores_csv.to_csv }
+              format.csv { render text: cores_csv.to_csv }
         end
 
         # Checkbox
@@ -147,8 +141,6 @@ class CoresController < ApplicationController
     def filtering_params(params)
         params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
     end
-
-    # (:bds_status, :location_indexer_status, :location_indexer_status, :inventory_indexer_status, , :sfdc_tier, :sfdc_sales_person, :sfdc_type, :, :, :, :, :, :, :, :, :, :, :, :, :, :, :, :)
 
     def start_domainer(ids)
         CoreService.new.delay.scrape_listing(ids)

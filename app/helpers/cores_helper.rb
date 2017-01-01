@@ -23,10 +23,6 @@ module CoresHelper
         ["Different", "Same"]
     end
 
-    # def indexer_status_list
-    #     ["Ready", "Queued", "No Matches", "Matched", "Error"]
-    # end
-
     def staffer_status_list
         ["Ready", "Queued", "No Matches", "Matched"]
     end
@@ -47,24 +43,5 @@ module CoresHelper
     def formatted_date_list(datetime_arr)
         datetime_arr.map {|datetime| datetime.strftime("%m/%d/%Y") if datetime}.uniq
     end
-
-    def get_gcse_domain_status(core)
-        if gcse = Gcse.find_by(sfdc_id: core.sfdc_id)
-            gcse.domain_status
-        else
-            "N/A"
-        end
-    end
-
-
-    # def get_indexer_location_indexer_status(core)
-    #     if indexer_location = IndexerLocation.find_by(sfdc_id: core.sfdc_id)
-    #         indexer_location.indexer_status
-    #     else
-    #         "N/A"
-    #     end
-    # end
-
-
 
 end

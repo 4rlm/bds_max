@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161230124427) do
+ActiveRecord::Schema.define(version: 20161231035230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20161230124427) do
     t.integer  "sfdc_zip"
     t.string   "sfdc_ph"
     t.string   "sfdc_url"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.datetime "core_date"
     t.datetime "domainer_date"
     t.datetime "indexer_date"
@@ -51,6 +51,30 @@ ActiveRecord::Schema.define(version: 20161230124427) do
     t.string   "staff_text"
     t.string   "location_link"
     t.string   "location_text"
+    t.string   "domain_status"
+    t.string   "staffer_status"
+    t.string   "acct_indicator"
+    t.string   "sfdc_group_indicator"
+    t.string   "sfdc_ult_grp_indicator"
+    t.string   "template"
+    t.string   "site_acct"
+    t.string   "site_street"
+    t.string   "site_city"
+    t.string   "site_state"
+    t.integer  "site_zip"
+    t.string   "site_ph"
+    t.string   "street_indicator"
+    t.string   "city_indicator"
+    t.string   "state_indicator"
+    t.string   "zip_indicator"
+    t.string   "ph_indicator"
+    t.string   "verified_ult_rt_indicator"
+    t.string   "verified_grp_rt_indicator"
+    t.string   "grp_rt_indicator"
+    t.string   "ult_grp_rt_indicator"
+    t.string   "sfdc_franch_indicator"
+    t.string   "site_franch_indicator"
+    t.string   "franch_indicator"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
