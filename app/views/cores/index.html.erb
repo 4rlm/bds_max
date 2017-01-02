@@ -3,23 +3,20 @@
 
 <%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 
+<!-- FILTER PARTIAL -->
+<%= render partial: 'filter' %>
 
- <h3 class="section-header">Core Filter</h3>
-    <%= render partial: 'filter', locals: {  } %>
-    <%= submit_tag "Submit", class: 'btn btn-success' %>
+<%#= submit_tag "Submit", class: 'btn btn-success' %>
 
+<!-- LIST VIEW PROFILES PARTIAL -->
+<%= render partial: 'list_view' %>
 
-
-
-<h1>New List View Partial Starts Here</h1>
-<%= render partial: 'list_view', locals: {  } %>
-<h1>New List View Partial Ends Here</h1>
-
-
-
- <h1> class="section-header">New Detailed View Starts Here</h1>
-    <%#= render partial: 'detailed_view', locals: { core: core, num: num } %>
-<h1>New Detailed View Partial Ends Here</h1>
+<!-- DETAILED VIEW PROFILES PARTIAL -->
+<%#= render partial: 'detailed_view', locals: { core: core, num: num } %>
+<%= render partial: 'detailed_view' %>
 
 
-<% end %> <!-- Filter Headers Form tag ends -->
+
+<!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
+<% end %>
+<!-- Filter Headers Form tag ends -->

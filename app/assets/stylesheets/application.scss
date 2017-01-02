@@ -77,6 +77,17 @@ a.btn{
   color: #fff
 }
 
+.wide-button {
+    width: 100%;
+    padding: 7px;
+    margin: 5px 0 10px 0;
+    box-shadow: 5px 5px 5px gray;
+    font-size: 130%;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+}
+
 
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
@@ -96,8 +107,6 @@ a.btn{
 
 
 // selectpicker customizing starts
-
-// Adam Trial Starts
 select.selectpicker.select-block {
     color: blue !important;
     background-color: red;
@@ -114,7 +123,7 @@ select.selectpicker.select-block {
     font-size: 12px;
     text-align: center;
 }
-// Adam Trial Ends
+
 
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
     width: 100%;

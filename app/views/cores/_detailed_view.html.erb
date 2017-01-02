@@ -1,9 +1,13 @@
+<br>
+<h3 class="section-header">Detailed View Starts Here</h3>
+<%= render partial: 'buttons' %>
+<br>
+
 <% num = 0 %>
 <% @cores.each do |core| %>
     <% num +=1 %>
 
 <div class="text-nowrap cores-layout account-profile-container">
-
     <div class="row profile-row">
 
         <div class="profile-col col-md-12">
@@ -274,9 +278,12 @@
             </table>
         </div>
     </div>  <!-- row ends -->
-
-
 </div> <!-- Account Profile Ends -->
 
+<% end %>
 
-<% end %> -->
+<br>
+
+<%= render partial: 'buttons' %>
+
+<%= will_paginate @cores, renderer: BootstrapPagination::Rails  %>

@@ -149,7 +149,9 @@ table.cores-layout-table {
 
 // CORE SEARCH STARTS
 .core-search-container {
-    border: solid 1px #18a3cd;
+    // border: solid 1px #18a3cd;
+    border: solid 2px #87dedd;
+    border-radius: 5px;
 }
 
 .core-search-container .th-1, .core-search-container .th-2 {
@@ -179,12 +181,23 @@ table.cores-layout-table {
 .core-search-container .th-2c {
     background-image:linear-gradient(#1bb5e4, #18a3cd);
 }
+
+.wide-button.blue-button {
+    border: solid 2px #87dedd;
+    background-image:linear-gradient(#1798c1, #137fa0);
+}
+
+.wide-button.blue-button:hover {
+    background-image:linear-gradient(#137fa0, #1798c1);
+}
 // CORE SEARCH ENDS
 
 
 // NEW CORE ACCOUNT FILTER STARTS
 .account-filter-container {
-    border: solid 1px #4bcecb;
+    // border: solid 1px #4bcecb;
+    border: solid 2px #87dedd;
+    border-radius: 5px;
 }
 
 .account-filter-container .th-1, .account-filter-container .th-2 {
@@ -213,5 +226,14 @@ table.cores-layout-table {
 
 .account-filter-container .th-2c {
     background-image:linear-gradient(#5fd3d1, #4bcecb);
+}
+
+.wide-button.green-button {
+    border: solid 2px #87dedd;
+    background-image:linear-gradient(#2ca09e, #268c8a);
+}
+
+.wide-button.green-button:hover {
+    background-image:linear-gradient(#268c8a, #2ca09e);
 }
 // NEW CORE ACCOUNT FILTER ENDS

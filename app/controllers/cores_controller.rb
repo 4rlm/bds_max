@@ -14,9 +14,13 @@ class CoresController < ApplicationController
             @selected_data = Core.all
         end
 
-        # @cores = @cores_limit.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 15)
+        # @cores = @selected_data.filter(filtering_params(params)).limit(20)
 
-        @cores = @selected_data.filter(filtering_params(params)).limit(10)
+        # @cores_limited = @selected_data.limit(20)
+
+
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
+
 
         cores_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
@@ -112,7 +116,6 @@ class CoresController < ApplicationController
     def batch_status
         ids = params[:status_checks]
         status = params[:selected_status]
-
         unless ids.nil?
             for id in ids
                 data = Core.find(id)
