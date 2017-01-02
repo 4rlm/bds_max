@@ -69,7 +69,7 @@ class StafferService
         core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
 
         Staffer.create(@cols_hash)
-        core.update_attributes(staffer_status: staffer_status, template: template, site_acct: site_acct, site_street: site_street, site_city: site_city, site_state: site_state, site_zip: site_zip, site_ph: site_ph)
+        core.update_attributes(staffer_status: staffer_status)
     end
 
 end

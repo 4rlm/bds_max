@@ -71,7 +71,7 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
-                    <td>n/a</td>
+                    <td><%= core.site_acct %></td>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -81,12 +81,51 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Indicator</th>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
+
+                    <% if core.acct_indicator == "Same" %>
+                        <td class="same"><%= core.acct_indicator %></td>
+                    <% elsif core.acct_indicator == "Different" %>
+                        <td class="different"><%= core.acct_indicator %></td>
+                    <% else %>
+                        <td><%= core.acct_indicator %></td>
+                    <% end %>
+
+                    <% if core.sfdc_group_indicator == "Same" %>
+                        <td class="same"><%= core.sfdc_group_indicator %></td>
+                    <% elsif core.sfdc_group_indicator == "Different" %>
+                        <td class="different"><%= core.sfdc_group_indicator %></td>
+                    <% else %>
+                        <td><%= core.sfdc_group_indicator %></td>
+                    <% end %>
+
+                    <% if core.sfdc_ult_grp_indicator == "Same" %>
+                        <td class="same"><%= core.sfdc_ult_grp_indicator %></td>
+                    <% elsif core.sfdc_ult_grp_indicator == "Different" %>
+                        <td class="different"><%= core.sfdc_ult_grp_indicator %></td>
+                    <% else %>
+                        <td><%= core.sfdc_ult_grp_indicator %></td>
+                    <% end %>
+
+                        <!-- sales_tier_indicator -->
+                        <td>n/a</td>
+
+                    <% if core.grp_rt_indicator == "Same" %>
+                        <td class="same"><%= core.grp_rt_indicator %></td>
+                    <% elsif core.grp_rt_indicator == "Different" %>
+                        <td class="different"><%= core.grp_rt_indicator %></td>
+                    <% else %>
+                        <td><%= core.grp_rt_indicator %></td>
+                    <% end %>
+
+                    <% if core.ult_grp_rt_indicator == "Same" %>
+                        <td class="same"><%= core.ult_grp_rt_indicator %></td>
+                    <% elsif core.ult_grp_rt_indicator == "Different" %>
+                        <td class="different"><%= core.ult_grp_rt_indicator %></td>
+                    <% else %>
+                        <td><%= core.ult_grp_rt_indicator %></td>
+                    <% end %>
+
+
                 </tr>
             </table>
         </div>
@@ -114,19 +153,19 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
-                    <td>n/a</td>
-                    <td>n/a</td>
-                    <td>n/a</td>
-                    <td>n/a</td>
-                    <td>n/a</td>
+                    <td><%= core.site_street %></td>
+                    <td><%= core.site_city %></td>
+                    <td><%= core.site_state %></td>
+                    <td><%= core.site_zip %></td>
+                    <td><%= core.site_ph %></td>
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Indicator</th>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
-                    <td class="yellow">n/a</td>
+                    <td class="yellow"><%= core.street_indicator %></td>
+                    <td class="yellow"><%= core.city_indicator %></td>
+                    <td class="yellow"><%= core.state_indicator %></td>
+                    <td class="yellow"><%= core.zip_indicator %></td>
+                    <td class="yellow"><%= core.ph_indicator %></td>
                 </tr>
             </table>
         </div>
@@ -154,7 +193,7 @@
                     <th class="th-2 th-2b">Matched</th>
                     <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
                     <td><%= core.matched_root %></td>
-                    <td>n/a</td>
+                    <td><%= core.template %></td>
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
