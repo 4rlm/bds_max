@@ -38,25 +38,33 @@ class StafferService
                 site_cont_influence: nil
             }
 
-            search(@cols_hash[:staff_link])
+            search(el, @cols_hash[:staff_link])
 
             el.update_attributes(staffer_date: current_time, bds_status: "Staffer Result")
         end # cores Loop - Ends
     end # start_staffer(ids) - Ends
 
-    def search(url)
+    def search(core, url)
         begin
             temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage' ]
 
-            agent = Mechanize.new
-            doc = agent.get(url)
+            @agent = Mechanize.new
+            doc = @agent.get(url)
+            detect =  false
 
             for term in temp_list
                 if doc.at_css('head').text.include?(term)
+                    detect = true
                     temp_method(term, doc, url)
                 end
             end
+
+            unless detect
+                core.update_attribute(:staffer_status, "Temp Error")
+                puts "\n\n===== Template Unidentified =====\n\n"
+            end
         rescue
+            core.update_attribute(:staffer_status, "Search Error")
             puts "\n\n===== StafferService#search Error: #{$!.message} =====\n\n"
         end
     end
@@ -68,32 +76,29 @@ class StafferService
 
         case term
         when "DDC"
-            sc.ddc_scraper(doc, url, id, domain)
-            diff_staff_url_for_ddc(sc, url, id, domain)
+            sc.ddc_scraper(doc, url)
+            diff_staff_url_for_ddc(sc, url, domain)
             puts "\n\n===== Found: Dealer.com =====\n\n"
         when "dealeron"
-            sc.do_scraper(doc, url, id, domain)
+            sc.do_scraper(doc, url)
             puts "\n\n===== Found: DealerOn.com =====\n\n"
         when "cobalt"
-            sc.cobalt_scraper(doc, url, id, domain)
+            sc.cobalt_scraper(doc, url)
             puts "\n\n===== Found: Cobalt.com =====\n\n"
         when "DealerFire"
-            sc.df_scraper(doc, url, id, domain)
+            sc.df_scraper(doc, url)
             puts "\n\n===== Found: DealerFire.com =====\n\n"
         when "di_homepage"
-            sc.di_scraper(doc, url, id, domain)
+            sc.di_scraper(doc, url)
             puts "\n\n===== Found: DealerInspire.com =====\n\n"
-        else
-            puts "\n\n===== Template Unidentified =====\n\n"
         end
     end
 
-    def diff_staff_url_for_ddc(scrapers_obj, url, id, domain)
+    def diff_staff_url_for_ddc(scrapers_obj, url, domain)
         staff_url = domain + "dealership/staff.htm"
         if url != staff_url
-            agent = Mechanize.new
-            staff_docu = agent.get(staff_url)
-            scrapers_obj.ddc_scraper(staff_docu, staff_url, id, domain)
+            staff_docu = @agent.get(staff_url)
+            scrapers_obj.ddc_scraper(staff_docu, staff_url)
             puts "\n\n===== Different staff url for ddc =====\n\n"
         end
     end

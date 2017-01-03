@@ -3,7 +3,7 @@ class Scrapers
         @cols_hash = cols_hash
     end
 
-    def ddc_scraper(html, url, id, domain)
+    def ddc_scraper(html, url)
         begin
             #==ACCOUNT FIELDS==ARRAYS
             selector = "//meta[@name='author']/@content"
@@ -42,6 +42,7 @@ class Scrapers
                 add_indexer_row_with("Matched", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex")
             end
         rescue
+            error_indicator(url, "Dearler.com")
             puts "\n\n===== Dealer.com Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def ddc_scraper"
@@ -82,7 +83,7 @@ class Scrapers
         core.update_attributes(staffer_status: staffer_status, template: temp, site_acct: org, site_street: street, site_city: city, site_state: state, site_zip: zip, site_ph: acc_phone)
     end
 
-    def do_scraper(html, url, id, domain)
+    def do_scraper(html, url)
         begin
             #==ACCOUNT FIELDS==ARRAYS
             org = html.at_css('.dealerName').text
@@ -112,14 +113,16 @@ class Scrapers
                     add_indexer_row_with(["Matched", "DealerOn", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
                 end
             else
+                error_indicator(url, "DearlOn length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue
+            error_indicator(url, "DearlOn")
             puts "\n\n===== DealerOn Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def do_scraper"
 
-    def cobalt_scraper(html, url, id, domain)   # Problems w/ cobalt_verify below
+    def cobalt_scraper(html, url)   # Problems w/ cobalt_verify below
         begin
             #==ACCOUNT FIELDS==ARRAYS
             org_sel = "//img[@class='cblt-lazy']/@alt"
@@ -156,9 +159,11 @@ class Scrapers
                 end
 
             else
+                error_indicator(url, "Cobalt length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue
+            error_indicator(url, "Cobalt")
             puts "\n\n===== Cobalt Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def cobalt_scraper"
@@ -179,7 +184,7 @@ class Scrapers
         return array
     end
 
-    def df_scraper(html, url, id, domain)   # Problem w/ email
+    def df_scraper(html, url)   # Problem w/ email
         begin
             #==ACCOUNT FIELDS==ARRAYS
             org = html.at_css('.foot-thanks h1').text
@@ -218,14 +223,16 @@ class Scrapers
                     add_indexer_row_with(["Matched", "DealerFire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
                 end
             else
+                error_indicator(url, "DealerFire length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue
+            error_indicator(url, "DealerFire")
             puts "\n\n===== DealerFire Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def df_scraper"
 
-    def di_scraper(html, url, id, domain)
+    def di_scraper(html, url)
         begin
             #==ACCOUNT FIELDS==ARRAYS
             org = html.at_css('.organization-name').text
@@ -275,10 +282,17 @@ class Scrapers
                     add_indexer_row_with(["Matched", "DealerInspire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
                 end
             else
+                error_indicator(url, "DealerInspire length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue
+            error_indicator(url, "DealerInspire")
             puts "\n\n===== DealerInspire Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def di_scraper"
+
+    def error_indicator(url, temp_name)
+        core = Core.find_by(staff_link: url)
+        core.update_attribute(:staffer_status, "#{temp_name} Error")
+    end
 end
