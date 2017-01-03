@@ -39,7 +39,7 @@ class Scrapers
             end
 
             for i in 0...size
-                add_indexer_row_with("Matched", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex")
+                add_indexer_row_with("Scraped", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex")
             end
         rescue
             error_indicator(url, "Dearler.com")
@@ -110,10 +110,10 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Matched", "DealerOn", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "DealerOn", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
                 end
             else
-                error_indicator(url, "DearlOn length")
+                error_indicator(url, "DealerOn Length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue
@@ -155,11 +155,11 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Matched", "Cobalt", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "Cobalt", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
                 end
 
             else
-                error_indicator(url, "Cobalt length")
+                error_indicator(url, "Cobalt Length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue
@@ -220,10 +220,10 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Matched", "DealerFire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "DealerFire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
                 end
             else
-                error_indicator(url, "DealerFire length")
+                error_indicator(url, "DealerFire Length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue
@@ -279,10 +279,10 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Matched", "DealerInspire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "DealerInspire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
                 end
             else
-                error_indicator(url, "DealerInspire length")
+                error_indicator(url, "DealerInspire Length")
                 puts "\n\n===== Employee contact info column length error =====\n\n"
             end
         rescue

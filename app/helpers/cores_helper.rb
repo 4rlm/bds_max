@@ -24,7 +24,7 @@ module CoresHelper
     end
 
     def staffer_status_list
-        ["Ready", "Queued", "No Matches", "Matched"]
+        ["Ready", "Queued", "No Matches", "Matched", "Scraped"]
     end
 
     def whois_status_list
