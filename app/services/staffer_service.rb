@@ -41,6 +41,7 @@ class StafferService
             search(el, @cols_hash[:staff_link])
 
             el.update_attributes(staffer_date: current_time, bds_status: "Staffer Result")
+
         end # cores Loop - Ends
     end # start_staffer(ids) - Ends
 
@@ -67,11 +68,18 @@ class StafferService
             core.update_attribute(:staffer_status, "Search Error")
             puts "\n\n===== StafferService#search Error: #{$!.message} =====\n\n"
         end
+
+        #== Throttle (if needed) =====================
+        throttle_delay_time = (3..5).to_a.sample
+        puts "Completed"
+        puts "Please wait #{throttle_delay_time} seconds."
+        puts "--------------------------------"
+        sleep(throttle_delay_time)
+
     end
 
     def temp_method(term, doc, url)
         sc = Scrapers.new(@cols_hash)
-        id = @cols_hash[:sfdc_id]
         domain = @cols_hash[:domain]
 
         case term
@@ -102,4 +110,5 @@ class StafferService
             puts "\n\n===== Different staff url for ddc =====\n\n"
         end
     end
+
 end

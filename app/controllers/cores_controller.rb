@@ -19,7 +19,7 @@ class CoresController < ApplicationController
         # @cores_limited = @selected_data.limit(20)
 
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 30)
 
 
         cores_csv = @selected_data.order(:sfdc_id)

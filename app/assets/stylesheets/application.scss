@@ -14,6 +14,10 @@
  *= require_self
  */
 
+ /*
+ *= require font-awesome
+ */
+
 
 .outer-container {
     margin-top: 80px;
@@ -166,6 +170,17 @@ select.selectpicker.select-block {
 }
 
 // BUTTONS
+.details-btn, .edit-btn, .delete-btn {
+    padding: 0;
+    a {
+        color: white;
+        font-weight: bold;
+        font-size: 1.1em;
+        padding: 0;
+        margin: 0;
+    }
+}
+
  .details-btn, .edit-btn {
     background-image:linear-gradient(#1798c1, #137fa0);
  }
@@ -183,8 +198,67 @@ select.selectpicker.select-block {
   }
 // BUTTONS
 
+.indicator-th, .indicator-neutral, .indicator-different, .indicator-same {
+    padding: 0;
+    margin: 0;
+}
+
+th.indicator {
+    padding: 0;
+    margin: 0;
+    width: 20px !important;
+}
+
+.indicator-th {
+    color: #76d3ef;
+}
+
+.indicator-neutral {
+    // color: #cccccc;  /* gray */
+    color: white;
+}
+
+.indicator-different {
+    color: red;
+ }
+
+.indicator-same {
+    color: #7fca5d;
+    font-size: 0;
+    font: hidden;
+}
+
+.hidden {
+  display:none;
+}
+
+
+
+
+// .fa-bell-o {
+//   // color: red;
+//   background-color: red;
+// }
 
 // Indicators -- Starts
+// .indicator {
+//     padding: 0;
+//     color: white;
+//     font-weight: bold;
+//     font-size: 1.1em;
+//     padding: 0;
+//     margin: 0;
+//     background-color: white;
+// }
+
+// .indicator-red {
+//    // background-image:linear-gradient(#1798c1, #137fa0);
+//    background-color: red;
+// }
+//
+// .indicator-blue:hover {
+//    background-image:linear-gradient(#137fa0, #1798c1);
+// }
 
 .yes a {
     display: block;

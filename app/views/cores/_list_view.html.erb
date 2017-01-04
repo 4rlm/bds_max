@@ -15,9 +15,9 @@
             <th class="w-md">Staffer</th>
             <th class="w-md">WhoIs</th>
             <th class="w-md">Account</th>
-            <th class="w-md">Group Name</th>
-            <th class="w-md">SFDC City</th>
-            <th class="w-md">SFDC State</th>
+            <th class="w-md">Ult Group</th>
+            <th class="w-md">City</th>
+            <th class="w-md">State</th>
             <th class="w-md">Type</th>
             <th class="w-md">Salesperson</th>
             <th class="w-md">SFDC ID</th>
@@ -41,9 +41,16 @@
 
                 <td>n/a</td>
                 <td><%= core.sfdc_acct %></td>
-                <td><%= core.sfdc_group %></td>
+                <td><%= core.sfdc_ult_grp %></td>
                 <td><%= core.sfdc_city %></td>
                 <td><%= core.sfdc_state %></td>
+
+                <% if core.staff_text && core.staff_text != "(none)"%>
+                    <td class="yes"><%= link_to core.staff_text, core.staff_link, :target => "_blank" %></td>
+                <% else %>
+                    <td><%= core.staff_text %></td>
+                <% end %>
+
                 <td><%= core.sfdc_type %></td>
                 <td><%= core.sfdc_sales_person %></td>
                 <td><%= core.sfdc_id %></td>

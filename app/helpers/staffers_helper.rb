@@ -1,5 +1,5 @@
 module StaffersHelper
     def staffer_status_list
-        ['Imported', 'Error', 'Staffer Result', 'Matched', 'No Matches', 'Queue Staffer', 'Ready', 'Try Again', 'Verified', 'Destroy']
+        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched"]
     end
 end
