@@ -78,9 +78,27 @@ class Scrapers
         @cols_hash[:site_cont_influence] = site_cont_influence
 
         core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
+        indicator_gauge
 
         Staffer.create(@cols_hash)
         core.update_attributes(staffer_status: staffer_status, template: temp, site_acct: org, site_street: street, site_city: city, site_state: state, site_zip: zip, site_ph: acc_phone)
+    end
+
+    def indicator_gauge
+        core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
+
+        core.update_attributes(
+            acct_indicator: comparer(core.sfdc_acct, @cols_hash[:site_acct]),
+            street_indicator: comparer(core.sfdc_street, @cols_hash[:site_street]),
+            city_indicator: comparer(core.sfdc_city, @cols_hash[:site_city]),
+            state_indicator: comparer(core.sfdc_state, @cols_hash[:site_state]),
+            zip_indicator: comparer(core.sfdc_zip, @cols_hash[:site_zip]),
+            ph_indicator: comparer(core.sfdc_ph, @cols_hash[:site_ph])
+        )
+    end
+
+    def comparer(str1, str2)
+        return str1 == str2 ? "same" : "different"
     end
 
     def do_scraper(html, url)

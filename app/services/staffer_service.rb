@@ -80,7 +80,6 @@ class StafferService
 
     def temp_method(term, doc, url)
         sc = Scrapers.new(@cols_hash)
-        id = @cols_hash[:sfdc_id]
         domain = @cols_hash[:domain]
 
         case term
@@ -111,4 +110,5 @@ class StafferService
             puts "\n\n===== Different staff url for ddc =====\n\n"
         end
     end
+
 end
