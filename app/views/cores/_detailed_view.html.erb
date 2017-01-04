@@ -67,39 +67,39 @@
                     <th class="th-2 w-md">Sales Tier</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xsm">Group RT</th>
+                    <th class="th-2 w-xsm">GRT</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xsm">Ult RT</th>
+                    <th class="th-2 w-xsm">URT</th>
 
                 </tr>
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
 
-                    <% if core.acct_indicator == "Same" %>
+                    <% if core.acct_indicator == "Same" || core.acct_indicator == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% elsif core.acct_indicator == "Different" %>
+                    <% elsif core.acct_indicator == "Different" || core.acct_indicator == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
                     <% end %>
                     <td><%= core.sfdc_acct %></td>
 
-                    <% if core.sfdc_group_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% elsif core.sfdc_group_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
+                    <% if core.grp_name_indicator == "Same" || core.grp_name_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.grp_name_indicator %></span></td>
+                    <% elsif core.grp_name_indicator == "Different" || core.grp_name_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.grp_name_indicator %></span></td>
                     <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.grp_name_indicator %></span></td>
                     <% end %>
                     <td><%= core.sfdc_group %></td>
 
-                    <% if core.sfdc_ult_grp_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% elsif core.sfdc_ult_grp_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
+                    <% if core.ult_grp_name_indicator == "Same" || core.ult_grp_name_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_name_indicator %></span></td>
+                    <% elsif core.ult_grp_name_indicator == "Different" || core.ult_grp_name_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_name_indicator %></span></td>
                     <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_name_indicator %></span></td>
                     <% end %>
                     <td><%= core.sfdc_ult_grp %></td>
 
@@ -108,18 +108,18 @@
                     <!-- sales_tier indicator will go here. -->
                     <td><%= core.sfdc_tier %></td>
 
-                    <% if core.grp_rt_indicator == "Same" %>
+                    <% if core.grp_rt_indicator == "Same" || core.grp_rt_indicator == "same"%>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% elsif core.grp_rt_indicator == "Different" %>
+                    <% elsif core.grp_rt_indicator == "Different" || core.grp_rt_indicator == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
                     <% end %>
                     <td><%= core.sfdc_grp_rt %></td>
 
-                    <% if core.ult_grp_rt_indicator == "Same" %>
+                    <% if core.ult_grp_rt_indicator == "Same" || core.ult_grp_rt_indicator == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% elsif core.ult_grp_rt_indicator == "Different" %>
+                    <% elsif core.ult_grp_rt_indicator == "Different" || core.ult_grp_rt_indicator == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
@@ -130,59 +130,59 @@
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
 
-                    <% if core.acct_indicator == "Same" %>
+                    <% if core.acct_indicator == "Same" || core.acct_indicator == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% elsif core.acct_indicator == "Different" %>
+                    <% elsif core.acct_indicator == "Different" || core.acct_indicator == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
                     <% end %>
                     <td><%= core.site_acct %></td>
 
-                    <% if core.sfdc_group_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% elsif core.sfdc_group_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
+                    <% if core.grp_name_indicator == "Same" || core.grp_name_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.grp_name_indicator %></span></td>
+                    <% elsif core.grp_name_indicator == "Different" || core.grp_name_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.grp_name_indicator %></span></td>
                     <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.grp_name_indicator %></span></td>
                     <% end %>
+                    <td><%= core.site_group%></td>
 
-                    <td></td>
-
-                    <% if core.sfdc_ult_grp_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% elsif core.sfdc_ult_grp_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
+                    <% if core.ult_grp_name_indicator == "Same" || core.ult_grp_name_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_name_indicator %></span></td>
+                    <% elsif core.ult_grp_name_indicator == "Different" || core.ult_grp_name_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_name_indicator %></span></td>
                     <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_name_indicator %></span></td>
                     <% end %>
+                    <td><%= core.site_ult_grp%></td>
 
-                    <td></td>
+                    <% if core.tier_indicator == "Same" || core.tier_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.tier_indicator %></span></td>
+                    <% elsif core.tier_indicator == "Different" || core.tier_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.tier_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.tier_indicator %></span></td>
+                    <% end %>
+                    <td><%= core.site_tier%></td>
 
-                    <!-- sales_tier_indicator -->
-                    <td></td>
-                    <!-- sales_tier -->
-                    <td></td>
-
-                    <% if core.grp_rt_indicator == "Same" %>
+                    <% if core.grp_rt_indicator == "Same" || core.grp_rt_indicator == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% elsif core.grp_rt_indicator == "Different" %>
+                    <% elsif core.grp_rt_indicator == "Different" || core.grp_rt_indicator == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
                     <% end %>
+                    <td><%= core.site_grp_rt%></td>
 
-                    <td></td>
-
-                    <% if core.ult_grp_rt_indicator == "Same" %>
+                    <% if core.ult_grp_rt_indicator == "Same" || core.ult_grp_rt_indicator == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% elsif core.ult_grp_rt_indicator == "Different" %>
+                    <% elsif core.ult_grp_rt_indicator == "Different" || core.ult_grp_rt_indicator == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
                     <% end %>
-
-                    <td></td>
+                    <td><%= core.site_ult_rt%></td>
 
                 </tr>
             </table>
@@ -215,39 +215,100 @@
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
 
-                    <td class="yellow"><%= core.street_indicator %></td>
+                    <% if core.street_indicator == "Same" || core.street_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.street_indicator %></span></td>
+                    <% elsif core.street_indicator == "Different" || core.street_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.street_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.street_indicator %></span></td>
+                    <% end %>
                     <td><%= core.sfdc_street %></td>
 
-                    <td class="yellow"><%= core.city_indicator %></td>
+                    <% if core.city_indicator == "Same" || core.city_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.city_indicator %></span></td>
+                    <% elsif core.city_indicator == "Different" || core.city_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.city_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.city_indicator %></span></td>
+                    <% end %>
                     <td><%= core.sfdc_city %></td>
 
-                    <td class="yellow"><%= core.state_indicator %></td>
+                    <% if core.state_indicator == "Same" || core.state_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.state_indicator %></span></td>
+                    <% elsif core.state_indicator == "Different" || core.state_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.state_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.state_indicator %></span></td>
+                    <% end %>
                     <td><%= core.sfdc_state %></td>
 
-                    <td class="yellow"><%= core.zip_indicator %></td>
+                    <% if core.zip_indicator == "Same" || core.zip_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.zip_indicator %></span></td>
+                    <% elsif core.zip_indicator == "Different" || core.zip_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.zip_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.zip_indicator %></span></td>
+                    <% end %>
                     <td><%= core.sfdc_zip %></td>
 
-                    <td class="yellow"><%= core.ph_indicator %></td>
+                    <% if core.ph_indicator == "Same" || core.ph_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ph_indicator %></span></td>
+                    <% elsif core.ph_indicator == "Different" || core.ph_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ph_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ph_indicator %></span></td>
+                    <% end %>
                     <td><%= core.sfdc_ph %></td>
 
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
 
-                    <td class="yellow"><%= core.street_indicator %></td>
+                    <% if core.street_indicator == "Same" || core.street_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.street_indicator %></span></td>
+                    <% elsif core.street_indicator == "Different" || core.street_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.street_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.street_indicator %></span></td>
+                    <% end %>
                     <td><%= core.site_street %></td>
 
-                    <td class="yellow"><%= core.city_indicator %></td>
+                    <% if core.city_indicator == "Same" || core.city_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.city_indicator %></span></td>
+                    <% elsif core.city_indicator == "Different" || core.city_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.city_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.city_indicator %></span></td>
+                    <% end %>
                     <td><%= core.site_city %></td>
 
-                    <td class="yellow"><%= core.state_indicator %></td>
+                    <% if core.state_indicator == "Same" || core.state_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.state_indicator %></span></td>
+                    <% elsif core.state_indicator == "Different" || core.state_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.state_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.state_indicator %></span></td>
+                    <% end %>
                     <td><%= core.site_state %></td>
 
-                    <td class="yellow"><%= core.zip_indicator %></td>
+                    <% if core.zip_indicator == "Same" || core.zip_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.zip_indicator %></span></td>
+                    <% elsif core.zip_indicator == "Different" || core.zip_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.zip_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.zip_indicator %></span></td>
+                    <% end %>
                     <td><%= core.site_zip %></td>
 
-                    <td class="yellow"><%= core.ph_indicator %></td>
+                    <% if core.ph_indicator == "Same" || core.ph_indicator == "same" %>
+                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ph_indicator %></span></td>
+                    <% elsif core.ph_indicator == "Different" || core.ph_indicator == "different" %>
+                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ph_indicator %></span></td>
+                    <% else %>
+                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ph_indicator %></span></td>
+                    <% end %>
                     <td><%= core.site_ph %></td>
+
 
                 </tr>
             </table>
@@ -274,9 +335,9 @@
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
 
-                    <% if core.url_comparison == "Same" %>
+                    <% if core.url_comparison == "Same" || core.url_comparison == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% elsif core.url_comparison == "Different" %>
+                    <% elsif core.url_comparison == "Different" || core.url_comparison == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
@@ -284,9 +345,9 @@
 
                     <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
 
-                    <% if core.root_comparison == "Same" %>
+                    <% if core.root_comparison == "Same" || core.root_comparison == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% elsif core.root_comparison == "Different" %>
+                    <% elsif core.root_comparison == "Different" || core.root_comparison == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
@@ -299,18 +360,18 @@
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
 
-                    <% if core.url_comparison == "Same" %>
+                    <% if core.url_comparison == "Same" || core.url_comparison == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% elsif core.url_comparison == "Different" %>
+                    <% elsif core.url_comparison == "Different" || core.url_comparison == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
                     <% end %>
                     <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
 
-                    <% if core.root_comparison == "Same" %>
+                    <% if core.root_comparison == "Same" || core.root_comparison == "same" %>
                         <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% elsif core.root_comparison == "Different" %>
+                    <% elsif core.root_comparison == "Different" || core.root_comparison == "different" %>
                         <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
