@@ -6,13 +6,464 @@
 <!-- #======== Google API Ends ========== -->
 
 
-
 <h1 class="text-center">Dashboard</h1>
 <br>
 
-<!-- Accounts Summary Section -->
 <section style="border: 1px solid gray; border-radius: 5px; box-shadow: 5px 5px 5px;">
     <div class="row" style="width: 95%; margin: auto;">
+        <h3 class="section-header">Accounts Summary</h3>
+
+        <!-- Account Stage -->
+        <div class="col-md-5">
+            <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+            <tr>
+                <th colspan="3">Franchise Terms</th>
+            </tr>
+            <tr>
+                <th>Term</th>
+                <th>SFDC</th>
+                <th>Site</th>
+            </tr>
+            <tr>
+                <th>Total:</th>
+                <td><%= @core_sfdc_franchise %></td>
+                <td><%= @core_site_franchise %></td>
+            </tr>
+            <tr>
+                <th>Acura:</th>
+                <td><%= @core_sfdc_acura %></td>
+                <td><%= @core_site_acura %></td>
+            </tr>
+            <tr>
+                <th>Alfa:</th>
+                <td><%= @core_sfdc_alfa %></td>
+                <td><%= @core_site_alfa %></td>
+
+            </tr>
+            <tr>
+                <th>Aston:</th>
+                <td><%= @core_sfdc_aston %></td>
+                <td><%= @core_site_aston %></td>
+            </tr>
+            <tr>
+                <th>Audi:</th>
+                <td><%= @core_sfdc_audi %></td>
+                <td><%= @core_site_audi %></td>
+            </tr>
+            <tr>
+                <th>Bentley:</th>
+                <td><%= @core_sfdc_bentley %></td>
+                <td><%= @core_site_bentley %></td>
+            </tr>
+            <tr>
+                <th>Benz:</th>
+                <td><%= @core_sfdc_benz %></td>
+                <td><%= @core_site_benz %></td>
+            </tr>
+            <tr>
+                <th>Bmw:</th>
+                <td><%= @core_sfdc_bmw %></td>
+                <td><%= @core_site_bmw %></td>
+            </tr>
+            <tr>
+                <th>Bugatti:</th>
+                <td><%= @core_sfdc_bugatti %></td>
+                <td><%= @core_site_bugatti %></td>
+            </tr>
+            <tr>
+                <th>Buick:</th>
+                <td><%= @core_sfdc_buick %></td>
+                <td><%= @core_site_buick %></td>
+            </tr>
+            <tr>
+                <th>Cadillac:</th>
+                <td><%= @core_sfdc_cadillac %></td>
+                <td><%= @core_site_cadillac %></td>
+            </tr>
+            <tr>
+                <th>Cdjr:</th>
+                <td><%= @core_sfdc_cdjr %></td>
+                <td><%= @core_site_cdjr %></td>
+            </tr>
+            <tr>
+                <th>Chev:</th>
+                <td><%= @core_sfdc_chev %></td>
+                <td><%= @core_site_chev %></td>
+            </tr>
+            <tr>
+                <th>Chevrolet:</th>
+                <td><%= @core_sfdc_chevrolet %></td>
+                <td><%= @core_site_chevrolet %></td>
+            </tr>
+            <tr>
+                <th>Chevy:</th>
+                <td><%= @core_sfdc_chevy %></td>
+                <td><%= @core_site_chevy %></td>
+            </tr>
+            <tr>
+                <th>Chrysler:</th>
+                <td><%= @core_sfdc_chrysler %></td>
+                <td><%= @core_site_chrysler %></td>
+            </tr>
+            <tr>
+                <th>Cjd:</th>
+                <td><%= @core_sfdc_cjd %></td>
+                <td><%= @core_site_cjd %></td>
+            </tr>
+            <tr>
+                <th>Corvette:</th>
+                <td><%= @core_sfdc_corvette %></td>
+                <td><%= @core_site_corvette %></td>
+            </tr>
+            <tr>
+                <th>Daewoo:</th>
+                <td><%= @core_sfdc_daewoo %></td>
+                <td><%= @core_site_daewoo %></td>
+            </tr>
+            <tr>
+                <th>Dodge:</th>
+                <td><%= @core_sfdc_dodge %></td>
+                <td><%= @core_site_dodge %></td>
+            </tr>
+            <tr>
+                <th>Ferrari:</th>
+                <td><%= @core_sfdc_ferrari %></td>
+                <td><%= @core_site_ferrari %></td>
+            </tr>
+            <tr>
+                <th>Fiat:</th>
+                <td><%= @core_sfdc_fiat %></td>
+                <td><%= @core_site_fiat %></td>
+            </tr>
+            <tr>
+                <th>Ford:</th>
+                <td><%= @core_sfdc_ford %></td>
+                <td><%= @core_site_ford %></td>
+            </tr>
+            <tr>
+                <th>Gm:</th>
+                <td><%= @core_sfdc_gm %></td>
+                <td><%= @core_site_gm %></td>
+            </tr>
+            <tr>
+                <th>Gmc:</th>
+                <td><%= @core_sfdc_gmc %></td>
+                <td><%= @core_site_gmc %></td>
+            </tr>
+            <tr>
+                <th>Honda:</th>
+                <td><%= @core_sfdc_honda %></td>
+                <td><%= @core_site_honda %></td>
+            </tr>
+            <tr>
+                <th>Hummer:</th>
+                <td><%= @core_sfdc_hummer %></td>
+                <td><%= @core_site_hummer %></td>
+            </tr>
+            <tr>
+                <th>Hyundai:</th>
+                <td><%= @core_sfdc_hyundai %></td>
+                <td><%= @core_site_hyundai %></td>
+            </tr>
+            <tr>
+                <th>Infiniti:</th>
+                <td><%= @core_sfdc_infiniti %></td>
+                <td><%= @core_site_infiniti %></td>
+            </tr>
+            <tr>
+                <th>Isuzu:</th>
+                <td><%= @core_sfdc_isuzu %></td>
+                <td><%= @core_site_isuzu %></td>
+            </tr>
+            <tr>
+                <th>Jaguar:</th>
+                <td><%= @core_sfdc_jaguar %></td>
+                <td><%= @core_site_jaguar %></td>
+            </tr>
+            <tr>
+                <th>Jeep:</th>
+                <td><%= @core_sfdc_jeep %></td>
+                <td><%= @core_site_jeep %></td>
+            </tr>
+            <tr>
+                <th>Kia:</th>
+                <td><%= @core_sfdc_kia %></td>
+                <td><%= @core_site_kia %></td>
+            </tr>
+            <tr>
+                <th>Lamborghini:</th>
+                <td><%= @core_sfdc_lamborghini %></td>
+                <td><%= @core_site_lamborghini %></td>
+            </tr>
+            <tr>
+                <th>Lexus:</th>
+                <td><%= @core_sfdc_lexus %></td>
+                <td><%= @core_site_lexus %></td>
+            </tr>
+            <tr>
+                <th>Lincoln:</th>
+                <td><%= @core_sfdc_lincoln %></td>
+                <td><%= @core_site_lincoln %></td>
+            </tr>
+            <tr>
+                <th>Lotus:</th>
+                <td><%= @core_sfdc_lotus %></td>
+                <td><%= @core_site_lotus %></td>
+            </tr>
+            <tr>
+                <th>Maserati:</th>
+                <td><%= @core_sfdc_maserati %></td>
+                <td><%= @core_site_maserati %></td>
+            </tr>
+            <tr>
+                <th>Mazda:</th>
+                <td><%= @core_sfdc_mazda %></td>
+                <td><%= @core_site_mazda %></td>
+            </tr>
+            <tr>
+                <th>Mb:</th>
+                <td><%= @core_sfdc_mb %></td>
+                <td><%= @core_site_mb %></td>
+            </tr>
+            <tr>
+                <th>Mclaren:</th>
+                <td><%= @core_sfdc_mclaren %></td>
+                <td><%= @core_site_mclaren %></td>
+            </tr>
+            <tr>
+                <th>Mercedes:</th>
+                <td><%= @core_sfdc_mercedes %></td>
+                <td><%= @core_site_mercedes %></td>
+            </tr>
+            <tr>
+                <th>Mercury:</th>
+                <td><%= @core_sfdc_mercury %></td>
+                <td><%= @core_site_mercury %></td>
+            </tr>
+            <tr>
+                <th>Mini:</th>
+                <td><%= @core_sfdc_mini %></td>
+                <td><%= @core_site_mini %></td>
+            </tr>
+            <tr>
+                <th>Mitsubishi:</th>
+                <td><%= @core_sfdc_mitsubishi %></td>
+                <td><%= @core_site_mitsubishi %></td>
+            </tr>
+            <tr>
+                <th>Nissan:</th>
+                <td><%= @core_sfdc_nissan %></td>
+                <td><%= @core_site_nissan %></td>
+
+            </tr>
+            <tr>
+                <th>Oldsmobile:</th>
+                <td><%= @core_sfdc_oldsmobile %></td>
+                <td><%= @core_site_oldsmobile %></td>
+
+            </tr>
+            <tr>
+                <th>Plymouth:</th>
+                <td><%= @core_sfdc_plymouth %></td>
+                <td><%= @core_site_plymouth %></td>
+
+            </tr>
+            <tr>
+                <th>Pontiac:</th>
+                <td><%= @core_sfdc_pontiac %></td>
+                <td><%= @core_site_pontiac %></td>
+            </tr>
+            <tr>
+                <th>Porsche:</th>
+                <td><%= @core_sfdc_porsche %></td>
+                <td><%= @core_site_porsche %></td>
+            </tr>
+            <tr>
+                <th>Ram:</th>
+                <td><%= @core_sfdc_ram %></td>
+                <td><%= @core_site_ram %></td>
+            </tr>
+            <tr>
+                <th>Range:</th>
+                <td><%= @core_sfdc_range %></td>
+                <td><%= @core_site_range %></td>
+            </tr>
+            <tr>
+                <th>Rolls:</th>
+                <td><%= @core_sfdc_rolls %></td>
+                <td><%= @core_site_rolls %></td>
+            </tr>
+            <tr>
+                <th>Rover:</th>
+                <td><%= @core_sfdc_rover %></td>
+                <td><%= @core_site_rover %></td>
+            </tr>
+            <tr>
+                <th>Royce:</th>
+                <td><%= @core_sfdc_royce %></td>
+                <td><%= @core_site_royce %></td>
+            </tr>
+            <tr>
+                <th>Saab:</th>
+                <td><%= @core_sfdc_saab %></td>
+                <td><%= @core_site_saab %></td>
+            </tr>
+            <tr>
+                <th>Saturn:</th>
+                <td><%= @core_sfdc_saturn %></td>
+                <td><%= @core_site_saturn %></td>
+            </tr>
+            <tr>
+                <th>Scion:</th>
+                <td><%= @core_sfdc_scion %></td>
+                <td><%= @core_site_scion %></td>
+            </tr>
+            <tr>
+                <th>Smart:</th>
+                <td><%= @core_sfdc_smart %></td>
+                <td><%= @core_site_smart %></td>
+            </tr>
+            <tr>
+                <th>Subaru:</th>
+                <td><%= @core_sfdc_subaru %></td>
+                <td><%= @core_site_subaru %></td>
+            </tr>
+            <tr>
+                <th>Suzuki:</th>
+                <td><%= @core_sfdc_suzuki %></td>
+                <td><%= @core_site_suzuki %></td>
+            </tr>
+            <tr>
+                <th>Toyota:</th>
+                <td><%= @core_sfdc_toyota %></td>
+                <td><%= @core_site_toyota %></td>
+            </tr>
+            <tr>
+                <th>Volkswagen:</th>
+                <td><%= @core_sfdc_volkswagen %></td>
+                <td><%= @core_site_volkswagen %></td>
+            </tr>
+            <tr>
+                <th>Volvo:</th>
+                <td><%= @core_sfdc_volvo %></td>
+                <td><%= @core_site_volvo %></td>
+            </tr>
+            <tr>
+                <th>Vw:</th>
+                <td><%= @core_sfdc_vw %></td>
+                <td><%= @core_site_vw %></td>
+            </tr>
+        </table>
+    </div> <!-- col ends -->
+
+    <!-- Account Stage -->
+    <div class="col-md-5">
+        <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+            <tr>
+                <th colspan="3">General Auto Terms</th>
+            </tr>
+            <tr>
+                <th>Term</th>
+                <th>SFDC</th>
+                <th>Site</th>
+            </tr>
+            <tr>
+                <th>Auto:</th>
+                <td><%= @core_sfdc_auto %></td>
+                <td><%= @core_site_auto %></td>
+            </tr>
+            <tr>
+                <th>Autogroup:</th>
+                <td><%= @core_sfdc_autogroup %></td>
+                <td><%= @core_site_autogroup %></td>
+            </tr>
+            <tr>
+                <th>Automall:</th>
+                <td><%= @core_sfdc_automall %></td>
+                <td><%= @core_site_automall %></td>
+            </tr>
+            <tr>
+                <th>Automotive:</th>
+                <td><%= @core_sfdc_automotive %></td>
+                <td><%= @core_site_automotive %></td>
+            </tr>
+            <tr>
+                <th>Autoplex:</th>
+                <td><%= @core_sfdc_autoplex %></td>
+                <td><%= @core_site_autoplex %></td>
+            </tr>
+            <tr>
+                <th>Autos:</th>
+                <td><%= @core_sfdc_autos %></td>
+                <td><%= @core_site_autos %></td>
+            </tr>
+            <tr>
+                <th>Autosales:</th>
+                <td><%= @core_sfdc_autosales %></td>
+                <td><%= @core_site_autosales %></td>
+            </tr>
+            <tr>
+                <th>Cars:</th>
+                <td><%= @core_sfdc_cars %></td>
+                <td><%= @core_site_cars %></td>
+            </tr>
+            <tr>
+                <th>Dealer:</th>
+                <td><%= @core_sfdc_dealer %></td>
+                <td><%= @core_site_dealer %></td>
+            </tr>
+            <tr>
+                <th>Imports:</th>
+                <td><%= @core_sfdc_imports %></td>
+                <td><%= @core_site_imports %></td>
+            </tr>
+            <tr>
+                <th>Group:</th>
+                <td><%= @core_sfdc_group %></td>
+                <td><%= @core_site_group %></td>
+            </tr>
+            <tr>
+                <th>Highline:</th>
+                <td><%= @core_sfdc_highline %></td>
+                <td><%= @core_site_highline %></td>
+            </tr>
+            <tr>
+                <th>Motor:</th>
+                <td><%= @core_sfdc_motor %></td>
+                <td><%= @core_site_motor %></td>
+            </tr>
+            <tr>
+                <th>Motors:</th>
+                <td><%= @core_sfdc_motors %></td>
+                <td><%= @core_site_motors %></td>
+            </tr>
+            <tr>
+                <th>Superstore:</th>
+                <td><%= @core_sfdc_superstore %></td>
+                <td><%= @core_site_superstore %></td>
+            </tr>
+            <tr>
+                <th>Trucks:</th>
+                <td><%= @core_sfdc_trucks %></td>
+                <td><%= @core_site_trucks %></td>
+            </tr>
+            <tr>
+                <th>Usedcars:</th>
+                <td><%= @core_sfdc_usedcars %></td>
+                <td><%= @core_site_usedcars %></td>
+            </tr>
+        </table>
+    </div> <!-- col ends -->
+
+</div> <!-- Row ends -->
+</section>
+<br>
+
+
+
+<!-- Accounts Summary Section -->
+<section style="border: 1px solid gray; border-radius: 5px; box-shadow: 5px 5px 5px;">
+    <div class="row" style="width: 99%; margin: auto;">
         <h3 class="section-header">Accounts Summary</h3>
 
         <!-- Account Stage -->
@@ -594,3 +1045,5 @@
 <%#= percent_format(@solitary_all, @domainer_query_count) %>
 
 <!-- STATS FORMULAS FOR FUTURE USE -  Ends -->
+
+<%= link_to "Franchiser", franchiser_btn_path, class: 'btn btn-lg btn-warning' %>

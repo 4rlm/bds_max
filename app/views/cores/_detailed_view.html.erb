@@ -327,6 +327,9 @@
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Root</th>
 
+                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
+                    <th class="th-2">Franchise</th>
+
                     <th class="th-2">Template</th>
                     <th class="th-2">IP</th>
                     <th class="th-2">DNS-1</th>
@@ -352,8 +355,10 @@
                     <% else %>
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
                     <% end %>
-
                     <td><%= core.sfdc_root %></td>
+
+                    <td>ind</td>
+                    <td><%= core.sfdc_franchise %></td>
 
                     <td></td>
                 </tr>
@@ -377,6 +382,10 @@
                         <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
                     <% end %>
                     <td><%= core.matched_root %></td>
+
+
+                    <td>ind</td>
+                    <td><%= core.site_franchise %></td>
 
                     <td><%= core.template %></td>
                     <td></td>

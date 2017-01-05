@@ -19,7 +19,7 @@ class CoresController < ApplicationController
         # @cores_limited = @selected_data.limit(20)
 
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 30)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
 
 
         cores_csv = @selected_data.order(:sfdc_id)
@@ -130,6 +130,26 @@ class CoresController < ApplicationController
                 start_staffer(ids)
             end
         end
+    end
+
+    def franchiser_btn
+        Core.all.each {|core| core.update_attributes(sfdc_franchise: nil, site_franchise: nil)}
+
+        brands = InHostPo.all
+        brands.each do |brand|
+            sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+            sfdc_cores.each do |core|
+                prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
+                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.capitalize)
+            end
+
+            site_cores = Core.where("site_acct LIKE '%#{brand.term}%' OR site_acct LIKE '%#{brand.term.capitalize}%' OR matched_root LIKE '%#{brand.term}%' OR matched_root LIKE '%#{brand.term.capitalize}%'")
+            site_cores.each do |core|
+                prev_brand = core.site_franchise ? core.site_franchise + ";" : ""
+                core.update_attribute(:site_franchise, prev_brand + brand.term.capitalize)
+            end
+        end
+        redirect_to root_path
     end
 
     private

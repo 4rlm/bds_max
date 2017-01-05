@@ -16,7 +16,7 @@ def index
     # @paginate_staffers = @staffers.filter(filtering_params(params))
 
     #---------  Adam's Trial 1 w/ Filters- Starts
-    @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
+    @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
     #---------  Adam's Trial 1 - Ends -------
 
     batch_status

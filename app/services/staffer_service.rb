@@ -70,7 +70,7 @@ class StafferService
         end
 
         #== Throttle (if needed) =====================
-        throttle_delay_time = (3..5).to_a.sample
+        throttle_delay_time = (1..5).to_a.sample
         puts "Completed"
         puts "Please wait #{throttle_delay_time} seconds."
         puts "--------------------------------"

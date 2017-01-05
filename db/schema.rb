@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104160645) do
+ActiveRecord::Schema.define(version: 20170105175719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,6 +265,21 @@ ActiveRecord::Schema.define(version: 20170104160645) do
     t.integer  "sfdc_cont_active"
     t.string   "sfdc_tier"
     t.string   "domain"
+    t.string   "acct_name"
+    t.string   "group_name"
+    t.string   "ult_group_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "fname"
+    t.string   "lname"
+    t.string   "fullname"
+    t.string   "job"
+    t.string   "job_raw"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "influence"
   end
 
 end
