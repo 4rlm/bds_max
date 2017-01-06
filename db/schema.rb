@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170101150603) do
+ActiveRecord::Schema.define(version: 20170105224432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20170101150603) do
     t.integer  "sfdc_zip"
     t.string   "sfdc_ph"
     t.string   "sfdc_url"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.datetime "core_date"
     t.datetime "domainer_date"
     t.datetime "indexer_date"
@@ -54,8 +54,6 @@ ActiveRecord::Schema.define(version: 20170101150603) do
     t.string   "domain_status"
     t.string   "staffer_status"
     t.string   "acct_indicator"
-    t.string   "sfdc_group_indicator"
-    t.string   "sfdc_ult_grp_indicator"
     t.string   "template"
     t.string   "site_acct"
     t.string   "site_street"
@@ -68,14 +66,21 @@ ActiveRecord::Schema.define(version: 20170101150603) do
     t.string   "state_indicator"
     t.string   "zip_indicator"
     t.string   "ph_indicator"
-    t.string   "verified_ult_rt_indicator"
-    t.string   "verified_grp_rt_indicator"
     t.string   "grp_rt_indicator"
     t.string   "ult_grp_rt_indicator"
-    t.string   "sfdc_franch_indicator"
-    t.string   "site_franch_indicator"
     t.string   "franch_indicator"
-    t.string   "franchise"
+    t.string   "site_franchise"
+    t.string   "sfdc_franchise"
+    t.string   "site_ult_rt"
+    t.string   "site_grp_rt"
+    t.string   "grp_name_indicator"
+    t.string   "ult_grp_name_indicator"
+    t.string   "tier_indicator"
+    t.string   "site_tier"
+    t.string   "site_franch_cat"
+    t.string   "sfdc_franch_cat"
+    t.string   "site_ult_grp"
+    t.string   "site_group"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -227,39 +232,36 @@ ActiveRecord::Schema.define(version: 20170101150603) do
     t.string   "sfdc_id"
     t.string   "sfdc_sales_person"
     t.string   "sfdc_type"
-    t.string   "sfdc_acct"
-    t.string   "site_acct"
-    t.string   "sfdc_group"
-    t.string   "sfdc_ult_grp"
-    t.string   "site_street"
-    t.string   "site_city"
-    t.string   "site_state"
-    t.integer  "site_zip"
-    t.string   "site_ph"
-    t.string   "sfdc_cont_fname"
-    t.string   "sfdc_cont_lname"
-    t.string   "sfdc_cont_job"
-    t.string   "sfdc_cont_phone"
-    t.string   "sfdc_cont_email"
     t.string   "sfdc_cont_id"
-    t.string   "sfdc_cont_influence"
-    t.string   "site_cont_fname"
-    t.string   "site_cont_lname"
-    t.string   "site_cont_fullname"
-    t.string   "site_cont_job"
-    t.string   "site_cont_job_raw"
-    t.string   "site_cont_phone"
-    t.string   "site_cont_email"
-    t.string   "site_cont_influence"
     t.string   "template"
     t.datetime "staffer_date"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "staff_link"
     t.string   "staff_text"
     t.integer  "sfdc_cont_active"
     t.string   "sfdc_tier"
     t.string   "domain"
+    t.string   "acct_name"
+    t.string   "group_name"
+    t.string   "ult_group_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "fname"
+    t.string   "lname"
+    t.string   "fullname"
+    t.string   "job"
+    t.string   "job_raw"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "influence"
+    t.string   "cell_phone"
+    t.datetime "last_activity_date"
+    t.datetime "created_date"
+    t.datetime "updated_date"
+    t.string   "franchise"
   end
 
 end

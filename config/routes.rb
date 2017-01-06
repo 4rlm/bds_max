@@ -92,6 +92,7 @@ Rails.application.routes.draw do
     get 'auto_match_btn' => 'gcses#auto_match_btn'
     # get 'solitary_cleaner_btn' => 'solitaries#solitary_cleaner_btn'
     # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
+    get 'franchiser_btn' => 'cores#franchiser_btn'
 
     # Quick Search Button
     get 'quick_dom_dom_res_2' => 'gcses#quick_dom_dom_res_2'

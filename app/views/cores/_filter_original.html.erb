@@ -132,8 +132,8 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Indicator</th>
-                    <td class="yellow"><%= select_tag :url_comparison, options_for_select(url_comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td class="yellow"><%= select_tag :root_comparison, options_for_select(root_comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="yellow"><%= select_tag :url_comparison, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="yellow"><%= select_tag :root_comparison, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
                     <td class="yellow">n/a</td>
@@ -169,7 +169,9 @@
 
                     <td></td>
 
-                    <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <!-- <td><%#= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
+
+                    <td><%= render partial: 'layouts/select_tag', locals: { col: :staffer_status } %></td>
 
                     <td>n/a</td>
                 </tr>

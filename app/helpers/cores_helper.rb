@@ -15,12 +15,16 @@ module CoresHelper
         ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
     end
 
-    def url_comparison_list
-        ["Different", "Same"]
-    end
+    # def url_comparison_list
+    #     ["Different", "Same"]
+    # end
+    #
+    # def root_comparison_list
+    #     ["Different", "Same"]
+    # end
 
-    def root_comparison_list
-        ["Different", "Same"]
+    def comparison_list
+        [["Different", "different"], ["Same", "same"]]
     end
 
     def staffer_status_list

@@ -16,7 +16,7 @@ def index
     # @paginate_staffers = @staffers.filter(filtering_params(params))
 
     #---------  Adam's Trial 1 w/ Filters- Starts
-    @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
+    @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
     #---------  Adam's Trial 1 - Ends -------
 
     batch_status
@@ -97,12 +97,13 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def staffer_params
-      params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_active, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date, :staff_link, :staff_text, :sfdc_tier, :domain)
+      params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :template, :staffer_date, :created_at, :updated_at, :staff_link, :staff_text, :sfdc_cont_active, :sfdc_tier, :domain, :acct_name, :group_name, :ult_group_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :influence, :cell_phone, :last_activity_date, :created_date, :updated_date, :franchise)
     end
 
       def filtering_params(params)
-          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_acct, :site_acct, :sfdc_group, :sfdc_ult_grp, :site_street, :site_city, :site_state, :site_zip, :site_ph, :sfdc_cont_fname, :sfdc_cont_lname, :sfdc_cont_job, :sfdc_cont_phone, :sfdc_cont_email, :sfdc_cont_active, :sfdc_cont_id, :sfdc_cont_influence, :site_cont_fname, :site_cont_lname, :site_cont_fullname, :site_cont_job, :site_cont_job_raw, :site_cont_phone, :site_cont_email, :site_cont_influence, :template, :staffer_date, :staff_link, :staff_text, :sfdc_tier, :domain)
+          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :template, :staffer_date, :created_at, :updated_at, :staff_link, :staff_text, :sfdc_cont_active, :sfdc_tier, :domain, :acct_name, :group_name, :ult_group_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :influence, :cell_phone, :last_activity_date, :created_date, :updated_date, :franchise)
         end
+
 
 
     def batch_status

@@ -67,128 +67,45 @@
                     <th class="th-2 w-md">Sales Tier</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xsm">Group RT</th>
+                    <th class="th-2 w-xsm">GRT</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xsm">Ult RT</th>
+                    <th class="th-2 w-xsm">URT</th>
 
                 </tr>
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
-
-                    <% if core.acct_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% elsif core.acct_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% end %>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.acct_indicator } %>
                     <td><%= core.sfdc_acct %></td>
-
-                    <% if core.sfdc_group_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% elsif core.sfdc_group_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% end %>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.grp_name_indicator } %>
                     <td><%= core.sfdc_group %></td>
-
-                    <% if core.sfdc_ult_grp_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% elsif core.sfdc_ult_grp_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% end %>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.ult_grp_name_indicator } %>
                     <td><%= core.sfdc_ult_grp %></td>
-
-                    <!-- sales_tier_indicator -->
-                    <td></td>
-                    <!-- sales_tier indicator will go here. -->
-                    <td><%= core.sfdc_tier %></td>
-
-                    <% if core.grp_rt_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% elsif core.grp_rt_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% end %>
+                    <td></td> <!-- sales_tier_indicator -->
+                    <td><%= core.sfdc_tier %></td> <!-- sales_tier indicator will go here. -->
+                    <%= render partial: 'layouts/indicator', locals: { col: core.grp_rt_indicator } %>
                     <td><%= core.sfdc_grp_rt %></td>
-
-                    <% if core.ult_grp_rt_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% elsif core.ult_grp_rt_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% end %>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.ult_grp_rt_indicator } %>
                     <td><%= core.sfdc_ult_rt %></td>
-
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
-
-                    <% if core.acct_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% elsif core.acct_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.acct_indicator %></span></td>
-                    <% end %>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.acct_indicator } %>
                     <td><%= core.site_acct %></td>
-
-                    <% if core.sfdc_group_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% elsif core.sfdc_group_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_group_indicator %></span></td>
-                    <% end %>
-
-                    <td></td>
-
-                    <% if core.sfdc_ult_grp_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% elsif core.sfdc_ult_grp_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.sfdc_ult_grp_indicator %></span></td>
-                    <% end %>
-
-                    <td></td>
-
-                    <!-- sales_tier_indicator -->
-                    <td></td>
-                    <!-- sales_tier -->
-                    <td></td>
-
-                    <% if core.grp_rt_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% elsif core.grp_rt_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.grp_rt_indicator %></span></td>
-                    <% end %>
-
-                    <td></td>
-
-                    <% if core.ult_grp_rt_indicator == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% elsif core.ult_grp_rt_indicator == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.ult_grp_rt_indicator %></span></td>
-                    <% end %>
-
-                    <td></td>
-
+                    <%= render partial: 'layouts/indicator', locals: { col: core.grp_name_indicator } %>
+                    <td><%= core.site_group%></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.ult_grp_name_indicator } %>
+                    <td><%= core.site_ult_grp%></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.tier_indicator } %>
+                    <td><%= core.site_tier%></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.grp_rt_indicator } %>
+                    <td><%= core.site_grp_rt%></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.ult_grp_rt_indicator } %>
+                    <td><%= core.site_ult_rt%></td>
                 </tr>
             </table>
         </div>
     </div>
-
 
     <div class="row">
         <div class="col-md-12">
@@ -214,41 +131,29 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
-
-                    <td class="yellow"><%= core.street_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.street_indicator } %>
                     <td><%= core.sfdc_street %></td>
-
-                    <td class="yellow"><%= core.city_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.city_indicator } %>
                     <td><%= core.sfdc_city %></td>
-
-                    <td class="yellow"><%= core.state_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.state_indicator } %>
                     <td><%= core.sfdc_state %></td>
-
-                    <td class="yellow"><%= core.zip_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.zip_indicator } %>
                     <td><%= core.sfdc_zip %></td>
-
-                    <td class="yellow"><%= core.ph_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.ph_indicator } %>
                     <td><%= core.sfdc_ph %></td>
-
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
-
-                    <td class="yellow"><%= core.street_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.street_indicator } %>
                     <td><%= core.site_street %></td>
-
-                    <td class="yellow"><%= core.city_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.city_indicator } %>
                     <td><%= core.site_city %></td>
-
-                    <td class="yellow"><%= core.state_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.state_indicator } %>
                     <td><%= core.site_state %></td>
-
-                    <td class="yellow"><%= core.zip_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.zip_indicator } %>
                     <td><%= core.site_zip %></td>
-
-                    <td class="yellow"><%= core.ph_indicator %></td>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.ph_indicator } %>
                     <td><%= core.site_ph %></td>
-
                 </tr>
             </table>
         </div>
@@ -266,6 +171,9 @@
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Root</th>
 
+                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
+                    <th class="th-2">Franchise</th>
+
                     <th class="th-2">Template</th>
                     <th class="th-2">IP</th>
                     <th class="th-2">DNS-1</th>
@@ -273,60 +181,30 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
-
-                    <% if core.url_comparison == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% elsif core.url_comparison == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% end %>
-
+                    <%= render partial: 'layouts/indicator', locals: { col: core.url_comparison } %>
                     <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
-
-                    <% if core.root_comparison == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% elsif core.root_comparison == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% end %>
-
+                    <%= render partial: 'layouts/indicator', locals: { col: core.root_comparison } %>
                     <td><%= core.sfdc_root %></td>
-
+                    <td>ind</td>
+                    <td><%= core.sfdc_franchise %></td>
                     <td></td>
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Matched</th>
-
-                    <% if core.url_comparison == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% elsif core.url_comparison == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.url_comparison %></span></td>
-                    <% end %>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.url_comparison } %>
                     <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
-
-                    <% if core.root_comparison == "Same" %>
-                        <td class="indicator"><i class="fa fa-check-square indicator-same" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% elsif core.root_comparison == "Different" %>
-                        <td class="indicator"><i class="fa fa-bell indicator-different" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% else %>
-                        <td class="indicator"><i class="fa fa-bell indicator-neutral" aria-hidden="true"></i><span class="hidden"><%= core.root_comparison %></span></td>
-                    <% end %>
+                    <%= render partial: 'layouts/indicator', locals: { col: core.root_comparison } %>
                     <td><%= core.matched_root %></td>
-
+                    <td>ind</td>
+                    <td><%= core.site_franchise %></td>
                     <td><%= core.template %></td>
                     <td></td>
                     <td></td>
                     <td></td>
-
                 </tr>
             </table>
         </div>
     </div>  <!-- row ends -->
-
 
     <div class="row">
         <div class="col-md-12">
@@ -353,62 +231,20 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Date</th>
-
-                    <% if core.core_date %>
-                        <td><%= core.core_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.core_date %></td>
-                    <% end %>
-
-                    <% if core.domainer_date %>
-                        <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.domainer_date %></td>
-                    <% end %>
-
-                    <% if core.indexer_date %>
-                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.indexer_date %></td>
-                    <% end %>
-
-                    <% if core.indexer_date %>
-                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.indexer_date %></td>
-                    <% end %>
-
-                    <% if core.indexer_date %>
-                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.indexer_date %></td>
-                    <% end %>
-
-                    <% if core.staffer_date %>
-                        <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.staffer_date %></td>
-                    <% end %>
-
-                        <td></td>
+                    <%= render partial: 'layouts/date_format', locals: { col: core.core_date } %>
+                    <%= render partial: 'layouts/date_format', locals: { col: core.domainer_date } %>
+                    <%= render partial: 'layouts/date_format', locals: { col: core.indexer_date } %>
+                    <%= render partial: 'layouts/date_format', locals: { col: core.indexer_date } %>
+                    <%= render partial: 'layouts/date_format', locals: { col: core.indexer_date } %>
+                    <%= render partial: 'layouts/date_format', locals: { col: core.staffer_date } %>
+                    <td></td>
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Link</th>
                     <td></td>
                     <td></td>
-
-                    <% if core.staff_text && core.staff_text != "(none)"%>
-                        <td class="yes"><%= link_to core.staff_text, core.staff_link, :target => "_blank" %></td>
-                    <% else %>
-                        <td><%= core.staff_text %></td>
-                    <% end %>
-
-                    <% if core.location_text && core.location_text != "(none)"%>
-                        <td class="yes"><%= link_to core.location_text, core.location_link, :target => "_blank" %></td>
-                    <% else %>
-                        <td><%= core.location_text %></td>
-                    <% end %>
-
+                    <%= render partial: 'layouts/link', locals: { text: core.staff_text, link: core.staff_link } %>
+                    <%= render partial: 'layouts/link', locals: { text: core.location_text, link: core.location_link } %>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -419,7 +255,6 @@
 </div> <!-- Account Profile Ends -->
 
 <% end %>
-
 <br>
 
 <%= render partial: 'buttons' %>

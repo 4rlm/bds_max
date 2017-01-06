@@ -19,7 +19,7 @@ class CoresController < ApplicationController
         # @cores_limited = @selected_data.limit(20)
 
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 30)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
 
 
         cores_csv = @selected_data.order(:sfdc_id)
@@ -132,6 +132,26 @@ class CoresController < ApplicationController
         end
     end
 
+    def franchiser_btn
+        Core.all.each {|core| core.update_attributes(sfdc_franchise: nil, site_franchise: nil)}
+
+        brands = InHostPo.all
+        brands.each do |brand|
+            sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+            sfdc_cores.each do |core|
+                prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
+                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.capitalize)
+            end
+
+            site_cores = Core.where("site_acct LIKE '%#{brand.term}%' OR site_acct LIKE '%#{brand.term.capitalize}%' OR matched_root LIKE '%#{brand.term}%' OR matched_root LIKE '%#{brand.term.capitalize}%'")
+            site_cores.each do |core|
+                prev_brand = core.site_franchise ? core.site_franchise + ";" : ""
+                core.update_attribute(:site_franchise, prev_brand + brand.term.capitalize)
+            end
+        end
+        redirect_to root_path
+    end
+
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_core
@@ -140,12 +160,13 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
+        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root)
+        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator)
     end
+
 
     def start_domainer(ids)
         CoreService.new.delay.scrape_listing(ids)
