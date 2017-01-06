@@ -10,9 +10,9 @@ class StafferService
 
             @cols_hash = {
                 sfdc_id: el[:sfdc_id],
-                sfdc_acct: el[:sfdc_acct],
-                sfdc_group: el[:sfdc_group],
-                sfdc_ult_grp: el[:sfdc_ult_grp],
+                acct_name: el[:sfdc_acct],
+                group_name: el[:sfdc_group],
+                ult_group_name: el[:sfdc_ult_grp],
                 sfdc_sales_person: el[:sfdc_sales_person],
                 sfdc_type: el[:sfdc_type],
                 sfdc_tier: el[:sfdc_tier],
@@ -22,20 +22,20 @@ class StafferService
                 staffer_date: current_time,
                 staffer_status: nil,
                 template: nil,
-                site_acct: nil,
-                site_street: nil,
-                site_city: nil,
-                site_state: nil,
-                site_zip: nil,
-                site_ph: nil,
-                site_cont_job_raw: nil,
-                site_cont_fname: nil,
-                site_cont_lname: nil,
-                site_cont_fullname: nil,
-                site_cont_email: nil,
+                acct_name: nil,
+                street: nil,
+                city: nil,
+                state: nil,
+                zip: nil,
+                phone: nil,
+                job_raw: nil,
+                fname: nil,
+                lname: nil,
+                fullname: nil,
+                email: nil,
                 cont_status: nil,
                 cont_source: nil,
-                site_cont_influence: nil
+                influence: nil
             }
 
             search(el, @cols_hash[:staff_link])
@@ -70,7 +70,7 @@ class StafferService
         end
 
         #== Throttle (if needed) =====================
-        throttle_delay_time = (1..5).to_a.sample
+        throttle_delay_time = (1..2).to_a.sample
         puts "Completed"
         puts "Please wait #{throttle_delay_time} seconds."
         puts "--------------------------------"

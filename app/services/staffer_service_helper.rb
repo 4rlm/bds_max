@@ -39,7 +39,7 @@ class Scrapers
             end
 
             for i in 0...size
-                add_indexer_row_with("Scraped", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex")
+                add_indexer_row_with("Scraped", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "")
             end
         rescue
             error_indicator(url, "Dearler.com")
@@ -59,23 +59,23 @@ class Scrapers
         arr.empty? ? ["N/A"] : arr.map {|el| el.text.strip}
     end
 
-    def add_indexer_row_with(staffer_status, temp, org, street, city, state, zip, acc_phone, jobs, fnames, lnames, full_names, emails, cont_status, cont_source, site_cont_influence)
+    def add_indexer_row_with(staffer_status, temp, org, street, city, state, zip, acc_phone, jobs, fnames, lnames, full_names, emails, cont_status, cont_source, influence)
         @cols_hash[:staffer_status] = staffer_status
         @cols_hash[:template] = temp
-        @cols_hash[:site_acct] = org
-        @cols_hash[:site_street] = street
-        @cols_hash[:site_city] = city
-        @cols_hash[:site_state] = state
-        @cols_hash[:site_zip] = zip
-        @cols_hash[:site_ph] = acc_phone
-        @cols_hash[:site_cont_job_raw] = jobs
-        @cols_hash[:site_cont_fname] = fnames
-        @cols_hash[:site_cont_lname] = lnames
-        @cols_hash[:site_cont_fullname] = full_names
-        @cols_hash[:site_cont_email] = emails
+        @cols_hash[:acct_name] = org
+        @cols_hash[:street] = street
+        @cols_hash[:city] = city
+        @cols_hash[:state] = state
+        @cols_hash[:zip] = zip
+        @cols_hash[:phone] = acc_phone
+        @cols_hash[:job_raw] = jobs
+        @cols_hash[:fname] = fnames
+        @cols_hash[:lname] = lnames
+        @cols_hash[:fullname] = full_names
+        @cols_hash[:email] = emails
         @cols_hash[:cont_status] = cont_status
         @cols_hash[:cont_source] = cont_source
-        @cols_hash[:site_cont_influence] = site_cont_influence
+        @cols_hash[:influence] = influence
 
         core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
         indicator_gauge
@@ -88,12 +88,12 @@ class Scrapers
         core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
 
         core.update_attributes(
-            acct_indicator: comparer(core.sfdc_acct, @cols_hash[:site_acct]),
-            street_indicator: comparer(core.sfdc_street, @cols_hash[:site_street]),
-            city_indicator: comparer(core.sfdc_city, @cols_hash[:site_city]),
-            state_indicator: comparer(core.sfdc_state, @cols_hash[:site_state]),
-            zip_indicator: comparer(core.sfdc_zip, @cols_hash[:site_zip]),
-            ph_indicator: comparer(core.sfdc_ph, @cols_hash[:site_ph])
+            acct_indicator: comparer(core.sfdc_acct, @cols_hash[:acct_name]),
+            street_indicator: comparer(core.sfdc_street, @cols_hash[:street]),
+            city_indicator: comparer(core.sfdc_city, @cols_hash[:city]),
+            state_indicator: comparer(core.sfdc_state, @cols_hash[:state]),
+            zip_indicator: comparer(core.sfdc_zip, @cols_hash[:zip]),
+            ph_indicator: comparer(core.sfdc_ph, @cols_hash[:phone])
         )
     end
 
@@ -128,7 +128,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "DealerOn", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "DealerOn", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
                 end
             else
                 error_indicator(url, "DealerOn Length")
@@ -173,7 +173,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "Cobalt", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "Cobalt", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
                 end
 
             else
@@ -238,7 +238,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "DealerFire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "DealerFire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
                 end
             else
                 error_indicator(url, "DealerFire Length")
@@ -297,7 +297,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "DealerInspire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "site_cont_influence_ex"])
+                    add_indexer_row_with(["Scraped", "DealerInspire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
                 end
             else
                 error_indicator(url, "DealerInspire Length")
