@@ -24,7 +24,7 @@ module CoresHelper
     # end
 
     def comparison_list
-        ["Different", "Same"]
+        [["Different", "different"], ["Same", "same"]]
     end
 
     def staffer_status_list
