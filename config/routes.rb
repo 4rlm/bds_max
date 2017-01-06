@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :dashboards
+
   resources :staffers do
       collection { post :import_csv_data }
   end
@@ -109,4 +111,5 @@ Rails.application.routes.draw do
 
     # === Google API Route ===
     get '/search' => 'search#index'
+
 end
