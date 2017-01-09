@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       collection { post :import_csv_data }
   end
   get 'staffer/import_page' => 'staffers#import_page'
+  get 'staffer/search' => 'staffers#search'
 
     resources :cores do
         collection { post :import_core_data }
@@ -102,7 +103,7 @@ Rails.application.routes.draw do
 
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
 
-
+    get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'

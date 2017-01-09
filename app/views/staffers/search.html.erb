@@ -1,0 +1,297 @@
+<p id="notice"><%= notice %></p>
+
+<h3 class="section-header">Search Contacts</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4 class="section-header">Copied from: Core Advanced Search</h4>
+
+
+<h5>Original Layout Below</h5>
+
+<%= form_tag "/search_result_page_core", method: :post  do %>
+
+
+<table>
+    <tr>
+      <th>Staffer Status<br><%= render partial: 'layouts/select_tag', locals: { col: :staffer_status } %></th>
+
+      <th>Contact Status<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :cont_status } %></th>
+
+      <th>Contact Source<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :cont_source } %></th>
+
+      <th>SFDC Account ID<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></th>
+
+      <th>Sales Person<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_sales_person } %></th>
+
+      <th>Type<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_type } %></th>
+
+      <th>Account Name<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></th>
+
+      <th>Franchise<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :franchise } %></th>
+
+      <th>Group Name<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></th>
+
+      <th>Ultimate Group<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :ult_group_name } %></th>
+
+      <th>Street<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :street } %></th>
+
+      <th>City<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :city } %></th>
+
+      <th>State<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :state } %></th>
+
+      <th>Zip<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :zip } %></th>
+
+      <th>Inactive<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_active } %></th>
+
+      <th>SFDC Contact ID<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_id } %></th>
+
+      <th>First Name<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :fname } %></th>
+
+      <th>Last Name<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :lname } %></th>
+
+      <th>Full Name<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :fullname } %></th>
+      <th>Job Title<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :job } %></th>
+      <th>Job Description<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :job_raw } %></th>
+      <th>Phone<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :phone } %></th>
+
+      <th>Cell Phone<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :cell_phone } %></th>
+
+      <th>Email<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :email } %></th>
+      <th>Influence<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :influence } %></th>
+      <th>Template<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :template } %></th>
+
+      <th>Staff Link<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :staff_link } %></th>
+      <th>Staff Text<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :staff_text } %></th>
+      <th>Tier<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_tier } %></th>
+      <th>Domain<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></th>
+
+      <th>Staffer Date<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></th>
+
+      <th>Last Activity<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :last_activity_date } %></th>
+      <th>Created<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :created_date } %></th>
+      <th>Updated<br><%#= render partial: 'layouts/text_field_tag', locals: { col: :updated_date } %></th>
+
+      <th colspan="3"></th>
+    </tr>
+
+ </table>
+
+
+<h5>New Layout Below</h5>
+
+
+<%#= form_tag "/search_result_page_staffer", method: :post  do %>
+
+<div class="text-nowrap cores-layout core-search-container">
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+
+                <tr>
+                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Search</th>
+                    <th class="th-2 w-sm">Sales Person:</th>
+                    <td><%#= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <th class="th-2 w-xsm">Type:</th>
+                    <td><%#= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <th class="th-2 w-xsm">SFDC ID:</th>
+                    <td class="w-md"><%#= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Account</th>
+                    <th class="th-2">Account Name</th>
+                    <th class="th-2">Group Name</th>
+                    <th class="th-2">Ultimate Group Name</th>
+                    <th class="th-2 w-md">Sales Tier</th>
+                    <th class="th-2 w-xsm">Group RT</th>
+                    <th class="th-2 w-xsm">Ult RT</th>
+                </tr>
+                <tr>
+                    <th class="th-2 th-2a">SFDC</th>
+                    <td><%#= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :sfdc_ult_grp, params[:sfdc_ult_grp], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= text_field_tag :sfdc_grp_rt, params[:sfdc_grp_rt], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :sfdc_ult_rt, params[:sfdc_ult_rt], placeholder: "----", class: 'form-control' %></td>
+
+                </tr>
+                <tr>
+                    <th class="th-2 th-2b">Matched</th>
+                    <td><%#= text_field_tag :site_acct, params[:site_acct], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :site_group, params[:site_group], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :site_ult_grp, params[:site_ult_grp], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= select_tag :site_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= text_field_tag :site_grp_rt, params[:site_grp_rt], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :site_ult_rt, params[:site_ult_rt], placeholder: "----", class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <th class="th-2 th-2c">Indicator</th>
+                    <td><%#= select_tag :acct_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :grp_name_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :ult_grp_name_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :tier_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :grp_rt_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :ult_grp_rt_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Address</th>
+                    <th class="th-2">Street</th>
+                    <th class="th-2 w-lg">City</th>
+                    <th class="th-2 w-xxsm">State</th>
+                    <th class="th-2 w-xsm">Zip</th>
+                    <th class="th-2 w-md">Phone</th>
+                </tr>
+                <tr>
+                    <th class="th-2">SFDC</th>
+
+                    <td><%#= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "----", class: 'form-control' %></td>
+
+                    <td><%#= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :sfdc_ph, params[:sfdc_ph], placeholder: "----", class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Matched</th>
+                    <td><%#= text_field_tag :site_street, params[:site_street], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :site_city, params[:site_city], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :site_state, params[:site_state], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :site_zip, params[:site_zip], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :site_ph, params[:site_ph], placeholder: "----", class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Indicator</th>
+                    <td><%#= select_tag :street_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :city_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :state_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :zip_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :ph_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Digital</th>
+                    <th class="th-2">Website</th>
+                    <th class="th-2">Root</th>
+                    <th class="th-2">Template</th>
+                    <th class="th-2">IP</th>
+                    <th class="th-2">DNS-1</th>
+                    <th class="th-2">DNS-2</th>
+                </tr>
+                <tr>
+                    <th class="th-2">SFDC</th>
+                    <td><%#= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "----", class: 'form-control' %></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Matched</th>
+                    <td><%#= text_field_tag :matched_url, params[:matched_url], placeholder: "----", class: 'form-control' %></td>
+                    <td><%#= text_field_tag :matched_root, params[:matched_root], placeholder: "----", class: 'form-control' %></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Indicator</th>
+                    <td><%#= select_tag :url_comparison, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :root_comparison, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="cores-layout-table core-search-table table table-bordered table-hover">
+                <tr>
+                    <th class="th-1 t3">Modules</th>
+                    <th class="th-2">Accounts</th>
+                    <th class="th-2">Domainer</th>
+                    <th class="th-2">Staff Index</th>
+                    <th class="th-2">Location Index</th>
+                    <th class="th-2">Inventory Index</th>
+                    <th class="th-2">Contacts</th>
+                    <th class="th-2">WhoIs</th>
+                </tr>
+                <tr>
+                    <th class="th-2">Status</th>
+                    <td><%#= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td></td>
+                    <td><%#= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%#= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td></td>
+
+                    <td><%#= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Date</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="th-2">Link</th>
+                    <td></td>
+                    <td></td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td>link</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+</div> <!-- core-search-container Ends -->
+
+<%= submit_tag "Search", class: 'wide-button blue-button' %>
+<% end %>

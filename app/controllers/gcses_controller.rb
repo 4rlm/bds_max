@@ -121,6 +121,19 @@ class GcsesController < ApplicationController
         redirect_to gcses_path
     end
 
+    def gcse_unique_rooter
+        gcses = Gcse.all
+        uniq_roots = []
+        gcses.each do |gcse|
+            if uniq_roots.include?(gcse.root)
+                gcse.destroy
+            else
+                uniq_roots << gcse.root
+            end
+        end
+        redirect_to gcses_path
+    end
+
     def batch_status
         ids = params[:status_checks]
         status = params[:selected_status]

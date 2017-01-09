@@ -10,12 +10,16 @@
             <table class="cores-layout-table core-search-table table table-bordered table-hover">
                 <tr>
                     <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Search</th>
+
                     <th class="th-2 w-sm">Sales Person:</th>
                     <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <th class="th-2 w-xsm">Type:</th>
                     <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <th class="th-2 w-xsm">SFDC ID:</th>
                     <td class="w-md"><%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
+
                 </tr>
             </table>
         </div>
