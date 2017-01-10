@@ -1,15 +1,17 @@
 <h3 class="section-header">Staffers Filter</h3>
-<div class="text-nowrap cores-layout core-search-container">
+<div class="theme-layout filter-container">
 
     <div class="row filter-row">
         <div class="filter-col col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
                     <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Contacts Filter</th>
                     <th class="th-2 w-sm">Sales Person:</th>
                     <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <th class="th-2 w-xsm">Type:</th>
                     <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <th class="th-2 w-xsm">SFDC ID:</th>
                     <td class="w-md"><%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
                 </tr>
@@ -19,7 +21,7 @@
 
     <div class="row filter-row">
         <div class="filter-col col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
                     <th class="th-1 t3">Account</th>
                     <th class="th-2">Account Name</th>
@@ -40,7 +42,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
                     <th class="th-1 t3">Address</th>
                     <th class="th-2">Street</th>
@@ -63,7 +65,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
                     <th class="th-1 t3">Digital</th>
                     <th class="th-2">Franchise</th>
@@ -74,8 +76,11 @@
                 </tr>
                 <tr>
                     <th class="th-2"></th>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :franchise } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :template } %></td>
+
+                    <td><%= select_tag :franchise, options_for_select(franchise_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_text } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_link } %></td>
@@ -86,7 +91,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
                     <th class="th-1 t3">Contact</th>
                     <th class="th-2">Job Title</th>
@@ -101,10 +106,15 @@
                 </tr>
                 <tr>
                     <th class="th-2"></th>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :job } %></td>
+
+                    <td><%= select_tag :job, options_for_select(job_title_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :job_raw } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :influence } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_active } %></td>
+
+                    <td><%= select_tag :influence, options_for_select(influence_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :sfdc_cont_active, options_for_select(inactive_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :fname } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :lname } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :cell_phone } %></td>
@@ -117,7 +127,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-filter-table table table-bordered table-hover">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
                     <th class="th-1 t3">Status</th>
                     <th class="th-2">Staffer Status</th>
@@ -131,8 +141,11 @@
                 <tr>
                     <th class="th-2"></th>
                     <td><%= render partial: 'layouts/select_tag', locals: { col: :staffer_status } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :cont_status } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :cont_source } %></td>
+
+                    <td><%= select_tag :cont_status, options_for_select(contact_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :cont_source, options_for_select(contact_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :last_activity_date } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :created_date } %></td>
@@ -141,6 +154,6 @@
             </table>
         </div>
     </div>  <!-- row ends -->
-</div> <!-- core-search-container Ends -->
+</div> <!-- staffer-filter-container Ends -->
 
 <%= submit_tag "Search", class: 'wide-button green-button' %>

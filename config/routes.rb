@@ -108,6 +108,7 @@ Rails.application.routes.draw do
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
     post 'search_result_page_gcse' => 'search#search_result_gcse'
+    post 'search_result_page_staffer' => 'search#search_result_staffer'
     root 'search#index'
 
     # === Google API Route ===

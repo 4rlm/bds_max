@@ -49,6 +49,10 @@ end
   def edit
   end
 
+  def search
+  end
+
+
   # POST /staffers
   # POST /staffers.json
   def create

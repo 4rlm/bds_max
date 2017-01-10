@@ -7,11 +7,13 @@
 <% @cores.each do |core| %>
     <% num +=1 %>
 
-<div class="text-nowrap cores-layout account-profile-container">
+
+<div class="text-nowrap theme-layout profile-container">
+
     <div class="row profile-row">
 
         <div class="profile-col col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="theme-layout-table  table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t5"><%= check_box_tag "status_checks[]",  core.id %></th>
                     <th class="th-1 t4"><%= num %></th>
@@ -50,7 +52,7 @@
 
     <div class="row profile-row">
         <div class="profile-col col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="theme-layout-table  table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Account</th>
 
@@ -109,7 +111,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="theme-layout-table  table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Address</th>
 
@@ -161,7 +163,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="theme-layout-table  table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Digital</th>
 
@@ -208,7 +210,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="cores-layout-table account-profile-table table table-bordered table-hover">
+            <table class="theme-layout-table  table table-bordered table-hover">
                 <tr>
                     <th class="th-1 t3">Modules</th>
                     <th class="th-2">Core</th>
@@ -255,7 +257,6 @@
 </div> <!-- Account Profile Ends -->
 
 <% end %>
-<br>
 
 <%= render partial: 'buttons' %>
 
