@@ -18,4 +18,13 @@ class ApplicationController < ActionController::Base
   def get_selected_status_gcse
     $gcse_choice_hash
   end
+
+  def set_selected_status_staffer(choice_hash)
+    $staffer_choice_hash = choice_hash
+  end
+
+  def get_selected_status_staffer
+    $staffer_choice_hash
+  end
+
 end

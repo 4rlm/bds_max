@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h3 class="section-header">Search Contacts</h3>
 
 <%= form_tag "/search_result_page_staffer", method: :post  do %>
@@ -144,12 +142,9 @@
                 </tr>
                 <tr>
                     <th class="th-2"></th>
-                    <td><%= render partial: 'layouts/select_tag', locals: { col: :staffer_status } %></td>
-
+                    <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :cont_status, options_for_select(contact_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
                     <td><%= select_tag :cont_source, options_for_select(contact_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :last_activity_date } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :created_date } %></td>

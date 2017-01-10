@@ -5,7 +5,17 @@ class StaffersController < ApplicationController
   # GET /staffers.json
 
 def index
-    @selected_data = Staffer.order(sfdc_id: :desc)
+    if choice_hash = get_selected_status_staffer
+        clean_choice_hash = {}
+        choice_hash.each do |key, value|
+            clean_choice_hash[key] = value if !value.nil? && value != ""
+        end
+        @selected_data = Staffer.where(clean_choice_hash)
+    else # choice_hash is nil
+        @selected_data = Staffer.all
+    end
+
+    @selected_data = @selected_data.order(sfdc_id: :desc)
 
     respond_to do |format|
         format.html
