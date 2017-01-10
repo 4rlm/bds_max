@@ -26,6 +26,232 @@
     width: 95%;
 }
 
+.theme-layout {
+    box-shadow: 5px 5px 5px gray;
+    margin-top: 30px;
+    font-size: 12px;
+    // color: #8c8c8c;
+    color: #333333;
+}
+
+
+.theme-layout-table td, .theme-layout-table th {
+    padding: 0;
+    line-height: normal;
+}
+
+table.theme-layout-table {
+    padding: 0;
+    margin: 0;
+    line-height: normal;
+}
+
+.theme-layout .theme-layout-table tbody tr th, .theme-layout .theme-layout-table tbody tr td {
+    padding: 5px;
+}
+
+.theme-layout-table .th-1, .theme-layout-table .th-2 {
+    text-align: center;
+}
+
+.theme-layout-table .th-1 {
+    font-size: 140%;
+    font-weight: bold;
+}
+
+.theme-layout-table .th-2 {
+    font-size: 120%;
+    font-weight: normal;
+}
+
+.theme-layout-table .t3 {
+    width: 90px;
+}
+
+.theme-layout-table .t4 {
+    width: 55px;
+    font-weight: normal;
+}
+
+.theme-layout-table .t5 {
+    width: 35px;
+}
+
+// column width classes -------
+.theme-layout-table .w-lg {
+    // min-width: 30px;
+    width: 350px;
+}
+
+.theme-layout-table .w-md {
+    // min-width: 30px;
+    width: 160px;
+}
+
+.theme-layout-table .w-sm {
+    // min-width: 30px;
+    width: 115px;
+}
+
+.theme-layout-table .w-xsm {
+    // min-width: 30px;
+    width: 75px;
+}
+
+.theme-layout-table .w-xxsm {
+    // min-width: 30px;
+    width: 30px;
+}
+
+
+
+
+
+
+
+
+
+// PROFILE STARTS
+.profile-container {
+    // border: solid 1px #18a3cd;
+    border: solid 3px #87dedd;
+    border-radius: 6px;
+}
+
+.profile-container .th-1, .profile-container .th-2 {
+    border: solid 1px #137fa0;
+    color: white;
+}
+
+// .th-1 [darker shades]  -------
+.profile-container .th-1 {
+    background-image:linear-gradient(#1798c1, #137fa0);
+}
+
+// .th-2 [lighter shades]  -------
+.profile-container .th-2 {
+    background-image:linear-gradient(#32bde7, #1bb5e4);
+}
+
+// .th-2 gradients from a-c  -------
+.profile-container .th-2a {
+    background-image:linear-gradient(#48c4ea, #32bde7);
+}
+
+.profile-container .th-2b {
+    background-image:linear-gradient(#32bde7, #1bb5e4);
+}
+
+.profile-container .th-2c {
+    background-image:linear-gradient(#1bb5e4, #18a3cd);
+}
+// PROFILE ENDS
+
+
+// SEARCH STARTS
+.search-container {
+    border: solid 3px #87dedd;
+    border-radius: 6px;
+}
+
+.search-container .th-1, .search-container .th-2 {
+    border: solid 1px #137fa0;
+    color: white;
+}
+
+// .th-1 [darker shades]  -------
+.search-container .th-1 {
+    background-image:linear-gradient(#1798c1, #137fa0);
+}
+
+// .th-2 [lighter shades]  -------
+.search-container .th-2 {
+    background-image:linear-gradient(#32bde7, #1bb5e4);
+}
+
+// .th-2 gradients from a-c  -------
+.search-container .th-2a {
+    background-image:linear-gradient(#48c4ea, #32bde7);
+}
+
+.search-container .th-2b {
+    background-image:linear-gradient(#32bde7, #1bb5e4);
+}
+
+.search-container .th-2c {
+    background-image:linear-gradient(#1bb5e4, #18a3cd);
+}
+
+.wide-button.blue-button {
+    border: solid 2px #87dedd;
+    background-image:linear-gradient(#1798c1, #137fa0);
+}
+
+.wide-button.blue-button:hover {
+    background-image:linear-gradient(#137fa0, #1798c1);
+}
+// SEARCH ENDS
+
+
+// NEW FILTER STARTS
+.filter-container {
+    border: solid 3px #87dedd;
+    border-radius: 6px;
+}
+
+.filter-container .th-1, .filter-container .th-2 {
+    border: solid 1px #268c8a;
+    color: white;
+}
+
+// .th-1 [darker shades]  -------
+.filter-container .th-1 {
+    background-image:linear-gradient(#2ca09e, #268c8a);
+}
+
+// .th-2 [lighter shades]  -------
+.filter-container .th-2 {
+    background-image:linear-gradient(#73d9d7, #31b4b2);
+}
+
+// .th-2 gradients from a-c  -------
+.filter-container .th-2a {
+    background-image:linear-gradient(#87dedd, #73d9d7);
+}
+
+.filter-container .th-2b {
+    background-image:linear-gradient(#73d9d7, #5fd3d1);
+}
+
+.filter-container .th-2c {
+    background-image:linear-gradient(#5fd3d1, #4bcecb);
+}
+
+.wide-button.green-button {
+    border: solid 2px #87dedd;
+    background-image:linear-gradient(#2ca09e, #268c8a);
+}
+
+.wide-button.green-button:hover {
+    background-image:linear-gradient(#268c8a, #2ca09e);
+}
+// NEW FILTER ENDS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // HORIZONTAL LIST VIEW - PROFILES - Starts
 .page-header{
     text-align: center;
@@ -90,6 +316,24 @@ a.btn{
     font-weight: bold;
     color: white;
     border-radius: 5px;
+}
+
+.wide-button.blue-button {
+    border: solid 2px #87dedd;
+    background-image:linear-gradient(#1798c1, #137fa0);
+}
+
+.wide-button.blue-button:hover {
+    background-image:linear-gradient(#137fa0, #1798c1);
+}
+
+.wide-button.green-button {
+    border: solid 2px #87dedd;
+    background-image:linear-gradient(#2ca09e, #268c8a);
+}
+
+.wide-button.green-button:hover {
+    background-image:linear-gradient(#268c8a, #2ca09e);
 }
 
 

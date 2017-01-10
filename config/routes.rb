@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  resources :dashboards
+
   resources :staffers do
       collection { post :import_csv_data }
   end
   get 'staffer/import_page' => 'staffers#import_page'
+  get 'staffer/search' => 'staffers#search'
 
     resources :cores do
         collection { post :import_core_data }
@@ -100,13 +103,15 @@ Rails.application.routes.draw do
 
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
 
-
+    get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
     post 'search_result_page_gcse' => 'search#search_result_gcse'
+    post 'search_result_page_staffer' => 'search#search_result_staffer'
     root 'search#index'
 
     # === Google API Route ===
     get '/search' => 'search#index'
+
 end

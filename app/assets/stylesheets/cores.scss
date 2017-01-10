@@ -2,227 +2,130 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
-
-// Cores Layout (Universal) - Starts  -------
-.cores-layout {
-    box-shadow: 5px 5px 5px gray;
-    margin-top: 30px;
-    font-size: 12px;
-    // color: #8c8c8c;
-    color: #333333;
-}
-
-// MOVED TO APPLICATION.SCSS
-//  .details-btn, .edit-btn {
+//
+//
+// // CORE ACCOUNT-PROFILE STARTS
+// .account-profile-container {
+//     // border: solid 1px #18a3cd;
+//     border: solid 3px #87dedd;
+//     border-radius: 6px;
+// }
+//
+// .account-profile-container .th-1, .account-profile-container .th-2 {
+//     border: solid 1px #137fa0;
+//     color: white;
+// }
+//
+// // .th-1 [darker shades]  -------
+// .account-profile-container .th-1 {
 //     background-image:linear-gradient(#1798c1, #137fa0);
-//  }
+// }
 //
-//  .details-btn:hover, .edit-btn:hover {
+// // .th-2 [lighter shades]  -------
+// .account-profile-container .th-2 {
+//     background-image:linear-gradient(#32bde7, #1bb5e4);
+// }
+//
+// // .th-2 gradients from a-c  -------
+// .account-profile-container .th-2a {
+//     background-image:linear-gradient(#48c4ea, #32bde7);
+// }
+//
+// .account-profile-container .th-2b {
+//     background-image:linear-gradient(#32bde7, #1bb5e4);
+// }
+//
+// .account-profile-container .th-2c {
+//     background-image:linear-gradient(#1bb5e4, #18a3cd);
+// }
+// // CORE ACCOUNT-PROFILE ENDS
+//
+//
+// // CORE SEARCH STARTS
+// .core-search-container {
+//     border: solid 3px #87dedd;
+//     border-radius: 6px;
+// }
+//
+// .core-search-container .th-1, .core-search-container .th-2 {
+//     border: solid 1px #137fa0;
+//     color: white;
+// }
+//
+// // .th-1 [darker shades]  -------
+// .core-search-container .th-1 {
+//     background-image:linear-gradient(#1798c1, #137fa0);
+// }
+//
+// // .th-2 [lighter shades]  -------
+// .core-search-container .th-2 {
+//     background-image:linear-gradient(#32bde7, #1bb5e4);
+// }
+//
+// // .th-2 gradients from a-c  -------
+// .core-search-container .th-2a {
+//     background-image:linear-gradient(#48c4ea, #32bde7);
+// }
+//
+// .core-search-container .th-2b {
+//     background-image:linear-gradient(#32bde7, #1bb5e4);
+// }
+//
+// .core-search-container .th-2c {
+//     background-image:linear-gradient(#1bb5e4, #18a3cd);
+// }
+//
+// .wide-button.blue-button {
+//     border: solid 2px #87dedd;
+//     background-image:linear-gradient(#1798c1, #137fa0);
+// }
+//
+// .wide-button.blue-button:hover {
 //     background-image:linear-gradient(#137fa0, #1798c1);
-//  }
+// }
+// // CORE SEARCH ENDS
 //
-// .delete-btn {
-//     background-image:linear-gradient(#da2531, #ae1e27);
-//  }
 //
-//  .delete-btn:hover {
-//     background-image:linear-gradient(#ae1e27, #da2531);
-//   }
-
-
-.cores-layout-table td, .cores-layout-table th {
-    padding: 0;
-    line-height: normal;
-}
-
-table.cores-layout-table {
-    padding: 0;
-    margin: 0;
-    line-height: normal;
-}
-
-.cores-layout .cores-layout-table tbody tr th, .cores-layout .cores-layout-table tbody tr td {
-    padding: 5px;
-}
-
-.cores-layout-table .th-1, .cores-layout-table .th-2 {
-    text-align: center;
-}
-
-.cores-layout-table .th-1 {
-    font-size: 140%;
-    font-weight: bold;
-}
-
-.cores-layout-table .th-2 {
-    font-size: 120%;
-    font-weight: normal;
-}
-
-.cores-layout-table .t3 {
-    width: 90px;
-}
-
-.cores-layout-table .t4 {
-    width: 55px;
-    font-weight: normal;
-}
-
-.cores-layout-table .t5 {
-    width: 35px;
-}
-
-// column width classes -------
-.cores-layout-table .w-lg {
-    // min-width: 30px;
-    width: 350px;
-}
-
-.cores-layout-table .w-md {
-    // min-width: 30px;
-    width: 160px;
-}
-
-.cores-layout-table .w-sm {
-    // min-width: 30px;
-    width: 115px;
-}
-
-.cores-layout-table .w-xsm {
-    // min-width: 30px;
-    width: 75px;
-}
-
-.cores-layout-table .w-xxsm {
-    // min-width: 30px;
-    width: 30px;
-}
-// Cores Layout (Universal) - Ends  -------
-
-
-// CORE ACCOUNT-PROFILE STARTS
-.account-profile-container {
-    // border: solid 1px #18a3cd;
-    border: solid 3px #87dedd;
-    border-radius: 6px;
-}
-
-.account-profile-container .th-1, .account-profile-container .th-2 {
-    border: solid 1px #137fa0;
-    color: white;
-}
-
-// .th-1 [darker shades]  -------
-.account-profile-container .th-1 {
-    background-image:linear-gradient(#1798c1, #137fa0);
-}
-
-// .th-2 [lighter shades]  -------
-.account-profile-container .th-2 {
-    background-image:linear-gradient(#32bde7, #1bb5e4);
-}
-
-// .th-2 gradients from a-c  -------
-.account-profile-container .th-2a {
-    background-image:linear-gradient(#48c4ea, #32bde7);
-}
-
-.account-profile-container .th-2b {
-    background-image:linear-gradient(#32bde7, #1bb5e4);
-}
-
-.account-profile-container .th-2c {
-    background-image:linear-gradient(#1bb5e4, #18a3cd);
-}
-// CORE ACCOUNT-PROFILE ENDS
-
-
-// CORE SEARCH STARTS
-.core-search-container {
-    border: solid 3px #87dedd;
-    border-radius: 6px;
-}
-
-.core-search-container .th-1, .core-search-container .th-2 {
-    border: solid 1px #137fa0;
-    color: white;
-}
-
-// .th-1 [darker shades]  -------
-.core-search-container .th-1 {
-    background-image:linear-gradient(#1798c1, #137fa0);
-}
-
-// .th-2 [lighter shades]  -------
-.core-search-container .th-2 {
-    background-image:linear-gradient(#32bde7, #1bb5e4);
-}
-
-// .th-2 gradients from a-c  -------
-.core-search-container .th-2a {
-    background-image:linear-gradient(#48c4ea, #32bde7);
-}
-
-.core-search-container .th-2b {
-    background-image:linear-gradient(#32bde7, #1bb5e4);
-}
-
-.core-search-container .th-2c {
-    background-image:linear-gradient(#1bb5e4, #18a3cd);
-}
-
-.wide-button.blue-button {
-    border: solid 2px #87dedd;
-    background-image:linear-gradient(#1798c1, #137fa0);
-}
-
-.wide-button.blue-button:hover {
-    background-image:linear-gradient(#137fa0, #1798c1);
-}
-// CORE SEARCH ENDS
-
-
-// NEW CORE ACCOUNT FILTER STARTS
-.account-filter-container {
-    border: solid 3px #87dedd;
-    border-radius: 6px;
-}
-
-.account-filter-container .th-1, .account-filter-container .th-2 {
-    border: solid 1px #268c8a;
-    color: white;
-}
-
-// .th-1 [darker shades]  -------
-.account-filter-container .th-1 {
-    background-image:linear-gradient(#2ca09e, #268c8a);
-}
-
-// .th-2 [lighter shades]  -------
-.account-filter-container .th-2 {
-    background-image:linear-gradient(#73d9d7, #31b4b2);
-}
-
-// .th-2 gradients from a-c  -------
-.account-filter-container .th-2a {
-    background-image:linear-gradient(#87dedd, #73d9d7);
-}
-
-.account-filter-container .th-2b {
-    background-image:linear-gradient(#73d9d7, #5fd3d1);
-}
-
-.account-filter-container .th-2c {
-    background-image:linear-gradient(#5fd3d1, #4bcecb);
-}
-
-.wide-button.green-button {
-    border: solid 2px #87dedd;
-    background-image:linear-gradient(#2ca09e, #268c8a);
-}
-
-.wide-button.green-button:hover {
-    background-image:linear-gradient(#268c8a, #2ca09e);
-}
-// NEW CORE ACCOUNT FILTER ENDS
+// // NEW CORE ACCOUNT FILTER STARTS
+// .filter-container {
+//     border: solid 3px #87dedd;
+//     border-radius: 6px;
+// }
+//
+// .filter-container .th-1, .filter-container .th-2 {
+//     border: solid 1px #268c8a;
+//     color: white;
+// }
+//
+// // .th-1 [darker shades]  -------
+// .filter-container .th-1 {
+//     background-image:linear-gradient(#2ca09e, #268c8a);
+// }
+//
+// // .th-2 [lighter shades]  -------
+// .filter-container .th-2 {
+//     background-image:linear-gradient(#73d9d7, #31b4b2);
+// }
+//
+// // .th-2 gradients from a-c  -------
+// .filter-container .th-2a {
+//     background-image:linear-gradient(#87dedd, #73d9d7);
+// }
+//
+// .filter-container .th-2b {
+//     background-image:linear-gradient(#73d9d7, #5fd3d1);
+// }
+//
+// .filter-container .th-2c {
+//     background-image:linear-gradient(#5fd3d1, #4bcecb);
+// }
+//
+// .wide-button.green-button {
+//     border: solid 2px #87dedd;
+//     background-image:linear-gradient(#2ca09e, #268c8a);
+// }
+//
+// .wide-button.green-button:hover {
+//     background-image:linear-gradient(#268c8a, #2ca09e);
+// }
+// // NEW CORE ACCOUNT FILTER ENDS
