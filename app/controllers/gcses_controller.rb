@@ -219,7 +219,7 @@ class GcsesController < ApplicationController
             gcses = Gcse.where(id: ids)
             junkify_rows(ids) if status == "Junk"
             destroy_rows(ids) if status == "Destroy"
-            @gcse_service.matchify_rows(gcses) if status == "Matched" # Note: matchify_rows method is moved to service.
+            @gcse_service.delay.matchify_rows(gcses) if status == "Matched" # Note: matchify_rows method is moved to service.
             @gcse_service.delay.no_matchify_rows(ids) if status == "No Matches"
             auto_matchify_rows(gcses) if status == "Auto-Match"
         end

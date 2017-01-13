@@ -122,7 +122,16 @@ class CoreService
             url = "http://localhost:3000/search?utf8=%E2%9C%93&"
             # url = "http://localhost:3000/search?"
             # num = "&num=90"
-            q_combinded = "q=#{acct_q}#{street_q}#{city_q}#{state_st}#{zip_st}"
+
+            # Temporarily disabled long query.
+            # q_combinded = "q=#{acct_q}#{street_q}#{city_q}#{state_st}#{zip_st}"
+
+            # Temporaily created shorter query.
+            q_combinded = "q=#{acct_q}#{city_q}#{state_st}#{zip_st}"
+
+
+
+
             url_encoded = "#{url}#{q_combinded}"
             #== Ends - Google Encoded Search == Testing 2-- Ends ==
 

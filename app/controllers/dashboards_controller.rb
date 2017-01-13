@@ -23,6 +23,31 @@ class DashboardsController < ApplicationController
     @core_bds_status_queue_indexer = Core.where(bds_status: "Queue Indexer").count
     @core_bds_status_indexer_result = Core.where(bds_status: "Indexer Result").count
 
+    @core_bds_status_queue_staffer = Core.where(bds_status: "Queue Staffer").count
+    @core_bds_status_staffer_result = Core.where(bds_status: "Staffer Result").count
+    @core_bds_status_destroy = Core.where(bds_status: "Destroy").count
+    @core_bds_status_error = Core.where(bds_status: "Error").count
+    @core_bds_status_nil = Core.where(bds_status: nil).count
+
+    # Staffer Status - Account Level
+    @core_staffer_status_scraped = Core.where(staffer_status: "Scraped").count
+    @core_staffer_status_matched = Core.where(staffer_status: "Matched").count
+    @core_staffer_status_no_matches = Core.where(staffer_status: "No Matches").count
+    @core_staffer_status_search_error = Core.where(staffer_status: "Search Error").count
+    @core_staffer_status_temp_error = Core.where(staffer_status: "Temp Error").count
+    @core_staffer_status_verified = Core.where(staffer_status: "Verified").count
+    @core_staffer_status_try_again = Core.where(staffer_status: "Try Again").count
+    @core_staffer_status_ready = Core.where(staffer_status: "Ready").count
+    @core_staffer_status_none = Core.where(staffer_status: nil).count
+
+
+    @core_temp_dealer_com = Core.where(template: "Dealer.com").count
+    @core_temp_dealeron = Core.where(template: "DealerOn").count
+    @core_temp_cobalt = Core.where(template: "Cobalt").count
+    @core_temp_dealer_fire = Core.where(template: "DealerFire").count
+    @core_temp_dealer_inspire = Core.where(template: "DealerInspire").count
+    @core_template_none = Core.where(template: nil).count
+
 
     #============
 
@@ -300,6 +325,73 @@ class DashboardsController < ApplicationController
      # Staffers (Contacts) Instance Variables
      #========================
      @staffer_all = Staffer.count
+
+      @staffer_status_imported = Staffer.where(staffer_status: "Imported").count
+      @staffer_status_scraped = Staffer.where(staffer_status: "Scraped").count
+
+      @staffer_cont_status_sfdc = Staffer.where(cont_status: "SFDC").count
+      @staffer_cont_status_scraped = Staffer.where(cont_status: "Scraped").count
+
+      @staffer_cont_source_sfdc = Staffer.where(cont_source: "SFDC").count
+      @staffer_cont_source_dealer_site = Staffer.where(cont_source: "Dealer Site").count
+
+      @staffer_temp_dealer_com = Staffer.where(template: "Dealer.com").count
+      @staffer_temp_dealeron = Staffer.where(template: "DealerOn").count
+      @staffer_temp_cobalt = Staffer.where(template: "Cobalt").count
+      @staffer_temp_dealer_fire = Staffer.where(template: "DealerFire").count
+      @staffer_temp_dealer_inspire = Staffer.where(template: "DealerInspire").count
+
+      @staffer_active = Staffer.where(sfdc_cont_active: "0").count
+      @staffer_inactive = Staffer.where(sfdc_cont_active: "1").count
+
+      @staffer_influence_dm = Staffer.where(influence: "Decision Maker").count
+      @staffer_influence_di = Staffer.where(influence: "Decision Influencer").count
+      @staffer_influence_oth = Staffer.where(influence: "Other").count
+      @staffer_influence_na = Staffer.where(influence: "N/A").count
+      @staffer_influence_none = Staffer.where(influence: nil).count
+
+      @staffer_job_gm1 = Staffer.where(job: "General Manager").count
+      @staffer_job_gm2 = Staffer.where(job: "GM").count
+      @staffer_job_gsm1 = Staffer.where(job: "General Sales Manager").count
+      @staffer_job_gsm2 = Staffer.where(job: "GSM").count
+      @staffer_job_ucm1 = Staffer.where(job: "Used Car Manager").count
+      @staffer_job_ucm2 = Staffer.where(job: "UCM").count
+      @staffer_job_internet_dir = Staffer.where(job: "Internet Director").count
+      @staffer_job_marketing_dir = Staffer.where(job: "Marketing Director").count
+      @staffer_job_marketing_mgr = Staffer.where(job: "Marketing Manager").count
+
+      @staffer_job_raw_gm1 = Staffer.where(job_raw: "General Manager").count
+      @staffer_job_raw_gm2 = Staffer.where(job_raw: "GM").count
+      @staffer_job_raw_gsm1 = Staffer.where(job_raw: "General Sales Manager").count
+      @staffer_job_raw_gsm2 = Staffer.where(job_raw: "GSM").count
+      @staffer_job_raw_ucm1 = Staffer.where(job_raw: "Used Car Manager").count
+      @staffer_job_raw_ucm2 = Staffer.where(job_raw: "UCM").count
+      @staffer_job_raw_internet_dir = Staffer.where(job_raw: "Internet Director").count
+      @staffer_job_raw_marketing_dir = Staffer.where(job_raw: "Marketing Director").count
+      @staffer_job_raw_marketing_mgr = Staffer.where(job_raw: "Marketing Manager").count
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   end
 

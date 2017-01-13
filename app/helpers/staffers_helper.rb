@@ -8,7 +8,7 @@ module StaffersHelper
     end
 
     def template_list
-        ['Dealer.com', 'DealerOn', 'Cobalt', 'DealerFire', 'DealerInspire', ["None", ""]]
+        ['Dealer.com', 'DealerOn', 'Cobalt', 'DealerFire', 'DealerInspire', ["None", nil]]
     end
 
     def job_title_list
