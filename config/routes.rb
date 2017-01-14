@@ -100,10 +100,9 @@ Rails.application.routes.draw do
     # Quick Search Button
     get 'quick_dom_dom_res_2' => 'gcses#quick_dom_dom_res_2'
     get 'quick_dom_no_auto_match_2' => 'gcses#quick_dom_no_auto_match_2'
-
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
-
     get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
+    get 'solitary_migrator' => 'solitaries#solitary_migrator'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'

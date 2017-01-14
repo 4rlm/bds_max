@@ -102,6 +102,20 @@ class SolitariesController < ApplicationController
       redirect_to solitaries_path
   end
 
+  def solitary_migrator
+    solitaries = Solitary.all
+
+    for solitary in solitaries
+        core = Core.new(bds_status: "Imported", sfdc_id: "sol_#{solitary.solitary_root}", sfdc_sales_person: "Solitary", sfdc_type: "Solitary", sfdc_acct: "sol_#{solitary.solitary_root}", core_date: Time.new, matched_url: solitary.solitary_url, matched_root: solitary.solitary_root, acct_source: "Solitary")
+
+        if core.save
+            solitary.destroy
+        end
+    end
+    set_selected_status_core(acct_source: "Solitary")
+    redirect_to cores_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_solitary

@@ -4,7 +4,7 @@ module CoresHelper
     end
 
     def sfdc_sales_person_list
-        ["Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
+        ["Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer", "Solitary"]
     end
 
     def bds_status_list
