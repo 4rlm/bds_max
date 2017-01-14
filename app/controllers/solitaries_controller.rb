@@ -6,6 +6,13 @@ class SolitariesController < ApplicationController
   def index
     # @solitaries = Solitary.all
 
+
+    @selected_data = Solitary.all
+    @selected_data = @selected_data.order(solitary_root: :desc)
+
+    # @solitaries = @selected_data.paginate(:page => params[:page], :per_page => 100)
+
+
     @solitary_count = Solitary.count
 
     @solitaries = Solitary.order(:solitary_root)

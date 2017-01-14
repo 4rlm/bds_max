@@ -455,7 +455,6 @@
 <br>
 
 
-
 <!-- Accounts Summary Section -->
 <section style="border: 1px solid gray; border-radius: 5px; box-shadow: 5px 5px 5px;">
     <div class="row" style="width: 99%; margin: auto;">
@@ -472,37 +471,115 @@
                     <td><%= @core_bds_status_imported %></td>
                 </tr>
                 <tr>
-                    <th>Domainer Queued:</th>
+                    <th>Domainer Queues:</th>
                     <td><%= @core_bds_status_queue_domainer %></td>
                 </tr>
                 <tr>
-                    <th>Domainer Result:</th>
+                    <th>Domainer Results:</th>
                     <td><%= @core_bds_status_dom_result %></td>
                 </tr>
                 <tr>
-                    <th>Domainer Matched:</th>
+                    <th>Domainer Matches:</th>
                     <td><%= @core_bds_status_matched %></td>
                 </tr>
                 <tr>
-                    <th>Indexer Queued:</th>
+                    <th>Domainer No-Matches:</th>
+                    <td><%= @core_bds_status_no_matches %></td>
+                </tr>
+                <tr>
+                    <th>Indexer Queues:</th>
                     <td><%= @core_bds_status_queue_indexer %></td>
                 </tr>
                 <tr>
-                    <th>Indexer Result:</th>
+                    <th>Indexer Results:</th>
                     <td><%= @core_bds_status_indexer_result %></td>
                 </tr>
                 <tr>
-                    <th>Staffer Status:</th>
-                    <td>N/A</td>
+                    <th>Staffer Queues:</th>
+                    <td><%= @core_bds_status_queue_staffer %></td>
                 </tr>
+
                 <tr>
-                    <th>WhoIs Status:</th>
-                    <td>N/A</td>
+                    <th>Staffer Results:</th>
+                    <td><%= @core_bds_status_staffer_result %></td>
                 </tr>
                 <tr>
                     <th>Total:</th>
                     <td><%= @core_all %></td>
                 </tr>
+
+
+
+                <tr>
+                    <th colspan="2">Account Stage</th>
+                </tr>
+                <tr>
+                    <th>Status: Scraped</th>
+                    <td><%= @core_staffer_status_scraped %></td>
+                </tr>
+
+                <tr>
+                    <th>Status: Matched</th>
+                    <td><%= @core_staffer_status_matched %></td>
+                </tr>
+                <tr>
+                    <th>Status: No Matches</th>
+                    <td><%= @core_staffer_status_no_matches %></td>
+                </tr>
+                <tr>
+                    <th>Status: Search Error</th>
+                    <td><%= @core_staffer_status_search_error %></td>
+                </tr>
+                <tr>
+                    <th>Status: Temp Error</th>
+                    <td><%= @core_staffer_status_temp_error %></td>
+                </tr>
+                <tr>
+                    <th>Status: Verified</th>
+                    <td><%= @core_staffer_status_verified %></td>
+                </tr>
+                <tr>
+                    <th>Status: Try Again</th>
+                    <td><%= @core_staffer_status_try_again %></td>
+                </tr>
+                <tr>
+                    <th>Status: Ready</th>
+                    <td><%= @core_staffer_status_ready %></td>
+                </tr>
+                <tr>
+                    <th>Status: None</th>
+                    <td><%= @core_staffer_status_none %></td>
+                </tr>
+
+
+                <tr>
+                    <th>Template: Dealer.com</th>
+                    <td><%= @core_temp_dealer_com %></td>
+                </tr>
+                <tr>
+                    <th>Template: DealerOn</th>
+                    <td><%= @core_temp_dealeron %></td>
+                </tr>
+                <tr>
+                    <th>Template: Cobalt</th>
+                    <td><%= @core_temp_cobalt %></td>
+                </tr>
+                <tr>
+                    <th>Template: DealerFire</th>
+                    <td><%= @core_temp_dealer_fire %></td>
+                </tr>
+                <tr>
+                    <th>Template: DealerInspire</th>
+                    <td><%= @core_temp_dealer_inspire %></td>
+                </tr>
+                <tr>
+                    <th>Template: None</th>
+                    <td><%= @core_template_none %></td>
+                </tr>
+                <tr>
+
+
+
             </table>
         </div> <!-- col ends -->
 
@@ -681,35 +758,6 @@
             </table>
         </div> <!-- col ends -->
 
-        <!-- Franchise Dealers -->
-        <div class="col-md-2">
-            <table class="list-table table table-bordered table-hover text-nowrap table-striped">
-                <tr>
-                    <th colspan="2">Franchise Dealers</th>
-                </tr>
-                <tr>
-                    <th>Ford:</th>
-                    <td>#</td>
-                </tr>
-                <tr>
-                    <th>GM</th>
-                    <td>#</td>
-                </tr>
-                <tr>
-                    <th>Honda</th>
-                    <td>#</td>
-                </tr>
-                <tr>
-                    <th>Toyota</th>
-                    <td>#</td>
-                </tr>
-                <tr>
-                    <th>Total:</th>
-                    <td>?</td>
-                </tr>
-            </table>
-        </div> <!-- col ends -->
-
     </div> <!-- Row ends -->
 </section>
 <br>
@@ -750,7 +798,7 @@
 <div class="row" style="width: 95%; margin: auto;">
     <h3 class="section-header">Indexer Staff Summary</h3>
     <div class="col-md-3">
-        <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+        <table class="list-table table table-bordered table-hover text-nowrap table-striped style="magin: 0"">
             <tr>
                 <th colspan="2">Status</th>
             </tr>
@@ -794,7 +842,7 @@
 <div class="row" style="width: 95%; margin: auto;">
     <h3 class="section-header">Indexer Location Summary</h3>
     <div class="col-md-3">
-        <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+        <table class="list-table table table-bordered table-hover text-nowrap table-striped style="magin: 0"">
             <tr>
                 <th colspan="2">Status</th>
             </tr>
@@ -838,22 +886,161 @@
 <div class="row" style="width: 95%; margin: auto;">
     <h3 class="section-header">Contacts Summary</h3>
     <div class="col-md-3">
-        <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+        <table class="list-table table table-bordered table-hover text-nowrap table-striped style="magin: 0"">
             <tr>
                 <th colspan="2">Status</th>
             </tr>
             <tr>
-                <th>ABC</th>
-                <td>123</td>
+                <th>Staffer Status: Imported</th>
+                <td><%= @staffer_status_imported %></td>
             </tr>
             <tr>
-                <th>ABC</th>
-                <td>123</td>
+                <th>Status Status: Scraped</th>
+                <td><%= @staffer_status_scraped %></td>
             </tr>
             <tr>
-                <th>ABC</th>
-                <td>123</td>
+                <th>Contact Status: SFDC</th>
+                <td><%= @staffer_cont_status_sfdc %></td>
             </tr>
+            <tr>
+                <th>Contact Status: Scraped</th>
+                <td><%= @staffer_cont_status_scraped %></td>
+            </tr>
+
+            <tr>
+                <th>Source: SFDC</th>
+                <td><%= @staffer_cont_source_sfdc %></td>
+            </tr>
+            <tr>
+                <th>Source: Dealer Site</th>
+                <td><%= @staffer_cont_source_dealer_site %></td>
+            </tr>
+
+
+            <tr>
+                <th>Template: Dealer.com</th>
+                <td><%= @staffer_temp_dealer_com %></td>
+            </tr>
+            <tr>
+                <th>Template: DealerOn</th>
+                <td><%= @staffer_temp_dealeron %></td>
+            </tr>
+            <tr>
+                <th>Template: Cobalt</th>
+                <td><%= @staffer_temp_cobalt %></td>
+            </tr>
+            <tr>
+                <th>Template: DealerFire</th>
+                <td><%= @staffer_temp_dealer_fire %></td>
+            </tr>
+            <tr>
+                <th>Template: DealerInspire</th>
+                <td><%= @staffer_temp_dealer_inspire %></td>
+            </tr>
+
+            <tr>
+                <th>Active:</th>
+                <td><%= @staffer_active %></td>
+            </tr>
+            <tr>
+                <th>Inactive:</th>
+                <td><%= @staffer_inactive %></td>
+            </tr>
+            <tr>
+                <th>Influence: Decision Maker</th>
+                <td><%= @staffer_influence_dm %></td>
+            </tr>
+            <tr>
+                <th>Influence: Decision Influencer</th>
+                <td><%= @staffer_influence_di %></td>
+            </tr>
+            <tr>
+                <th>Influence: Other</th>
+                <td><%= @staffer_influence_oth %></td>
+            </tr>
+            <tr>
+                <th>Influence: N/A</th>
+                <td><%= @staffer_influence_na %></td>
+            </tr>
+            <tr>
+                <th>Influence: None</th>
+                <td><%= @staffer_influence_none %></td>
+            </tr>
+
+            <tr>
+                <th>Job: General Manager</th>
+                <td><%= @staffer_job_gm1 %></td>
+            </tr>
+            <tr>
+                <th>Job: GM</th>
+                <td><%= @staffer_job_gm2 %></td>
+            </tr>
+            <tr>
+                <th>Job: General Sales Manager</th>
+                <td><%= @staffer_job_gsm1 %></td>
+            </tr>
+            <tr>
+                <th>Job: GSM</th>
+                <td><%= @staffer_job_gsm2 %></td>
+            </tr>
+            <tr>
+                <th>Job: Used Car Manager</th>
+                <td><%= @staffer_job_ucm1 %></td>
+            </tr>
+            <tr>
+                <th>Job: UCM</th>
+                <td><%= @staffer_job_ucm2 %></td>
+            </tr>
+            <tr>
+                <th>Job: Internet Director</th>
+                <td><%= @staffer_job_internet_dir %></td>
+            </tr>
+            <tr>
+                <th>Job: Marketing Director</th>
+                <td><%= @staffer_job_marketing_dir %></td>
+            </tr>
+            <tr>
+                <th>Job: Marketing Manager</th>
+                <td><%= @staffer_job_marketing_mgr %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: General Manager</th>
+                <td><%= @staffer_job_raw_gm1 %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: GM</th>
+                <td><%= @staffer_job_raw_gm2 %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: General Sales Manager</th>
+                <td><%= @staffer_job_raw_gsm1 %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: GSM</th>
+                <td><%= @staffer_job_raw_gsm2 %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: Used Car Manager</th>
+                <td><%= @staffer_job_raw_ucm1 %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: UCM</th>
+                <td><%= @staffer_job_raw_ucm2 %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: Internet Director</th>
+                <td><%= @staffer_job_raw_internet_dir %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: Marketing Director</th>
+                <td><%= @staffer_job_raw_marketing_dir %></td>
+            </tr>
+            <tr>
+                <th>Job Raw: Marketing Manager</th>
+                <td><%= @staffer_job_raw_marketing_mgr %></td>
+            </tr>
+
+
             <tr>
                 <th>Total:</th>
                 <td><%= @staffer_all %></td>

@@ -6,11 +6,11 @@ class GcseService
     end
 
     def create_pending_verification(gcse)
-        puts ">>> create_pending_verification"
         existance = check_core_if_exists?(gcse.root, gcse.domain) || check_solitary_if_exists?(gcse.root, gcse.domain) || check_exclude_root_if_exists?(gcse.root)
         inclusion = check_if_text_include_pos?(gcse.text) && check_if_text_include_del?(gcse.text)
 
         if !existance && inclusion
+            puts "\n\n>>>>> Create PendingVerification: #{gcse.root}\n\n"
             PendingVerification.find_or_create_by(root: gcse.root, domain: gcse.domain)
         end
     end
@@ -104,6 +104,102 @@ class GcseService
                     puts ">>>> Collects unique domain in #{domains}."
                 end
             end
+        end
+    end
+
+    # Moved methods from controller
+    def matchify_rows(gcses)
+        sfdc_id_source = gcses.map(&:sfdc_id) #[2341234, 1234134]
+        domain_source = gcses.map(&:domain) #["http://www.some.com", "http://www.any.com"]
+        sfdc_url_source = gcses.map(&:sfdc_url_o)
+        root_source = gcses.map(&:root) #["some", "any"]
+        sfdc_root_source = gcses.map(&:sfdc_root)
+
+        # 1) Compare
+        url_results = Gcse.compare(domain_source, sfdc_url_source)
+        root_results = Gcse.compare(root_source, sfdc_root_source)
+
+        # 2) Add Matched gcses to Core
+        # Updates bds_status, matched_url, and matched_root in Core Table.
+        for i in 0...sfdc_id_source.length
+            id = sfdc_id_source[i]
+            root = root_source[i]
+
+            data = Core.find_by(sfdc_id: id)
+            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root, url_comparison: url_results[i], root_comparison: root_results[i], staff_indexer_status: "Ready", location_indexer_status: "Ready", inventory_indexer_status: "Ready")
+
+            # When 'data' in Core is updated to "Matched", check if its url exists in Solitary.
+            # If so, delete the matched url in Solitary.
+            SolitaryService.new.check_solitary_for_matched(data.matched_url)
+
+            # 3) Solitary table, Pending table, destroy_all
+            left_overs(id, root)
+        end
+    end
+
+    def no_matchify_rows(ids)
+        rows = Gcse.where(id: ids)
+        sfdc_id_source = rows.map(&:sfdc_id) #[2341234, 1234134]
+        valid_suffixes = [".com", ".net"]
+
+        for id in sfdc_id_source
+            # 1) Add Matched rows to Core: Updates bds_status.
+            core = Core.find_by(sfdc_id: id)
+            core.update_attributes(bds_status: "No Matches")
+
+            # 2) Solitary table, Pending status
+            gcses = Gcse.where(sfdc_id: id)
+            for gcse in gcses
+                # 2-A) CASE: Positive Host root && valid suffix
+                if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
+                    # Create a Solitary row if not exists. Then destroy the current gcse row.
+                    create_solitary(gcse)
+                    puts "\n\n>>>>> Sent to solitary checker: #{gcse.root} \n\n"
+                    tmp_id = gcse.id # just for testing
+                    gcse.destroy
+                    puts "============> #{Gcse.find_by(id: tmp_id)}"
+                else # 2-B) !(Positive Host root && valid suffix)
+                    # Create with root and url in pending verification table if not already included in Core, PendingVerification, Solitary, ExcludeRoot
+                    create_pending_verification(gcse)
+                    puts "\n\n>>>>> Sent to pending_verification checker: #{gcse.root}\n\n"
+                    tmp_id = gcse.id # just for testing
+                    gcse.destroy
+                    puts "============> #{Gcse.find_by(id: tmp_id)}"
+                end
+            end
+        end
+    end
+
+    def left_overs(id, root)
+        gcses = Gcse.where(sfdc_id: id)
+        valid_suffixes = [".com", ".net"]
+
+        for gcse in gcses.where.not(root: root)
+            # 3-A) CASE: (sfdc_id && !root) && (Positive Host root && valid suffix)
+            if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
+                # Create a Solitary row if not exists. Then destroy the current gcse row.
+                create_solitary(gcse)
+                puts "\n\n>>>>> Sent to solitary checker: #{gcse.root} \n\n"
+                gcse.destroy
+            else # 3-B) CASE: (sfdc_id && !root) && !(Positive Host root && valid suffix)
+                # Create with root and url in pending verification table if not already included in Core, PendingVerification, Solitary, ExcludeRoot
+                create_pending_verification(gcse)
+                puts "\n\n>>>>> Sent to pending_verification checker: #{gcse.root}\n\n"
+                gcse.destroy
+            end
+        end
+
+        # 3-C) CASE: sfdc_id && root
+        # Delete Gcse rows which sfdc_id and root are the same as the matched row's.
+        puts "\n\n>>>>> Delete Bunch: #{gcses.where(root: root).map(&:root).join(", ")}\n\n"
+        gcses.where(root: root).destroy_all
+    end
+
+    def create_solitary(gcse)
+        existance = check_core_if_exists?(gcse.root, gcse.domain) || check_exclude_root_if_exists?(gcse.root)
+        if !existance
+            puts "\n\n>>>>> Sent to Solitary: #{gcse.root}\n\n"
+            Solitary.find_or_create_by(solitary_root: gcse.root, solitary_url: gcse.domain)
         end
     end
 

@@ -134,125 +134,6 @@ class GcsesController < ApplicationController
         redirect_to gcses_path
     end
 
-    def batch_status
-        ids = params[:status_checks]
-        status = params[:selected_status]
-        unless ids.nil?
-            for id in ids
-                data = Gcse.find(id)
-                data.update_attribute(:domain_status, status)
-            end
-            gcses = Gcse.where(id: ids)
-            junkify_rows(ids) if status == "Junk"
-            destroy_rows(ids) if status == "Destroy"
-            matchify_rows(gcses) if status == "Matched"
-            no_matchify_rows(ids) if status == "No Matches"
-            auto_matchify_rows(gcses) if status == "Auto-Match"
-        end
-    end
-
-    # This method deletes the rows which domain_status is "Junk" and adds its new_root to "Junk Roots" table.
-    # Simultaneously delete all rows containing junkify root.
-    def junkify_rows(ids)
-        rows = Gcse.where(id: ids)
-        junk_roots_terms = rows.map(&:root)
-        rows.destroy_all
-
-        for term in junk_roots_terms
-            Gcse.where(root: term).destroy_all  # Delete rest rows which "root" is "term".
-            ExcludeRoot.find_or_create_by(term: term)  # Create if not exists.
-        end
-    end
-
-    # This method deletes the rows which domain_status is "Destroy".
-    def destroy_rows(ids)
-        rows = Gcse.where(id: ids)
-        rows.destroy_all
-    end
-
-    def matchify_rows(gcses)
-        sfdc_id_source = gcses.map(&:sfdc_id) #[2341234, 1234134]
-        domain_source = gcses.map(&:domain) #["http://www.some.com", "http://www.any.com"]
-        sfdc_url_source = gcses.map(&:sfdc_url_o)
-        root_source = gcses.map(&:root) #["some", "any"]
-        sfdc_root_source = gcses.map(&:sfdc_root)
-
-        # 1) Compare
-        url_results = Gcse.compare(domain_source, sfdc_url_source)
-        root_results = Gcse.compare(root_source, sfdc_root_source)
-
-        # 2) Add Matched gcses to Core
-        # Updates bds_status, matched_url, and matched_root in Core Table.
-        for i in 0...sfdc_id_source.length
-            id = sfdc_id_source[i]
-            root = root_source[i]
-
-            data = Core.find_by(sfdc_id: id)
-            data.update_attributes(bds_status: "Matched", matched_url: domain_source[i], sfdc_root: sfdc_root_source[i], matched_root: root, url_comparison: url_results[i], root_comparison: root_results[i], staff_indexer_status: "Ready", location_indexer_status: "Ready", inventory_indexer_status: "Ready")
-
-            # When 'data' in Core is updated to "Matched", check if its url exists in Solitary.
-            # If so, delete the matched url in Solitary.
-            SolitaryService.new.check_solitary_for_matched(data.matched_url)
-
-            # 3) Solitary table, Pending table, destroy_all
-            left_overs(id, root)
-        end
-    end
-
-    def left_overs(id, root)
-        gcses = Gcse.where(sfdc_id: id)
-        valid_suffixes = [".com", ".net"]
-
-        for gcse in gcses.where.not(root: root)
-            # 3-A) CASE: (sfdc_id && !root) && (Positive Host root && valid suffix)
-            if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
-                # Create a Solitary row if not exists. Then destroy the current gcse row.
-                create_solitary(gcse)
-                puts "\n\n>>>>> Delete after created solitary: #{gcse.root}\n\n"
-                gcse.destroy
-            else # 3-B) CASE: (sfdc_id && !root) && !(Positive Host root && valid suffix)
-                # Create with root and url in pending verification table if not already included in Core, PendingVerification, Solitary, ExcludeRoot
-                create_pending_verification(gcse)
-                puts "\n\n>>>>> Delete after created pending_verification: #{gcse.root}\n\n"
-                gcse.destroy
-            end
-        end
-
-        # 3-C) CASE: sfdc_id && root
-        # Delete Gcse rows which sfdc_id and root are the same as the matched row's.
-        puts "\n\n>>>>> Delete Bunch: #{gcses.where(root: root).map(&:root).join(", ")}\n\n"
-        gcses.where(root: root).destroy_all
-    end
-
-    def no_matchify_rows(ids)
-        rows = Gcse.where(id: ids)
-        sfdc_id_source = rows.map(&:sfdc_id) #[2341234, 1234134]
-        valid_suffixes = [".com", ".net"]
-
-        for id in sfdc_id_source
-            # 1) Add Matched rows to Core: Updates bds_status.
-            data = Core.find_by(sfdc_id: id)
-            data.update_attributes(bds_status: "No Matches")
-
-            # 2) Solitary table, Pending status
-            gcses = Gcse.where(sfdc_id: id)
-            for gcse in gcses
-                # 2-A) CASE: Positive Host root && valid suffix
-                if Gcse.solitarible?(gcse.root) && valid_suffixes.include?(gcse.suffix)
-                    # Create a Solitary row if not exists. Then destroy the current gcse row.
-                    create_solitary(gcse)
-                    puts "\n\n>>>>> Delete after created solitary: #{gcse.root}\n\n"
-                    gcse.destroy
-                else # 2-B) !(Positive Host root && valid suffix)
-                    # Create with root and url in pending verification table if not already included in Core, PendingVerification, Solitary, ExcludeRoot
-                    create_pending_verification(gcse)
-                    puts "\n\n>>>>> Delete after created pending_verification: #{gcse.root}\n\n"
-                    gcse.destroy
-                end
-            end
-        end
-    end
-
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_gcse
@@ -285,7 +166,7 @@ class GcsesController < ApplicationController
                 gcses.each {|gcse| gcse.update_attribute(:domain_status, "No Auto-Matches")}
             end
         end
-        matchify_rows(Gcse.where(id: ids))
+        @gcse_service.matchify_rows(Gcse.where(id: ids))  # Note: matchify_rows method is moved to service.
     end
 
     def check_core_if_exists?(root, domain)
@@ -327,19 +208,40 @@ class GcsesController < ApplicationController
         true
     end
 
-    def create_solitary(gcse)
-        existance = check_core_if_exists?(gcse.root, gcse.domain) || check_exclude_root_if_exists?(gcse.root)
-        if !existance
-            Solitary.find_or_create_by(solitary_root: gcse.root, solitary_url: gcse.domain)
+    def batch_status
+        ids = params[:status_checks]
+        status = params[:selected_status]
+        unless ids.nil?
+            for id in ids
+                data = Gcse.find(id)
+                data.update_attribute(:domain_status, status)
+            end
+            gcses = Gcse.where(id: ids)
+            junkify_rows(ids) if status == "Junk"
+            destroy_rows(ids) if status == "Destroy"
+            @gcse_service.delay.matchify_rows(gcses) if status == "Matched" # Note: matchify_rows method is moved to service.
+            @gcse_service.delay.no_matchify_rows(ids) if status == "No Matches"
+            auto_matchify_rows(gcses) if status == "Auto-Match"
         end
     end
 
-    def create_pending_verification(gcse)
-        existance = check_core_if_exists?(gcse.root, gcse.domain) || check_solitary_if_exists?(gcse.root, gcse.domain) || check_exclude_root_if_exists?(gcse.root)
-        inclusion = check_if_text_include_pos?(gcse.text) && check_if_text_include_del?(gcse.text)
+    # This method deletes the rows which domain_status is "Destroy".
+    def destroy_rows(ids)
+        rows = Gcse.where(id: ids)
+        rows.destroy_all
+    end
 
-        if !existance && inclusion
-            PendingVerification.find_or_create_by(root: gcse.root, domain: gcse.domain)
+    # This method deletes the rows which domain_status is "Junk" and adds its new_root to "Junk Roots" table.
+    # Simultaneously delete all rows containing junkify root.
+    def junkify_rows(ids)
+        rows = Gcse.where(id: ids)
+        junk_roots_terms = rows.map(&:root)
+        rows.destroy_all
+
+        for term in junk_roots_terms
+            Gcse.where(root: term).destroy_all  # Delete rest rows which "root" is "term".
+            ExcludeRoot.find_or_create_by(term: term)  # Create if not exists.
         end
     end
+
 end

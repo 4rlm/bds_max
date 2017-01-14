@@ -338,6 +338,11 @@ class SearchController < ApplicationController
         redirect_to gcses_path
     end
 
+    def search_result_staffer
+        set_selected_status_staffer({staffer_status: params[:staffer_status], cont_status: params[:cont_status], cont_source: params[:cont_source], sfdc_id: params[:sfdc_id], sfdc_sales_person: params[:sfdc_sales_person], sfdc_type: params[:sfdc_type], sfdc_cont_id: params[:sfdc_cont_id], template: params[:template], staffer_date: params[:staffer_date], staff_link: params[:staff_link], staff_text: params[:staff_text], sfdc_cont_active: params[:sfdc_cont_active], sfdc_tier: params[:sfdc_tier], domain: params[:domain], acct_name: params[:acct_name], group_name: params[:group_name], ult_group_name: params[:ult_group_name], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], fname: params[:fname], fullname: params[:fullname], job: params[:job], job_raw: params[:job_raw], email: params[:email], influence: params[:influence], cell_phone: params[:cell_phone], last_activity_date: params[:last_activity_date], created_date: params[:created_date], updated_date: params[:updated_date], franchise: params[:franchise]})
+        redirect_to staffers_path
+    end
+
     # == Google API Testing Search Methods - Starts ===
 
     # == Testing MY Google API - Search Method V1 - Perfect! ==

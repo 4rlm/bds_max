@@ -8,7 +8,7 @@ module StaffersHelper
     end
 
     def template_list
-        ['Dealer.com', 'DealerOn', 'Cobalt', 'DealerFire', 'DealerInspire']
+        ['Dealer.com', 'DealerOn', 'Cobalt', 'DealerFire', 'DealerInspire', ["None", nil]]
     end
 
     def job_title_list
@@ -16,7 +16,7 @@ module StaffersHelper
     end
 
     def influence_list
-        ["Decision Influencer", "Decision Maker", "Other", "N/A"]
+        ["Decision Influencer", "Decision Maker", "Other", "N/A", ["None", nil]]
     end
 
     def inactive_list
