@@ -17,7 +17,7 @@ def index
         @selected_data = Staffer.all
     end
 
-    @selected_data = @selected_data.order(sfdc_id: :desc)
+    @selected_data = @selected_data.order(created_at: :desc)
 
     respond_to do |format|
         format.html

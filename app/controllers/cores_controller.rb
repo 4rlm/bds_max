@@ -188,8 +188,8 @@ class CoresController < ApplicationController
     end
 
     def start_staffer(ids)
-        # StafferService.new.delay.start_staffer(ids)
-        StafferService.new.start_staffer(ids)
+        StafferService.new.delay.start_staffer(ids)
+        # StafferService.new.start_staffer(ids)
 
         flash[:notice] = 'Staffer started!'
         # redirect_to staffers_path

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170114034348) do
+ActiveRecord::Schema.define(version: 20170115133829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,12 @@ ActiveRecord::Schema.define(version: 20170114034348) do
     t.string   "site_ult_grp"
     t.string   "site_group"
     t.string   "acct_source"
+    t.string   "sfdc_geo_addy"
+    t.float    "sfdc_lat"
+    t.float    "sfdc_lon"
+    t.string   "site_geo_addy"
+    t.float    "site_lat"
+    t.float    "site_lon"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -215,6 +221,14 @@ ActiveRecord::Schema.define(version: 20170114034348) do
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pending_verifications", force: :cascade do |t|

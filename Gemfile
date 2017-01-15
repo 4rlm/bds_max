@@ -63,3 +63,4 @@ gem 'delayed_job_active_record', '~> 4.0'
 
 gem 'google_custom_search_api'
 gem 'pry'
+gem 'geocoder'
