@@ -10,8 +10,19 @@
 <%= render partial: 'list_view' %>
 
 <!-- ACCOUNTS - DETAILED VIEW PARTIAL -->
-<%= render partial: 'detailed_view' %>
+<br>
+<h3 class="section-header">Detailed View Starts Here</h3>
+<%= render partial: 'buttons' %>
+<br>
 
+<% num = 0 %>
+<% @cores.each do |core| %>
+    <% num +=1 %>
+    <%= render partial: 'detailed_view', locals: { core: core, num: num } %>
+<% end %>
+
+<%= render partial: 'buttons' %>
+<%= will_paginate @cores, renderer: BootstrapPagination::Rails  %>
 
 
 <!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->

@@ -173,14 +173,16 @@ class CoresController < ApplicationController
         CoreService.new.delay.scrape_listing(ids)
         # CoreService.new.scrape_listing(ids)
         flash[:notice] = 'Domainer started!'
-        redirect_to gcses_path
+        # redirect_to gcses_path
+        redirect_to cores_path
     end
 
     def start_indexer(ids)
         IndexerService.new.delay.start_indexer(ids)
         # IndexerService.new.start_indexer(ids)
         flash[:notice] = 'Indexer started!'
-        redirect_to indexer_staffs_path
+        # redirect_to indexer_staffs_path
+        redirect_to cores_path
     end
 
     def start_staffer(ids)
@@ -188,7 +190,8 @@ class CoresController < ApplicationController
         StafferService.new.start_staffer(ids)
 
         flash[:notice] = 'Staffer started!'
-        redirect_to staffers_path
+        # redirect_to staffers_path
+        redirect_to cores_path
     end
 
 end

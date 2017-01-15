@@ -1,12 +1,3 @@
-<h3 class="section-header">Contact Profiles - List View</h3>
-
-<p>List view shows more (than detailed view), but will NOT be attached to account detailed view.</p>
-
-
-<div class="pull-right">
-    <%= render partial: 'buttons' %>
-</div> <br>
-
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
   <thead>
     <tr>
@@ -53,7 +44,7 @@
 
   <tbody>
     <% num = 0 %>
-    <% @staffers.each do |staffer| %>
+    <% staffers.each do |staffer| %>
         <% num +=1 %>
       <tr>
 
@@ -105,22 +96,3 @@
     <% end %>
   </tbody>
 </table>
-
-<div class="pull-right">
-    <%= render partial: 'buttons' %>
-</div> <br>
-
-<div class="pull-left">
-    <div class="form-group">
-        <div class="submit-button-area">
-            <%= select_tag :selected_status, options_for_select(staffer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
-        </div>
-        <div class="submit-button-area">
-            <%= submit_tag "Submit", class: 'btn btn-success' %>
-        </div>
-    </div>
-</div>
-
-<!-- Was end tag here.  Moved to bottom of index, after making list view partial.    -->
-
-<%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>

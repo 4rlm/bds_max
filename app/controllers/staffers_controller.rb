@@ -103,6 +103,11 @@ end
     end
   end
 
+    def acct_contacts
+        @core = Core.find(params[:core])
+        @staffers = Staffer.where(sfdc_id: @core.sfdc_id)
+    end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_staffer

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
   get 'staffer/import_page' => 'staffers#import_page'
   get 'staffer/search' => 'staffers#search'
+  get 'staffer/acct_contacts' => 'staffers#acct_contacts'
 
     resources :cores do
         collection { post :import_core_data }
