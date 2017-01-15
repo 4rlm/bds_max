@@ -85,8 +85,6 @@
     </tbody>
 </table>
 
-<%= render partial: 'buttons' %>
-
 <div class="pull-left">
     <div class="form-group">
         <div class="submit-button-area">
@@ -95,9 +93,5 @@
         <div class="submit-button-area">
             <%= submit_tag "Submit", class: 'btn btn-success' %>
         </div>
-    </div>    
-</div>
-<br>
-<br>
-
-<%= will_paginate @cores, renderer: BootstrapPagination::Rails  %>
+    </div>
+</div><br><br>

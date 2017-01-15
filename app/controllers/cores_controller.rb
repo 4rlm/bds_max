@@ -6,8 +6,10 @@ class CoresController < ApplicationController
     def index
         if choice_hash = get_selected_status_core
             clean_choice_hash = {}
+            @view_mode = choice_hash[:view_mode]
+
             choice_hash.each do |key, value|
-                clean_choice_hash[key] = value if !value.nil? && value != ""
+                clean_choice_hash[key] = value if !value.nil? && value != "" && key != :view_mode
             end
             @selected_data = Core.where(clean_choice_hash)
         else # choice_hash is nil
