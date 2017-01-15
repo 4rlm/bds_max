@@ -7,23 +7,38 @@
 <%= render partial: 'filter' %>
 
 <!-- ACCOUNTS - LIST VIEW PARTIAL -->
-<%= render partial: 'list_view' %>
-
-<!-- ACCOUNTS - DETAILED VIEW PARTIAL -->
-<br>
-<h3 class="section-header">Detailed View Starts Here</h3>
-<%= render partial: 'buttons' %>
-<br>
-
-<% num = 0 %>
-<% @cores.each do |core| %>
-    <% num +=1 %>
-    <%= render partial: 'detailed_view', locals: { core: core, num: num } %>
+<% if @view_mode == "list" %>
+    <%= render partial: 'list_view' %>
 <% end %>
 
-<%= render partial: 'buttons' %>
-<%= will_paginate @cores, renderer: BootstrapPagination::Rails  %>
+<!-- ACCOUNTS - DETAILED VIEW PARTIAL -->
+<% if @view_mode == "detail" %>
+    <h3 class="section-header">Detailed View Starts Here</h3>
+    <%= render partial: 'buttons' %><br>
 
+    <% num = 0 %>
+    <% @cores.each do |core| %>
+        <% num +=1 %>
+        <%= render partial: 'detailed_view', locals: { core: core, num: num } %>
+    <% end %>
+<% end %>
+
+
+<div class="pull-left">
+    <div class="form-group">
+        <div class="submit-button-area">
+            <%= select_tag :selected_status, options_for_select(core_status_list), include_blank: '-- Update Domain Status --', class: 'selectpicker' %>
+        </div>
+        <div class="submit-button-area">
+            <%= submit_tag "Submit", class: 'btn btn-success' %>
+        </div>
+    </div>
+</div>
+
+<div class="pull-right">
+    <%= render partial: 'buttons' %>
+</div><br>
+<%= will_paginate @cores, renderer: BootstrapPagination::Rails  %>
 
 <!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
 <% end %>

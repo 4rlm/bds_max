@@ -155,5 +155,12 @@
     </div>  <!-- row ends -->
 </div> <!-- staffer-filter-container Ends -->
 
+<div class="radio">
+    <label><%= radio_button_tag 'view_mode', 'list', true %> List View</label>
+</div>
+<div class="radio">
+    <label><%= radio_button_tag 'view_mode', 'detail' %> Detail View</label>
+</div>
+
 <%= submit_tag "Search", class: 'wide-button blue-button' %>
 <% end %>

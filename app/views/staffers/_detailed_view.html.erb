@@ -102,11 +102,3 @@
     <% end %>
   </tbody>
 </table>
-
-<div class="pull-right">
-    <%= render partial: 'buttons' %>
-</div> <br>
-
-<!-- Was end tag here.  Moved to bottom of index, after making list view partial.    -->
-
-<%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
