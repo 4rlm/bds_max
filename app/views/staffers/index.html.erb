@@ -6,18 +6,22 @@
 <%= render partial: 'filter' %>
 
 <!-- CONTACTS - LIST VIEW PARTIAL -->
-<h3 class="section-header">Contact Profiles - List View</h3>
-<p>List view shows more (than detailed view), but will NOT be attached to account detailed view.</p>
+<% if @view_mode == "list" %>
+    <h3 class="section-header">Contact Profiles - List View</h3>
+    <p>List view shows more (than detailed view), but will NOT be attached to account detailed view.</p>
 
-<div class="pull-right">
-    <%= render partial: 'buttons' %>
-</div> <br>
+    <div class="pull-right">
+        <%= render partial: 'buttons' %>
+    </div> <br>
 
-<%= render partial: 'list_view', locals: { staffers: @staffers } %>
+    <%= render partial: 'list_view', locals: { staffers: @staffers } %>
+<% end %>
 
-<div class="pull-right">
-    <%= render partial: 'buttons' %>
-</div> <br>
+<!-- CONTACTS - DETAILED VIEW PARTIAL -->
+<% if @view_mode == "detail" %>
+    <%= render partial: 'detailed_view' %>
+<% end %>
+
 
 <div class="pull-left">
     <div class="form-group">
@@ -30,13 +34,11 @@
     </div>
 </div>
 
+<div class="pull-right">
+    <%= render partial: 'buttons' %>
+</div><br>
 <!-- Was end tag here.  Moved to bottom of index, after making list view partial.    -->
 <%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
-
-<!-- CONTACTS - DETAILED VIEW PARTIAL -->
-<%= render partial: 'detailed_view' %>
-
-
 
 <!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
 <% end %>

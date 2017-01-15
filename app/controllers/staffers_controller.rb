@@ -7,8 +7,10 @@ class StaffersController < ApplicationController
 def index
     if choice_hash = get_selected_status_staffer
         clean_choice_hash = {}
+        @view_mode = choice_hash[:view_mode]
+
         choice_hash.each do |key, value|
-            clean_choice_hash[key] = value if !value.nil? && value != ""
+            clean_choice_hash[key] = value if !value.nil? && value != "" && key != :view_mode
         end
         @selected_data = Staffer.where(clean_choice_hash)
     else # choice_hash is nil
