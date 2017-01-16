@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170116030151) do
+ActiveRecord::Schema.define(version: 20170116192826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,11 +235,24 @@ ActiveRecord::Schema.define(version: 20170116030151) do
     t.string   "state_code"
     t.string   "postal_code"
     t.string   "coordinates"
-    t.string   "locations_status"
     t.string   "acct_name"
     t.string   "group_name"
     t.string   "ult_group_name"
     t.string   "source"
+    t.string   "sfdc_id"
+    t.string   "tier"
+    t.string   "sales_person"
+    t.string   "acct_type"
+    t.string   "location_status"
+    t.string   "rev_full_address"
+    t.string   "rev_street"
+    t.string   "rev_city"
+    t.string   "rev_state"
+    t.string   "rev_state_code"
+    t.string   "rev_postal_code"
+    t.string   "url"
+    t.string   "root"
+    t.string   "franchise"
   end
 
   create_table "pending_verifications", force: :cascade do |t|
