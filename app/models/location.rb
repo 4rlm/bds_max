@@ -1,8 +1,12 @@
 
 class Location < ApplicationRecord
-  geocoded_by :address
-  after_validation :geocode, :if => :address_changed?
 
+  geocoded_by :address
+  after_validation :geocode, :if => :state_code_changed?
+
+    def address
+      [street, city, state_code, postal_code].compact.join(', ')
+    end
 
   def self.to_csv
       CSV.generate do |csv|
