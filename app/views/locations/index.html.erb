@@ -2,22 +2,80 @@
 
 <h1>Locations</h1>
 
+
+
+<div class="pull-right">
+    <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
+
+</div> <br>
+
+
+
+
+<%= form_tag locations_path, :method => :get do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search Near", :name => nil %>
+<% end %>
+
+
+<%= form_tag "/locations", method: :get, class: 'form-inline'  do %>
+
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
   <thead>
     <tr>
-      <th>Address</th>
+
+        <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+
+        <th>#</th>
+
+      <th>Geo Status</th>
+      <th>Account Name</th>
+      <th>Full Address</th>
+      <th>Street</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+
       <th>Latitude</th>
       <th>Longitude</th>
+
+      <th>Created</th>
+      <th>Updated</th>
+
+
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
+    <% num = 0 %>
     <% @locations.each do |location| %>
       <tr>
+
+          <td><%= check_box_tag "multi_checks[]",  location.id %></td>
+
+          <% num +=1 %>
+          <td><%= num %></td>
+
+        <td><%= location.locations_status %></td>
+        <td><%= location.acct_name %></td>
+        <td><%= location.full_address %></td>
         <td><%= location.address %></td>
+        <td><%= location.city %></td>
+        <td><%= location.state_code %></td>
+        <td><%= location.postal_code %></td>
+
         <td><%= location.latitude %></td>
         <td><%= location.longitude %></td>
+
+        <td><%= location.created_at %></td>
+        <td><%= location.updated_at %></td>
+
         <td><%= link_to 'Show', location %></td>
         <td><%= link_to 'Edit', edit_location_path(location) %></td>
         <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -26,6 +84,17 @@
   </tbody>
 </table>
 
-<br>
+<div class="pull-left">
+    <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+</div>
+<% end %>
 
-<%= link_to 'New Location', new_location_path %>
+
+<div class="pull-right">
+    <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
+
+    <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
+
+</div> <br>

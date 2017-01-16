@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170115133829) do
+ActiveRecord::Schema.define(version: 20170116030151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -227,8 +227,19 @@ ActiveRecord::Schema.define(version: 20170115133829) do
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "full_address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "state_code"
+    t.string   "postal_code"
+    t.string   "coordinates"
+    t.string   "locations_status"
+    t.string   "acct_name"
+    t.string   "group_name"
+    t.string   "ult_group_name"
+    t.string   "source"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

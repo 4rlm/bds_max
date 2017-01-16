@@ -4,7 +4,29 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.all
+    if params[:search].present?
+    #   @locations = Location.near(params[:search], 50, :order => :distance)
+      @locations = Location.near(params[:search], 50)
+    else
+      @locations = Location.all
+    end
+
+    ##### CSV Export Testing Starts ######
+    locations_csv = @locations.order(:longitude)
+        respond_to do |format|
+          format.html
+          format.csv { render text: locations_csv.to_csv }
+    end
+    ##### CSV Export Testing Ends ######
+
+    #==== For multi check box
+    selects = params[:multi_checks]
+    unless selects.nil?
+        Location.where(id: selects).destroy_all
+    end
+    #================
+
+
   end
 
   # GET /locations/1
@@ -20,6 +42,24 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
   end
+
+
+  ##### CSV Import Testing Starts ######
+  # Go to the CSV importing page
+  def import_page
+  end
+
+  def import_csv_data
+    file_name = params[:file]
+    Location.import_csv(file_name)
+
+    flash[:notice] = "CSV imported successfully."
+    redirect_to locations_path
+  end
+  ##### CSV Import Testing Ends ######
+
+
+
 
   # POST /locations
   # POST /locations.json

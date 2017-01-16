@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  resources :locations
+  # resources :locations
+
+  resources :locations do
+      collection {post :import_csv_data}
+  end
+  get 'location/import_page' => 'locations#import_page'
+  
+
+
   resources :dashboards
 
   resources :staffers do
