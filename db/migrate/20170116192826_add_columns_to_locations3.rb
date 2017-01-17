@@ -5,7 +5,7 @@ class AddColumnsToLocations3 < ActiveRecord::Migration[5.0]
       add_column :locations, :sales_person, :string
       add_column :locations, :acct_type, :string
       add_column :locations, :location_status, :string
-      add_column :locations, :rev_full_address, :string
+      add_column :locations, :rev_address, :string
       add_column :locations, :rev_street, :string
       add_column :locations, :rev_city, :string
       add_column :locations, :rev_state, :string

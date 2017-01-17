@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170116210040) do
+ActiveRecord::Schema.define(version: 20170117022103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,12 @@ ActiveRecord::Schema.define(version: 20170116210040) do
     t.string   "site_geo_addy"
     t.float    "site_lat"
     t.float    "site_lon"
+    t.string   "sfdc_geo_status"
+    t.string   "site_geo_status"
+    t.datetime "sfdc_geo_date"
+    t.datetime "site_geo_date"
+    t.string   "sfdc_coordinates"
+    t.string   "site_coordinates"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -228,8 +234,6 @@ ActiveRecord::Schema.define(version: 20170116210040) do
     t.float    "longitude"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.string   "full_address"
-    t.string   "street"
     t.string   "city"
     t.string   "state"
     t.string   "state_code"
@@ -253,6 +257,8 @@ ActiveRecord::Schema.define(version: 20170116210040) do
     t.string   "url"
     t.string   "root"
     t.string   "franchise"
+    t.string   "street"
+    t.string   "address"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

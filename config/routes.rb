@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       collection {post :import_csv_data}
   end
   get 'location/import_page' => 'locations#import_page'
-  
+
 
 
   resources :dashboards
@@ -113,6 +113,7 @@ Rails.application.routes.draw do
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
     get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
     get 'solitary_migrator' => 'solitaries#solitary_migrator'
+    get 'location_migrator' => 'locations#location_migrator'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
