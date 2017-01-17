@@ -61,12 +61,14 @@
 
         <td><%= location.location_status %></td>
         <td><%= location.source %></td>
+
         <td><%= location.acct_name %></td>
-        <td><%= location.address %></td>
+        <td><%= link_to location.address, location %></td>
         <td><%= location.street %></td>
         <td><%= location.city %></td>
         <td><%= location.state_code %></td>
         <td><%= location.postal_code %></td>
+
         <td><%= location.latitude %></td>
         <td><%= location.longitude %></td>
         <td><%= location.sfdc_id %></td>
@@ -98,16 +100,29 @@
 </table>
 
 <div class="pull-left">
-    <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+
+    <%#= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+
+
+    <div class="submit-button-area">
+
+        <%= select_tag :selected_status, options_for_select(indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+
+    </div>
+
+    <div class="submit-button-area">
+        <%= submit_tag "Submit", class: 'btn btn-success' %>
+    </div>
+
+
 </div>
 <% end %>
 
-
 <div class="pull-right">
     <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
-
     <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
-
     <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
 
-</div> <br>
+<%= will_paginate @locations, renderer: BootstrapPagination::Rails  %>
+<br>

@@ -1,16 +1,19 @@
+require 'csv'
 
 class Location < ApplicationRecord
 
+# FILTERABLE #
+include Filterable
+
+# MULTI-SELECT #
+scope :location_status, -> (location_status) { where location_status: location_status }
+
+# GEOCODE - GOOGLE #
   geocoded_by :address
-  after_validation :geocode, :if => :street_changed?
-
-    def address
-      [street, city, state_code, postal_code].compact.join(', ')
-    end
-
-    #########################
+  after_validation :geocode, :if => :address_changed?
 
 
+# CSV#
   def self.to_csv
       CSV.generate do |csv|
           csv << column_names
@@ -28,25 +31,3 @@ class Location < ApplicationRecord
   end
 
 end
-
-
-# class Location < ApplicationRecord
-#   geocoded_by :address do |obj,results|
-#       if geo = results.first
-#         location.city = geo.city
-#         location.zipcode = geo.postal_code
-#         location.country = geo.country_code
-#       end
-#     end
-#
-#   after_validation :geocode, :if => :address_changed?
-# end
-
-
-
-
-# == ORIGINAL ==
-# class Location < ApplicationRecord
-#   geocoded_by :address
-#   after_validation :geocode, :if => :address_changed?
-# end
