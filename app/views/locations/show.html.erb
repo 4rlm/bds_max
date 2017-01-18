@@ -75,7 +75,7 @@
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
     <thead>
         <tr>
-            <th colspan="13">Nearby Locations</th>
+            <th colspan="20">Nearby Locations</th>
         </tr>
         <tr>
 
@@ -109,7 +109,7 @@
 
     <tbody>
         <% num = 0 %>
-        <% for location in @location.nearbys(5000) %>
+        <% for location in @location.nearbys(500) %>
         <tr>
             <% num +=1 %>
             <td><%= num %></td>
@@ -151,11 +151,11 @@
 </table>
 
 
-<div class="container-fluid">
+<div class="container-fluid geo-map-container">
     <div class="row">
         <div class="col-md-12 col-md-offset-3">
 
-            <%= image_tag "http://maps.google.com/maps/api/staticmap?size=800x500&sensor=false&zoom=17&markers=#{@location.latitude}%2C#{@location.longitude}&key=AIzaSyAl4noTp68mX7owdW2EpHxjdO1o7i3xh-Y" %>
+        <%= image_tag "http://maps.google.com/maps/api/staticmap?size=1000x1000&sensor=false&zoom=17&markers=#{@location.latitude}%2C#{@location.longitude}&key=AIzaSyAl4noTp68mX7owdW2EpHxjdO1o7i3xh-Y", :class => "geo-map" %>
 
         </div>
     </div>

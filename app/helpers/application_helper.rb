@@ -13,4 +13,8 @@ module ApplicationHelper
         ["Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
     end
 
+    def location_geo_status_list
+        ['Error', 'Geo Fail', 'Geo Result', 'Geo Outbound', 'Merge Request', 'Merged', 'Geo Reverse', 'Update Core', 'Try Again', 'Destroy']
+    end
+
 end

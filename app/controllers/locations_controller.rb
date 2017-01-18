@@ -34,7 +34,7 @@ class LocationsController < ApplicationController
         end
 
         # WILL_PAGINATE #
-        @locations = Location.paginate(:page => params[:page], :per_page => 10).order(created_at: :desc)
+        @locations = Location.paginate(:page => params[:page], :per_page => 100).order(created_at: :desc)
 
 
         # CHECKBOX #
@@ -113,12 +113,17 @@ class LocationsController < ApplicationController
     ######
     def location_migrator
         # cores = Core.all
-        cores = Core.all[24...27]
+        cores = Core.all[80...100]
         serv = LocationService.new
 
+        counter = 1
         for core in cores
             serv.create_sfdc_loc(core)
             serv.create_site_loc(core)
+            puts "------------------------"
+            puts "Query #: #{counter}"
+            puts "------------------------"
+            counter+=1
         end
 
         redirect_to locations_path

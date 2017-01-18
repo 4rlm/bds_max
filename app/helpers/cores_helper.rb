@@ -1,6 +1,6 @@
 module CoresHelper
     def core_status_list
-        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Destroy']
+        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
     end
 
     def sfdc_sales_person_list
@@ -8,20 +8,12 @@ module CoresHelper
     end
 
     def bds_status_list
-        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Destroy']
+        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
     end
 
     def sfdc_tier_list
         ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
     end
-
-    # def url_comparison_list
-    #     ["Different", "Same"]
-    # end
-    #
-    # def root_comparison_list
-    #     ["Different", "Same"]
-    # end
 
     def comparison_list
         [["Different", "different"], ["Same", "same"]]

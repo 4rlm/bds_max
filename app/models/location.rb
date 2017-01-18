@@ -8,9 +8,24 @@ include Filterable
 # MULTI-SELECT #
 scope :location_status, -> (location_status) { where location_status: location_status }
 
-# GEOCODE - GOOGLE #
+# GEOCODE - GOOGLE - FORWARD #
   geocoded_by :address
   after_validation :geocode, :if => :address_changed?
+
+# GEOCODE - GOOGLE - REVERSE #
+    # reverse_geocoded_by :latitude, :longitude
+    # after_validation :reverse_geocode  # auto-fetch address
+
+
+    # reverse_geocoded_by :latitude, :longitude do |obj,results|
+    #   if geo = results.first
+    #     obj.city    = geo.city
+    #     obj.zipcode = geo.postal_code
+    #     obj.country = geo.country_code
+    #   end
+    # end
+    # after_validation :reverse_geocode
+
 
 
 # CSV#

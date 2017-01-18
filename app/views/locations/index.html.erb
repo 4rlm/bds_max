@@ -33,6 +33,9 @@
       <th>Zip</th>
       <th>Latitude</th>
       <th>Longitude</th>
+
+      <th>Coordinates</th>
+
       <th>SFDC ID</th>
 
       <th>Rev Full Address</th>
@@ -71,8 +74,10 @@
 
         <td><%= location.latitude %></td>
         <td><%= location.longitude %></td>
-        <td><%= location.sfdc_id %></td>
 
+        <td><%= location.coordinates %></td>
+
+        <td><%= location.sfdc_id %></td>
         <td><%= location.rev_full_address %></td>
         <td><%= location.rev_street %></td>
         <td><%= location.rev_city %></td>
@@ -106,7 +111,7 @@
 
     <div class="submit-button-area">
 
-        <%= select_tag :selected_status, options_for_select(indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+        <%= select_tag :selected_status, options_for_select(location_geo_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
 
     </div>
 
