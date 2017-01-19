@@ -1,0 +1,144 @@
+<p id="notice"><%= notice %></p>
+
+<h3 class="section-header">Geolocations</h3>
+
+
+<!-- FILTER PARTIAL -->
+<%= render partial: 'filter' %>
+
+<!-- ## FILTER - STARTS## -->
+
+<!-- <td><%#= select_tag :sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
+
+
+<!-- ## FILTER - ENDS## -->
+
+<div class="pull-right">
+    <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
+</div> <br>
+
+<%= form_tag locations_path, :method => :get do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search Near", :name => nil %>
+<% end %>
+
+<%= form_tag "/locations", method: :get, class: 'form-inline'  do %>
+
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+  <thead>
+    <tr>
+        <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+
+        <th>#</th>
+      <th>Status</th>
+      <th>Source</th>
+
+      <th>Account Name</th>
+      <th>Full Address</th>
+      <th>Street</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+
+      <th>Coordinates</th>
+
+      <th>SFDC ID</th>
+
+      <th>Rev Full Address</th>
+      <th>Rev Street</th>
+      <th>Rev City</th>
+      <th>Rev State</th>
+      <th>Rev Zip</th>
+
+      <th>Created</th>
+      <th>Updated</th>
+
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% num = 0 %>
+
+    <% @locations.each do |location| %>
+      <tr>
+
+          <td><%= check_box_tag "multi_checks[]",  location.id %></td>
+
+          <% num +=1 %>
+          <td><%= num %></td>
+
+        <td><%= location.location_status %></td>
+        <td><%= location.source %></td>
+
+        <td><%= location.acct_name %></td>
+        <td><%= link_to location.address, location %></td>
+        <td><%= location.street %></td>
+        <td><%= location.city %></td>
+        <td><%= location.state_code %></td>
+        <td><%= location.postal_code %></td>
+
+        <td><%= location.latitude %></td>
+        <td><%= location.longitude %></td>
+
+        <td><%= location.coordinates %></td>
+
+        <td><%= location.sfdc_id %></td>
+        <td><%= location.rev_full_address %></td>
+        <td><%= location.rev_street %></td>
+        <td><%= location.rev_city %></td>
+        <td><%= location.rev_state_code %></td>
+        <td><%= location.rev_postal_code %></td>
+
+        <% if location.created_at %>
+            <td><%= location.created_at.strftime("%m/%d/%Y") %></td>
+        <% else %>
+            <td><%= location.created_at%></td>
+        <% end %>
+
+        <% if location.updated_at %>
+            <td><%= location.updated_at.strftime("%m/%d/%Y") %></td>
+        <% else %>
+            <td><%= location.updated_at%></td>
+        <% end %>
+
+        <td><%= link_to 'Show', location %></td>
+        <td><%= link_to 'Edit', edit_location_path(location) %></td>
+        <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pull-left">
+
+    <%#= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+
+
+    <div class="submit-button-area">
+
+        <%= select_tag :selected_status, options_for_select(location_geo_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+
+    </div>
+
+    <div class="submit-button-area">
+        <%= submit_tag "Submit", class: 'btn btn-success' %>
+    </div>
+
+
+</div>
+<% end %>
+
+<div class="pull-right">
+    <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
+
+<%= will_paginate @locations, renderer: BootstrapPagination::Rails  %>
+<br>

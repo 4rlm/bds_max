@@ -8,21 +8,31 @@
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
-            <th class="w-md">Core</th>
-            <th class="w-md">Domainer</th>
-            <th class="w-md">Staff Indexer</th>
-            <th class="w-md">Location Indexer</th>
-            <th class="w-md">Inventory Indexer</th>
-            <th class="w-md">Staffer</th>
-            <th class="w-md">WhoIs</th>
-            <th class="w-md">Account</th>
-            <th class="w-md">Ult Group</th>
-            <th class="w-md">City</th>
-            <th class="w-md">State</th>
-            <th class="w-md">Staff Page</th>
-            <th class="w-md">Type</th>
-            <th class="w-md">Salesperson</th>
-            <th class="w-md">SFDC ID</th>
+            <th>Core</th>
+            <th>Domainer</th>
+            <th>Staff Indexer</th>
+            <th>Location Indexer</th>
+            <th>Staffer</th>
+            <th>SFDC Geo</th>
+            <th>Site Geo</th>
+
+            <th>SFDC Coord</th>
+            <th>Lat</th>
+            <th>Long</th>
+
+            <th>Site Coord</th>
+            <th>Lat</th>
+            <th>Long</th>
+
+
+            <th>Staff Page</th>
+            <th>Account</th>
+            <th>Ult Group</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Type</th>
+            <th>Salesperson</th>
+            <th>SFDC ID</th>
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -40,21 +50,38 @@
                 <td><%= core.domain_status %></td>
                 <td><%= core.staff_indexer_status %></td>
                 <td><%= core.location_indexer_status %></td>
-                <td><%= core.inventory_indexer_status %></td>
-
                 <td><%= core.staffer_status %></td>
 
-                <td>n/a</td>
-                <td><%= core.sfdc_acct %></td>
-                <td><%= core.sfdc_ult_grp %></td>
-                <td><%= core.sfdc_city %></td>
-                <td><%= core.sfdc_state %></td>
+                <td><%= core.sfdc_geo_status %></td>
+                <td><%= core.site_geo_status %></td>
+
+
+
+                <td><%= core.sfdc_coordinates %></td>
+                <td><%= core.sfdc_lat %></td>
+                <td><%= core.sfdc_lon %></td>
+
+
+
+
+
+                <td><%= core.site_coordinates %></td>
+                <td><%= core.site_lat %></td>
+                <td><%= core.site_lon %></td>
+
+
+
 
                 <% if core.staff_text && core.staff_text != "(none)"%>
                     <td class="yes"><%= link_to core.staff_text, core.staff_link, :target => "_blank" %></td>
                 <% else %>
                     <td><%= core.staff_text %></td>
                 <% end %>
+
+                <td><%= core.sfdc_acct %></td>
+                <td><%= core.sfdc_ult_grp %></td>
+                <td><%= core.sfdc_city %></td>
+                <td><%= core.sfdc_state %></td>
 
                 <td><%= core.sfdc_type %></td>
                 <td><%= core.sfdc_sales_person %></td>

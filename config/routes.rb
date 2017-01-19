@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  # resources :locations
+
+  resources :locations do
+      collection {post :import_csv_data}
+  end
+  get 'location/import_page' => 'locations#import_page'
+  get 'location/search' => 'locations#search'
+
+
   resources :dashboards
 
   resources :staffers do
@@ -104,11 +113,13 @@ Rails.application.routes.draw do
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
     get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
     get 'solitary_migrator' => 'solitaries#solitary_migrator'
+    get 'location_migrator' => 'locations#location_migrator'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
     post 'search_result_page_gcse' => 'search#search_result_gcse'
     post 'search_result_page_staffer' => 'search#search_result_staffer'
+    post 'search_result_page_location' => 'search#search_result_location'
     root 'search#index'
 
     # === Google API Route ===

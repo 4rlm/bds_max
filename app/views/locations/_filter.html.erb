@@ -1,0 +1,114 @@
+<h3 class="section-header">Geo Filter</h3>
+
+<%= form_tag "/locations", method: :get, class: 'form-inline'  do %>
+
+<!-- # MOVE ABOVE TO INDEX WHEN COMPLETED! # -->
+
+<div class="theme-layout filter-container">
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Geo Filter</th>
+
+                    <th class="th-2 w-sm">Status</th>
+
+                    <td><%= select_tag :location_status, options_for_select(location_geo_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <th class="th-2 w-sm">Sales Person:</th>
+                    <td><%= select_tag :sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <th class="th-2 w-xsm">Type:</th>
+                    <td><%= select_tag :acct_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <th class="th-2 w-xsm">SFDC ID:</th>
+                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-1 t3">Account</th>
+                    <th class="th-2">Source</th>
+                    <th class="th-2">Account</th>
+                    <th class="th-2">Group Name</th>
+                    <th class="th-2">Ultimate Group Name</th>
+                    <th class="th-2">Sales Tier</th>
+                </tr>
+                <tr>
+                    <th class="th-2 th-2a"></th>
+                    <td><%= select_tag :source, options_for_select(geo_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :ult_group_name } %></td>
+                    <td><%= select_tag :tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-1 t3">Address</th>
+                    <th class="th-2">Full Address</th>
+                    <th class="th-2">Street</th>
+                    <th class="th-2">City</th>
+                    <th class="th-2">State</th>
+                    <th class="th-2">Zip</th>
+                    <th class="th-2">Latitude</th>
+                    <th class="th-2">Longitude</th>
+                    <th class="th-2">Coords</th>
+                </tr>
+                <tr>
+                    <th class="th-2 th-2a"></th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :address } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :street } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :city } %></td>
+                    <td><%= select_tag :state_code, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :postal_code } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :latitude } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :longitude } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :coordinates } %></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-1 t3">Digital</th>
+                    <th class="th-2">Website</th>
+                    <th class="th-2">Root</th>
+                    <th class="th-2">Franchise</th>
+                    <th class="th-2">Created</th>
+                    <th class="th-2">Updated</th>
+                </tr>
+                <tr>
+                    <th class="th-2 th-2a"></th>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :url } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :root } %></td>
+                    <td><%= select_tag :franchise, options_for_select(franchise_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :created_at } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :updated_at } %></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+</div> <!-- filter-container Ends -->
+
+<%= submit_tag "Search", class: 'wide-button green-button' %>
+
+
+<!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
+<% end %>
+<!-- # Filter Headers Form tag ends -->

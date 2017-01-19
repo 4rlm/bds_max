@@ -27,4 +27,12 @@ class ApplicationController < ActionController::Base
     $staffer_choice_hash
   end
 
+    def set_selected_status_location(choice_hash)
+      $location_choice_hash = choice_hash
+    end
+
+    def get_selected_status_location
+      $location_choice_hash
+    end
+
 end

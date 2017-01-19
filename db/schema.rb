@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170114034348) do
+ActiveRecord::Schema.define(version: 20170117022103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,18 @@ ActiveRecord::Schema.define(version: 20170114034348) do
     t.string   "site_ult_grp"
     t.string   "site_group"
     t.string   "acct_source"
+    t.string   "sfdc_geo_addy"
+    t.float    "sfdc_lat"
+    t.float    "sfdc_lon"
+    t.string   "site_geo_addy"
+    t.float    "site_lat"
+    t.float    "site_lon"
+    t.string   "sfdc_geo_status"
+    t.string   "site_geo_status"
+    t.datetime "sfdc_geo_date"
+    t.datetime "site_geo_date"
+    t.string   "sfdc_coordinates"
+    t.string   "site_coordinates"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -215,6 +227,38 @@ ActiveRecord::Schema.define(version: 20170114034348) do
     t.datetime "indexer_timestamp"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "city"
+    t.string   "state"
+    t.string   "state_code"
+    t.string   "postal_code"
+    t.string   "coordinates"
+    t.string   "acct_name"
+    t.string   "group_name"
+    t.string   "ult_group_name"
+    t.string   "source"
+    t.string   "sfdc_id"
+    t.string   "tier"
+    t.string   "sales_person"
+    t.string   "acct_type"
+    t.string   "location_status"
+    t.string   "rev_full_address"
+    t.string   "rev_street"
+    t.string   "rev_city"
+    t.string   "rev_state"
+    t.string   "rev_state_code"
+    t.string   "rev_postal_code"
+    t.string   "url"
+    t.string   "root"
+    t.string   "franchise"
+    t.string   "street"
+    t.string   "address"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

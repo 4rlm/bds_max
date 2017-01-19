@@ -18,6 +18,27 @@
  *= require font-awesome
  */
 
+// .geo-map-container {
+//     position: fixed;
+//     margin-bottom: 900px;
+// }
+
+.geo-map-1 {
+    box-shadow: 5px 5px 5px gray;
+    border: 3px solid gray;
+    border-radius: 5px;
+    // height: 500px;
+    // width: 800px;
+}
+
+.geo-map-2 {
+    box-shadow: 5px 5px 5px gray;
+    border: 3px solid gray;
+    border-radius: 5px;
+    // height: 500px;
+    // width: 800px;
+}
+
 
 .outer-container {
     margin-top: 80px;
@@ -275,7 +296,7 @@ table.theme-layout-table {
     text-align: center;
     color: white;
     background-image:linear-gradient(#32bde7, #1bb5e4);
-    font-size: 105%;
+    font-size: 100%;
 }
 
 .list-table td {

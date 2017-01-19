@@ -153,9 +153,11 @@
                     <th class="th-2">Domainer</th>
                     <th class="th-2">Staff Index</th>
                     <th class="th-2">Location Index</th>
-                    <th class="th-2">Inventory Index</th>
+                    <!-- <th class="th-2">Inventory Index</th> -->
                     <th class="th-2">Contacts</th>
-                    <th class="th-2">WhoIs</th>
+                    <!-- <th class="th-2">WhoIs</th> -->
+                    <th class="th-2">SFDC Geo</th>
+                    <th class="th-2">Site Geo</th>
                 </tr>
                 <tr>
                     <th class="th-2 th-2a">Status</th>
@@ -168,20 +170,26 @@
 
                     <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-                    <td></td>
-
                     <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-                    <td>n/a</td>
+
+
+                    <td><%= select_tag :sfdc_geo_status, options_for_select(location_geo_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+
+                    <td><%= select_tag :site_geo_status, options_for_select(location_geo_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Date</th>
+                    <td></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domainer_date } %></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></td>
-                    <td></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_geo_date } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :site_geo_date } %></td>
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Link</th>

@@ -56,13 +56,13 @@
                     <th class="th-2">Ultimate Group Name</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-md">Sales Tier</th>
+                    <th class="th-2">Sales Tier</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xsm">GRT</th>
+                    <th class="th-2">GRT</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xsm">URT</th>
+                    <th class="th-2">URT</th>
 
                 </tr>
                 <tr>
@@ -81,7 +81,7 @@
                     <td><%= core.sfdc_ult_rt %></td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2b">Matched</th>
+                    <th class="th-2 th-2b">Scraped</th>
                     <%= render partial: 'layouts/indicator', locals: { col: core.acct_indicator } %>
                     <td><%= core.site_acct %></td>
                     <%= render partial: 'layouts/indicator', locals: { col: core.grp_name_indicator } %>
@@ -109,16 +109,19 @@
                     <th class="th-2">Street</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-lg">City</th>
+                    <th class="th-2">City</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xxsm">State</th>
+                    <th class="th-2">State</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-xsm">Zip</th>
+                    <th class="th-2">Zip</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2 w-md">Phone</th>
+                    <th class="th-2">Coordinates</th>
+
+                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
+                    <th class="th-2">Phone</th>
 
                 </tr>
                 <tr>
@@ -131,11 +134,15 @@
                     <td><%= core.sfdc_state %></td>
                     <%= render partial: 'layouts/indicator', locals: { col: core.zip_indicator } %>
                     <td><%= core.sfdc_zip %></td>
+
+                    <%= render partial: 'layouts/indicator', locals: { col: core.zip_indicator } %>
+                    <td><%= core.sfdc_coordinates %></td>
+
                     <%= render partial: 'layouts/indicator', locals: { col: core.ph_indicator } %>
                     <td><%= core.sfdc_ph %></td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2b">Matched</th>
+                    <th class="th-2 th-2b">Scraped</th>
                     <%= render partial: 'layouts/indicator', locals: { col: core.street_indicator } %>
                     <td><%= core.site_street %></td>
                     <%= render partial: 'layouts/indicator', locals: { col: core.city_indicator } %>
@@ -144,6 +151,10 @@
                     <td><%= core.site_state %></td>
                     <%= render partial: 'layouts/indicator', locals: { col: core.zip_indicator } %>
                     <td><%= core.site_zip %></td>
+
+                    <%= render partial: 'layouts/indicator', locals: { col: core.zip_indicator } %>
+                    <td><%= core.site_coordinates %></td>
+
                     <%= render partial: 'layouts/indicator', locals: { col: core.ph_indicator } %>
                     <td><%= core.site_ph %></td>
                 </tr>
@@ -182,7 +193,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2b">Matched</th>
+                    <th class="th-2 th-2b">Scraped</th>
                     <%= render partial: 'layouts/indicator', locals: { col: core.url_comparison } %>
                     <td><%= link_to core.matched_url, core.matched_url, :target => "_blank" %></td>
                     <%= render partial: 'layouts/indicator', locals: { col: core.root_comparison } %>
@@ -207,9 +218,12 @@
                     <th class="th-2">Domainer</th>
                     <th class="th-2">Staff Index</th>
                     <th class="th-2">Location Index</th>
-                    <th class="th-2">Inventory Index</th>
+                    <!-- <th class="th-2">Inventory Index</th> -->
                     <th class="th-2">Staffer</th>
-                    <th class="th-2">WhoIs</th>
+                    <th class="th-2">SFDC Geo</th>
+                    <th class="th-2">Scraped Geo</th>
+                    <!-- <th class="th-2">WhoIs</th> -->
+
                 </tr>
                 <tr>
                     <th class="th-2 th-2a">Status</th>
@@ -217,9 +231,10 @@
                     <td><%= core.domain_status %></td>
                     <td><%= core.staff_indexer_status %></td>
                     <td><%= core.location_indexer_status %></td>
-                    <td><%= core.inventory_indexer_status %></td>
+                    <!-- <td><%#= core.inventory_indexer_status %></td> -->
                     <td><%= core.staffer_status %></td>
-                    <td></td>
+                    <td><%= core.sfdc_geo_status %></td>
+                    <td><%= core.site_geo_status %></td>
                 </tr>
                 <tr>
                     <th class="th-2 th-2b">Date</th>
@@ -227,9 +242,17 @@
                     <%= render partial: 'layouts/date_format', locals: { col: core.domainer_date } %>
                     <%= render partial: 'layouts/date_format', locals: { col: core.indexer_date } %>
                     <%= render partial: 'layouts/date_format', locals: { col: core.indexer_date } %>
-                    <%= render partial: 'layouts/date_format', locals: { col: core.indexer_date } %>
                     <%= render partial: 'layouts/date_format', locals: { col: core.staffer_date } %>
-                    <%= render partial: 'layouts/date_format', locals: { col: core.updated_at } %>
+                    <% if core.sfdc_geo_date %>
+                        <td><%= core.sfdc_geo_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.sfdc_geo_date %></td>
+                    <% end %>
+                    <% if core.site_geo_date %>
+                        <td><%= core.site_geo_date.strftime("%m/%d/%Y") %></td>
+                    <% else %>
+                        <td><%= core.site_geo_date %></td>
+                    <% end %>
                 </tr>
                 <tr>
                     <th class="th-2 th-2c">Link</th>
@@ -237,8 +260,8 @@
                     <td></td>
                     <%= render partial: 'layouts/link', locals: { text: core.staff_text, link: core.staff_link } %>
                     <%= render partial: 'layouts/link', locals: { text: core.location_text, link: core.location_link } %>
-                    <td></td>
                     <td><%= link_to "View Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
+                    <td></td>
                     <td></td>
                 </tr>
             </table>
