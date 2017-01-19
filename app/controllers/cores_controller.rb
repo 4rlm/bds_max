@@ -165,11 +165,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status,)
+        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status,)
+        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status)
     end
 
 
@@ -204,7 +204,7 @@ class CoresController < ApplicationController
 
         flash[:notice] = 'Geo started!'
         # redirect_to cores_path
-        redirect_to locations_path
+        redirect_to cores_path
     end
 
 end

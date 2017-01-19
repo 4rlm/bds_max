@@ -13,14 +13,19 @@
             <th>Staff Indexer</th>
             <th>Location Indexer</th>
             <th>Staffer</th>
-            <th>Geo SFDC</th>
-            <th>Geo Site</th>
+            <th>SFDC Geo</th>
+            <th>Site Geo</th>
 
             <th>SFDC Coord</th>
+            <th>Lat</th>
+            <th>Long</th>
+
             <th>Site Coord</th>
+            <th>Lat</th>
+            <th>Long</th>
+
 
             <th>Staff Page</th>
-
             <th>Account</th>
             <th>Ult Group</th>
             <th>City</th>
@@ -50,8 +55,22 @@
                 <td><%= core.sfdc_geo_status %></td>
                 <td><%= core.site_geo_status %></td>
 
+
+
                 <td><%= core.sfdc_coordinates %></td>
+                <td><%= core.sfdc_lat %></td>
+                <td><%= core.sfdc_lon %></td>
+
+
+
+
+
                 <td><%= core.site_coordinates %></td>
+                <td><%= core.site_lat %></td>
+                <td><%= core.site_lon %></td>
+
+
+
 
                 <% if core.staff_text && core.staff_text != "(none)"%>
                     <td class="yes"><%= link_to core.staff_text, core.staff_link, :target => "_blank" %></td>

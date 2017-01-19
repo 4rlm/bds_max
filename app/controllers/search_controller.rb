@@ -343,6 +343,19 @@ class SearchController < ApplicationController
         redirect_to staffers_path
     end
 
+    def search_result_location
+        set_selected_status_location({ latitude: params[:latitude], longitude: params[:longitude], created_at: params[:created_at], updated_at: params[:updated_at], city: params[:city], state_code: params[:state_code], postal_code: params[:postal_code], coordinates: params[:coordinates], acct_name: params[:acct_name], group_name: params[:group_name], ult_group_name: params[:ult_group_name], source: params[:source], sfdc_id: params[:sfdc_id], tier: params[:tier], sales_person: params[:sales_person], acct_type: params[:acct_type], location_status: params[:location_status], rev_full_address: params[:rev_full_address], rev_street: params[:rev_street], rev_city: params[:rev_city], rev_state_code: params[:rev_state_code], rev_postal_code: params[:rev_postal_code], url: params[:url], root: params[:root], franchise: params[:franchise], street: params[:street], address: params[:address], view_mode: params[:view_mode]})
+        redirect_to locations_path
+    end
+
+
+
+
+
+
+
+
+
     # == Google API Testing Search Methods - Starts ===
 
     # == Testing MY Google API - Search Method V1 - Perfect! ==

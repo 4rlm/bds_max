@@ -5,8 +5,8 @@ class LocationsController < ApplicationController
     # GET /locations.json
     def index
 
-    # MULTI-SELECT #
-        if choice_hash = get_selected_status_core
+        # MULTI-SELECT #
+        if choice_hash = get_selected_status_location
             clean_choice_hash = {}
             @view_mode = choice_hash[:view_mode]
 
@@ -18,13 +18,8 @@ class LocationsController < ApplicationController
             @locations = Location.all
         end
 
-        # GEOCODER #
-        # if params[:search].present?
-        #     #   @locations = Location.near(params[:search], 50, :order => :distance)
-        #     @locations = Location.near(params[:search], 50)
-        # else
-        #     @locations = Location.all
-        # end
+        ## SET ORDER OF DISPLAYED DATA ##
+        @locations = @locations.order(updated_at: :desc)
 
         # CSV #
         locations_csv = @locations.order(:longitude)
@@ -34,8 +29,17 @@ class LocationsController < ApplicationController
         end
 
         # WILL_PAGINATE #
-        @locations = Location.paginate(:page => params[:page], :per_page => 100).order(created_at: :desc)
+        @locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
 
+
+        ## GEOCODER SEARCH NEARBY - STARTS##
+        # if params[:search].present?
+        #     #   @locations = Location.near(params[:search], 50, :order => :distance)
+        #     @locations = Location.near(params[:search], 50)
+        # else
+        #     @locations = Location.all
+        # end
+        ## GEOCODER SEARCH NEARBY - ENDS##
 
         # CHECKBOX #
         batch_status
@@ -55,7 +59,6 @@ class LocationsController < ApplicationController
     def edit
     end
 
-
     def import_page
     end
 
@@ -66,7 +69,6 @@ class LocationsController < ApplicationController
         flash[:notice] = "CSV imported successfully."
         redirect_to locations_path
     end
-
 
     # POST /locations
     # POST /locations.json
@@ -108,27 +110,18 @@ class LocationsController < ApplicationController
         end
     end
 
-
-
-    ######
     def location_migrator
         # cores = Core.all
-        cores = Core.all[80...100]
-        serv = LocationService.new
+        cores = Core.all[46383...46388]
 
-        counter = 1
         for core in cores
-            serv.create_sfdc_loc(core)
-            serv.create_site_loc(core)
-            puts "------------------------"
-            puts "Query #: #{counter}"
-            puts "------------------------"
-            counter+=1
+            LocationService.new.delay.create_sfdc_loc(core)
+            LocationService.new.delay.create_site_loc(core)
         end
 
         redirect_to locations_path
     end
-#### Goal !!!  -Ends ####
+
 
     private
     # Use callbacks to share common setup or constraints between actions.
@@ -138,9 +131,12 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :address, :city, :state, :state_code, :postal_code, :coordinates, :location_status, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :rev_address, :rev_street, :rev_city, :rev_state, :rev_state_code, :rev_postal_code, :url, :root, :franchise)
+        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :rev_full_address, :rev_street, :rev_city, :rev_state, :rev_state_code, :rev_postal_code, :url, :root, :franchise, :street, :address)
     end
 
+    def filtering_params(params)
+        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :rev_full_address, :rev_street, :rev_city, :rev_state, :rev_state_code, :rev_postal_code, :url, :root, :franchise, :street, :address)
+    end
 
     def batch_status
         ids = params[:multi_checks]
@@ -150,9 +146,6 @@ class LocationsController < ApplicationController
             location = Location.find(id)
             location.update_attribute(:location_status, status)
             flash[:notice] = "Successfully updated"
-
-            # core = Core.find_by(sfdc_id: location.sfdc_id)
-            # core.update_attribute(:location_indexer_status, status)
         end
 
         destroy_rows(ids) if status == "Destroy"
@@ -162,6 +155,5 @@ class LocationsController < ApplicationController
         rows = Location.where(id: ids)
         rows.destroy_all
     end
-
 
 end

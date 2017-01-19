@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       collection {post :import_csv_data}
   end
   get 'location/import_page' => 'locations#import_page'
-
+  get 'location/search' => 'locations#search'
 
 
   resources :dashboards
@@ -119,6 +119,7 @@ Rails.application.routes.draw do
     post 'search_result_page_core' => 'search#search_result_core'
     post 'search_result_page_gcse' => 'search#search_result_gcse'
     post 'search_result_page_staffer' => 'search#search_result_staffer'
+    post 'search_result_page_location' => 'search#search_result_location'
     root 'search#index'
 
     # === Google API Route ===

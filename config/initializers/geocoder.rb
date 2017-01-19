@@ -1,4 +1,4 @@
-Geocoder.configure(
+#Geocoder.configure(
   # Geocoding options
   # timeout: 3,                 # geocoding service timeout (secs)
   # lookup: :google,            # name of geocoding service (symbol)
@@ -18,11 +18,24 @@ Geocoder.configure(
   # Calculation options
   # units: :mi,                 # :km for kilometers or :mi for miles
   # distances: :linear          # :spherical or :linear
+#)
 
+Geocoder.configure(
+    # geocoding service:
+    :lookup => :google,
 
+    # IP address geocoding service:
+    # :ip_lookup => :maxmind,
 
-  # to use an API key:
-  # :api_key => "AIzaSyAl4noTp68mX7owdW2EpHxjdO1o7i3xh-Y",
+    # to use an API key:
+    :api_key => 'AIzaSyB3k8XVqs2N8ziA03mqOpbO8G2JGKDPmAM',
 
+    # this is very important option for configuring geocoder with API key
+    :use_https => true,
 
+    # geocoding service request timeout, in seconds (default 3):
+    :timeout => 3,
+
+    # set default units to kilometers:
+    :units => :mi,
 )
