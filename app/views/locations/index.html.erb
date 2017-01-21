@@ -1,7 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h3 class="section-header">Geolocations</h3>
+<h1 class="page-header">Geolocations</h1>
+<h4 class="text-center">GeoLocated Account Locations</h4>
+<h4 class="text-center">Used to find duplicates and see which stores are nearest.</h4>
+<h5 class="text-center">Click any Address to View Map and List of Local Area.</h5>
 
+<h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
+
+<h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>

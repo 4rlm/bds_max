@@ -1,5 +1,5 @@
 <h1 class="page-header">Core Accounts</h1>
-
+<h4 class="text-center">Accounts from All Sources</h4>
 
 <%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 
@@ -13,7 +13,11 @@
 
 <!-- ACCOUNTS - DETAILED VIEW PARTIAL -->
 <% if @view_mode == "detail" %>
-    <h3 class="section-header">Detailed View Starts Here</h3>
+
+<h3 class="section-header">Detailed Account View</h3>
+
+<h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
+
     <%= render partial: 'buttons' %><br>
 
     <% num = 0 %>

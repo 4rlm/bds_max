@@ -17,6 +17,11 @@ class GcsesController < ApplicationController
 
         @gcses = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 350)
 
+
+        @gcses_count = Gcse.count
+        @selected_gcses_count = @selected_data.count
+
+
         @gcses_csv = @selected_data.order(:sfdc_id)
             respond_to do |format|
               format.html

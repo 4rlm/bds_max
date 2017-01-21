@@ -30,7 +30,13 @@ class Core < ApplicationRecord
     scope :sfdc_geo_status, -> (sfdc_geo_status) { where sfdc_geo_status: sfdc_geo_status }
     scope :site_geo_status, -> (site_geo_status) { where site_geo_status: site_geo_status }
 
-
+    scope :site_franchise, -> (site_franchise) { where site_franchise: site_franchise }
+    scope :sfdc_franchise, -> (sfdc_franchise) { where sfdc_franchise: sfdc_franchise }
+    scope :site_franch_cat, -> (site_franch_cat) { where site_franch_cat: site_franch_cat }
+    scope :sfdc_franch_cat, -> (sfdc_franch_cat) { where sfdc_franch_cat: sfdc_franch_cat }
+    scope :sfdc_franch_cons, -> (sfdc_franch_cons) { where sfdc_franch_cons: sfdc_franch_cons }
+    scope :site_franch_cons, -> (site_franch_cons) { where site_franch_cons: site_franch_cons }
+    scope :coord_indicator, -> (coord_indicator) { where coord_indicator: coord_indicator }
 
     # == Key Word Search ==
     scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
@@ -67,8 +73,6 @@ class Core < ApplicationRecord
     scope :site_geo_date, -> (site_geo_date) { where("site_geo_date like ?", "%#{site_geo_date}%") }
     scope :sfdc_coordinates, -> (sfdc_coordinates) { where("sfdc_coordinates like ?", "%#{sfdc_coordinates}%") }
     scope :site_coordinates, -> (site_coordinates) { where("site_coordinates like ?", "%#{site_coordinates}%") }
-    
-
 
     def self.to_csv
         CSV.generate do |csv|

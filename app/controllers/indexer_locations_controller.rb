@@ -6,6 +6,10 @@ class IndexerLocationsController < ApplicationController
     def index
         @selected_data = IndexerLocation.all
         # @locations = IndexerLocation.order(:domain)
+
+        @indexer_location_count = IndexerLocation.count
+        @selected_indexer_location_count = @selected_data.count
+
         @locations = IndexerLocation.order(indexer_timestamp: :desc)
         respond_to do |format|
             format.html

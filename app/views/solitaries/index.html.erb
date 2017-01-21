@@ -1,14 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="text-center">Solitary Roots</h1>
-<h4 class="text-center">UnAssigned Dealer URLs</h4>
-<br><br>
+<h1 class="page-header">Solitary Roots</h1>
+<h4 class="text-center">Newly Discovered Dealers</h4>
 
-
-<h4>Newly Discovered Dealership Links: <%= number_with_delimiter(@solitary_count) %></h4>
+<h4>Solitary Records: <%= number_with_delimiter(@solitary_count) %></h4>
 
 <div class="pull-right">
-    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_solitary_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', solitary_import_page_path, class: 'btn btn-primary' %>
     <%= link_to 'Download CSV', solitaries_path(format: "csv"), class: 'btn btn-primary' %>
@@ -17,15 +14,17 @@
 <br>
 
 <%= form_tag "/solitaries", method: :get, class: 'form-inline'  do %>
-<table class="table table-bordered table-hover">
+
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
 
             <th>#</th>
 
-            <th>UnAssigned Dealer Roots</th>
-            <th>UnAssigned Dealer URLs</th>
+            <th>Dealer Roots</th>
+            <th>Dealer URLs</th>
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -56,7 +55,6 @@
 <% end %>
 
 <div class="pull-right">
-    <%= link_to 'Dashboard', root_path, class: 'btn btn-primary' %>
     <%= link_to 'Add Record', new_solitary_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', solitary_import_page_path, class: 'btn btn-primary' %>
     <%= link_to 'Download CSV', solitaries_path(format: "csv"), class: 'btn btn-primary' %>
