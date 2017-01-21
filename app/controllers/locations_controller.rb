@@ -24,7 +24,6 @@ class LocationsController < ApplicationController
         @locations_count = Location.count
         @selected_locations_count = @locations.count
 
-
         # CSV #
         locations_csv = @locations.order(:longitude)
         respond_to do |format|

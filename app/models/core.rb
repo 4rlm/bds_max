@@ -38,7 +38,6 @@ class Core < ApplicationRecord
     scope :site_franch_cons, -> (site_franch_cons) { where site_franch_cons: site_franch_cons }
     scope :coord_indicator, -> (coord_indicator) { where coord_indicator: coord_indicator }
 
-
     # == Key Word Search ==
     scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
     scope :sfdc_ult_rt, -> (sfdc_ult_rt) { where("sfdc_ult_rt like ?", "%#{sfdc_ult_rt}%") }
@@ -74,8 +73,6 @@ class Core < ApplicationRecord
     scope :site_geo_date, -> (site_geo_date) { where("site_geo_date like ?", "%#{site_geo_date}%") }
     scope :sfdc_coordinates, -> (sfdc_coordinates) { where("sfdc_coordinates like ?", "%#{sfdc_coordinates}%") }
     scope :site_coordinates, -> (site_coordinates) { where("site_coordinates like ?", "%#{site_coordinates}%") }
-
-
 
     def self.to_csv
         CSV.generate do |csv|
