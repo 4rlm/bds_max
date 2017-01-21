@@ -25,6 +25,10 @@ class CoresController < ApplicationController
         @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 175)
 
 
+        @cores_count = Core.count
+        @selected_core_count = @selected_data.count
+
+
         cores_csv = @selected_data.order(:sfdc_id)
         respond_to do |format|
             format.html
@@ -62,6 +66,7 @@ class CoresController < ApplicationController
     end
 
     def search
+        @cores_count = Core.count
     end
 
     # POST /cores
@@ -145,17 +150,35 @@ class CoresController < ApplicationController
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
             sfdc_cores.each do |core|
                 prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
-                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.capitalize)
+                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.downcase)
             end
 
             site_cores = Core.where("site_acct LIKE '%#{brand.term}%' OR site_acct LIKE '%#{brand.term.capitalize}%' OR matched_root LIKE '%#{brand.term}%' OR matched_root LIKE '%#{brand.term.capitalize}%'")
             site_cores.each do |core|
                 prev_brand = core.site_franchise ? core.site_franchise + ";" : ""
-                core.update_attribute(:site_franchise, prev_brand + brand.term.capitalize)
+                core.update_attribute(:site_franchise, prev_brand + brand.term.downcase)
             end
         end
         redirect_to root_path
     end
+
+
+
+    ## NEED HELP - FRANCHISE CONSOLIDATOR
+
+    # def franchise_consolidator(term)
+    #     if term != nil && term.include[chev, chevrolet, chevy, daewoo]
+    #         core.update_attribute(:site_franch_cons, "Chevrolet")
+    #         core.update_attribute(:site_franch_cat, "Franchise")
+    #     elsif condition
+    #         .....continued like above.....for 49 different franchise names.....
+    #     else
+    #
+    # end
+
+    ## NEED HELP - FRANCHISE CONSOLIDATOR
+
+
 
     private
     # Use callbacks to share common setup or constraints between actions.
@@ -165,11 +188,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status)
+        params.require(:core).permit(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates, :sfdc_franch_cons, :site_franch_cons, :temp_id, :coord_indicator, :franch_cons_ind, :franch_cat_ind, :template_ind, :sfdc_template)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status)
+        params.slice(:bds_status, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staffer_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :matched_url, :matched_root, :url_comparison, :root_comparison, :sfdc_root, :site_acct, :site_group, :site_ult_grp, :site_tier, :site_grp_rt, :site_ult_rt, :acct_indicator, :grp_name_indicator, :ult_grp_name_indicator, :tier_indicator, :grp_rt_indicator, :ult_grp_rt_indicator, :site_street, :site_city, :site_state, :site_zip, :site_ph, :street_indicator, :city_indicator, :state_indicator, :zip_indicator, :ph_indicator, :acct_source, :sfdc_lat, :sfdc_lon, :site_lat, :site_lon, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates,  :sfdc_geo_status, :site_geo_status, :sfdc_geo_date, :site_geo_date, :sfdc_coordinates, :site_coordinates, :sfdc_franch_cons, :site_franch_cons, :temp_id, :coord_indicator, :franch_cons_ind, :franch_cat_ind, :template_ind, :sfdc_template)
     end
 
 

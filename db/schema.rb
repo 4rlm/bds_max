@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117022103) do
+ActiveRecord::Schema.define(version: 20170121215949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,14 @@ ActiveRecord::Schema.define(version: 20170117022103) do
     t.datetime "site_geo_date"
     t.string   "sfdc_coordinates"
     t.string   "site_coordinates"
+    t.string   "sfdc_franch_cons"
+    t.string   "site_franch_cons"
+    t.string   "temp_id"
+    t.string   "coord_indicator"
+    t.string   "franch_cons_ind"
+    t.string   "franch_cat_ind"
+    t.string   "template_ind"
+    t.string   "sfdc_template"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -181,8 +189,10 @@ ActiveRecord::Schema.define(version: 20170117022103) do
 
   create_table "in_host_pos", force: :cascade do |t|
     t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "consolidated_term"
+    t.string   "category"
   end
 
   create_table "in_text_dels", force: :cascade do |t|
@@ -193,8 +203,10 @@ ActiveRecord::Schema.define(version: 20170117022103) do
 
   create_table "in_text_pos", force: :cascade do |t|
     t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "consolidated_term"
+    t.string   "category"
   end
 
   create_table "indexer_locations", force: :cascade do |t|

@@ -1,6 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Pending Verifications</h1> <br>
+<h1 class="page-header">Scraps</h1>
+<h4 class="text-center">Newly Discovered URLs With No Franchise Terms</h4>
+<h4 class="text-center">Potential Account & Group Name Websites</h4>
+
+<h4>Total URLs: <%= number_with_delimiter(@pending_verifications_count) %></h4>
+
+<!-- <h4>Selected URLs: <%= number_with_delimiter(@selected_pending_verifications_count) %></h4> -->
+
 
 <div class="pull-right">
     <%= link_to 'Add Record', new_pending_verification_path, class: 'btn btn-primary' %>
@@ -10,8 +17,8 @@
 
 <%= form_tag "/pending_verifications", method: :get, class: 'form-inline'  do %>
 
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
 
-<table class="table table-bordered table-hover">
     <thead>
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>

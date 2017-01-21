@@ -1,4 +1,10 @@
-<h3 class="section-header">Core Advanced Search</h3>
+<h1 class="page-header">Accounts</h1>
+<h4 class="text-center">Accounts from All Sources</h4>
+
+
+<h3 class="section-header">Search Accounts</h3>
+
+<h4>Total Accounts: <%= number_with_delimiter(@cores_count) %></h4>
 
 <%= form_tag "/search_result_page_core", method: :post  do %>
 
@@ -76,24 +82,29 @@
                     <th class="th-2 w-lg">City</th>
                     <th class="th-2 w-xxsm">State</th>
                     <th class="th-2 w-xsm">Zip</th>
+                    <th class="th-2">Coordinates</th>
                     <th class="th-2 w-md">Phone</th>
                 </tr>
                 <tr>
                     <th class="th-2">SFDC</th>
-
                     <td><%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "----", class: 'form-control' %></td>
-
                     <td><%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= text_field_tag :sfdc_state, params[:sfdc_state], placeholder: "----", class: 'form-control' %></td>
+
+                    <td><%= select_tag :sfdc_state, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                     <td><%= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "----", class: 'form-control' %></td>
+
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_coordinates } %></td>
+
                     <td><%= text_field_tag :sfdc_ph, params[:sfdc_ph], placeholder: "----", class: 'form-control' %></td>
                 </tr>
                 <tr>
                     <th class="th-2">Matched</th>
                     <td><%= text_field_tag :site_street, params[:site_street], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :site_city, params[:site_city], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= text_field_tag :site_state, params[:site_state], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= select_tag :site_state, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :site_zip, params[:site_zip], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_coordinates } %></td>
                     <td><%= text_field_tag :site_ph, params[:site_ph], placeholder: "----", class: 'form-control' %></td>
                 </tr>
                 <tr>
@@ -102,6 +113,7 @@
                     <td><%= select_tag :city_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :state_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :zip_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :coord_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :ph_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                 </tr>
             </table>
@@ -115,37 +127,68 @@
                     <th class="th-1 t3">Digital</th>
                     <th class="th-2">Website</th>
                     <th class="th-2">Root</th>
+
+                    <th class="th-2">Term:</th>
+                    <th class="th-2">Franchise:</th>
+                    <th class="th-2">Store Type:</th>
+
                     <th class="th-2">Template</th>
                     <th class="th-2">IP</th>
                     <th class="th-2">DNS-1</th>
                     <th class="th-2">DNS-2</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
+                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "----", class: 'form-control' %></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+
+                    <!-- <td>term</td> -->
+                    <td><%= select_tag :sfdc_franchise, options_for_select(franchise_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <!-- <td>franchise</td> -->
+                    <td><%= select_tag :sfdc_franch_cons, options_for_select(franch_cons_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <!-- <td>franch cat</td> -->
+                    <td><%= select_tag :sfdc_franch_cat, options_for_select(franch_cat_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <!-- <td>template</td> -->
+                    <td><%= select_tag :sfdc_template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td>IP</td>
+                    <td>DNS-1</td>
+                    <td>DNS-2</td>
                 </tr>
                 <tr>
                     <th class="th-2">Matched</th>
                     <td><%= text_field_tag :matched_url, params[:matched_url], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :matched_root, params[:matched_root], placeholder: "----", class: 'form-control' %></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <!-- <td>term</td> -->
+                    <td><%= select_tag :site_franchise, options_for_select(franchise_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <!-- <td>franchise</td> -->
+                    <td><%= select_tag :site_franch_cons, options_for_select(franch_cons_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <!-- <td>franch cat</td> -->
+                    <td><%= select_tag :site_franch_cat, options_for_select(franch_cat_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <!-- <td>template</td> -->
+                    <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td>IP</td>
+                    <td>DNS-1</td>
+                    <td>DNS-2</td>
                 </tr>
                 <tr>
                     <th class="th-2">Indicator</th>
                     <td><%= select_tag :url_comparison, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :root_comparison, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><%= select_tag :franch_indicator, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :franch_cons_ind, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :franch_cat_ind, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :template_ind, options_for_select(comparison_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="yellow">IP</td>
+                    <td class="yellow">DNS-1</td>
+                    <td class="yellow">DNS-2</td>
                 </tr>
             </table>
         </div>
@@ -169,21 +212,18 @@
                 <tr>
                     <th class="th-2">Status</th>
                     <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td></td>
-                    <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
+                    <td></td>
+
+                    <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                     <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-
-
                     <td><%= select_tag :sfdc_geo_status, options_for_select(location_geo_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-
                     <td><%= select_tag :site_geo_status, options_for_select(location_geo_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
-
 
                 </tr>
                 <tr>

@@ -1,3 +1,4 @@
+
 <div class="text-nowrap theme-layout profile-container">
 
     <div class="row profile-row">
@@ -11,6 +12,7 @@
 
                     <th class="th-2 w-sm">Sales Person:</th>
                     <td><%= core.sfdc_sales_person %></td>
+
                     <th class="th-2 w-xsm">Type:</th>
                     <td><%= core.sfdc_type %></td>
 
@@ -117,8 +119,10 @@
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Zip</th>
 
+                
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Coordinates</th>
+
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Phone</th>
@@ -175,7 +179,10 @@
                     <th class="th-2">Root</th>
 
                     <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
-                    <th class="th-2">Franchise</th>
+
+                    <th class="th-2">Term:</th>
+                    <th class="th-2">Franchise:</th>
+                    <th class="th-2">Store Type:</th>
 
                     <th class="th-2">Template</th>
                     <th class="th-2">IP</th>
@@ -190,6 +197,10 @@
                     <td><%= core.sfdc_root %></td>
                     <td>ind</td>
                     <td><%= core.sfdc_franchise %></td>
+                    <td><%= core.sfdc_franch_cons %></td>
+                    <td><%= core.sfdc_franch_cat %></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -199,7 +210,11 @@
                     <%= render partial: 'layouts/indicator', locals: { col: core.root_comparison } %>
                     <td><%= core.matched_root %></td>
                     <td>ind</td>
+
                     <td><%= core.site_franchise %></td>
+                    <td><%= core.site_franch_cons %></td>
+                    <td><%= core.site_franch_cat %></td>
+
                     <td><%= core.template %></td>
                     <td></td>
                     <td></td>

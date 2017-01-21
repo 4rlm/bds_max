@@ -7,6 +7,10 @@ class IndexerStaffsController < ApplicationController
     # GET /indexer_staffs.json
     def index
         @selected_data = IndexerStaff.all
+
+        @indexer_staff_count = IndexerStaff.count
+        @selected_indexer_staff_count = @selected_data.count
+
         @staffs = IndexerStaff.order(indexer_timestamp: :desc)
         respond_to do |format|
             format.html

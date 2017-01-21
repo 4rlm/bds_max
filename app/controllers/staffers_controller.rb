@@ -19,6 +19,10 @@ def index
 
     @selected_data = @selected_data.order(created_at: :desc)
 
+    @staffer_count = Staffer.count
+    @selected_staffer_count = @selected_data.count
+
+
     respond_to do |format|
         format.html
         format.csv { render text: @selected_data.to_csv }
@@ -62,6 +66,7 @@ end
   end
 
   def search
+      @staffer_count = Staffer.count
   end
 
 

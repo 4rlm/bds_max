@@ -21,6 +21,10 @@ class LocationsController < ApplicationController
         ## SET ORDER OF DISPLAYED DATA ##
         @locations = @locations.order(updated_at: :desc)
 
+        @locations_count = Location.count
+        @selected_locations_count = @locations.count
+
+
         # CSV #
         locations_csv = @locations.order(:longitude)
         respond_to do |format|

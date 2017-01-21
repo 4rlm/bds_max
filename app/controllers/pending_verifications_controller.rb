@@ -4,6 +4,13 @@ class PendingVerificationsController < ApplicationController
   # GET /pending_verifications
   # GET /pending_verifications.json
   def index
+
+
+      @pending_verifications_count = PendingVerification.count
+    #   @selected_pending_verifications_count = @selected_data.count
+
+
+
     @pending_verifications = PendingVerification.order(:root)
     respond_to do |format|
           format.html
