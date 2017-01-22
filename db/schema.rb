@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170121215949) do
+ActiveRecord::Schema.define(version: 20170122005858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 20170121215949) do
     t.string   "domain_status"
     t.string   "staffer_status"
     t.string   "acct_indicator"
-    t.string   "template"
     t.string   "site_acct"
     t.string   "site_street"
     t.string   "site_city"
@@ -102,6 +101,7 @@ ActiveRecord::Schema.define(version: 20170121215949) do
     t.string   "franch_cat_ind"
     t.string   "template_ind"
     t.string   "sfdc_template"
+    t.string   "site_template"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|

@@ -155,7 +155,7 @@
                     <th class="th-2">Matched</th>
                     <td><%= text_field_tag :matched_url, params[:matched_url], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :matched_root, params[:matched_root], placeholder: "----", class: 'form-control' %></td>
-                    
+
                     <!-- <td>term</td> -->
                     <td><%= select_tag :site_franchise, options_for_select(franchise_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
@@ -166,7 +166,7 @@
                     <td><%= select_tag :site_franch_cat, options_for_select(franch_cat_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                     <!-- <td>template</td> -->
-                    <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :site_template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                     <td>IP</td>
                     <td>DNS-1</td>

@@ -41,12 +41,12 @@ class DashboardsController < ApplicationController
     @core_staffer_status_none = Core.where(staffer_status: nil).count
 
 
-    @core_temp_dealer_com = Core.where(template: "Dealer.com").count
-    @core_temp_dealeron = Core.where(template: "DealerOn").count
-    @core_temp_cobalt = Core.where(template: "Cobalt").count
-    @core_temp_dealer_fire = Core.where(template: "DealerFire").count
-    @core_temp_dealer_inspire = Core.where(template: "DealerInspire").count
-    @core_template_none = Core.where(template: nil).count
+    @core_temp_dealer_com = Core.where(site_template: "Dealer.com").count
+    @core_temp_dealeron = Core.where(site_template: "DealerOn").count
+    @core_temp_cobalt = Core.where(site_template: "Cobalt").count
+    @core_temp_dealer_fire = Core.where(site_template: "DealerFire").count
+    @core_temp_dealer_inspire = Core.where(site_template: "DealerInspire").count
+    @core_template_none = Core.where(site_template: nil).count
 
 
     #============
