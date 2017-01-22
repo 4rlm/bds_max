@@ -42,7 +42,7 @@
                 </tr>
                 <tr>
                     <th class="th-2 th-2a"></th>
-                    <td><%= select_tag :source, options_for_select(geo_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :source, options_for_select(acct_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :ult_group_name } %></td>
