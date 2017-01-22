@@ -30,7 +30,7 @@ class Core < ApplicationRecord
     scope :sfdc_geo_status, -> (sfdc_geo_status) { where sfdc_geo_status: sfdc_geo_status }
     scope :site_geo_status, -> (site_geo_status) { where site_geo_status: site_geo_status }
 
-    scope :site_franchise, -> (site_franchise) { where site_franchise: site_franchise }
+    scope :site_franchise, -> (site_franchise) { where(Core.sql_string(site_franchise)) }
     scope :sfdc_franchise, -> (sfdc_franchise) { where sfdc_franchise: sfdc_franchise }
     scope :site_franch_cat, -> (site_franch_cat) { where site_franch_cat: site_franch_cat }
     scope :sfdc_franch_cat, -> (sfdc_franch_cat) { where sfdc_franch_cat: sfdc_franch_cat }
@@ -125,4 +125,13 @@ class Core < ApplicationRecord
         str.downcase unless str.nil?
     end
     # ========= Ends CSV column formatting =========
+
+    def self.sql_string(array)
+        sql_str = ""
+        array.each do |el|
+            sql_str << "site_franchise LIKE '%#{el}%' OR "
+        end
+        sql_str[0..-5]
+    end
+
 end

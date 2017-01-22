@@ -1,5 +1,6 @@
 class CoresController < ApplicationController
     before_action :set_core, only: [:show, :edit, :update, :destroy]
+    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :franchiser_btn]
 
     # GET /cores
     # GET /cores.json
@@ -110,7 +111,7 @@ class CoresController < ApplicationController
     end
 
     def core_comp_cleaner_btn
-        CoreService.new.core_comp_cleaner_btn
+        @core_service.core_comp_cleaner_btn
         flash[:notice] = "Core(Comparison) cleaned successfully."
         redirect_to cores_path
     end
@@ -143,22 +144,9 @@ class CoresController < ApplicationController
     end
 
     def franchiser_btn
-        Core.all.each {|core| core.update_attributes(sfdc_franchise: nil, site_franchise: nil)}
+        # @core_service.franchise_termer
+        @core_service.franchise_consolidator
 
-        brands = InHostPo.all
-        brands.each do |brand|
-            sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
-            sfdc_cores.each do |core|
-                prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
-                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.downcase)
-            end
-
-            site_cores = Core.where("site_acct LIKE '%#{brand.term}%' OR site_acct LIKE '%#{brand.term.capitalize}%' OR matched_root LIKE '%#{brand.term}%' OR matched_root LIKE '%#{brand.term.capitalize}%'")
-            site_cores.each do |core|
-                prev_brand = core.site_franchise ? core.site_franchise + ";" : ""
-                core.update_attribute(:site_franchise, prev_brand + brand.term.downcase)
-            end
-        end
         redirect_to root_path
     end
 
@@ -197,8 +185,8 @@ class CoresController < ApplicationController
 
 
     def start_domainer(ids)
-        CoreService.new.delay.scrape_listing(ids)
-        # CoreService.new.scrape_listing(ids)
+        @core_service.delay.scrape_listing(ids)
+        # @core_service.scrape_listing(ids)
         flash[:notice] = 'Domainer started!'
         # redirect_to gcses_path
         redirect_to cores_path
@@ -228,6 +216,10 @@ class CoresController < ApplicationController
         flash[:notice] = 'Geo started!'
         # redirect_to cores_path
         redirect_to cores_path
+    end
+
+    def set_core_service
+        @core_service = CoreService.new
     end
 
 end

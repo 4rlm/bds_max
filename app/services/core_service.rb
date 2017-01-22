@@ -283,4 +283,46 @@ class CoreService
         end
         true
     end
+
+    def franchise_consolidator
+        cores = Core.where.not(sfdc_franchise: nil)[0..2]
+        cores.each do |core|
+            consolidated_term_str = ""
+            category_str = ""
+            franch_parts = core.sfdc_franchise.split(';')
+
+            franch_parts.each do |term|
+                in_host_po = InHostPo.find_by(term: term.downcase)
+                consolidated_term_str << in_host_po.consolidated_term + ";"
+                category_str << in_host_po.category + ";"
+            end
+
+            consolidated_term_str.chop!
+            category_str.chop!
+
+            binding.pry
+            core.update_attributes(sfdc_franch_cons: consolidated_term_str, sfdc_franch_cat: category_str)
+        end
+    end
+
+    def franchise_termer
+        cores = Core.all
+        cores.each {|core| core.update_attributes(sfdc_franchise: nil, site_franchise: nil)}
+
+        brands = InHostPo.all
+        brands.each do |brand|
+            sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+            sfdc_cores.each do |core|
+                prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
+                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.downcase)
+            end
+
+            site_cores = Core.where("site_acct LIKE '%#{brand.term}%' OR site_acct LIKE '%#{brand.term.capitalize}%' OR matched_root LIKE '%#{brand.term}%' OR matched_root LIKE '%#{brand.term.capitalize}%'")
+            site_cores.each do |core|
+                prev_brand = core.site_franchise ? core.site_franchise + ";" : ""
+                core.update_attribute(:site_franchise, prev_brand + brand.term.downcase)
+            end
+        end
+    end
+
 end  # Ends class CoreService  # GoogleSearchClass
