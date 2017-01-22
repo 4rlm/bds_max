@@ -1,6 +1,6 @@
 class CoresController < ApplicationController
     before_action :set_core, only: [:show, :edit, :update, :destroy]
-    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :franchiser_btn]
+    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :franchiser_btn, :col_splitter_btn]
 
     # GET /cores
     # GET /cores.json
@@ -150,22 +150,10 @@ class CoresController < ApplicationController
         redirect_to root_path
     end
 
-
-
-    ## NEED HELP - FRANCHISE CONSOLIDATOR
-
-    # def franchise_consolidator(term)
-    #     if term != nil && term.include[chev, chevrolet, chevy, daewoo]
-    #         core.update_attribute(:site_franch_cons, "Chevrolet")
-    #         core.update_attribute(:site_franch_cat, "Franchise")
-    #     elsif condition
-    #         .....continued like above.....for 49 different franchise names.....
-    #     else
-    #
-    # end
-
-    ## NEED HELP - FRANCHISE CONSOLIDATOR
-
+    def col_splitter_btn
+        @core_service.col_splitter
+        redirect_to root_path
+    end
 
 
     private

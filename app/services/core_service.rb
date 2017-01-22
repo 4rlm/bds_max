@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'mechanize'
 require 'uri'
+require 'date'
 
 class CoreService
     def core_comp_cleaner_btn
@@ -322,6 +323,14 @@ class CoreService
                 prev_brand = core.site_franchise ? core.site_franchise + ";" : ""
                 core.update_attribute(:site_franchise, prev_brand + brand.term.downcase)
             end
+        end
+    end
+
+    def col_splitter
+        cores = Core.where.not(matched_url: nil)
+
+        cores.each do |core|
+            Core.create(temporary_id: core.sfdc_id, bds_status: core.bds_status, sfdc_acct: (core.site_acct ||core.matched_url), sfdc_street: core.site_street, sfdc_city: core.site_city, sfdc_state: core.site_state, sfdc_zip: core.site_zip, sfdc_ph: core.site_ph, sfdc_url: core.matched_url, sfdc_root: core.matched_root, created_at: core.domainer_date, core_date: core.domainer_date, indexer_date: core.indexer_date, staffer_date: core.staffer_date, staff_indexer_status: core.staff_indexer_status, location_indexer_status: core.location_indexer_status, staff_link: core.staff_link, staff_text: core.staff_text, location_link: core.location_link, location_text: core.location_text, domain_status: core.domain_status, staffer_status: core.staffer_status, acct_source: "Web", sfdc_geo_addy: core.site_geo_addy, sfdc_lat: core.site_lat, sfdc_lon: core.site_lon, sfdc_geo_status: core.site_geo_status, sfdc_geo_date: core.site_geo_date, sfdc_coordinates: core.site_coordinates, sfdc_template: core.site_template, url_status: "Valid", sfdc_id: "web#{DateTime.now.strftime('%Q')}")
         end
     end
 
