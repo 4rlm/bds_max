@@ -21,7 +21,7 @@ class CoresController < ApplicationController
 
         # @cores_limited = @selected_data.limit(20)
 
-        @selected_data = @selected_data.order(updated_at: :asc)
+        @selected_data = @selected_data.order(updated_at: :desc)
 
         @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 175)
 
@@ -144,8 +144,14 @@ class CoresController < ApplicationController
     end
 
     def franchiser_btn
-        # @core_service.franchise_termer
+        # @core_service.delay.franchise_termer
+        @core_service.franchise_termer
+
+        # @core_service.delay.franchise_consolidator
         @core_service.franchise_consolidator
+
+
+        # @core_service.franchise_btn
 
         redirect_to root_path
     end
