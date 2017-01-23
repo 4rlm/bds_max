@@ -111,7 +111,17 @@ class StafferService
         end
     end
 
-end
+    def staffer_sfdc_id_cleaner
+        cores = Core.where.not(temporary_id: nil, staff_link: nil)
+        cores.each do |core|
+            staffers = Staffer.where(cont_source: "Dealer Site", sfdc_id: core.temporary_id, staff_link: core.staff_link)
+            staffers.each do |staffer|
+                staffer.update_attribute(:sfdc_id, core.sfdc_id)
+            end
+        end
+    end
+
+end  # Ends class StafferService
 
 
 class Scrapers
@@ -429,4 +439,4 @@ class Scrapers
         core = Core.find_by(staff_link: url)
         core.update_attribute(:staffer_status, "#{temp_name} Error")
     end
-end
+end  # Ends class Scrapers
