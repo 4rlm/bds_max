@@ -145,7 +145,7 @@ class CoresController < ApplicationController
 
     def franchiser_btn
         # @core_service.delay.franchise_termer
-        # @core_service.franchise_termer
+        @core_service.franchise_termer
 
         # @core_service.delay.franchise_consolidator
         @core_service.franchise_consolidator

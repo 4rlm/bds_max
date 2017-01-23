@@ -298,29 +298,37 @@ class CoreService
             franch_parts.each do |term|
                 in_host_po = InHostPo.find_by(term: term.downcase)
 
-                unless
+                # consolidated_term_str << in_host_po.consolidated_term + ";"
+                # category_str << in_host_po.category + ";"
 
+                unless core.sfdc_franch_cons == nil && core.sfdc_franch_cons.include?(in_host_po.consolidated_term)
+                    # consolidated_term_str << in_host_po.consolidated_term + ";"
+                    core.update_attribute(:sfdc_franch_cons, in_host_po.consolidated_term)
+                end
 
-                consolidated_term_str << in_host_po.consolidated_term + ";"
-                category_str << in_host_po.category + ";"
+                unless core.sfdc_franch_cat == nil && core.sfdc_franch_cat.include?(in_host_po.category)
+                    # category_str << in_host_po.category + ";"
+                    core.update_attribute(:sfdc_franch_cat, in_host_po.category)
+                end
+
             end
 
-            consolidated_term_str.chop!
-            category_str.chop!
+            # consolidated_term_str.chop!
+            # category_str.chop!
 
 
             # core.update_attributes(sfdc_franch_cons: consolidated_term_str, sfdc_franch_cat: category_str)
 
 
             ### Duplicate Catcher: Only update sfdc_franch_cons if uniq.
-            unless consolidated_term_str == nil && core.sfdc_franch_cons.include?(consolidated_term_str)
-                core.update_attribute(:sfdc_franch_cons, consolidated_term_str)
-            end
+            # unless consolidated_term_str == nil && core.sfdc_franch_cons.include?(consolidated_term_str)
+            #     core.update_attribute(:sfdc_franch_cons, consolidated_term_str)
+            # end
 
             ### Duplicate Catcher: Only update sfdc_franch_cons if uniq.
-            unless category_str == nil && core.sfdc_franch_cat.include?(category_str)
-                core.update_attribute(:sfdc_franch_cat, category_str)
-            end
+            # unless category_str == nil && core.sfdc_franch_cat.include?(category_str)
+            #     core.update_attribute(:sfdc_franch_cat, category_str)
+            # end
 
             #### After testing above, create if else to rank "Franchise as top cat term." ####
             #### Then, add duplicate catcher in franchise_termer for terms. ####
