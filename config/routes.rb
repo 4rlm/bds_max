@@ -108,6 +108,7 @@ Rails.application.routes.draw do
     get 'franchiser_btn' => 'cores#franchiser_btn'
     get 'col_splitter_btn' => 'cores#col_splitter_btn'
     get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
+    get 'indexer_staff_cleaner_btn' => 'indexer_staffs#indexer_staff_cleaner_btn'
 
     # Quick Search Button
     get 'quick_dom_dom_res_2' => 'gcses#quick_dom_dom_res_2'
