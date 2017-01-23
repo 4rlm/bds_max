@@ -416,6 +416,7 @@ class CoreService
     ### FRANCHISER METHODS FOR BUTTONS - ENDS ###
 
 
+
     def col_splitter
         cores = Core.where.not(matched_url: nil)
 
