@@ -58,7 +58,7 @@ module ApplicationHelper
     end
 
     def acct_source_list
-        ['CRM', 'CoPilot', 'Web']
+        ['CRM', 'CoPilot', 'Dealer', 'Web']
     end
 
     def hierarchy_list

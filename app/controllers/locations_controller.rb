@@ -1,5 +1,6 @@
 class LocationsController < ApplicationController
     before_action :set_location, only: [:show, :edit, :update, :destroy]
+    before_action :set_location_service, only: [:location_migrator, :location_cleaner_btn]
 
     # GET /locations
     # GET /locations.json
@@ -118,13 +119,17 @@ class LocationsController < ApplicationController
         cores = Core.all[46383...46388]
 
         for core in cores
-            LocationService.new.delay.create_sfdc_loc(core)
-            LocationService.new.delay.create_site_loc(core)
+            @service.delay.create_sfdc_loc(core)
+            @service.delay.create_site_loc(core)
         end
 
         redirect_to locations_path
     end
 
+    def location_cleaner_btn
+        @service.delay.location_cleaner_btn
+        redirect_to root_path
+    end
 
     private
     # Use callbacks to share common setup or constraints between actions.
@@ -139,6 +144,10 @@ class LocationsController < ApplicationController
 
     def filtering_params(params)
         params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :rev_full_address, :rev_street, :rev_city, :rev_state, :rev_state_code, :rev_postal_code, :url, :root, :franchise, :street, :address)
+    end
+
+    def set_location_service
+        @service = LocationService.new
     end
 
     def batch_status
