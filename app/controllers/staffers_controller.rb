@@ -1,5 +1,6 @@
 class StaffersController < ApplicationController
   before_action :set_staffer, only: [:show, :edit, :update, :destroy]
+  before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn]
 
   # GET /staffers
   # GET /staffers.json
@@ -113,6 +114,11 @@ end
         @staffers = Staffer.where(sfdc_id: @core.sfdc_id)
     end
 
+    def staffer_sfdc_id_cleaner_btn
+        @staffer_service.staffer_sfdc_id_cleaner
+        redirect_to root_path
+    end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_staffer
@@ -152,5 +158,8 @@ end
         rows.destroy_all
     end
 
+    def set_staffer_service
+        @staffer_service = StafferService.new
+    end
 
 end

@@ -1,8 +1,6 @@
 class IndexerStaffsController < ApplicationController
     before_action :set_indexer_staff, only: [:show, :edit, :update, :destroy]
 
-
-
     # GET /indexer_staffs
     # GET /indexer_staffs.json
     def index
@@ -93,6 +91,12 @@ class IndexerStaffsController < ApplicationController
             format.html { redirect_to indexer_staffs_url, notice: 'Indexer staff successfully destroyed.' }
             format.json { head :no_content }
         end
+    end
+
+    def indexer_staff_cleaner_btn
+        service = IndexerStaffService.new
+        service.delay.indexer_staff_cleaner
+        redirect_to root_path
     end
 
     private

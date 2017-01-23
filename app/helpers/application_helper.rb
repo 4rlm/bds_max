@@ -57,8 +57,16 @@ module ApplicationHelper
         ['Error', 'Geo Fail', 'Error: CRM Addy', 'No SFDC Addy', 'No Site Addy', 'Geo Result', 'Core Inbound', 'Geo Outbound', 'Merge Request', 'Merged', 'Geo Reverse', 'Update Core', 'Try Again', 'Destroy']
     end
 
-    def geo_source_list
-        ['Dealer', 'CRM', 'CoPilot']
+    def acct_source_list
+        ['CRM', 'CoPilot', 'Dealer', 'Web']
+    end
+
+    def hierarchy_list
+        ['Parent', 'Child', 'Unknown']
+    end
+
+    def url_status_list
+        ['Error', 'Valid']
     end
 
     def formatted_date_list(datetime_arr)

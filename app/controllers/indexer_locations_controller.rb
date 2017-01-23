@@ -94,6 +94,12 @@ class IndexerLocationsController < ApplicationController
         end
     end
 
+    def indexer_location_cleaner_btn
+        service = IndexerLocationService.new
+        service.delay.indexer_location_cleaner
+        redirect_to root_path
+    end
+
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_indexer_location

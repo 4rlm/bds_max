@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'mechanize'
 require 'uri'
+require 'date'
 
 class CoreService
     def core_comp_cleaner_btn
@@ -283,4 +284,54 @@ class CoreService
         end
         true
     end
+
+    def franchise_consolidator
+        cores = Core.where.not(sfdc_franchise: nil)[0..2]
+        cores.each do |core|
+            consolidated_term_str = ""
+            category_str = ""
+            franch_parts = core.sfdc_franchise.split(';')
+
+            franch_parts.each do |term|
+                in_host_po = InHostPo.find_by(term: term.downcase)
+                consolidated_term_str << in_host_po.consolidated_term + ";"
+                category_str << in_host_po.category + ";"
+            end
+
+            consolidated_term_str.chop!
+            category_str.chop!
+
+            binding.pry
+            core.update_attributes(sfdc_franch_cons: consolidated_term_str, sfdc_franch_cat: category_str)
+        end
+    end
+
+    def franchise_termer
+        cores = Core.all
+        cores.each {|core| core.update_attributes(sfdc_franchise: nil, site_franchise: nil)}
+
+        brands = InHostPo.all
+        brands.each do |brand|
+            sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+            sfdc_cores.each do |core|
+                prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
+                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.downcase)
+            end
+
+            site_cores = Core.where("site_acct LIKE '%#{brand.term}%' OR site_acct LIKE '%#{brand.term.capitalize}%' OR matched_root LIKE '%#{brand.term}%' OR matched_root LIKE '%#{brand.term.capitalize}%'")
+            site_cores.each do |core|
+                prev_brand = core.site_franchise ? core.site_franchise + ";" : ""
+                core.update_attribute(:site_franchise, prev_brand + brand.term.downcase)
+            end
+        end
+    end
+
+    def col_splitter
+        cores = Core.where.not(matched_url: nil)
+
+        cores.each do |core|
+            Core.create(temporary_id: core.sfdc_id, bds_status: core.bds_status, sfdc_acct: (core.site_acct ||core.matched_url), sfdc_street: core.site_street, sfdc_city: core.site_city, sfdc_state: core.site_state, sfdc_zip: core.site_zip, sfdc_ph: core.site_ph, sfdc_url: core.matched_url, sfdc_root: core.matched_root, created_at: core.domainer_date, core_date: core.domainer_date, indexer_date: core.indexer_date, staffer_date: core.staffer_date, staff_indexer_status: core.staff_indexer_status, location_indexer_status: core.location_indexer_status, staff_link: core.staff_link, staff_text: core.staff_text, location_link: core.location_link, location_text: core.location_text, domain_status: core.domain_status, staffer_status: core.staffer_status, acct_source: "Web", sfdc_geo_addy: core.site_geo_addy, sfdc_lat: core.site_lat, sfdc_lon: core.site_lon, sfdc_geo_status: core.site_geo_status, sfdc_geo_date: core.site_geo_date, sfdc_coordinates: core.site_coordinates, sfdc_template: core.site_template, url_status: "Valid", sfdc_id: "web#{DateTime.now.strftime('%Q')}")
+        end
+    end
+
 end  # Ends class CoreService  # GoogleSearchClass

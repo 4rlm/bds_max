@@ -116,4 +116,16 @@ class LocationService
         end
     end
 
+    def location_cleaner_btn
+        cores = Core.where.not(temporary_id: nil)
+        count = 0
+        cores.each do |core|
+            locations = Location.where(sfdc_id: core.temporary_id, source: "Dealer")
+            locations.each do |location|
+                location.update_attributes(sfdc_id: core.sfdc_id)
+            end
+            puts "Done updating: #{count += 1}"
+        end
+    end
+
 end
