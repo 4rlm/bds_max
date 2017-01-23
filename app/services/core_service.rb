@@ -291,30 +291,46 @@ class CoreService
         # cores = Core.where.not(sfdc_franchise: nil)[0..2]
         cores = Core.where.not(sfdc_franchise: nil)
         cores.each do |core|
-            consolidated_term_str = ""
-            category_str = ""
-            franch_parts = core.sfdc_franchise.split(';')
+            sfdc_terms = core.sfdc_franchise.split(';')
+            criteria_consolidated_arr = []
+            criteria_category_arr = []
 
-            franch_parts.each do |term|
-                in_host_po = InHostPo.find_by(term: term.downcase)
-
-                # consolidated_term_str << in_host_po.consolidated_term + ";"
-                # category_str << in_host_po.category + ";"
-
-                unless core.sfdc_franch_cons == nil && core.sfdc_franch_cons.include?(in_host_po.consolidated_term)
-                    # consolidated_term_str << in_host_po.consolidated_term + ";"
-                    core.update_attribute(:sfdc_franch_cons, in_host_po.consolidated_term)
+            ## 1.) Adds Unique Consolidated Franchise Terms & Categories to Array. ##
+            sfdc_terms.each do |sfdc_term|
+                in_host_po = InHostPo.find_by(term: sfdc_term.downcase)
+                unless criteria_consolidated_arr.include?(in_host_po.consolidated_term)
+                    criteria_consolidated_arr << in_host_po.consolidated_term
                 end
-
-                unless core.sfdc_franch_cat == nil && core.sfdc_franch_cat.include?(in_host_po.category)
-                    # category_str << in_host_po.category + ";"
-                    core.update_attribute(:sfdc_franch_cat, in_host_po.category)
+                unless criteria_category_arr.include?(in_host_po.category)
+                    criteria_category_arr << in_host_po.category
                 end
-
             end
 
-            # consolidated_term_str.chop!
-            # category_str.chop!
+            ## 2.A) Adds Consolidated Franchise Terms to Core from Array. ##
+            unless criteria_consolidated_arr == nil
+                criteria_consolidated_arr.each do |cons_term|
+                    core.update_attribute(:sfdc_franch_cons, cons_term)
+                end
+            end
+
+            ### IF Below Works, then need to create Priority list w/ if-else. ###
+            ## 2.B) Adds Max 1 Franchise Category to Core from Array. ##
+            unless criteria_category_arr == nil
+                criteria_category_arr.each do |category|
+                    core.update_attribute(:sfdc_franch_cat, category)
+                end
+            end
+
+
+            #     unless core.sfdc_franch_cons.include?(consolidated_inhostpo)
+            #         core.update_attribute(:sfdc_franch_cons, consolidated_inhostpo)
+            #     end
+            #
+            #     unless core.sfdc_franch_cat.include?(category_inhostpo)
+            #         core.update_attribute(:sfdc_franch_cat, category_inhostpo)
+            #     end
+            #
+            # end
 
 
             # core.update_attributes(sfdc_franch_cons: consolidated_term_str, sfdc_franch_cat: category_str)
@@ -343,12 +359,14 @@ class CoreService
         # cores.each {|core| core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)}
 
 
-
-        ## Loop Entire Core through Each Franchise Term Row. ##
+        # Loop Entire Core through Each Franchise Term Row. ##
         brands = InHostPo.all[0..1]
         brands.each do |brand|
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
             sfdc_cores.each do |core|
+
+                # unless core.sfdc_franchise == nil && core.sfdc_franchise.include?(brand.term.capitalize)
+
                 prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
                 core.update_attribute(:sfdc_franchise, prev_brand + brand.term.capitalize)
             end
