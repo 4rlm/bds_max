@@ -358,6 +358,7 @@ class CoreService
         # cores = Core.all
         # cores.each {|core| core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)}
 
+
         # Loop Entire Core through Each Franchise Term Row. ##
         brands = InHostPo.all[0..1]
         brands.each do |brand|
@@ -372,6 +373,7 @@ class CoreService
         end
 
     end
+
 
     # def franchise_btn
     #     brands = InHostPo.all
