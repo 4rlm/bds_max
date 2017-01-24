@@ -290,7 +290,10 @@ class CoreService
     def franchise_consolidator
         # cores = Core.where.not(sfdc_franchise: nil)[0..2]
         cores = Core.where.not(sfdc_franchise: nil)
+
         counter = 0
+
+
         cores.each do |core|
             sfdc_terms = core.sfdc_franchise.split(';')
             criteria_consolidated_arr = []
@@ -305,6 +308,7 @@ class CoreService
                 unless criteria_category_arr.include?(in_host_po.category)
                     criteria_category_arr << in_host_po.category
                 end
+
             end
 
             ## 2.A) Adds Consolidated Franchise Terms to Core from Array. ##
@@ -328,10 +332,57 @@ class CoreService
                 end
             end
             counter +=1
-        end
+
+            end
+
+            ## 2.A) Adds Consolidated Franchise Terms to Core from Array. ##
+            unless criteria_consolidated_arr == nil
+                criteria_consolidated_arr.each do |cons_term|
+                    core.update_attribute(:sfdc_franch_cons, cons_term)
+                end
+            end
+
+            ### IF Below Works, then need to create Priority list w/ if-else. ###
+            ## 2.B) Adds Max 1 Franchise Category to Core from Array. ##
+            unless criteria_category_arr == nil
+                criteria_category_arr.each do |category|
+                    core.update_attribute(:sfdc_franch_cat, category)
+                end
+            end
+
+
+            #     unless core.sfdc_franch_cons.include?(consolidated_inhostpo)
+            #         core.update_attribute(:sfdc_franch_cons, consolidated_inhostpo)
+            #     end
+            #
+            #     unless core.sfdc_franch_cat.include?(category_inhostpo)
+            #         core.update_attribute(:sfdc_franch_cat, category_inhostpo)
+            #     end
+            #
+            # end
+
+
+            # core.update_attributes(sfdc_franch_cons: consolidated_term_str, sfdc_franch_cat: category_str)
+
+
+            ### Duplicate Catcher: Only update sfdc_franch_cons if uniq.
+            # unless consolidated_term_str == nil && core.sfdc_franch_cons.include?(consolidated_term_str)
+            #     core.update_attribute(:sfdc_franch_cons, consolidated_term_str)
+            # end
+
+            ### Duplicate Catcher: Only update sfdc_franch_cons if uniq.
+            # unless category_str == nil && core.sfdc_franch_cat.include?(category_str)
+            #     core.update_attribute(:sfdc_franch_cat, category_str)
+            # end
+
+            #### After testing above, create if else to rank "Franchise as top cat term." ####
+            #### Then, add duplicate catcher in franchise_termer for terms. ####
+
+       end
     end
 
     def franchise_termer
+
         ## Step1: DELETES FRANCHISE DATA IN CORES
         # cores = Core.all[0..1]
         # cores = Core.all
@@ -341,10 +392,22 @@ class CoreService
         # brands = InHostPo.all[19..21]
         brands = InHostPo.all
 
+
+
+        ## Step1: DELETES FRANCHISE DATA IN CORES
+        # cores = Core.all[0..1]
+        # cores = Core.all
+        # cores.each {|core| core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)}
+
+
+        # Loop Entire Core through Each Franchise Term Row. ##
+        brands = InHostPo.all[0..1]
+
         brands.each do |brand|
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
 
             sfdc_cores.each do |core|
+
                 franchises = []
                 term = brand.term
                 sfdc_franch = core.sfdc_franchise
@@ -374,6 +437,59 @@ class CoreService
         end  ## brands.each loop ends ##
 
     end  ## franchise_termer method ends ##
+
+
+    # def franchise_btn
+    #     brands = InHostPo.all
+    #     brands = InHostPo.where("term in ('group', 'buick')")
+    #
+    #     brands.each do |brand|
+    #         cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")[0..1]
+    #
+    #         cores.each do |core|
+    #             core.update_attributes(sfdc_franch_cons: "", sfdc_franch_cat: "")
+    #
+    #             if core.sfdc_franch_cons.include?(brand.consolidated_term)
+    #                 str1 = core.sfdc_franch_cons
+    #             else
+    #                 str1 = core.sfdc_franch_cons << brand.consolidated_term + ';'
+    #             end
+    #
+    #             if core.sfdc_franch_cat.include?(brand.category)
+    #                 category_str = core.sfdc_franch_cat
+    #             else
+    #                 category_str = core.sfdc_franch_cat << brand.category
+    #             end
+    #
+    #             if category_str.include?('franchise')
+    #                 str2 = 'franchise'
+    #             elsif category_str.include?('group')
+    #                 str2 = 'group'
+    #             elsif category_str.include?('non-franchise')
+    #                 str2 = 'non-franchise'
+    #             else
+    #                 str2 = 'other'
+    #             end
+    #
+    #             core.update_attributes(sfdc_franch_cons: str1.split(';').map(&:capitalize).join(';'), sfdc_franch_cat: str2.capitalize)
+    #         end
+    #
+    #     end
+    # end
+
+    ### FRANCHISER METHODS FOR BUTTONS - ENDS ###
+
+
+
+                # unless core.sfdc_franchise == nil && core.sfdc_franchise.include?(brand.term.capitalize)
+
+                prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
+                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.capitalize)
+            end
+        end
+
+    end
+
 
 
     # def franchise_btn
