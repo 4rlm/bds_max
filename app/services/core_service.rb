@@ -338,36 +338,38 @@ class CoreService
         # cores.each {|core| core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)}
 
         # Loop Entire Core through Each Franchise Term Row. ##
-        # brands = InHostPo.all[3...4]
+        # brands = InHostPo.all[19..21]
         brands = InHostPo.all
-        counter = 0
+
         brands.each do |brand|
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
 
             sfdc_cores.each do |core|
-                criteria_term_arr = []
+                franchises = []
+                term = brand.term
+                sfdc_franch = core.sfdc_franchise
 
-                unless core.sfdc_franchise == nil
-                    criteria_term_arr << core.sfdc_franchise
+                if sfdc_franch
+                    if sfdc_franch.include?(';')
+                        franchises = sfdc_franch.split(';')
+                    else
+                        franchises << sfdc_franch
+                    end
                 end
 
-                ## 1.) Adds Unique Franchise Term to Array. ##
-                # criteria_term_arr << brand.term unless criteria_term_arr.include?(brand.term)
+                franchises << term
+                franchises.sort!
+                uniq_franchises = franchises.uniq
 
-                unless criteria_term_arr.include?(brand.term)
-                    criteria_term_arr << brand.term
+                if uniq_franchises.length > 0
+                    final_result = uniq_franchises.join(";")
+                else
+                    final_result = uniq_franchises[0]
                 end
 
-                ## 2) Adds Franchise Term to Core from Array. ##
-                criteria_term_arr.each do |criteria_term|
-                        core.update_attribute(:sfdc_franchise, criteria_term)
-                        puts "franchise_termer #: #{counter}"
-                        puts "Added: #{criteria_term}"
-                        puts "---------------------------"
-                        puts
-                end  ## criteria_term_arr.each loop ends ##
+                # core.update_attribute(:sfdc_franchise, nil)
+                core.update_attribute(:sfdc_franchise, final_result)
 
-                counter +=1
             end  ## sfdc_cores.each loops ends ##
         end  ## brands.each loop ends ##
 
