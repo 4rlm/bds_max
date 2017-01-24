@@ -290,6 +290,7 @@ class CoreService
     def franchise_consolidator
         # cores = Core.where.not(sfdc_franchise: nil)[0..2]
         cores = Core.where.not(sfdc_franchise: nil)
+        counter = 0
         cores.each do |core|
             sfdc_terms = core.sfdc_franchise.split(';')
             criteria_consolidated_arr = []
@@ -310,6 +311,8 @@ class CoreService
             unless criteria_consolidated_arr == nil
                 criteria_consolidated_arr.each do |cons_term|
                     core.update_attribute(:sfdc_franch_cons, cons_term)
+                    puts "franchise_consolidator #: #{counter}"
+                    puts "Added Franchise: #{cons_term}"
                 end
             end
 
@@ -318,61 +321,57 @@ class CoreService
             unless criteria_category_arr == nil
                 criteria_category_arr.each do |category|
                     core.update_attribute(:sfdc_franch_cat, category)
+                    puts "franchise_consolidator #: #{counter}"
+                    puts "Added Category: #{category}"
+                    puts "---------------------------"
+                    puts
                 end
             end
-
-
-            #     unless core.sfdc_franch_cons.include?(consolidated_inhostpo)
-            #         core.update_attribute(:sfdc_franch_cons, consolidated_inhostpo)
-            #     end
-            #
-            #     unless core.sfdc_franch_cat.include?(category_inhostpo)
-            #         core.update_attribute(:sfdc_franch_cat, category_inhostpo)
-            #     end
-            #
-            # end
-
-
-            # core.update_attributes(sfdc_franch_cons: consolidated_term_str, sfdc_franch_cat: category_str)
-
-
-            ### Duplicate Catcher: Only update sfdc_franch_cons if uniq.
-            # unless consolidated_term_str == nil && core.sfdc_franch_cons.include?(consolidated_term_str)
-            #     core.update_attribute(:sfdc_franch_cons, consolidated_term_str)
-            # end
-
-            ### Duplicate Catcher: Only update sfdc_franch_cons if uniq.
-            # unless category_str == nil && core.sfdc_franch_cat.include?(category_str)
-            #     core.update_attribute(:sfdc_franch_cat, category_str)
-            # end
-
-            #### After testing above, create if else to rank "Franchise as top cat term." ####
-            #### Then, add duplicate catcher in franchise_termer for terms. ####
+            counter +=1
         end
     end
 
     def franchise_termer
-
         ## Step1: DELETES FRANCHISE DATA IN CORES
         # cores = Core.all[0..1]
         # cores = Core.all
         # cores.each {|core| core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)}
 
-
         # Loop Entire Core through Each Franchise Term Row. ##
-        brands = InHostPo.all[0..1]
+        # brands = InHostPo.all[3...4]
+        brands = InHostPo.all
+        counter = 0
         brands.each do |brand|
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+
             sfdc_cores.each do |core|
+                criteria_term_arr = []
 
-                # unless core.sfdc_franchise == nil && core.sfdc_franchise.include?(brand.term.capitalize)
+                unless core.sfdc_franchise == nil
+                    criteria_term_arr << core.sfdc_franchise
+                end
 
-                prev_brand = core.sfdc_franchise ? core.sfdc_franchise + ";" : ""
-                core.update_attribute(:sfdc_franchise, prev_brand + brand.term.capitalize)
-            end
-        end
+                ## 1.) Adds Unique Franchise Term to Array. ##
+                # criteria_term_arr << brand.term unless criteria_term_arr.include?(brand.term)
 
-    end
+                unless criteria_term_arr.include?(brand.term)
+                    criteria_term_arr << brand.term
+                end
+
+                ## 2) Adds Franchise Term to Core from Array. ##
+                criteria_term_arr.each do |criteria_term|
+                        core.update_attribute(:sfdc_franchise, criteria_term)
+                        puts "franchise_termer #: #{counter}"
+                        puts "Added: #{criteria_term}"
+                        puts "---------------------------"
+                        puts
+                end  ## criteria_term_arr.each loop ends ##
+
+                counter +=1
+            end  ## sfdc_cores.each loops ends ##
+        end  ## brands.each loop ends ##
+
+    end  ## franchise_termer method ends ##
 
 
     # def franchise_btn
@@ -423,6 +422,5 @@ class CoreService
             Core.create(temporary_id: core.sfdc_id, bds_status: core.bds_status, sfdc_acct: (core.site_acct ||core.matched_url), sfdc_street: core.site_street, sfdc_city: core.site_city, sfdc_state: core.site_state, sfdc_zip: core.site_zip, sfdc_ph: core.site_ph, sfdc_url: core.matched_url, sfdc_root: core.matched_root, created_at: core.domainer_date, core_date: core.domainer_date, indexer_date: core.indexer_date, staffer_date: core.staffer_date, staff_indexer_status: core.staff_indexer_status, location_indexer_status: core.location_indexer_status, staff_link: core.staff_link, staff_text: core.staff_text, location_link: core.location_link, location_text: core.location_text, domain_status: core.domain_status, staffer_status: core.staffer_status, acct_source: "Web", sfdc_geo_addy: core.site_geo_addy, sfdc_lat: core.site_lat, sfdc_lon: core.site_lon, sfdc_geo_status: core.site_geo_status, sfdc_geo_date: core.site_geo_date, sfdc_coordinates: core.site_coordinates, sfdc_template: core.site_template, url_status: "Valid", sfdc_id: "web#{DateTime.now.strftime('%Q')}")
         end
     end
-
 
 end  # Ends class CoreService  # GoogleSearchClass
