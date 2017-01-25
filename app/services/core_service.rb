@@ -288,48 +288,89 @@ class CoreService
     ### FRANCHISER METHODS FOR BUTTONS - STARTS ###
 
     def franchise_consolidator
-        # cores = Core.where.not(sfdc_franchise: nil)[0..2]
-        cores = Core.where.not(sfdc_franchise: nil)
-        counter = 0
+        cores = Core.where.not(sfdc_franchise: nil)[0..100]
+        # cores = Core.where.not(sfdc_franchise: nil)
+
+        ## TASK: Capitalize InHostPo/Text  (last 2 columns). ******************
         cores.each do |core|
+            ## TASK: Change to .split('; ') and downcase. ******************
             sfdc_terms = core.sfdc_franchise.split(';')
-            criteria_consolidated_arr = []
-            criteria_category_arr = []
+            franch_cons_arr = []
+            core_franch_cons = core.sfdc_franch_cons
 
-            ## 1.) Adds Unique Consolidated Franchise Terms & Categories to Array. ##
+
+            franch_cat_arr = []
+            core_category = core.sfdc_franch_cat
+
+            # New feature (like franchise_termer) adds sfdc data to arr.
+            if core_franch_cons
+                franch_cons_arr = core_franch_cons.split(';')
+            end
+
+            if core_category
+                franch_cat_arr = core_category.split(';')
+            end
+
+            # Loops each sfdc_franchise term.
             sfdc_terms.each do |sfdc_term|
+                # Assigns InHostPo term to variable.
                 in_host_po = InHostPo.find_by(term: sfdc_term.downcase)
-                unless criteria_consolidated_arr.include?(in_host_po.consolidated_term)
-                    criteria_consolidated_arr << in_host_po.consolidated_term
+
+                # Adds InHostPo consolidated_term to franch_cons_arr if uniq.
+                unless franch_cons_arr.include?(in_host_po.consolidated_term)
+                    franch_cons_arr << in_host_po.consolidated_term
                 end
-                unless criteria_category_arr.include?(in_host_po.category)
-                    criteria_category_arr << in_host_po.category
+
+                # Adds InHostPo criteria term to franch_cons_arr if uniq.
+                unless franch_cat_arr.include?(in_host_po.category)
+                    franch_cat_arr << in_host_po.category
                 end
             end
 
-            ## 2.A) Adds Consolidated Franchise Terms to Core from Array. ##
-            unless criteria_consolidated_arr == nil
-                criteria_consolidated_arr.each do |cons_term|
-                    core.update_attribute(:sfdc_franch_cons, cons_term)
-                    puts "franchise_consolidator #: #{counter}"
-                    puts "Added Franchise: #{cons_term}"
-                end
+            # UPDATES ATTR Core sfdc_franch_cons w item(s) from uniq_franch_cons_arr.
+            ## TASK: Capitalize and add "; " to results. ******************
+
+            #### TASK: ONLY OUTPUT "NON-FRANCHISE" IF NO FRANCHISE IS OUTPUT.
+
+            franch_cons_arr.sort!
+            uniq_franch_cons_arr = franch_cons_arr.uniq
+
+            if uniq_franch_cons_arr.length > 0
+                ## TASK: Change to .split('; ')  ******************
+                franch_cons_result = uniq_franch_cons_arr.join(";")
+            else
+                franch_cons_result = uniq_franch_cons_arr[0]
             end
 
-            ### IF Below Works, then need to create Priority list w/ if-else. ###
-            ## 2.B) Adds Max 1 Franchise Category to Core from Array. ##
-            unless criteria_category_arr == nil
-                criteria_category_arr.each do |category|
-                    core.update_attribute(:sfdc_franch_cat, category)
-                    puts "franchise_consolidator #: #{counter}"
-                    puts "Added Category: #{category}"
-                    puts "---------------------------"
-                    puts
+            core.update_attribute(:sfdc_franch_cons, franch_cons_result)
+
+            # UPDATES ATTR Core sfdc_franch_cat w 1-ranked-item from franch_cat_arr.
+            # Ranking: Franchise, Group, Non-Franchise, Other, nil
+
+
+            ## TASK: Capitalize results. ******************
+            franch_cat_arr.sort!
+            uniq_franch_cat_arr = franch_cat_arr.uniq
+            final_category = nil
+
+            unless uniq_franch_cat_arr == nil
+                if uniq_franch_cat_arr.include?("franchise")
+                    final_category = "franchise"
+                elsif uniq_franch_cat_arr.include?("group")
+                    final_category = "group"
+                elsif uniq_franch_cat_arr.include?("non-franchise")
+                    final_category = "non-franchise"
+                elsif final_category == nil || final_category == ""
+                    final_category = nil
+                else
+                    final_category = "other"
                 end
             end
-            counter +=1
+            core.update_attribute(:sfdc_franch_cat, final_category)
+
         end
     end
+
 
     def franchise_termer
         ## Step1: DELETES FRANCHISE DATA IN CORES
@@ -343,6 +384,9 @@ class CoreService
 
         brands.each do |brand|
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+
+            ## TASK: Capitalize InHostPo/Text  (last 2 columns). ******************
+            ## TASK: Remember to always keep all terms (1st column) downcase. ******************
 
             sfdc_cores.each do |core|
                 franchises = []
@@ -361,7 +405,9 @@ class CoreService
                 franchises.sort!
                 uniq_franchises = franchises.uniq
 
+
                 if uniq_franchises.length > 0
+                    ## TASK: Change to .split('; ')  ******************
                     final_result = uniq_franchises.join(";")
                 else
                     final_result = uniq_franchises[0]
@@ -375,6 +421,7 @@ class CoreService
 
     end  ## franchise_termer method ends ##
 
+    ### TASK: Delete below method after above 2 are working well. ******************
 
     # def franchise_btn
     #     brands = InHostPo.all
