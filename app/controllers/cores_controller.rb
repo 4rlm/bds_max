@@ -144,12 +144,16 @@ class CoresController < ApplicationController
     end
 
     def franchiser_btn
-        @core_service.delay.franchise_termer
+        # !! CAUTION !!
+        @core_service.core_data_dumper
+
+
+        # @core_service.delay.franchise_resetter
+        # @core_service.franchise_resetter
+        # @core_service.delay.franchise_termer
         # @core_service.franchise_termer
-
-        @core_service.delay.franchise_consolidator
+        # @core_service.delay.franchise_consolidator
         # @core_service.franchise_consolidator
-
         redirect_to root_path
     end
 

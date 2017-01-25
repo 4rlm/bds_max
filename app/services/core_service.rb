@@ -286,6 +286,66 @@ class CoreService
     end
 
     ### FRANCHISER METHODS FOR BUTTONS - STARTS ###
+    def franchise_resetter
+        ## Step1: DELETES FRANCHISE DATA IN CORES
+        # cores = Core.all[0..1]
+        cores = Core.all
+        counter_reset = 1
+        cores.each do |core|
+            core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)
+            puts "Resetting Franchise Values: #{counter_reset}"
+            counter_reset +=1
+        end
+    end  ## franchise_resetter ends.
+
+    def franchise_termer
+        # Loop Entire Core through Each Franchise Term Row. ##
+        # brands = InHostPo.all[19..21]
+        brands = InHostPo.all
+
+        counter_brand = 1
+        counter_termer = 1
+        brands.each do |brand|
+            sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+            puts "==============================="
+            puts "Looping Brands: #{counter_brand} for #{brand.term}"
+            counter_brand +=1
+
+            sfdc_cores.each do |core|
+                franchises = []
+                term = brand.term
+                sfdc_franch = core.sfdc_franchise
+
+                if sfdc_franch
+                    if sfdc_franch.include?(';')
+                        franchises = sfdc_franch.split(';')
+                    else
+                        franchises << sfdc_franch
+                    end
+                end
+
+                franchises << term
+                franchises.sort!
+                uniq_franchises = franchises.uniq
+
+                if uniq_franchises.length > 0
+                    final_result = uniq_franchises.join(";")
+                else
+                    final_result = uniq_franchises[0]
+                end
+
+                # core.update_attribute(:sfdc_franchise, nil)
+                core.update_attribute(:sfdc_franchise, final_result)
+                puts "-----------------------------------------"
+                puts "Updating Brand: #{brand.term}"
+                puts "Brand Count: #{counter_brand}"
+                puts "Franchise Termer: #{counter_termer}"
+                counter_termer +=1
+
+            end  ## sfdc_cores.each loops ends ##
+        end  ## brands.each loop ends.
+    end  ## franchise_termer method ends ##
+
     def franchise_consolidator
         # cores = Core.where.not(sfdc_franchise: nil)[0..100]
         cores = Core.where.not(sfdc_franchise: nil)
@@ -377,63 +437,6 @@ class CoreService
         end
     end
 
-
-    def franchise_termer
-        ## Step1: DELETES FRANCHISE DATA IN CORES
-        # cores = Core.all[0..1]
-        cores = Core.all
-        counter_reset = 1
-        cores.each do |core|
-            core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)
-            puts "Resetting Franchise Values: #{counter_reset}"
-            counter_reset +=1
-        end
-
-        # Loop Entire Core through Each Franchise Term Row. ##
-        # brands = InHostPo.all[19..21]
-        brands = InHostPo.all
-
-        counter_brand = 1
-        brands.each do |brand|
-            sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
-            puts "==============================="
-            puts "Looping Brands: #{counter_brand} for #{brand.term}"
-            counter_brand +=1
-
-            counter_termer = 1
-            sfdc_cores.each do |core|
-                franchises = []
-                term = brand.term
-                sfdc_franch = core.sfdc_franchise
-
-                if sfdc_franch
-                    if sfdc_franch.include?(';')
-                        franchises = sfdc_franch.split(';')
-                    else
-                        franchises << sfdc_franch
-                    end
-                end
-
-                franchises << term
-                franchises.sort!
-                uniq_franchises = franchises.uniq
-
-                if uniq_franchises.length > 0
-                    final_result = uniq_franchises.join(";")
-                else
-                    final_result = uniq_franchises[0]
-                end
-
-                # core.update_attribute(:sfdc_franchise, nil)
-                core.update_attribute(:sfdc_franchise, final_result)
-                puts "-----------------------------------------"
-                puts "Franchise Termer: #{counter_termer}"
-                counter_termer +=1
-
-            end  ## sfdc_cores.each loops ends ##
-        end  ## brands.each loop ends ##
-
-    end  ## franchise_termer method ends ##
     ### FRANCHISER METHODS FOR BUTTONS - ENDS ###
 
 
@@ -444,5 +447,17 @@ class CoreService
             Core.create(temporary_id: core.sfdc_id, bds_status: core.bds_status, sfdc_acct: (core.site_acct ||core.matched_url), sfdc_street: core.site_street, sfdc_city: core.site_city, sfdc_state: core.site_state, sfdc_zip: core.site_zip, sfdc_ph: core.site_ph, sfdc_url: core.matched_url, sfdc_root: core.matched_root, created_at: core.domainer_date, core_date: core.domainer_date, indexer_date: core.indexer_date, staffer_date: core.staffer_date, staff_indexer_status: core.staff_indexer_status, location_indexer_status: core.location_indexer_status, staff_link: core.staff_link, staff_text: core.staff_text, location_link: core.location_link, location_text: core.location_text, domain_status: core.domain_status, staffer_status: core.staffer_status, acct_source: "Web", sfdc_geo_addy: core.site_geo_addy, sfdc_lat: core.site_lat, sfdc_lon: core.site_lon, sfdc_geo_status: core.site_geo_status, sfdc_geo_date: core.site_geo_date, sfdc_coordinates: core.site_coordinates, sfdc_template: core.site_template, url_status: "Valid", sfdc_id: "web#{DateTime.now.strftime('%Q')}")
         end
     end
+
+    ### CAUTION !!! DUMPS DATA !!! ###
+    def core_data_dumper
+        cores = Core.all
+        counter_reset = 1
+        cores.each do |core|
+            core.update_attributes(matched_url: nil, matched_root: nil, url_comparison: nil, root_comparison: nil, acct_indicator: nil, site_acct: nil, site_street: nil, site_city: nil, site_state: nil, site_zip: nil, site_ph: nil, street_indicator: nil, city_indicator: nil, state_indicator: nil, zip_indicator: nil, ph_indicator: nil, grp_rt_indicator: nil, ult_grp_rt_indicator: nil, franch_indicator: nil, site_franchise: nil, site_ult_rt: nil, site_grp_rt: nil, grp_name_indicator: nil, ult_grp_name_indicator: nil, tier_indicator: nil, site_tier: nil, site_franch_cat: nil, site_ult_grp: nil, site_group: nil, site_geo_addy: nil, site_lat: nil, site_lon: nil, site_geo_status: nil, site_geo_date: nil, site_coordinates: nil, site_franch_cons: nil, coord_indicator: nil, franch_cons_ind: nil, franch_cat_ind: nil, template_ind: nil, site_template: nil)
+            puts "Dumping Data: #{counter_reset}"
+            counter_reset +=1
+        end # cores.each ends
+    end # core_data_dumper ends
+
 
 end  # Ends class CoreService  # GoogleSearchClass

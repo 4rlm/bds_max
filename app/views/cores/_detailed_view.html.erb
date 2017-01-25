@@ -50,7 +50,6 @@
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
                     <td><%= core.acct_source %></td>
-                    <%= render partial: 'layouts/indicator', locals: { col: core.acct_indicator } %>
                     <td><%= core.sfdc_acct %></td>
                     <td><%= core.sfdc_group %></td>
                     <td><%= core.sfdc_ult_grp %></td>
@@ -115,9 +114,7 @@
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
                     <td><%= core.url_status %></td>
-                    <%= render partial: 'layouts/indicator', locals: { col: core.url_comparison } %>
                     <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
-                    <%= render partial: 'layouts/indicator', locals: { col: core.root_comparison } %>
                     <td><%= core.sfdc_root %></td>
                     <!-- <td>ind</td> -->
                     <td><%= core.sfdc_franchise %></td>
@@ -160,7 +157,7 @@
                         <td><%= core.location_indexer_status %></td>
                     <% end %>
                     <!-- ## Staffer Consolidation ## -->
-                    <% if core.staffer_status == "Scraped" %>
+                    <% if core.staffer_status == "Scraped" || core.staffer_status == "Imported" %>
                         <td><%= link_to "View Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
                     <% else %>
                         <td><%= core.staffer_status %></td>

@@ -45,10 +45,6 @@ module ApplicationHelper
         [["Different", "different"], ["Same", "same"]]
     end
 
-    def staffer_status_list
-        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched"]
-    end
-
     def whois_status_list
         ["Ready", "Queued", "No Matches", "Matched"]
     end
@@ -58,7 +54,7 @@ module ApplicationHelper
     end
 
     def acct_source_list
-        ['CRM', 'CoPilot', 'Dealer', 'Web']
+        ['Copy', 'CoPilot', 'CRM', 'Dealer', 'Web']
     end
 
     def hierarchy_list
@@ -78,7 +74,7 @@ module ApplicationHelper
     end
 
     def staffer_status_list
-        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched"]
+        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched", "Imported"]
     end
 
     def franchise_list
