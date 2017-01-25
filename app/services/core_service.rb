@@ -330,10 +330,18 @@ class CoreService
             # UPDATES ATTR Core sfdc_franch_cons w item(s) from uniq_franch_cons_arr.
             ## TASK: Capitalize and add "; " to results. ******************
 
-            #### TASK: ONLY OUTPUT "NON-FRANCHISE" IF NO FRANCHISE IS OUTPUT.
-
             franch_cons_arr.sort!
             uniq_franch_cons_arr = franch_cons_arr.uniq
+
+            # Deletes "non-franchise" if it and "group" in array, and array more than 1.
+            if uniq_franch_cons_arr.length > 1 && (uniq_franch_cons_arr.include?("group") || uniq_franch_cons_arr.include?("non-franchise"))
+                uniq_franch_cons_arr.delete("non-franchise")
+            end
+
+            # Deletes "group" in array if array more than 1.
+            if uniq_franch_cons_arr.length > 1 && uniq_franch_cons_arr.include?("group")
+                uniq_franch_cons_arr.delete("group")
+            end
 
             if uniq_franch_cons_arr.length > 0
                 ## TASK: Change to .split('; ')  ******************
