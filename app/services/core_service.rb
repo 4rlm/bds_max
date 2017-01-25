@@ -286,18 +286,15 @@ class CoreService
     end
 
     ### FRANCHISER METHODS FOR BUTTONS - STARTS ###
-
     def franchise_consolidator
-        cores = Core.where.not(sfdc_franchise: nil)[0..100]
-        # cores = Core.where.not(sfdc_franchise: nil)
+        # cores = Core.where.not(sfdc_franchise: nil)[0..100]
+        cores = Core.where.not(sfdc_franchise: nil)
 
-        ## TASK: Capitalize InHostPo/Text  (last 2 columns). ******************
+        counter_consolidator = 1
         cores.each do |core|
-            ## TASK: Change to .split('; ') and downcase. ******************
             sfdc_terms = core.sfdc_franchise.split(';')
             franch_cons_arr = []
             core_franch_cons = core.sfdc_franch_cons
-
 
             franch_cat_arr = []
             core_category = core.sfdc_franch_cat
@@ -328,23 +325,20 @@ class CoreService
             end
 
             # UPDATES ATTR Core sfdc_franch_cons w item(s) from uniq_franch_cons_arr.
-            ## TASK: Capitalize and add "; " to results. ******************
-
             franch_cons_arr.sort!
             uniq_franch_cons_arr = franch_cons_arr.uniq
 
-            # Deletes "non-franchise" if it and "group" in array, and array more than 1.
-            if uniq_franch_cons_arr.length > 1 && (uniq_franch_cons_arr.include?("group") || uniq_franch_cons_arr.include?("non-franchise"))
-                uniq_franch_cons_arr.delete("non-franchise")
+            # Deletes "Non-Franchise" if it and "Group" in array, and array more than 1.
+            if uniq_franch_cons_arr.length > 1 && (uniq_franch_cons_arr.include?("Group") || uniq_franch_cons_arr.include?("Non-Franchise"))
+                uniq_franch_cons_arr.delete("Non-Franchise")
             end
 
             # Deletes "group" in array if array more than 1.
-            if uniq_franch_cons_arr.length > 1 && uniq_franch_cons_arr.include?("group")
-                uniq_franch_cons_arr.delete("group")
+            if uniq_franch_cons_arr.length > 1 && uniq_franch_cons_arr.include?("Group")
+                uniq_franch_cons_arr.delete("Group")
             end
 
             if uniq_franch_cons_arr.length > 0
-                ## TASK: Change to .split('; ')  ******************
                 franch_cons_result = uniq_franch_cons_arr.join(";")
             else
                 franch_cons_result = uniq_franch_cons_arr[0]
@@ -353,29 +347,33 @@ class CoreService
             core.update_attribute(:sfdc_franch_cons, franch_cons_result)
 
             # UPDATES ATTR Core sfdc_franch_cat w 1-ranked-item from franch_cat_arr.
-            # Ranking: Franchise, Group, Non-Franchise, Other, nil
-
-
-            ## TASK: Capitalize results. ******************
             franch_cat_arr.sort!
             uniq_franch_cat_arr = franch_cat_arr.uniq
             final_category = nil
 
             unless uniq_franch_cat_arr == nil
-                if uniq_franch_cat_arr.include?("franchise")
-                    final_category = "franchise"
-                elsif uniq_franch_cat_arr.include?("group")
-                    final_category = "group"
-                elsif uniq_franch_cat_arr.include?("non-franchise")
-                    final_category = "non-franchise"
+                if uniq_franch_cat_arr.include?("Franchise")
+                    final_category = "Franchise"
+                elsif uniq_franch_cat_arr.include?("Group")
+                    final_category = "Group"
+                elsif uniq_franch_cat_arr.include?("Non-Franchise")
+                    final_category = "Non-Franchise"
                 elsif final_category == nil || final_category == ""
-                    final_category = nil
+                    final_category = "None"
                 else
-                    final_category = "other"
+                    final_category = "Other"
                 end
             end
-            core.update_attribute(:sfdc_franch_cat, final_category)
 
+            core.update_attribute(:sfdc_franch_cat, final_category)
+            # core.update_attributes(sfdc_franch_cons: nil, sfdc_franch_cat: nil)
+
+            puts "-----------------------------------------"
+            puts "Franchise Consolidator: #{counter_consolidator}"
+            puts "Franchise: #{franch_cons_result}"
+            puts "Category: #{final_category}"
+            puts "-----------------------------------------"
+            counter_consolidator +=1
         end
     end
 
@@ -383,19 +381,26 @@ class CoreService
     def franchise_termer
         ## Step1: DELETES FRANCHISE DATA IN CORES
         # cores = Core.all[0..1]
-        # cores = Core.all
-        # cores.each {|core| core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)}
+        cores = Core.all
+        counter_reset = 1
+        cores.each do |core|
+            core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)
+            puts "Resetting Franchise Values: #{counter_reset}"
+            counter_reset +=1
+        end
 
         # Loop Entire Core through Each Franchise Term Row. ##
         # brands = InHostPo.all[19..21]
         brands = InHostPo.all
 
+        counter_brand = 1
         brands.each do |brand|
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+            puts "==============================="
+            puts "Looping Brands: #{counter_brand} for #{brand.term}"
+            counter_brand +=1
 
-            ## TASK: Capitalize InHostPo/Text  (last 2 columns). ******************
-            ## TASK: Remember to always keep all terms (1st column) downcase. ******************
-
+            counter_termer = 1
             sfdc_cores.each do |core|
                 franchises = []
                 term = brand.term
@@ -413,9 +418,7 @@ class CoreService
                 franchises.sort!
                 uniq_franchises = franchises.uniq
 
-
                 if uniq_franchises.length > 0
-                    ## TASK: Change to .split('; ')  ******************
                     final_result = uniq_franchises.join(";")
                 else
                     final_result = uniq_franchises[0]
@@ -423,52 +426,14 @@ class CoreService
 
                 # core.update_attribute(:sfdc_franchise, nil)
                 core.update_attribute(:sfdc_franchise, final_result)
+                puts "-----------------------------------------"
+                puts "Franchise Termer: #{counter_termer}"
+                counter_termer +=1
 
             end  ## sfdc_cores.each loops ends ##
         end  ## brands.each loop ends ##
 
     end  ## franchise_termer method ends ##
-
-    ### TASK: Delete below method after above 2 are working well. ******************
-
-    # def franchise_btn
-    #     brands = InHostPo.all
-    #     brands = InHostPo.where("term in ('group', 'buick')")
-    #
-    #     brands.each do |brand|
-    #         cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")[0..1]
-    #
-    #         cores.each do |core|
-    #             core.update_attributes(sfdc_franch_cons: "", sfdc_franch_cat: "")
-    #
-    #             if core.sfdc_franch_cons.include?(brand.consolidated_term)
-    #                 str1 = core.sfdc_franch_cons
-    #             else
-    #                 str1 = core.sfdc_franch_cons << brand.consolidated_term + ';'
-    #             end
-    #
-    #             if core.sfdc_franch_cat.include?(brand.category)
-    #                 category_str = core.sfdc_franch_cat
-    #             else
-    #                 category_str = core.sfdc_franch_cat << brand.category
-    #             end
-    #
-    #             if category_str.include?('franchise')
-    #                 str2 = 'franchise'
-    #             elsif category_str.include?('group')
-    #                 str2 = 'group'
-    #             elsif category_str.include?('non-franchise')
-    #                 str2 = 'non-franchise'
-    #             else
-    #                 str2 = 'other'
-    #             end
-    #
-    #             core.update_attributes(sfdc_franch_cons: str1.split(';').map(&:capitalize).join(';'), sfdc_franch_cat: str2.capitalize)
-    #         end
-    #
-    #     end
-    # end
-
     ### FRANCHISER METHODS FOR BUTTONS - ENDS ###
 
 
