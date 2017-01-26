@@ -15,17 +15,7 @@
             <th>Location Indexer</th>
             <th>Staffer</th>
             <th>SFDC Geo</th>
-            <th>Site Geo</th>
-
             <th>SFDC Coord</th>
-            <th>Lat</th>
-            <th>Long</th>
-
-            <th>Site Coord</th>
-            <th>Lat</th>
-            <th>Long</th>
-
-
             <th>Staff Page</th>
             <th>Account</th>
             <th>Ult Group</th>
@@ -43,65 +33,39 @@
         <% @cores.each do |core| %>
             <% num +=1 %>
             <tr>
-
                 <td><%= check_box_tag "status_checks[]",  core.id %></td>
-
                 <td><%= num %></td>
                 <td><%= core.bds_status %></td>
                 <td><%= core.domain_status %></td>
                 <td><%= core.staff_indexer_status %></td>
                 <td><%= core.location_indexer_status %></td>
                 <td><%= core.staffer_status %></td>
-
                 <td><%= core.sfdc_geo_status %></td>
-                <td><%= core.site_geo_status %></td>
-
-
-
                 <td><%= core.sfdc_coordinates %></td>
-                <td><%= core.sfdc_lat %></td>
-                <td><%= core.sfdc_lon %></td>
-
-
-
-
-
-                <td><%= core.site_coordinates %></td>
-                <td><%= core.site_lat %></td>
-                <td><%= core.site_lon %></td>
-
-
-
-
                 <% if core.staff_text && core.staff_text != "(none)"%>
                     <td class="yes"><%= link_to core.staff_text, core.staff_link, :target => "_blank" %></td>
                 <% else %>
                     <td><%= core.staff_text %></td>
                 <% end %>
-
                 <td><%= core.sfdc_acct %></td>
                 <td><%= core.sfdc_ult_grp %></td>
                 <td><%= core.sfdc_city %></td>
                 <td><%= core.sfdc_state %></td>
-
                 <td><%= core.sfdc_type %></td>
                 <td><%= core.sfdc_sales_person %></td>
                 <td><%= core.sfdc_id %></td>
-
                 <!-- <td><%#= link_to 'Show', core %></td> -->
                 <td class='details-btn' >
                     <%= link_to core, method: :details do %>
                         <span class="glyphicon glyphicon-folder-open"></span>
                     <% end %>
                 </td>
-
                 <!-- <td><%#= link_to 'Edit', edit_core_path(core) %></td> -->
                 <td class='edit-btn' >
                     <%= link_to core, method: :edit do %>
                         <span class="glyphicon glyphicon-pencil"></span>
                     <% end %>
                 </td>
-
                 <!-- <td><%= link_to 'Destroy', core, method: :delete %></td> -->
                 <td class='delete-btn' >
                     <%= link_to core, method: :delete do %>

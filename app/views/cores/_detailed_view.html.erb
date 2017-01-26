@@ -39,7 +39,6 @@
                 <tr>
                     <th class="th-1 t3">Account</th>
                     <th class="th-2 w-md">Source</th>
-                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Account Name</th>
                     <th class="th-2">Group Name</th>
                     <th class="th-2">Ultimate Group Name</th>
@@ -66,9 +65,7 @@
                 <tr>
                     <th class="th-1 t3">Address</th>
                     <th class="th-2 w-md">Hierarchy</th>
-                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2 w-lg">Coordinates</th>
-                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2 w-lg">Full Address</th>
                     <th class="th-2">Street</th>
                     <th class="th-2">City</th>
@@ -79,9 +76,7 @@
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
                     <td><%= core.hierarchy %></td>
-                    <td>!!</td>
                     <td><%= core.sfdc_coordinates %></td>
-                    <td>!!</td>
                     <td><%= core.sfdc_geo_addy %></td>
                     <td><%= core.sfdc_street %></td>
                     <td><%= core.sfdc_city %></td>
@@ -99,11 +94,8 @@
                 <tr>
                     <th class="th-1 t3">Digital</th>
                     <th class="th-2 w-md">URL Status</th>
-                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Website</th>
-                    <th class="th-2 indicator"><i class="fa fa-bell-o indicator-th" aria-hidden="true"></i></th>
                     <th class="th-2">Root</th>
-                    <th class="th-2">Term:</th>
                     <th class="th-2">Franchise:</th>
                     <th class="th-2">Store Type:</th>
                     <th class="th-2">Template</th>
@@ -117,7 +109,6 @@
                     <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
                     <td><%= core.sfdc_root %></td>
                     <!-- <td>ind</td> -->
-                    <td><%= core.sfdc_franchise %></td>
                     <td><%= core.sfdc_franch_cons %></td>
                     <td><%= core.sfdc_franch_cat %></td>
                     <td></td>
