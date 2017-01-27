@@ -76,8 +76,8 @@
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
                     <td><%= core.hierarchy %></td>
-                    <td><%= core.sfdc_coordinates %></td>
-                    <td><%= core.sfdc_geo_addy %></td>
+                    <td><%= core.coordinates %></td>
+                    <td><%= core.full_address %></td>
                     <td><%= core.sfdc_street %></td>
                     <td><%= core.sfdc_city %></td>
                     <td><%= core.sfdc_state %></td>
@@ -155,7 +155,7 @@
                     <% end %>
 
                     <!-- ## NOT DONE !! GeoCoder Consolidation ## -->
-                    <td><%= core.sfdc_geo_status %></td>
+                    <td><%= core.geo_status %></td>
 
                 </tr>
                 <tr>
@@ -191,10 +191,10 @@
                         <td><%= core.staffer_date %></td>
                     <% end %>
                     <!-- geocoder date -->
-                    <% if core.sfdc_geo_date %>
-                        <td><%= core.sfdc_geo_date.strftime("%m/%d/%Y") %></td>
+                    <% if core.geo_date %>
+                        <td><%= core.geo_date.strftime("%m/%d/%Y") %></td>
                     <% else %>
-                        <td><%= core.sfdc_geo_date %></td>
+                        <td><%= core.geo_date %></td>
                     <% end %>
                 </tr>
             </table>

@@ -1,131 +1,120 @@
 class LocationService
 
-    def start_geo(ids)
+    def start_geo(cores) ## From Button
+        cores.each do |core|
+            core.update_attributes(bds_status: "Queue Geo", geo_status: nil, geo_date: nil, latitude: nil, longitude: nil, coordinates: nil)
+
+            create_sfdc_loc(core)
+        end
+    end
+
+    def geo_starter(ids)  ## From 'Queue Geo' Batch Select
         Core.where(id: ids).each do |core|
             create_sfdc_loc(core)
-            create_site_loc(core)
         end
     end
 
+    ## Main Geo Coder Method Starts Here ##
     def create_sfdc_loc(core)
         addr = full_address(core.sfdc_street, core.sfdc_city, core.sfdc_state, core.sfdc_zip)
-        # return if addr.nil? || core.sfdc_geo_status == "Geo Result"
-        # return if addr.nil? || core.sfdc_lat != nil
 
-        puts
-        puts "------ Current Query: -------"
-        puts "Account Name: #{core.sfdc_acct}"
-        puts "Account Type: #{core.sfdc_type}"
-        puts "Address: #{addr}"
-        puts "SFDC ID: #{core.sfdc_id}"
-        puts "--------------------------------"
-
-        if addr.nil?
-            core.update_attributes(bds_status: "Geo Result", sfdc_geo_status: "No SFDC Addy")
-            puts "SFDC: No SFDC Addy"
-            return
-        end
-
-        if core.sfdc_lat != nil
-            core.update_attributes(bds_status: "Geo Result", sfdc_geo_status: "Geo Result", sfdc_coordinates: "#{core.sfdc_lat}, #{core.sfdc_lon}")
-            puts "SFDC: Coordinates Already Exist"
-            puts "--------------------------------"
-            return
-        end
+        if core.bds_status == "Queue Geo"
 
 
-        location = Location.new(latitude: core.sfdc_lat, longitude: core.sfdc_lon, address: addr, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip, coordinates: core.sfdc_coordinates, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "CRM", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, location_status: "Core Inbound", url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franchise)
+            if addr = "Missing Address"
+                core.update_attributes(bds_status: "Geo Error", geo_status: "No Address", geo_date: Time.new, full_address: addr)
+                return
+            else
+                location = Location.new(address: addr, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: core.acct_source, sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, location_status: "Geo Result", url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franch_cons, franch_cat: core.sfdc_franch_cat, hierarchy: core.hierarchy)
 
-        if location.save
-            core.update_attributes(bds_status: 'Geo Result', site_geo_status: 'Geo Result', sfdc_geo_date: Time.new, sfdc_lat: location.latitude, sfdc_lon: location.longitude, sfdc_coordinates: "#{location.latitude}, #{location.longitude}")
+                if location.save
+                    core.update_attributes(bds_status: 'Geo Result', geo_status: 'Geo Result', geo_date: Time.new, full_address: addr, latitude: location.latitude, longitude: location.longitude, coordinates: "#{location.latitude}, #{location.longitude}")
 
-            puts "---------------------"
-            puts "SUCCESS!"
-            puts "Lat: #{location.latitude}"
-            puts "Lon: #{location.longitude}"
-            puts "---------------------"
-            puts
+                    #== Throttle ====
+                    # sleep(0.02)
 
-            #== Throttle (if needed) =====================
-            # throttle_delay_time = (0..1).to_a.sample
-            # puts "--------------------------------"
-            # puts "Throttle: #{throttle_delay_time} seconds."
-            # puts "--------------------------------"
-            # sleep(throttle_delay_time)
-            # sleep(0.02)
-        else
-            core.update_attributes(bds_status: "Geo Result", site_geo_status: "Error",
-            site_geo_date: Time.new)
-        end
-    end
-
-    def create_site_loc(core)
-        addr = full_address(core.site_street, core.site_city, core.site_state, core.site_zip)
-        # return if addr.nil? || core.site_geo_status == "Geo Result"
-        # return if addr.nil? || core.site_lat != nil
-        puts
-        puts "------ Current Query: -------"
-        puts "Account Name: #{core.site_acct}"
-        puts "Account Type: #{core.sfdc_type}"
-        puts "Address: #{addr}"
-        puts "SFDC ID: #{core.sfdc_id}"
-        puts "--------------------------------"
-
-        if addr.nil?
-            core.update_attributes(bds_status: "Geo Result", site_geo_status: "No Site Addy")
-            puts "Site: No Site Addy"
-            return
-        end
-
-        if core.site_lat != nil
-            core.update_attributes(bds_status: "Geo Result", site_geo_status: "Geo Result", site_coordinates: "#{core.site_lat}, #{core.site_lon}")
-            puts "SFDC: Coordinates Already Exist"
-            puts "--------------------------------"
-            return
-        end
-
-
-        location = Location.new(latitude: core.site_lat, longitude: core.site_lon, address: addr, street: core.site_street, city: core.site_city, state_code: core.site_state, postal_code: core.site_zip, coordinates: core.sfdc_coordinates, acct_name: core.site_acct, group_name: core.site_group, ult_group_name: core.site_ult_grp, source: "Dealer", sfdc_id: core.sfdc_id, tier: core.site_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, location_status: "Core Inbound", url: core.matched_url, root: core.matched_root, franchise: core.site_franchise)
-
-        if location.save
-            core.update_attributes(bds_status: 'Geo Result', site_geo_status: 'Geo Result', site_geo_date: Time.new, site_lat: location.latitude, site_lon: location.longitude, site_coordinates: "#{location.latitude}, #{location.longitude}")
-
-            puts "---------------------"
-            puts "SUCCESS!"
-            puts "Lat: #{location.latitude}"
-            puts "Lon: #{location.longitude}"
-            puts "---------------------"
-            puts
-
-            # #== Throttle (if needed) =====================
-            # throttle_delay_time = (0..1).to_a.sample
-            # puts "--------------------------------"
-            # puts "Throttle: #{throttle_delay_time} seconds."
-            # puts "--------------------------------"
-            # sleep(throttle_delay_time)
-            # sleep(0.02)
-        else
-            core.update_attributes(bds_status: "Geo Result", site_geo_status: "Error",
-            site_geo_date: Time.new)
-        end
-    end
+                else
+                    core.update_attributes(bds_status: "Geo Error", full_address: addr, geo_status: "Geo Error", geo_date: Time.new)
+                end  ## if location.save
+            end ## if addr = "Missing Address"
+        end  ## if core.bds_status == "Queue Geo"
+    end  ## create_sfdc_loc(core)
 
     def full_address(street, city, state, zip)
+
+        unless street == nil
+            if street.include?('Box')
+                street = nil
+            end
+        end
+
         if street && city && state && zip
             return "#{street}, #{city}, #{state}, #{zip}"
+        else
+            return "Missing Address"
         end
+
     end
 
     def location_cleaner_btn
         cores = Core.where.not(temporary_id: nil)
-        count = 0
         cores.each do |core|
             locations = Location.where(sfdc_id: core.temporary_id, source: "Dealer")
             locations.each do |location|
                 location.update_attributes(sfdc_id: core.sfdc_id)
             end
-            puts "Done updating: #{count += 1}"
         end
     end
 
-end
+    def geo_update_migrate_btn
+
+        ## Updates Coordinates - Starts
+        # locations = Location.all
+        # locations.each do |location|
+        #     puts "-----------------------"
+        #     puts "Account: #{location.acct_name}"
+        #     puts "Current Coords: #{location.coordinates}"
+        #     location.update_attribute(:coordinates, "#{location.latitude}, #{location.longitude}")
+        #     puts "Updated Coords: #{location.coordinates}"
+        #     puts "-----------------------"
+        # end  ## Updates Coordinates - Ends
+
+        ## Updates SFDC data to Locations - Starts
+        # cores = Core.where.not(temporary_id: nil)
+        # cores.each do |core|
+        #     split_locations = Location.where(sfdc_id: core.sfdc_id, source: "Dealer")
+        #     split_locations.each do |split_location|
+        #         split_location.update_attributes(sfdc_id: core.sfdc_id, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "Web", tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franch_cons, franch_cat: core.sfdc_franch_cat, hierarchy: "None")
+        #     end
+        # end
+
+        # cores = Core.where(temporary_id: nil)
+        # cores.each do |core|
+        #
+        #     sfdc_locations = Location.where(sfdc_id: core.sfdc_id, source: "CRM")
+        #
+        #     sfdc_locations.each do |sfdc_location|
+        #         sfdc_location.update_attributes(acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franch_cons, franch_cat: core.sfdc_franch_cat, hierarchy: "None")
+        #     end  ## sfdc_locations.each do |sfdc_location| - Ends
+        # end  ## cores.each do |core| - Ends
+
+        ## Delete from Locations if Core.where(latitude: nil)
+        ## Core.where(latitude: nil).count / 23,932
+        # cores = Core.where(latitude: nil)
+        # counter = 0
+        # cores.each do |core|
+        #     locations = Location.where(sfdc_id: core.sfdc_id)
+        #
+        #     locations.each do |location|
+        #         puts "----------------------"
+        #         puts "Core SFDC ID: #{core.sfdc_id}"
+        #         puts "Location SFDC ID: #{location.sfdc_id}"
+        #         # sfdc_location.update_attributes(:location_status, "DELETE!")
+        #         puts "Counter: #{counter}"
+        #         counter +=1
+        #     end  ## locations.each do |location| - Ends
+        # end  ## cores.each do |core| - Ends
+
+    end  ## geo_update_migrate_btn - Ends
+
+end  ## Locations Class - Ends

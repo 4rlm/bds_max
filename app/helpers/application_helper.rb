@@ -49,16 +49,20 @@ module ApplicationHelper
         ["Ready", "Queued", "No Matches", "Matched"]
     end
 
-    def location_geo_status_list
-        ['Error', 'Geo Fail', 'Error: CRM Addy', 'No SFDC Addy', 'No Site Addy', 'Geo Result', 'Core Inbound', 'Geo Outbound', 'Merge Request', 'Merged', 'Geo Reverse', 'Update Core', 'Try Again', 'Destroy']
-    end
+    ########
 
-    def acct_source_list
-        ['Copy', 'CoPilot', 'CRM', 'Dealer', 'Web']
+    def location_status_list
+        ['Geo Result', 'Geo Error', 'Places Result', 'Places Error', 'No Address']
     end
 
     def hierarchy_list
-        ['Parent', 'Child', 'Unknown']
+        ['Parent', 'Child', 'None', 'Request Delete', 'Request Merge', 'Request Review']
+    end
+
+    ########
+
+    def acct_source_list
+        ['CoPilot', 'CRM', 'CRM-Web', 'Web', 'Dealer']
     end
 
     def url_status_list

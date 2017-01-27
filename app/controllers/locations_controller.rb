@@ -1,11 +1,10 @@
 class LocationsController < ApplicationController
     before_action :set_location, only: [:show, :edit, :update, :destroy]
-    before_action :set_location_service, only: [:location_migrator, :location_cleaner_btn]
+    before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn]
 
     # GET /locations
     # GET /locations.json
     def index
-
         # MULTI-SELECT #
         if choice_hash = get_selected_status_location
             clean_choice_hash = {}
@@ -114,20 +113,30 @@ class LocationsController < ApplicationController
         end
     end
 
-    def location_migrator
-        # cores = Core.all
-        cores = Core.all[46383...46388]
+    def geo_starter_btn  ## From Button
+        # @service.delay.create_sfdc_loc
+        # @service.create_sfdc_loc
+        cores = Core.all[0..10]
 
-        for core in cores
-            @service.delay.create_sfdc_loc(core)
-            @service.delay.create_site_loc(core)
-        end
+        LocationService.new.start_geo(cores)
+        # LocationService.new.delay.start_geo(cores)
 
+
+
+        flash[:notice] = 'Geo started!'
         redirect_to locations_path
     end
 
     def location_cleaner_btn
-        @service.delay.location_cleaner_btn
+        # @service.delay.location_cleaner_btn
+        @service.location_cleaner_btn
+        redirect_to root_path
+    end
+
+    def geo_update_migrate_btn
+        @service.delay.geo_update_migrate_btn
+        # @service.geo_update_migrate_btn
+
         redirect_to root_path
     end
 

@@ -439,15 +439,6 @@ class CoreService
 
     ### FRANCHISER METHODS FOR BUTTONS - ENDS ###
 
-
-    def col_splitter
-        cores = Core.where.not(matched_url: nil)
-
-        cores.each do |core|
-            Core.create(temporary_id: core.sfdc_id, bds_status: core.bds_status, sfdc_acct: (core.site_acct ||core.matched_url), sfdc_street: core.site_street, sfdc_city: core.site_city, sfdc_state: core.site_state, sfdc_zip: core.site_zip, sfdc_ph: core.site_ph, sfdc_url: core.matched_url, sfdc_root: core.matched_root, created_at: core.domainer_date, core_date: core.domainer_date, indexer_date: core.indexer_date, staffer_date: core.staffer_date, staff_indexer_status: core.staff_indexer_status, location_indexer_status: core.location_indexer_status, staff_link: core.staff_link, staff_text: core.staff_text, location_link: core.location_link, location_text: core.location_text, domain_status: core.domain_status, staffer_status: core.staffer_status, acct_source: "Web", sfdc_geo_addy: core.site_geo_addy, sfdc_lat: core.site_lat, sfdc_lon: core.site_lon, sfdc_geo_status: core.site_geo_status, sfdc_geo_date: core.site_geo_date, sfdc_coordinates: core.site_coordinates, sfdc_template: core.site_template, url_status: "Valid", sfdc_id: "web#{DateTime.now.strftime('%Q')}")
-        end
-    end
-
     ### CAUTION !!! DUMPS DATA !!! ###
     def core_data_dumper
         cores = Core.all
@@ -459,6 +450,42 @@ class CoreService
         end # cores.each ends
     end # core_data_dumper ends
 
+    def core_source_hierarchy_updater
+        cores = Core.all[0..100]
+
+        cores.each do |core|
+            acct_name = core.sfdc_acct
+            acct_source = core.acct_source
+            street = core.sfdc_street
+            city = core.sfdc_city
+            state = core.sfdc_state
+            zip = core.sfdc_zip
+            url = core.sfdc_url
+
+            street == "N/A" || street == " " ? street = nil : street
+            city == "N/A" || city == " " ? city = nil : city
+            state == "N/A" || state == " " ? state = nil : state
+            zip == "N/A" || zip == " " ? zip = nil : zip
+            acct_name == "N/A" || acct_name == " " ? acct_name = url : acct_name
+
+            if street && city && state && zip
+                # street.include?("Po Box") ? street = nil : street
+                full_address = "#{street}, #{city}, #{state}, #{zip}"
+            else
+                full_address = "Missing Address"
+            end
+
+            unless acct_source == "Web"
+                acct_source = "CRM"
+            else
+                acct_source
+            end
+
+            core.update_attributes(sfdc_acct: acct_name, sfdc_street: street, sfdc_city: city, sfdc_state: state, sfdc_zip: zip, acct_source: acct_source, hierarchy: "None", full_address: full_address)
+
+        end  ## cores.each - Ends
+
+    end  ## core_source_hierarchy_updater - Ends
 
 
 

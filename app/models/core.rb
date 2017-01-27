@@ -18,7 +18,7 @@ class Core < ApplicationRecord
     scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
     scope :sfdc_franch_cat, -> (sfdc_franch_cat) { where sfdc_franch_cat: sfdc_franch_cat }
     scope :acct_source, -> (acct_source) { where acct_source: acct_source }
-    scope :sfdc_geo_status, -> (sfdc_geo_status) { where sfdc_geo_status: sfdc_geo_status }
+    scope :geo_status, -> (geo_status) { where geo_status: geo_status }
     scope :url_status, -> (url_status) { where url_status: url_status }
     scope :hierarchy, -> (hierarchy) { where hierarchy: hierarchy }
     scope :sfdc_franch_cons, -> (sfdc_franch_cons) { where sfdc_franch_cons: sfdc_franch_cons }
@@ -41,9 +41,9 @@ class Core < ApplicationRecord
     scope :indexer_date, -> (indexer_date) { where("indexer_date like ?", "%#{indexer_date}%") }
     scope :staffer_date, -> (staffer_date) { where("staffer_date like ?", "%#{staffer_date}%") }
     scope :sfdc_root, -> (sfdc_root) { where("sfdc_root like ?", "%#{sfdc_root}%") }
-    scope :sfdc_geo_addy, -> (sfdc_geo_addy) { where("sfdc_geo_addy like ?", "%#{sfdc_geo_addy}%") }
-    scope :sfdc_geo_date, -> (sfdc_geo_date) { where("sfdc_geo_date like ?", "%#{sfdc_geo_date}%") }
-    scope :sfdc_coordinates, -> (sfdc_coordinates) { where("sfdc_coordinates like ?", "%#{sfdc_coordinates}%") }
+    scope :full_address, -> (full_address) { where("full_address like ?", "%#{full_address}%") }
+    scope :geo_date, -> (geo_date) { where("geo_date like ?", "%#{geo_date}%") }
+    scope :coordinates, -> (coordinates) { where("coordinates like ?", "%#{coordinates}%") }
 
 
     def self.to_csv
