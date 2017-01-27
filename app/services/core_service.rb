@@ -441,17 +441,18 @@ class CoreService
 
     ### CAUTION !!! DUMPS DATA !!! ###
     def core_data_dumper
-        cores = Core.all
-        counter_reset = 1
+        cores = Core.where(acct_source: "CRM")
         cores.each do |core|
-            core.update_attributes(matched_url: nil, matched_root: nil, url_comparison: nil, root_comparison: nil, acct_indicator: nil, site_acct: nil, site_street: nil, site_city: nil, site_state: nil, site_zip: nil, site_ph: nil, street_indicator: nil, city_indicator: nil, state_indicator: nil, zip_indicator: nil, ph_indicator: nil, grp_rt_indicator: nil, ult_grp_rt_indicator: nil, franch_indicator: nil, site_franchise: nil, site_ult_rt: nil, site_grp_rt: nil, grp_name_indicator: nil, ult_grp_name_indicator: nil, tier_indicator: nil, site_tier: nil, site_franch_cat: nil, site_ult_grp: nil, site_group: nil, site_geo_addy: nil, site_lat: nil, site_lon: nil, site_geo_status: nil, site_geo_date: nil, site_coordinates: nil, site_franch_cons: nil, coord_indicator: nil, franch_cons_ind: nil, franch_cat_ind: nil, template_ind: nil, site_template: nil)
-            puts "Dumping Data: #{counter_reset}"
-            counter_reset +=1
+            core.update_attributes()
+
         end # cores.each ends
+
     end # core_data_dumper ends
 
+
+
     def core_source_hierarchy_updater
-        cores = Core.all[0..100]
+        cores = Core.all
 
         cores.each do |core|
             acct_name = core.sfdc_acct
@@ -461,6 +462,8 @@ class CoreService
             state = core.sfdc_state
             zip = core.sfdc_zip
             url = core.sfdc_url
+            root = core.sfdc_root
+            url_status = core.url_status
 
             street == "N/A" || street == " " ? street = nil : street
             city == "N/A" || city == " " ? city = nil : city
@@ -469,10 +472,13 @@ class CoreService
             acct_name == "N/A" || acct_name == " " ? acct_name = url : acct_name
 
             if street && city && state && zip
-                # street.include?("Po Box") ? street = nil : street
                 full_address = "#{street}, #{city}, #{state}, #{zip}"
             else
                 full_address = "Missing Address"
+            end
+
+            if street
+                street.include?("Po Box") ? full_address = "Missing Address" : full_address
             end
 
             unless acct_source == "Web"
@@ -481,7 +487,9 @@ class CoreService
                 acct_source
             end
 
-            core.update_attributes(sfdc_acct: acct_name, sfdc_street: street, sfdc_city: city, sfdc_state: state, sfdc_zip: zip, acct_source: acct_source, hierarchy: "None", full_address: full_address)
+            root == nil || root == " " ? url_status = "None" : url_status
+
+            core.update_attributes(sfdc_acct: acct_name, sfdc_street: street, sfdc_city: city, sfdc_state: state, sfdc_zip: zip, url_status: url_status, acct_source: acct_source, hierarchy: "None", full_address: full_address)
 
         end  ## cores.each - Ends
 

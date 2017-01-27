@@ -121,8 +121,6 @@ class LocationsController < ApplicationController
         LocationService.new.start_geo(cores)
         # LocationService.new.delay.start_geo(cores)
 
-
-
         flash[:notice] = 'Geo started!'
         redirect_to locations_path
     end

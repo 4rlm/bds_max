@@ -145,8 +145,9 @@ class CoresController < ApplicationController
 
     def franchiser_btn
         # !! CAUTION !!
-        # @core_service.core_data_dumper
-        @core_service.core_source_hierarchy_updater
+        @core_service.core_data_dumper
+        # @core_service.core_source_hierarchy_updater
+        ### Above are Dangerous!  Use w/ Care!  ###
 
         # @core_service.delay.franchise_resetter
         # @core_service.franchise_resetter

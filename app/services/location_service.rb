@@ -14,47 +14,35 @@ class LocationService
         end
     end
 
+
     ## Main Geo Coder Method Starts Here ##
     def create_sfdc_loc(core)
-        addr = full_address(core.sfdc_street, core.sfdc_city, core.sfdc_state, core.sfdc_zip)
+
+        full_address = core.full_address
 
         if core.bds_status == "Queue Geo"
 
-
-            if addr = "Missing Address"
-                core.update_attributes(bds_status: "Geo Error", geo_status: "No Address", geo_date: Time.new, full_address: addr)
-                return
+            if full_address == "Missing Address"
+                core.update_attributes(bds_status: "Geo Error", geo_status: "Geo Error", geo_date: Time.new)
+                # return
             else
-                location = Location.new(address: addr, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: core.acct_source, sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, location_status: "Geo Result", url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franch_cons, franch_cat: core.sfdc_franch_cat, hierarchy: core.hierarchy)
+                location = Location.new(address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: core.acct_source, sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, location_status: "Geo Result", url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franch_cons, franch_cat: core.sfdc_franch_cat, hierarchy: core.hierarchy)
 
                 if location.save
-                    core.update_attributes(bds_status: 'Geo Result', geo_status: 'Geo Result', geo_date: Time.new, full_address: addr, latitude: location.latitude, longitude: location.longitude, coordinates: "#{location.latitude}, #{location.longitude}")
+                    core.update_attributes(bds_status: 'Geo Result', geo_status: 'Geo Result', geo_date: Time.new, latitude: location.latitude, longitude: location.longitude, coordinates: "#{location.latitude}, #{location.longitude}")
+
+                    location.update_attribute(:coordinates, core.coordinates)
 
                     #== Throttle ====
                     # sleep(0.02)
 
                 else
-                    core.update_attributes(bds_status: "Geo Error", full_address: addr, geo_status: "Geo Error", geo_date: Time.new)
+                    core.update_attributes(bds_status: "Geo Error", geo_status: "Geo Error", geo_date: Time.new)
                 end  ## if location.save
             end ## if addr = "Missing Address"
         end  ## if core.bds_status == "Queue Geo"
     end  ## create_sfdc_loc(core)
 
-    def full_address(street, city, state, zip)
-
-        unless street == nil
-            if street.include?('Box')
-                street = nil
-            end
-        end
-
-        if street && city && state && zip
-            return "#{street}, #{city}, #{state}, #{zip}"
-        else
-            return "Missing Address"
-        end
-
-    end
 
     def location_cleaner_btn
         cores = Core.where.not(temporary_id: nil)
@@ -65,6 +53,7 @@ class LocationService
             end
         end
     end
+
 
     def geo_update_migrate_btn
 
