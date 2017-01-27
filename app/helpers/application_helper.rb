@@ -45,24 +45,24 @@ module ApplicationHelper
         [["Different", "different"], ["Same", "same"]]
     end
 
-    def staffer_status_list
-        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched"]
-    end
-
     def whois_status_list
         ["Ready", "Queued", "No Matches", "Matched"]
     end
 
-    def location_geo_status_list
-        ['Error', 'Geo Fail', 'Error: CRM Addy', 'No SFDC Addy', 'No Site Addy', 'Geo Result', 'Core Inbound', 'Geo Outbound', 'Merge Request', 'Merged', 'Geo Reverse', 'Update Core', 'Try Again', 'Destroy']
-    end
+    ########
 
-    def acct_source_list
-        ['CRM', 'CoPilot', 'Dealer', 'Web']
+    def location_status_list
+        ['Geo Result', 'Geo Error', 'Places Result', 'Places Error', 'No Address']
     end
 
     def hierarchy_list
-        ['Parent', 'Child', 'Unknown']
+        ['Parent', 'Child', 'None', 'Request Delete', 'Request Merge', 'Request Review']
+    end
+
+    ########
+
+    def acct_source_list
+        ['CoPilot', 'CRM', 'CRM-Web', 'Web', 'Dealer']
     end
 
     def url_status_list
@@ -78,7 +78,7 @@ module ApplicationHelper
     end
 
     def staffer_status_list
-        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched"]
+        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched", "Imported"]
     end
 
     def franchise_list
@@ -86,11 +86,11 @@ module ApplicationHelper
     end
 
     def franch_cons_list
-        ['Acura', 'Alfa Romeo', 'Aston Martin', 'Audi', 'Bentley', 'Bmw', 'Bugatti', 'Buick', 'Cadillac', 'Chevrolet', 'Chrysler', 'Dodge', 'Ferrari', 'Fiat', 'Ford', 'Gmc', 'Group', 'Honda', 'Hummer', 'Hyundai', 'Infiniti', 'Isuzu', 'Jaguar', 'Jeep', 'Kia', 'Lamborghini', 'Lexus', 'Lincoln', 'Lotus', 'Maserati', 'Mazda', 'Mclaren', 'Mercedes-Benz', 'Mini', 'Mitsubishi', 'Nissan', 'Non-Franchise', 'Porsche', 'Ram', 'Range Rover', 'Rolls-Royce', 'Saab', 'Scion', 'Smart', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo']
+        ['Acura', 'Alfa Romeo', 'Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Buick', 'Cadillac', 'Chevrolet', 'Chrysler', 'Dodge', 'Ferrari', 'Fiat', 'Ford', 'GMC', 'Group', 'Honda', 'Hummer', 'Hyundai', 'Infiniti', 'Isuzu', 'Jaguar', 'Jeep', 'Kia', 'Lamborghini', 'Lexus', 'Lincoln', 'Lotus', 'Maserati', 'Mazda', 'Mclaren', 'Mercedes-Benz', 'Mini', 'Mitsubishi', 'Nissan', 'Non-Franchise', 'Porsche', 'Ram', 'Range Rover', 'Rolls-Royce', 'Saab', 'Scion', 'Smart', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo']
     end
 
     def franch_cat_list
-        ['Franchise', 'Group', 'Non-Franchise']
+        ['Franchise', 'Group', 'Non-Franchise', 'None', 'Other']
     end
 
     def template_list

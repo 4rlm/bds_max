@@ -33,9 +33,9 @@
             <td><%= check_box_tag "multi_checks[]",  in_text_po.id %></td>
             <% num +=1 %>
             <td><%= num %></td>
-            <td><%= in_text_po.term.capitalize %></td>
-            <td><%= in_text_po.consolidated_term.capitalize %></td>
-            <td><%= in_text_po.category.capitalize %></td>
+            <td><%= in_text_po.term %></td>
+            <td><%= in_text_po.consolidated_term %></td>
+            <td><%= in_text_po.category %></td>
             <td><%= link_to 'Show', in_text_po %></td>
             <td><%= link_to 'Edit', edit_in_text_po_path(in_text_po) %></td>
             <td><%= link_to 'Destroy', in_text_po, method: :delete %></td>

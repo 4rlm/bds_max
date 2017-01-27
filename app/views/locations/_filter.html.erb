@@ -14,7 +14,7 @@
 
                     <th class="th-2 w-sm">Status</th>
 
-                    <td><%= select_tag :location_status, options_for_select(location_geo_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :location_status, options_for_select(location_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                     <th class="th-2 w-sm">Sales Person:</th>
                     <td><%= select_tag :sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>

@@ -111,6 +111,7 @@ Rails.application.routes.draw do
     get 'indexer_staff_cleaner_btn' => 'indexer_staffs#indexer_staff_cleaner_btn'
     get 'indexer_location_cleaner_btn' => 'indexer_locations#indexer_location_cleaner_btn'
     get 'location_cleaner_btn' => 'locations#location_cleaner_btn'
+    get 'geo_update_migrate_btn' => 'locations#geo_update_migrate_btn'
 
     # Quick Search Button
     get 'quick_dom_dom_res_2' => 'gcses#quick_dom_dom_res_2'
@@ -118,7 +119,7 @@ Rails.application.routes.draw do
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
     get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
     get 'solitary_migrator' => 'solitaries#solitary_migrator'
-    get 'location_migrator' => 'locations#location_migrator'
+    get 'geo_starter_btn' => 'locations#geo_starter_btn'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'

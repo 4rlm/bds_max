@@ -158,73 +158,6 @@ class SearchController < ApplicationController
         # @core_sfdc_volvo = Core.where("sfdc_franchise LIKE ?", "%Volvo%").count
         # @core_sfdc_vw = Core.where("sfdc_franchise LIKE ?", "%Vw%").count
         #
-        # # Count per Franchise Term - site
-        # @core_site_franchise = Core.where.not(site_franchise: nil).count
-        # @core_site_acura = Core.where("site_franchise LIKE ?", "%Acura%").count
-        # @core_site_alfa = Core.where("site_franchise LIKE ?", "%Alfa%").count
-        # @core_site_aston = Core.where("site_franchise LIKE ?", "%Aston%").count
-        # @core_site_audi = Core.where("site_franchise LIKE ?", "%Audi%").count
-        # @core_site_bentley = Core.where("site_franchise LIKE ?", "%Bentley%").count
-        # @core_site_benz = Core.where("site_franchise LIKE ?", "%Benz%").count
-        # @core_site_bmw = Core.where("site_franchise LIKE ?", "%Bmw%").count
-        # @core_site_bugatti = Core.where("site_franchise LIKE ?", "%Bugatti%").count
-        # @core_site_buick = Core.where("site_franchise LIKE ?", "%Buick%").count
-        # @core_site_cadillac = Core.where("site_franchise LIKE ?", "%Cadillac%").count
-        #
-        # @core_site_cdjr = Core.where("site_franchise LIKE ?", "%Cdjr%").count
-        # @core_site_chev = Core.where("site_franchise LIKE ?", "%Chev%").count
-        # @core_site_chevrolet = Core.where("site_franchise LIKE ?", "%Chevrolet%").count
-        # @core_site_chevy = Core.where("site_franchise LIKE ?", "%Chevy%").count
-        # @core_site_chrysler = Core.where("site_franchise LIKE ?", "%Chrysler%").count
-        # @core_site_cjd = Core.where("site_franchise LIKE ?", "%Cjd%").count
-        # @core_site_corvette = Core.where("site_franchise LIKE ?", "%Corvette%").count
-        # @core_site_daewoo = Core.where("site_franchise LIKE ?", "%Daewoo%").count
-        # @core_site_dodge = Core.where("site_franchise LIKE ?", "%Dodge%").count
-        # @core_site_ferrari = Core.where("site_franchise LIKE ?", "%Ferrari%").count
-        # @core_site_fiat = Core.where("site_franchise LIKE ?", "%Fiat%").count
-        # @core_site_ford = Core.where("site_franchise LIKE ?", "%Ford%").count
-        # @core_site_gm = Core.where("site_franchise LIKE ?", "%Gm%").count
-        # @core_site_gmc = Core.where("site_franchise LIKE ?", "%Gmc%").count
-        # @core_site_honda = Core.where("site_franchise LIKE ?", "%Honda%").count
-        # @core_site_hummer = Core.where("site_franchise LIKE ?", "%Hummer%").count
-        # @core_site_hyundai = Core.where("site_franchise LIKE ?", "%Hyundai%").count
-        # @core_site_infiniti = Core.where("site_franchise LIKE ?", "%Infiniti%").count
-        # @core_site_isuzu = Core.where("site_franchise LIKE ?", "%Isuzu%").count
-        # @core_site_jaguar = Core.where("site_franchise LIKE ?", "%Jaguar%").count
-        # @core_site_jeep = Core.where("site_franchise LIKE ?", "%Jeep%").count
-        # @core_site_kia = Core.where("site_franchise LIKE ?", "%Kia%").count
-        # @core_site_lamborghini = Core.where("site_franchise LIKE ?", "%Lamborghini%").count
-        # @core_site_lexus = Core.where("site_franchise LIKE ?", "%Lexus%").count
-        # @core_site_lincoln = Core.where("site_franchise LIKE ?", "%Lincoln%").count
-        # @core_site_lotus = Core.where("site_franchise LIKE ?", "%Lotus%").count
-        # @core_site_maserati = Core.where("site_franchise LIKE ?", "%Maserati%").count
-        # @core_site_mazda = Core.where("site_franchise LIKE ?", "%Mazda%").count
-        # @core_site_mb = Core.where("site_franchise LIKE ?", "%Mb%").count
-        # @core_site_mclaren = Core.where("site_franchise LIKE ?", "%Mclaren%").count
-        # @core_site_mercedes = Core.where("site_franchise LIKE ?", "%Mercedes%").count
-        # @core_site_mercury = Core.where("site_franchise LIKE ?", "%Mercury%").count
-        # @core_site_mini = Core.where("site_franchise LIKE ?", "%Mini%").count
-        # @core_site_mitsubishi = Core.where("site_franchise LIKE ?", "%Mitsubishi%").count
-        # @core_site_nissan = Core.where("site_franchise LIKE ?", "%Nissan%").count
-        # @core_site_oldsmobile = Core.where("site_franchise LIKE ?", "%Oldsmobile%").count
-        # @core_site_plymouth = Core.where("site_franchise LIKE ?", "%Plymouth%").count
-        # @core_site_pontiac = Core.where("site_franchise LIKE ?", "%Pontiac%").count
-        # @core_site_porsche = Core.where("site_franchise LIKE ?", "%Porsche%").count
-        # @core_site_ram = Core.where("site_franchise LIKE ?", "%Ram%").count
-        # @core_site_range = Core.where("site_franchise LIKE ?", "%Range%").count
-        # @core_site_rolls = Core.where("site_franchise LIKE ?", "%Rolls%").count
-        # @core_site_rover = Core.where("site_franchise LIKE ?", "%Rover%").count
-        # @core_site_royce = Core.where("site_franchise LIKE ?", "%Royce%").count
-        # @core_site_saab = Core.where("site_franchise LIKE ?", "%Saab%").count
-        # @core_site_saturn = Core.where("site_franchise LIKE ?", "%Saturn%").count
-        # @core_site_scion = Core.where("site_franchise LIKE ?", "%Scion%").count
-        # @core_site_smart = Core.where("site_franchise LIKE ?", "%Smart%").count
-        # @core_site_subaru = Core.where("site_franchise LIKE ?", "%Subaru%").count
-        # @core_site_suzuki = Core.where("site_franchise LIKE ?", "%Suzuki%").count
-        # @core_site_toyota = Core.where("site_franchise LIKE ?", "%Toyota%").count
-        # @core_site_volkswagen = Core.where("site_franchise LIKE ?", "%Volkswagen%").count
-        # @core_site_volvo = Core.where("site_franchise LIKE ?", "%Volvo%").count
-        # @core_site_vw = Core.where("site_franchise LIKE ?", "%Vw%").count
         #
         # # Count per General Term - sfdc
         # @core_sfdc_auto = Core.where("sfdc_franchise LIKE ?", "%Auto%").count
@@ -246,24 +179,6 @@ class SearchController < ApplicationController
         # @core_sfdc_usedcars = Core.where("sfdc_franchise LIKE ?", "%Usedcars%").count
         #
         # # Count per General Term - sfdc
-        # @core_site_auto = Core.where("site_franchise LIKE ?", "%Auto%").count
-        # @core_site_autogroup = Core.where("site_franchise LIKE ?", "%Autogroup%").count
-        # @core_site_automall = Core.where("site_franchise LIKE ?", "%Automall%").count
-        # @core_site_automotive = Core.where("site_franchise LIKE ?", "%Automotive%").count
-        # @core_site_autoplex = Core.where("site_franchise LIKE ?", "%Autoplex%").count
-        # @core_site_autos = Core.where("site_franchise LIKE ?", "%Autos%").count
-        # @core_site_autosales = Core.where("site_franchise LIKE ?", "%Autosales%").count
-        # @core_site_cars = Core.where("site_franchise LIKE ?", "%Cars%").count
-        # @core_site_dealer = Core.where("site_franchise LIKE ?", "%Dealer%").count
-        # @core_site_imports = Core.where("site_franchise LIKE ?", "%Imports%").count
-        # @core_site_group = Core.where("site_franchise LIKE ?", "%Group%").count
-        # @core_site_highline = Core.where("site_franchise LIKE ?", "%Highline%").count
-        # @core_site_motor = Core.where("site_franchise LIKE ?", "%Motor%").count
-        # @core_site_motors = Core.where("site_franchise LIKE ?", "%Motors%").count
-        # @core_site_superstore = Core.where("site_franchise LIKE ?", "%Superstore%").count
-        # @core_site_trucks = Core.where("site_franchise LIKE ?", "%Trucks%").count
-        # @core_site_usedcars = Core.where("site_franchise LIKE ?", "%Usedcars%").count
-        #
         #
         #
         # #============
@@ -329,7 +244,7 @@ class SearchController < ApplicationController
     end
 
     def search_result_core
-        set_selected_status_core({bds_status: params[:bds_status], url_comparison: params[:url_comparison], root_comparison: params[:root_comparison], sfdc_type: params[:sfdc_type], sfdc_sales_person: params[:sfdc_sales_person], sfdc_tier: params[:sfdc_tier], sfdc_ult_grp: params[:sfdc_ult_grp], sfdc_group: params[:sfdc_group], sfdc_city: params[:sfdc_city], sfdc_state: params[:sfdc_state], sfdc_zip: params[:sfdc_zip], sfdc_acct: params[:sfdc_acct], sfdc_id: params[:sfdc_id], sfdc_ph: params[:sfdc_ph], staff_indexer_status: params[:staff_indexer_status], location_indexer_status: params[:location_indexer_status], staffer_status: params[:staffer_status], inventory_indexer_status: params[:inventory_indexer_status],  sfdc_ult_rt: params[:sfdc_ult_rt],  sfdc_grp_rt: params[:sfdc_grp_rt],  sfdc_street: params[:sfdc_street],  sfdc_url: params[:sfdc_url],  matched_url: params[:matched_url],  matched_root: params[:matched_root],  sfdc_root: params[:sfdc_root],  site_acct: params[:site_acct],  site_group: params[:site_group],  site_ult_grp: params[:site_ult_grp],  site_tier: params[:site_tier],  site_grp_rt: params[:site_grp_rt],  site_ult_rt: params[:site_ult_rt],  acct_indicator: params[:acct_indicator],  grp_name_indicator: params[:grp_name_indicator],  ult_grp_name_indicator: params[:ult_grp_name_indicator],  tier_indicator: params[:tier_indicator],  grp_rt_indicator: params[:grp_rt_indicator],  ult_grp_rt_indicator: params[:ult_grp_rt_indicator],  site_street: params[:site_street], site_city: params[:site_city],  site_state: params[:site_state],  site_zip: params[:site_zip],  site_ph: params[:site_ph],  street_indicator: params[:street_indicator],  city_indicator: params[:city_indicator],  state_indicator: params[:state_indicator],  zip_indicator: params[:zip_indicator],  ph_indicator: params[:ph_indicator], acct_source: params[:acct_source], sfdc_geo_date: params[:sfdc_geo_date], site_geo_date: params[:site_geo_date], sfdc_coordinates: params[:sfdc_coordinates], site_coordinates: params[:site_coordinates], sfdc_geo_status: params[:sfdc_geo_status], site_geo_status: params[:site_geo_status], sfdc_franch_cons: params[:sfdc_franch_cons], site_franch_cons: params[:site_franch_cons], temp_id: params[:temp_id], coord_indicator: params[:coord_indicator], franch_cons_ind: params[:franch_cons_ind], franch_cat_ind: params[:franch_cat_ind], template_ind: params[:template_ind], sfdc_template: params[:sfdc_template], view_mode: params[:view_mode], sfdc_franchise: params[:sfdc_franchise], sfdc_franch_cat: params[:sfdc_franch_cat], site_franchise: params[:site_franchise], site_franch_cat: params[:site_franch_cat], site_template: params[:site_template], franch_indicator: params[:franch_indicator]})
+        set_selected_status_core({bds_status: params[:bds_status], sfdc_id: params[:sfdc_id], sfdc_tier: params[:sfdc_tier], sfdc_sales_person: params[:sfdc_sales_person], sfdc_type: params[:sfdc_type], sfdc_ult_grp: params[:sfdc_ult_grp], sfdc_ult_rt: params[:sfdc_ult_rt], sfdc_group: params[:sfdc_group], sfdc_grp_rt: params[:sfdc_grp_rt], sfdc_acct: params[:sfdc_acct], sfdc_street: params[:sfdc_street], sfdc_city: params[:sfdc_city], sfdc_state: params[:sfdc_state], sfdc_zip: params[:sfdc_zip], sfdc_ph: params[:sfdc_ph], sfdc_url: params[:sfdc_url], created_at: params[:created_at], updated_at: params[:updated_at], core_date: params[:core_date], domainer_date: params[:domainer_date], indexer_date: params[:indexer_date], staffer_date: params[:staffer_date], sfdc_root: params[:sfdc_root], staff_indexer_status: params[:staff_indexer_status], location_indexer_status: params[:location_indexer_status], domain_status: params[:domain_status], staffer_status: params[:staffer_status], sfdc_franch_cat: params[:sfdc_franch_cat], acct_source: params[:acct_source], full_address: params[:full_address], geo_status: params[:geo_status], geo_date: params[:geo_date], coordinates: params[:coordinates], sfdc_franch_cons: params[:sfdc_franch_cons], sfdc_template: params[:sfdc_template], url_status: params[:url_status], hierarchy: params[:hierarchy], view_mode: params[:view_mode]})
         redirect_to cores_path
     end
 

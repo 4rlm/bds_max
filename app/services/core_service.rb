@@ -286,63 +286,30 @@ class CoreService
     end
 
     ### FRANCHISER METHODS FOR BUTTONS - STARTS ###
-
-    def franchise_consolidator
-        # cores = Core.where.not(sfdc_franchise: nil)[0..2]
-        cores = Core.where.not(sfdc_franchise: nil)
-        counter = 0
-        cores.each do |core|
-            sfdc_terms = core.sfdc_franchise.split(';')
-            criteria_consolidated_arr = []
-            criteria_category_arr = []
-
-            ## 1.) Adds Unique Consolidated Franchise Terms & Categories to Array. ##
-            sfdc_terms.each do |sfdc_term|
-                in_host_po = InHostPo.find_by(term: sfdc_term.downcase)
-                unless criteria_consolidated_arr.include?(in_host_po.consolidated_term)
-                    criteria_consolidated_arr << in_host_po.consolidated_term
-                end
-                unless criteria_category_arr.include?(in_host_po.category)
-                    criteria_category_arr << in_host_po.category
-                end
-            end
-
-            ## 2.A) Adds Consolidated Franchise Terms to Core from Array. ##
-            unless criteria_consolidated_arr == nil
-                criteria_consolidated_arr.each do |cons_term|
-                    core.update_attribute(:sfdc_franch_cons, cons_term)
-                    puts "franchise_consolidator #: #{counter}"
-                    puts "Added Franchise: #{cons_term}"
-                end
-            end
-
-            ### IF Below Works, then need to create Priority list w/ if-else. ###
-            ## 2.B) Adds Max 1 Franchise Category to Core from Array. ##
-            unless criteria_category_arr == nil
-                criteria_category_arr.each do |category|
-                    core.update_attribute(:sfdc_franch_cat, category)
-                    puts "franchise_consolidator #: #{counter}"
-                    puts "Added Category: #{category}"
-                    puts "---------------------------"
-                    puts
-                end
-            end
-            counter +=1
-        end
-    end
-
-    def franchise_termer
+    def franchise_resetter
         ## Step1: DELETES FRANCHISE DATA IN CORES
         # cores = Core.all[0..1]
-        # cores = Core.all
-        # cores.each {|core| core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)}
+        cores = Core.all
+        counter_reset = 1
+        cores.each do |core|
+            core.update_attributes(sfdc_franchise: nil, sfdc_franch_cons: nil, sfdc_franch_cat: nil)
+            puts "Resetting Franchise Values: #{counter_reset}"
+            counter_reset +=1
+        end
+    end  ## franchise_resetter ends.
 
+    def franchise_termer
         # Loop Entire Core through Each Franchise Term Row. ##
         # brands = InHostPo.all[19..21]
         brands = InHostPo.all
 
+        counter_brand = 1
+        counter_termer = 1
         brands.each do |brand|
             sfdc_cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")
+            puts "==============================="
+            puts "Looping Brands: #{counter_brand} for #{brand.term}"
+            counter_brand +=1
 
             sfdc_cores.each do |core|
                 franchises = []
@@ -369,60 +336,165 @@ class CoreService
 
                 # core.update_attribute(:sfdc_franchise, nil)
                 core.update_attribute(:sfdc_franchise, final_result)
+                puts "-----------------------------------------"
+                puts "Updating Brand: #{brand.term}"
+                puts "Brand Count: #{counter_brand}"
+                puts "Franchise Termer: #{counter_termer}"
+                counter_termer +=1
 
             end  ## sfdc_cores.each loops ends ##
-        end  ## brands.each loop ends ##
-
+        end  ## brands.each loop ends.
     end  ## franchise_termer method ends ##
 
+    def franchise_consolidator
+        # cores = Core.where.not(sfdc_franchise: nil)[0..100]
+        cores = Core.where.not(sfdc_franchise: nil)
 
-    # def franchise_btn
-    #     brands = InHostPo.all
-    #     brands = InHostPo.where("term in ('group', 'buick')")
-    #
-    #     brands.each do |brand|
-    #         cores = Core.where("sfdc_acct LIKE '%#{brand.term}%' OR  sfdc_acct LIKE '%#{brand.term.capitalize}%' OR sfdc_root LIKE '%#{brand.term}%' OR sfdc_root LIKE '%#{brand.term.capitalize}%'")[0..1]
-    #
-    #         cores.each do |core|
-    #             core.update_attributes(sfdc_franch_cons: "", sfdc_franch_cat: "")
-    #
-    #             if core.sfdc_franch_cons.include?(brand.consolidated_term)
-    #                 str1 = core.sfdc_franch_cons
-    #             else
-    #                 str1 = core.sfdc_franch_cons << brand.consolidated_term + ';'
-    #             end
-    #
-    #             if core.sfdc_franch_cat.include?(brand.category)
-    #                 category_str = core.sfdc_franch_cat
-    #             else
-    #                 category_str = core.sfdc_franch_cat << brand.category
-    #             end
-    #
-    #             if category_str.include?('franchise')
-    #                 str2 = 'franchise'
-    #             elsif category_str.include?('group')
-    #                 str2 = 'group'
-    #             elsif category_str.include?('non-franchise')
-    #                 str2 = 'non-franchise'
-    #             else
-    #                 str2 = 'other'
-    #             end
-    #
-    #             core.update_attributes(sfdc_franch_cons: str1.split(';').map(&:capitalize).join(';'), sfdc_franch_cat: str2.capitalize)
-    #         end
-    #
-    #     end
-    # end
+        counter_consolidator = 1
+        cores.each do |core|
+            sfdc_terms = core.sfdc_franchise.split(';')
+            franch_cons_arr = []
+            core_franch_cons = core.sfdc_franch_cons
+
+            franch_cat_arr = []
+            core_category = core.sfdc_franch_cat
+
+            # New feature (like franchise_termer) adds sfdc data to arr.
+            if core_franch_cons
+                franch_cons_arr = core_franch_cons.split(';')
+            end
+
+            if core_category
+                franch_cat_arr = core_category.split(';')
+            end
+
+            # Loops each sfdc_franchise term.
+            sfdc_terms.each do |sfdc_term|
+                # Assigns InHostPo term to variable.
+                in_host_po = InHostPo.find_by(term: sfdc_term.downcase)
+
+                # Adds InHostPo consolidated_term to franch_cons_arr if uniq.
+                unless franch_cons_arr.include?(in_host_po.consolidated_term)
+                    franch_cons_arr << in_host_po.consolidated_term
+                end
+
+                # Adds InHostPo criteria term to franch_cons_arr if uniq.
+                unless franch_cat_arr.include?(in_host_po.category)
+                    franch_cat_arr << in_host_po.category
+                end
+            end
+
+            # UPDATES ATTR Core sfdc_franch_cons w item(s) from uniq_franch_cons_arr.
+            franch_cons_arr.sort!
+            uniq_franch_cons_arr = franch_cons_arr.uniq
+
+            # Deletes "Non-Franchise" if it and "Group" in array, and array more than 1.
+            if uniq_franch_cons_arr.length > 1 && (uniq_franch_cons_arr.include?("Group") || uniq_franch_cons_arr.include?("Non-Franchise"))
+                uniq_franch_cons_arr.delete("Non-Franchise")
+            end
+
+            # Deletes "group" in array if array more than 1.
+            if uniq_franch_cons_arr.length > 1 && uniq_franch_cons_arr.include?("Group")
+                uniq_franch_cons_arr.delete("Group")
+            end
+
+            if uniq_franch_cons_arr.length > 0
+                franch_cons_result = uniq_franch_cons_arr.join(";")
+            else
+                franch_cons_result = uniq_franch_cons_arr[0]
+            end
+
+            core.update_attribute(:sfdc_franch_cons, franch_cons_result)
+
+            # UPDATES ATTR Core sfdc_franch_cat w 1-ranked-item from franch_cat_arr.
+            franch_cat_arr.sort!
+            uniq_franch_cat_arr = franch_cat_arr.uniq
+            final_category = nil
+
+            unless uniq_franch_cat_arr == nil
+                if uniq_franch_cat_arr.include?("Franchise")
+                    final_category = "Franchise"
+                elsif uniq_franch_cat_arr.include?("Group")
+                    final_category = "Group"
+                elsif uniq_franch_cat_arr.include?("Non-Franchise")
+                    final_category = "Non-Franchise"
+                elsif final_category == nil || final_category == ""
+                    final_category = "None"
+                else
+                    final_category = "Other"
+                end
+            end
+
+            core.update_attribute(:sfdc_franch_cat, final_category)
+            # core.update_attributes(sfdc_franch_cons: nil, sfdc_franch_cat: nil)
+
+            puts "-----------------------------------------"
+            puts "Franchise Consolidator: #{counter_consolidator}"
+            puts "Franchise: #{franch_cons_result}"
+            puts "Category: #{final_category}"
+            puts "-----------------------------------------"
+            counter_consolidator +=1
+        end
+    end
 
     ### FRANCHISER METHODS FOR BUTTONS - ENDS ###
 
+    ### CAUTION !!! DUMPS DATA !!! ###
+    def core_data_dumper
+        cores = Core.where(acct_source: "CRM")
+        cores.each do |core|
+            core.update_attributes()
 
-    def col_splitter
-        cores = Core.where.not(matched_url: nil)
+        end # cores.each ends
+
+    end # core_data_dumper ends
+
+
+
+    def core_source_hierarchy_updater
+        cores = Core.all
 
         cores.each do |core|
-            Core.create(temporary_id: core.sfdc_id, bds_status: core.bds_status, sfdc_acct: (core.site_acct ||core.matched_url), sfdc_street: core.site_street, sfdc_city: core.site_city, sfdc_state: core.site_state, sfdc_zip: core.site_zip, sfdc_ph: core.site_ph, sfdc_url: core.matched_url, sfdc_root: core.matched_root, created_at: core.domainer_date, core_date: core.domainer_date, indexer_date: core.indexer_date, staffer_date: core.staffer_date, staff_indexer_status: core.staff_indexer_status, location_indexer_status: core.location_indexer_status, staff_link: core.staff_link, staff_text: core.staff_text, location_link: core.location_link, location_text: core.location_text, domain_status: core.domain_status, staffer_status: core.staffer_status, acct_source: "Web", sfdc_geo_addy: core.site_geo_addy, sfdc_lat: core.site_lat, sfdc_lon: core.site_lon, sfdc_geo_status: core.site_geo_status, sfdc_geo_date: core.site_geo_date, sfdc_coordinates: core.site_coordinates, sfdc_template: core.site_template, url_status: "Valid", sfdc_id: "web#{DateTime.now.strftime('%Q')}")
-        end
-    end
+            acct_name = core.sfdc_acct
+            acct_source = core.acct_source
+            street = core.sfdc_street
+            city = core.sfdc_city
+            state = core.sfdc_state
+            zip = core.sfdc_zip
+            url = core.sfdc_url
+            root = core.sfdc_root
+            url_status = core.url_status
+
+            street == "N/A" || street == " " ? street = nil : street
+            city == "N/A" || city == " " ? city = nil : city
+            state == "N/A" || state == " " ? state = nil : state
+            zip == "N/A" || zip == " " ? zip = nil : zip
+            acct_name == "N/A" || acct_name == " " ? acct_name = url : acct_name
+
+            if street && city && state && zip
+                full_address = "#{street}, #{city}, #{state}, #{zip}"
+            else
+                full_address = "Missing Address"
+            end
+
+            if street
+                street.include?("Po Box") ? full_address = "Missing Address" : full_address
+            end
+
+            unless acct_source == "Web"
+                acct_source = "CRM"
+            else
+                acct_source
+            end
+
+            root == nil || root == " " ? url_status = "None" : url_status
+
+            core.update_attributes(sfdc_acct: acct_name, sfdc_street: street, sfdc_city: city, sfdc_state: state, sfdc_zip: zip, url_status: url_status, acct_source: acct_source, hierarchy: "None", full_address: full_address)
+
+        end  ## cores.each - Ends
+
+    end  ## core_source_hierarchy_updater - Ends
+
+
 
 end  # Ends class CoreService  # GoogleSearchClass
