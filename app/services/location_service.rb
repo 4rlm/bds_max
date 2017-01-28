@@ -33,6 +33,11 @@ class LocationService
 
                     location.update_attribute(:coordinates, core.coordinates)
 
+                    staffs = Staffers.where(sfdc_id: location.sfdc_id)
+                    staffs.each do |staff|
+                        staff.update_attributes(coordinates: location.coordinates, full_address: location.full_address)
+                    end
+
                     #== Throttle ====
                     # sleep(0.02)
 

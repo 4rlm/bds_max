@@ -443,8 +443,7 @@ class CoreService
     def core_data_dumper
         cores = Core.where(acct_source: "CRM")
         cores.each do |core|
-            core.update_attributes()
-
+            core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_indexer_status: nil, location_indexer_status: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, domain_status: nil, staffer_status: nil, sfdc_template: nil)
         end # cores.each ends
 
     end # core_data_dumper ends
@@ -494,7 +493,6 @@ class CoreService
         end  ## cores.each - Ends
 
     end  ## core_source_hierarchy_updater - Ends
-
 
 
 end  # Ends class CoreService  # GoogleSearchClass

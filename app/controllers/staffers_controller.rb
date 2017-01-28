@@ -15,10 +15,10 @@ def index
         end
         @selected_data = Staffer.where(clean_choice_hash)
     else # choice_hash is nil
-        @selected_data = Staffer.all
+        @selected_data = Staffer.all.order
     end
 
-    @selected_data = @selected_data.order(created_at: :desc)
+    @selected_data = @selected_data.order(updated_at: :desc)
     @staffer_count = Staffer.count
     @selected_staffer_count = @selected_data.count
 
@@ -115,7 +115,12 @@ end
     end
 
     def staffer_sfdc_id_cleaner_btn
-        @staffer_service.staffer_sfdc_id_cleaner
+        # @staffer_service.staffer_sfdc_id_cleaner
+
+        # @staffer_service.staffer_core_updater
+        @staffer_service.delay.staffer_core_updater
+
+
         redirect_to root_path
     end
 
@@ -131,7 +136,7 @@ end
     end
 
       def filtering_params(params)
-          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :template, :staffer_date, :created_at, :updated_at, :staff_link, :staff_text, :sfdc_cont_active, :sfdc_tier, :domain, :acct_name, :group_name, :ult_group_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :influence, :cell_phone, :last_activity_date, :created_date, :updated_date, :franchise)
+          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :template, :staffer_date, :created_at, :updated_at, :staff_link, :staff_text, :sfdc_cont_active, :sfdc_tier, :domain, :acct_name, :group_name, :ult_group_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :influence, :cell_phone, :last_activity_date, :created_date, :updated_date, :franchise, :coordinates, :full_address, :franch_cat)
         end
 
 

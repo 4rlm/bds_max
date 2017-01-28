@@ -147,9 +147,12 @@
                     <% else %>
                         <td><%= core.location_indexer_status %></td>
                     <% end %>
+
                     <!-- ## Staffer Consolidation ## -->
-                    <% if core.staffer_status == "Scraped" || core.staffer_status == "Imported" %>
-                        <td><%= link_to "View Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
+                    <% if core.staffer_status == "CRM Contacts" %>
+                        <td><%= link_to "CRM Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
+                    <% elsif core.staffer_status == "Web Contacts" %>
+                        <td><%= link_to "Web Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
                     <% else %>
                         <td><%= core.staffer_status %></td>
                     <% end %>
