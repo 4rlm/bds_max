@@ -1,0 +1,68 @@
+<h1 class="page-header">Geo Places</h1>
+<h4 class="text-center">Google Places Data</h4>
+
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+  <thead>
+    <tr>
+    <th>Hierarchy</th>
+      <th>Sfdc</th>
+      <th>Account</th>
+      <th>Street</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Phone</th>
+      <th>Website</th>
+      <th>Map url</th>
+      <th>Img url</th>
+      <th>Place</th>
+      <th>Address components</th>
+      <th>Reference</th>
+      <th>Aspects</th>
+      <th>Reviews</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @geo_places.each do |geo_place| %>
+      <tr>
+        <td><%= geo_place.hierarchy %></td>
+        <td><%= geo_place.sfdc_id %></td>
+        <td><%= geo_place.account %></td>
+        <td><%= geo_place.street %></td>
+        <td><%= geo_place.city %></td>
+        <td><%= geo_place.state %></td>
+        <td><%= geo_place.zip %></td>
+        <td><%= geo_place.latitude %></td>
+        <td><%= geo_place.longitude %></td>
+        <td><%= geo_place.phone %></td>
+        <td><%= geo_place.website %></td>
+        <td><%= geo_place.map_url %></td>
+        <%# if url = geo_place.img_url %>
+            <td>
+                <%#= link_to url, target: "_blank"  do %>
+                    <%#= image_tag(url, alt: geo_place.account, width: '200') %>
+                <%# end %>
+            </td>
+        <%# end %>
+        <td><%= geo_place.place_id %></td>
+        <td><%= geo_place.address_components %></td>
+        <td><%= geo_place.reference %></td>
+        <td><%= geo_place.aspects %></td>
+        <td><%= geo_place.reviews.truncate(11) %></td>
+        <td><%= link_to 'Show', geo_place %></td>
+        <td><%= link_to 'Edit', edit_geo_place_path(geo_place) %></td>
+        <td><%= link_to 'Destroy', geo_place, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Geo Place', new_geo_place_path %>
+
+<%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>

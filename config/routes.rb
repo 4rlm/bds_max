@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  resources :geo_places
   # resources :locations
+  get 'geo_places_starter_btn' => 'geo_places#geo_places_starter_btn'
 
   resources :locations do
       collection {post :import_csv_data}

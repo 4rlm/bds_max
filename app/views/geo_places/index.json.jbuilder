@@ -1,0 +1,1 @@
+json.array! @geo_places, partial: 'geo_places/geo_place', as: :geo_place

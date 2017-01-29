@@ -1,0 +1,2 @@
+json.extract! geo_place, :id, :sfdc_id, :account, :street, :city, :state, :zip, :latitude, :longitude, :phone, :website, :map_url, :img_url, :hierarchy, :place_id, :address_components, :reference, :aspects, :reviews, :created_at, :updated_at
+json.url geo_place_url(geo_place, format: :json)

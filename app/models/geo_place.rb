@@ -1,0 +1,2 @@
+class GeoPlace < ApplicationRecord
+end

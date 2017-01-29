@@ -1,0 +1,107 @@
+<%= form_for(geo_place) do |f| %>
+  <% if geo_place.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(geo_place.errors.count, "error") %> prohibited this geo_place from being saved:</h2>
+
+      <ul>
+      <% geo_place.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :sfdc_id %>
+    <%= f.text_field :sfdc_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :account %>
+    <%= f.text_field :account %>
+  </div>
+
+  <div class="field">
+    <%= f.label :street %>
+    <%= f.text_field :street %>
+  </div>
+
+  <div class="field">
+    <%= f.label :city %>
+    <%= f.text_field :city %>
+  </div>
+
+  <div class="field">
+    <%= f.label :state %>
+    <%= f.text_field :state %>
+  </div>
+
+  <div class="field">
+    <%= f.label :zip %>
+    <%= f.text_field :zip %>
+  </div>
+
+  <div class="field">
+    <%= f.label :latitude %>
+    <%= f.text_field :latitude %>
+  </div>
+
+  <div class="field">
+    <%= f.label :longitude %>
+    <%= f.text_field :longitude %>
+  </div>
+
+  <div class="field">
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+  </div>
+
+  <div class="field">
+    <%= f.label :website %>
+    <%= f.text_field :website %>
+  </div>
+
+  <div class="field">
+    <%= f.label :map_url %>
+    <%= f.text_field :map_url %>
+  </div>
+
+  <div class="field">
+    <%= f.label :img_url %>
+    <%= f.text_field :img_url %>
+  </div>
+
+  <div class="field">
+    <%= f.label :hierarchy %>
+    <%= f.text_field :hierarchy %>
+  </div>
+
+  <div class="field">
+    <%= f.label :place_id %>
+    <%= f.text_field :place_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :address_components %>
+    <%= f.text_field :address_components %>
+  </div>
+
+  <div class="field">
+    <%= f.label :reference %>
+    <%= f.text_field :reference %>
+  </div>
+
+  <div class="field">
+    <%= f.label :aspects %>
+    <%= f.text_field :aspects %>
+  </div>
+
+  <div class="field">
+    <%= f.label :reviews %>
+    <%= f.text_field :reviews %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
