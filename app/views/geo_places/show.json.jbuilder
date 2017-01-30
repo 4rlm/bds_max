@@ -1,0 +1,1 @@
+json.partial! "geo_places/geo_place", geo_place: @geo_place

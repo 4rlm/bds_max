@@ -22,7 +22,7 @@ class StafferService
                 staffer_date: current_time,
                 staffer_status: nil,
                 template: nil,
-                acct_name: nil,
+                # acct_name: nil,
                 street: nil,
                 city: nil,
                 state: nil,
@@ -120,6 +120,53 @@ class StafferService
             end
         end
     end
+
+
+
+    def staffer_core_updater
+
+        # staffers = Staffer.where(cont_source: "CRM")
+        staffers = Staffer.all
+        counter = 0
+        staffers.each do |staff|
+            cores = Core.where(sfdc_id: staff.sfdc_id)
+            cores.each do |core|
+
+                ## CORES UPDATES STAFFERS ##
+                # staff.update_attributes(sfdc_sales_person: core.sfdc_sales_person, sfdc_type: core.sfdc_type, sfdc_tier: core.sfdc_tier, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, franchise: core.sfdc_franch_cons, coordinates: core.coordinates, full_address: core.full_address, franch_cat: core.sfdc_franch_cat)
+
+                ## STAFFERS UPDATES CORES ##
+
+                staff_source = staff.cont_source
+
+                if staff_source == "Web"
+                    staff_source = "Web Contacts"
+
+                    staff.update_attributes(franchise: core.sfdc_franch_cons, full_address: core.full_address, franch_cat: core.sfdc_franch_cat)
+
+                elsif staff_source == "CRM"
+                    staff_source = "CRM Contacts"
+                else
+                    staff_source
+                end
+
+                puts "---------------------------"
+                puts "Counter: #{counter}"
+                puts "Staff Source: #{staff_source}"
+                puts "---------------------------"
+                counter +=1
+
+                core.update_attributes(staffer_status: staff_source, staffer_date: staff.created_at)
+
+            end
+        end
+
+
+
+
+
+    end ## staffer_core_updater
+
 
 end  # Ends class StafferService
 
@@ -219,8 +266,7 @@ class Scrapers
             city_indicator: comparer(core.sfdc_city, @cols_hash[:city]),
             state_indicator: comparer(core.sfdc_state, @cols_hash[:state]),
             zip_indicator: comparer(core.sfdc_zip, @cols_hash[:zip]),
-            ph_indicator: comparer(core.sfdc_ph, @cols_hash[:phone])
-        )
+            ph_indicator: comparer(core.sfdc_ph, @cols_hash[:phone]))
     end
 
     def comparer(str1, str2)

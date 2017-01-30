@@ -78,7 +78,7 @@ module ApplicationHelper
     end
 
     def staffer_status_list
-        ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched", "Imported"]
+        ["CRM Contacts", "Web Contacts", "Imported", "Scraped", "Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', 'Verified', 'Destroy', "Matched"]
     end
 
     def franchise_list
@@ -110,11 +110,11 @@ module ApplicationHelper
     end
 
     def contact_status_list
-        ["Scraped", "SFDC", "Merged", "Merge-Request", "Hide", "Destroy"]
+        ["CRM", "Web", "Merged", "Merge-Request", "Hide", "Destroy"]
     end
 
     def contact_source_list
-        ["Dealer Site", "SFDC", "Other"]
+        ["CRM", "Web", "Other"]
     end
 
 

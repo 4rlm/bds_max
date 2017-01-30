@@ -12,10 +12,17 @@
       <th>SFDC Account ID</th>
       <th>Sales Person</th>
       <th>Type</th>
-      <th>Account Name</th>
+
       <th>Franchise</th>
+      <th>Category</th>
+
+      <th>Account Name</th>
       <th>Group Name</th>
       <th>Ultimate Group</th>
+
+      <th>Coordinates</th>
+      <th>Full Address</th>
+
       <th>Street</th>
       <th>City</th>
       <th>State</th>
@@ -60,10 +67,15 @@
         <td><%= staffer.sfdc_id %></td>
         <td><%= staffer.sfdc_sales_person %></td>
         <td><%= staffer.sfdc_type %></td>
-        <td><%= staffer.acct_name %></td>
         <td><%= staffer.franchise %></td>
+        <td><%= staffer.franch_cat %></td>
+        <td><%= staffer.acct_name %></td>
         <td><%= staffer.group_name %></td>
         <td><%= staffer.ult_group_name %></td>
+
+        <td><%= staffer.coordinates %></td>
+        <td><%= staffer.full_address %></td>
+
         <td><%= staffer.street %></td>
         <td><%= staffer.city %></td>
         <td><%= staffer.state %></td>
@@ -84,6 +96,7 @@
         <td><%= staffer.staff_text %></td>
         <td><%= staffer.sfdc_tier %></td>
         <td><%= staffer.domain %></td>
+
         <td><%= staffer.staffer_date %></td>
 
         <td><%= staffer.last_activity_date %></td>

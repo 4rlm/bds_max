@@ -25,12 +25,6 @@
             <th>Longitude</th>
             <th>SFDC ID</th>
 
-            <th>Rev Full Address</th>
-            <th>Rev Street</th>
-            <th>Rev City</th>
-            <th>Rev State</th>
-            <th>Rev Zip</th>
-
             <th>Created</th>
             <th>Updated</th>
 
@@ -49,12 +43,6 @@
             <td><%= @location.latitude %></td>
             <td><%= @location.longitude %></td>
             <td><%= @location.sfdc_id %></td>
-
-            <td><%= @location.rev_full_address %></td>
-            <td><%= @location.rev_street %></td>
-            <td><%= @location.rev_city %></td>
-            <td><%= @location.rev_state_code %></td>
-            <td><%= @location.rev_postal_code %></td>
 
             <% if @location.created_at %>
                 <td><%= @location.created_at.strftime("%m/%d/%Y") %></td>
@@ -92,14 +80,7 @@
             <th>Latitude</th>
             <th>Longitude</th>
             <th>Distance</th>
-
             <th>SFDC ID</th>
-
-            <th>Rev Full Address</th>
-            <th>Rev Street</th>
-            <th>Rev City</th>
-            <th>Rev State</th>
-            <th>Rev Zip</th>
 
             <th>Created</th>
             <th>Updated</th>
@@ -126,11 +107,6 @@
             <td><%= location.longitude %></td>
             <td><%= location.distance.round(2) %> (mi)</td>
             <td><%= location.sfdc_id %></td>
-            <td><%= location.rev_full_address %></td>
-            <td><%= location.rev_street %></td>
-            <td><%= location.rev_city %></td>
-            <td><%= location.rev_state_code %></td>
-            <td><%= location.rev_postal_code %></td>
 
             <% if location.created_at %>
                 <td><%= location.created_at.strftime("%m/%d/%Y") %></td>

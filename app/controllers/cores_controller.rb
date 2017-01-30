@@ -145,9 +145,17 @@ class CoresController < ApplicationController
 
     def franchiser_btn
         # !! CAUTION !!
-        @core_service.core_data_dumper
-        # @core_service.core_source_hierarchy_updater
+        # @core_service.core_data_dumper
+
+        # @core_service.delay.core_full_address_cleaner
+        # @core_service.core_full_address_cleaner
+
+        @core_service.core_acct_name_cleaner
+
+
+
         ### Above are Dangerous!  Use w/ Care!  ###
+        #############################
 
         # @core_service.delay.franchise_resetter
         # @core_service.franchise_resetter
@@ -172,11 +180,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :domainer_date, :indexer_date, :staffer_date, :sfdc_root, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :domain_status, :staffer_status, :sfdc_franch_cat, :acct_source, :full_address, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :url_status, :hierarchy)
+        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :domainer_date, :indexer_date, :staffer_date, :sfdc_root, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staff_link, :staff_text, :location_link, :location_text, :domain_status, :staffer_status, :sfdc_franchise, :sfdc_franch_cat, :acct_source, :full_address, :latitude, :longitude, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :url_status, :hierarchy, :geo_address, :geo_acct)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :domainer_date, :indexer_date, :staffer_date, :sfdc_root, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :domain_status, :staffer_status, :sfdc_franch_cat, :acct_source, :full_address, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :url_status, :hierarchy)
+        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :domainer_date, :indexer_date, :staffer_date, :sfdc_root, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staff_link, :staff_text, :location_link, :location_text, :domain_status, :staffer_status, :sfdc_franchise, :sfdc_franch_cat, :acct_source, :full_address, :latitude, :longitude, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :url_status, :hierarchy, :geo_address, :geo_acct)
     end
 
 

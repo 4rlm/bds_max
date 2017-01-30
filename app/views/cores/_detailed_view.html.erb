@@ -106,7 +106,9 @@
                 <tr>
                     <th class="th-2 th-2a">SFDC</th>
                     <td><%= core.url_status %></td>
+                    
                     <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
+
                     <td><%= core.sfdc_root %></td>
                     <!-- <td>ind</td> -->
                     <td><%= core.sfdc_franch_cons %></td>
@@ -147,9 +149,12 @@
                     <% else %>
                         <td><%= core.location_indexer_status %></td>
                     <% end %>
+
                     <!-- ## Staffer Consolidation ## -->
-                    <% if core.staffer_status == "Scraped" || core.staffer_status == "Imported" %>
-                        <td><%= link_to "View Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
+                    <% if core.staffer_status == "CRM Contacts" %>
+                        <td><%= link_to "CRM Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
+                    <% elsif core.staffer_status == "Web Contacts" %>
+                        <td><%= link_to "Web Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
                     <% else %>
                         <td><%= core.staffer_status %></td>
                     <% end %>

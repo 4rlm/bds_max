@@ -44,6 +44,10 @@ class Core < ApplicationRecord
     scope :full_address, -> (full_address) { where("full_address like ?", "%#{full_address}%") }
     scope :geo_date, -> (geo_date) { where("geo_date like ?", "%#{geo_date}%") }
     scope :coordinates, -> (coordinates) { where("coordinates like ?", "%#{coordinates}%") }
+    scope :geo_address, -> (geo_address) { where("geo_address like ?", "%#{geo_address}%") }
+    scope :geo_acct, -> (geo_acct) { where("geo_acct like ?", "%#{geo_acct}%") }
+
+
 
 
     def self.to_csv

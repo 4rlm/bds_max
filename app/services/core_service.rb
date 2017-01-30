@@ -37,7 +37,6 @@ class CoreService
         search_query_num = 0
         # url_grand_count = 0
 
-
         # == Create variables from Core table ==========
         Core.where(id: ids).each do |el|
             id = el[:sfdc_id]
@@ -49,7 +48,6 @@ class CoreService
             state = el[:sfdc_state]
             zip = el[:sfdc_zip]
             url_o = el[:sfdc_url]
-
 
             #-- Split for sfdc_root ---**********new***Test
             sfdc_root = url_o
@@ -77,7 +75,6 @@ class CoreService
                 end
             end
             #-- Split for sfdc_root ---Ends **********new***Test
-
 
             # Set the time when "el" is being searched.
             current_time = Time.new
@@ -130,12 +127,8 @@ class CoreService
             # Temporaily created shorter query.
             q_combinded = "q=#{acct_q}#{city_q}#{state_st}#{zip_st}"
 
-
-
-
             url_encoded = "#{url}#{q_combinded}"
             #== Ends - Google Encoded Search == Testing 2-- Ends ==
-
 
             begin #begin rescue p1 *******************************
                 # == Loop (1): through each encoded search url. ======
@@ -443,58 +436,84 @@ class CoreService
     def core_data_dumper
         cores = Core.where(acct_source: "CRM")
         cores.each do |core|
-            core.update_attributes()
-
+            core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_indexer_status: nil, location_indexer_status: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, domain_status: nil, staffer_status: nil, sfdc_template: nil)
         end # cores.each ends
 
     end # core_data_dumper ends
 
 
 
-    def core_source_hierarchy_updater
-        cores = Core.all
+    def core_full_address_cleaner
+        ## This Method Removes "Missing.." from Full Address
 
+        # cores = Core.all
+        cores = Core.where(full_address: "Missing Address")
+        counter = 0
         cores.each do |core|
-            acct_name = core.sfdc_acct
-            acct_source = core.acct_source
             street = core.sfdc_street
             city = core.sfdc_city
             state = core.sfdc_state
             zip = core.sfdc_zip
-            url = core.sfdc_url
-            root = core.sfdc_root
-            url_status = core.url_status
 
-            street == "N/A" || street == " " ? street = nil : street
-            city == "N/A" || city == " " ? city = nil : city
-            state == "N/A" || state == " " ? state = nil : state
-            zip == "N/A" || zip == " " ? zip = nil : zip
-            acct_name == "N/A" || acct_name == " " ? acct_name = url : acct_name
+            street == nil || street == "N/A" || street == " " || street.include?("Box") ? street = nil : street = "#{street}, "
+            city == nil || city == "N/A" || city == " " ? city = nil : city = "#{city}, "
+            state == nil || state == "N/A" || state == " " ? state == nil : state = "#{state}, "
+            zip == nil || zip == "N/A" || zip == " " ? zip == nil : zip = "#{zip}, "
 
-            if street && city && state && zip
-                full_address = "#{street}, #{city}, #{state}, #{zip}"
-            else
-                full_address = "Missing Address"
-            end
+            raw_full_address = "#{street}#{city}#{state}#{zip}"
+            raw_full_address[-2] == "," ? clean_full_address = raw_full_address[0..-3] : clean_full_address = raw_full_address
+            counter +=1
 
-            if street
-                street.include?("Po Box") ? full_address = "Missing Address" : full_address
-            end
+            puts "--------------------"
+            puts "#{counter}: #{core.sfdc_id}"
+            puts core.sfdc_acct
+            p core.full_address
+            p raw_full_address
+            p clean_full_address
 
-            unless acct_source == "Web"
-                acct_source = "CRM"
-            else
-                acct_source
-            end
-
-            root == nil || root == " " ? url_status = "None" : url_status
-
-            core.update_attributes(sfdc_acct: acct_name, sfdc_street: street, sfdc_city: city, sfdc_state: state, sfdc_zip: zip, url_status: url_status, acct_source: acct_source, hierarchy: "None", full_address: full_address)
-
+            core.update_attribute(:full_address, clean_full_address)
         end  ## cores.each - Ends
+    end
 
-    end  ## core_source_hierarchy_updater - Ends
+    def core_acct_name_cleaner
+        cores = Core.where("sfdc_acct LIKE '%http%'")
 
+        counter = 0
+        cores.each do |core|
+
+            raw_acct = core.sfdc_acct
+            raw_acct_parts = raw_acct.split('//')
+            acct_parts = raw_acct_parts.last.split('.')
+            useful_arr = acct_parts[0..-2]
+            clean_acct = useful_arr.join(' ')
+
+            # clean_acct = raw_acct_parts[1..-2].join(' ') # google
+            core_term = core.sfdc_franchise
+            core_franch_cons = core.sfdc_franch_cons
+
+            if core_term
+                if clean_acct.include?(core_term)
+                    clean_acct.gsub!(core_term," #{core_term} ")
+                    clean_acct.strip!
+                    final_acct = clean_acct.split.map(&:capitalize).join(' ')
+                else
+                    final_acct = clean_acct
+                end
+            else
+                final_acct = clean_acct
+            end
+
+            counter +=1
+            puts "--------------------"
+            puts "#{counter}: #{core.sfdc_id}"
+            puts "Raw:#{raw_acct}"
+            puts "Clean:#{clean_acct}"
+            puts "Final:#{final_acct}"
+            puts "--------------------"
+
+            core.update_attribute(:sfdc_acct, final_acct)
+        end
+    end
 
 
 end  # Ends class CoreService  # GoogleSearchClass

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :geo_places
   # resources :locations
 
   resources :locations do
@@ -6,6 +7,9 @@ Rails.application.routes.draw do
   end
   get 'location/import_page' => 'locations#import_page'
   get 'location/search' => 'locations#search'
+  get 'geo_places_starter_btn' => 'locations#geo_places_starter_btn'
+
+  get 'location/old_index' => 'locations#old_index'
 
 
   resources :dashboards

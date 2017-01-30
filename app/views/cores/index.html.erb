@@ -22,8 +22,11 @@
 
     <% num = 0 %>
     <% @cores.each do |core| %>
+
         <% num +=1 %>
+
         <%= render partial: 'detailed_view', locals: { core: core, num: num } %>
+
     <% end %>
 <% end %>
 
