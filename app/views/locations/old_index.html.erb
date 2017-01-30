@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="page-header">Geolocations</h1>
+<h1 class="page-header">Geolocations (OLD Version)</h1>
 <h4 class="text-center">GeoLocated Account Locations</h4>
 <h4 class="text-center">Used to find duplicates and see which stores are nearest.</h4>
 <h5 class="text-center">Click any Address to View Map and List of Local Area.</h5>
@@ -41,10 +41,10 @@
         <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
 
         <th>#</th>
+        <th>Status</th>
         <th>Hierarchy</th>
-      <th>Status</th>
       <th>Source</th>
-      <th>Franchise</th>
+
 
       <th>CRM Account</th>
       <th>GEO Account</th>
@@ -60,7 +60,6 @@
       <th>Website</th>
 
       <th>SFDC ID</th>
-      <th>Temp ID</th>
 
       <th>Created</th>
       <th>Updated</th>
@@ -79,10 +78,9 @@
           <% num +=1 %>
           <td><%= num %></td>
 
-        <td><%= location.hierarchy %></td>
         <td><%= location.location_status %></td>
+        <td><%= location.hierarchy %></td>
         <td><%= location.source %></td>
-        <td><%= location.franchise %></td>
 
         <td><%= location.acct_name %></td>
         <td><%= location.geo_acct_name %></td>
@@ -106,12 +104,7 @@
             <td><%= location.url %></td>
         <% end %>
 
-
-
-
-
         <td><%= location.sfdc_id %></td>
-        <td><%= location.temporary_id %></td>
 
         <% if location.created_at %>
             <td><%= location.created_at.strftime("%m/%d/%Y") %></td>

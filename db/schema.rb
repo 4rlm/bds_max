@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130124318) do
+ActiveRecord::Schema.define(version: 20170130184853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,9 @@ ActiveRecord::Schema.define(version: 20170130124318) do
     t.datetime "geo_date"
     t.string   "coordinates"
     t.string   "geo_status"
+    t.string   "geo_full_address"
+    t.string   "geo_acct_name"
+    t.string   "crm_phone"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -265,6 +268,9 @@ ActiveRecord::Schema.define(version: 20170130124318) do
     t.string   "crm_franch_term"
     t.string   "crm_franch_cons"
     t.string   "crm_franch_cat"
+    t.string   "crm_phone"
+    t.string   "crm_hierarchy"
+    t.string   "geo_type"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

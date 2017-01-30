@@ -73,6 +73,9 @@ class LocationsController < ApplicationController
         redirect_to locations_path
     end
 
+    def old_index
+    end
+
     # POST /locations
     # POST /locations.json
     def create
@@ -114,8 +117,10 @@ class LocationsController < ApplicationController
     end
 
     def geo_places_starter_btn
-        @service.delay.geo_places_starter
-        # @service.geo_places_starter
+        # @service.delay.geo_places_starter
+        @service.geo_places_starter
+
+        # @service.delay.url_root_formatter
 
         redirect_to locations_path
     end
@@ -134,7 +139,7 @@ class LocationsController < ApplicationController
 
     def location_cleaner_btn
         # @service.delay.location_cleaner_btn
-        @service.location_cleaner_btn
+        # @service.location_cleaner_btn
         redirect_to root_path
     end
 
@@ -153,11 +158,11 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :franchise, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :phone, :map_url, :img_url, :place_id, :address_components, :reference, :aspects)
+        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :phone, :map_url, :img_url, :place_id, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat, :crm_phone)
     end
 
     def filtering_params(params)
-        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :franchise, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr)
+        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat)
     end
 
 

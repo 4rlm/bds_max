@@ -42,9 +42,14 @@
 
         <th>#</th>
         <th>Status</th>
-        <th>Hierarchy</th>
-      <th>Source</th>
+        <th>CRM Hierarchy</th>
+        <th>GEO Hierarchy</th>
 
+        <th>CRM Type</th>
+        <th>GEO Type</th>
+
+        <th>CRM Source</th>
+      <th>GEO Source</th>
 
       <th>CRM Account</th>
       <th>GEO Account</th>
@@ -55,9 +60,22 @@
       <th>Longitude</th>
       <th>Coordinates</th>
 
-      <th>phone</th>
-      <th>map_url</th>
-      <th>Website</th>
+      <th>CRM Phone</th>
+      <th>GEO Phone</th>
+
+      <th>Google Map</th>
+
+      <th>CRM URL</th>
+      <th>GEO URL</th>
+      <th>CRM Root</th>
+      <th>GEO Root</th>
+
+      <th>CRM Term</th>
+      <th>GEO Term</th>
+      <th>CRM Franchise</th>
+      <th>GEO Franchise</th>
+      <th>CRM Category</th>
+      <th>GEO Category</th>
 
       <th>SFDC ID</th>
 
@@ -79,7 +97,15 @@
           <td><%= num %></td>
 
         <td><%= location.location_status %></td>
+
+        <td><%= location.crm_hierarchy %></td>
         <td><%= location.hierarchy %></td>
+
+
+        <td><%= location.acct_type %></td>
+        <td><%= location.geo_type %></td>
+
+        <td><%= location.crm_source %></td>
         <td><%= location.source %></td>
 
         <td><%= location.acct_name %></td>
@@ -92,17 +118,34 @@
         <td><%= location.longitude %></td>
         <td><%= location.coordinates %></td>
 
+        <td><%= location.crm_phone %></td>
         <td><%= location.phone %></td>
 
         <td><%= link_to "Google Maps", location.map_url, target: "_blank", class: 'btn btn-sm btn-info' %></td>
 
-        <!-- <td><%#= link_to "Dealer Site", location.url, target: "_blank", class: 'btn btn-sm btn-info' %></td> -->
+        <% if location.crm_url %>
+            <td><%= link_to location.crm_url, location.crm_url, :target => "_blank" %></td>
+        <% else %>
+            <td>No URL</td>
+        <% end %>
 
         <% if location.url %>
-            <td><%= link_to location.url, target: "_blank", class: 'btn btn-sm btn-info' %></td>
+            <td><%= link_to location.url, location.url, :target => "_blank" %></td>
         <% else %>
-            <td><%= location.url %></td>
+            <td>No URL</td>
         <% end %>
+
+        <td><%= location.crm_root %></td>
+        <td><%= location.geo_root %></td>
+
+        <td><%= location.crm_franch_term %></td>
+        <td><%= location.geo_franch_term %></td>
+
+        <td><%= location.crm_franch_cons %></td>
+        <td><%= location.geo_franch_cons %></td>
+
+        <td><%= location.crm_franch_cat %></td>
+        <td><%= location.geo_franch_cat %></td>
 
         <td><%= location.sfdc_id %></td>
 
