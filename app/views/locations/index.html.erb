@@ -41,7 +41,6 @@
 <% @locations.each do |location| %>
 <% num +=1 %>
 
-
 <table class="list-table table table-bordered table-hover table-striped">
 
     <!-- TOP ROW -->
@@ -64,12 +63,9 @@
     </tr>
   </thead>
 
-
   <!-- 2ND ROW: GEO DATA -->
  <tbody>
       <tr>
-          <!-- <td><%#= check_box_tag "multi_checks[]",  location.id %></td> -->
-
           <td><%= num %></td>
 
           <% if location.updated_at %>
@@ -82,13 +78,11 @@
         <td><%= location.geo_type %></td>
         <td><%= location.geo_acct_name %></td>
 
-
         <% if location.geo_full_addr %>
             <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
         <% else %>
             <td></td>
         <% end %>
-
 
         <td><%= location.phone %></td>
 
@@ -110,7 +104,6 @@
         <td><%= link_to 'Edit', edit_location_path(location) %></td>
       </tr>
   </tbody>
-
 
   <!-- 3RD ROW: CRM DATA -->
  <tbody>
@@ -143,36 +136,16 @@
       </tr>
     <% end %>
   </tbody>
-
-
-
-
 </table>
 
 
-
-
-
-
-
-
-
 <div class="pull-left">
-
-    <%#= submit_tag "Delete Checked", class: 'btn btn-danger' %>
-
-
     <div class="submit-button-area">
-
         <%= select_tag :selected_status, options_for_select(hierarchy_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
-
     </div>
-
     <div class="submit-button-area">
         <%= submit_tag "Submit", class: 'btn btn-success' %>
     </div>
-
-
 </div>
 <% end %>
 
