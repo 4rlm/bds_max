@@ -4,7 +4,7 @@ class LocationService
         # cores = Core.all
         # cores = [Core.all[120]]
         # cores = Core.all[14..-1]
-        cores = Core.where(geo_status: nil)[0...2000]
+        cores = Core.where(geo_status: nil)[0...1000]
 
         counter = 0
         cores.each do |core|
@@ -63,7 +63,7 @@ class LocationService
         coordinates = "#{spot.lat}, #{spot.lng}"
         geo_address = "#{street}, #{city}, #{state}, #{zip}"
 
-        Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, url: detail.website, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address)
+        Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, url: detail.website, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address)
 
         core.update_attributes(bds_status: status, geo_status: status, geo_date: Time.new)
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170129044244) do
+ActiveRecord::Schema.define(version: 20170130124318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,8 +228,8 @@ ActiveRecord::Schema.define(version: 20170129044244) do
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "city"
     t.string   "state"
     t.string   "state_code"
@@ -245,11 +245,8 @@ ActiveRecord::Schema.define(version: 20170129044244) do
     t.string   "acct_type"
     t.string   "location_status"
     t.string   "url"
-    t.string   "root"
-    t.string   "franchise"
     t.string   "street"
     t.string   "address"
-    t.string   "franch_cat"
     t.string   "hierarchy"
     t.string   "temporary_id"
     t.string   "geo_acct_name"
@@ -258,9 +255,16 @@ ActiveRecord::Schema.define(version: 20170129044244) do
     t.string   "map_url"
     t.string   "img_url"
     t.string   "place_id"
-    t.string   "reference"
-    t.string   "aspects"
-    t.string   "address_components"
+    t.string   "crm_source"
+    t.string   "geo_root"
+    t.string   "crm_root"
+    t.string   "crm_url"
+    t.string   "geo_franch_term"
+    t.string   "geo_franch_cons"
+    t.string   "geo_franch_cat"
+    t.string   "crm_franch_term"
+    t.string   "crm_franch_cons"
+    t.string   "crm_franch_cat"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

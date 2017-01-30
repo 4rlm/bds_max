@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'location/search' => 'locations#search'
   get 'geo_places_starter_btn' => 'locations#geo_places_starter_btn'
 
+  get 'location/old_index' => 'locations#old_index'
+
 
   resources :dashboards
 
