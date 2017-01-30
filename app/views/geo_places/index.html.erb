@@ -1,4 +1,4 @@
-<h1 class="page-header">Geo Places</h1>
+<!-- <h1 class="page-header">Geo Places</h1>
 <h4 class="text-center">Google Places Data</h4>
 
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
@@ -41,13 +41,15 @@
         <td><%= geo_place.phone %></td>
         <td><%= geo_place.website %></td>
         <td><%= geo_place.map_url %></td>
-        <%# if url = geo_place.img_url %>
+
+        <% if url = geo_place.img_url %>
             <td>
-                <%#= link_to url, target: "_blank"  do %>
-                    <%#= image_tag(url, alt: geo_place.account, width: '200') %>
-                <%# end %>
+                <%= link_to url, target: "_blank"  do %>
+                    <%= image_tag(url, alt: geo_place.account, width: '200') %>
+                <% end %>
             </td>
-        <%# end %>
+        <% end %>
+
         <td><%= geo_place.place_id %></td>
         <td><%= geo_place.address_components %></td>
         <td><%= geo_place.reference %></td>
@@ -65,4 +67,4 @@
 
 <%= link_to 'New Geo Place', new_geo_place_path %>
 
-<%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
+<%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %> -->

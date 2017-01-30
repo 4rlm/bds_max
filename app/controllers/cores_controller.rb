@@ -147,7 +147,12 @@ class CoresController < ApplicationController
         # !! CAUTION !!
         # @core_service.core_data_dumper
 
-        # @core_service.core_source_hierarchy_updater
+        # @core_service.delay.core_full_address_cleaner
+        # @core_service.core_full_address_cleaner
+
+        @core_service.core_acct_name_cleaner
+
+
 
         ### Above are Dangerous!  Use w/ Care!  ###
         #############################

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170128230116) do
+ActiveRecord::Schema.define(version: 20170129044244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,8 +228,8 @@ ActiveRecord::Schema.define(version: 20170128230116) do
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "city"
     t.string   "state"
     t.string   "state_code"
@@ -244,12 +244,6 @@ ActiveRecord::Schema.define(version: 20170128230116) do
     t.string   "sales_person"
     t.string   "acct_type"
     t.string   "location_status"
-    t.string   "rev_full_address"
-    t.string   "rev_street"
-    t.string   "rev_city"
-    t.string   "rev_state"
-    t.string   "rev_state_code"
-    t.string   "rev_postal_code"
     t.string   "url"
     t.string   "root"
     t.string   "franchise"
@@ -257,6 +251,16 @@ ActiveRecord::Schema.define(version: 20170128230116) do
     t.string   "address"
     t.string   "franch_cat"
     t.string   "hierarchy"
+    t.string   "temporary_id"
+    t.string   "geo_acct_name"
+    t.string   "geo_full_addr"
+    t.string   "phone"
+    t.string   "map_url"
+    t.string   "img_url"
+    t.string   "place_id"
+    t.string   "reference"
+    t.string   "aspects"
+    t.string   "address_components"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

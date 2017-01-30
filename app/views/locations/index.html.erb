@@ -8,6 +8,7 @@
 <h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
 
 <h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
+<%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
@@ -33,7 +34,8 @@
 
 <%= form_tag "/locations", method: :get, class: 'form-inline'  do %>
 
-<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+<!-- <table class="list-table table table-bordered table-hover text-nowrap table-striped"> -->
+<table class="list-table table table-bordered table-hover table-striped">
   <thead>
     <tr>
         <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
@@ -43,21 +45,23 @@
       <th>Status</th>
       <th>Source</th>
       <th>Franchise</th>
-      <th>Account Name</th>
-      <th>Full Address</th>
-      <th>Street</th>
-      <th>City</th>
-      <th>State</th>
-      <th>Zip</th>
+
+      <th>CRM Account</th>
+      <th>GEO Account</th>
+      <th>CRM Address</th>
+      <th>GEO Address</th>
+
       <th>Latitude</th>
       <th>Longitude</th>
       <th>Coordinates</th>
+
+      <th>phone</th>
+      <th>map_url</th>
+      <th>Website</th>
+
       <th>SFDC ID</th>
-      <th>Rev Full Address</th>
-      <th>Rev Street</th>
-      <th>Rev City</th>
-      <th>Rev State</th>
-      <th>Rev Zip</th>
+      <th>Temp ID</th>
+
       <th>Created</th>
       <th>Updated</th>
       <th colspan="3"></th>
@@ -79,21 +83,28 @@
         <td><%= location.location_status %></td>
         <td><%= location.source %></td>
         <td><%= location.franchise %></td>
+
         <td><%= location.acct_name %></td>
+        <td><%= location.geo_acct_name %></td>
+
         <td><%= link_to location.address, location %></td>
-        <td><%= location.street %></td>
-        <td><%= location.city %></td>
-        <td><%= location.state_code %></td>
-        <td><%= location.postal_code %></td>
+        <td><%= link_to location.geo_full_addr, location %></td>
+
         <td><%= location.latitude %></td>
         <td><%= location.longitude %></td>
         <td><%= location.coordinates %></td>
+
+        <td><%= location.phone %></td>
+
+        <td><%= link_to "Google Maps", location.map_url, target: "_blank", class: 'btn btn-sm btn-info' %></td>
+
+        <td><%= link_to "Dealer Site", location.url, target: "_blank", class: 'btn btn-sm btn-info' %></td>
+
+
+
+
         <td><%= location.sfdc_id %></td>
-        <td><%= location.rev_full_address %></td>
-        <td><%= location.rev_street %></td>
-        <td><%= location.rev_city %></td>
-        <td><%= location.rev_state_code %></td>
-        <td><%= location.rev_postal_code %></td>
+        <td><%= location.temporary_id %></td>
 
         <% if location.created_at %>
             <td><%= location.created_at.strftime("%m/%d/%Y") %></td>

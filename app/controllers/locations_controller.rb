@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
     before_action :set_location, only: [:show, :edit, :update, :destroy]
-    before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn]
+    before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_places_starter_btn]
 
     # GET /locations
     # GET /locations.json
@@ -113,17 +113,24 @@ class LocationsController < ApplicationController
         end
     end
 
-    def geo_starter_btn  ## From Button
-        # @service.delay.create_sfdc_loc
-        # @service.create_sfdc_loc
-        cores = Core.all[0..10]
+    def geo_places_starter_btn
+        @service.delay.geo_places_starter
+        # @service.geo_places_starter
 
-        LocationService.new.start_geo(cores)
-        # LocationService.new.delay.start_geo(cores)
-
-        flash[:notice] = 'Geo started!'
         redirect_to locations_path
     end
+
+    # def geo_starter_btn  ## From Button
+    #     # @service.delay.create_sfdc_loc
+    #     # @service.create_sfdc_loc
+    #     cores = Core.all[0..10]
+    #
+    #     LocationService.new.start_geo(cores)
+    #     # LocationService.new.delay.start_geo(cores)
+    #
+    #     flash[:notice] = 'Geo started!'
+    #     redirect_to locations_path
+    # end
 
     def location_cleaner_btn
         # @service.delay.location_cleaner_btn
@@ -146,12 +153,13 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :rev_full_address, :rev_street, :rev_city, :rev_state, :rev_state_code, :rev_postal_code, :url, :root, :franchise, :street, :address)
+        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :root, :franchise, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :phone, :map_url, :img_url, :place_id, :address_components, :reference, :aspects)
     end
 
     def filtering_params(params)
-        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :rev_full_address, :rev_street, :rev_city, :rev_state, :rev_state_code, :rev_postal_code, :url, :root, :franchise, :street, :address)
+        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :root, :franchise, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr)
     end
+
 
     def set_location_service
         @service = LocationService.new

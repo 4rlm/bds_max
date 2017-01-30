@@ -29,7 +29,6 @@ include Filterable
     scope :sales_person, -> (sales_person) { where sales_person: sales_person }
     scope :acct_type, -> (acct_type) { where acct_type: acct_type }
     scope :location_status, -> (location_status) { where location_status: location_status }
-    scope :rev_state_code, -> (rev_state_code) { where rev_state_code: rev_state_code }
 
     # == Key Word Search ==
     scope :latitude, -> (latitude) { where("latitude like ?", "%#{latitude}%") }
@@ -43,16 +42,15 @@ include Filterable
     scope :group_name, -> (group_name) { where("group_name like ?", "%#{group_name}%") }
     scope :ult_group_name, -> (ult_group_name) { where("ult_group_name like ?", "%#{ult_group_name}%") }
     scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
-    scope :rev_full_address, -> (rev_full_address) { where("rev_full_address like ?", "%#{rev_full_address}%") }
-    scope :rev_street, -> (rev_street) { where("rev_street like ?", "%#{rev_street}%") }
-    scope :rev_city, -> (rev_city) { where("rev_city like ?", "%#{rev_city}%") }
-    scope :rev_state, -> (rev_state) { where("rev_state like ?", "%#{rev_state}%") }
-    scope :rev_postal_code, -> (rev_postal_code) { where("rev_postal_code like ?", "%#{rev_postal_code}%") }
     scope :url, -> (url) { where("url like ?", "%#{url}%") }
     scope :root, -> (root) { where("root like ?", "%#{root}%") }
     scope :franchise, -> (franchise) { where("franchise like ?", "%#{franchise}%") }
     scope :street, -> (street) { where("street like ?", "%#{street}%") }
     scope :address, -> (address) { where("address like ?", "%#{address}%") }
+    scope :temporary_id, -> (temporary_id) { where("temporary_id like ?", "%#{temporary_id}%") }
+    scope :geo_acct_name, -> (geo_acct_name) { where("geo_acct_name like ?", "%#{geo_acct_name}%") }
+    scope :geo_full_addr, -> (geo_full_addr) { where("geo_full_addr like ?", "%#{geo_full_addr}%") }
+
 
 # CSV#
   def self.to_csv
