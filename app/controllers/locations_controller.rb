@@ -117,8 +117,8 @@ class LocationsController < ApplicationController
     end
 
     def geo_places_starter_btn
-        # @service.delay.geo_places_starter
-        @service.geo_places_starter
+        @service.delay.geo_places_starter
+        # @service.geo_places_starter
 
         # @service.delay.url_root_formatter
 

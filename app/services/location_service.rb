@@ -4,7 +4,7 @@ class LocationService
         # cores = Core.all
         # cores = [Core.all[120]]
         # cores = Core.all[14..-1]
-        cores = Core.where(geo_status: nil)[0...1]
+        cores = Core.where(geo_status: nil)[0...100]
 
         counter = 0
         cores.each do |core|
@@ -64,30 +64,27 @@ class LocationService
 
         ##############
 
-            if location.url
-                uri = URI(location.url)
+        url = detail.website
+
+            if url
+                uri = URI(url)
                 full_url = "#{uri.scheme}://#{uri.host}"
                 host_parts = uri.host.split(".")
                 root = host_parts[1]
 
-                puts "--------------------"
-                puts "#{counter}) uri: #{uri}"
+                puts "uri: #{uri}"
                 puts "full_url: #{full_url}"
                 puts "root: #{root}"
-                puts "-----"
                 puts "core.sfdc_url: #{core.sfdc_url}"
                 puts "core.sfdc_root: #{core.sfdc_root}"
                 puts "--------------------"
-                counter +=1
+                puts
             end
 
-            url: detail.website
-
-        location.update_attributes(crm_source: core.acct_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result")
 
         ##############
 
-        Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address,)
+        Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address, crm_source: core.acct_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result")
 
         ## ORIGINAL ##
         # location.update_attributes(crm_source: core.acct_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result")
