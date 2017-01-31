@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1 class="page-header">Geolocations</h1>
 <h4 class="text-center">GeoLocated Account Locations</h4>
 <h4 class="text-center">Used to find duplicates and see which stores are nearest.</h4>
@@ -27,126 +25,124 @@
 </div> <br>
 
 <%= form_tag locations_path, :method => :get do %>
-  <p>
     <%= text_field_tag :search, params[:search] %>
     <%= submit_tag "Search Near", :name => nil %>
 <% end %>
 
 <%= form_tag "/locations", method: :get, class: 'form-inline'  do %>
 
-<!-- <table class="list-table table table-bordered table-hover text-nowrap table-striped"> -->
+    <!-- <table class="geo-result-table table table-bordered table-hover text-nowrap table-striped"> -->
 
+    <% num = 0 %>
+    <% @locations.each do |location| %>
+        <% num +=1 %>
+        <div class="row profile-row">
+            <div class="profile-col col-md-12">
 
-<% num = 0 %>
-<% @locations.each do |location| %>
-<% num +=1 %>
+                <table class="geo-result-table table table-bordered table-hover table-striped">
 
-<table class="list-table table table-bordered table-hover table-striped">
+                    <!-- TOP ROW -->
+                    <thead>
+                        <tr>
+                            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+                            <th>Hierarchy</th>
+                            <th>Type</th>
+                            <th>Account</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>URL</th>
+                            <th>Root</th>
+                            <th>Coordinates</th>
+                        </tr>
+                    </thead>
 
-    <!-- TOP ROW -->
-  <thead>
-    <tr>
-        <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+                    <tbody><!-- 2ND ROW: GEO DATA -->
+                        <tr class="geo-result-tr">
+                            <td><%= num %></td>
 
-        <!-- <th>#</th> -->
-        <th>Status</th>
-        <th>Hierarchy</th>
-        <th>Type</th>
-      <th>Account</th>
-      <th>Address</th>
-      <th>Phone</th>
-      <th>URL</th>
-      <th>Root</th>
-      <th>Franchise</th>
-    <th>Coordinates</th>
-    <td><%= link_to 'Details', location %></td>
-    </tr>
-  </thead>
+                            <td><%= location.hierarchy %></td>
+                            <td><%= location.geo_type %></td>
+                            <td><%= location.geo_acct_name %></td>
 
-  <!-- 2ND ROW: GEO DATA -->
- <tbody>
-      <tr>
-          <td><%= num %></td>
+                            <% if location.geo_full_addr %>
+                            <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
 
-          <% if location.updated_at %>
-              <td><%= location.updated_at.strftime("%m/%d/%Y") %></td>
-          <% else %>
-              <td><%= location.updated_at%></td>
-          <% end %>
+                            <td><%= location.phone %></td>
 
-        <td><%= location.hierarchy %></td>
-        <td><%= location.geo_type %></td>
-        <td><%= location.geo_acct_name %></td>
+                            <% if location.url %>
+                            <td><%= link_to "Dealer", location.url, :target => "_blank" %> <i class="fa fa-globe fa-2x" aria-hidden="true"></i> </td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
 
-        <% if location.geo_full_addr %>
-            <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <td><%= location.geo_root %></td>
 
-        <td><%= location.phone %></td>
+                            <% if location.coordinates %>
+                            <td><%= link_to location.coordinates, location.map_url, target: "_blank" %></td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
+                        </tr>
+                        <tr><!-- 3RD ROW: CRM DATA -->
+                            <td><%= check_box_tag "multi_checks[]",  location.id %></td>
+                            <td><%= location.crm_hierarchy %></td>
+                            <td><%= location.acct_type %></td>
+                            <td><%= location.acct_name %></td>
 
-        <% if location.url %>
-            <td><%= link_to location.url, location.url, :target => "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <% unless location.address == nil %>
+                            <td><%= link_to location.address, "#{location}", :target => "_blank" %></td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
 
-        <td><%= location.geo_root %></td>
-        <td><%= location.geo_franch_cons %></td>
+                            <td><%= location.crm_phone %></td>
 
-        <% if location.coordinates %>
-            <td><%= link_to location.coordinates, location.map_url, target: "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <% unless location.crm_url == nil %>
+                            <td>
+                                <%= link_to add_http(location.crm_url), :target => "_blank" do %>
+                                <%= fa_icon "external-link 2x" %>
+                                <% end %>
+                            </td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
 
-        <td><%= link_to 'Edit', edit_location_path(location) %></td>
-      </tr>
-  </tbody>
+                            <td><%= location.crm_root %></td>
+                            <td><%= location.sfdc_id %></td>
 
-  <!-- 3RD ROW: CRM DATA -->
- <tbody>
-      <tr>
-         <td><%= check_box_tag "multi_checks[]",  location.id %></td>
-        <td><%= location.location_status %></td>
-        <td><%= location.crm_hierarchy %></td>
-        <td><%= location.acct_type %></td>
-        <td><%= location.acct_name %></td>
+                            <td>
+                                <%= link_to location, method: :details do %> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+                                <% end %>
+                            </td>
 
-        <% unless location.address == nil %>
-            <td><%= link_to location.address, "#{location}", :target => "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <td>
+                                <%= link_to edit_location_path(location), method: :edit do %> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+                                <% end %>
+                            </td>
 
-        <td><%= location.crm_phone %></td>
-
-        <% unless location.crm_url == nil %>
-            <td><%= link_to location.crm_url, "http://#{location.crm_url}", :target => "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
-
-        <td><%= location.crm_root %></td>
-        <td><%= location.crm_franch_cons %></td>
-        <td><%= location.sfdc_id %></td>
-
-        <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+                            <td>
+                                <%= link_to location, method: :delete do %> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+                                <% end %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     <% end %>
-  </tbody>
-</table>
 
 
-<div class="pull-left">
-    <div class="submit-button-area">
-        <%= select_tag :selected_status, options_for_select(hierarchy_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+    <div class="pull-left">
+        <div class="submit-button-area">
+            <%= select_tag :selected_status, options_for_select(hierarchy_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+        </div>
+        <div class="submit-button-area">
+            <%= submit_tag "Submit", class: 'btn btn-success' %>
+        </div>
     </div>
-    <div class="submit-button-area">
-        <%= submit_tag "Submit", class: 'btn btn-success' %>
-    </div>
-</div>
 <% end %>
 
 <div class="pull-right">

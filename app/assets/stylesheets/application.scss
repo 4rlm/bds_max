@@ -76,12 +76,12 @@ table.theme-layout-table {
 }
 
 .theme-layout-table .th-1 {
-    font-size: 140%;
+    font-size: 100%;
     font-weight: bold;
 }
 
 .theme-layout-table .th-2 {
-    font-size: 120%;
+    font-size: 100%;
     font-weight: normal;
 }
 
@@ -284,6 +284,8 @@ table.theme-layout-table {
 
 
 
+
+
 .list-table th, .list-table td {
     text-align: center;
     border: solid 1px #137fa0;
@@ -306,6 +308,11 @@ table.theme-layout-table {
 .list-table .w-md {
     // min-width: 250px;
 }
+
+
+
+
+
 
 // SUBMIT BUTTON --
 .submit-button-area {
