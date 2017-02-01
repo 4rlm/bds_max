@@ -39,11 +39,20 @@ function changeStatus(el) {
     var stat = el.getElementsByClassName('stat-btn')[0];
     if (stat.className.includes('fa-circle-thin')) {
         stat.className = "fa fa-check-circle fa-lg fa-blue stat-btn";
+        $(stat).attr('data-original-title', 'Update Cell');
     } else if (stat.className.includes('fa-check-circle')) {
         stat.className = "fa fa-plus-circle fa-lg fa-green stat-btn";
+        $(stat).attr('data-original-title', 'Update Row');
     } else if (stat.className.includes('fa-plus-circle')) {
         stat.className = "fa fa-minus-circle fa-lg fa-red stat-btn";
+        $(stat).attr('data-original-title', 'Remove Row');
     } else if (stat.className.includes('fa-minus-circle')) {
         stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
+        $(stat).attr('data-original-title', 'Reset');
     }
 }
+
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
