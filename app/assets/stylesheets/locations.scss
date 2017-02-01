@@ -7,31 +7,54 @@
 .geo-result-table {
     box-shadow: 5px 5px 5px gray;
     min-width: 90%;
+}
 
+.geo-result-table tr:hover {
+    background: #ffffb3;
+}
+
+.geo-result-tr {
+    background: #cfe0fc;
 }
 
 
 .geo-result-table th, .geo-result-table td {
+    font-size: 90%;
     text-align: center;
     border: solid 1px #137fa0;
     font-weight: normal;
     white-space:nowrap;
     line-height: normal;
-
 }
 
 .geo-result-table th {
-    text-align: center;
+    // background-image:linear-gradient(#32bde7, #1bb5e4);
+    background: #4285F4;
     color: white;
-    background-image:linear-gradient(#32bde7, #1bb5e4);
-    font-size: 90%;
 }
 
-.geo-result-table td {
-    font-size: 90%;
+.geo {
+    border-right: 0 !important;
+
 }
 
-.geo-result-tr {
-    // background-image: black;
-    background-image:linear-gradient(#E6E6FA, #E6E6FA)
+// fa_icon "circle-thin lg"
+.fa-clear {
+    color: #ccccff;
+}
+
+// fa_icon "minus-circle lg"
+// fa_icon "warning lg"
+.fa-red {
+    color: #ff0000;
+}
+
+// fa_icon "plus-circle lg"
+.fa-green {
+    color: #008000;
+}
+
+// fa_icon "check-circle lg"
+.fa-blue {
+    color: #4285F4;
 }

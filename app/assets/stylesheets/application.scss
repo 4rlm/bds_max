@@ -23,6 +23,27 @@
 //     margin-bottom: 900px;
 // }
 
+
+.theme-blue {
+    // background-color: #4285F4;
+    background: blue;
+    color: white;
+}
+
+.theme-blue li:a {
+    background: blue;
+    color: white;
+}
+
+.theme-blue li {
+    background: blue;
+    color: white;
+}
+
+
+
+
+
 .geo-map-1 {
     box-shadow: 5px 5px 5px gray;
     border: 3px solid gray;
@@ -30,6 +51,8 @@
     // height: 500px;
     // width: 800px;
 }
+
+
 
 .geo-map-2 {
     box-shadow: 5px 5px 5px gray;

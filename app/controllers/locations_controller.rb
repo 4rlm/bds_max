@@ -32,7 +32,7 @@ class LocationsController < ApplicationController
         end
 
         # WILL_PAGINATE #
-        @locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
+        @locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
 
 
         ## GEOCODER SEARCH NEARBY - STARTS##
@@ -116,11 +116,14 @@ class LocationsController < ApplicationController
         end
     end
 
+
     def geo_places_starter_btn
-        @service.delay.geo_places_starter
+        # @service.delay.geo_places_starter
         # @service.geo_places_starter
 
         # @service.delay.url_root_formatter
+
+        @service.delay.type_hierarchy_updater
 
         redirect_to locations_path
     end

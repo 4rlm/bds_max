@@ -6,6 +6,7 @@
 <h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
 
 <h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
+
 <%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
 
 <!-- FILTER PARTIAL -->
@@ -38,30 +39,83 @@
         <% num +=1 %>
         <div class="row profile-row">
             <div class="profile-col col-md-12">
-
-                <table class="geo-result-table table table-bordered table-hover table-striped">
-
+                <table class="table table-bordered geo-result-table">
                     <!-- TOP ROW -->
                     <thead>
                         <tr>
-                            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
-                            <th>Hierarchy</th>
-                            <th>Type</th>
-                            <th>Account</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>URL</th>
+                            <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
+                            <th><%= num %></th>
+                            <!-- hierarchy -->
+                            <!-- <th><%#= fa_icon "star lg" %></th> -->
+                            <!-- source -->
+                            <th><%= fa_icon "code-fork lg" %></th>
+                            <!-- type -->
+                            <th><%= fa_icon "tags lg" %></th>
+                            <!-- account name -->
+                            <th colspan="2"><%= fa_icon "address-card lg" %></th>
+                            <!-- full address -->
+                            <th colspan="2"><%= fa_icon "map lg" %></th>
+                            <!-- phone -->
+                            <th colspan="2"><%= fa_icon "phone lg" %></th>
+                            <!-- website url -->
+                            <th colspan="2"><%= fa_icon "globe lg" %></th>
                             <th>Root</th>
-                            <th>Coordinates</th>
                         </tr>
                     </thead>
 
                     <tbody><!-- 2ND ROW: GEO DATA -->
+                        <tr class="geo-result-tr">
+
+                            <!-- <td><%#= location.hierarchy %></td> -->
+                            <% if location.coordinates %>
+                            <td>
+                                <%= link_to location.map_url, target: "_blank" do %>
+                                <%= fa_icon "map-marker lg" %>
+                                <% end %>
+                            </td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
+
+                            <td><%#= location.source %></td>
+                            <td><%#= location.geo_type %></td>
+
+                            <td class="geo"></td>
+                            <td><%= location.geo_acct_name %></td>
+
+                            <td class="geo"></td>
+                            <% if location.geo_full_addr %>
+                            <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
+
+                            <td class="geo"></td>
+                            <td><%= location.phone %></td>
+
+                            <td class="geo"></td>
+                            <% unless location.url == nil %>
+                            <td>
+                                <%= link_to add_http(location.url), :target => "_blank" do %>
+                                <%= fa_icon "external-link lg" %>
+                                <% end %>
+                            </td>
+                            <% else %>
+                                <td class="fa-red"><%= fa_icon "warning lg" %></td>
+                            <% end %>
+
+                            <td><%= location.geo_root %></td>
+
+                        </tr>
+
+                        <!-- 3rd+ rows start - partial -->
                         <%= render partial: 'table_row', locals: {location: location, num: num} %>
                         <% s_ids = location.coord_id_arr %>
                         <% s_ids.each do |id| %>
                             <% if loc = Location.find_by(sfdc_id: id) %>
                                 <%= render partial: 'table_row', locals: {location: loc, num: ""} %>
+                                <!-- 3rd+ rows end - partial -->
+
                             <% end %>
                         <% end %>
                     </tbody>
@@ -69,7 +123,6 @@
             </div>
         </div>
     <% end %>
-
 
     <div class="pull-left">
         <div class="submit-button-area">

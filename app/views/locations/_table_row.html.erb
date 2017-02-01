@@ -1,50 +1,45 @@
-<tr class="geo-result-tr">
-    <td><%= num %></td>
 
-    <td><%= location.hierarchy %></td>
-    <td><%= location.geo_type %></td>
-    <td><%= location.geo_acct_name %></td>
-
-    <% if location.geo_full_addr %>
-    <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
-    <% else %>
-    <td></td>
-    <% end %>
-
-    <td><%= location.phone %></td>
-
-    <% if location.url %>
-    <td><%= link_to "Dealer", location.url, :target => "_blank" %> <i class="fa fa-globe fa-2x" aria-hidden="true"></i> </td>
-    <% else %>
-    <td></td>
-    <% end %>
-
-    <td><%= location.geo_root %></td>
-
-    <% if location.coordinates %>
-    <td><%= link_to location.coordinates, location.map_url, target: "_blank" %></td>
-    <% else %>
-    <td></td>
-    <% end %>
-</tr>
 <tr><!-- 3RD ROW: CRM DATA -->
-    <td><%= check_box_tag "multi_checks[]",  location.id %></td>
-    <td><%= location.crm_hierarchy %></td>
+    <!-- <td><%#= check_box_tag "multi_checks[]",  location.id %></td> -->
+
+
+    <!-- ############ -->
+    <% if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
+        <td class="geo fa-clear"><%= fa_icon "dot-circle-o lg" %></td>
+    <% elsif location.crm_hierarchy == "Parent" %>
+        <td class="geo fa-clear"><%= fa_icon "star lg" %></td>
+    <% elsif location.crm_hierarchy == "Child" %>
+        <td class="geo fa-clear"><%= fa_icon "star-half-full lg" %></td>
+    <% elsif location.crm_hierarchy == "Flag" %>
+        <td class="geo fa-clear"><%= fa_icon "flag lg" %></td>
+    <% else %>
+        <td class="geo fa-clear"><%= fa_icon "circle-thin lg" %></td>
+    <% end %>
+    <!-- ############ -->
+
+
+    <td><%= location.crm_source %></td>
     <td><%= location.acct_type %></td>
+
+
+    <td class="geo fa-clear"><%= fa_icon "circle-thin lg" %></td>
     <td><%= location.acct_name %></td>
 
+    <td class="geo fa-blue"><%= fa_icon "check-circle lg" %></td>
     <% unless location.address == nil %>
     <td><%= link_to location.address, "#{location}", :target => "_blank" %></td>
     <% else %>
     <td></td>
     <% end %>
 
+    <td class="geo fa-green"><%= fa_icon "plus-circle lg" %></td>
     <td><%= location.crm_phone %></td>
 
+    <td class="geo fa-red"><%= fa_icon "minus-circle lg" %></td>
     <% unless location.crm_url == nil %>
     <td>
         <%= link_to add_http(location.crm_url), :target => "_blank" do %>
-        <%= fa_icon "external-link 2x" %>
+        <%= fa_icon "external-link lg" %>
         <% end %>
     </td>
     <% else %>
@@ -52,20 +47,6 @@
     <% end %>
 
     <td><%= location.crm_root %></td>
-    <td><%= location.sfdc_id %></td>
 
-    <td>
-        <%= link_to location, method: :details do %> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
-        <% end %>
-    </td>
 
-    <td>
-        <%= link_to edit_location_path(location), method: :edit do %> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
-        <% end %>
-    </td>
-
-    <td>
-        <%= link_to location, method: :delete do %> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
-        <% end %>
-    </td>
 </tr>
