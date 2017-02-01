@@ -3,10 +3,30 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+.geo-map-1 {
+    box-shadow: 5px 5px 5px gray;
+    border: 3px solid gray;
+    border-radius: 5px;
+    // height: 500px;
+    // width: 800px;
+}
+
+
+
+.geo-map-2 {
+    box-shadow: 5px 5px 5px gray;
+    border: 3px solid gray;
+    border-radius: 5px;
+    width: 900px;
+    height: 500px;
+}
+
 
 .geo-result-table {
     box-shadow: 5px 5px 5px gray;
     min-width: 90%;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .geo-result-table tr:hover {
@@ -57,4 +77,26 @@
 // fa_icon "check-circle lg"
 .fa-blue {
     color: #4285F4;
+}
+
+.fa-white {
+    color: white;
+}
+
+.geo {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.geo.w-xxsm, .geo.w-xsm {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.geo.w-xsm {
+    max-width: 25px;
+}
+
+.geo.w-xxsm {
+    max-width: 15px;
 }

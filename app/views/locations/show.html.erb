@@ -60,6 +60,7 @@
     </tbody>
 </table>
 
+
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
     <thead>
         <tr>
@@ -84,13 +85,13 @@
 
             <th>Created</th>
             <th>Updated</th>
-
         </tr>
     </thead>
 
     <tbody>
         <% num = 0 %>
-        <% for location in @location.nearbys(5) %>
+        <% for location in @location.nearbys(1) %>
+
         <tr>
             <% num +=1 %>
             <td><%= num %></td>
@@ -126,31 +127,36 @@
     </tbody>
 </table>
 
-
-<!-- Static Maps API Key: AIzaSyDLlXe8kdy8U5_ezK9c-r55-1TNquaECfw -->
-<!-- Embeded Maps API Key: AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY  -->
-<!-- JS Map API Key:  AIzaSyD3RRIDYgdHCyp9q6rZnt_s3_JInTXph5o -->
-<!-- Places API Key: AIzaSyCrUeAtqsGZGZ0kOFv6vkxcBYk_slCD2fI -->
-
 <div class="geo-map-container">
     <div class="row">
-
         <div class="col-md-6">
-
-        <%= image_tag "http://maps.google.com/maps/api/staticmap?size=500x500&sensor=false&zoom=17&markers=#{@location.latitude}%2C#{@location.longitude}&key=AIzaSyDLlXe8kdy8U5_ezK9c-r55-1TNquaECfw", :class => "geo-map-1" %>
-
-        </div>
-        <div class="col-md-6">
-
-        <iframe width="500" height="500" frameborder="0" class="geo-map-2" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.latitude}%2C#{@location.longitude}" %>"allowfullscreen>
-        </iframe>
-
+            <p>frame 1</p>
+            <iframe class="geo-map-2" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"allowfullscreen>
+            </iframe>
         </div>
     </div>
 </div>
 
+<br>
 
-<%= image_tag "http://maps.google.com/maps/api/staticmap?size=500x500&sensor=false&zoom=17&markers=#{@location.latitude}%2C#{@location.longitude}&key=AIzaSyDLlXe8kdy8U5_ezK9c-r55-1TNquaECfw", :class => "geo-map-1" %>
+<div class="geo-map-container">
+    <div class="row">
+        <div class="col-md-6">
+            <p>frame 2</p>
+            <iframe class="geo-map-2" src="<%= @location.url %>"</iframe>
+        </div>
+    </div>
+</div>
+
+<br>
 
 
-<%= link_to "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyCrUeAtqsGZGZ0kOFv6vkxcBYk_slCD2fI" %>
+
+
+
+
+<!-- ############################ -->
+<!-- Static Maps API Key: AIzaSyDLlXe8kdy8U5_ezK9c-r55-1TNquaECfw -->
+<!-- Embeded Maps API Key: AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY  -->
+<!-- JS Map API Key:  AIzaSyD3RRIDYgdHCyp9q6rZnt_s3_JInTXph5o -->
+<!-- Places API Key: AIzaSyCrUeAtqsGZGZ0kOFv6vkxcBYk_slCD2fI -->
