@@ -48,13 +48,13 @@
                             <!-- hierarchy -->
                             <!-- <th><%#= fa_icon "star lg" %></th> -->
                             <!-- source -->
-                            <th><%= fa_icon "code-fork lg" %></th>
+                            <th><%= fa_icon "code-fork lg", "data-toggle": "tooltip", "data-placement": "top", title: "Source" %></th>
                             <!-- type -->
                             <th><%= fa_icon "tags lg" %></th>
                             <!-- account name -->
                             <th colspan="2"><%= fa_icon "address-card lg" %></th>
                             <!-- full address -->
-                            <th colspan="2"><%= fa_icon "map lg" %></th>
+                            <th colspan="2"><%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: location.coordinates %></th>
                             <!-- phone -->
                             <th colspan="2"><%= fa_icon "phone lg" %></th>
                             <!-- website url -->

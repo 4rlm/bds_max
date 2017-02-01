@@ -56,3 +56,21 @@ function changeStatus(el) {
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+
+function changeHierarchy(el) {
+    var hier = el.getElementsByClassName('hier-btn')[0];
+    if (hier.className.includes('fa-dot-circle-o')) {
+        hier.className = "fa fa-arrow-circle-up fa-lg fa-blue hier-btn";
+        $(hier).attr('data-original-title', 'Parent');
+    } else if (hier.className.includes('fa-arrow-circle-up')) {
+        hier.className = "fa fa-arrow-circle-down fa-lg fa-green hier-btn";
+        $(hier).attr('data-original-title', 'Child');
+    } else if (hier.className.includes('fa-arrow-circle-down')) {
+        hier.className = "fa fa-exclamation-circle fa-lg fa-red hier-btn";
+        $(hier).attr('data-original-title', 'Alert');
+    } else if (hier.className.includes('fa-exclamation-circle')) {
+        hier.className = "fa fa-dot-circle-o fa-lg fa-clear hier-btn";
+        $(hier).attr('data-original-title', 'None');
+    }
+}
