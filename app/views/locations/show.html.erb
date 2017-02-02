@@ -10,108 +10,166 @@
 
 
 
-<!-- ################################ -->
-
 <table class="table table-bordered geo-result-table">
     <!-- TOP ROW -->
     <thead>
+
+
+        <!-- ################################ -->
         <tr>
             <th>MI</th>
 
             <th geo><%= fa_icon "arrows-v lg", "data-toggle": "tooltip", "data-placement": "top", title: "Address Hierarchy" %></th>
 
-            <th><%= fa_icon "code-fork lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Source" %></th>
+            <th geo><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Site Lightbox" %></th>
 
+            <th><%= fa_icon "code-fork lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Source" %></th>
             <!-- type -->
+
             <th><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
+
+            <!-- root -->
+            <!-- website url -->
+            <th colspan="2"><%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Website Link" %></th>
 
             <!-- account name -->
             <th colspan="2"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name" %></th>
 
             <!-- full address -->
+            <% unless @location.geo_full_addr == nil %>
             <th colspan="2">
                 <%= link_to @location, :target => "_blank" do %>
                 <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "Coordinates: #{@location.coordinates}" %>
                 <% end %>
             </th>
+            <% else %>
+            <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "No Coordinates!" %>
+            <% end %>
 
             <!-- phone -->
             <th colspan="2"><%= fa_icon "phone lg" %></th>
 
-            <!-- website url -->
-            <th colspan="2"><%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Website Link" %></th>
-
-            <!-- root -->
-            <th colspan="2"><%= fa_icon "arrows-h lg", "data-toggle": "tooltip", "data-placement": "top", title: "URL Root" %></th>
-
         </tr>
+        <!-- ################################ -->
+
     </thead>
 
     <tbody><!-- 2ND ROW: GEO DATA -->
+
+        <!-- ################################ -->
         <tr class="geo-result-tr">
 
             <td>MI</td>
 
-            <!-- <td><%#= location.hierarchy %></td> -->
+            <!-- <td><%#= @location.hierarchy %></td> -->
+            <% if @location.coordinates %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
             </td>
+            <% else %>
+            <td></td>
+            <% end %>
 
-            <td><%#= location.source %></td>
-            <td><%#= location.geo_type %></td>
+            <% unless @location.url == nil %>
+            <td>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>">
+                <%= fa_icon "clone lg" %></span>
+            </td>
+            <% else %>
+                <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+            <% end %>
 
-            <td class="geo"></td>
-            <td><%= @location.geo_acct_name %></td>
+            <td><%#= @location.source %></td>
+            <td><%#= @location.geo_type %></td>
 
-            <td class="geo"></td>
-            <td><%= @location.geo_full_addr %></td>
-
-            <td class="geo"></td>
-            <td><%= @location.phone %></td>
-
+            <!-- ###  ACCT WEBSITE URL - PLACEHOLDER TD  JS ### -->
             <td class="geo"></td>
             <% unless @location.url == nil %>
             <td>
                 <%= link_to add_http(@location.url), :target => "_blank" do %>
-                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: @location.url %>
+                <span data-toggle="tooltip" data-placement="top" title="<%= @location.url %>">
+                <%= @location.geo_root %>
                 <% end %>
             </td>
             <% else %>
-            <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
             <% end %>
 
-            <td><span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>"><span data-toggle="tooltip" data-placement="top" title="Click me"><%= @location.geo_root %></span></span></td>
+            <!-- ###  ACCT NAME JS - PLACEHOLDER TD  ### -->
+            <td class="geo"></td>
+            <td><%= @location.geo_acct_name %></td>
+
+            <!-- ###  ACCT FULL ADDRESS JS - PLACEHOLDER TD ### -->
+            <td class="geo"></td>
+            <% if @location.geo_full_addr %>
+            <td><%= link_to @location.geo_full_addr, @location, target: "_blank" %></td>
+            <% else %>
+            <td></td>
+            <% end %>
+
+            <!-- ###  ACCT PHONE JS - PLACEHOLDER TD ### -->
+            <td class="geo"></td>
+            <td><%= @location.phone %></td>
         </tr>
+
+        <!-- ################################ -->
+
     </tbody>
 
 
     <!-- ####### -->
     <tbody><!-- 3RD ROW: CORE DATA -->
+
+        <!-- ################################ -->
         <% for location in @location.nearbys(1) %>
         <tr>
             <td><%= location.distance.round(2) %></td>
 
             <!-- ###  HIERARCHY JS ### -->
             <% if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
-            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td>
+                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td>
             <% elsif location.crm_hierarchy == "Parent" %>
-            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td>
+                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td>
             <% elsif location.crm_hierarchy == "Child" %>
-            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td>
+                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td>
             <% elsif location.crm_hierarchy == "Flag" %>
-            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td>
+                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td>
             <% else %>
-            <td class="geo w-xsm"><%= fa_icon "circle-thin lg", class: "fa-clear"  %></td>
+                <td class="geo w-xsm"><%= fa_icon "circle-thin lg", class: "fa-clear"  %></td>
             <% end %>
             <!-- ############ -->
 
+            <% unless location.crm_url == nil %>
+            <td>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.crm_url %>">
+                <%= fa_icon "clone lg" %></span></span>
+            </td>
+            <% else %>
+                <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+            <% end %>
+
             <td><%= location.crm_source %></td>
             <td><%= location.acct_type %></td>
+
+            <!-- ###  WEBSITE URL JS ### -->
+            <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+
+            <% unless location.crm_url == nil %>
+            <td>
+                <%= link_to add_http(location.crm_url), :target => "_blank" do %>
+                <span data-toggle="tooltip" data-placement="top" title="<%= location.crm_url %>">
+                <%= location.crm_root %>
+                <% end %>
+            </td>
+            <% else %>
+                <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+            <% end %>
 
             <!-- ###  ACCT NAME JS ### -->
             <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
             <td><%= location.acct_name %></td>
+
 
             <!-- ###  FULL ADDRESS JS ### -->
             <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
@@ -122,23 +180,11 @@
 
             <td><%= location.crm_phone %></td>
 
-            <!-- ###  WEBSITE URL JS ### -->
-            <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
-
-            <% unless location.crm_url == nil %>
-            <td>
-                <%= link_to add_http(location.crm_url), :target => "_blank" do %>
-                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: location.crm_url %>
-                <% end %>
-            </td>
-            <% else %>
-            <td></td>
-            <% end %>
-
-            <td><span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.crm_url %>"><span data-toggle="tooltip" data-placement="top" title="Click me"><%= location.crm_root %></span></span></td>
-
             <% end %>
         </tr>
+
+        <!-- ################################ -->
+
     </tbody>
 </table>
 <!-- ######### -->
@@ -154,72 +200,167 @@
 <table class="table table-bordered geo-result-table">
     <!-- TOP ROW -->
     <thead>
+
+
+        <!-- ################################ -->
         <tr>
             <th>MI</th>
+            <th>Map</th>
 
-            <th geo><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %></th>
+            <th geo><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Site Lightbox" %></th>
+
+            <!-- root -->
+            <!-- website url -->
+            <th><%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Website Link" %></th>
 
             <!-- account name -->
             <th><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name" %></th>
 
             <!-- full address -->
+            <% unless @location.geo_full_addr == nil %>
             <th>
                 <%= link_to @location, :target => "_blank" do %>
                 <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "Coordinates: #{@location.coordinates}" %>
                 <% end %>
             </th>
+            <% else %>
+            <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "No Coordinates!" %>
+            <% end %>
 
             <!-- phone -->
             <th><%= fa_icon "phone lg" %></th>
 
-            <!-- website url -->
-            <th><%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Website Link" %></th>
-
-            <!-- root -->
-            <th><%= fa_icon "arrows-h lg", "data-toggle": "tooltip", "data-placement": "top", title: "URL Root" %></th>
-
         </tr>
+        <!-- ################################ -->
+
     </thead>
 
+    <tbody><!-- 2ND ROW: GEO DATA -->
 
-    <!-- ####### -->
-    <tbody>
-        <% for loc in @location.nearbys(1) %>
-        <tr>
-            <td><%= loc.distance.round(2) %></td>
+        <!-- ################################ -->
+        <tr class="geo-result-tr">
 
-            <!-- <td><%#= loc.hierarchy %></td> -->
+            <td>MI</td>
+
+            <!-- <td><%#= @location.hierarchy %></td> -->
+            <% if @location.coordinates %>
             <td>
-                <%= link_to loc.map_url, target: "_blank" do %>
-                <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %>
-                <% end %>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
             </td>
+            <% else %>
+            <td></td>
+            <% end %>
 
-            <td><%= loc.geo_acct_name %></td>
-
-            <td><%= loc.geo_full_addr %></td>
-
-            <td><%= loc.phone %></td>
-
-            <% unless loc.url == nil %>
+            <% unless @location.url == nil %>
             <td>
-                <%= link_to add_http(loc.url), :target => "_blank" do %>
-                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: loc.url %>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>">
+                <%= fa_icon "clone lg" %></span>
+            </td>
+            <% else %>
+                <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+            <% end %>
+
+            <% unless @location.url == nil %>
+            <td>
+                <%= link_to add_http(@location.url), :target => "_blank" do %>
+                <span data-toggle="tooltip" data-placement="top" title="<%= @location.url %>">
+                <%= @location.geo_root %>
                 <% end %>
             </td>
             <% else %>
-            <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
             <% end %>
 
-            <td><%= loc.geo_root %></td>
+            <td><%= @location.geo_acct_name %></td>
+
+            <% if @location.geo_full_addr %>
+            <td><%= link_to @location.geo_full_addr, @location, target: "_blank" %></td>
+            <% else %>
+            <td></td>
+            <% end %>
+
+            <td><%= @location.phone %></td>
+        </tr>
+
+        <!-- ################################ -->
+
+    </tbody>
 
 
+    <!-- ####### -->
+    <tbody><!-- 3RD ROW: CORE DATA -->
+
+        <!-- ################################ -->
+        <% for location in @location.nearbys(1) %>
+        <tr>
+            <td><%= location.distance.round(2) %></td>
+
+            <% if location.coordinates %>
+            <td>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
+            </td>
+            <% else %>
+            <td></td>
+            <% end %>
+
+            <% unless location.url == nil %>
+            <td>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.url %>">
+                <%= fa_icon "clone lg" %></span></span>
+            </td>
+            <% else %>
+                <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+            <% end %>
+
+            <% unless location.url == nil %>
+            <td>
+                <%= link_to add_http(location.url), :target => "_blank" do %>
+                <span data-toggle="tooltip" data-placement="top" title="<%= location.url %>">
+                <%= location.geo_root %>
+                <% end %>
+            </td>
+            <% else %>
+                <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+            <% end %>
+
+            <td><%= location.geo_acct_name %></td>
+
+            <% if location.geo_full_addr %>
+            <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
+            <% else %>
+            <td></td>
+            <% end %>
+
+            <td><%= location.phone %></td>
 
             <% end %>
         </tr>
+
+        <!-- ################################ -->
+
     </tbody>
 </table>
+<!-- ######### -->
 
+<!-- ########################### -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- #### MODAL TEMPLATE!!  ######## -->
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -234,17 +375,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
-
-<!-- <div class="geo-map-container">
-    <div class="row">
-        <div class="col-md-6">
-            <p>frame 2</p>
-            <iframe class="geo-map-2" src="<%= @location.url %>"</iframe>
-        </div>
-    </div>
-</div> -->
+<!-- ########################## -->
 
 
 
