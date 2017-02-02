@@ -7,19 +7,15 @@
     <%= link_to 'Edit', edit_location_path(@location), class: 'btn btn-primary' %>
     <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
 </div> <br>
-
 <!-- ################################ -->
 
 
 <!-- ################################ -->
-
+<!-- ### VERSION 1 ### -->
+<!-- ################################ -->
 <table class="table table-bordered geo-result-table">
-    <!-- TOP ROW -->
     <thead>
-
-
-        <!-- ################################ -->
-        <tr>
+        <tr> <!-- TOP ROW -->
             <th>MI</th>
 
             <th geo><%= fa_icon "arrows-v lg", "data-toggle": "tooltip", "data-placement": "top", title: "Address Hierarchy" %></th>
@@ -51,17 +47,11 @@
 
             <!-- phone -->
             <th colspan="2"><%= fa_icon "phone lg" %></th>
-
         </tr>
-        <!-- ################################ -->
-
     </thead>
 
     <tbody><!-- 2ND ROW: GEO DATA -->
-
-        <!-- ################################ -->
         <tr class="geo-result-tr">
-
             <td>MI</td>
 
             <!-- <td><%#= @location.hierarchy %></td> -->
@@ -114,16 +104,9 @@
             <td class="geo"></td>
             <td><%= @location.phone %></td>
         </tr>
-
-        <!-- ################################ -->
-
     </tbody>
 
-
-    <!-- ####### -->
     <tbody><!-- 3RD ROW: CORE DATA -->
-
-        <!-- ################################ -->
         <% for location in @location.nearbys(1) %>
         <tr>
             <td><%= location.distance.round(2) %></td>
@@ -173,7 +156,6 @@
 
             <td><%= location.acct_name %></td>
 
-
             <!-- ###  FULL ADDRESS JS ### -->
             <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
             <td><%= location.address %></td>
@@ -185,13 +167,8 @@
 
             <% end %>
         </tr>
-
-        <!-- ################################ -->
-
     </tbody>
 </table>
-<!-- ######### -->
-
 <!-- ########################### -->
 
 
@@ -199,14 +176,11 @@
 
 
 <!-- ################################ -->
-
+<!-- ### VERSION 2 ### -->
+<!-- ################################ -->
 <table class="table table-bordered geo-result-table">
-    <!-- TOP ROW -->
     <thead>
-
-
-        <!-- ################################ -->
-        <tr>
+        <tr>  <!-- TOP ROW -->
             <th>MI</th>
             <th>Map</th>
 
@@ -232,17 +206,11 @@
 
             <!-- phone -->
             <th><%= fa_icon "phone lg" %></th>
-
         </tr>
-        <!-- ################################ -->
-
     </thead>
 
     <tbody><!-- 2ND ROW: GEO DATA -->
-
-        <!-- ################################ -->
         <tr class="geo-result-tr">
-
             <td>MI</td>
 
             <!-- <td><%#= @location.hierarchy %></td> -->
@@ -284,16 +252,9 @@
 
             <td><%= @location.phone %></td>
         </tr>
-
-        <!-- ################################ -->
-
     </tbody>
 
-
-    <!-- ####### -->
     <tbody><!-- 3RD ROW: CORE DATA -->
-
-        <!-- ################################ -->
         <% for location in @location.nearbys(1) %>
         <tr>
             <td><%= location.distance.round(2) %></td>
@@ -338,25 +299,21 @@
 
             <% end %>
         </tr>
-
-        <!-- ################################ -->
-
     </tbody>
 </table>
-<!-- ######### -->
-
 <!-- ########################### -->
 
 
 
 
+
+
+<!-- ################################ -->
+<!-- ### VERSION 3 ### -->
+<!-- ################################ -->
 <table class="table table-bordered geo-result-table">
-    <!-- TOP ROW -->
     <thead>
-
-
-        <!-- ################################ -->
-        <tr>
+        <tr>  <!-- TOP ROW -->
             <th geo><%= fa_icon "arrows-v lg", "data-toggle": "tooltip", "data-placement": "top", title: "Address Hierarchy" %></th>
 
             <th geo><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Site Lightbox" %></th>
@@ -386,15 +343,10 @@
 
             <!-- phone -->
             <th colspan="2"><%= fa_icon "phone lg" %></th>
-
         </tr>
-        <!-- ################################ -->
-
     </thead>
 
     <tbody><!-- 2ND ROW: GEO DATA -->
-
-        <!-- ################################ -->
         <tr class="geo-result-tr">
 
             <!-- <td><%#= @location.hierarchy %></td> -->
@@ -449,7 +401,6 @@
         </tr>
 
         <!-- 3rd+ rows start - partial -->
-
         <% s_ids = @location.coord_id_arr %>
         <% s_ids.each do |id| %>
             <% if location = Location.find_by(sfdc_id: id) %>
@@ -505,7 +456,6 @@
 
                     <td><%= location.acct_name %></td>
 
-
                     <!-- ###  FULL ADDRESS JS ### -->
                     <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
                     <td><%= location.address %></td>
@@ -514,24 +464,11 @@
                     <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
                     <td><%= location.crm_phone %></td>
-
                 </tr>
-
-
-
-
-
-
-
-
             <% end %>
         <% end %>
-
     </tbody>
-
 </table>
-
-
 <!-- ################################ -->
 
 
@@ -540,36 +477,6 @@
 
 
 <!-- ################################ -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- #### MODAL TEMPLATE!!  ######## -->
 <div class="modal fade" id="myModal">
