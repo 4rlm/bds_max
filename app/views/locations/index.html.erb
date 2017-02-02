@@ -89,9 +89,7 @@
                             <!-- <td><%#= location.hierarchy %></td> -->
                             <% if location.coordinates %>
                             <td>
-                                <%= link_to location.map_url, target: "_blank" do %>
-                                <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %>
-                                <% end %>
+                                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %></span>
                             </td>
                             <% else %>
                             <td></td>
@@ -124,7 +122,7 @@
                                 <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
                             <% end %>
 
-                            <td><%= location.geo_root %></td>
+                            <td><span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.url %>"><span data-toggle="tooltip" data-placement="top" title="Click me"><%= location.geo_root %></span></span></td>
 
                         </tr>
 
@@ -170,3 +168,19 @@
 
 <%= will_paginate @locations, renderer: BootstrapPagination::Rails  %>
 <br>
+
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

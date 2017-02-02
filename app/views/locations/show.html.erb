@@ -54,9 +54,7 @@
 
             <!-- <td><%#= location.hierarchy %></td> -->
             <td>
-                <%= link_to @location.map_url, target: "_blank" do %>
-                <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %>
-                <% end %>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %></span>
             </td>
 
             <td><%#= location.source %></td>
@@ -79,15 +77,15 @@
                 <% end %>
             </td>
             <% else %>
-                <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+            <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
             <% end %>
 
-            <td><%= @location.geo_root %></td>
+            <td><span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>"><span data-toggle="tooltip" data-placement="top" title="Click me"><%= @location.geo_root %></span></span></td>
         </tr>
     </tbody>
 
 
-<!-- ####### -->
+    <!-- ####### -->
     <tbody><!-- 3RD ROW: CORE DATA -->
         <% for location in @location.nearbys(1) %>
         <tr>
@@ -95,15 +93,15 @@
 
             <!-- ###  HIERARCHY JS ### -->
             <% if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td>
+            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td>
             <% elsif location.crm_hierarchy == "Parent" %>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td>
+            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td>
             <% elsif location.crm_hierarchy == "Child" %>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td>
+            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td>
             <% elsif location.crm_hierarchy == "Flag" %>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td>
+            <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td>
             <% else %>
-                <td class="geo w-xsm"><%= fa_icon "circle-thin lg", class: "fa-clear"  %></td>
+            <td class="geo w-xsm"><%= fa_icon "circle-thin lg", class: "fa-clear"  %></td>
             <% end %>
             <!-- ############ -->
 
@@ -137,11 +135,11 @@
             <td></td>
             <% end %>
 
-            <td><%= location.crm_root %></td>
+            <td><span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>"><span data-toggle="tooltip" data-placement="top" title="Click me"><%= location.crm_root %></span></span></td>
 
             <% end %>
-            </tr>
-        </tbody>
+        </tr>
+    </tbody>
 </table>
 <!-- ######### -->
 
@@ -185,78 +183,68 @@
 
 
     <!-- ####### -->
-        <tbody>
-            <% for loc in @location.nearbys(1) %>
-            <tr>
-                <td><%= loc.distance.round(2) %></td>
+    <tbody>
+        <% for loc in @location.nearbys(1) %>
+        <tr>
+            <td><%= loc.distance.round(2) %></td>
 
-                <!-- <td><%#= loc.hierarchy %></td> -->
-                <td>
-                    <%= link_to loc.map_url, target: "_blank" do %>
-                    <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %>
-                    <% end %>
-                </td>
-
-                <td><%= loc.geo_acct_name %></td>
-
-                <td><%= loc.geo_full_addr %></td>
-
-                <td><%= loc.phone %></td>
-
-                <% unless loc.url == nil %>
-                <td>
-                    <%= link_to add_http(loc.url), :target => "_blank" do %>
-                    <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: loc.url %>
-                    <% end %>
-                </td>
-                <% else %>
-                    <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+            <!-- <td><%#= loc.hierarchy %></td> -->
+            <td>
+                <%= link_to loc.map_url, target: "_blank" do %>
+                <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Google Places Map Link" %>
                 <% end %>
+            </td>
 
-                <td><%= loc.geo_root %></td>
+            <td><%= loc.geo_acct_name %></td>
 
+            <td><%= loc.geo_full_addr %></td>
 
+            <td><%= loc.phone %></td>
 
+            <% unless loc.url == nil %>
+            <td>
+                <%= link_to add_http(loc.url), :target => "_blank" do %>
+                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: loc.url %>
                 <% end %>
-            </tr>
-        </tbody>
+            </td>
+            <% else %>
+            <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+            <% end %>
+
+            <td><%= loc.geo_root %></td>
+
+
+
+            <% end %>
+        </tr>
+    </tbody>
 </table>
-<!-- ######### -->
 
-<!-- ########################### -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
-
-
-
-
-
-<div class="geo-map-container">
-    <div class="row">
-        <div class="col-md-6">
-            <p>frame 1</p>
-            <iframe class="geo-map-2" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"allowfullscreen>
-            </iframe>
-        </div>
-    </div>
-</div>
-
-<br>
-
-<div class="geo-map-container">
+<!-- <div class="geo-map-container">
     <div class="row">
         <div class="col-md-6">
             <p>frame 2</p>
             <iframe class="geo-map-2" src="<%= @location.url %>"</iframe>
         </div>
     </div>
-</div>
-
-<br>
-
-
-
+</div> -->
 
 
 

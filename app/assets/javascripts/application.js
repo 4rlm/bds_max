@@ -17,21 +17,21 @@
 
 
 function checkAll(check_all) {
-  // Pass in a named "Check All" checkbox that appears on the same form where All
-  // checkboxes should be checked.
+    // Pass in a named "Check All" checkbox that appears on the same form where All
+    // checkboxes should be checked.
 
-  // Loop through an array containing ALL inputs on the same form as check_all
-  var inputs = check_all.form.getElementsByTagName('input');
-  for (var i = 0; i < inputs.length; i++) {
-    // Only work on checkboxes, and NOT on the "Check All" checkboxes
-    if (inputs[i].type == 'checkbox') {
-      if (check_all.checked == true) {
-        inputs[i].checked = true;
-      } else {
-        inputs[i].checked = false;
-      }
+    // Loop through an array containing ALL inputs on the same form as check_all
+    var inputs = check_all.form.getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+        // Only work on checkboxes, and NOT on the "Check All" checkboxes
+        if (inputs[i].type == 'checkbox') {
+            if (check_all.checked == true) {
+                inputs[i].checked = true;
+            } else {
+                inputs[i].checked = false;
+            }
+        }
     }
-  }
 }
 
 
@@ -54,7 +54,7 @@ function changeStatus(el) {
 
 
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
 })
 
 
@@ -74,3 +74,26 @@ function changeHierarchy(el) {
         $(hier).attr('data-original-title', 'None');
     }
 }
+
+
+( function($) {
+    function iframeModalOpen(){
+        $('.modalButton').on('click', function(e) {
+            console.log(this);
+            var src = $(this).attr('data-src');
+
+            $("#myModal iframe").attr({
+                'src': src
+            });
+        });
+
+        $('#myModal').on('hidden.bs.modal', function(){
+            $(this).find('iframe').html("");
+            $(this).find('iframe').attr("src", "");
+        });
+    }
+
+    $(document).ready(function(){
+        iframeModalOpen();
+    });
+} ) ( jQuery );

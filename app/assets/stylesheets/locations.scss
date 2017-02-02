@@ -17,8 +17,9 @@
     box-shadow: 5px 5px 5px gray;
     border: 3px solid gray;
     border-radius: 5px;
-    width: 900px;
+    // width: 900px;
     height: 500px;
+    width: 100%;
 }
 
 
@@ -37,6 +38,9 @@
     background: #cfe0fc;
 }
 
+.modalButton {
+    cursor: pointer;
+}
 
 .geo-result-table th, .geo-result-table td {
     font-size: 90%;
@@ -99,4 +103,47 @@
 
 .geo.w-xxsm {
     max-width: 15px;
+}
+
+@media (min-width: 768px) {
+    #myModal .modal-dialog {
+        width: 45%;
+    }
+}
+
+.modal-dialog {
+
+    .close-button {
+        overflow: hidden;
+
+        button.close {
+            font-size: 30px;
+            line-height: 30px;
+            padding: 7px 4px 7px 13px;
+            text-shadow: none;
+            opacity: 0.7;
+            color:#fff;
+
+            span {
+                display: block;
+            }
+
+            &:hover,
+            &:focus {
+                opacity: 1;
+                outline: none;
+            }
+        }
+    }
+
+    .modal-content {
+        box-shadow: none;
+        background-color: transparent;
+        border: 0;
+
+        iframe {
+            display: block;
+            margin: 0 auto;
+        }
+    }
 }
