@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1 class="page-header">Geolocations</h1>
 <h4 class="text-center">GeoLocated Account Locations</h4>
 <h4 class="text-center">Used to find duplicates and see which stores are nearest.</h4>
@@ -8,6 +6,7 @@
 <h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
 
 <h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
+
 <%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
 
 <!-- FILTER PARTIAL -->
@@ -27,135 +26,133 @@
 </div> <br>
 
 <%= form_tag locations_path, :method => :get do %>
-  <p>
     <%= text_field_tag :search, params[:search] %>
     <%= submit_tag "Search Near", :name => nil %>
 <% end %>
 
 <%= form_tag "/locations", method: :get, class: 'form-inline'  do %>
 
-<!-- <table class="list-table table table-bordered table-hover text-nowrap table-striped"> -->
+    <% num = 0 %>
+    <% @locations.each do |location| %>
+        <% num +=1 %>
+        <div class="row profile-row">
+            <div class="profile-col col-md-12">
+                <table class="table table-bordered geo-result-table">
+                    <!-- TOP ROW -->
+                    <thead>
+                        <tr>
+                            <th geo><%= num %> <%= fa_icon "arrows-v lg", "data-toggle": "tooltip", "data-placement": "top", title: "Address Hierarchy" %></th>
 
+                            <th geo><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Site Lightbox" %></th>
 
-<% num = 0 %>
-<% @locations.each do |location| %>
-<% num +=1 %>
+                            <th><%= fa_icon "code-fork lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Source" %></th>
+                            <!-- type -->
 
-<table class="list-table table table-bordered table-hover table-striped">
+                            <th><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
 
-    <!-- TOP ROW -->
-  <thead>
-    <tr>
-        <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+                            <!-- root -->
+                            <!-- website url -->
+                            <th colspan="2"><%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Website Link" %></th>
 
-        <!-- <th>#</th> -->
-        <th>Status</th>
-        <th>Hierarchy</th>
-        <th>Type</th>
-      <th>Account</th>
-      <th>Address</th>
-      <th>Phone</th>
-      <th>URL</th>
-      <th>Root</th>
-      <th>Franchise</th>
-    <th>Coordinates</th>
-    <td><%= link_to 'Details', location %></td>
-    </tr>
-  </thead>
+                            <!-- account name -->
+                            <th colspan="2"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name" %></th>
 
+                            <!-- full address -->
+                            <% unless location.geo_full_addr == nil %>
+                            <th colspan="2">
+                                <%= link_to location, :target => "_blank" do %>
+                                <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "Coordinates: #{location.coordinates}" %>
+                                <% end %>
+                            </th>
+                            <% else %>
+                                <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "No Coordinates!" %>
+                            <% end %>
 
-  <!-- 2ND ROW: GEO DATA -->
- <tbody>
-      <tr>
-          <!-- <td><%#= check_box_tag "multi_checks[]",  location.id %></td> -->
+                            <!-- phone -->
+                            <th colspan="2"><%= fa_icon "phone lg" %></th>
 
-          <td><%= num %></td>
+                        </tr>
+                    </thead>
 
-          <% if location.updated_at %>
-              <td><%= location.updated_at.strftime("%m/%d/%Y") %></td>
-          <% else %>
-              <td><%= location.updated_at%></td>
-          <% end %>
+                    <tbody><!-- 2ND ROW: GEO DATA -->
+                        <tr class="geo-result-tr">
 
-        <td><%= location.hierarchy %></td>
-        <td><%= location.geo_type %></td>
-        <td><%= location.geo_acct_name %></td>
+                            <!-- <td><%#= location.hierarchy %></td> -->
+                            <% if location.coordinates %>
+                            <td>
+                                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
+                            </td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
 
-        <% if location.geo_full_addr %>
-            <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <% unless location.url == nil %>
+                            <td>
+                                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.url %>">
+                                <%= fa_icon "clone lg" %></span>
+                            </td>
+                            <% else %>
+                                <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                            <% end %>
 
-        <td><%= location.phone %></td>
+                            <td><%#= location.source %></td>
+                            <td><%#= location.geo_type %></td>
 
-        <% if location.url %>
-            <td><%= link_to location.url, location.url, :target => "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <!-- ###  ACCT WEBSITE URL - PLACEHOLDER TD  JS ### -->
+                            <td class="geo"></td>
+                            <% unless location.url == nil %>
+                            <td>
+                                <%= link_to add_http(location.url), :target => "_blank" do %>
+                                <span data-toggle="tooltip" data-placement="top" title="<%= location.url %>">
+                                <%= location.geo_root %>
+                                <% end %>
+                            </td>
+                            <% else %>
+                                <td class="fa-red"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                            <% end %>
 
-        <td><%= location.geo_root %></td>
-        <td><%= location.geo_franch_cons %></td>
+                            <!-- ###  ACCT NAME JS - PLACEHOLDER TD  ### -->
+                            <td class="geo"></td>
+                            <td><%= location.geo_acct_name %></td>
 
-        <% if location.coordinates %>
-            <td><%= link_to location.coordinates, location.map_url, target: "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <!-- ###  ACCT FULL ADDRESS JS - PLACEHOLDER TD ### -->
+                            <td class="geo"></td>
+                            <% if location.geo_full_addr %>
+                            <td><%= link_to location.geo_full_addr, location, target: "_blank" %></td>
+                            <% else %>
+                            <td></td>
+                            <% end %>
 
-        <td><%= link_to 'Edit', edit_location_path(location) %></td>
-      </tr>
-  </tbody>
+                            <!-- ###  ACCT PHONE JS - PLACEHOLDER TD ### -->
+                            <td class="geo"></td>
+                            <td><%= location.phone %></td>
+                        </tr>
 
-  <!-- 3RD ROW: CRM DATA -->
- <tbody>
-      <tr>
-         <td><%= check_box_tag "multi_checks[]",  location.id %></td>
-        <td><%= location.location_status %></td>
-        <td><%= location.crm_hierarchy %></td>
-        <td><%= location.acct_type %></td>
-        <td><%= location.acct_name %></td>
+                        <!-- 3rd+ rows start - partial -->
+                        <%= render partial: 'table_row', locals: {location: location, num: num} %>
+                        <% s_ids = location.coord_id_arr %>
+                        <% s_ids.each do |id| %>
+                            <% if loc = Location.find_by(sfdc_id: id) %>
+                                <%= render partial: 'table_row', locals: {location: loc, num: ""} %>
+                                <!-- 3rd+ rows end - partial -->
 
-        <% unless location.address == nil %>
-            <td><%= link_to location.address, "#{location}", :target => "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
+                            <% end %>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-        <td><%= location.crm_phone %></td>
-
-        <% unless location.crm_url == nil %>
-            <td><%= link_to location.crm_url, "http://#{location.crm_url}", :target => "_blank" %></td>
-        <% else %>
-            <td></td>
-        <% end %>
-
-        <td><%= location.crm_root %></td>
-        <td><%= location.crm_franch_cons %></td>
-        <td><%= location.sfdc_id %></td>
-
-        <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
     <% end %>
-  </tbody>
 
-</table>
-
-
-<div class="pull-left">
-
-    <%#= submit_tag "Delete Checked", class: 'btn btn-danger' %>
-
-
-<div class="pull-left">
-    <div class="submit-button-area">
-        <%= select_tag :selected_status, options_for_select(hierarchy_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+    <div class="pull-left">
+        <div class="submit-button-area">
+            <%= select_tag :selected_status, options_for_select(hierarchy_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+        </div>
+        <div class="submit-button-area">
+            <%= submit_tag "Submit", class: 'btn btn-success' %>
+        </div>
     </div>
-    <div class="submit-button-area">
-        <%= submit_tag "Submit", class: 'btn btn-success' %>
-    </div>
-</div>
 <% end %>
 
 <div class="pull-right">
@@ -166,3 +163,19 @@
 
 <%= will_paginate @locations, renderer: BootstrapPagination::Rails  %>
 <br>
+
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

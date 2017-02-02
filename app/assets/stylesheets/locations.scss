@@ -1,3 +1,155 @@
 // Place all the styles related to the locations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.geo-map-1 {
+    box-shadow: 5px 5px 5px gray;
+    border: 3px solid gray;
+    border-radius: 5px;
+    // height: 500px;
+    // width: 800px;
+}
+
+
+
+.geo-map-2 {
+    box-shadow: 5px 5px 5px gray;
+    border: 3px solid gray;
+    border-radius: 5px;
+    // width: 900px;
+    height: 500px;
+    width: 100%;
+}
+
+
+.geo-result-table {
+    box-shadow: 5px 5px 5px gray;
+    min-width: 90%;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.geo-result-table tr:hover {
+    background: #ffffb3;
+}
+
+.geo-result-tr {
+    background: #cfe0fc;
+}
+
+.modalButton {
+    cursor: pointer;
+}
+
+.geo-result-table th, .geo-result-table td {
+    font-size: 90%;
+    text-align: center;
+    border: solid 1px #137fa0;
+    font-weight: normal;
+    white-space:nowrap;
+    line-height: normal;
+}
+
+.geo-result-table th {
+    // background-image:linear-gradient(#32bde7, #1bb5e4);
+    background: #4285F4;
+    color: white;
+}
+
+.geo {
+    border-right: 0 !important;
+
+}
+
+// fa_icon "circle-thin lg"
+.fa-clear {
+    color: #ccccff;
+}
+
+// fa_icon "minus-circle lg"
+// fa_icon "warning lg"
+.fa-red {
+    color: #ff0000;
+}
+
+// fa_icon "plus-circle lg"
+.fa-green {
+    color: #008000;
+}
+
+// fa_icon "check-circle lg"
+.fa-blue {
+    color: #4285F4;
+}
+
+.fa-white {
+    color: white;
+}
+
+.fa-gray {
+    color: #bfbfbf;
+}
+
+
+
+.geo {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.geo.w-xxsm, .geo.w-xsm {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.geo.w-xsm {
+    max-width: 25px;
+}
+
+.geo.w-xxsm {
+    max-width: 15px;
+}
+
+@media (min-width: 768px) {
+    #myModal .modal-dialog {
+        width: 45%;
+    }
+}
+
+.modal-dialog {
+
+    .close-button {
+        overflow: hidden;
+
+        button.close {
+            font-size: 30px;
+            line-height: 30px;
+            padding: 7px 4px 7px 13px;
+            text-shadow: none;
+            opacity: 0.7;
+            color:#fff;
+
+            span {
+                display: block;
+            }
+
+            &:hover,
+            &:focus {
+                opacity: 1;
+                outline: none;
+            }
+        }
+    }
+
+    .modal-content {
+        box-shadow: none;
+        background-color: transparent;
+        border: 0;
+
+        iframe {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+}

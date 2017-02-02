@@ -32,7 +32,7 @@ class LocationsController < ApplicationController
         end
 
         # WILL_PAGINATE #
-        @locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 150)
+        @locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
 
 
         ## GEOCODER SEARCH NEARBY - STARTS##
@@ -46,11 +46,19 @@ class LocationsController < ApplicationController
 
         # CHECKBOX #
         batch_status
+
+
+        # This is a Test for iFrame
+        # @url = Location.find(params[:id])
+
+
     end
 
     # GET /locations/1
     # GET /locations/1.json
     def show
+        # This is a Test for iFrame
+        # @url = Location.find(params[:id])
     end
 
     # GET /locations/new
@@ -73,8 +81,10 @@ class LocationsController < ApplicationController
         redirect_to locations_path
     end
 
-    def old_index
-    end
+    # Testing iFrame
+    # def open_url
+    #   @url = params[:url]
+    # end
 
     # POST /locations
     # POST /locations.json
@@ -116,11 +126,14 @@ class LocationsController < ApplicationController
         end
     end
 
+
     def geo_places_starter_btn
         @service.delay.geo_places_starter
         # @service.geo_places_starter
 
         # @service.delay.url_root_formatter
+
+        # @service.delay.type_hierarchy_updater
 
         redirect_to locations_path
     end

@@ -10,7 +10,7 @@ module ApplicationHelper
     end
 
     def sfdc_type_list
-        ["Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor", "Solitary"]
+        ["Web", "Solitary", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
     end
 
     def core_status_list
@@ -18,7 +18,7 @@ module ApplicationHelper
     end
 
     def sfdc_sales_person_list
-        ["Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer", "Solitary"]
+        ["Web", "Solitary", "Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
     end
 
     def status_list
@@ -62,7 +62,7 @@ module ApplicationHelper
     ########
 
     def acct_source_list
-        ['CoPilot', 'CRM', 'CRM-Web', 'Web', 'Dealer']
+        ["Web", "Solitary", 'CoPilot', 'CRM', 'Dealer']
     end
 
     def url_status_list

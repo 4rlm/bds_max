@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130184853) do
+ActiveRecord::Schema.define(version: 20170131032710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,8 +231,8 @@ ActiveRecord::Schema.define(version: 20170130184853) do
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "city"
     t.string   "state"
     t.string   "state_code"
@@ -271,6 +271,7 @@ ActiveRecord::Schema.define(version: 20170130184853) do
     t.string   "crm_phone"
     t.string   "crm_hierarchy"
     t.string   "geo_type"
+    t.string   "coord_id_arr",    default: [],              array: true
   end
 
   create_table "pending_verifications", force: :cascade do |t|
