@@ -66,18 +66,18 @@ class Core < ApplicationRecord
 
             # ========= CSV column formatting =========
             # Capitalize columns
-            row_hash[:bds_status] = Core.capitalized(row_hash["bds_status"])
-            row_hash[:sfdc_tier] = Core.capitalized(row_hash["sfdc_tier"])
-            row_hash[:sfdc_sales_person] = Core.capitalized(row_hash["sfdc_sales_person"])
-            row_hash[:sfdc_type] = Core.capitalized(row_hash["sfdc_type"])
-            row_hash[:sfdc_ult_grp] = Core.capitalized(row_hash["sfdc_ult_grp"])
-            row_hash[:sfdc_group] = Core.capitalized(row_hash["sfdc_group"])
-            row_hash[:sfdc_acct] = Core.capitalized(row_hash["sfdc_acct"])
-            row_hash[:sfdc_street] = Core.capitalized(row_hash["sfdc_street"])
-            row_hash[:sfdc_city] = Core.capitalized(row_hash["sfdc_city"])
+            # row_hash[:bds_status] = Core.capitalized(row_hash["bds_status"])
+            # row_hash[:sfdc_tier] = Core.capitalized(row_hash["sfdc_tier"])
+            # row_hash[:sfdc_sales_person] = Core.capitalized(row_hash["sfdc_sales_person"])
+            # row_hash[:sfdc_type] = Core.capitalized(row_hash["sfdc_type"])
+            # row_hash[:sfdc_ult_grp] = Core.capitalized(row_hash["sfdc_ult_grp"])
+            # row_hash[:sfdc_group] = Core.capitalized(row_hash["sfdc_group"])
+            # row_hash[:sfdc_acct] = Core.capitalized(row_hash["sfdc_acct"])
+            # row_hash[:sfdc_street] = Core.capitalized(row_hash["sfdc_street"])
+            # row_hash[:sfdc_city] = Core.capitalized(row_hash["sfdc_city"])
 
             # Upcase column
-            row_hash[:sfdc_state] = Core.upcased(row_hash["sfdc_state"])
+            # row_hash[:sfdc_state] = Core.upcased(row_hash["sfdc_state"])
 
             # Downcase columns
             row_hash[:sfdc_url] = Core.downcased(row_hash["sfdc_url"])

@@ -21,6 +21,7 @@ class LocationsController < ApplicationController
         ## SET ORDER OF DISPLAYED DATA ##
         @locations = @locations.order(updated_at: :desc)
 
+
         @locations_count = Location.count
         @selected_locations_count = @locations.count
 
@@ -51,7 +52,6 @@ class LocationsController < ApplicationController
         # This is a Test for iFrame
         # @url = Location.find(params[:id])
 
-
     end
 
     # GET /locations/1
@@ -59,6 +59,7 @@ class LocationsController < ApplicationController
     def show
         # This is a Test for iFrame
         # @url = Location.find(params[:id])
+
     end
 
     # GET /locations/new

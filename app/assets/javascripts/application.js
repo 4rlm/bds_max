@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+//= require underscore
+//= require gmaps/google
 
 
 function checkAll(check_all) {

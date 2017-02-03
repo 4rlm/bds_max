@@ -4,7 +4,7 @@ class LocationService
         # cores = Core.all
         # cores = [Core.all[120]]
         # cores = Core.all[14..-1]
-        cores = Core.where(geo_status: nil)[0...100]
+        cores = Core.where(geo_status: nil)[0...10]
 
         counter = 0
         cores.each do |core|
