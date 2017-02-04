@@ -19,15 +19,11 @@ class IndexerService
             @cols_hash = {
                 indexer_status: nil,
                 sfdc_acct: el[:sfdc_acct],
-                sfdc_group_name: el[:sfdc_group],
-                sfdc_ult_acct: el[:sfdc_ult_grp],
                 domain: el[:matched_url],
-                ip: nil,
                 text: nil,
                 href: nil,
                 link: nil,
-                sfdc_id: el[:sfdc_id],
-                indexer_timestamp: current_time
+                sfdc_id: el[:sfdc_id]
             }
 
             begin
@@ -38,7 +34,7 @@ class IndexerService
                 page_finder(staff_text_list, staff_href_list, url, page, "staff")
 
             rescue
-                add_indexer_row_with("Error", "IP Not Found", "(none)", "(none)", $!.message, "error")
+                add_indexer_row_with("Error", "(none)", "(none)", $!.message, "error")
             end
 
             el.update_attributes(indexer_date: current_time, bds_status: "Indexer Result")
@@ -61,7 +57,6 @@ class IndexerService
     def page_finder(text_list, href_list, url, page, mode)
         for text in text_list
             if pages = page.link_with(:text => text)
-                # binding.pry
                 url_split_joiner(url, pages, mode)
                 break
             end
@@ -70,20 +65,13 @@ class IndexerService
         if !pages
             for href in href_list
                 if pages = page.link_with(:href => href)
-                    # binding.pry
                     url_split_joiner(url, pages, mode)
                     break
                 end
             end
 
             if !pages
-                # ip = ip_grab(url)
-                ip = "(none)"
-
-                # binding.pry
-                add_indexer_row_with("No Matches", ip, "(none)", "(none)", "(none)", mode)
-
-                # puts "NO MATCHES.  Found IP " + ip + " for " +  url
+                add_indexer_row_with("No Matches", "(none)", "(none)", "(none)", mode)
             end
         end
     end # Ends page_finder
@@ -93,23 +81,14 @@ class IndexerService
         url_http = url_s[0]
         url_www = url_s[2]
 
-        ip = "(none)"
-        # ip = ip_grab(url)
         joined_url = validater(url_http, '//', url_www, pages.href)
 
-        add_indexer_row_with("Matched", ip, pages.text.strip, pages.href, joined_url, mode)
+        add_indexer_row_with("Matched", pages.text.strip, pages.href, joined_url, mode)
     end
 
-    # def ip_grab(url)
-    #     url_s = url.split('/')
-    #     url_www = url_s[2]
-    #     IPSocket::getaddress(url_www)
-    # end
-
-    def add_indexer_row_with(status, ip, text, href, link, mode)
+    def add_indexer_row_with(status, text, href, link, mode)
         # binding.pry
         @cols_hash[:indexer_status] = status
-        @cols_hash[:ip] = ip
         @cols_hash[:text] = text
         @cols_hash[:href] = href
         @cols_hash[:link] = link

@@ -9,7 +9,7 @@ class IndexerStaffsController < ApplicationController
         @indexer_staff_count = IndexerStaff.count
         @selected_indexer_staff_count = @selected_data.count
 
-        @staffs = IndexerStaff.order(indexer_timestamp: :desc)
+        @staffs = IndexerStaff.order(updated_at: :desc)
         respond_to do |format|
             format.html
             format.csv { render text: @staffs.to_csv }
@@ -107,11 +107,11 @@ class IndexerStaffsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_staff_params
-        params.require(:indexer_staff).permit(:indexer_status, :sfdc_acct, :sfdc_group_name, :sfdc_ult_acct, :root, :domain, :ip, :text, :href, :staff_link, :msg, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_id, :indexer_timestamp)
+        params.require(:indexer_staff).permit(:indexer_status, :sfdc_acct, :sfdc_group_name, :sfdc_ult_acct, :root, :domain, :ip, :text, :href, :staff_link, :msg, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_id)
     end
 
     def filtering_params(params)
-        params.slice(:indexer_status, :sfdc_acct, :sfdc_group, :sfdc_ult_grp, :domain, :text, :href, :link, :sfdc_id, :indexer_timestamp)
+        params.slice(:indexer_status, :sfdc_acct, :sfdc_group, :sfdc_ult_grp, :domain, :text, :href, :link, :sfdc_id)
     end
 
     def batch_status

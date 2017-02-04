@@ -212,7 +212,7 @@ class Scrapers
             end
 
             for i in 0...size
-                add_indexer_row_with("Scraped", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", "")
+                add_indexer_row_with("Web Contacts", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", "")
             end
         rescue
             error_indicator(url, "Dearler.com")
@@ -300,7 +300,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "DealerOn", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
+                    add_indexer_row_with(["Web Contacts", "DealerOn", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", ""])
                 end
             else
                 error_indicator(url, "DealerOn Length")
@@ -345,7 +345,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "Cobalt", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
+                    add_indexer_row_with(["Web Contacts", "Cobalt", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", ""])
                 end
 
             else
@@ -410,7 +410,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "DealerFire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
+                    add_indexer_row_with(["Web Contacts", "DealerFire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", ""])
                 end
             else
                 error_indicator(url, "DealerFire Length")
@@ -469,7 +469,7 @@ class Scrapers
                 }
 
                 for i in 0...size
-                    add_indexer_row_with(["Scraped", "DealerInspire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Scraped", "Dealer Site", ""])
+                    add_indexer_row_with(["Web Contacts", "DealerInspire", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", ""])
                 end
             else
                 error_indicator(url, "DealerInspire Length")

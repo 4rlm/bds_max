@@ -74,7 +74,7 @@ module ApplicationHelper
     end
 
     def indexer_status_list
-        ['Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Ready', 'Try Again', 'Verified', 'Destroy']
+        ['Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
     end
 
     def staffer_status_list
