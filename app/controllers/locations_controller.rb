@@ -21,6 +21,7 @@ class LocationsController < ApplicationController
         ## SET ORDER OF DISPLAYED DATA ##
         @locations = @locations.order(updated_at: :desc)
 
+
         @locations_count = Location.count
         @selected_locations_count = @locations.count
 
@@ -51,7 +52,6 @@ class LocationsController < ApplicationController
         # This is a Test for iFrame
         # @url = Location.find(params[:id])
 
-
     end
 
     # GET /locations/1
@@ -59,6 +59,7 @@ class LocationsController < ApplicationController
     def show
         # This is a Test for iFrame
         # @url = Location.find(params[:id])
+        @locations = @location.nearbys(1)
     end
 
     # GET /locations/new
@@ -131,6 +132,8 @@ class LocationsController < ApplicationController
         @service.delay.geo_places_starter
         # @service.geo_places_starter
 
+        # @service.delay.make_bds_status_nil
+
         # @service.delay.url_root_formatter
 
         # @service.delay.type_hierarchy_updater
@@ -157,7 +160,7 @@ class LocationsController < ApplicationController
     end
 
     def geo_update_migrate_btn
-        @service.delay.geo_update_migrate_btn
+        # @service.delay.geo_update_migrate_btn
         # @service.geo_update_migrate_btn
 
         redirect_to root_path
