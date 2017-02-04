@@ -4,6 +4,30 @@ require 'uri'
 require 'date'
 
 class CoreService
+
+    def indexer_cleaner
+
+        # cores:
+        # staff_indexer_status
+        # location_indexer_status
+        #
+        # indexer_locations:
+        # indexer_status
+        #
+        # indexer_staffs:
+        # indexer_status
+        #
+        # drop:
+        # sfdc_group_name
+        # sfdc_ult_acct
+        # ip
+        # indexer_timestamp
+        #
+
+    end
+
+
+
     def core_comp_cleaner_btn
         cores = Core.all
 

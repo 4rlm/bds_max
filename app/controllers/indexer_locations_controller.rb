@@ -10,7 +10,7 @@ class IndexerLocationsController < ApplicationController
         @indexer_location_count = IndexerLocation.count
         @selected_indexer_location_count = @selected_data.count
 
-        @locations = IndexerLocation.order(indexer_timestamp: :desc)
+        @locations = IndexerLocation.order(updated_at: :desc)
         respond_to do |format|
             format.html
             format.csv { render text: @locations.to_csv }
@@ -108,11 +108,11 @@ class IndexerLocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_location_params
-        params.require(:indexer_location).permit(:indexer_status, :sfdc_acct, :sfdc_group_name, :sfdc_ult_acct, :root, :domain, :ip, :text, :href, :loc_link, :msg, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_id, :indexer_timestamp)
+        params.require(:indexer_location).permit(:indexer_status, :sfdc_acct, :sfdc_group_name, :sfdc_ult_acct, :root, :domain, :ip, :text, :href, :loc_link, :msg, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_id)
     end
 
     def filtering_params(params)
-        params.slice(:indexer_status, :sfdc_acct, :sfdc_group, :sfdc_ult_grp, :domain, :text, :href, :link, :sfdc_id, :indexer_timestamp)
+        params.slice(:indexer_status, :sfdc_acct, :sfdc_group, :sfdc_ult_grp, :domain, :text, :href, :link, :sfdc_id)
     end
 
     def batch_status

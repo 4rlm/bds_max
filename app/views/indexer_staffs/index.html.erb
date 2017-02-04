@@ -30,7 +30,6 @@
             <th>Href<br><%= render partial: 'layouts/text_field_tag', locals: { col: :href } %></th>
             <th>Staff Link<br><%= render partial: 'layouts/text_field_tag', locals: { col: :link } %></th>
             <th>SFDC ID<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></th>
-            <th>Indexer Timestamp<br><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_timestamp } %></th>
             <th colspan="3"></th>
         </tr>
     </thead>
@@ -52,7 +51,7 @@
             <td><%= indexer_staff.href %></td>
             <td><%= link_to indexer_staff.link, indexer_staff.link, :target => "_blank" %></td>
             <td><%= indexer_staff.sfdc_id %></td>
-            <td><%= indexer_staff.indexer_timestamp %></td>
+            <td><%= indexer_staff.updated_at %></td>
             <td><%= link_to 'Show', indexer_staff %></td>
             <td><%= link_to 'Edit', edit_indexer_staff_path(indexer_staff) %></td>
             <td><%= link_to 'Destroy', indexer_staff, method: :delete, data: { confirm: 'Are you sure?' } %></td>

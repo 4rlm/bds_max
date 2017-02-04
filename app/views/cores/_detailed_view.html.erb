@@ -8,7 +8,7 @@
 <h4> New Account Detail Version</h4>
 <!-- ################################ -->
 
-<div id="core-detail" class="text-nowrap theme-layout">
+<div id="core-detail" class="text-nowrap">
     <div class="row">
         <div class="col-md-12">
             <table class="table table-bordered geo-result-table">
@@ -57,9 +57,9 @@
 
 
                     <!-- bds_status -->
-                    <% unless core.bds_status == nil %>
+                    <% unless core.updated_at == nil %>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.bds_status}" %>
+                            <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.bds_status}: #{core.updated_at.strftime("%m/%d/%Y")}" %>
                         </td>
                     <% else %>
                         <td class="geo w-xsm fa-gray">
@@ -67,11 +67,10 @@
                         </td>
                     <% end %>
 
-
                     <!-- domainer status -->
                     <% unless core.domain_status == nil %>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.domain_status}" %>
+                            <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.domain_status}: #{core.domainer_date.strftime("%m/%d/%Y")}" %>
                         </td>
                     <% else %>
                         <td class="geo w-xsm fa-gray">
@@ -79,11 +78,10 @@
                         </td>
                     <% end %>
 
-
                     <!-- staff indexer status -->
-                    <% unless core.staff_indexer_status == nil %>
+                    <% unless core.indexer_date == nil %>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}" %>
+                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
                         </td>
                     <% else %>
                         <td class="geo w-xsm fa-gray">
@@ -91,46 +89,63 @@
                         </td>
                     <% end %>
 
-
                     <!-- loc indexer status -->
-                    <% unless core.location_indexer_status == nil %>
+                    <% if core.indexer_date != nil %>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}" %>
+                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
                         </td>
+
+                        <% elsif core.indexer_date != nil && location_indexer_status.include?("Error") %>
+                            <td class="geo w-xsm fa-red">
+
+                                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+
+                            </td>
+
                     <% else %>
                         <td class="geo w-xsm fa-gray">
                             <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
                         </td>
                     <% end %>
 
-
                     <!-- crm staffer status -->
-                    <% unless core.staffer_status == nil %>
+                    <% if core.staffer_date != nil && core.staffer_status == "CRM Contacts"%>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}" %>
+                            <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
+                                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                            <% end %>
                         </td>
                     <% else %>
                         <td class="geo w-xsm fa-gray">
-                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No CRM Contacts" %>
                         </td>
                     <% end %>
 
-
                     <!-- web staffer status -->
-                    <% unless core.staffer_status == nil %>
+                    <% if core.staffer_date != nil && core.staffer_status == "Web Contacts"%>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}" %>
+                            <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
+                                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                            <% end %>
+                        </td>
+                    <% elsif core.staffer_date != nil && core.staffer_status.include?("Error") %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
                         </td>
                     <% else %>
                         <td class="geo w-xsm fa-gray">
-                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Web Contacts" %>
                         </td>
                     <% end %>
 
                     <!-- geo location status -->
-                    <% unless core.geo_status == nil %>
+                    <% if core.geo_date != nil && core.geo_status == "Geo Result" %>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}" %>
+                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}:  #{core.geo_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.geo_date != nil && core.geo_status.include?("Error") %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}:  #{core.geo_date.strftime("%m/%d/%Y")}" %>
                         </td>
                     <% else %>
                         <td class="geo w-xsm fa-gray">
@@ -288,6 +303,7 @@
                 <% else %>
                     <td><%= core.staff_indexer_status %></td>
                 <% end %>
+
                 <!-- ## Location Indexer Consolidation ## -->
                 <% if core.location_indexer_status == "Matched" %>
                     <%= render partial: 'layouts/link', locals: { text: core.location_text, link: core.location_link } %>
@@ -295,55 +311,7 @@
                     <td><%= core.location_indexer_status %></td>
                 <% end %>
 
-                <!-- ## Staffer Consolidation ## -->
-                <% if core.staffer_status == "CRM Contacts" %>
-                    <td><%= link_to "CRM Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
-                <% elsif core.staffer_status == "Web Contacts" %>
-                    <td><%= link_to "Web Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
-                <% else %>
-                    <td><%= core.staffer_status %></td>
-                <% end %>
 
-                <!-- ## NOT DONE !! GeoCoder Consolidation ## -->
-                <td><%= core.geo_status %></td>
-
-                <th class="th-2 th-2b">Date</th>
-                <!-- Core Updated -->
-                <% if core.updated_at %>
-                    <td><%= core.updated_at.strftime("%m/%d/%Y") %></td>
-                <% else %>
-                    <td><%= core.updated_at %></td>
-                <% end %>
-                <!-- Domainer Date -->
-                <% if core.domainer_date %>
-                    <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
-                <% else %>
-                    <td><%= core.domainer_date %></td>
-                <% end %>
-                <!-- Staff Indexer Date -->
-                <% if core.indexer_date %>
-                    <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                <% else %>
-                    <td><%= core.indexer_date %></td>
-                <% end %>
-                <!-- location indexer date -->
-                <% if core.indexer_date %>
-                    <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                <% else %>
-                    <td><%= core.indexer_date %></td>
-                <% end %>
-                <!-- staffer date -->
-                <% if core.staffer_date %>
-                    <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
-                <% else %>
-                    <td><%= core.staffer_date %></td>
-                <% end %>
-                <!-- geocoder date -->
-                <% if core.geo_date %>
-                    <td><%= core.geo_date.strftime("%m/%d/%Y") %></td>
-                <% else %>
-                    <td><%= core.geo_date %></td>
-                <% end %>
                 </tr>
             </table>
         </div>

@@ -1,6 +1,6 @@
 class CoresController < ApplicationController
     before_action :set_core, only: [:show, :edit, :update, :destroy]
-    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :franchiser_btn, :col_splitter_btn]
+    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
 
     # GET /cores
     # GET /cores.json
@@ -143,12 +143,16 @@ class CoresController < ApplicationController
         end
     end
 
-    def franchiser_btn
+    def anything_btn
+        # previously called franchiser_btn
         # !! CAUTION !!
         # @core_service.core_data_dumper
         # @core_service.delay.core_full_address_cleaner
         # @core_service.core_full_address_cleaner
         # @core_service.core_acct_name_cleaner
+
+        @core_service.indexer_cleaner
+
 
         ### Above are Dangerous!  Use w/ Care!  ###
         #############################

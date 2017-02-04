@@ -26,8 +26,7 @@ class IndexerService
                 text: nil,
                 href: nil,
                 link: nil,
-                sfdc_id: el[:sfdc_id],
-                indexer_timestamp: current_time
+                sfdc_id: el[:sfdc_id]
             }
 
             begin

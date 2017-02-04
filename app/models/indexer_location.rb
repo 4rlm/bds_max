@@ -15,7 +15,6 @@ class IndexerLocation < ApplicationRecord
     # scope :text, -> (text) { where text: text }
     # scope :link, -> (link) { where link: link }
     # scope :sfdc_id, -> (sfdc_id) { where sfdc_id: sfdc_id }
-    # scope :indexer_timestamp, -> (indexer_timestamp) { where indexer_timestamp: indexer_timestamp }
 
     # == Key Word Search ==
     # scope :indexer_status, -> (indexer_status) { where("indexer_status like ?", "%#{indexer_status}%") }
@@ -29,7 +28,6 @@ class IndexerLocation < ApplicationRecord
     scope :href, -> (href) { where("href like ?", "%#{href}%") }
     scope :link, -> (link) { where("link like ?", "%#{link}%") }
     scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
-    scope :indexer_timestamp, -> (indexer_timestamp) { where("indexer_timestamp like ?", "%#{indexer_timestamp}%") }
 
     def self.to_csv
         CSV.generate do |csv|
