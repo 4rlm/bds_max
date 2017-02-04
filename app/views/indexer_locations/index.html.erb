@@ -19,14 +19,9 @@
         <tr>
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
-
             <th>Indexer Status<br><%= render partial: 'layouts/select_tag', locals: { col: :indexer_status } %></th>
-
             <th>SFDC Account<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></th>
-            <th>SFDC Group<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_group_name } %></th>
-            <th>SFDC Ult Acct<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_ult_acct } %></th>
             <th>Domain<br><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></th>
-            <th>IP<br><%= render partial: 'layouts/text_field_tag', locals: { col: :ip } %></th>
             <th>Text<br><%= render partial: 'layouts/text_field_tag', locals: { col: :text } %></th>
             <th>Href<br><%= render partial: 'layouts/text_field_tag', locals: { col: :href } %></th>
             <th>Staff Link<br><%= render partial: 'layouts/text_field_tag', locals: { col: :link } %></th>
@@ -44,18 +39,12 @@
             <td><%= num %></td>
             <td><%= indexer_location.indexer_status %></td>
             <td><%= indexer_location.sfdc_acct %></td>
-            <td><%= indexer_location.sfdc_group_name %></td>
-            <td><%= indexer_location.sfdc_ult_acct %></td>
             <td><%= link_to indexer_location.domain, indexer_location.domain, :target => "_blank" %></td>
-            <td><%= indexer_location.ip %></td>
             <td><%= indexer_location.text %></td>
             <td><%= indexer_location.href %></td>
             <td><%= link_to indexer_location.link, indexer_location.link, :target => "_blank" %></td>
             <td><%= indexer_location.sfdc_id %></td>
             <td><%= indexer_location.updated_at %></td>
-            <td><%= link_to 'Show', indexer_location %></td>
-            <td><%= link_to 'Edit', edit_indexer_location_path(indexer_location) %></td>
-            <td><%= link_to 'Destroy', indexer_location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
         <% end %>
     </tbody>

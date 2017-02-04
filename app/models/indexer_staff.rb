@@ -8,10 +8,7 @@ class IndexerStaff < ApplicationRecord
 
     # == Key Word Search ==
     scope :sfdc_acct, -> (sfdc_acct) { where("sfdc_acct like ?", "%#{sfdc_acct}%") }
-    scope :sfdc_group_name, -> (sfdc_group_name) { where("sfdc_group_name like ?", "%#{sfdc_group_name}%") }
-    scope :sfdc_ult_acct, -> (sfdc_ult_acct) { where("sfdc_ult_acct like ?", "%#{sfdc_ult_acct}%") }
     scope :domain, -> (domain) { where("domain like ?", "%#{domain}%") }
-    scope :ip, -> (ip) { where("ip like ?", "%#{ip}%") }
     scope :text, -> (text) { where("text like ?", "%#{text}%") }
     scope :href, -> (href) { where("href like ?", "%#{href}%") }
     scope :link, -> (link) { where("link like ?", "%#{link}%") }

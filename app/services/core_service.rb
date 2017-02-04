@@ -21,7 +21,6 @@ class CoreService
         # sfdc_group_name
         # sfdc_ult_acct
         # ip
-        # indexer_timestamp
         #
 
     end
