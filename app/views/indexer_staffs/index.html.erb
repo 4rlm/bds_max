@@ -18,7 +18,6 @@
 
     <thead>
         <tr>
-            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
             <th>Indexer Status<br><%= render partial: 'layouts/select_tag', locals: { col: :indexer_status } %></th>
             <th>SFDC Account<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></th>
@@ -35,7 +34,6 @@
         <% num = 0 %>
         <% @indexer_staffs.each do |indexer_staff| %>
         <tr>
-            <td><%= check_box_tag "multi_checks[]",  indexer_staff.id %></td>
             <% num +=1 %>
             <td><%= num %></td>
             <td><%= indexer_staff.indexer_status %></td>
@@ -52,9 +50,7 @@
 </table>
 
 <div class="pull-left">
-    <div class="submit-button-area">
-        <%= select_tag :selected_status, options_for_select(indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
-    </div>
+
     <div class="submit-button-area">
         <%= submit_tag "Submit", class: 'btn btn-success' %>
     </div>

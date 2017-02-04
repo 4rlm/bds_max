@@ -5,53 +5,6 @@ require 'date'
 
 class CoreService
 
-    def indexer_cleaner
-
-        # cores:
-        # staff_indexer_status
-        # location_indexer_status
-        #
-        # indexer_locations:
-        # indexer_status
-        #
-        # indexer_staffs:
-        # indexer_status
-        #
-        # drop:
-        # sfdc_group_name
-        # sfdc_ult_acct
-        # ip
-        #
-
-    end
-
-
-
-    def core_comp_cleaner_btn
-        cores = Core.all
-
-        # cores.each do |core|
-        #     if core.sfdc_url == core.matched_url
-        #         core.update_attribute(:url_comparison, 'Same')
-        #     else
-        #         core.update_attribute(:url_comparison, 'Different')
-        #     end
-        #
-        #     if core.sfdc_root == core.matched_root
-        #         core.update_attribute(:root_comparison, 'Same')
-        #     else
-        #         core.update_attribute(:root_comparison, 'Different')
-        #     end
-        # end
-
-        cores.each do |core|
-            if core.bds_status != "Matched"
-                core.update_attribute(:url_comparison, nil)
-                core.update_attribute(:root_comparison, nil)
-            end
-        end
-    end
-
     # == Core Method starts here.===================|*|
     def scrape_listing(ids)  # search
         agent = Mechanize.new
