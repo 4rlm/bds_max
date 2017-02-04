@@ -1,10 +1,18 @@
 class LocationService
 
+    # def make_bds_status_nil
+    #     cores = Core.where.not(bds_status: "Geo Result")
+    #     cores.each do |core|
+    #         puts "--------------------------------"
+    #         puts "bds_status: #{core.bds_status}"
+    #         # core.update_attribute(:bds_status, nil)
+    #         puts "bds_status: #{core.bds_status}"
+    #     end
+    # end
+
+
     def geo_places_starter
-        # cores = Core.all
-        # cores = [Core.all[120]]
-        # cores = Core.all[14..-1]
-        cores = Core.where(geo_status: nil)[0...10]
+        cores = Core.where(bds_status: nil)[1..1000]
 
         counter = 0
         cores.each do |core|
@@ -17,6 +25,7 @@ class LocationService
 
     def get_spot(core)
         client = GooglePlaces::Client.new("AIzaSyCrUeAtqsGZGZ0kOFv6vkxcBYk_slCD2fI")
+
         # spots = client.spots_by_query("#{core.sfdc_acct} near #{core.full_address}", name: core.sfdc_acct, types: ["car_dealer"], radius: 1)
         core.full_address ? custom_query = "#{core.sfdc_acct} near #{core.full_address}" : custom_query = core.sfdc_acct
         spots = client.spots_by_query(custom_query, name: core.sfdc_acct, types: ["car_dealer"], radius: 1)

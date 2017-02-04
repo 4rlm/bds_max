@@ -1,59 +1,277 @@
-<div class="text-nowrap theme-layout profile-container">
+<!-- ###################################### -->
 
-    <div class="row profile-row">
-        <div class="profile-col col-md-12">
-            <table class="theme-layout-table  table table-bordered table-hover">
+<!-- theme-layout-table -->
+<!-- profile-container -->
+
+<!-- ################################ -->
+<!-- ### New Version from Geo Locations  ### -->
+<h4> New Account Detail Version</h4>
+<!-- ################################ -->
+
+<div class="text-nowrap theme-layout">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered geo-result-table">
                 <tr>
-                    <th class="th-1 t5"><%= check_box_tag "status_checks[]",  core.id %></th>
-                    <th class="th-1 t4"><%= num %></th>
-                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Profile</th>
+                    <!-- Checkbox / Num -->
+                    <!-- Dealer Website URL -->
+                    <th colspan="2"><%= check_box_tag "status_checks[]",  core.id %> <%= num %></th>
+
+                    <!-- bds_status -->
+                    <th>Core</th>
+
+                    <!-- domainer status -->
+                    <th>Dom</th>
+
+                    <!-- indexer status -->
+                    <th colspan="2">Indexer</th>
+
+                    <!-- staffer status -->
+                    <th colspan="2">Staffer</th>
+
+                    <!-- geo location status -->
+                    <th>Geo</th>
+
+                </tr>
+                <tr>
+                    <!-- Dealer Website Module -->
+                    <% unless core.sfdc_url == nil %>
+                        <td class="geo w-xsm">
+                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
+                        <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% end %>
+
+                    <!-- Dealer Website External Link -->
+                    <% unless core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to add_http(core.sfdc_url), :target => "_blank" do %>
+                                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_url}" %>
+                            <% end %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% end %>
+
+
+                    <!-- bds_status -->
+                    <% unless core.bds_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.bds_status}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+
+                    <!-- domainer status -->
+                    <% unless core.domain_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.domain_status}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+
+                    <!-- staff indexer status -->
+                    <% unless core.staff_indexer_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+
+                    <!-- loc indexer status -->
+                    <% unless core.location_indexer_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+
+                    <!-- crm staffer status -->
+                    <% unless core.staffer_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+
+                    <!-- web staffer status -->
+                    <% unless core.staffer_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+                    <!-- geo location status -->
+                    <% unless core.geo_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered geo-result-table">
+                <tr>
+                    <!-- SFDC Acct Name -->
+                    <th class="geo w-xsm"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.geo_acct_name}" %></th>
+                    <td><%= core.geo_acct_name %></td>
+
+                    <!-- SFDC Full Address -->
+                    <!-- Map Module -->
+                    <th class="geo w-xsm">
+                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Click for Map: #{core.coordinates}" %></span>
+                    </th>
+
+                    <!-- SFDC core.geo_full_address -->
+                    <% if core.geo_full_address %>
+                        <td><%= link_to core.geo_full_address, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Geo Address</td>
+                    <% end %>
+
+                    <!-- Change to: geo_phone -->
+                    <% unless core.sfdc_ph == nil %>
+                        <td class="fa-blue">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_ph}" %>
+                        </td>
+                    <% else %>
+                        <td class="fa-gray">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
+                        </td>
+                    <% end %>
+
+                    <!-- source -->
+                    <th><%= fa_icon "code-fork lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Source" %></th>
+
+                    <% if core.geo_acct_name %>
+                        <td>GEO</td>
+                    <% else %>
+                        <td></td>
+                    <% end %>
+
+                    <!-- Ultimate Group: core.sfdc_ult_grp -->
+                    <th class="geo w-xsm"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_id}" %></th>
+
+                    <% if core.sfdc_ult_grp %>
+                        <td><%= link_to core.sfdc_ult_grp, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Ultimate Group</td>
+                    <% end %>
+                </tr>
+
+                <tr>
+                    <!-- SFDC Acct Name -->
+                    <th class="geo w-xsm"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_id}" %></th>
+                    <td><%= core.sfdc_acct %></td>
+
+                    <!-- SFDC Full Address -->
+                    <!-- Map Module -->
+                    <th class="geo w-xsm">
+                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Click for Map: #{core.coordinates}" %></span>
+                    </th>
+
+                    <!-- SFDC core.full_address -->
+                    <% if core.full_address %>
+                        <td><%= link_to core.full_address, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Address</td>
+                    <% end %>
+
+                    <% unless core.sfdc_ph == nil %>
+                        <td class="fa-blue">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_ph}" %>
+                        </td>
+                    <% else %>
+                        <td class="fa-gray">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
+                        </td>
+                    <% end %>
+
+                    <!-- source -->
+                    <th><%= fa_icon "code-fork lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Source" %></th>
+
+                    <td><%= core.acct_source %></td>
+
+                    <!-- Group: core.sfdc_group -->
+                    <th class="geo w-xsm"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_id}" %></th>
+
+                    <% if core.sfdc_group %>
+                        <td><%= link_to core.sfdc_group, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Group</td>
+                    <% end %>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered geo-result-table">
+                <tr>
+                    <!-- type -->
+                    <th><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
+                    <td><%= core.sfdc_type %></td>
+
+                    <th class="th-2">Sales Tier</th>
+                    <td>TIER</td>
+
+                    <th class="th-2">GRT</th>
+                    <td><%= core.sfdc_grp_rt %></td>
+
+                    <th class="th-2">URT</th>
+                    <td><%= core.sfdc_ult_rt %></td>
+
+                    <th class="th-2">Franch Terms:</th>
+                    <td><%= core.sfdc_franchise %></td>
+
+                    <th class="th-2">Franchise:</th>
+                    <td><%= core.sfdc_franch_cons %></td>
+
+                    <th class="th-2">Store Type:</th>
+                    <td><%= core.sfdc_franch_cat %></td>
+
+                    <th class="th-2">Template</th>
+                    <td>TEMPLATE</td>
+
                     <th class="th-2 w-sm">Sales Person:</th>
                     <td><%= core.sfdc_sales_person %></td>
-                    <th class="th-2 w-xsm">Type:</th>
-                    <td><%= core.sfdc_type %></td>
-                    <th class="th-2 w-xsm">SFDC ID:</th>
-                    <td class="w-md"><%= core.sfdc_id %></td>
-                    <td class='details-btn' >
-                        <%= link_to core, method: :details do %>
-                            <span class="glyphicon glyphicon-folder-open"></span>
-                        <% end %>
-                    </td>
-                    <td class='edit-btn' >
-                        <%= link_to core, method: :edit do %>
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        <% end %>
-                    </td>
-                    <td class='delete-btn' >
-                        <%= link_to core, method: :delete do %>
-                            <span class="glyphicon glyphicon-trash"></span>
-                        <% end %>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="row profile-row">
-        <div class="profile-col col-md-12">
-            <table class="theme-layout-table  table table-bordered table-hover">
-                <tr>
-                    <th class="th-1 t3">Account</th>
-                    <th class="th-2 w-md">Source</th>
-                    <th class="th-2">Account Name</th>
-                    <th class="th-2">Group Name</th>
-                    <th class="th-2">Ultimate Group Name</th>
-                    <th class="th-2">Sales Tier</th>
-                    <th class="th-2">GRT</th>
-                    <th class="th-2">URT</th>
-                </tr>
-                <tr>
-                    <th class="th-2 th-2a">SFDC</th>
-                    <td><%= core.acct_source %></td>
-                    <td><%= core.sfdc_acct %></td>
-                    <td><%= core.sfdc_group %></td>
-                    <td><%= core.sfdc_ult_grp %></td>
-                    <td><%= core.sfdc_grp_rt %></td>
-                    <td><%= core.sfdc_ult_rt %></td>
                 </tr>
             </table>
         </div>
@@ -61,148 +279,111 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="theme-layout-table  table table-bordered table-hover">
+            <table class="table table-bordered geo-result-table">
                 <tr>
-                    <th class="th-1 t3">Address</th>
-                    <th class="th-2 w-md">Hierarchy</th>
-                    <th class="th-2 w-lg">Coordinates</th>
-                    <th class="th-2 w-lg">Full Address</th>
-                    <th class="th-2">Street</th>
-                    <th class="th-2">City</th>
-                    <th class="th-2 w-xsm">State</th>
-                    <th class="th-2 w-xsm">Zip</th>
-                    <th class="th-2 w-md">Phone</th>
-                </tr>
-                <tr>
-                    <th class="th-2 th-2a">SFDC</th>
-                    <td><%= core.hierarchy %></td>
-                    <td><%= core.coordinates %></td>
-                    <td><%= core.full_address %></td>
-                    <td><%= core.sfdc_street %></td>
-                    <td><%= core.sfdc_city %></td>
-                    <td><%= core.sfdc_state %></td>
-                    <td><%= core.sfdc_zip %></td>
-                    <td><%= core.sfdc_ph %></td>
+
+                <!-- ## Staff Indexer Consolidation ## -->
+                <% if core.staff_indexer_status == "Matched" %>
+                    <%= render partial: 'layouts/link', locals: { text: core.staff_text, link: core.staff_link } %>
+                <% else %>
+                    <td><%= core.staff_indexer_status %></td>
+                <% end %>
+                <!-- ## Location Indexer Consolidation ## -->
+                <% if core.location_indexer_status == "Matched" %>
+                    <%= render partial: 'layouts/link', locals: { text: core.location_text, link: core.location_link } %>
+                <% else %>
+                    <td><%= core.location_indexer_status %></td>
+                <% end %>
+
+                <!-- ## Staffer Consolidation ## -->
+                <% if core.staffer_status == "CRM Contacts" %>
+                    <td><%= link_to "CRM Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
+                <% elsif core.staffer_status == "Web Contacts" %>
+                    <td><%= link_to "Web Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
+                <% else %>
+                    <td><%= core.staffer_status %></td>
+                <% end %>
+
+                <!-- ## NOT DONE !! GeoCoder Consolidation ## -->
+                <td><%= core.geo_status %></td>
+
+                <th class="th-2 th-2b">Date</th>
+                <!-- Core Updated -->
+                <% if core.updated_at %>
+                    <td><%= core.updated_at.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.updated_at %></td>
+                <% end %>
+                <!-- Domainer Date -->
+                <% if core.domainer_date %>
+                    <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.domainer_date %></td>
+                <% end %>
+                <!-- Staff Indexer Date -->
+                <% if core.indexer_date %>
+                    <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.indexer_date %></td>
+                <% end %>
+                <!-- location indexer date -->
+                <% if core.indexer_date %>
+                    <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.indexer_date %></td>
+                <% end %>
+                <!-- staffer date -->
+                <% if core.staffer_date %>
+                    <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.staffer_date %></td>
+                <% end %>
+                <!-- geocoder date -->
+                <% if core.geo_date %>
+                    <td><%= core.geo_date.strftime("%m/%d/%Y") %></td>
+                <% else %>
+                    <td><%= core.geo_date %></td>
+                <% end %>
                 </tr>
             </table>
         </div>
-    </div>  <!-- row ends -->
+    </div>
 
-    <div class="row">
+
+    <!-- Template -->
+    <!-- <div class="row">
         <div class="col-md-12">
-            <table class="theme-layout-table  table table-bordered table-hover">
+            <table class="table table-bordered geo-result-table">
                 <tr>
-                    <th class="th-1 t3">Digital</th>
-                    <th class="th-2 w-md">URL Status</th>
-                    <th class="th-2">Website</th>
-                    <th class="th-2">Root</th>
-                    <th class="th-2">Franchise:</th>
-                    <th class="th-2">Store Type:</th>
-                    <th class="th-2">Template</th>
-                    <th class="th-2">IP</th>
-                    <th class="th-2">DNS-1</th>
-                    <th class="th-2">DNS-2</th>
+                    <th>sample</th>
+                    <td>sample</td>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
-                    <td><%= core.url_status %></td>
-
-                    <td><%= link_to core.sfdc_url,"http://#{core.sfdc_url}", :target => "_blank" %></td>
-
-                    <td><%= core.sfdc_root %></td>
-                    <!-- <td>ind</td> -->
-                    <td><%= core.sfdc_franch_cons %></td>
-                    <td><%= core.sfdc_franch_cat %></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <th>sample</th>
+                    <td>sample</td>
                 </tr>
             </table>
         </div>
-    </div>  <!-- row ends -->
+    </div> -->
 
-    <div class="row">
-        <div class="col-md-12">
-            <table class="theme-layout-table  table table-bordered table-hover">
-                <tr>
-                    <th class="th-1 t3">Modules</th>
-                    <th class="th-2 w-md">Account</th>
-                    <th class="th-2">Domainer</th>
-                    <th class="th-2">Staff Index</th>
-                    <th class="th-2">Location Index</th>
-                    <th class="th-2">Staffer</th>
-                    <th class="th-2">GeoCoder</th>
-                </tr>
-                <tr>
-                    <th class="th-2 th-2a">Status</th>
-                    <td><%= core.bds_status %></td>
-                    <td><%= core.domain_status %></td>
-                    <!-- ## Staff Indexer Consolidation ## -->
-                    <% if core.staff_indexer_status == "Matched" %>
-                        <%= render partial: 'layouts/link', locals: { text: core.staff_text, link: core.staff_link } %>
-                    <% else %>
-                        <td><%= core.staff_indexer_status %></td>
-                    <% end %>
-                    <!-- ## Location Indexer Consolidation ## -->
-                    <% if core.location_indexer_status == "Matched" %>
-                        <%= render partial: 'layouts/link', locals: { text: core.location_text, link: core.location_link } %>
-                    <% else %>
-                        <td><%= core.location_indexer_status %></td>
-                    <% end %>
-
-                    <!-- ## Staffer Consolidation ## -->
-                    <% if core.staffer_status == "CRM Contacts" %>
-                        <td><%= link_to "CRM Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
-                    <% elsif core.staffer_status == "Web Contacts" %>
-                        <td><%= link_to "Web Contacts", staffer_acct_contacts_path(core: core), class: 'btn btn-sm btn-info' %></td>
-                    <% else %>
-                        <td><%= core.staffer_status %></td>
-                    <% end %>
-
-                    <!-- ## NOT DONE !! GeoCoder Consolidation ## -->
-                    <td><%= core.geo_status %></td>
-
-                </tr>
-                <tr>
-                    <th class="th-2 th-2b">Date</th>
-                    <!-- Core Updated -->
-                    <% if core.updated_at %>
-                        <td><%= core.updated_at.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.updated_at %></td>
-                    <% end %>
-                    <!-- Domainer Date -->
-                    <% if core.domainer_date %>
-                        <td><%= core.domainer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.domainer_date %></td>
-                    <% end %>
-                    <!-- Staff Indexer Date -->
-                    <% if core.indexer_date %>
-                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.indexer_date %></td>
-                    <% end %>
-                    <!-- location indexer date -->
-                    <% if core.indexer_date %>
-                        <td><%= core.indexer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.indexer_date %></td>
-                    <% end %>
-                    <!-- staffer date -->
-                    <% if core.staffer_date %>
-                        <td><%= core.staffer_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.staffer_date %></td>
-                    <% end %>
-                    <!-- geocoder date -->
-                    <% if core.geo_date %>
-                        <td><%= core.geo_date.strftime("%m/%d/%Y") %></td>
-                    <% else %>
-                        <td><%= core.geo_date %></td>
-                    <% end %>
-                </tr>
-            </table>
-        </div>
-    </div>  <!-- row ends -->
 </div> <!-- Account Profile Ends -->
+<!-- ########################### -->
+
+
+
+<!-- #### MODAL TEMPLATE!!  ######## -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- ########################## -->

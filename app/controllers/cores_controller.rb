@@ -23,7 +23,7 @@ class CoresController < ApplicationController
 
         @selected_data = @selected_data.order(updated_at: :desc)
 
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 175)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
 
 
         @cores_count = Core.count
@@ -146,16 +146,14 @@ class CoresController < ApplicationController
     def franchiser_btn
         # !! CAUTION !!
         # @core_service.core_data_dumper
-
         # @core_service.delay.core_full_address_cleaner
         # @core_service.core_full_address_cleaner
-
-        @core_service.core_acct_name_cleaner
-
-
+        # @core_service.core_acct_name_cleaner
 
         ### Above are Dangerous!  Use w/ Care!  ###
         #############################
+
+        # @core_service.core_root_formatter
 
         # @core_service.delay.franchise_resetter
         # @core_service.franchise_resetter
@@ -163,6 +161,7 @@ class CoresController < ApplicationController
         # @core_service.franchise_termer
         # @core_service.delay.franchise_consolidator
         # @core_service.franchise_consolidator
+
         redirect_to root_path
     end
 
