@@ -5,7 +5,7 @@ class IndexerStaffService
         cores.each do |core|
             indexers = IndexerStaff.where(sfdc_id: core.temporary_id, link: core.staff_link)
             indexers.each do |indexer|
-                indexer.update_attributes(sfdc_id: core.sfdc_id, sfdc_acct: core.sfdc_acct, sfdc_group_name: core.sfdc_group, sfdc_ult_acct: core.sfdc_ult_grp)
+                indexer.update_attributes(sfdc_id: core.sfdc_id, sfdc_acct: core.sfdc_acct)
             end
             puts "Done updating: #{count += 1}"
         end

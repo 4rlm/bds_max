@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203011219) do
+ActiveRecord::Schema.define(version: 20170204150142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,33 +206,25 @@ ActiveRecord::Schema.define(version: 20170203011219) do
   create_table "indexer_locations", force: :cascade do |t|
     t.string   "indexer_status"
     t.string   "sfdc_acct"
-    t.string   "sfdc_group_name"
-    t.string   "sfdc_ult_acct"
     t.string   "domain"
-    t.string   "ip"
     t.string   "text"
     t.string   "href"
     t.string   "link"
     t.string   "sfdc_id"
-    t.datetime "indexer_timestamp"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "indexer_staffs", force: :cascade do |t|
     t.string   "indexer_status"
     t.string   "sfdc_acct"
-    t.string   "sfdc_group_name"
-    t.string   "sfdc_ult_acct"
     t.string   "domain"
-    t.string   "ip"
     t.string   "text"
     t.string   "href"
     t.string   "link"
     t.string   "sfdc_id"
-    t.datetime "indexer_timestamp"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "locations", force: :cascade do |t|
