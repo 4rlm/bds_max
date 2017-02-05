@@ -134,5 +134,6 @@ Rails.application.routes.draw do
     # === Google API Route ===
     get '/search' => 'search#index'
 
+    get 'admin/index'
     root 'welcome#index'
 end
