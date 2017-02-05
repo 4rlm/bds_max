@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205054734) do
+ActiveRecord::Schema.define(version: 20170205170324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,15 @@ ActiveRecord::Schema.define(version: 20170205054734) do
     t.string   "cop_franch"
     t.string   "conf_cat"
     t.string   "lock"
+    t.string   "sfdc_acct_url"
+    t.string   "sfdc_ult_grp_id"
+    t.string   "sfdc_group_id"
+    t.string   "geo_street"
+    t.string   "geo_city"
+    t.string   "geo_state"
+    t.string   "geo_zip"
+    t.string   "geo_ph"
+    t.string   "geo_url"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
