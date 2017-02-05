@@ -525,6 +525,59 @@ class CoreService
         end
     end
 
+    def indexer_cleaner
+        # actually updates locations.  not indexer!
+        locations = Location.all
+        locations.each do |location|
+            cores = Core.where(sfdc_id: location.sfdc_id)
+            cores.each do |core|
+
+                puts "----------------------"
+                puts location.sales_person
+                puts location.acct_type
+
+                location.update_attributes(sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type)
+
+                puts location.sales_person
+                puts location.acct_type
+                puts "----------------------"
+
+            end
+        end
+    end
+
+    def indexer_cleaner_3
+        # actually updates staffers.  not indexer!
+        staffers = Staffer.all
+        staffers.each do |staff|
+            cores = Core.where(sfdc_id: sfdc_id)
+            cores.each do |core|
+
+                puts "----------------------"
+                puts staff.sfdc_sales_person
+                puts staff.sfdc_type
+                puts staff.acct_name
+                puts staff.group_name
+                puts staff.ult_group_name
+                puts staff.sfdc_acct_url
+
+                staff.update_attributes(sfdc_sales_person: core.sfdc_sales_person, sfdc_type: core.sfdc_type, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, sfdc_acct_url: core.sfdc_acct_url)
+
+                puts staff.sfdc_sales_person
+                puts staff.sfdc_type
+                puts staff.acct_name
+                puts staff.group_name
+                puts staff.ult_group_name
+                puts staff.sfdc_acct_url
+                puts "----------------------"
+
+            end
+        end
+
+    end
+
+
+
 
 
 

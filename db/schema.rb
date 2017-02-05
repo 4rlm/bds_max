@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205170324) do
+ActiveRecord::Schema.define(version: 20170205192912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -280,6 +280,7 @@ ActiveRecord::Schema.define(version: 20170205170324) do
     t.string   "crm_hierarchy"
     t.string   "geo_type"
     t.string   "coord_id_arr",    default: [],              array: true
+    t.string   "sfdc_acct_url"
   end
 
   create_table "pending_verifications", force: :cascade do |t|
@@ -336,6 +337,7 @@ ActiveRecord::Schema.define(version: 20170205170324) do
     t.string   "coordinates"
     t.string   "full_address"
     t.string   "franch_cat"
+    t.string   "sfdc_acct_url"
   end
 
   create_table "users", force: :cascade do |t|
