@@ -11,7 +11,7 @@ class GeoPlaceService
     end
 
     def get_spot(core)
-        # client = GooglePlaces::Client.new("AIzaSyCrUeAtqsGZGZ0kOFv6vkxcBYk_slCD2fI")
+        # client = GooglePlaces::Client.new(ENV['GOOGLE_API_KEY'])
         # spots = client.spots_by_query("#{core.sfdc_acct} near #{core.full_address}", name: core.sfdc_acct, types: ["car_dealer"], radius: 1)
         # return if spots.empty?
         #
