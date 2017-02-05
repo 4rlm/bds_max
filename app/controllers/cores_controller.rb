@@ -1,6 +1,7 @@
 class CoresController < ApplicationController
     before_action :set_core, only: [:show, :edit, :update, :destroy]
     before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
+    before_action :authorize_user
 
     # GET /cores
     # GET /cores.json
@@ -228,4 +229,10 @@ class CoresController < ApplicationController
         @core_service = CoreService.new
     end
 
+    def authorize_user
+        unless current_user && (current_user.basic? || current_user.intermediate? || current_user.advanced? || current_user.admin?)
+            flash[:alert] = "Not Authorized"
+            redirect_to root_path
+        end
+    end
 end

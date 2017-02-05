@@ -38,4 +38,8 @@ module CoresHelper
     #     ["Ready", "Queued", "No Matches", "Matched"]
     # end
 
+    def user_is_authorized?
+        current_user && (current_user.intermediate? || current_user.advanced? || current_user.admin?)
+    end
+
 end
