@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205192912) do
+ActiveRecord::Schema.define(version: 20170206142631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,10 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "geo_zip"
     t.string   "geo_ph"
     t.string   "geo_url"
+    t.string   "acct_merge_stat"
+    t.string   "acct_merge_stat_dt"
+    t.string   "cont_merge_stat"
+    t.string   "cont_merge_stat_dt"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -239,8 +243,8 @@ ActiveRecord::Schema.define(version: 20170205192912) do
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "city"
     t.string   "state"
     t.string   "state_code"
@@ -279,8 +283,10 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "crm_phone"
     t.string   "crm_hierarchy"
     t.string   "geo_type"
-    t.string   "coord_id_arr",    default: [],              array: true
+    t.string   "coord_id_arr",       default: [],              array: true
     t.string   "sfdc_acct_url"
+    t.string   "acct_merge_stat"
+    t.string   "acct_merge_stat_dt"
   end
 
   create_table "pending_verifications", force: :cascade do |t|
@@ -338,6 +344,8 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "full_address"
     t.string   "franch_cat"
     t.string   "sfdc_acct_url"
+    t.string   "cont_merge_stat"
+    t.string   "cont_merge_stat_dt"
   end
 
   create_table "users", force: :cascade do |t|
