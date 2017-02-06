@@ -5,9 +5,9 @@ class User < ApplicationRecord
     devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-    enum role: [:basic, :intermediate, :advanced, :admin]
+    enum role: [:pending, :basic, :intermediate, :advanced, :admin]
 
     def init
-        self.role ||= :basic if self.has_attribute? :role
+        self.role ||= :pending if self.has_attribute? :role
     end
 end

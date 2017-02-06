@@ -3,10 +3,8 @@
 
 <%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 
-<% if user_is_authorized? %>
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
-<% end %>
 
 <!-- ACCOUNTS - LIST VIEW PARTIAL -->
 <% if @view_mode == "list" %>
