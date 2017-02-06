@@ -12,7 +12,7 @@ class LocationService
 
 
     def geo_places_starter
-        cores = Core.where(bds_status: nil)[3..20]
+        cores = Core.where(bds_status: "Imported")[3..1000]
 
         counter = 0
         cores.each do |core|
