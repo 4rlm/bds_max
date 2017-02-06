@@ -34,25 +34,21 @@
                     <!-- CoPilot Franchise and Type -->
                     <th>CoP</th>
 
-
                 </tr>
                 <tr>
                     <!-- tier -->
                     <td class="geo w-sm"><%= core.sfdc_tier %></td>
 
-                    <!-- SFDC Account Icon -->
-                    <% if core.sfdc_acct %>
-                        <td class="geo w-xsm fa-blue"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_acct}" %></td>
-                    <% else %>
-                        <td class="geo w-xsm fa-gray">
-                            <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                    <!-- Account Icon, SFDC Link, Merge Status -->
+                    <% unless core.sfdc_acct_url == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to add_http(core.sfdc_acct_url), :target => "_blank" do %>
+                                <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_id}" %>
+                            <% end %>
                         </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "NO SFDC URL" %></td>
                     <% end %>
-
-
-
-
-
 
                     <!-- bds_status -->
                     <% unless core.updated_at == nil %>

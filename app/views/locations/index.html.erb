@@ -38,6 +38,8 @@
                     <tr>
                         <th class="geo"><%= num %> <%= fa_icon "arrows-v lg", "data-toggle": "tooltip", "data-placement": "top", title: "Address Hierarchy" %></th>
 
+                        <th>Pin</th>
+
                         <th class="geo"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Site Lightbox" %></th>
 
                         <th><%= fa_icon "code-fork lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Source" %></th>
@@ -72,8 +74,9 @@
                 <tbody><!-- 2ND ROW: GEO DATA -->
                     <tr class="geo-result-tr">
 
-                        <!-- <td><%#= location.hierarchy %></td> -->
-                        <% if location.coordinates %>
+                        <td></td>
+
+                        <% if location.geo_acct_name %>
                         <td>
                             <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
                         </td>
@@ -108,7 +111,16 @@
 
                         <!-- ###  ACCT NAME JS - PLACEHOLDER TD  ### -->
                         <td class="geo"></td>
-                        <td><%= location.geo_acct_name %></td>
+
+                        <% unless location.sfdc_acct_url == nil %>
+                            <td>
+                                <%= link_to add_http(location.sfdc_acct_url), :target => "_blank" do %>
+                                <%= location.geo_acct_name %>
+                                <% end %>
+                            </td>
+                        <% else %>
+                            <td><%= location.geo_acct_name %></td>
+                        <% end %>
 
                         <!-- ###  ACCT FULL ADDRESS JS - PLACEHOLDER TD ### -->
                         <td class="geo"></td>

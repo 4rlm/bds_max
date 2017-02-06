@@ -13,9 +13,19 @@
     <% end %>
     <!-- ############ -->
 
+
+    <% if location.acct_name %>
+    <td>
+        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
+    </td>
+    <% else %>
+    <td></td>
+    <% end %>
+
+
     <% unless location.crm_url == nil %>
     <td>
-        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.crm_url %>">
+        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(location.crm_url) %>">
         <%= fa_icon "clone lg" %></span></span>
     </td>
     <% else %>
@@ -28,30 +38,51 @@
     <!-- ###  WEBSITE URL JS ### -->
     <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
-    <% unless location.crm_url == nil %>
-    <td>
-        <%= link_to add_http(location.crm_url), :target => "_blank" do %>
-        <span data-toggle="tooltip" data-placement="top" title="<%= location.crm_url %>">
-        <%= location.crm_root %>
+    <!-- TESTING -->
+    <% if location.crm_root != nil && location.crm_root == location.geo_root %>
+        <td class="ind-green">
+            <%= link_to add_http(location.crm_url), :target => "_blank" do %>
+            <span data-toggle="tooltip" data-placement="top" title="<%= location.crm_url %>">
+            <%= location.crm_root %>
+            <% end %>
+        </td>
+    <% elsif location.crm_root != nil %>
+        <td>
+            <%= link_to add_http(location.crm_url), :target => "_blank" do %>
+            <span data-toggle="tooltip" data-placement="top" title="<%= location.crm_url %>">
+            <%= location.crm_root %>
+            <% end %>
+        </td>
+        <% else %>
+            <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
         <% end %>
-    </td>
-    <% else %>
-        <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
-    <% end %>
 
     <!-- ###  ACCT NAME JS ### -->
     <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
-    
-    <td><%= location.acct_name %></td>
+
+    <% if location.geo_acct_name == location.acct_name %>
+        <td class="ind-green"><%= location.acct_name %></td>
+    <% else %>
+        <td><%= location.acct_name %></td>
+    <% end %>
 
 
     <!-- ###  FULL ADDRESS JS ### -->
     <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
-    <td><%= location.address %></td>
+
+    <% if location.geo_full_addr == location.address %>
+        <td class="ind-green"><%= location.address %></td>
+    <% else %>
+        <td><%= location.address %></td>
+    <% end %>
 
     <!-- ###  PHONE JS ### -->
     <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
-    <td><%= location.crm_phone %></td>
+    <% if location.phone == location.crm_phone %>
+        <td class="ind-green"><%= location.crm_phone %></td>
+    <% else %>
+        <td><%= location.crm_phone %></td>
+    <% end %>
 
 </tr>

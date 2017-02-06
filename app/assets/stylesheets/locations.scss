@@ -62,23 +62,25 @@
 
 }
 
-// fa_icon "circle-thin lg"
+.geo {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+
 .fa-clear {
     color: #ccccff;
 }
 
-// fa_icon "minus-circle lg"
-// fa_icon "warning lg"
 .fa-red {
     color: #ff0000;
 }
 
-// fa_icon "plus-circle lg"
 .fa-green {
     color: #008000;
 }
 
-// fa_icon "check-circle lg"
 .fa-blue {
     color: #4285F4;
 }
@@ -91,23 +93,15 @@
     color: #bfbfbf;
 }
 
-.fa-green {
-    color: green;
-}
-
-.fa-green {
-    color: black;
-}
-
 .fa-orange {
     color: orange;
 }
 
 
-.geo {
-    padding-left: 0;
-    padding-right: 0;
+.ind-green {
+    background-color: #ccffcc;
 }
+
 
 .geo.w-xxsm, .geo.w-xsm, .geo.w-sm {
     padding-left: 0;
@@ -125,6 +119,8 @@
 .geo.w-xxsm {
     max-width: 15px;
 }
+
+
 
 @media (min-width: 768px) {
     #myModal .modal-dialog {

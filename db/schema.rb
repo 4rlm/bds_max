@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206142631) do
+ActiveRecord::Schema.define(version: 20170206175418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -343,7 +343,6 @@ ActiveRecord::Schema.define(version: 20170206142631) do
     t.string   "coordinates"
     t.string   "full_address"
     t.string   "franch_cat"
-    t.string   "sfdc_acct_url"
     t.string   "cont_merge_stat"
     t.string   "cont_merge_stat_dt"
   end
