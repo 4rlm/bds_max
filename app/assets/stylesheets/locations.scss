@@ -109,9 +109,13 @@
     padding-right: 0;
 }
 
-.geo.w-xxsm, .geo.w-xsm {
+.geo.w-xxsm, .geo.w-xsm, .geo.w-sm {
     padding-left: 0;
     padding-right: 0;
+}
+
+.geo.w-sm {
+    max-width: 25px;
 }
 
 .geo.w-xsm {

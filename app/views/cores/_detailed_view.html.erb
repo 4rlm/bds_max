@@ -5,60 +5,45 @@
 
 <!-- ################################ -->
 <!-- ### New Version from Geo Locations  ### -->
-<h4> New Account Detail Version</h4>
 <!-- ################################ -->
+<br>
+
+<!-- testing big container starts -->
+<div>
+    <!-- testing big row starts -->
+    <div class="row">
+
+        <!-- testing big col starts -->
+        <div class="col-md-12">
+
+
 
 <div id="core-detail" class="text-nowrap">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <table class="table table-bordered geo-result-table">
                 <tr>
                     <!-- Checkbox / Num -->
                     <!-- Dealer Website URL -->
-                    <th colspan="2"><%= check_box_tag "status_checks[]",  core.id %> <%= num %></th>
-
+                    <th><%= num %></th>
                     <!-- bds_status -->
                     <th>Core</th>
-
                     <!-- domainer status -->
                     <th>Dom</th>
-
                     <!-- indexer status -->
                     <th colspan="2">Indexer</th>
-
                     <!-- staffer status -->
                     <th colspan="2">Staffer</th>
-
+                    <!-- dealer website template -->
+                    <th>Temp</th>
                     <!-- geo location status -->
                     <th>Geo</th>
-
-                    <!-- type -->
-                    <th><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
-
-                    <!-- tier -->
-                    <th><%= fa_icon "reorder lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
-
-                    <!-- sales_person -->
-                    <th><%= fa_icon "reorder lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
-
-
-                    <!-- group rt -->
-                    <th><%= fa_icon "reorder lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
-
-                    <!-- ultimate group rt -->
-                    <th><%= fa_icon "reorder lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
-
-                    <!-- template -->
-                    <th><%= fa_icon "reorder lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
-
-
-
 
 
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <!-- tier -->
+                    <td class="geo w-sm"><%= core.sfdc_tier %></td>
 
                     <!-- bds_status -->
                     <% unless core.updated_at == nil %>
@@ -81,7 +66,6 @@
                             <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
                         </td>
                     <% end %>
-
 
                     <!-- staff indexer status -->
                     <% if core.indexer_date != nil && core.staff_indexer_status == "Matched" %>
@@ -115,7 +99,6 @@
                             <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
                         </td>
                     <% end %>
-
 
                     <!-- loc indexer status -->
                     <% if core.indexer_date != nil && core.location_indexer_status == "Matched" %>
@@ -180,6 +163,21 @@
                         </td>
                     <% end %>
 
+                    <!-- dealer website template -->
+                    <% if core.sfdc_template != nil && (core.sfdc_template.include?("Dealer.com") || core.sfdc_template.include?("Dealer.com") || core.sfdc_template.include?("DealerOn") || core.sfdc_template.include?("Cobalt") || core.sfdc_template.include?("DealerFire") || core.sfdc_template.include?("DealerInspire") )%>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.sfdc_template != nil && core.sfdc_template.include?("Error") %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
                     <!-- geo location status -->
                     <% if core.geo_date != nil && core.geo_status == "Geo Result" %>
                         <td class="geo w-xsm fa-blue">
@@ -195,54 +193,45 @@
                         </td>
                     <% end %>
 
-                    <!-- type -->
-                    <td><%= core.sfdc_type %></td>
-
-                    <!-- tier -->
-                    <td><%= core.sfdc_tier %></td>
-
-                    <!-- sales_person -->
-                    <td><%= core.sfdc_sales_person %></td>
-
-
-                    <!-- group rt -->
-                    <td><%= core.sfdc_grp_rt %></td>
-
-                    <!-- ultimate group rt -->
-                    <td><%= core.sfdc_ult_rt %></td>
-
-                    <!-- template -->
-                    <td>TEMPLATE</td>
-
-
-
-
                 </tr>
             </table>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <table class="table table-bordered geo-result-table">
                 <tr>
-
-                    <!-- SFDC Acct Icon -->
-                    <td class="geo w-xsm"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.geo_acct_name}" %></td>
+                    <!-- SFDC Account Icon -->
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_acct}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
 
                     <!-- Map Module -->
-                    <td class="geo w-xsm">
-                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Click for Map: #{core.coordinates}" %></span>
-                    </td>
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue">
+                            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.coordinates}" %></span>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
 
                     <!-- Dealer Website Module -->
-                    <% unless core.sfdc_url == nil %>
-                        <td class="geo w-xsm">
+                    <% if core.sfdc_acct != nil && core.sfdc_url != nil %>
+                        <td class="geo w-xsm fa-blue">
                         <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
                         <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
                         </td>
+                    <% elsif core.sfdc_acct != nil && core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
                     <% else %>
-                        <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
                     <% end %>
 
                     <!-- Dealer Website External Link -->
@@ -257,83 +246,7 @@
                     <% end %>
 
                     <!-- source -->
-                    <td>CRM</td>
-
-                    <!-- SFDC Acct Name -->
-                    <td><%= core.geo_acct_name %></td>
-
-                    <!-- SFDC core.geo_full_address -->
-                    <% if core.geo_full_address %>
-                        <td><%= link_to core.geo_full_address, core, target: "_blank" %></td>
-                    <% else %>
-                        <td>No Geo Address</td>
-                    <% end %>
-
-                    <!-- Change to: geo_phone -->
-                    <% unless core.sfdc_ph == nil %>
-                        <td class="fa-blue">
-                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_ph}" %>
-                        </td>
-                    <% else %>
-                        <td class="fa-gray">
-                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
-                        </td>
-                    <% end %>
-
-                    <!-- franchise brand type -->
-                    <td class="geo w-xsm"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Franchise Type" %></td>
-
-                    <!-- franchise brand type -->
-                    <td><%= core.sfdc_franch_cons %></td>
-
-                    <!-- franchise category -->
-                    <td class="geo w-xsm"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Franchise Category" %></td>
-
-                    <!-- franchise category -->
-                    <td><%= core.sfdc_franch_cat %></td>
-
-                    <!-- Ultimate Group: core.sfdc_ult_grp -->
-                    <td class="geo w-xsm"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_id}" %></td>
-
-                    <% if core.sfdc_ult_grp %>
-                        <td><%= link_to core.sfdc_ult_grp, core, target: "_blank" %></td>
-                    <% else %>
-                        <td>No Ultimate Group</td>
-                    <% end %>
-                </tr>
-
-                <tr>
-                    <!-- SFDC Acct Icon -->
-                    <td class="geo w-xsm"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_id}" %></td>
-
-                    <!-- Map Module -->
-                    <td class="geo w-xsm">
-                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Click for Map: #{core.coordinates}" %></span>
-                    </td>
-
-                    <!-- Dealer Website Module -->
-                    <% unless core.sfdc_url == nil %>
-                        <td class="geo w-xsm">
-                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
-                        <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
-                        </td>
-                    <% else %>
-                        <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
-                    <% end %>
-
-                    <!-- Dealer Website External Link -->
-                    <% unless core.sfdc_url == nil %>
-                        <td class="geo w-xsm fa-blue">
-                            <%= link_to add_http(core.sfdc_url), :target => "_blank" do %>
-                                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_url}" %>
-                            <% end %>
-                        </td>
-                    <% else %>
-                        <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
-                    <% end %>
-
-                    <!-- source -->
-                    <td>CRM</td>
+                    <td><%= core.acct_source %></td>
 
                     <!-- SFDC Acct Name -->
                     <td><%= core.sfdc_acct %></td>
@@ -356,26 +269,584 @@
                         </td>
                     <% end %>
 
-                    <!-- franchise brand type -->
-                    <td class="geo w-xsm"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Franchise Type" %></td>
+                    <!-- franchise brand type & Franchise Category Icon-->
+                    <% if core.sfdc_franch_cons && core.sfdc_franch_cat != nil %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Category: #{core.sfdc_franch_cat}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Franchise Data" %></td>
+                    <% end %>
 
                     <!-- franchise brand type -->
                     <td><%= core.sfdc_franch_cons %></td>
 
-                    <!-- franchise category -->
-                    <td class="geo w-xsm"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Franchise Category" %></td>
+                </tr>
 
-                    <!-- franchise category -->
-                    <td><%= core.sfdc_franch_cat %></td>
+                    <!-- SFDC Account Icon -->
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_acct}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
 
-                    <!-- Group: core.sfdc_group -->
-                    <td class="geo w-xsm"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_id}" %></td>
+                    <!-- Map Module -->
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue">
+                            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.coordinates}" %></span>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
 
+                    <!-- Dealer Website Module -->
+                    <% if core.sfdc_acct != nil && core.sfdc_url != nil %>
+                        <td class="geo w-xsm fa-blue">
+                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
+                        <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
+                        </td>
+                    <% elsif core.sfdc_acct != nil && core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+                    <% end %>
+
+                    <!-- Dealer Website External Link -->
+                    <% unless core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to add_http(core.sfdc_url), :target => "_blank" do %>
+                                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_url}" %>
+                            <% end %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% end %>
+
+                    <!-- source -->
+                    <td><%= core.acct_source %></td>
+
+                    <!-- SFDC Acct Name -->
+                    <td><%= core.sfdc_acct %></td>
+
+                    <!-- SFDC core.full_address -->
+                    <% if core.full_address %>
+                        <td><%= link_to core.full_address, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Address</td>
+                    <% end %>
+
+                    <!-- phone -->
+                    <% unless core.sfdc_ph == nil %>
+                        <td class="fa-blue">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_ph}" %>
+                        </td>
+                    <% else %>
+                        <td class="fa-gray">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
+                        </td>
+                    <% end %>
+
+                    <!-- franchise brand type & Franchise Category Icon-->
+                    <% if core.sfdc_franch_cons && core.sfdc_franch_cat != nil %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Category: #{core.sfdc_franch_cat}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Franchise Data" %></td>
+                    <% end %>
+
+                    <!-- franchise brand type -->
+                    <td><%= core.sfdc_franch_cons %></td>
+
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+    <!-- Account Profile Ends -->
+    </div>
+    <!-- ########################### -->
+    <!-- group profile begins -->
+    <div id="core-detail" class="text-nowrap">
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table table-bordered geo-result-table">
+                <tr>
+                    <!-- type -->
+                    <th><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
+                    <!-- sales_person -->
+                    <th><%= fa_icon "user-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Salesperson" %></th>
+                </tr>
+
+                <tr>
+                    <!-- type -->
+                    <td><%= core.sfdc_type %></td>
+
+                    <!-- sales_person -->
+                    <td><%= core.sfdc_sales_person %></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table table-bordered geo-result-table">
+                <tr>
+
+                    <!-- group name -->
                     <% if core.sfdc_group %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "Group Name" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Group Name" %></td>
+                    <% end %>
+
+                    <!-- group name -->
+                    <% if core.sfdc_group %>
+                        <td class="geo w-xsm"><%= core.sfdc_grp_rt %></td>
                         <td><%= link_to core.sfdc_group, core, target: "_blank" %></td>
                     <% else %>
                         <td>No Group</td>
                     <% end %>
+
+                    <!-- Ultimate Group: core.sfdc_ult_grp -->
+                    <% if core.sfdc_ult_grp %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Ultimate Group Account" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Ultimate Group Account" %></td>
+                    <% end %>
+
+                    <!-- ultimate group name -->
+                    <% if core.sfdc_ult_grp %>
+                        <!-- ultimate group rt -->
+                        <td class="geo w-xsm"><%= core.sfdc_ult_rt %></td>
+                        <td><%= link_to core.sfdc_ult_grp, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Ultimate Group</td>
+                    <% end %>
+
+
+                </tr>
+            </table>
+        </div>
+        <!-- group profile ends -->
+    </div>
+
+
+    <!-- testing big col ends -->
+    </div>
+
+    <!-- testing big row ends -->
+    </div>
+    <!-- testing big container ends -->
+    </div>
+
+
+
+</div>  <!-- Account Profile Ends -->
+
+<!-- ########################### -->
+
+
+
+<!-- ################################ -->
+<!-- ### ORIGINAL VERSION - DO NOT DELETE UNTIL TESTING VERSION COMPLETED  ### -->
+<!-- ################################ -->
+<br>
+
+<div id="core-detail" class="text-nowrap">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered geo-result-table">
+                <tr>
+                    <!-- Checkbox / Num -->
+                    <!-- Dealer Website URL -->
+                    <th><%= num %></th>
+                    <!-- bds_status -->
+                    <th>Core</th>
+                    <!-- domainer status -->
+                    <th>Dom</th>
+                    <!-- indexer status -->
+                    <th colspan="2">Indexer</th>
+                    <!-- staffer status -->
+                    <th colspan="2">Staffer</th>
+                    <!-- dealer website template -->
+                    <th>Temp</th>
+                    <!-- geo location status -->
+                    <th>Geo</th>
+
+
+
+
+                    <!-- type -->
+                    <th><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
+                    <!-- sales_person -->
+                    <th><%= fa_icon "user-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Salesperson" %></th>
+
+
+
+                </tr>
+                <tr>
+                    <!-- tier -->
+                    <td class="geo w-sm"><%= core.sfdc_tier %></td>
+
+                    <!-- bds_status -->
+                    <% unless core.updated_at == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.bds_status}: #{core.updated_at.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+                    <!-- domainer status -->
+                    <% unless core.domain_status == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.domain_status}: #{core.domainer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+                    <!-- staff indexer status -->
+                    <% if core.indexer_date != nil && core.staff_indexer_status == "Matched" %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to core.staff_link, :target => "_blank" do %>
+                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_text}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                            <% end %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.staff_indexer_status == "Indexer Result" %>
+                        <td class="geo w-xsm fa-green">
+                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.staff_indexer_status == "No Matches" %>
+                        <td class="geo w-xsm fa-black">
+                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.staff_indexer_status == "Delete" %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.staff_indexer_status == "Flag" %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "flag lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.staff_indexer_status == "Queue Indexer" %>
+                        <td class="geo w-xsm fa-orange">
+                            <%= fa_icon "spinner pulse lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+                    <!-- loc indexer status -->
+                    <% if core.indexer_date != nil && core.location_indexer_status == "Matched" %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to core.location_link, :target => "_blank" do %>
+                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_text}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                            <% end %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.location_indexer_status == "Indexer Result" %>
+                        <td class="geo w-xsm fa-green">
+                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.location_indexer_status == "No Matches" %>
+                        <td class="geo w-xsm fa-black">
+                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.location_indexer_status == "Delete" %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.location_indexer_status == "Flag" %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "flag lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.indexer_date != nil && core.location_indexer_status == "Queue Indexer" %>
+                        <td class="geo w-xsm fa-orange">
+                            <%= fa_icon "spinner pulse lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+                    <!-- crm staffer status -->
+                    <% if core.staffer_date != nil && core.staffer_status == "CRM Contacts"%>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
+                                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                            <% end %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No CRM Contacts" %>
+                        </td>
+                    <% end %>
+
+                    <!-- web staffer status -->
+                    <% if core.staffer_date != nil && core.staffer_status == "Web Contacts"%>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
+                                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                            <% end %>
+                        </td>
+                    <% elsif core.staffer_date != nil && core.staffer_status.include?("Error") %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Web Contacts" %>
+                        </td>
+                    <% end %>
+
+                    <!-- dealer website template -->
+                    <% if core.sfdc_template != nil && (core.sfdc_template.include?("Dealer.com") || core.sfdc_template.include?("Dealer.com") || core.sfdc_template.include?("DealerOn") || core.sfdc_template.include?("Cobalt") || core.sfdc_template.include?("DealerFire") || core.sfdc_template.include?("DealerInspire") )%>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.sfdc_template != nil && core.sfdc_template.include?("Error") %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+                    <!-- geo location status -->
+                    <% if core.geo_date != nil && core.geo_status == "Geo Result" %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}:  #{core.geo_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% elsif core.geo_date != nil && core.geo_status.include?("Error") %>
+                        <td class="geo w-xsm fa-red">
+                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}:  #{core.geo_date.strftime("%m/%d/%Y")}" %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                        </td>
+                    <% end %>
+
+
+
+
+
+                    <!-- type -->
+                    <td><%= core.sfdc_type %></td>
+
+                    <!-- sales_person -->
+                    <td><%= core.sfdc_sales_person %></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered geo-result-table">
+                <tr>
+                    <!-- SFDC Account Icon -->
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_acct}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
+
+                    <!-- Map Module -->
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue">
+                            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.coordinates}" %></span>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
+
+                    <!-- Dealer Website Module -->
+                    <% if core.sfdc_acct != nil && core.sfdc_url != nil %>
+                        <td class="geo w-xsm fa-blue">
+                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
+                        <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
+                        </td>
+                    <% elsif core.sfdc_acct != nil && core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+                    <% end %>
+
+                    <!-- Dealer Website External Link -->
+                    <% unless core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to add_http(core.sfdc_url), :target => "_blank" do %>
+                                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_url}" %>
+                            <% end %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% end %>
+
+                    <!-- source -->
+                    <td><%= core.acct_source %></td>
+
+                    <!-- SFDC Acct Name -->
+                    <td><%= core.sfdc_acct %></td>
+
+                    <!-- SFDC core.full_address -->
+                    <% if core.full_address %>
+                        <td><%= link_to core.full_address, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Address</td>
+                    <% end %>
+
+                    <!-- phone -->
+                    <% unless core.sfdc_ph == nil %>
+                        <td class="fa-blue">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_ph}" %>
+                        </td>
+                    <% else %>
+                        <td class="fa-gray">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
+                        </td>
+                    <% end %>
+
+                    <!-- franchise brand type & Franchise Category Icon-->
+                    <% if core.sfdc_franch_cons && core.sfdc_franch_cat != nil %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Category: #{core.sfdc_franch_cat}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Franchise Data" %></td>
+                    <% end %>
+
+                    <!-- franchise brand type -->
+                    <td><%= core.sfdc_franch_cons %></td>
+
+                    <!-- group name -->
+                    <% if core.sfdc_group %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "Group Name" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Group Name" %></td>
+                    <% end %>
+
+                    <!-- group name -->
+                    <% if core.sfdc_group %>
+                        <td class="geo w-xsm"><%= core.sfdc_grp_rt %></td>
+                        <td><%= link_to core.sfdc_group, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Group</td>
+                    <% end %>
+
+                    <!-- Ultimate Group: core.sfdc_ult_grp -->
+                    <% if core.sfdc_ult_grp %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Ultimate Group Account" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Ultimate Group Account" %></td>
+                    <% end %>
+
+                    <!-- ultimate group name -->
+                    <% if core.sfdc_ult_grp %>
+                        <!-- ultimate group rt -->
+                        <td class="geo w-xsm"><%= core.sfdc_ult_rt %></td>
+                        <td><%= link_to core.sfdc_ult_grp, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Ultimate Group</td>
+                    <% end %>
+
+                </tr>
+
+                    <!-- SFDC Account Icon -->
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name / ID: #{core.sfdc_acct}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
+
+                    <!-- Map Module -->
+                    <% if core.sfdc_acct %>
+                        <td class="geo w-xsm fa-blue">
+                            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.coordinates}" %></span>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray">
+                            <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                        </td>
+                    <% end %>
+
+                    <!-- Dealer Website Module -->
+                    <% if core.sfdc_acct != nil && core.sfdc_url != nil %>
+                        <td class="geo w-xsm fa-blue">
+                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
+                        <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
+                        </td>
+                    <% elsif core.sfdc_acct != nil && core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+                    <% end %>
+
+                    <!-- Dealer Website External Link -->
+                    <% unless core.sfdc_url == nil %>
+                        <td class="geo w-xsm fa-blue">
+                            <%= link_to add_http(core.sfdc_url), :target => "_blank" do %>
+                                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_url}" %>
+                            <% end %>
+                        </td>
+                    <% else %>
+                        <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
+                    <% end %>
+
+                    <!-- source -->
+                    <td><%= core.acct_source %></td>
+
+                    <!-- SFDC Acct Name -->
+                    <td><%= core.sfdc_acct %></td>
+
+                    <!-- SFDC core.full_address -->
+                    <% if core.full_address %>
+                        <td><%= link_to core.full_address, core, target: "_blank" %></td>
+                    <% else %>
+                        <td>No Address</td>
+                    <% end %>
+
+                    <!-- phone -->
+                    <% unless core.sfdc_ph == nil %>
+                        <td class="fa-blue">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_ph}" %>
+                        </td>
+                    <% else %>
+                        <td class="fa-gray">
+                            <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
+                        </td>
+                    <% end %>
+
+                    <!-- franchise brand type & Franchise Category Icon-->
+                    <% if core.sfdc_franch_cons && core.sfdc_franch_cat != nil %>
+                        <td class="geo w-xsm fa-blue"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "Category: #{core.sfdc_franch_cat}" %></td>
+                    <% else %>
+                        <td class="geo w-xsm fa-gray"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Franchise Data" %></td>
+                    <% end %>
+
+                    <!-- franchise brand type -->
+                    <td><%= core.sfdc_franch_cons %></td>
+
                 </tr>
 
             </table>
@@ -401,6 +872,8 @@
 
 </div> <!-- Account Profile Ends -->
 <!-- ########################### -->
+
+
 
 
 

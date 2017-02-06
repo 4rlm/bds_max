@@ -1,0 +1,21 @@
+<div class="jumbotron">
+    <div class="pull-right">
+        <% unless user_signed_in? %>
+            <%= link_to "Sign In", new_user_session_path, class: 'btn btn-lg btn-primary' %>
+            <%= link_to "Register", new_user_registration_path, class: 'btn btn-lg btn-primary'  %>
+        <% end %>
+    </div>
+    <h1>Welcome to Sage Data Force!</h1>
+    <ul>
+        <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit</li>
+        <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+        <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</li>
+        <li>fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident</li>
+        <li>elit esse cillum dolore eu , sunt in culpa qui officia deserunt mollit anim id</li>
+    </ul>
+</div>
+
+<% if current_user && current_user.pending? %>
+    <h2>Pending Status</h2>
+    <p>You are in <span style="color: red;">pending status</span>. Please wait until you are approved.</p>
+<% end %>

@@ -152,7 +152,7 @@ class CoresController < ApplicationController
         # @core_service.core_full_address_cleaner
         # @core_service.core_acct_name_cleaner
 
-        @core_service.indexer_cleaner
+        @core_service.delay.indexer_cleaner
 
 
         ### Above are Dangerous!  Use w/ Care!  ###

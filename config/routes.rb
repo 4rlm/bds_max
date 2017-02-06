@@ -131,9 +131,9 @@ Rails.application.routes.draw do
     post 'search_result_page_gcse' => 'search#search_result_gcse'
     post 'search_result_page_staffer' => 'search#search_result_staffer'
     post 'search_result_page_location' => 'search#search_result_location'
-    root 'search#index'
-
     # === Google API Route ===
     get '/search' => 'search#index'
 
+    get 'admin/index'
+    root 'welcome#index'
 end
