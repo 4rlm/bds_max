@@ -526,21 +526,159 @@ class CoreService
     end
 
 
-    def indexer_cleaner
-        # actually updates staffers.  not indexer!
-        staffers = Staffer.where.not(sfdc_acct_url, nil)
-        staffers.each do |staff|
 
-            puts "----------------------"
-            puts staff.sfdc_acct_url
+    # def hybrid_address_matcher
+        #  locations = Location.where.not(address: nil)[0..5]
+        #  locations.each do |location|
 
-            staff.update_attribute(sfdc_acct_url, nil)
+            #  geo address extractor
+            #  geo_address_arr = location.geo_full_addr.split(",")
+            #  geo_street_full = geo_address_arr[0]
+            #  geo_city = geo_address_arr[1]
+            #  geo_state = geo_address_arr[2]
+            #  geo_zip = geo_address_arr[3]
+             #
+            #  geo_street_num = geo_street_full.gsub(/[^0-9]/, "")
+            #  geo_full_address_2 = geo_street_num+geo_city+geo_state+geo_zip
+            #  geo_full_address_3 = geo_full_address_2.tr('^A-Za-z0-9', '')
+            #  geo_full_address_3.downcase!
 
-            puts staff.sfdc_acct_url
-            puts "----------------------"
+            #  crm address extractor
+            # crm_address_arr = location.address.split(",")
+            # crm_street_full = crm_address_arr[0]
+            # crm_city = crm_address_arr[1]
+            # crm_state = crm_address_arr[2]
+            # crm_zip = crm_address_arr[3]
+            #
+
+            # unless crm_street_full == nil
+            #     crm_street_num = crm_street_full.gsub(/[^0-9]/, "")
+            #     puts crm_street_full
+            #     puts crm_street_num
+            # end
+
+            # crm_full_address_2 = crm_street_num+crm_city+crm_state+crm_zip
+            # crm_full_address_3 = crm_full_address_2.tr('^A-Za-z0-9', '')
+            # crm_full_address_3.downcase!
+            #
+            #
+            #  puts geo_full_address_3
+            #  puts crm_full_address_3
+
+
+    #      end
+    #
+    # end
+
+
+
+
+    def hybrid_address_matcher
+        counter = 1
+        locations = Location.all[0..100]
+
+        locations.each do |location|
+            crm_full_addy = location.address unless location.address == nil
+            geo_full_addy = location.geo_full_addr unless location.geo_full_addr == nil
+
+            unless crm_full_addy == geo_full_addy
+                crm_hybrid = hybrid_address(crm_full_addy)
+                geo_hybrid = hybrid_address(geo_full_addy)
+                if crm_hybrid == geo_hybrid
+
+                    puts "------ #{counter} ---------"
+                    puts "CRM: #{crm_full_addy}"
+                    puts "GEO: #{geo_full_addy}"
+                    puts "CRM: #{crm_hybrid}"
+                    puts "GEO: #{geo_hybrid}"
+                    puts
+                    counter +=1
+
+                end
+            end
 
         end
-
     end
+
+
+
+    def hybrid_address(full_address)
+        address_arr = full_address.split(",")
+
+        unless address_arr[0] == nil
+            street_full = address_arr[0]
+
+            city = address_arr[1]
+            state = address_arr[2]
+            zip = address_arr[3]
+
+            street_num = street_full.gsub(/[^0-9]/, "")
+            full_address_2 = street_num+city+state+zip
+            full_address_3 = full_address_2.tr('^A-Za-z0-9', '')
+            full_address_3.downcase!
+        end
+    end
+
+
+
+
+
+
+
+
+    def phone_formatter
+        ## Formats phone numbers as: (123) 456-7899
+        # cores = Core.where.not(sfdc_ph: nil)[0..10]
+        # counter = 0
+        # cores.each do |core|
+        #     phone = core.sfdc_ph
+        #     unless core.sfdc_ph[0] == "("
+        #         phone = core.sfdc_ph
+        #         phone_stripped = phone.gsub(/[^0-9]/, "")
+        #         if phone_stripped.length == 10
+        #             phone_ten = phone_stripped
+        #             phone_normal = "(#{phone_ten[0..2]}) #{(phone_ten[3..5])}-#{(phone_ten[6..9])}"
+        #             counter +=1
+        #             puts "---------------"
+        #             puts "#{counter}: #{phone_normal}"
+        #             core.update_attribute(:sfdc_ph, phone_normal)
+        #         end
+        #     end
+        # end
+    end
+
+
+
+    def acct_name_formatter
+        ## Removes all non alpha-numberic characters
+        #
+        # locations = Location.all
+        # counter = 1
+        # locations.each do |location|
+        #     geo_acct = location.geo_acct_name
+        #     crm_acct = location.acct_name
+        #
+        #     unless geo_acct == crm_acct
+        #
+        #         geo_acct_cons = geo_acct.tr('^A-Za-z0-9', '').downcase
+        #         crm_acct_cons = crm_acct.tr('^A-Za-z0-9', '').downcase
+        #
+        #         if geo_acct_cons == crm_acct_cons
+        #             puts "---- #{counter} ------"
+        #             puts "GEO: #{geo_acct}"
+        #             puts "CRM: #{crm_acct}"
+        #             puts geo_acct_cons
+        #             puts crm_acct_cons
+        #             puts
+        #             counter +=1
+        #
+        #             location.update_attribute(:acct_name, geo_acct)
+        #         end
+        #     end
+        # end
+    end
+
+
+
 
 end  # Ends class CoreService  # GoogleSearchClass
