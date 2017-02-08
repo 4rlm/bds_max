@@ -152,9 +152,9 @@ class CoresController < ApplicationController
         # @core_service.core_full_address_cleaner
         # @core_service.core_acct_name_cleaner
 
-        # @core_service.delay.phone_formatter
+        # @core_service.phone_formatter
 
-        @core_service.hybrid_address_matcher
+        @core_service.geo_missing_street_num
 
 
         ### Above are Dangerous!  Use w/ Care!  ###

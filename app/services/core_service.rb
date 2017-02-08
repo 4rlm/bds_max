@@ -314,14 +314,6 @@ class CoreService
                 puts "Franchise Termer: #{counter_termer}"
                 counter_termer +=1
 
-            # else
-            #     puts "--------------------------------"
-            #     puts "URL: #{core.sfdc_url}"
-            #     puts "Current Franchise: #{core.sfdc_franchise}"
-            #     puts "None updated!!!!!"
-
-
-
             end  ## sfdc_cores.each loops ends ##
         end  ## brands.each loop ends.
     end  ## franchise_termer method ends ##
@@ -421,232 +413,232 @@ class CoreService
 
     ### FRANCHISER METHODS FOR BUTTONS - ENDS ###
 
-    ### CAUTION !!! DUMPS DATA !!! ###
     def core_data_dumper
-        cores = Core.where(acct_source: "CRM")
-        cores.each do |core|
-            core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_indexer_status: nil, location_indexer_status: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, domain_status: nil, staffer_status: nil, sfdc_template: nil)
-        end # cores.each ends
+        ### CAUTION !!! DUMPS DATA !!! ###
 
-    end # core_data_dumper ends
+        # cores = Core.where(acct_source: "CRM")
+        # cores.each do |core|
+        #     core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_indexer_status: nil, location_indexer_status: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, domain_status: nil, staffer_status: nil, sfdc_template: nil)
+        # end
 
+    end
 
 
     def core_full_address_cleaner
         ## This Method Removes "Missing.." from Full Address
+        ## Used to create full address from core address components.
 
-        # cores = Core.all
-        cores = Core.where(full_address: nil)
-        counter = 0
-        cores.each do |core|
-            street = core.sfdc_street
-            city = core.sfdc_city
-            state = core.sfdc_state
-            zip = core.sfdc_zip
+        # cores = Core.where(full_address: nil)
+        # counter = 0
+        # cores.each do |core|
+        #     street = core.sfdc_street
+        #     city = core.sfdc_city
+        #     state = core.sfdc_state
+        #     zip = core.sfdc_zip
+        #
+        #     street == nil || street == "N/A" || street == " " || street.include?("Box") ? street = nil : street = "#{street}, "
+        #     city == nil || city == "N/A" || city == " " ? city = nil : city = "#{city}, "
+        #     state == nil || state == "N/A" || state == " " ? state == nil : state = "#{state}, "
+        #     zip == nil || zip == "N/A" || zip == " " ? zip == nil : zip = "#{zip}, "
+        #
+        #     raw_full_address = "#{street}#{city}#{state}#{zip}"
+        #     raw_full_address[-2] == "," ? clean_full_address = raw_full_address[0..-3] : clean_full_address = raw_full_address
+        #     counter +=1
+        #
+        #     puts "--------------------"
+        #     puts "#{counter}: #{core.sfdc_id}"
+        #     puts core.sfdc_acct
+        #     p core.full_address
+        #     p raw_full_address
+        #     p clean_full_address
+        #
+        #     core.update_attribute(:full_address, clean_full_address)
 
-            street == nil || street == "N/A" || street == " " || street.include?("Box") ? street = nil : street = "#{street}, "
-            city == nil || city == "N/A" || city == " " ? city = nil : city = "#{city}, "
-            state == nil || state == "N/A" || state == " " ? state == nil : state = "#{state}, "
-            zip == nil || zip == "N/A" || zip == " " ? zip == nil : zip = "#{zip}, "
-
-            raw_full_address = "#{street}#{city}#{state}#{zip}"
-            raw_full_address[-2] == "," ? clean_full_address = raw_full_address[0..-3] : clean_full_address = raw_full_address
-            counter +=1
-
-            puts "--------------------"
-            puts "#{counter}: #{core.sfdc_id}"
-            puts core.sfdc_acct
-            p core.full_address
-            p raw_full_address
-            p clean_full_address
-
-            core.update_attribute(:full_address, clean_full_address)
-        end  ## cores.each - Ends
-    end
-
-    def core_acct_name_cleaner
-        cores = Core.where("sfdc_acct LIKE '%http%'")
-
-        counter = 0
-        cores.each do |core|
-
-            raw_acct = core.sfdc_acct
-            raw_acct_parts = raw_acct.split('//')
-            acct_parts = raw_acct_parts.last.split('.')
-            useful_arr = acct_parts[0..-2]
-            clean_acct = useful_arr.join(' ')
-
-            # clean_acct = raw_acct_parts[1..-2].join(' ') # google
-            core_term = core.sfdc_franchise
-            core_franch_cons = core.sfdc_franch_cons
-
-            if core_term
-                if clean_acct.include?(core_term)
-                    clean_acct.gsub!(core_term," #{core_term} ")
-                    clean_acct.strip!
-                    final_acct = clean_acct.split.map(&:capitalize).join(' ')
-                else
-                    final_acct = clean_acct
-                end
-            else
-                final_acct = clean_acct
-            end
-
-            counter +=1
-            puts "--------------------"
-            puts "#{counter}: #{core.sfdc_id}"
-            puts "Raw:#{raw_acct}"
-            puts "Clean:#{clean_acct}"
-            puts "Final:#{final_acct}"
-            puts "--------------------"
-
-            core.update_attribute(:sfdc_acct, final_acct)
-        end
+        # end  ## cores.each - Ends
     end
 
 
     def core_root_formatter
+        ## See LocationService for another version: url_root_formatter
         ## URI gem only works on urls with http/s ##
-        cores = Core.where(sfdc_root: nil)
-        counter = 0
-        cores.each do |core|
 
-            unless core.sfdc_url == nil
-                host_parts = core.sfdc_url.split(".")
-                root = host_parts[-2]
-                puts "------ #{counter} ---------"
-                puts core.sfdc_url
-                puts root
-                counter +=1
+        # cores = Core.where(sfdc_root: nil)
+        # counter = 0
+        # cores.each do |core|
+        #
+        #     unless core.sfdc_url == nil
+        #         host_parts = core.sfdc_url.split(".")
+        #         root = host_parts[-2]
+        #         puts "------ #{counter} ---------"
+        #         puts core.sfdc_url
+        #         puts root
+        #         counter +=1
+        #
+        #         core.update_attribute(:sfdc_root, root)
+        #     end
+        #
+        # end
 
-                core.update_attribute(:sfdc_root, root)
-            end
-
-        end
     end
-
-
-
-    # def hybrid_address_matcher
-        #  locations = Location.where.not(address: nil)[0..5]
-        #  locations.each do |location|
-
-            #  geo address extractor
-            #  geo_address_arr = location.geo_full_addr.split(",")
-            #  geo_street_full = geo_address_arr[0]
-            #  geo_city = geo_address_arr[1]
-            #  geo_state = geo_address_arr[2]
-            #  geo_zip = geo_address_arr[3]
-             #
-            #  geo_street_num = geo_street_full.gsub(/[^0-9]/, "")
-            #  geo_full_address_2 = geo_street_num+geo_city+geo_state+geo_zip
-            #  geo_full_address_3 = geo_full_address_2.tr('^A-Za-z0-9', '')
-            #  geo_full_address_3.downcase!
-
-            #  crm address extractor
-            # crm_address_arr = location.address.split(",")
-            # crm_street_full = crm_address_arr[0]
-            # crm_city = crm_address_arr[1]
-            # crm_state = crm_address_arr[2]
-            # crm_zip = crm_address_arr[3]
-            #
-
-            # unless crm_street_full == nil
-            #     crm_street_num = crm_street_full.gsub(/[^0-9]/, "")
-            #     puts crm_street_full
-            #     puts crm_street_num
-            # end
-
-            # crm_full_address_2 = crm_street_num+crm_city+crm_state+crm_zip
-            # crm_full_address_3 = crm_full_address_2.tr('^A-Za-z0-9', '')
-            # crm_full_address_3.downcase!
-            #
-            #
-            #  puts geo_full_address_3
-            #  puts crm_full_address_3
-
-
-    #      end
-    #
-    # end
-
-
 
 
     def hybrid_address_matcher
-        counter = 1
-        locations = Location.all[0..100]
+        ## Combined with hybrid_address(full_address) below.
+        ## Removes street name from full address.  If same, replaces CRM w/ GEO.
 
-        locations.each do |location|
-            crm_full_addy = location.address unless location.address == nil
-            geo_full_addy = location.geo_full_addr unless location.geo_full_addr == nil
+        # locations = Location.all
+        # locations = Location.where("geo_root = crm_root").where("acct_name = geo_acct_name").where("address != geo_full_addr")
 
-            unless crm_full_addy == geo_full_addy
-                crm_hybrid = hybrid_address(crm_full_addy)
-                geo_hybrid = hybrid_address(geo_full_addy)
-                if crm_hybrid == geo_hybrid
 
-                    puts "------ #{counter} ---------"
-                    puts "CRM: #{crm_full_addy}"
-                    puts "GEO: #{geo_full_addy}"
-                    puts "CRM: #{crm_hybrid}"
-                    puts "GEO: #{geo_hybrid}"
-                    puts
-                    counter +=1
+        #
+        # locations = Location.all
+        # counter = 1
+        # locations.each do |location|
+        #
+        #     # cores = Core.where(sfdc_id: location.sfdc_id)
+        #     # cores.each do |core|
+        #
+        #         crm_root = location.crm_root unless location.crm_root == nil
+        #         geo_root = location.geo_root unless location.geo_root == nil
+        #         crm_full_addy = location.address unless location.address == nil
+        #         geo_full_addy = location.geo_full_addr unless location.geo_full_addr == nil
+        #         crm_acct = location.acct_name unless location.acct_name == nil
+        #         geo_acct = location.geo_acct_name unless location.geo_acct_name == nil
+        #
+        #         crm_hybrid = hybrid_address(crm_full_addy)
+        #         geo_hybrid = hybrid_address(geo_full_addy)
+        #
+        #         # if crm_hybrid == geo_hybrid && crm_root == geo_root && crm_acct == geo_acct
+        #         geo_hybrid.strip
+        #         #
+        #         if geo_hybrid == nil || geo_hybrid == ""
+        #
+        #             # geo_full_addy_arr = geo_full_addy.split(",")
+        #             # city_state = geo_full_addy_arr[0]
+        #             # city_state_arr = city_state.split(" ")
+        #             #
+        #             # city = city_state_arr[0]
+        #             # state = city_state_arr[1]
+        #             # zip = geo_full_addy_arr[2]
+        #
+        #             # state2 = state1 unless state1.length != 2
+        #             # zip2 = zip1 unless zip1.length != 5
+        #
+        #             unless location.state_code == nil || location.state_code == ""
+        #                 zip = location.state_code unless location.state_code.length != 5
+        #
+        #                 state = location.street[-2..-1].strip
+        #                 city = location.street.gsub(state, "").strip
+        #
+        #                 state_upcase = state.upcase
+        #
+        #                 if state == state_upcase && zip != nil && zip != ""
+        #
+        #                     if crm_full_addy == nil || crm_full_addy == ""
+        #                         puts "------ #{counter} ------"
+        #                         puts "CRM Addy: #{crm_full_addy}"
+        #                         puts "GEO Addy: #{geo_full_addy}"
+        #                         new_full_addy = "#{city}, #{state}, #{zip}"
+        #                         puts "New Addy: #{new_full_addy}"
+        #                         counter +=1
+        #
+        #                         # location.update_attributes(street: nil, city: city, state: state, state_code: state, postal_code: zip, geo_full_addr: new_full_addy, address: new_full_addy)
+        #                     end
+        #                 end
+        #
+        #                 # location.update_attributes(geo_full_addr: crm_full_addy, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip)
+        #
+        #             end
+        #
+        #         end
+        #     # end
+        # end
 
-                end
-            end
-
-        end
     end
 
+
+
+    def geo_missing_street_num
+        locations = Location.where(postal_code: nil)
+
+        counter = 1
+        locations.each do |location|
+            crm_root = location.crm_root unless location.crm_root == nil
+            geo_root = location.geo_root unless location.geo_root == nil
+            crm_full_addy = location.address unless location.address == nil
+            geo_full_addy = location.geo_full_addr unless location.geo_full_addr == nil
+            crm_acct = location.acct_name unless location.acct_name == nil
+            geo_acct = location.geo_acct_name unless location.geo_acct_name == nil
+
+            crm_hybrid = hybrid_address(crm_full_addy)
+            geo_hybrid = hybrid_address(geo_full_addy)
+
+            puts "------ #{counter} -------------"
+            puts "CRM: #{location.acct_name}"
+            puts "GEO: #{location.geo_acct_name}"
+            puts "CRM: #{location.address}"
+            puts "GEO: #{geo_full_addy}"
+            puts "--------------------------------"
+            # puts geo_hybrid
+            counter +=1
+
+        end
+
+    end
 
 
     def hybrid_address(full_address)
-        address_arr = full_address.split(",")
+        ## Combined with above method hybrid_address_matcher
 
-        unless address_arr[0] == nil
-            street_full = address_arr[0]
-
-            city = address_arr[1]
-            state = address_arr[2]
-            zip = address_arr[3]
-
-            street_num = street_full.gsub(/[^0-9]/, "")
-            full_address_2 = street_num+city+state+zip
-            full_address_3 = full_address_2.tr('^A-Za-z0-9', '')
-            full_address_3.downcase!
+        unless full_address == nil
+            address_arr = full_address.split(",")
+            unless address_arr[0] == nil
+                street_full = address_arr[0]
+                street_num = street_full.gsub(/[^0-9]/, "")
+                # street_name = street_full.gsub(/[^A-Za-z]/, "")
+                # consol_addy = full_address.tr('^A-Za-z0-9', '')
+                # hybrid_addy = consol_addy.gsub(street_name, "").downcase!
+            end
         end
     end
 
 
-
-
-
-
-
-
     def phone_formatter
-        ## Formats phone numbers as: (123) 456-7899
+        # Formats phone numbers as: (123) 456-7899
         # cores = Core.where.not(sfdc_ph: nil)[0..10]
+
+        # locations = Location.where.not(crm_phone: nil)
         # counter = 0
-        # cores.each do |core|
-        #     phone = core.sfdc_ph
-        #     unless core.sfdc_ph[0] == "("
-        #         phone = core.sfdc_ph
+        # locations.each do |location|
+        #     phone = location.crm_phone
+        #
+        #     if phone == "N/A" || phone == "0"
+        #         phone3 = nil
+        #     else
         #         phone_stripped = phone.gsub(/[^0-9]/, "")
-        #         if phone_stripped.length == 10
-        #             phone_ten = phone_stripped
-        #             phone_normal = "(#{phone_ten[0..2]}) #{(phone_ten[3..5])}-#{(phone_ten[6..9])}"
-        #             counter +=1
-        #             puts "---------------"
-        #             puts "#{counter}: #{phone_normal}"
-        #             core.update_attribute(:sfdc_ph, phone_normal)
+        #
+        #         if phone_stripped[0] == "1"
+        #             phone2 = phone_stripped[1..-1]
+        #         else
+        #             phone2 = phone_stripped
+        #         end
+        #
+        #         unless phone2.length < 10
+        #             phone3 = "(#{phone2[0..2]}) #{(phone2[3..5])}-#{(phone2[6..9])}"
         #         end
         #     end
+        #
+        #     if phone != phone3
+        #         counter +=1
+        #         puts "---------------"
+        #         puts counter
+        #         puts "O: #{phone}"
+        #         puts "N: #{phone3}"
+        #         location.update_attribute(:crm_phone, phone3)
+        #     end
+        #
         # end
     end
-
 
 
     def acct_name_formatter
@@ -678,6 +670,47 @@ class CoreService
         # end
     end
 
+
+    def core_acct_name_cleaner
+        # If possible, use acct_name_formatter instead.  This is second option.
+
+        # cores = Core.where("sfdc_acct LIKE '%http%'")
+        # counter = 0
+        # cores.each do |core|
+        #     raw_acct = core.sfdc_acct
+        #     raw_acct_parts = raw_acct.split('//')
+        #     acct_parts = raw_acct_parts.last.split('.')
+        #     useful_arr = acct_parts[0..-2]
+        #     clean_acct = useful_arr.join(' ')
+        #
+        #     # clean_acct = raw_acct_parts[1..-2].join(' ') # google
+        #     core_term = core.sfdc_franchise
+        #     core_franch_cons = core.sfdc_franch_cons
+        #
+        #     if core_term
+        #         if clean_acct.include?(core_term)
+        #             clean_acct.gsub!(core_term," #{core_term} ")
+        #             clean_acct.strip!
+        #             final_acct = clean_acct.split.map(&:capitalize).join(' ')
+        #         else
+        #             final_acct = clean_acct
+        #         end
+        #     else
+        #         final_acct = clean_acct
+        #     end
+        #
+        #     counter +=1
+        #     puts "--------------------"
+        #     puts "#{counter}: #{core.sfdc_id}"
+        #     puts "Raw:#{raw_acct}"
+        #     puts "Clean:#{clean_acct}"
+        #     puts "Final:#{final_acct}"
+        #     puts "--------------------"
+        #
+        #     core.update_attribute(:sfdc_acct, final_acct)
+        # end
+
+    end
 
 
 

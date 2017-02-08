@@ -129,8 +129,9 @@ class LocationsController < ApplicationController
 
 
     def geo_places_starter_btn
+        # @service.delay.geo_places_starter
+
         @service.delay.geo_places_starter
-        # @service.geo_places_starter
 
         # @service.delay.make_bds_status_nil
 

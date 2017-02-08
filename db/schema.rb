@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206175418) do
+ActiveRecord::Schema.define(version: 20170208140134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -287,6 +287,8 @@ ActiveRecord::Schema.define(version: 20170206175418) do
     t.string   "sfdc_acct_url"
     t.string   "acct_merge_stat"
     t.string   "acct_merge_stat_dt"
+    t.string   "street_num"
+    t.string   "street_text"
   end
 
   create_table "pending_verifications", force: :cascade do |t|
