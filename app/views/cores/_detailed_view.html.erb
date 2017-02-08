@@ -8,10 +8,10 @@
 <!-- ### New Version from Geo Locations  ### -->
 <!-- ################################ -->
 
-<div id="core-detail" class="text-nowrap">
+<div id="core-detail" class="text-nowrap geo-result-table">
     <div class="row">
 
-        <div class="col-md-8"> <!-- Status Icons -->
+        <div class="col-md-10"> <!-- Status Icons -->
             <table class="table table-bordered geo-result-table">
                 <tr>
                     <!-- Checkbox / Num -->
@@ -210,7 +210,6 @@
 
             <table class="table table-bordered geo-result-table"> <!-- account details -->
 
-
                 <!-- Original Account Details (name, address, url, franchise, etc.) -->
                 <tr>
 
@@ -282,9 +281,6 @@
                 </tr>
 
 
-
-
-
                 <!-- Updated/Confirmed Account Details (name, address, url, franchise, etc.) -->
                 <tr>
                     <!-- Map Module -->
@@ -354,28 +350,23 @@
 
                 </tr>
 
-
             </table>
-        </div>
 
+            <table class="table table-bordered geo-result-table"> <!-- account details -->
 
+                <!-- TESTING: MOVING GROUP INFO TO BOTTOM ROW. -->
 
-        <div class="col-md-2">  <!-- group account data info -->
-
-            <table class="table table-bordered geo-result-table">
                 <tr>
                     <!-- type -->
-                    <th><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
+                    <th class="geo w-xsm"><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
                     <!-- type -->
                     <td><%= core.sfdc_type %></td>
-                </tr>
-                <tr>
+
                     <!-- sales_person -->
-                    <th><%= fa_icon "user-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Salesperson" %></th>
+                    <th class="geo w-xsm"><%= fa_icon "user-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Salesperson" %></th>
                     <!-- sales_person -->
                     <td><%= core.sfdc_sales_person %></td>
-                </tr>
-                <tr>
+
                     <!-- group name -->
                     <% if core.sfdc_group %>
                         <td class="geo w-xsm fa-blue"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "Group Name" %></td>
@@ -389,8 +380,7 @@
                     <% else %>
                         <td>No Group</td>
                     <% end %>
-                </tr>
-                <tr>
+
                     <!-- Ultimate Group: core.sfdc_ult_grp -->
                     <% if core.sfdc_ult_grp %>
                         <td class="geo w-xsm fa-blue"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Ultimate Group Account" %></td>
@@ -417,7 +407,7 @@
             <% if core.img_url %>
                 <td>
                     <%= link_to core.img_url, target: "_blank"  do %>
-                        <%= image_tag(core.img_url, alt: core.geo_acct_name, width: '200') %>
+                        <%= image_tag(core.img_url, :class=>'geo-img', alt: core.geo_acct_name) %>
                     <% end %>
                 </td>
             <% end %>
