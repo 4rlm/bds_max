@@ -6,7 +6,7 @@ class LocationService
     def geo_places_starter
         ## ORIGINAL IS BASED ON "CORES".  THIS IS BASED ON "LOCATIONS".
 
-        locations = Location.where(postal_code: nil)[20...-1]
+        locations = Location.where(postal_code: nil)[24...-1]
 
         counter = 0
         locations.each do |location|

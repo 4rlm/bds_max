@@ -712,6 +712,18 @@ class CoreService
 
     end
 
+    def image_mover
+        locations = Location.where.not(img_url: nil)
+        locations.each do |location|
+            cores = Core.where(sfdc_id: location.sfdc_id)
+            cores.each do |core|
+
+                if location.img_url
+                    core.update_attribute(:img_url, location.img_url)
+                end
+            end
+        end
+    end
 
 
 end  # Ends class CoreService  # GoogleSearchClass

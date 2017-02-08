@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170208140134) do
+ActiveRecord::Schema.define(version: 20170208204708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20170208140134) do
     t.string   "acct_merge_stat_dt"
     t.string   "cont_merge_stat"
     t.string   "cont_merge_stat_dt"
+    t.string   "img_url"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|

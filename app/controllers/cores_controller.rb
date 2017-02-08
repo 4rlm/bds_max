@@ -154,7 +154,9 @@ class CoresController < ApplicationController
 
         # @core_service.phone_formatter
 
-        @core_service.geo_missing_street_num
+        # @core_service.geo_missing_street_num
+
+        @core_service.image_mover
 
 
         ### Above are Dangerous!  Use w/ Care!  ###
