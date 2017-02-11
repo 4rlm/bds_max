@@ -8,6 +8,10 @@
 <h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
 
 <%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
+<%= link_to "location_power_btn", location_power_btn_path, class: 'btn btn-warning' %>
+
+<%= link_to "turbo_matcher_btn", turbo_matcher_btn_path, class: 'btn btn-warning' %>
+
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>

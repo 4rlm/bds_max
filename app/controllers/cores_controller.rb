@@ -156,7 +156,13 @@ class CoresController < ApplicationController
 
         # @core_service.geo_missing_street_num
 
-        @core_service.image_mover
+        # @core_service.image_mover
+
+        # @core_service.hybrid_address_matcher
+
+        @core_service.account_matcher
+
+        # @core_service.period_remover
 
 
         ### Above are Dangerous!  Use w/ Care!  ###
@@ -171,7 +177,9 @@ class CoresController < ApplicationController
         # @core_service.delay.franchise_consolidator
         # @core_service.franchise_consolidator
 
-        redirect_to root_path
+        # redirect_to root_path
+        redirect_to search_path
+
     end
 
     def col_splitter_btn

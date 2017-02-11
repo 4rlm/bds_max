@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'location/import_page' => 'locations#import_page'
   get 'location/search' => 'locations#search'
   get 'geo_places_starter_btn' => 'locations#geo_places_starter_btn'
+  get 'location_power_btn' => 'locations#location_power_btn'
+  get 'turbo_matcher_btn' => 'locations#turbo_matcher_btn'
 
   get 'location/old_index' => 'locations#old_index'
 

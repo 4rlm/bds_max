@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
     before_action :set_location, only: [:show, :edit, :update, :destroy]
-    before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_places_starter_btn]
+    before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_places_starter_btn, :location_power_btn, :turbo_matcher_btn]
 
     # GET /locations
     # GET /locations.json
@@ -127,17 +127,27 @@ class LocationsController < ApplicationController
         end
     end
 
+    def turbo_matcher_btn
+        # @service.turbo_matcher
+        # @service.delay.turbo_matcher
+
+        # @service.delay.web_acct_name_cleaner
+
+        redirect_to locations_path
+    end
+
+
+    def location_power_btn
+        # @service.street_cleaner
+        # @service.white_space_cleaner
+
+        redirect_to locations_path
+    end
+
 
     def geo_places_starter_btn
-        # @service.delay.geo_places_starter
-
-        # @service.delay.geo_places_starter
-
-        # @service.delay.make_bds_status_nil
-
-        # @service.delay.url_root_formatter
-
-        # @service.delay.type_hierarchy_updater
+        # @service.geo_places_starter
+        @service.delay.geo_places_starter
 
         redirect_to locations_path
     end

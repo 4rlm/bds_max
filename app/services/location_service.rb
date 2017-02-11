@@ -1,45 +1,86 @@
 class LocationService
 
-    ## TRIAL VERSION BEGINS - NOT ORIGINAL
-    ## THIS IS A CLEAN-UP VERSION FOR MISSING STREETS.
-
     def geo_places_starter
         ## ORIGINAL IS BASED ON "CORES".  THIS IS BASED ON "LOCATIONS".
 
-        locations = Location.where(postal_code: nil)[24...-1]
+        ## TEMPORARY - FOR RE-RUNNING WRONG ACCOUNT NAME RESULTS
+        locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where("address != geo_full_addr").where.not(location_status: "Re-Run Failed").where.not(location_status: "Spots: Empty")[1..-1]
+
+        # locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where(location_status: "Spots: Empty")[2..5]
 
         counter = 0
         locations.each do |location|
             counter += 1
-            # puts "#{counter}: #{core.sfdc_acct}  |  #{core.sfdc_id}"
-            puts "----- #{counter} -------"
-            puts "INPUT:"
-            puts "CRM Account: #{location.acct_name}  |  #{location.sfdc_id}"
-            puts "GEO Account: #{location.geo_acct_name}"
-            puts "CRM Address: #{location.address}"
-            puts "GEO Address: #{location.geo_full_addr}"
+            puts
+            puts "=========== #{counter} ==========="
+            puts
+            # puts "----- GEO (original) -----"
+            # puts "Name: #{location.geo_acct_name}"
+            # puts "Addr: #{location.geo_full_addr}"
+            # puts "URL: #{location.url}"
+            # puts
+            # puts
+            # puts "----- CRM (original) -----"
+            # puts "Name: #{location.acct_name}"
+            # puts "Addr: #{location.address}"
+            # puts "URL: #{location.crm_url}"
 
             get_spot(location)
         end
+
+        ## GETS LOCATIONS WITHOUT IMAGE
+        # locations = Location.where(img_url: nil).where.not(postal_code: nil).where.not(location_status: "IMG Search")[30000..-1]
+        # counter = 0
+        # locations.each do |location|
+        #     counter += 1
+        #     puts "----- #{counter} -------"
+        #     get_spot(location)
+        # end
+
+
     end
 
-    # TRIAL VERSION BEGINS - NOT ORIGINAL
+
     # def get_spot(core)
     def get_spot(location)
-
         client = GooglePlaces::Client.new(ENV['GOOGLE_API_KEY'])
 
-        if location.address != nil
-            custom_query = "#{location.acct_name} near #{location.address}"
-        else
+        # if location.address != nil
+        #     custom_query = "#{location.acct_name} near #{location.address}"
+        # else
+        #     custom_query = location.acct_name
+        # end
+
+        crm_url = location.crm_url
+
+        if crm_url != nil && crm_url != ""
+
+            uri = URI(crm_url)
+            host = uri.host
+
+            if host.include?("www.")
+                short_host = host.gsub("www.", "")
+            else
+                short_host = host
+            end
+
+            # custom_query = "#{location.crm_url}"
+            spots = client.spots_by_query(short_host, types: ["car_dealer"])
+        elsif location.acct_name != nil
             custom_query = location.acct_name
+            spots = client.spots_by_query(custom_query, types: ["car_dealer"])
+        else
+            puts "Re-Run Failed"
+            location.update_attribute(:location_status, "Re-Run Failed")
+            return
         end
 
-        spots = client.spots_by_query(custom_query, types: ["car_dealer"], radius: 1)
 
         if spots.empty?
             # core.update_attributes(bds_status: "Geo Error", geo_status: "Geo Error", geo_date: Time.new)
             puts "Spots: Empty"
+            # location.update_attribute(:location_status, "IMG Search")
+            location.update_attribute(:location_status, "Spots: Empty")
             return
         else
             spot = spots.first
@@ -49,36 +90,15 @@ class LocationService
     end
 
     def create_geo_place(location, spot, detail)
+        # puts
+        # puts "----- GEO (new) -----"
+        # puts "Name: #{spot.name}"
 
-        comp = detail.address_components
-        puts "---------------------------"
-        puts "COMPONENTS:"
-        puts comp
-
-        street_num = detail.street_number
-        street_text = detail.street
-        detail_city = detail.city
-        detail_zip = detail.postal_code
-        vicinity = detail.vicinity
         formatted_address = detail.formatted_address
-
-        puts "---------------------------"
-        puts "DETAIL VARIABLES:"
-        puts "street_num:#{street_num}"
-        puts "street_text:#{street_text}"
-        puts "detail_city:#{detail_city}"
-        puts "detail_zip:#{detail_zip}"
-        puts "vicinity:#{vicinity}"
-        puts "---------------------------"
-        puts "formatted_address:#{formatted_address}"
-
         if formatted_address.include?(", United States")
 
             new_formatted_address = formatted_address.gsub(", United States", "").strip
-            puts "new_formatted_address:#{new_formatted_address}"
-
             new_formatted_address_arr = new_formatted_address.split(",")
-            puts new_formatted_address_arr
 
             street = new_formatted_address_arr[0].strip
             street.include?("Street") ? street.gsub!("Street", "St") : street
@@ -94,179 +114,298 @@ class LocationService
             state = state_zip_arr[0]
             zip = state_zip_arr[1]
 
-            puts "-------"
-            puts street
-            puts city
-            puts state
-            puts zip
-
             unless street == city || city == state || state == zip
-
                 street != nil || street != "" ? street_if = "#{street}, " : street_if = nil
                 city != nil || city != "" ? city_if = "#{city}, " : city_if = nil
                 state != nil || state != "" ? state_if = "#{state}, " : state_if = nil
-
                 new_full_address = street_if+city_if+state_if+zip
-
-                # if new_full_address[-1] == ","
-                #   final_full_address = new_full_address[0...-1]
-                # else
-                #   final_full_address = new_full_address
-                # end
-
+                # puts "Addr: #{new_full_address}"
             else
                 new_full_address = "Error: Duplicate Components"
+                # puts "Addr: #{new_full_address}"
             end
-
-            puts new_full_address
 
             img = detail.photos[0]
             img_url = img ? img.fetch_url(300) : nil
-
             coordinates = "#{spot.lat}, #{spot.lng}"
-            puts "coordinates: #{coordinates}"
 
-            url = detail.website
+            raw_url = detail.website
+            if raw_url
 
-
-            if url
-                uri = URI(url)
-                full_url = "#{uri.scheme}://#{uri.host}"
-                host_parts = uri.host.split(".")
-
-                if url.include?("www.")
-                    root = host_parts[1]
+                if raw_url.include?("www.")
+                    url = raw_url
                 else
-                    root = host_parts[0]
+                    url = raw_url.gsub("//", "//www.")
                 end
 
-                puts "uri: #{uri}"
-                puts "full_url: #{full_url}"
-                puts "root: #{root}"
-                puts "--------------------"
-                puts
+                uri = URI(url)
+                full_url = "#{uri.scheme}://#{uri.host}"
+
+                host_parts = uri.host.split(".")
+                root = host_parts[1]
+
+                # puts
+                # puts
+                # puts "New: #{root}"
+                puts "New: #{full_url}"
+                # puts "--------------------"
             end
 
-            location.update_attributes(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, state_code: state, postal_code: zip, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, img_url: img_url, geo_full_addr: new_full_address, url: full_url, geo_root: root, coord_id_arr: sfdc_id_finder(coordinates))
+            raw_crm_url = location.crm_url
+            if raw_crm_url
+
+                if raw_crm_url.include?("www.")
+                    crm_url = raw_crm_url
+                else
+                    crm_url = raw_crm_url.gsub("//", "//www.")
+                end
+
+                uri = URI(crm_url)
+                uri_crm_url = "#{uri.scheme}://#{uri.host}"
+            end
+
+            if uri_crm_url[-1, 1] == ("/")
+                clean_crm_url = uri_crm_url[0...-1]
+            else
+                clean_crm_url = uri_crm_url
+            end
+
+            puts "CRM: #{clean_crm_url}"
+            puts
+            puts
+
+            if clean_crm_url == full_url
+                location.update_attributes(img_url: img_url, latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, state_code: state, postal_code: zip, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, acct_name: spot.name, address: new_full_address, geo_full_addr: new_full_address, url: full_url, geo_root: root, location_status: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates))
+            else
+                location.update_attributes(img_url: img_url, latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, state_code: state, postal_code: zip, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, address: nil, geo_full_addr: new_full_address, url: full_url, geo_root: root, coord_id_arr: sfdc_id_finder(coordinates))
+            end
+
+
+
+            # img = detail.photos[0]
+            # img_url = img ? img.fetch_url(300) : nil
+            # puts img_url
+
+            # location.update_attributes(img_url: img_url, location_status: "IMG Search")
+
+            cores = Core.where(sfdc_id: location.sfdc_id)
+            cores.each do |core|
+                core.update_attribute(:img_url, img_url)
+            end
+
+
+            # Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address, crm_source: core.acct_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates))
+
+
+            ## core.update_attributes(bds_status: status, geo_status: status, geo_date: Time.new)
 
         end
 
     end
 
 
-    # TRIAL VERSION - NOT ORIGINAL
     def sfdc_id_finder(coordinates)
         Location.where(coordinates: coordinates).map(&:sfdc_id)
     end
 
-
-    # TRIAL VERSION ENDS - NOT ORIGINAL
-
     ######## CAUTION - SAVE ABOVE THIS LINE!  ##########
 
 
+    def turbo_matcher
+        locations = Location.where(crm_source: "Web")
+
+        counter = 0
+        locations.each do |location|
+            cores = Core.where(sfdc_id: location.sfdc_id)
+            cores.each do |core|
+
+                geo_acct = location.geo_acct_name
+                geo_full_addr = location.geo_full_addr
+                geo_street = location.street
+                geo_city = location.city
+                geo_state = location.state_code
+                geo_zip = location.postal_code
+                geo_url = location.url
+                geo_root = location.geo_root
+                geo_phone = location.phone
+
+                crm_acct = location.acct_name
+                crm_full_addr = location.address
+                crm_street = location.crm_street
+                crm_city = location.crm_city
+                crm_state = location.crm_state
+                crm_zip = location.crm_zip
+                crm_root = location.crm_root
+                crm_url = location.crm_url
+                crm_phone = location.crm_phone
+                crm_source = location.crm_source
+                core_staffer = core.staffer_status
+
+                if crm_source == "Web" && core_staffer == "Web Contacts" && crm_root == geo_root
+                    if geo_acct != crm_acct
+                        counter += 1
+                        puts "------------- #{counter} -------------"
+                        puts
+                        puts "GEO: #{geo_acct}"
+                        puts "CRM: #{crm_acct}"
+                        puts
+                        location.update_attribute(:acct_name, location.geo_acct_name)
+
+                        if geo_full_addr != crm_full_addr
+                            puts "GEO: #{geo_full_addr}"
+                            puts "CRM: #{crm_full_addr}"
+                            puts
+                            location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+                        end
+
+                        if geo_phone != crm_phone
+                            puts "GEO: #{geo_phone}"
+                            puts "CRM: #{crm_phone}"
+                            location.update_attribute(:crm_phone, location.phone)
+                        end
+
+                    end
+                end
+            end
+        end
+
+    end
+
+    def web_acct_name_cleaner
+        # terms = InHostPo.all
+        # terms.each do |term|
+            locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name")[0..10]
+
+            locations.each do |location|
+
+                cores = Core.where(sfdc_id: location.sfdc_id).where.not(staffer_status: 'Web Contacts').where(acct_source: 'Web')
+
+                counter = 0
+                cores.each do |core|
+
+                    geo_acct = location.geo_acct_name
+                    geo_full_addr = location.geo_full_addr
+                    geo_street = location.street
+                    geo_city = location.city
+                    geo_state = location.state_code
+                    geo_zip = location.postal_code
+                    geo_url = location.url
+                    geo_root = location.geo_root
+                    geo_phone = location.phone
+
+                    crm_acct = location.acct_name
+                    crm_full_addr = location.address
+                    crm_street = location.crm_street
+                    crm_city = location.crm_city
+                    crm_state = location.crm_state
+                    crm_zip = location.crm_zip
+                    crm_root = location.crm_root
+                    crm_url = location.crm_url
+                    crm_phone = location.crm_phone
+                    crm_source = location.crm_source
+                    core_staffer = core.staffer_status
+
+                    # if crm_source == "Web" && core_staffer == "Web Contacts" && crm_root == geo_root
+                        # if geo_acct != crm_acct
+                            counter += 1
+                            puts "------------- #{counter} -------------"
+                            puts
+                            puts "GEO: #{geo_acct}"
+                            puts "CRM: #{crm_acct}"
+                            puts
+                            # location.update_attribute(:acct_name, location.geo_acct_name)
+
+                            if geo_full_addr != crm_full_addr
+                                puts "GEO: #{geo_full_addr}"
+                                puts "CRM: #{crm_full_addr}"
+                                puts
+                                # location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+                            end
+
+                            if geo_phone != crm_phone
+                                puts "GEO: #{geo_phone}"
+                                puts "CRM: #{crm_phone}"
+                                # location.update_attribute(:crm_phone, location.phone)
+                            end
+
+                        # end
+                    # end
+                end
+            end
+
+        # end
 
 
+    end
 
 
-    # ORIGINAL GEO LOCATIONS METHODS - STARTS
+    def street_cleaner
+        ## changes long street type to short type.
+        ## locations = Location.where("address LIKE '%Street%'")
 
-    # def geo_places_starter
-    #     cores = Core.where(bds_status: "Imported")[3..1000]
-    #
-    #     counter = 0
-    #     cores.each do |core|
-    #         counter += 1
-    #         puts "----------------------------"
-    #         puts "#{counter}: #{core.sfdc_acct}  |  #{core.sfdc_id}"
-    #         get_spot(core)
-    #     end
-    # end
+        # locations = Location.where.not(address: nil)
+        #
+        # counter = 0
+        # locations.each do |location|
+        #
+        #     crm_full_addr = location.address
+        #     crm_full_addr_o = crm_full_addr
+        #     crm_full_addr_n = street_cleaner_formatter(crm_full_addr)
+        #
+        #     geo_full_addr = location.geo_full_addr
+        #     geo_full_addr_o = geo_full_addr
+        #     geo_full_addr_n = street_cleaner_formatter(geo_full_addr)
+        #
+        #     geo_street = location.street
+        #     geo_street_o = geo_street
+        #     geo_street_n = street_cleaner_formatter(geo_street)
 
-    # def get_spot(core)
-    #     client = GooglePlaces::Client.new(ENV['GOOGLE_API_KEY'])
-    #
-    #     # spots = client.spots_by_query("#{core.sfdc_acct} near #{core.full_address}", name: core.sfdc_acct, types: ["car_dealer"], radius: 1)
-    #     core.full_address ? custom_query = "#{core.sfdc_acct} near #{core.full_address}" : custom_query = core.sfdc_acct
-    #     spots = client.spots_by_query(custom_query, name: core.sfdc_acct, types: ["car_dealer"], radius: 1)
-    #
-    #     if spots.empty?
-    #         core.update_attributes(bds_status: "Geo Error", geo_status: "Geo Error", geo_date: Time.new)
-    #         return
-    #     else
-    #         spot = spots.first
-    #         detail = client.spot(spot.reference)
-    #         create_geo_place(core, spot, detail)
-    #     end
-    # end
-
-    # def create_geo_place(core, spot, detail)
-    #     comp = detail.address_components
-    #
-    #     if comp
-    #         if comp[0] && comp[1]
-    #             street = comp[0]["short_name"] + " " + comp[1]["short_name"]
-    #         elsif comp[0] == nil && comp[1]
-    #             street = comp[1]["short_name"]
-    #         elsif comp[0] && comp[1] == nil
-    #             street = comp[0]["short_name"]
-    #         else
-    #             street = nil
-    #         end
-    #
-    #         comp[2] ? city = comp[2]["short_name"] : city = nil
-    #         # city = comp[2] ? comp[2]["short_name"] : nil
-    #         comp[3] ? state = comp[3]["short_name"] : state = nil
-    #         comp[5] ? zip = comp[5]["short_name"] : zip = nil
-    #         status = "Geo Result"
-    #         puts status
-    #     else
-    #         status = "Geo Error"
-    #         puts status
-    #     end
-    #
-    #     # img = detail.photos[0]
-    #     # img_url = img ? img.fetch_url(300) : nil
-    #
-    #     coordinates = "#{spot.lat}, #{spot.lng}"
-    #     geo_address = "#{street}, #{city}, #{state}, #{zip}"
-    #
-    #     ##############
-    #
-    #     url = detail.website
-    #
-    #         if url
-    #             uri = URI(url)
-    #             full_url = "#{uri.scheme}://#{uri.host}"
-    #             host_parts = uri.host.split(".")
-    #             root = host_parts[1]
-    #
-    #             puts "uri: #{uri}"
-    #             puts "full_url: #{full_url}"
-    #             puts "root: #{root}"
-    #             puts "core.sfdc_url: #{core.sfdc_url}"
-    #             puts "core.sfdc_root: #{core.sfdc_root}"
-    #             puts "--------------------"
-    #             puts
-    #         end
-    #
-    #     Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address, crm_source: core.acct_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates))
-    #
-    #     core.update_attributes(bds_status: status, geo_status: status, geo_date: Time.new)
-    # end
-    #
-    # def sfdc_id_finder(coordinates)
-    #     Location.where(coordinates: coordinates).map(&:sfdc_id)
-    # end
-
-    # ORIGINAL GEO LOCATIONS METHODS - ENDS
-
-    ######## CAUTION - SAVE ABOVE THIS LINE!  ##########
+            # if crm_full_addr_n || geo_full_addr_n || geo_street_n
+            #     counter +=1
+            #     puts "-------- #{counter} ------------"
+            #
+            #     if crm_full_addr_n
+            #         puts "CRM: #{crm_full_addr_n}"
+            #         location.update_attribute(:address, crm_full_addr_n)
+            #     end
+            #
+            #     if geo_full_addr_n
+            #         puts "GEO: #{geo_full_addr_n}"
+            #         location.update_attribute(:geo_full_addr, geo_full_addr_n)
+            #     end
+            #
+            #     if geo_street_n
+            #         puts "GEO: #{geo_street_n}"
+            #         location.update_attribute(:street, geo_street_n)
+            #     end
+            # end
+        # end
+    end
 
 
-
-
-
+    def street_cleaner_formatter(street)
+        # if street
+        #     if street.include?("Street")
+        #         street_sub = street.gsub("Street", "St")
+        #     elsif street.include?("Highway")
+        #         street_sub = street.gsub("Highway", "Hwy")
+        #     elsif street.include?("Boulevard")
+        #         street_sub = street.gsub("Boulevard", "Blvd")
+        #     elsif street.include?("Road")
+        #         street_sub = street.gsub(" Road", " Rd")
+        #     elsif street.include?("Drive")
+        #         street_sub = street.gsub("Drive", "Dr")
+        #     elsif street.include?("Lane")
+        #         street_sub = street.gsub("Lane", "Ln")
+        #     elsif street.include?("Parkway")
+        #         street_sub = street.gsub("Parkway", "Pkwy")
+        #     elsif street.include?("Expressway")
+        #         street_sub = street.gsub("Expressway", "Expy")
+        #     elsif street.include?("Route")
+        #         street_sub = street.gsub("Route", "Rte")
+        #     end
+        # end
+    end
 
 
     def make_bds_status_nil

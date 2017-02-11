@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170208204708) do
+ActiveRecord::Schema.define(version: 20170209231228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,14 +22,11 @@ ActiveRecord::Schema.define(version: 20170208204708) do
     t.string   "sfdc_sales_person"
     t.string   "sfdc_type"
     t.string   "sfdc_ult_grp"
-    t.integer  "sfdc_ult_rt"
     t.string   "sfdc_group"
-    t.integer  "sfdc_grp_rt"
     t.string   "sfdc_acct"
     t.string   "sfdc_street"
     t.string   "sfdc_city"
     t.string   "sfdc_state"
-    t.integer  "sfdc_zip"
     t.string   "sfdc_ph"
     t.string   "sfdc_url"
     t.datetime "created_at",               null: false
@@ -87,6 +84,9 @@ ActiveRecord::Schema.define(version: 20170208204708) do
     t.string   "cont_merge_stat"
     t.string   "cont_merge_stat_dt"
     t.string   "img_url"
+    t.string   "sfdc_ult_rt"
+    t.string   "sfdc_grp_rt"
+    t.string   "sfdc_zip"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -290,6 +290,10 @@ ActiveRecord::Schema.define(version: 20170208204708) do
     t.string   "acct_merge_stat_dt"
     t.string   "street_num"
     t.string   "street_text"
+    t.string   "crm_street"
+    t.string   "crm_city"
+    t.string   "crm_state"
+    t.string   "crm_zip"
   end
 
   create_table "pending_verifications", force: :cascade do |t|
