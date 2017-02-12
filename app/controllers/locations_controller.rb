@@ -130,8 +130,18 @@ class LocationsController < ApplicationController
     def turbo_matcher_btn
         # @service.turbo_matcher
         # @service.delay.turbo_matcher
-
         # @service.delay.web_acct_name_cleaner
+
+        # @service.www_inserter
+
+        # @service.url_redirect_checker
+        # @service.delay.url_redirect_checker
+
+        # @service.root_and_url_finalizer
+        # @service.delay.root_and_url_finalizer
+
+        @service.root_matcher
+
 
         redirect_to locations_path
     end

@@ -4,7 +4,7 @@ class LocationService
         ## ORIGINAL IS BASED ON "CORES".  THIS IS BASED ON "LOCATIONS".
 
         ## TEMPORARY - FOR RE-RUNNING WRONG ACCOUNT NAME RESULTS
-        locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where("address != geo_full_addr").where.not(location_status: "Re-Run Failed").where.not(location_status: "Spots: Empty")[1..-1]
+        locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where("address != geo_full_addr").where.not(location_status: "Re-Run Failed").where.not(location_status: "Spots: Empty")[200..-1]
 
         # locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where(location_status: "Spots: Empty")[2..5]
 
@@ -271,6 +271,124 @@ class LocationService
 
     end
 
+
+    def root_matcher
+        #IF geo_root == crm_root, update crm_root w/ geo_root.
+        # locations = Location.where.not("geo_root != crm_root").where("url != crm_url")
+        locations = Location.where("geo_root != crm_root")[0..50]
+
+        counter = 0
+        locations.each do |location|
+            geo_root = location.geo_root
+            crm_root = location.crm_root
+            url = location.url
+            crm_url = location.crm_url
+
+            # if geo_root == crm_root && url != crm_url
+                counter +=1
+                puts
+                puts "------- (#{counter}) -------"
+                puts
+                puts "CRM: #{crm_root}"
+                puts "GEO: #{geo_root}"
+                puts
+                puts "CRM: #{crm_url}"
+                puts "GEO: #{url}"
+                puts
+
+                # location.update_attribute(:crm_url, url)
+
+            # end
+
+        end
+
+    end
+
+
+
+
+
+
+    def root_and_url_finalizer
+        # Ensures all urls have www, end after suffix (.com/), and gets root if updated.  Counts array items to get root at correct place.
+
+        # locations = Location.where.not(crm_url: nil).where.not(crm_url: "").where.not("crm_url LIKE '%www.%'")
+
+        locations = Location.where("url LIKE '%http%'").where("crm_url LIKE '%http%'").where("crm_url_redirect LIKE '%http%'")
+
+        diff_count = 0
+        total = 0
+        locations.each do |location|
+            total +=1
+
+            crm_url = location.crm_url
+            geo_url = location.url
+            redirect_url = location.crm_url_redirect
+
+            crm_root = location.crm_root
+            geo_root = location.geo_root
+
+            crm_url_hash = url_formatter(crm_url)
+            new_crm_url = crm_url_hash[:new_url]
+            new_crm_root = crm_url_hash[:new_root]
+
+            geo_url_hash = url_formatter(geo_url)
+            new_geo_url = geo_url_hash[:new_url]
+            new_geo_root = geo_url_hash[:new_root]
+
+            redirect_url_hash = url_formatter(redirect_url)
+            new_redirect_url = redirect_url_hash[:new_url]
+            new_redirect_root = redirect_url_hash[:new_root]
+
+            if new_redirect_url != new_crm_url
+                diff_count +=1
+                puts "------- (#{diff_count}/#{total}) -------"
+                puts
+                puts "CRM: #{new_crm_url}"
+                puts
+                puts "RED: #{new_redirect_url}"
+                puts "GEO: #{new_geo_url}"
+                puts
+            end
+            location.update_attributes(url: new_geo_url, geo_root: new_geo_root, crm_url: new_redirect_url, crm_root: new_redirect_root, crm_url_redirect: new_redirect_url)
+        end
+    end
+
+
+    def url_formatter(url)
+        url = remove_slashes(url)
+        unless url == nil || url == ""
+            if url.include?("\\")
+                url_arr = url.split("\\")
+                url = url_arr[0]
+            end
+            unless url.include?("www.")
+                url = url.gsub!("//", "//www.")
+            else
+                url
+            end
+
+            uri = URI(url)
+            new_url = "#{uri.scheme}://#{uri.host}"
+
+            if uri.host
+                host_parts = uri.host.split(".")
+                new_root = host_parts[1]
+            end
+            return {new_url: new_url, new_root: new_root}
+        end
+    end
+
+    def remove_slashes(url)
+        parts = url.split('//')
+        if parts.length > 2
+            return parts[0..1].join
+        end
+        url
+    end
+
+
+
     def web_acct_name_cleaner
         # terms = InHostPo.all
         # terms.each do |term|
@@ -419,38 +537,6 @@ class LocationService
     end
 
 
-    def url_root_formatter
-        # locations = Location.where("url LIKE '%https%'")[0..10]
-        # locations = Location.where.not(url: nil)
-
-        # locations = Location.where("geo_root = 'com' OR geo_root = 'org' OR geo_root = 'net'")
-        # counter = 1
-        # locations.each do |location|
-        #     if location.url.include?("http")
-        #         geo_url = location.url
-        #         geo_root = location.geo_root
-        #
-        #         uri = URI(location.url)
-        #         scheme = uri.scheme
-        #         host = uri.host
-        #         host_parts = host.split(".")
-        #         root = host_parts[0]
-        #         ext = host_parts[1]
-        #
-        #         puts counter
-        #         puts geo_url
-        #         puts "#{geo_root} | #{root}"
-        #         puts "---------------------"
-        #         puts
-        #         counter +=1
-        #
-        #         location.update_attribute(:geo_root, root)
-        #     end
-        # end
-
-    end
-
-
     def type_hierarchy_updater
         # cores = Core.all
         # counter = 0
@@ -479,6 +565,74 @@ class LocationService
         #     end
         # end
     end
+
+
+    def url_redirect_checker
+        require 'curb'
+
+        # locations = Location.where.not(crm_url: nil).where.not(crm_url: "").where("crm_url != url").where("crm_url != crm_url_redirect")[0..5]
+
+        locations = Location.where.not(crm_url: nil).where.not(crm_url: "").where("crm_url != url").where(crm_url_redirect: nil)
+
+        counter_result = 0
+        counter_fail = 0
+        counter_same = 0
+        locations.each do |location|
+
+            crm_url_first = location.crm_url
+
+            unless crm_url_first == nil || crm_url_first == ""
+                begin ## rescue
+                    result = Curl::Easy.perform(crm_url_first) do |curl|
+                        curl.follow_location = true
+                        curl.useragent = "curb"
+                        # curl.ssl_verify_peer = false
+                    end
+
+                    crm_url_final = result.last_effective_url
+
+                    if crm_url_first != crm_url_final
+                        counter_result +=1
+                        puts
+                        puts "--------------- #{counter_result} ---------------"
+                        puts location.sfdc_id
+                        puts crm_url_first
+                        puts crm_url_final
+                        location.update_attribute(:crm_url_redirect, crm_url_final)
+                        puts "----------------------------------"
+                        puts
+                    else
+                        counter_same +=1
+                        puts "#{counter_same}) Same"
+                        location.update_attribute(:crm_url_redirect, crm_url_final)
+                    end
+
+                rescue  #begin rescue
+                    # $!.message
+                    # puts $!.message
+                    error_message = $!.message
+                    counter_fail +=1
+                    puts "--------------- #{counter_fail} ---------------"
+                    puts location.sfdc_id
+                    puts "ERROR: #{error_message}"
+                    location.update_attribute(:crm_url_redirect, error_message)
+                    puts "----------------------------------"
+                end  #end rescue
+            end
+
+        end
+
+    end
+
+
+
+    # def get_redirected_url(your_url)
+    #     result = Curl::Easy.perform(your_url) do |curl|
+    #         curl.follow_location = true
+    #     end
+    #     result.last_effective_url
+    # end
+
 
 
 
