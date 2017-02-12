@@ -137,10 +137,10 @@ class LocationsController < ApplicationController
         # @service.url_redirect_checker
         # @service.delay.url_redirect_checker
 
-        # @service.root_and_url_finalizer
+        @service.root_and_url_finalizer
         # @service.delay.root_and_url_finalizer
 
-        @service.root_matcher
+        # @service.root_matcher
 
 
         redirect_to locations_path
