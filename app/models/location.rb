@@ -34,6 +34,11 @@ include Filterable
     scope :geo_franch_cat, -> (geo_franch_cat) { where geo_franch_cat: geo_franch_cat }
     scope :crm_franch_cons, -> (crm_franch_cons) { where crm_franch_cons: crm_franch_cons }
     scope :crm_franch_cat, -> (crm_franch_cat) { where crm_franch_cat: crm_franch_cat }
+
+    scope :crm_url_redirect, -> (crm_url_redirect) { where crm_url_redirect: crm_url_redirect }
+    scope :geo_url_redirect, -> (geo_url_redirect) { where geo_url_redirect: geo_url_redirect }
+    scope :sts_duplicate, -> (sts_duplicate) { where sts_duplicate: sts_duplicate }
+
     scope :sts_geo_crm, -> (sts_geo_crm) { where sts_geo_crm: sts_geo_crm }
     scope :sts_url, -> (sts_url) { where sts_url: sts_url }
     scope :sts_root, -> (sts_root) { where sts_root: sts_root }

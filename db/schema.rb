@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213000511) do
+ActiveRecord::Schema.define(version: 20170213113104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,8 +244,8 @@ ActiveRecord::Schema.define(version: 20170213000511) do
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "city"
     t.string   "state"
     t.string   "state_code"
@@ -263,7 +263,6 @@ ActiveRecord::Schema.define(version: 20170213000511) do
     t.string   "url"
     t.string   "street"
     t.string   "address"
-    t.string   "hierarchy"
     t.string   "temporary_id"
     t.string   "geo_acct_name"
     t.string   "geo_full_addr"
@@ -282,12 +281,9 @@ ActiveRecord::Schema.define(version: 20170213000511) do
     t.string   "crm_franch_cons"
     t.string   "crm_franch_cat"
     t.string   "crm_phone"
-    t.string   "crm_hierarchy"
     t.string   "geo_type"
-    t.string   "coord_id_arr",       default: [],              array: true
+    t.string   "coord_id_arr",     default: [],              array: true
     t.string   "sfdc_acct_url"
-    t.string   "acct_merge_stat"
-    t.string   "acct_merge_stat_dt"
     t.string   "street_num"
     t.string   "street_text"
     t.string   "crm_street"
@@ -302,6 +298,7 @@ ActiveRecord::Schema.define(version: 20170213000511) do
     t.string   "sts_acct"
     t.string   "sts_addr"
     t.string   "sts_ph"
+    t.string   "sts_duplicate"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

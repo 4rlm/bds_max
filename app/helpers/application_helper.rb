@@ -18,6 +18,13 @@ module ApplicationHelper
         ["Matched", "None"]
     end
 
+    def duplicate_sts_list
+        ["CRM Duplicate", "CoP Duplicate", "Web Duplicate"]
+    end
+
+    def url_redirect_sts_lists
+        ["Error", "Follow", "None"]
+    end
 
 
     def sfdc_type_list
