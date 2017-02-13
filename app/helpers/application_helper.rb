@@ -9,6 +9,17 @@ module ApplicationHelper
         end
     end
 
+
+    def geo_crm_sts_list
+        ["Matched-5", "Matched-4", "Matched-3", "Matched-2", "Matched-1", "Matched-0"]
+    end
+
+    def geo_sts_list
+        ["Matched", "None"]
+    end
+
+
+
     def sfdc_type_list
         ["Web", "Solitary", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
     end
@@ -121,6 +132,9 @@ module ApplicationHelper
     def state_list
         ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
     end
+
+
+
 
 
 

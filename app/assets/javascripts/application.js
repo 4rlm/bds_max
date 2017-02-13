@@ -45,10 +45,10 @@ function changeStatus(el) {
     if (stat.className.includes('fa-circle-thin')) {
         stat.className = "fa fa-check-circle fa-lg fa-blue stat-btn";
         $(stat).attr('data-original-title', 'Update Cell');
-        update_status(location_id, location_col);
     } else if (stat.className.includes('fa-check-circle')) {
         stat.className = "fa fa-plus-circle fa-lg fa-green stat-btn";
         $(stat).attr('data-original-title', 'Update Row');
+        update_status(location_id, location_col);
     } else if (stat.className.includes('fa-plus-circle')) {
         stat.className = "fa fa-minus-circle fa-lg fa-red stat-btn";
         $(stat).attr('data-original-title', 'Remove Row');
@@ -59,7 +59,6 @@ function changeStatus(el) {
 }
 
 function update_status(location_id, location_col) {
-    console.log(location_id, location_col);
     $.ajax({
         url: "/locations/update_status",
         data: {location_id: location_id, location_col: location_col}

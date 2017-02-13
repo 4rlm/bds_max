@@ -190,16 +190,15 @@ class LocationsController < ApplicationController
     end
 
     def update_status
-        puts "\n\n\nloctaion_id: #{params[:location_id]}, location_col: #{params[:location_col]}\n\n"
         location = Location.find(params[:location_id])
 
         case params[:location_col]
         when "root"
-            location.update_attribute(:crm_root, location.geo_root)
+            location.update_attributes(crm_url: location.url, crm_root: location.geo_root)
         when "acct"
             location.update_attribute(:acct_name, location.geo_acct_name)
         when "address"
-            location.update_attribute(:address, location.geo_full_addr)
+            location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
         end
     end
 
@@ -211,11 +210,11 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :phone, :map_url, :img_url, :place_id, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat, :crm_phone)
+        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :phone, :map_url, :img_url, :place_id, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat, :crm_phone, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph)
     end
 
     def filtering_params(params)
-        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat)
+        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat, :crm_phone, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph)
     end
 
 

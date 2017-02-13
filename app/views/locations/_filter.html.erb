@@ -10,20 +10,44 @@
         <div class="filter-col col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Geo Filter</th>
+                    <!-- <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Geo Filter</th> -->
 
-                    <th class="th-2 w-sm">Status</th>
+                    <th class="th-2 w-sm">GEO Status</th>
+                    <th class="th-2 w-sm">Process Status</th>
+
+                    <th class="th-2 w-sm">Match Status</th>
+                    <th class="th-2 w-sm">URL Status</th>
+                    <th class="th-2 w-sm">Root Status</th>
+                    <th class="th-2 w-sm">Name Status</th>
+                    <th class="th-2 w-sm">Address Status</th>
+                    <th class="th-2 w-sm">Phone Status</th>
+
+                    <th class="th-2 w-sm">CRM Redirect Status</th>
+                    <th class="th-2 w-sm">GEO Redirect Status</th>
+
+                </tr>
+
+                <tr>
 
                     <td><%= select_tag :location_status, options_for_select(location_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-                    <th class="th-2 w-sm">Sales Person:</th>
-                    <td><%= select_tag :sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td></td>
 
-                    <th class="th-2 w-xsm">Type:</th>
-                    <td><%= select_tag :acct_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_geo_crm, options_for_select(geo_crm_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-                    <th class="th-2 w-xsm">SFDC ID:</th>
-                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
+                    <td><%= select_tag :sts_url, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :sts_root, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :sts_acct, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :sts_addr, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :sts_ph, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td></td>
+                    <td></td>
+
                 </tr>
             </table>
         </div>
@@ -33,7 +57,7 @@
         <div class="filter-col col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Account</th>
+                    <!-- <th class="th-1 t3">Account</th> -->
                     <th class="th-2">Source</th>
                     <th class="th-2">Account</th>
                     <th class="th-2">Group Name</th>
@@ -41,7 +65,7 @@
                     <th class="th-2">Sales Tier</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a"></th>
+                    <!-- <th class="th-2 th-2a"></th> -->
                     <td><%= select_tag :source, options_for_select(acct_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></td>
@@ -56,25 +80,25 @@
         <div class="col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Address</th>
+                    <!-- <th class="th-1 t3">Address</th> -->
                     <th class="th-2">Full Address</th>
                     <th class="th-2">Street</th>
                     <th class="th-2">City</th>
                     <th class="th-2">State</th>
                     <th class="th-2">Zip</th>
-                    <th class="th-2">Latitude</th>
-                    <th class="th-2">Longitude</th>
+                    <!-- <th class="th-2">Latitude</th> -->
+                    <!-- <th class="th-2">Longitude</th> -->
                     <th class="th-2">Coords</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a"></th>
+                    <!-- <th class="th-2 th-2a"></th> -->
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :address } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :street } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :city } %></td>
                     <td><%= select_tag :state_code, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :postal_code } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :latitude } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :longitude } %></td>
+                    <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :latitude } %></td> -->
+                    <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :longitude } %></td> -->
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :coordinates } %></td>
                 </tr>
             </table>
@@ -85,20 +109,31 @@
         <div class="col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Digital</th>
+                    <!-- <th class="th-1 t3">Digital</th> -->
+                    <th class="th-2 w-sm">Sales Person:</th>
+                    <th class="th-2 w-xsm">Type:</th>
+                    <th class="th-2 w-xsm">SFDC ID:</th>
+
                     <th class="th-2">Website</th>
                     <th class="th-2">Root</th>
                     <th class="th-2">Franchise</th>
-                    <th class="th-2">Created</th>
-                    <th class="th-2">Updated</th>
+                    <!-- <th class="th-2">Created</th> -->
+                    <!-- <th class="th-2">Updated</th> -->
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a"></th>
+
+                    <td><%= select_tag :sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :acct_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
+                    
+                    <!-- <th class="th-2 th-2a"></th> -->
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :url } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :root } %></td>
                     <td><%= select_tag :franchise, options_for_select(franchise_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :created_at } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :updated_at } %></td>
+                    <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :created_at } %></td> -->
+                    <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :updated_at } %></td> -->
                 </tr>
             </table>
         </div>

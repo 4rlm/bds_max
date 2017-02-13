@@ -34,6 +34,12 @@ include Filterable
     scope :geo_franch_cat, -> (geo_franch_cat) { where geo_franch_cat: geo_franch_cat }
     scope :crm_franch_cons, -> (crm_franch_cons) { where crm_franch_cons: crm_franch_cons }
     scope :crm_franch_cat, -> (crm_franch_cat) { where crm_franch_cat: crm_franch_cat }
+    scope :sts_geo_crm, -> (sts_geo_crm) { where sts_geo_crm: sts_geo_crm }
+    scope :sts_url, -> (sts_url) { where sts_url: sts_url }
+    scope :sts_root, -> (sts_root) { where sts_root: sts_root }
+    scope :sts_acct, -> (sts_acct) { where sts_acct: sts_acct }
+    scope :sts_addr, -> (sts_addr) { where sts_addr: sts_addr }
+    scope :sts_ph, -> (sts_ph) { where sts_ph: sts_ph }
 
     # == Key Word Search ==
     scope :latitude, -> (latitude) { where("latitude like ?", "%#{latitude}%") }
