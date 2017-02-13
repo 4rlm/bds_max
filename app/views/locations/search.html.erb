@@ -1,0 +1,120 @@
+<h1 class="page-header">Geolocation Search</h1>
+<h4 class="text-center">GeoLocated Account Locations</h4>
+<h4 class="text-center">Used to find duplicates and see which stores are nearest.</h4>
+
+
+<h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
+
+<h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
+
+<%#= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
+<%#= link_to "location_power_btn", location_power_btn_path, class: 'btn btn-warning' %>
+
+<%#= link_to "turbo_matcher_btn", turbo_matcher_btn_path, class: 'btn btn-warning' %>
+
+
+
+<!-- Search Section -->
+<h3 class="section-header">Geo Search</h3>
+
+
+
+<%#= form_tag "/locations", method: :get, class: 'form-inline'  do %>
+
+<%= form_tag "/search_result_page_location", method: :post  do %>
+
+
+<div class="theme-layout search-container">
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-2">GEO Status</th>
+                    <th class="th-2">Duplicate Status</th>
+                    <th class="th-2">Match Status</th>
+                    <th class="th-2">URL Status</th>
+                    <th class="th-2">Root Status</th>
+                    <th class="th-2">Name Status</th>
+                    <th class="th-2">Address Status</th>
+                    <th class="th-2">Phone Status</th>
+                    <th class="th-2">CRM Redirect Status</th>
+                    <th class="th-2">GEO Redirect Status</th>
+                </tr>
+                <tr>
+                    <td><%= select_tag :location_status, options_for_select(location_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_duplicate, options_for_select(duplicate_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_geo_crm, options_for_select(geo_crm_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_url, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_root, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_acct, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_addr, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_ph, options_for_select(geo_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :crm_url_redirect, options_for_select(url_redirect_sts_lists), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :geo_url_redirect, options_for_select(url_redirect_sts_lists), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-2">Source</th>
+                    <th class="th-2">SFDC ID:</th>
+                    <th class="th-2">Account</th>
+                    <th class="th-2">Group Name</th>
+                    <th class="th-2">Ultimate Group Name</th>
+                    <th class="th-2">Sales Tier</th>
+                </tr>
+                <tr>
+                    <td><%= select_tag :source, options_for_select(acct_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :ult_group_name } %></td>
+                    <td><%= select_tag :tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-2">Sales Person:</th>
+                    <th class="th-2">Type:</th>
+                    <th class="th-2">Website</th>
+                    <th class="th-2">Root</th>
+                    <th class="th-2">Franchise</th>
+                    <th class="th-2">Full Address</th>
+                    <th class="th-2">Coords</th>
+                </tr>
+                <tr>
+                    <td><%= select_tag :sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :acct_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :url } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :root } %></td>
+                    <td><%= select_tag :franchise, options_for_select(franchise_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :address } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :coordinates } %></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+</div> <!-- filter-container Ends -->
+
+<%= submit_tag "Search", class: 'wide-button blue-button' %>
+
+<!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
+<% end %>
+<!-- # Filter Headers Form tag ends -->
+
+
+
+
+
+<!-- ## FILTER - ENDS## -->

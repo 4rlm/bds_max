@@ -1,9 +1,11 @@
 <h1 class="page-header">Accounts</h1>
 <h4 class="text-center">Accounts from All Sources</h4>
 <h3 class="section-header">Search Accounts</h3>
+
 <h4>Total Accounts: <%= number_with_delimiter(@cores_count) %></h4>
 
 <%= form_tag "/search_result_page_core", method: :post  do %>
+
 <div class="text-nowrap theme-layout search-container">
     <div class="row filter-row">
         <div class="filter-col col-md-12">
@@ -149,12 +151,14 @@
     </div>  <!-- row ends -->
 </div> <!-- search-container Ends -->
 
+
 <div class="radio">
     <label><%= radio_button_tag 'view_mode', 'list', true %> List View</label>
 </div>
 <div class="radio">
     <label><%= radio_button_tag 'view_mode', 'detail' %> Detail View</label>
 </div>
+
 
 <%= submit_tag "Search", class: 'wide-button blue-button' %>
 <% end %>

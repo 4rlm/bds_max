@@ -82,6 +82,11 @@ class LocationsController < ApplicationController
         redirect_to locations_path
     end
 
+
+    def search
+
+    end
+
     # Testing iFrame
     # def open_url
     #   @url = params[:url]
