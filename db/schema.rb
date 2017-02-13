@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170212053618) do
+ActiveRecord::Schema.define(version: 20170213000511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -296,6 +296,12 @@ ActiveRecord::Schema.define(version: 20170212053618) do
     t.string   "crm_zip"
     t.string   "crm_url_redirect"
     t.string   "geo_url_redirect"
+    t.string   "sts_geo_crm"
+    t.string   "sts_url"
+    t.string   "sts_root"
+    t.string   "sts_acct"
+    t.string   "sts_addr"
+    t.string   "sts_ph"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

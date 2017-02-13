@@ -210,6 +210,78 @@ class LocationService
 
     ######## CAUTION - SAVE ABOVE THIS LINE!  ##########
 
+    def sts_updater
+        locations = Location.all
+        counter = 0
+        locations.each do |location|
+
+            geo_root = location.geo_root
+            crm_root = location.crm_root
+            url = location.url
+            crm_url = location.crm_url
+            geo_acct = location.geo_acct_name
+            crm_acct = location.acct_name
+            geo_addr = location.geo_full_addr
+            crm_addr = location.address
+            geo_phone = location.phone
+            crm_phone = location.crm_phone
+
+            matched_arr = []
+            if url == crm_url
+                sts_url = "Matched"
+                matched_arr << sts_url
+            else
+                sts_url = "None"
+            end
+
+            if geo_root == crm_root
+                sts_root = "Matched"
+                matched_arr << sts_root
+            else
+                sts_root = "None"
+            end
+
+            if geo_acct == crm_acct
+                sts_acct = "Matched"
+                matched_arr << sts_acct
+            else
+                sts_acct = "None"
+            end
+
+            if geo_addr == crm_addr
+                sts_addr = "Matched"
+                matched_arr << sts_addr
+            else
+                sts_addr = "None"
+            end
+
+            if geo_phone == crm_phone
+                sts_ph = "Matched"
+                matched_arr << sts_ph
+            else
+                sts_ph = "None"
+            end
+
+            sts_geo_crm = "Matched-#{matched_arr.length}"
+            counter +=1
+            puts
+            puts "--------------- #{counter} -------------------"
+            puts geo_acct
+            puts "sts_url: #{sts_url}"
+            puts "sts_root: #{sts_root}"
+            puts "sts_acct: #{sts_acct}"
+            puts "sts_addr: #{sts_addr}"
+            puts "sts_ph: #{sts_ph}"
+            puts "sts_geo_crm: #{sts_geo_crm}"
+            puts
+
+            location.update_attributes(sts_url: sts_url,  sts_root: sts_root, sts_acct: sts_acct, sts_addr: sts_addr, sts_ph: sts_ph, sts_geo_crm: sts_geo_crm)
+
+        end
+
+
+    end
+
 
     def turbo_matcher
         locations = Location.where(crm_source: "Web")
@@ -274,7 +346,20 @@ class LocationService
 
     def root_matcher
         #IF geo_root == crm_root, update crm_root w/ geo_root.
-        locations = Location.where("url != crm_url").where.not("geo_url_redirect != crm_url_redirect")
+
+        ### COME BACK TO THIS!! 3,500 MATCHING URLS!  BUT HAVE TWO VALID URLS!  NEED TO SAVE BOTH.
+        # locations = Location.where("acct_name = geo_acct_name").where("address = geo_full_addr").where.not("url = crm_url")[0..200]
+
+
+        # locations = Location.where("crm_root != geo_root").where("url = crm_url")
+        # locations = Location.where("url != crm_url")[0..20]
+        # locations = Location.where("url != crm_url").where(crm_source: "CRM").where.not("crm_url LIKE '%http%' OR crm_url != 'nil'")
+        # locations = Location.where(crm_url: nil).where.not(url: nil).where("address = geo_full_addr").where("acct_name = geo_acct_name")
+        # locations = Location.where("url != crm_url").where.not(crm_url: nil).where.not("crm_url_redirect LIKE '%http%'").where("geo_url_redirect LIKE '%http%'")
+
+
+        locations = Location.where("acct_name = geo_acct_name").where("address != geo_full_addr").where("url = crm_url")
+
 
         counter = 0
         locations.each do |location|
@@ -282,22 +367,47 @@ class LocationService
             crm_root = location.crm_root
             url = location.url
             crm_url = location.crm_url
+            crm_red = location.crm_url_redirect
+            geo_red = location.geo_url_redirect
 
-            # if geo_root == crm_root && url != crm_url
-                counter +=1
-                puts
-                puts "------- (#{counter}) -------"
-                puts
-                puts "CRM: #{crm_root}"
-                puts "GEO: #{geo_root}"
-                puts
-                puts "CRM: #{crm_url}"
-                puts "GEO: #{url}"
-                puts
+            crm_acct = location.acct_name
+            geo_acct = location.geo_acct_name
+            crm_source = location.crm_source
+            crm_addr = location.address
+            geo_addr = location.geo_full_addr
 
-                # location.update_attribute(:crm_url, url)
+            counter +=1
+            puts
+            puts "======#{crm_source}: (#{counter}) ============"
+            # puts
+            # puts "CRM: #{crm_addr}"
+            # puts "GEO: #{geo_addr}"
+            # puts
+            puts "CRM: #{crm_acct}"
+            puts "GEO: #{geo_acct}"
+            # puts "CRM: #{crm_root}"
+            # puts "GEO: #{geo_root}"
+            puts
+            puts "CRM: #{crm_url}"
+            puts "GEO: #{url}"
+            puts "---------------------------------"
 
-            # end
+
+                # if crm_red && (geo_red == nil || geo_red == "")
+                    # puts "CRM-Red: #{crm_red}"
+                    # location.update_attribute(:url, crm_url)
+
+                # elsif geo_red && (crm_red == nil || crm_red == "")
+                    # puts "GEO-Red: #{geo_red}"
+                    # location.update_attribute(:crm_url, url)
+
+                # else
+                    puts "CRM-Red: #{crm_red}"
+                    puts "GEO-Red: #{geo_red}"
+                    puts
+                # end
+
+            # location.update_attributes(crm_url: url, crm_root: geo_root)
 
         end
 
@@ -391,7 +501,7 @@ class LocationService
                 end
                 puts
                 puts
-                # location.update_attributes(crm_url: new_crm_redirect_url, crm_root: new_crm_redirect_root)
+                location.update_attributes(crm_url: new_crm_redirect_url, crm_root: new_crm_redirect_root)
             end
 
             if new_geo_redirect_url && new_geo_redirect_url != new_geo_url
@@ -417,7 +527,7 @@ class LocationService
                 end
                 puts
                 puts
-                # location.update_attributes(url: new_geo_redirect_url, geo_root: new_geo_redirect_root)
+                location.update_attributes(url: new_geo_redirect_url, geo_root: new_geo_redirect_root)
             end
 
         end

@@ -1,18 +1,4 @@
 <tr><!-- 3RD ROW: CRM DATA -->
-    <!-- ###  HIERARCHY JS ### -->
-    <% if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
-        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td>
-    <% elsif location.crm_hierarchy == "Parent" %>
-        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td>
-    <% elsif location.crm_hierarchy == "Child" %>
-        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td>
-    <% elsif location.crm_hierarchy == "Flag" %>
-        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td>
-    <% else %>
-        <td class="geo w-xsm"><%= fa_icon "circle-thin lg", class: "fa-clear"  %></td>
-    <% end %>
-    <!-- ############ -->
-
 
     <% if location.acct_name %>
     <td>
@@ -33,13 +19,12 @@
     <% end %>
 
     <td><%= location.crm_source %></td>
-    <td><%= location.acct_type %></td>
+    <!-- <td><%#= location.acct_type %></td> -->
 
     <!-- ###  WEBSITE URL JS ### -->
-    <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
-
-    <!-- TESTING -->
     <% if location.crm_root != nil && location.crm_root == location.geo_root %>
+        <td class="ind-green geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+
         <td class="ind-green">
             <%= link_to add_http(location.crm_url), :target => "_blank" do %>
             <span data-toggle="tooltip" data-placement="top" title="<%= location.crm_url %>">
@@ -47,6 +32,8 @@
             <% end %>
         </td>
     <% elsif location.crm_root != nil %>
+        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+
         <td>
             <%= link_to add_http(location.crm_url), :target => "_blank" do %>
             <span data-toggle="tooltip" data-placement="top" title="<%= location.crm_url %>">
@@ -54,35 +41,41 @@
             <% end %>
         </td>
         <% else %>
-            <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+
+        <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
         <% end %>
 
-    <!-- ###  ACCT NAME JS ### -->
-    <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <!-- GEO ACCOUNT NAME -->
 
+
+    <!-- ###  ACCT NAME JS ### -->
     <% if location.geo_acct_name == location.acct_name %>
+        <td class="ind-green"><%= location.geo_acct_name %></td>
+
+        <td class="ind-green geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
         <td class="ind-green"><%= location.acct_name %></td>
     <% else %>
+        <td><%= location.geo_acct_name %></td>
+
+        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
         <td><%= location.acct_name %></td>
     <% end %>
 
 
     <!-- ###  FULL ADDRESS JS ### -->
-    <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
-
     <% if location.geo_full_addr == location.address %>
-        <td class="ind-green"><%= location.address %></td>
+        <td class="ind-green"><%= location.geo_full_addr %></td>
+
+        <td class="ind-green geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+
+        <td class="ind-green address"><%= location.address %></td>
     <% else %>
+        <td><%= location.geo_full_addr %></td>
+
+        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+
         <td><%= location.address %></td>
-    <% end %>
-
-    <!-- ###  PHONE JS ### -->
-    <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
-
-    <% if location.phone == location.crm_phone %>
-        <td class="ind-green"><%= location.crm_phone %></td>
-    <% else %>
-        <td><%= location.crm_phone %></td>
     <% end %>
 
 </tr>
