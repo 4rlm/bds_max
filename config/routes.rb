@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :locations do
       collection {post :import_csv_data}
+      get :update_status, on: :collection
   end
   get 'location/import_page' => 'locations#import_page'
   get 'location/search' => 'locations#search'

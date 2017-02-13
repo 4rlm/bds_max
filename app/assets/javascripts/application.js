@@ -39,9 +39,13 @@ function checkAll(check_all) {
 
 function changeStatus(el) {
     var stat = el.getElementsByClassName('stat-btn')[0];
+    var location_id = $(el).data("id");
+    var location_col = $(el).data("col");
+
     if (stat.className.includes('fa-circle-thin')) {
         stat.className = "fa fa-check-circle fa-lg fa-blue stat-btn";
         $(stat).attr('data-original-title', 'Update Cell');
+        update_status(location_id, location_col);
     } else if (stat.className.includes('fa-check-circle')) {
         stat.className = "fa fa-plus-circle fa-lg fa-green stat-btn";
         $(stat).attr('data-original-title', 'Update Row');
@@ -52,6 +56,14 @@ function changeStatus(el) {
         stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
         $(stat).attr('data-original-title', 'Reset');
     }
+}
+
+function update_status(location_id, location_col) {
+    console.log(location_id, location_col);
+    $.ajax({
+        url: "/locations/update_status",
+        data: {location_id: location_id, location_col: location_col}
+    });
 }
 
 

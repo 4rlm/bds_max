@@ -189,6 +189,20 @@ class LocationsController < ApplicationController
         redirect_to root_path
     end
 
+    def update_status
+        puts "\n\n\nloctaion_id: #{params[:location_id]}, location_col: #{params[:location_col]}\n\n"
+        location = Location.find(params[:location_id])
+
+        case params[:location_col]
+        when "root"
+            location.update_attribute(:crm_root, location.geo_root)
+        when "acct"
+            location.update_attribute(:acct_name, location.geo_acct_name)
+        when "address"
+            location.update_attribute(:address, location.geo_full_addr)
+        end
+    end
+
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_location

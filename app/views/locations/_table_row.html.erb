@@ -23,7 +23,7 @@
 
     <!-- ###  WEBSITE URL JS ### -->
     <% if location.crm_root != nil && location.crm_root == location.geo_root %>
-        <td class="ind-green geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <td class="ind-green geo w-xxsm" data-id="<%= location.id %>" data-col="root" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
         <td class="ind-green">
             <%= link_to add_http(location.crm_url), :target => "_blank" do %>
@@ -32,7 +32,7 @@
             <% end %>
         </td>
     <% elsif location.crm_root != nil %>
-        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <td class="geo w-xxsm" data-id="<%= location.id %>" data-col="root" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
         <td>
             <%= link_to add_http(location.crm_url), :target => "_blank" do %>
@@ -41,7 +41,7 @@
             <% end %>
         </td>
         <% else %>
-        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <td class="geo w-xxsm" data-id="<%= location.id %>" data-col="root"  onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
         <td class="fa-gray"><%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
         <% end %>
@@ -53,12 +53,12 @@
     <% if location.geo_acct_name == location.acct_name %>
         <td class="ind-green"><%= location.geo_acct_name %></td>
 
-        <td class="ind-green geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <td class="ind-green geo w-xxsm" data-id="<%= location.id %>" data-col="acct" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
         <td class="ind-green"><%= location.acct_name %></td>
     <% else %>
         <td><%= location.geo_acct_name %></td>
 
-        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <td class="geo w-xxsm" data-id="<%= location.id %>" data-col="acct" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
         <td><%= location.acct_name %></td>
     <% end %>
 
@@ -67,13 +67,13 @@
     <% if location.geo_full_addr == location.address %>
         <td class="ind-green"><%= location.geo_full_addr %></td>
 
-        <td class="ind-green geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <td class="ind-green geo w-xxsm" data-id="<%= location.id %>" data-col="address" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
         <td class="ind-green address"><%= location.address %></td>
     <% else %>
         <td><%= location.geo_full_addr %></td>
 
-        <td class="geo w-xxsm" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+        <td class="geo w-xxsm" data-id="<%= location.id %>" data-col="address" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
 
         <td><%= location.address %></td>
     <% end %>
