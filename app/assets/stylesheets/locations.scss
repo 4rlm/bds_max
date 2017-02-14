@@ -11,7 +11,8 @@
     // width: 800px;
 }
 
-
+.geo-container {
+}
 
 .geo-map-2 {
     box-shadow: 5px 5px 5px gray;
@@ -25,9 +26,12 @@
 
 .geo-result-table {
     box-shadow: 5px 5px 5px gray;
-    min-width: 90%;
-    padding-right: 0px;
-    padding-left: 0px;
+    // max-width: 90%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
 
 .geo-result-table tr:hover {
@@ -43,7 +47,11 @@
 }
 
 .geo-result-table th, .geo-result-table td {
-    font-size: 90%;
+    font-size: 80%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-left: 0;
     text-align: center;
     border: solid 1px #137fa0;
     font-weight: normal;
@@ -135,13 +143,13 @@
 }
 
 .geo-img {
-    width: 200px;
+    width: 173px;
     height: 173px;
     border: 2px solid #4285F4;
     border-left: 3px solid #4285F4;
     border-radius: 4px;
     margin: auto;
-    margin-left: -3px;
+    margin-left: -2px;
 }
 
 

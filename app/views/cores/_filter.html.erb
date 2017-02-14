@@ -7,7 +7,7 @@
         <div class="filter-col col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Search</th>
+                    <!-- <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Search</th> -->
                     <th class="th-2 w-sm">Sales Person:</th>
                     <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <th class="th-2 w-xsm">Type:</th>
@@ -23,7 +23,6 @@
         <div class="filter-col col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Account</th>
                     <th class="th-2 w-md">Source</th>
                     <th class="th-2">Account Name</th>
                     <th class="th-2">Group Name</th>
@@ -33,7 +32,6 @@
                     <th class="th-2 w-xsm">Ult RT</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= select_tag :acct_source, options_for_select(acct_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "----", class: 'form-control' %></td>
@@ -50,8 +48,6 @@
         <div class="col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Address</th>
-                    <th class="th-2 w-md">Hierarchy</th>
                     <th class="th-2 w-lg">Coordinates</th>
                     <th class="th-2 w-lg">Full Address</th>
                     <th class="th-2">Street</th>
@@ -61,8 +57,6 @@
                     <th class="th-2 w-md">Phone</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
-                    <td><%= select_tag :hierarchy, options_for_select(hierarchy_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "----", class: 'form-control' %></td>
                     <td><%= select_tag :sfdc_state, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
@@ -79,7 +73,6 @@
         <div class="col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Digital</th>
                     <th class="th-2 w-md">URL Status</th>
                     <th class="th-2">Website</th>
                     <th class="th-2">Root</th>
@@ -91,7 +84,6 @@
                     <th class="th-2">DNS-2</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= select_tag :url_status, options_for_select(url_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "----", class: 'form-control' %></td>
@@ -110,7 +102,6 @@
         <div class="col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Modules</th>
                     <th class="th-2 w-md">Accounts</th>
                     <th class="th-2">Domainer</th>
                     <th class="th-2">Staff Index</th>
@@ -119,28 +110,12 @@
                     <th class="th-2">GeoCoder</th>
                 </tr>
                 <tr>
-                    <th class="th-2">Status</th>
                     <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :domain_status, options_for_select(status_list_search), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :geo_status, options_for_select(location_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                </tr>
-                <tr>
-                    <th class="th-2">Date</th>
-                    <!-- Core Updated -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :updated_at } %></td>
-                    <!-- Domainer Date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domainer_date } %></td>
-                    <!-- Staff Indexer Date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_date } %></td>
-                    <!-- location indexer date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_date } %></td>
-                    <!-- staffer date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></td>
-                    <!-- geocoder date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :geo_date } %></td>
                 </tr>
             </table>
         </div>

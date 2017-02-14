@@ -215,8 +215,8 @@ class LocationService
         counter = 0
         locations.each do |location|
 
-            geo_root = location.geo_root
-            crm_root = location.crm_root
+            location.update_attribute(:sts_geo_crm, nil)
+
             url = location.url
             crm_url = location.crm_url
             geo_acct = location.geo_acct_name
@@ -232,13 +232,6 @@ class LocationService
                 matched_arr << sts_url
             else
                 sts_url = "None"
-            end
-
-            if geo_root == crm_root
-                sts_root = "Matched"
-                matched_arr << sts_root
-            else
-                sts_root = "None"
             end
 
             if geo_acct == crm_acct
@@ -268,14 +261,13 @@ class LocationService
             puts "--------------- #{counter} -------------------"
             puts geo_acct
             puts "sts_url: #{sts_url}"
-            puts "sts_root: #{sts_root}"
             puts "sts_acct: #{sts_acct}"
             puts "sts_addr: #{sts_addr}"
             puts "sts_ph: #{sts_ph}"
             puts "sts_geo_crm: #{sts_geo_crm}"
             puts
 
-            location.update_attributes(sts_url: sts_url,  sts_root: sts_root, sts_acct: sts_acct, sts_addr: sts_addr, sts_ph: sts_ph, sts_geo_crm: sts_geo_crm)
+            location.update_attributes(sts_url: sts_url, sts_acct: sts_acct, sts_addr: sts_addr, sts_ph: sts_ph, sts_geo_crm: sts_geo_crm)
 
         end
 
@@ -345,8 +337,6 @@ class LocationService
 
 
     def root_matcher
-        #IF geo_root == crm_root, update crm_root w/ geo_root.
-
         ### COME BACK TO THIS!! 3,500 MATCHING URLS!  BUT HAVE TWO VALID URLS!  NEED TO SAVE BOTH.
         # locations = Location.where("acct_name = geo_acct_name").where("address = geo_full_addr").where.not("url = crm_url")[0..200]
 
@@ -355,62 +345,97 @@ class LocationService
         # locations = Location.where("url != crm_url")[0..20]
         # locations = Location.where("url != crm_url").where(crm_source: "CRM").where.not("crm_url LIKE '%http%' OR crm_url != 'nil'")
         # locations = Location.where(crm_url: nil).where.not(url: nil).where("address = geo_full_addr").where("acct_name = geo_acct_name")
-        # locations = Location.where("url != crm_url").where.not(crm_url: nil).where.not("crm_url_redirect LIKE '%http%'").where("geo_url_redirect LIKE '%http%'")
+        # locations = Location.where("url != crm_url").where.not("crm_url_redirect LIKE '%http%'").where("geo_url_redirect LIKE '%http%'")
+        # locations = Location.where("acct_name = geo_acct_name").where("address != geo_full_addr").where("url = crm_url")
+
+        # locations = Location.where.not(phone: nil).where("phone != crm_phone").where("url = crm_url").where("acct_name = geo_acct_name").where("address = geo_full_addr")
 
 
-        locations = Location.where("acct_name = geo_acct_name").where("address != geo_full_addr").where("url = crm_url")
+        models = Location.where(sts_geo_crm: "Matched-4")[0..3]
+        model_count = 0
+        models.each do |model|
+            model_count +=1
 
 
-        counter = 0
-        locations.each do |location|
-            geo_root = location.geo_root
-            crm_root = location.crm_root
-            url = location.url
-            crm_url = location.crm_url
-            crm_red = location.crm_url_redirect
-            geo_red = location.geo_url_redirect
+            locations = Location.where(url: model.url).where(coordinates: model.coordinates)
 
-            crm_acct = location.acct_name
-            geo_acct = location.geo_acct_name
-            crm_source = location.crm_source
-            crm_addr = location.address
-            geo_addr = location.geo_full_addr
+            counter = 0
+            locations.each do |location|
+                geo_root = location.geo_root
+                crm_root = location.crm_root
+                url = location.url
+                crm_url = location.crm_url
+                crm_red = location.crm_url_redirect
+                geo_red = location.geo_url_redirect
+                crm_acct = location.acct_name
+                geo_acct = location.geo_acct_name
+                crm_source = location.crm_source
+                crm_addr = location.address
+                geo_addr = location.geo_full_addr
+                crm_phone = location.crm_phone
+                geo_phone = location.phone
 
-            counter +=1
-            puts
-            puts "======#{crm_source}: (#{counter}) ============"
-            # puts
-            # puts "CRM: #{crm_addr}"
-            # puts "GEO: #{geo_addr}"
-            # puts
-            puts "CRM: #{crm_acct}"
-            puts "GEO: #{geo_acct}"
-            # puts "CRM: #{crm_root}"
-            # puts "GEO: #{geo_root}"
-            puts
-            puts "CRM: #{crm_url}"
-            puts "GEO: #{url}"
-            puts "---------------------------------"
+                counter +=1
+                puts
+                puts
+                puts "======#{crm_source}: (#{model_count}:#{counter}) ============"
+                puts location.sts_geo_crm
+                puts "#{location.sfdc_id} (#{model.sfdc_id})"
+                puts
+                puts "MOD: #{model.geo_acct_name}"
+                puts "GEO: #{location.geo_acct_name}"
+                puts "CRM: #{location.acct_name}"
+                puts
+                puts "MOD: #{model.url}"
+                puts "GEO: #{location.url}"
+                puts "CRM: #{location.crm_url}"
+                puts
+                puts "MOD: #{model.geo_full_addr}"
+                puts "GEO: #{location.geo_full_addr}"
+                puts "CRM: #{location.address}"
+                puts
+                puts "MOD: #{model.phone}"
+                puts "GEO: #{location.phone}"
+                puts "CRM: #{location.crm_phone}"
+                puts
+                puts "MOD: #{model.coordinates}"
+                puts "GEO: #{location.coordinates}"
+                puts
+                puts "MOD: #{model.coord_id_arr}"
+                puts "---------------------------------"
+                puts "GEO: #{location.coord_id_arr}"
+                puts
 
-
-                # if crm_red && (geo_red == nil || geo_red == "")
-                    # puts "CRM-Red: #{crm_red}"
-                    # location.update_attribute(:url, crm_url)
-
-                # elsif geo_red && (crm_red == nil || crm_red == "")
-                    # puts "GEO-Red: #{geo_red}"
-                    # location.update_attribute(:crm_url, url)
-
-                # else
-                    puts "CRM-Red: #{crm_red}"
-                    puts "GEO-Red: #{geo_red}"
-                    puts
-                # end
-
-            # location.update_attributes(crm_url: url, crm_root: geo_root)
+                # location.update_attributes(crm_phone: geo_phone, acct_name: geo_acct, address: geo_addr, crm_url: location.url)
+            end
 
         end
 
+    end
+
+    def coord_id_arr_btn
+        locations = Location.where.not(coordinates: nil)[0..0]
+
+        locations.each do |location|
+            new_ids = sfdc_id_finder(location.coordinates)
+            ids = location.coord_id_arr
+            if ids != new_ids
+                puts "\n\n(1) ids: #{ids}, new_ids: #{new_ids}\n\n"
+                ids = new_ids
+            end
+
+            ids.each do |id|
+                locs = Location.where(sfdc_id: id)
+
+                locs.each do |loc|
+                    puts "\n\n(2) ids: #{ids}, id: #{id}, locs#: #{locs.count}, loc.coord_id_arr: #{loc.coord_id_arr}\n\n"
+                    if loc.coord_id_arr != ids
+                        puts "\n\n(3) loc.coord_id_arr: #{loc.coord_id_arr}, ids: #{ids}\n\n"
+                        loc.update_attribute(:coord_id_arr, ids)
+                    end
+                end
+            end
+        end
     end
 
 
@@ -671,53 +696,14 @@ class LocationService
     end
 
 
-    def make_bds_status_nil
-        # cores = Core.where.not(bds_status: "Geo Result")
-        # cores.each do |core|
-        #     puts "--------------------------------"
-        #     puts "bds_status: #{core.bds_status}"
-        #     # core.update_attribute(:bds_status, nil)
-        #     puts "bds_status: #{core.bds_status}"
-        # end
-    end
-
-
-    def type_hierarchy_updater
-        # cores = Core.all
-        # counter = 0
-        # cores.each do |core|
-        #
-        #     locs = Location.where(sfdc_id: core.sfdc_id)
-        #     locs.each do |loc|
-        #
-        #         core_source = core.acct_source
-        #         core_type = core.sfdc_type
-        #         core_sfdc_sales_person = core.sfdc_sales_person
-        #
-        #         if core.acct_source == "Web"
-        #             core_sfdc_sales_person = "Web"
-        #             core_type = "Web"
-        #         end
-        #
-        #         core.update_attributes(sfdc_sales_person: core_sfdc_sales_person, sfdc_type: core_type, hierarchy: "None")
-        #
-        #
-        #         loc.update_attributes(sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_source: core.acct_source, crm_hierarchy: "None", geo_type: "GEO")
-        #
-        #         counter +=1
-        #         puts "Counter: #{counter}"
-        #
-        #     end
-        # end
-    end
-
-
     def url_redirect_checker
         require 'curb'
 
         # locations = Location.where.not(crm_url: nil).where.not(crm_url: "").where("url != crm_url").where(crm_url_redirect: nil)
 
-        locations = Location.where.not(url: nil).where.not(url: "").where("url != crm_url").where(geo_url_redirect: nil)
+        # Location.where("geo_root = crm_root")
+
+        # locations = Location.where.not(crm_url: nil).where.not(crm_url: "").where("url != crm_url").where(geo_url_redirect: nil)[20...-1]
 
         counter_result = 0
         counter_fail = 0
@@ -726,7 +712,7 @@ class LocationService
         locations.each do |location|
             total +=1
 
-            geo_url_first = location.url
+            geo_url_first = location.crm_url
 
             unless geo_url_first == nil || geo_url_first == ""
                 begin ## rescue
@@ -738,19 +724,19 @@ class LocationService
 
                     curb_url_result = result.last_effective_url
 
-                    geo_url_hash = url_formatter(curb_url_result)
-                    geo_url_final = geo_url_hash[:new_url]
-                    geo_root_final = geo_url_hash[:new_root]
+                    crm_url_hash = url_formatter(curb_url_result)
+                    crm_url_final = crm_url_hash[:new_url]
+                    geo_root_final = crm_url_hash[:new_root]
 
                     crm_root = location.crm_root
                     crm_source = location.crm_source
 
-                    if geo_url_first != geo_url_final
+                    if geo_url_first != crm_url_final
                         counter_result +=1
                         puts "======= #{crm_source}: (#{counter_result}/#{total}) ======="
                         puts
                         puts "O: #{geo_url_first}"
-                        puts "N: #{geo_url_final}"
+                        puts "N: #{crm_url_final}"
 
                         if geo_root_final == crm_root
                             match_counter +=1
@@ -763,12 +749,12 @@ class LocationService
                             puts
                             puts
                         end
-                        location.update_attribute(:geo_url_redirect, geo_url_final)
+                        location.update_attribute(:crm_url_redirect, geo_url_final)
                         puts
                         puts "==================================="
                     else
                         puts "(#{total}) #{crm_source}: Same"
-                        location.update_attribute(:geo_url_redirect, geo_url_final)
+                        location.update_attribute(:crm_url_redirect, geo_url_final)
                     end
 
                 rescue  #begin rescue
@@ -784,7 +770,6 @@ class LocationService
         end
 
     end
-
 
 
     def url_formatter(url)
@@ -812,6 +797,7 @@ class LocationService
         end
     end
 
+
     def remove_slashes(url)
         # For rare cases w/ urls with mistaken double slash twice.
         parts = url.split('//')
@@ -820,8 +806,6 @@ class LocationService
         end
         url
     end
-
-
 
 
 

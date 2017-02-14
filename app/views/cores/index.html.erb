@@ -16,9 +16,10 @@
 
 <h3 class="section-header">Detailed Account View</h3>
 
+<%= render partial: 'buttons' %>
+
 <h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
 
-    <%= render partial: 'buttons' %><br>
 
     <% num = 0 %>
     <% @cores.each do |core| %>
