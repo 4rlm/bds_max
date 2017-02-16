@@ -136,22 +136,34 @@ class LocationsController < ApplicationController
         # @service.turbo_matcher
         # @service.delay.turbo_matcher
         # @service.delay.web_acct_name_cleaner
-
         # @service.www_inserter
-
         # @service.url_redirect_checker
         # @service.delay.url_redirect_checker
-
         # @service.address_checker
-
         # @service.root_and_url_finalizer
         # @service.delay.root_and_url_finalizer
-
-        # @service.root_matcher
-
+        # @service.delay.root_matcher
         # @service.delay.sts_updater
+        # @service.delay.coord_id_arr_btn
+        # @service.delay.duplicate_sts_btn
+        # @service.delay.quick_coordinates_collector
+        # @service.delay.cop_franch_migrator
+        # @service.phone_updater
 
-        @service.coord_id_arr_btn
+        # @service.db_check
+
+        # @service.duplicate_match_collector
+        # @service.delay.duplicate_match_collector
+
+        # @service.delay.sts_duplicate_tagger
+
+        # @service.sts_duplicate_destroyer
+
+        @service.dup_finder
+        # @service.delay.dup_finder
+
+
+
         redirect_to locations_path
     end
 

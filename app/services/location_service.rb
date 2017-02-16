@@ -204,11 +204,363 @@ class LocationService
     end
 
 
+    ######## CAUTION - SAVE ABOVE THIS LINE!  ##########
+
+
+    def sts_duplicate_tagger
+        locs = Location.where("address = geo_full_addr").where("acct_name = geo_acct_name")
+        Location.where("address LIKE '%.%'").count
+
+
+        counter=0
+        locs.each do |loc|
+            crm_source = loc.crm_source
+            sfdc_id = loc.sfdc_id
+            duplicate_arr = loc.duplicate_arr
+            url_arr = loc.url_arr
+            cop_franch_arr = loc.cop_franch_arr
+
+            target_source_arr = []
+
+            duplicate_arr.each do |target|
+                ids = Location.where(sfdc_id: target)
+                ids.each do |id|
+                    target_source_arr << id.crm_source
+                end
+            end
+
+            if target_source_arr.include?("CRM")
+                group_source_target = "CRM"
+            elsif target_source_arr.include?("Cop")
+                group_source_target = "Cop"
+            elsif target_source_arr.include?("Web")
+                group_source_target = "Web"
+            end
+
+
+            if group_source_target == "CRM"
+                if crm_source == "CRM"
+                    sts_duplicate = "Save"
+                else
+                    sts_duplicate = "Delete"
+                end
+            elsif group_source_target == "Cop"
+                if crm_source == "Cop"
+                    sts_duplicate = "Save"
+                else
+                    sts_duplicate = "Delete"
+                end
+            elsif group_source_target == "Web"
+                if crm_source == "Web"
+                    sts_duplicate = "Save"
+                else
+                    sts_duplicate = "Delete"
+                end
+            end
+
+
+            counter+=1
+            puts
+            puts
+            puts "=========== #{counter} ==========="
+            puts
+            puts "duplicate_arr: #{duplicate_arr}"
+            puts "group_source_target: #{group_source_target}"
+            puts
+            puts "-----------------------"
+            puts "ID: #{sfdc_id}"
+            puts "Source: #{crm_source}"
+            puts "sts_duplicate: #{sts_duplicate}"
+            puts "-----------------------"
+            puts
+            puts "url_arr: #{url_arr}"
+            puts "cop_franch_arr: #{cop_franch_arr}"
+            puts
+            loc.update_attribute(:sts_duplicate, sts_duplicate)
+
+
+        end
+    end
+
+
+
+
+    def cop_franch_migrator
+        locations = Location.where(crm_source: "Cop")
+        counter=0
+        locations.each do |loc|
+
+            cores = Core.where(sfdc_id: loc.sfdc_id)
+            cores.each do |core|
+                counter+=1
+                puts "=========== #{counter} ==========="
+                core_cop_franch = core.cop_franch
+                core_cop_franch_arr = core_cop_franch.split(";")
+
+                puts core_cop_franch
+                puts "----"
+                puts core_cop_franch_arr
+                puts "----"
+
+                # loc.update_attributes(cop_franch: core_cop_franch, cop_franch_arr: core_cop_franch_arr)
+
+                puts "**"
+                loc_cop_franch = loc.cop_franch
+                puts loc_cop_franch
+                puts "**"
+                loc_cop_franch_arr = loc.cop_franch_arr
+                puts loc_cop_franch_arr
+                puts
+
+            end
+        end
+    end
+
+
+    def db_check
+        locs = Location.where(sfdc_id: "web1485120753040")
+        locs.each do |loc|
+            puts "===================================="
+            puts loc.url_arr
+            puts "----------"
+            puts loc.duplicate_arr
+            puts "----------"
+            puts loc.cop_franch_arr
+            puts "----------"
+        end
+    end
+
+
+    def duplicate_match_collector
+        locs = Location.where("address = geo_full_addr").where("acct_name = geo_acct_name")[40627..-1]
+
+        counter=40627
+        locs.each do |loc|
+
+            crm_acct = loc.acct_name
+            crm_addr = loc.address
+            coordinates = loc.coordinates
+
+            url_arr = loc.url_arr unless loc.url_arr == nil
+            franchise_tank = loc.cop_franch_arr
+            duplicate_arr = duplicate_acct_finder(crm_acct, crm_addr, coordinates).sort
+
+            counter+=1
+            puts
+            puts
+            puts "============= (#{counter}) =============="
+            puts "****** #{loc.sfdc_id}"
+            puts
+            puts duplicate_arr
+            puts
+
+            duplicate_arr.each do |duplicate|
+
+                ids = Location.where(sfdc_id: duplicate)
+                ids.each do |id|
+
+                    puts "----------------"
+                    puts id.sfdc_id
+                    puts id.coordinates
+                    puts id.acct_name
+                    puts id.address
+                    puts id.url
+                    puts id.crm_url
+                    puts id.phone
+                    puts id.crm_phone
+
+                    dup_geo_url = id.url
+                    if dup_geo_url
+                        url_arr << dup_geo_url unless url_arr.include?(dup_geo_url)
+                    end
+
+                    dup_crm_url = id.crm_url
+                    if dup_crm_url
+                        url_arr << dup_crm_url unless url_arr.include?(dup_crm_url)
+                    end
+
+                    cop_franchises = id.cop_franch_arr
+                    if cop_franchises
+                        puts
+                        puts cop_franchises
+                        puts
+                        cop_franchises.each do |franch|
+                            franchise_tank << franch unless franchise_tank.include?(franch)
+                        end
+                    end
+
+                end
+
+            end
+
+            puts
+            puts "1"
+            unless url_arr == nil || url_arr == []
+                final_url_arr = url_arr.sort unless url_arr == nil
+                puts final_url_arr
+            end
+            puts
+
+            puts "3"
+            unless franchise_tank == nil || franchise_tank == []
+                final_cop_franch_arr = franchise_tank.sort
+                puts final_cop_franch_arr
+            end
+            puts
+
+        loc.update_attributes(duplicate_arr: duplicate_arr, cop_franch_arr: final_cop_franch_arr, url_arr: final_url_arr)
+
+        end
+    end
+
+
+    def duplicate_acct_finder(acct_name, address, coordinates)
+        Location.where(coordinates: coordinates, address: address, acct_name:acct_name).map(&:sfdc_id)
+    end
+
+
+    def quick_coordinates_collector
+        # Uses .map method to create collections of ids with same coords.
+        locations = Location.where.not(coordinates: nil)
+        counter=0
+        locations.each do |loc|
+
+            current_collection = loc.coord_id_arr.sort
+            new_collection = sfdc_id_finder(loc.coordinates).sort
+
+            if current_collection == new_collection
+                # puts "Same"
+            else
+                puts "==================="
+                counter+=1
+                puts "Updated (#{counter})"
+                puts
+                puts "----- Current ------"
+                puts current_collection
+                puts "------- New ------"
+                puts new_collection
+                puts
+                loc.update_attribute(:coord_id_arr, new_collection)
+            end
+
+        end
+
+    end
+
+
     def sfdc_id_finder(coordinates)
         Location.where(coordinates: coordinates).map(&:sfdc_id)
     end
 
-    ######## CAUTION - SAVE ABOVE THIS LINE!  ##########
+
+
+    def phone_updater
+        locations = Location.where("crm_phone != phone").where("acct_name = geo_acct_name")
+        counter=0
+        locations.each do |loc|
+
+            crm_acct = loc.acct_name
+            crm_url = loc.crm_url
+            crm_address = loc.address
+            crm_phone = loc.crm_phone
+
+            geo_acct = loc.geo_acct_name
+            geo_url = loc.url
+            geo_address = loc.geo_full_addr
+            geo_phone = loc.phone
+
+            counter +=1
+            puts
+            puts
+            puts "===================== #{counter} ====================="
+            puts
+            puts crm_acct
+            puts geo_acct
+
+            puts crm_url
+            puts geo_url
+
+            puts crm_address
+            puts geo_address
+
+            puts crm_phone
+            puts geo_phone
+            puts
+            puts
+
+            loc.update_attribute(:crm_phone, loc.phone)
+
+
+        end
+    end
+
+
+    def duplicate_sts_btn
+        # resets = Location.where(sts_duplicate: "Duplicate")
+        # resets.each do |reset|
+        #     puts "reset"
+        #     reset.update_attribute(:sts_duplicate, "None")
+        # end
+
+
+        matches = Location.where(sts_geo_crm: "Matched-4")
+        counter = 0
+        matches.each do |match|
+
+            locations = Location.where(sts_geo_crm: match.sts_geo_crm, acct_name: match.acct_name, crm_url: match.crm_url, address: match.address, crm_phone: match.crm_phone).where.not(sfdc_id: match.sfdc_id)
+
+            locations.each do |location|
+
+                match_sts_geo_crm = match.sts_geo_crm
+                match_crm_source = match.crm_source
+                match_acct_name = match.acct_name
+                match_crm_url = match.crm_url
+                match_address = match.address
+                match_crm_phone = match.crm_phone
+                match_sfdc_id = match.sfdc_id
+
+                loc_sts_geo_crm = location.sts_geo_crm
+                loc_crm_source = location.crm_source
+                loc_acct_name = location.acct_name
+                loc_crm_url = location.crm_url
+                loc_address = location.address
+                loc_crm_phone = location.crm_phone
+                loc_sfdc_id = location.sfdc_id
+
+                counter +=1
+                puts
+                puts
+                puts "===================== #{counter} ====================="
+                puts
+                puts "-------------- Match --------------"
+                puts match_sts_geo_crm
+                puts match_crm_source
+                puts match_sfdc_id
+                puts match_acct_name
+                puts match_crm_url
+                puts match_address
+                puts match_crm_phone
+                puts
+                puts "------------ Location ------------"
+                puts loc_sts_geo_crm
+                puts loc_crm_source
+                puts loc_sfdc_id
+                puts loc_acct_name
+                puts loc_crm_url
+                puts loc_address
+                puts loc_crm_phone
+                puts
+                puts
+
+                match.update_attribute(:sts_duplicate, "Duplicate")
+                location.update_attribute(:sts_duplicate, "Duplicate")
+
+            end
+
+        end
+
+    end
+
 
     def sts_updater
         locations = Location.all
@@ -351,70 +703,117 @@ class LocationService
         # locations = Location.where.not(phone: nil).where("phone != crm_phone").where("url = crm_url").where("acct_name = geo_acct_name").where("address = geo_full_addr")
 
 
-        models = Location.where(sts_geo_crm: "Matched-4")[0..3]
-        model_count = 0
-        models.each do |model|
-            model_count +=1
+        # models = Location.where(sts_geo_crm: "Matched-4")
+        # model_count = 0
+        # models.each do |model|
+            # model_count +=1
 
+            # locations = Location.where(coordinates: model.coordinates).where.not(sts_geo_crm: "Matched-4").where(crm_source: "Web").where(crm_url: model.url)
 
-            locations = Location.where(url: model.url).where(coordinates: model.coordinates)
+            # locations = Location.where(coordinates: model.coordinates).where.not(sts_geo_crm: "Matched-4").where(crm_url: nil).where(acct_name: model.acct_name)
+
+            locations = Location.where(crm_url: nil).where.not(url: nil).where.not(sts_geo_crm: "Matched-0").where.not(sts_geo_crm: nil)
+
 
             counter = 0
             locations.each do |location|
+
+                geo_acct = location.geo_acct_name
+                geo_addr = location.geo_full_addr
+                geo_phone = location.phone
                 geo_root = location.geo_root
-                crm_root = location.crm_root
                 url = location.url
+                geo_red = location.geo_url_redirect
+
+                crm_sts = location.sts_geo_crm
+                crm_acct = location.acct_name
+                crm_addr = location.address
+                crm_phone = location.crm_phone
+                crm_root = location.crm_root
                 crm_url = location.crm_url
                 crm_red = location.crm_url_redirect
-                geo_red = location.geo_url_redirect
-                crm_acct = location.acct_name
-                geo_acct = location.geo_acct_name
                 crm_source = location.crm_source
-                crm_addr = location.address
-                geo_addr = location.geo_full_addr
-                crm_phone = location.crm_phone
-                geo_phone = location.phone
+
+                # mod_sts = model.sts_geo_crm
+                # mod_acct = model.geo_acct_name
+                # mod_addr = model.geo_full_addr
+                # mod_root = model.geo_root
+                # mod_url = model.url
+                # mod_phone = model.phone
+
 
                 counter +=1
                 puts
                 puts
-                puts "======#{crm_source}: (#{model_count}:#{counter}) ============"
-                puts location.sts_geo_crm
-                puts "#{location.sfdc_id} (#{model.sfdc_id})"
+                puts "====== (#{counter}) ============"
                 puts
-                puts "MOD: #{model.geo_acct_name}"
-                puts "GEO: #{location.geo_acct_name}"
-                puts "CRM: #{location.acct_name}"
+                # puts "M-Sts/ID: #{mod_sts} (#{model.sfdc_id})"
+                puts "C-Sts/ID: #{crm_sts} (#{location.sfdc_id})"
+                # puts "C-URL: #{crm_url}"
+                # puts "G-URL: #{url}"
+                puts "---------------------------"
                 puts
-                puts "MOD: #{model.url}"
-                puts "GEO: #{location.url}"
-                puts "CRM: #{location.crm_url}"
+
+                unless url == crm_url
+                    puts "------ Different ------"
+                    puts "C-URL: #{crm_url}"
+                    # puts "M-Acct: #{mod_url}"
+                    puts "G-URL: #{url}"
+                    puts
+                    location.update_attribute(:crm_url, url)
+                else
+                    puts "Same URL: #{url}"
+                    puts
+                end
+
+                unless geo_acct == crm_acct
+                    puts "------ Different ------"
+                    puts "C-Acct: #{crm_acct}"
+                    # puts "M-Acct: #{mod_acct}"
+                    puts "G-Acct: #{geo_acct}"
+                    puts
+                    location.update_attribute(:acct_name, geo_acct)
+                else
+                    puts "Same Acct: #{geo_acct}"
+                    puts
+                end
+
+                unless geo_addr == crm_addr
+                    puts "C-Addr: #{crm_addr}"
+                    # puts "M-Addr: #{mod_addr}"
+                    puts "G-Addr: #{geo_addr}"
+                    puts
+                    location.update_attribute(:address, geo_addr)
+                else
+                    puts "Same Addr: #{geo_addr}"
+                    puts
+                end
+
+                unless geo_phone == crm_phone
+                    puts "C-PH: #{crm_phone}"
+                    # puts "M-PH: #{mod_phone}"
+                    puts "G-PH: #{geo_phone}"
+                    puts
+                    location.update_attribute(:crm_phone, geo_phone)
+                else
+                    puts "Same Phone: #{geo_phone}"
+                    puts
+                end
+
                 puts
-                puts "MOD: #{model.geo_full_addr}"
-                puts "GEO: #{location.geo_full_addr}"
-                puts "CRM: #{location.address}"
-                puts
-                puts "MOD: #{model.phone}"
-                puts "GEO: #{location.phone}"
-                puts "CRM: #{location.crm_phone}"
-                puts
-                puts "MOD: #{model.coordinates}"
-                puts "GEO: #{location.coordinates}"
-                puts
-                puts "MOD: #{model.coord_id_arr}"
-                puts "---------------------------------"
-                puts "GEO: #{location.coord_id_arr}"
-                puts
+
+
 
                 # location.update_attributes(crm_phone: geo_phone, acct_name: geo_acct, address: geo_addr, crm_url: location.url)
             end
 
-        end
+        # end
 
     end
 
+
     def coord_id_arr_btn
-        locations = Location.where.not(coordinates: nil)[0..0]
+        locations = Location.where.not(coordinates: nil)
 
         locations.each do |location|
             new_ids = sfdc_id_finder(location.coordinates)
@@ -431,7 +830,7 @@ class LocationService
                     puts "\n\n(2) ids: #{ids}, id: #{id}, locs#: #{locs.count}, loc.coord_id_arr: #{loc.coord_id_arr}\n\n"
                     if loc.coord_id_arr != ids
                         puts "\n\n(3) loc.coord_id_arr: #{loc.coord_id_arr}, ids: #{ids}\n\n"
-                        loc.update_attribute(:coord_id_arr, ids)
+                        # loc.update_attribute(:coord_id_arr, ids)
                     end
                 end
             end
@@ -805,6 +1204,178 @@ class LocationService
             return parts[0..1].join
         end
         url
+    end
+
+
+
+
+    def dup_finder
+        saves = Location.where(sts_duplicate: "Save", crm_source: "CRM")[0..50]
+        counter=0
+        saves.each do |save|
+
+            locs = Location.where.not(sfdc_id: save.sfdc_id).where.not(crm_source: "CRM").where(acct_name: save.acct_name).where(coordinates: save.coordinates)
+
+            locs.each do |loc|
+
+                sav_sfdc_id = save.sfdc_id
+                sav_acct_name = save.acct_name
+                sav_crm_source = save.crm_source
+                sav_sts_dup = save.sts_duplicate
+                sav_crm_addr = save.address
+                sav_crm_url = save.crm_url
+                sav_duplicate_arr = save.duplicate_arr
+                sav_cop_franch_arr = save.cop_franch_arr
+
+                new_sav_duplicate_arr = sav_duplicate_arr
+                new_sav_cop_franch_arr = sav_cop_franch_arr
+
+                loc_sfdc_id = loc.sfdc_id
+                loc_acct_name = loc.acct_name
+                loc_crm_source = loc.crm_source
+                loc_sts_dup = loc.sts_duplicate
+                loc_crm_addr = loc.address
+                loc_crm_url = loc.crm_url
+                loc_duplicate_arr = loc.duplicate_arr
+                loc_cop_franch_arr = loc.cop_franch_arr
+
+
+                counter+=1
+                puts
+                puts
+                puts "=========== #{counter} ==========="
+                puts
+                puts
+                puts sav_sfdc_id
+                puts sav_acct_name
+                puts sav_crm_source
+                puts sav_sts_dup
+                puts sav_crm_addr
+                puts sav_crm_url
+                puts "---------------------"
+                puts "sav_cop_franch_arr"
+                puts sav_cop_franch_arr
+                puts "---------------------"
+                puts "sav_duplicate_arr"
+                puts sav_duplicate_arr
+                puts "---------------------"
+                puts
+                puts loc_sfdc_id
+                puts loc_acct_name
+                puts loc_crm_source
+                puts loc_sts_dup
+                puts loc_crm_addr
+                puts loc_crm_url
+                puts "---------------------"
+                puts "loc_cop_franch_arr"
+                puts loc_cop_franch_arr
+                puts "---------------------"
+                puts "loc_duplicate_arr"
+                puts loc_duplicate_arr
+                puts
+
+                unless sav_duplicate_arr.include?(loc_sfdc_id)
+                    new_sav_duplicate_arr << loc_sfdc_id
+                    puts "-------------------------------------"
+                    puts "UPDATED duplicate_arr"
+                    puts new_sav_duplicate_arr
+                    puts
+                else
+                    puts "-------------------------------------"
+                    puts "Same duplicate_arr"
+                    puts new_sav_duplicate_arr
+                    puts
+                end
+
+
+                unless loc_cop_franch_arr == nil || loc_cop_franch_arr == []
+                    loc_cop_franch_arr.each do |loc_cop_franch|
+
+                        if loc_cop_franch
+                            unless sav_cop_franch_arr == nil || sav_cop_franch_arr == []
+
+                                unless sav_cop_franch_arr.include?(loc_cop_franch)
+                                    new_sav_cop_franch_arr << loc_cop_franch
+                                    unless new_sav_cop_franch_arr == sav_cop_franch_arr
+                                        puts "-------------------------------------"
+                                        puts "UPDATED cop_franch_arr"
+                                        puts new_sav_cop_franch_arr
+                                        puts
+                                    else
+                                        puts "-------------------------------------"
+                                        puts "Same cop_franch_arr"
+                                        puts new_sav_cop_franch_arr
+                                    end
+                                end
+
+                            else
+                                new_sav_cop_franch_arr << loc_cop_franch
+
+                                unless new_sav_cop_franch_arr == sav_cop_franch_arr
+                                    puts "-------------------------------------"
+                                    puts "UPDATED cop_franch_arr"
+                                    puts new_sav_cop_franch_arr
+                                    puts
+                                else
+                                    puts "-------------------------------------"
+                                    puts "Same cop_franch_arr"
+                                    puts new_sav_cop_franch_arr
+                                end
+                                
+                            end
+
+                        end
+                    end
+                end
+                puts
+
+            end
+
+        end
+    end
+
+
+
+
+    def sts_duplicate_destroyer
+        locs = Location.where(sts_duplicate: "Delete")
+        locs.each do |loc|
+
+            cores = Core.where(sfdc_id: loc.sfdc_id)
+            cores.each do |core|
+                loc_sfdc_id = loc.sfdc_id
+                loc_acct_name = loc.acct_name
+                loc_crm_source = loc.crm_source
+                loc_sts_dup = loc.sts_duplicate
+
+
+                cor_sfdc_id = core.sfdc_id
+                cor_acct_name = core.geo_acct_name
+                cor_crm_source = core.acct_source
+
+                puts
+                puts "---------------------"
+                puts
+
+                puts loc_sts_dup
+
+                puts cor_sfdc_id
+                puts loc_sfdc_id
+
+                puts cor_acct_name
+                puts loc_acct_name
+
+                puts cor_crm_source
+                puts loc_crm_source
+
+                core.update_attribute(:bds_status, "Delete")
+
+            end
+
+
+        end
+
+
     end
 
 

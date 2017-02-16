@@ -41,11 +41,11 @@
             <% @locations.each do |location| %>
 
                 <% unless coords.include?(location.coordinates) %>
-                    <% coords << location.coordinates %>
+                <% coords << location.coordinates %>
                     <% num +=1 %>
                     <%= render partial: 'table_group', locals: { num: num, location: location } %>
                 <% end %>
-                
+
             <% end %>
             </table>
 

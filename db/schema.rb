@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213113104) do
+ActiveRecord::Schema.define(version: 20170215160317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -299,6 +299,10 @@ ActiveRecord::Schema.define(version: 20170213113104) do
     t.string   "sts_addr"
     t.string   "sts_ph"
     t.string   "sts_duplicate"
+    t.string   "url_arr",          default: [],              array: true
+    t.string   "duplicate_arr",    default: [],              array: true
+    t.string   "cop_franch_arr",   default: [],              array: true
+    t.string   "cop_franch"
   end
 
   create_table "pending_verifications", force: :cascade do |t|

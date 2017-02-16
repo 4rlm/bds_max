@@ -5,6 +5,8 @@
 
         <th colspan="2">GEO</th>
 
+        <th>Status</th>
+
         <!-- CRM URL -->
         <th colspan="3">CRM</th>
 
@@ -39,7 +41,9 @@
 
         <!-- 3rd+ rows start - partial -->
         <%= render partial: 'table_row', locals: {location: location, num: num} %>
+
         <% s_ids = get_other_sfdc_ids(location) %>
+
         <% s_ids.each do |id| %>
         <% if loc = Location.find_by(sfdc_id: id) %>
         <%= render partial: 'table_row', locals: {location: loc, num: ""} %>

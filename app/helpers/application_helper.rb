@@ -19,7 +19,7 @@ module ApplicationHelper
     end
 
     def duplicate_sts_list
-        ["CRM Duplicate", "CoP Duplicate", "Web Duplicate"]
+        ["Delete", "Save", "Duplicate", "None"]
     end
 
     def url_redirect_sts_lists
