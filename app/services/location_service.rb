@@ -1206,7 +1206,7 @@ class LocationService
         url
     end
 
-    def sample_dup_finder
+    def sample_dup_finder_old
         locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url")
 
         counter=0
@@ -1230,6 +1230,32 @@ class LocationService
 
     end
 
+    def sample_dup_finder
+        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where(crm_source: "Web")
+
+        counter=0
+        locs.each do |loc|
+            webs = Location.where(acct_name: loc.acct_name).where(crm_source: "Web")
+
+            saves = webs.where(address: loc.address).where(crm_url: loc.crm_url).where(sts_duplicate: nil)
+            if web = saves.first
+                counter +=1
+                puts "#{counter}) Save"
+                web.update_attribute(:sts_duplicate, "Save")
+                saved = true
+            end
+
+            deletes = webs.where(coordinates: loc.coordinates).where(sts_duplicate: nil)
+            # binding.pry if deletes.count > 0
+            deletes.each do |delete|
+                counter +=1
+                puts "#{counter}) Delete"
+
+                delete.update_attribute(:sts_duplicate, "Delete") if saved
+            end
+        end
+
+    end
 
 
     def dup_finder
