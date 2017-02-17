@@ -159,8 +159,12 @@ class LocationsController < ApplicationController
 
         # @service.sts_duplicate_destroyer
 
-        @service.dup_finder
+        # @service.dup_finder
         # @service.delay.dup_finder
+
+
+        # @service.sample_dup_finder
+        @service.delay.sample_dup_finder
 
 
 

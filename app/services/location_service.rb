@@ -1206,127 +1206,172 @@ class LocationService
         url
     end
 
+    def sample_dup_finder
+        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url")
+
+        counter=0
+        locs.each do |loc|
+
+            saves = Location.where(acct_name: loc.acct_name).where(address: loc.address).where(crm_url: loc.crm_url).where(crm_source: "Web").where(sts_duplicate: nil)[0..0]
+            saves.each do |save|
+                counter+=1
+                puts "#{counter}) Save"
+                save.update_attribute(:sts_duplicate, "Save")
+            end
+
+            deletes = Location.where(acct_name: loc.acct_name).where(coordinates: loc.coordinates).where(crm_source: "Web").where(sts_duplicate: nil)[0..-1]
+            deletes.each do |delete|
+                counter+=1
+                puts "#{counter}) Delete"
+                delete.update_attribute(:sts_duplicate, "Delete")
+            end
+
+        end
+
+    end
 
 
 
     def dup_finder
-        saves = Location.where(sts_duplicate: "Save", crm_source: "CRM")[0..50]
+        saves = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url")
+
         counter=0
         saves.each do |save|
 
-            locs = Location.where.not(sfdc_id: save.sfdc_id).where.not(crm_source: "CRM").where(acct_name: save.acct_name).where(coordinates: save.coordinates)
+            ignores = Location.where(crm_source: "Web").where(acct_name: save.acct_name)[0..0]
+            ignores.each do |ignore|
+                puts "Web-Save"
+                ignore.update_attribute(:sts_duplicate, "Web-Save")
+            end
+
+            locs = Location.where(crm_source: "Web").where(acct_name: save.acct_name)[1..-1]
 
             locs.each do |loc|
 
-                sav_sfdc_id = save.sfdc_id
+                # SAVE Variables
                 sav_acct_name = save.acct_name
                 sav_crm_source = save.crm_source
                 sav_sts_dup = save.sts_duplicate
                 sav_crm_addr = save.address
-                sav_crm_url = save.crm_url
-                sav_duplicate_arr = save.duplicate_arr
-                sav_cop_franch_arr = save.cop_franch_arr
 
-                new_sav_duplicate_arr = sav_duplicate_arr
-                new_sav_cop_franch_arr = sav_cop_franch_arr
-
-                loc_sfdc_id = loc.sfdc_id
+                # LOC Variables
                 loc_acct_name = loc.acct_name
                 loc_crm_source = loc.crm_source
                 loc_sts_dup = loc.sts_duplicate
                 loc_crm_addr = loc.address
+
+                # URLs
+                sav_crm_url = save.crm_url
+                sav_geo_url = save.url
                 loc_crm_url = loc.crm_url
+                loc_geo_url = loc.url
+                sav_url_arr = save.url_arr
+                loc_url_arr = loc.url_arr
+                comb_url_arr = []
+                comb_url_arr << loc_crm_url if loc_crm_url
+                comb_url_arr << loc_geo_url if loc_geo_url
+                comb_url_arr << loc_crm_url
+                comb_url_arr << loc_geo_url
+
+                comb_url_arr = comb_url_arr+sav_url_arr if sav_url_arr
+                comb_url_arr = comb_url_arr+loc_url_arr if loc_url_arr
+                comb_url_arr.compact!
+                comb_url_arr.uniq!
+                comb_url_arr.sort!
+
+                # IDs
+                sav_sfdc_id = save.sfdc_id
+                sav_duplicate_arr = save.duplicate_arr
+                loc_sfdc_id = loc.sfdc_id
                 loc_duplicate_arr = loc.duplicate_arr
+                comb_duplicate_arr = []
+                comb_duplicate_arr << sav_sfdc_id
+                comb_duplicate_arr << loc_sfdc_id
+
+                comb_duplicate_arr = comb_duplicate_arr+sav_duplicate_arr if sav_duplicate_arr
+                comb_duplicate_arr = comb_duplicate_arr+loc_duplicate_arr if loc_duplicate_arr
+                comb_duplicate_arr.compact!
+                comb_duplicate_arr.uniq!
+                comb_duplicate_arr.sort!
+
+                # COP Franchises
+                sav_cop_franch_arr = save.cop_franch_arr
                 loc_cop_franch_arr = loc.cop_franch_arr
+                comb_cop_franch_arr = []
+
+                loc_cop_franch = loc.cop_franch
+                if loc_cop_franch
+                    loc_cop_franch_arr = loc_cop_franch.split(";") if loc_cop_franch
+                    comb_cop_franch_arr = comb_cop_franch_arr+loc_cop_franch_arr
+                end
+
+                comb_cop_franch_arr = sav_cop_franch_arr+comb_cop_franch_arr if sav_cop_franch_arr
+
+                comb_cop_franch_arr = loc_cop_franch_arr+comb_cop_franch_arr if loc_cop_franch_arr
+                comb_cop_franch_arr.compact!
+                comb_cop_franch_arr.uniq!
+                comb_cop_franch_arr.sort!
+
+                # save.update_attributes(url_arr: comb_url_arr, duplicate_arr: comb_duplicate_arr, cop_franch_arr: comb_cop_franch_arr)
+
+                # save_cores = Core.where(sfdc_id: loc.sfdc_id)
+                # save_cores.each do |save_core|
+                #     save_core.update_attribute(:bds_status, "none")
+                # end
+
+                loc.update_attribute(:sts_duplicate, "Web-Delete")
+
+                # cores = Core.where(sfdc_id: loc.sfdc_id)
+                # cores.each do |core|
+                #     core.update_attribute(:bds_status, "Delete")
+                # end
 
 
                 counter+=1
                 puts
                 puts
-                puts "=========== #{counter} ==========="
                 puts
-                puts
+                puts "===================== #{counter} ====================="
                 puts sav_sfdc_id
                 puts sav_acct_name
                 puts sav_crm_source
                 puts sav_sts_dup
                 puts sav_crm_addr
                 puts sav_crm_url
-                puts "---------------------"
-                puts "sav_cop_franch_arr"
-                puts sav_cop_franch_arr
-                puts "---------------------"
-                puts "sav_duplicate_arr"
-                puts sav_duplicate_arr
-                puts "---------------------"
-                puts
+                puts "==========================="
                 puts loc_sfdc_id
                 puts loc_acct_name
                 puts loc_crm_source
                 puts loc_sts_dup
                 puts loc_crm_addr
                 puts loc_crm_url
-                puts "---------------------"
-                puts "loc_cop_franch_arr"
-                puts loc_cop_franch_arr
-                puts "---------------------"
-                puts "loc_duplicate_arr"
-                puts loc_duplicate_arr
+                puts "==========================="
+                puts "STOCK INFO"
                 puts
-
-                unless sav_duplicate_arr.include?(loc_sfdc_id)
-                    new_sav_duplicate_arr << loc_sfdc_id
-                    puts "-------------------------------------"
-                    puts "UPDATED duplicate_arr"
-                    puts new_sav_duplicate_arr
-                    puts
-                else
-                    puts "-------------------------------------"
-                    puts "Same duplicate_arr"
-                    puts new_sav_duplicate_arr
-                    puts
-                end
-
-
-                unless loc_cop_franch_arr == nil || loc_cop_franch_arr == []
-                    loc_cop_franch_arr.each do |loc_cop_franch|
-
-                        if loc_cop_franch
-                            unless sav_cop_franch_arr == nil || sav_cop_franch_arr == []
-
-                                unless sav_cop_franch_arr.include?(loc_cop_franch)
-                                    new_sav_cop_franch_arr << loc_cop_franch
-                                    unless new_sav_cop_franch_arr == sav_cop_franch_arr
-                                        puts "-------------------------------------"
-                                        puts "UPDATED cop_franch_arr"
-                                        puts new_sav_cop_franch_arr
-                                        puts
-                                    else
-                                        puts "-------------------------------------"
-                                        puts "Same cop_franch_arr"
-                                        puts new_sav_cop_franch_arr
-                                    end
-                                end
-
-                            else
-                                new_sav_cop_franch_arr << loc_cop_franch
-
-                                unless new_sav_cop_franch_arr == sav_cop_franch_arr
-                                    puts "-------------------------------------"
-                                    puts "UPDATED cop_franch_arr"
-                                    puts new_sav_cop_franch_arr
-                                    puts
-                                else
-                                    puts "-------------------------------------"
-                                    puts "Same cop_franch_arr"
-                                    puts new_sav_cop_franch_arr
-                                end
-                                
-                            end
-
-                        end
-                    end
-                end
+                p sav_url_arr
+                puts "---------------------"
+                p loc_url_arr
+                puts "---------------------"
+                p sav_duplicate_arr
+                puts "---------------------"
+                p loc_duplicate_arr
+                puts "---------------------"
+                p sav_cop_franch_arr
+                puts "---------------------"
+                p loc_cop_franch_arr
+                puts
+                puts "==========================="
+                puts "comb_url_arr"
+                p comb_url_arr
+                puts "---------------------"
+                puts "comb_duplicate_arr"
+                p comb_duplicate_arr
+                puts "---------------------"
+                puts "comb_cop_franch_arr"
+                p comb_cop_franch_arr
+                puts "=============================================="
+                puts
+                puts
                 puts
 
             end
