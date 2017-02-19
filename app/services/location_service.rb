@@ -4,9 +4,10 @@ class LocationService
         ## ORIGINAL IS BASED ON "CORES".  THIS IS BASED ON "LOCATIONS".
 
         ## TEMPORARY - FOR RE-RUNNING WRONG ACCOUNT NAME RESULTS
-        locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where("address != geo_full_addr").where.not(location_status: "Re-Run Failed").where.not(location_status: "Spots: Empty")[200..-1]
+        # locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where("address != geo_full_addr").where.not(location_status: "Re-Run Failed").where.not(location_status: "Spots: Empty")[200..-1]
 
-        # locations = Location.where(crm_source: "Web").where("geo_acct_name != acct_name").where(location_status: "Spots: Empty")[2..5]
+        locations = Location.where(crm_source: "CRM").where("geo_acct_name != acct_name").where("address = geo_full_addr")[0..0]
+
 
         counter = 0
         locations.each do |location|
@@ -18,12 +19,10 @@ class LocationService
             # puts "Name: #{location.geo_acct_name}"
             # puts "Addr: #{location.geo_full_addr}"
             # puts "URL: #{location.url}"
-            # puts
-            # puts
-            # puts "----- CRM (original) -----"
-            # puts "Name: #{location.acct_name}"
-            # puts "Addr: #{location.address}"
-            # puts "URL: #{location.crm_url}"
+            puts "----- CRM (original) -----"
+            puts "Name: #{location.acct_name}"
+            puts "Addr: #{location.address}"
+            puts "URL: #{location.crm_url}"
 
             get_spot(location)
         end
@@ -53,25 +52,28 @@ class LocationService
 
         crm_url = location.crm_url
 
-        if crm_url != nil && crm_url != ""
+        crm_acct = location.acct_name
+        geo_acct = location.geo_acct_name
+
+        if crm_acct && crm_acct != geo_acct
+            spots = client.spots_by_query(crm_acct, types: ["car_dealer"])
+        elsif crm_url && crm_url != ""
 
             uri = URI(crm_url)
             host = uri.host
 
-            if host.include?("www.")
-                short_host = host.gsub("www.", "")
-            else
-                short_host = host
+            if host
+                if host.include?("www.")
+                    short_host = host.gsub("www.", "")
+                else
+                    short_host = host
+                end
             end
 
-            # custom_query = "#{location.crm_url}"
             spots = client.spots_by_query(short_host, types: ["car_dealer"])
-        elsif location.acct_name != nil
-            custom_query = location.acct_name
-            spots = client.spots_by_query(custom_query, types: ["car_dealer"])
         else
             puts "Re-Run Failed"
-            location.update_attribute(:location_status, "Re-Run Failed")
+            location.update_attribute(:sts_duplicate, "No Results")
             return
         end
 
@@ -80,7 +82,7 @@ class LocationService
             # core.update_attributes(bds_status: "Geo Error", geo_status: "Geo Error", geo_date: Time.new)
             puts "Spots: Empty"
             # location.update_attribute(:location_status, "IMG Search")
-            location.update_attribute(:location_status, "Spots: Empty")
+            location.update_attribute(:sts_duplicate, "No Results")
             return
         else
             spot = spots.first
@@ -147,7 +149,7 @@ class LocationService
                 # puts
                 # puts
                 # puts "New: #{root}"
-                puts "New: #{full_url}"
+                # puts "New: #{full_url}"
                 # puts "--------------------"
             end
 
@@ -164,21 +166,97 @@ class LocationService
                 uri_crm_url = "#{uri.scheme}://#{uri.host}"
             end
 
-            if uri_crm_url[-1, 1] == ("/")
-                clean_crm_url = uri_crm_url[0...-1]
-            else
-                clean_crm_url = uri_crm_url
+            if uri_crm_url
+                if uri_crm_url[-1, 1] == ("/")
+                    clean_crm_url = uri_crm_url[0...-1]
+                else
+                    clean_crm_url = uri_crm_url
+                end
             end
 
-            puts "CRM: #{clean_crm_url}"
+            # puts "CRM: #{clean_crm_url}"
+
             puts
+            puts "----- GEO (UPDATED) -----"
+            puts "Name: #{spot.name}"
+            puts "Addr: #{new_full_address}"
+            puts "URL: #{clean_crm_url}"
             puts
 
-            if clean_crm_url == full_url
-                location.update_attributes(img_url: img_url, latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, state_code: state, postal_code: zip, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, acct_name: spot.name, address: new_full_address, geo_full_addr: new_full_address, url: full_url, geo_root: root, location_status: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates))
+            acct_name = location.acct_name
+            geo_acct_name = location.geo_acct_name
+            if acct_name == geo_acct_name
+                final_name = acct_name
             else
-                location.update_attributes(img_url: img_url, latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, state_code: state, postal_code: zip, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, address: nil, geo_full_addr: new_full_address, url: full_url, geo_root: root, coord_id_arr: sfdc_id_finder(coordinates))
+                final_name = spot.name
             end
+
+            address = location.address
+            geo_full_addr = location.geo_full_addr
+            if address == geo_full_addr
+                final_address = address
+            else
+                final_address = new_full_address
+            end
+
+            url = location.url
+            crm_url = location.crm_url
+            if crm_url == url
+                final_url = crm_url
+            else
+                final_url = clean_crm_url
+            end
+
+            crm_phone = location.crm_phone
+            phone = location.phone
+            if crm_phone == phone
+                final_phone = crm_phone
+            else
+                final_phone = detail.formatted_phone_number
+            end
+
+
+            # if clean_crm_url == full_url
+
+            if new_full_address == location.geo_full_addr
+                location.update_attributes(geo_acct_name: spot.name, url: clean_crm_url)
+            end
+
+
+            # location.update_attributes(img_url: img_url, latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, state_code: state, postal_code: zip, geo_acct_name: final_name, phone: final_phone, map_url: detail.url, geo_full_addr: final_address, url: final_url, geo_root: root, location_status: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates), sts_duplicate: "Result")
+
+            # else
+            #     location.update_attributes(img_url: img_url, latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, state_code: state, postal_code: zip, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, geo_full_addr: new_full_address, url: full_url, geo_root: root, coord_id_arr: sfdc_id_finder(coordinates), sts_duplicate: "Result")
+            # end
+            #
+            # new_geo_acct_name = location.geo_acct_name
+            # if acct_name == new_geo_acct_name
+            #     puts "Acct: Matched"
+            # else
+            #     puts "Acct: X"
+            # end
+            #
+            # new_geo_full_addr = location.geo_full_addr
+            # if address == new_geo_full_addr
+            #     puts "Addr: Matched"
+            # else
+            #     puts "Addr: X"
+            # end
+            #
+            # new_url = location.url
+            # if crm_url == new_url
+            #     puts "URL: Matched"
+            # else
+            #     puts "URL: X"
+            # end
+            #
+            # new_phone = location.phone
+            # if crm_phone == new_phone
+            #     puts "Phone: Matched"
+            # else
+            #     puts "Phone: X"
+            # end
+            #
 
 
 
@@ -187,11 +265,11 @@ class LocationService
             # puts img_url
 
             # location.update_attributes(img_url: img_url, location_status: "IMG Search")
-
-            cores = Core.where(sfdc_id: location.sfdc_id)
-            cores.each do |core|
-                core.update_attribute(:img_url, img_url)
-            end
+            #
+            # cores = Core.where(sfdc_id: location.sfdc_id)
+            # cores.each do |core|
+            #     core.update_attribute(:img_url, img_url)
+            # end
 
 
             # Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address, crm_source: core.acct_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates))
@@ -281,8 +359,6 @@ class LocationService
 
         end
     end
-
-
 
 
     def cop_franch_migrator
@@ -451,7 +527,6 @@ class LocationService
     def sfdc_id_finder(coordinates)
         Location.where(coordinates: coordinates).map(&:sfdc_id)
     end
-
 
 
     def phone_updater
@@ -1206,36 +1281,68 @@ class LocationService
         url
     end
 
-    def sample_dup_finder_old
-        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url")
+
+    def sts_duplicate_nil
+        locs = Location.where.not(sts_duplicate: nil)
+        locs.each do |loc|
+            puts loc.sts_duplicate
+            loc.update_attribute(:sts_duplicate, nil)
+            puts loc.sts_duplicate
+        end
+    end
+
+
+    def url_dup_finder
+        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where(crm_source: "CRM")
 
         counter=0
         locs.each do |loc|
 
-            saves = Location.where(acct_name: loc.acct_name).where(address: loc.address).where(crm_url: loc.crm_url).where(crm_source: "Web").where(sts_duplicate: nil)[0..0]
-            saves.each do |save|
-                counter+=1
-                puts "#{counter}) Save"
-                save.update_attribute(:sts_duplicate, "Save")
-            end
+            merges = Location.where.not(sfdc_id: loc.sfdc_id).where(acct_name: loc.acct_name).where(address: loc.address).where(crm_url: loc.crm_url).where(crm_source: "Cop")
+            merges.each do |merge|
+                keep_source = loc.crm_source
+                keep_id = loc.sfdc_id
+                keep_name = loc.acct_name
+                keep_url = loc.crm_url
+                keep_addr = loc.address
 
-            deletes = Location.where(acct_name: loc.acct_name).where(coordinates: loc.coordinates).where(crm_source: "Web").where(sts_duplicate: nil)[0..-1]
-            deletes.each do |delete|
-                counter+=1
-                puts "#{counter}) Delete"
-                delete.update_attribute(:sts_duplicate, "Delete")
-            end
+                cop_source = merge.crm_source
+                cop_id = merge.sfdc_id
+                cop_name = merge.acct_name
+                cop_url = merge.crm_url
+                cop_addr = merge.address
 
+                counter+=1
+                puts
+                puts "==================== #{counter} ===================="
+                puts
+                puts "--------- KEEP ---------"
+                puts "#{keep_source}  #{keep_id}"
+                puts keep_name
+                puts keep_addr
+                puts keep_url
+                loc.update_attribute(:sts_duplicate, "Save")
+                puts "--------- MERGE ---------"
+                puts "#{cop_source}  #{cop_id}"
+                puts cop_name
+                puts cop_addr
+                puts cop_url
+                merge.update_attribute(:sts_duplicate, "Merge")
+
+                puts
+
+            end
         end
 
     end
 
+
     def sample_dup_finder
-        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where(crm_source: "Web")
+        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where.not(crm_source: "Web")
 
         counter=0
         locs.each do |loc|
-            webs = Location.where(acct_name: loc.acct_name).where(crm_source: "Web")
+            webs = Location.where(acct_name: loc.acct_name).where.not(crm_source: "CRM")
 
             saves = webs.where(address: loc.address).where(crm_url: loc.crm_url).where(sts_duplicate: nil)
             if web = saves.first
@@ -1258,21 +1365,60 @@ class LocationService
     end
 
 
-    def dup_finder
-        saves = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url")
+
+    def non_matched_url_finder
+        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where.not("url = crm_url").where.not(crm_source: "Cop")
 
         counter=0
+        locs.each do |loc|
+            geo_url = loc.url
+            geo_act = loc.geo_acct_name
+            geo_adr = loc.geo_full_addr
+
+            crm_src = loc.crm_source
+            crm_url = loc.crm_url
+            crm_act = loc.acct_name
+            crm_adr = loc.address
+
+            puts
+            counter+=1
+            puts
+            puts "============ #{counter}  ============"
+            puts crm_src
+            puts "------ CRM ------"
+            puts crm_act
+            puts crm_adr
+            puts crm_url
+            puts "------ GEO ------"
+            puts geo_act
+            puts geo_adr
+            puts geo_url
+            puts
+
+            loc.update_attribute(:crm_url, loc.url)
+
+        end
+
+
+    end
+
+
+    def dup_finder
+        # saves = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where.not(crm_source: "Web")
+
+        saves = Location.where("url = crm_url")
+
+
+        stamp=0
+        counter=0
+
         saves.each do |save|
+            stamp+=1
+            print "#{stamp}, "
 
-            ignores = Location.where(crm_source: "Web").where(acct_name: save.acct_name)[0..0]
-            ignores.each do |ignore|
-                puts "Web-Save"
-                ignore.update_attribute(:sts_duplicate, "Web-Save")
-            end
+            merges = Location.where.not(sfdc_id: save.sfdc_id).where(crm_url: save.crm_url).where(crm_source: "Web")
 
-            locs = Location.where(crm_source: "Web").where(acct_name: save.acct_name)[1..-1]
-
-            locs.each do |loc|
+            merges.each do |merge|
 
                 # SAVE Variables
                 sav_acct_name = save.acct_name
@@ -1281,26 +1427,26 @@ class LocationService
                 sav_crm_addr = save.address
 
                 # LOC Variables
-                loc_acct_name = loc.acct_name
-                loc_crm_source = loc.crm_source
-                loc_sts_dup = loc.sts_duplicate
-                loc_crm_addr = loc.address
+                mrg_acct_name = merge.acct_name
+                mrg_crm_source = merge.crm_source
+                mrg_sts_dup = merge.sts_duplicate
+                mrg_crm_addr = merge.address
 
                 # URLs
                 sav_crm_url = save.crm_url
                 sav_geo_url = save.url
-                loc_crm_url = loc.crm_url
-                loc_geo_url = loc.url
+                mrg_crm_url = merge.crm_url
+                mrg_geo_url = merge.url
                 sav_url_arr = save.url_arr
-                loc_url_arr = loc.url_arr
+                mrg_url_arr = merge.url_arr
                 comb_url_arr = []
-                comb_url_arr << loc_crm_url if loc_crm_url
-                comb_url_arr << loc_geo_url if loc_geo_url
-                comb_url_arr << loc_crm_url
-                comb_url_arr << loc_geo_url
+                comb_url_arr << mrg_crm_url if mrg_crm_url
+                comb_url_arr << mrg_geo_url if mrg_geo_url
+                comb_url_arr << sav_crm_url if sav_crm_url
+                comb_url_arr << sav_geo_url if sav_geo_url
 
                 comb_url_arr = comb_url_arr+sav_url_arr if sav_url_arr
-                comb_url_arr = comb_url_arr+loc_url_arr if loc_url_arr
+                comb_url_arr = comb_url_arr+mrg_url_arr if mrg_url_arr
                 comb_url_arr.compact!
                 comb_url_arr.uniq!
                 comb_url_arr.sort!
@@ -1308,46 +1454,48 @@ class LocationService
                 # IDs
                 sav_sfdc_id = save.sfdc_id
                 sav_duplicate_arr = save.duplicate_arr
-                loc_sfdc_id = loc.sfdc_id
-                loc_duplicate_arr = loc.duplicate_arr
+                mrg_sfdc_id = merge.sfdc_id
+                mrg_duplicate_arr = merge.duplicate_arr
                 comb_duplicate_arr = []
                 comb_duplicate_arr << sav_sfdc_id
-                comb_duplicate_arr << loc_sfdc_id
+                comb_duplicate_arr << mrg_sfdc_id
 
                 comb_duplicate_arr = comb_duplicate_arr+sav_duplicate_arr if sav_duplicate_arr
-                comb_duplicate_arr = comb_duplicate_arr+loc_duplicate_arr if loc_duplicate_arr
+                comb_duplicate_arr = comb_duplicate_arr+mrg_duplicate_arr if mrg_duplicate_arr
                 comb_duplicate_arr.compact!
                 comb_duplicate_arr.uniq!
                 comb_duplicate_arr.sort!
 
                 # COP Franchises
                 sav_cop_franch_arr = save.cop_franch_arr
-                loc_cop_franch_arr = loc.cop_franch_arr
+                mrg_cop_franch_arr = merge.cop_franch_arr
                 comb_cop_franch_arr = []
 
-                loc_cop_franch = loc.cop_franch
-                if loc_cop_franch
-                    loc_cop_franch_arr = loc_cop_franch.split(";") if loc_cop_franch
-                    comb_cop_franch_arr = comb_cop_franch_arr+loc_cop_franch_arr
+                mrg_cop_franch = merge.cop_franch
+                if mrg_cop_franch
+                    mrg_cop_franch_arr = mrg_cop_franch.split(";") if mrg_cop_franch
+                    comb_cop_franch_arr = comb_cop_franch_arr+mrg_cop_franch_arr
                 end
 
                 comb_cop_franch_arr = sav_cop_franch_arr+comb_cop_franch_arr if sav_cop_franch_arr
 
-                comb_cop_franch_arr = loc_cop_franch_arr+comb_cop_franch_arr if loc_cop_franch_arr
+                comb_cop_franch_arr = mrg_cop_franch_arr+comb_cop_franch_arr if mrg_cop_franch_arr
                 comb_cop_franch_arr.compact!
                 comb_cop_franch_arr.uniq!
                 comb_cop_franch_arr.sort!
 
-                # save.update_attributes(url_arr: comb_url_arr, duplicate_arr: comb_duplicate_arr, cop_franch_arr: comb_cop_franch_arr)
 
-                # save_cores = Core.where(sfdc_id: loc.sfdc_id)
+                save.update_attributes(sts_duplicate: "Save", url_arr: comb_url_arr, duplicate_arr: comb_duplicate_arr, cop_franch_arr: comb_cop_franch_arr)
+
+                merge.update_attribute(:sts_duplicate, "Merge")
+
+
+                # save_cores = Core.where(sfdc_id: merge.sfdc_id)
                 # save_cores.each do |save_core|
                 #     save_core.update_attribute(:bds_status, "none")
                 # end
 
-                loc.update_attribute(:sts_duplicate, "Web-Delete")
-
-                # cores = Core.where(sfdc_id: loc.sfdc_id)
+                # cores = Core.where(sfdc_id: merge.sfdc_id)
                 # cores.each do |core|
                 #     core.update_attribute(:bds_status, "Delete")
                 # end
@@ -1365,26 +1513,26 @@ class LocationService
                 puts sav_crm_addr
                 puts sav_crm_url
                 puts "==========================="
-                puts loc_sfdc_id
-                puts loc_acct_name
-                puts loc_crm_source
-                puts loc_sts_dup
-                puts loc_crm_addr
-                puts loc_crm_url
+                puts mrg_sfdc_id
+                puts mrg_acct_name
+                puts mrg_crm_source
+                puts mrg_sts_dup
+                puts mrg_crm_addr
+                puts mrg_crm_url
                 puts "==========================="
                 puts "STOCK INFO"
                 puts
                 p sav_url_arr
                 puts "---------------------"
-                p loc_url_arr
+                p mrg_url_arr
                 puts "---------------------"
                 p sav_duplicate_arr
                 puts "---------------------"
-                p loc_duplicate_arr
+                p mrg_duplicate_arr
                 puts "---------------------"
                 p sav_cop_franch_arr
                 puts "---------------------"
-                p loc_cop_franch_arr
+                p mrg_cop_franch_arr
                 puts
                 puts "==========================="
                 puts "comb_url_arr"
@@ -1404,8 +1552,6 @@ class LocationService
 
         end
     end
-
-
 
 
     def sts_duplicate_destroyer
@@ -1450,6 +1596,117 @@ class LocationService
     end
 
 
+
+
+
+    def hybrid_address_matcher
+        ## Combined with hybrid_address(full_address) below.
+        ## Removes street name from full address.  If same, replaces CRM w/ GEO.
+
+        locations = Location.where("address != geo_full_addr")
+        counter = 1
+        locations.each do |location|
+
+                crm_full_addy = location.address unless location.address == nil
+                geo_full_addy = location.geo_full_addr unless location.geo_full_addr == nil
+
+                crm_hybrid = hybrid_address(crm_full_addy)
+                geo_hybrid = hybrid_address(geo_full_addy)
+
+                if crm_hybrid && geo_hybrid
+                    if crm_hybrid == geo_hybrid
+                        puts
+                        puts "=================== #{counter} ==================="
+                        puts
+                        puts "CRM: #{crm_hybrid}"
+                        puts "GEO: #{geo_hybrid}"
+                        puts
+                        puts "CRM: #{crm_full_addy}"
+                        puts "GEO: #{geo_full_addy}"
+                        puts
+                        puts
+
+                        counter +=1
+
+                        location.update_attribute(:address, geo_full_addy)
+                    end
+
+                end
+
+
+                #
+                # if geo_hybrid == nil || geo_hybrid == ""
+
+                    # geo_full_addy_arr = geo_full_addy.split(",")
+                        # city_state = geo_full_addy_arr[0]
+                        # city_state_arr = city_state.split(" ")
+                        #
+                        # city = city_state_arr[0]
+                        # state = city_state_arr[1]
+                        # zip = geo_full_addy_arr[2]
+
+                        # state2 = state1 unless state1.length != 2
+                        # zip2 = zip1 unless zip1.length != 5
+
+                        # unless location.state_code == nil || location.state_code == ""
+                        #     zip = location.state_code unless location.state_code.length != 5
+                        #
+                        #     state = location.street[-2..-1].strip
+                        #     city = location.street.gsub(state, "").strip
+                        #
+                        #     state_upcase = state.upcase
+                        #
+                        #     if state == state_upcase && zip != nil && zip != ""
+                        #
+                        #         if crm_full_addy == nil || crm_full_addy == ""
+                        #             puts "------ #{counter} ------"
+                        #             puts "CRM Addy: #{crm_full_addy}"
+                        #             puts "GEO Addy: #{geo_full_addy}"
+                        #             new_full_addy = "#{city}, #{state}, #{zip}"
+                        #             puts "New Addy: #{new_full_addy}"
+                        #             counter +=1
+
+                                    # location.update_attributes(street: nil, city: city, state: state, state_code: state, postal_code: zip, geo_full_addr: new_full_addy, address: new_full_addy)
+                            #     end
+                            # end
+
+                            # location.update_attributes(geo_full_addr: crm_full_addy, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip)
+
+                        # end
+
+                    # end
+                # end
+            end
+
+        end
+
+
+    def hybrid_address(full_address)
+        ## Combined with above method hybrid_address_matcher
+
+        unless full_address == nil
+            address_arr = full_address.split(",")
+            unless address_arr[0] == nil
+                street_full = address_arr[0]
+                street_num = street_full.gsub(/[^0-9]/, "")
+                # street_name = street_full.gsub(/[^A-Za-z]/, "")
+                # consol_addy = full_address.tr('^A-Za-z0-9', '')
+                # hybrid_addy = consol_addy.gsub(street_name, "").downcase!
+            end
+        end
+    end
+
+
+
+    def mix_match_addr_acct
+        #matching address, but not acct name.
+        locs = Location.where(crm_source: "CRM").where("address = geo_full_addr").where("acct_name != geo_acct_name")
+
+        locs.each do |loc|
+            loc.update_attribute(:sts_duplicate, "Mix-Match")
+
+        end
+    end
 
 
 

@@ -1,8 +1,15 @@
 <tr><!-- 3RD ROW: CRM DATA -->
 
-    <td><%= location.crm_source %></td>
+    <!-- <td><%= location.crm_source %></td> -->
+    <% if location.sfdc_acct_url %>
+        <td><%= link_to location.sfdc_acct_url, :target => "_blank" %></td>
+    <% else %>
+        <td><%= location.crm_source %></td>
+    <% end %>
 
     <td><%= location.sts_duplicate %></td>
+    <td><%= location.acct_type %></td>
+
 
     <!-- GEO URL LIGTHBOX MODAL  -->
     <% if location.url %>

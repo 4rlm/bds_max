@@ -566,7 +566,33 @@ class CoreService
     end
 
 
+    def geo_missing_street_num
+        # locations = Location.where(postal_code: nil)
+        #
+        # counter = 1
+        # locations.each do |location|
+        #     crm_root = location.crm_root unless location.crm_root == nil
+        #     geo_root = location.geo_root unless location.geo_root == nil
+        #     crm_full_addy = location.address unless location.address == nil
+        #     geo_full_addy = location.geo_full_addr unless location.geo_full_addr == nil
+        #     crm_acct = location.acct_name unless location.acct_name == nil
+        #     geo_acct = location.geo_acct_name unless location.geo_acct_name == nil
+        #
+        #     crm_hybrid = hybrid_address(crm_full_addy)
+        #     geo_hybrid = hybrid_address(geo_full_addy)
+        #
+        #     puts "------ #{counter} -------------"
+        #     puts "CRM: #{location.acct_name}"
+        #     puts "GEO: #{location.geo_acct_name}"
+        #     puts "CRM: #{location.address}"
+        #     puts "GEO: #{geo_full_addy}"
+        #     puts "--------------------------------"
+        #
+        #     counter +=1
+        #
+        # end
 
+    end
 
 
 
@@ -605,76 +631,47 @@ class CoreService
                 # if geo_hybrid == nil || geo_hybrid == ""
 
                     # geo_full_addy_arr = geo_full_addy.split(",")
-                    # city_state = geo_full_addy_arr[0]
-                    # city_state_arr = city_state.split(" ")
-                    #
-                    # city = city_state_arr[0]
-                    # state = city_state_arr[1]
-                    # zip = geo_full_addy_arr[2]
+                        # city_state = geo_full_addy_arr[0]
+                        # city_state_arr = city_state.split(" ")
+                        #
+                        # city = city_state_arr[0]
+                        # state = city_state_arr[1]
+                        # zip = geo_full_addy_arr[2]
 
-                    # state2 = state1 unless state1.length != 2
-                    # zip2 = zip1 unless zip1.length != 5
+                        # state2 = state1 unless state1.length != 2
+                        # zip2 = zip1 unless zip1.length != 5
 
-                    # unless location.state_code == nil || location.state_code == ""
-                    #     zip = location.state_code unless location.state_code.length != 5
-                    #
-                    #     state = location.street[-2..-1].strip
-                    #     city = location.street.gsub(state, "").strip
-                    #
-                    #     state_upcase = state.upcase
-                    #
-                    #     if state == state_upcase && zip != nil && zip != ""
-                    #
-                    #         if crm_full_addy == nil || crm_full_addy == ""
-                    #             puts "------ #{counter} ------"
-                    #             puts "CRM Addy: #{crm_full_addy}"
-                    #             puts "GEO Addy: #{geo_full_addy}"
-                    #             new_full_addy = "#{city}, #{state}, #{zip}"
-                    #             puts "New Addy: #{new_full_addy}"
-                    #             counter +=1
+                        # unless location.state_code == nil || location.state_code == ""
+                        #     zip = location.state_code unless location.state_code.length != 5
+                        #
+                        #     state = location.street[-2..-1].strip
+                        #     city = location.street.gsub(state, "").strip
+                        #
+                        #     state_upcase = state.upcase
+                        #
+                        #     if state == state_upcase && zip != nil && zip != ""
+                        #
+                        #         if crm_full_addy == nil || crm_full_addy == ""
+                        #             puts "------ #{counter} ------"
+                        #             puts "CRM Addy: #{crm_full_addy}"
+                        #             puts "GEO Addy: #{geo_full_addy}"
+                        #             new_full_addy = "#{city}, #{state}, #{zip}"
+                        #             puts "New Addy: #{new_full_addy}"
+                        #             counter +=1
 
-                                # location.update_attributes(street: nil, city: city, state: state, state_code: state, postal_code: zip, geo_full_addr: new_full_addy, address: new_full_addy)
-                        #     end
+                                    # location.update_attributes(street: nil, city: city, state: state, state_code: state, postal_code: zip, geo_full_addr: new_full_addy, address: new_full_addy)
+                            #     end
+                            # end
+
+                            # location.update_attributes(geo_full_addr: crm_full_addy, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip)
+
                         # end
 
-                        # location.update_attributes(geo_full_addr: crm_full_addy, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip)
-
                     # end
-
                 # end
-            # end
+            end
+
         end
-
-    end
-
-
-    def geo_missing_street_num
-        # locations = Location.where(postal_code: nil)
-        #
-        # counter = 1
-        # locations.each do |location|
-        #     crm_root = location.crm_root unless location.crm_root == nil
-        #     geo_root = location.geo_root unless location.geo_root == nil
-        #     crm_full_addy = location.address unless location.address == nil
-        #     geo_full_addy = location.geo_full_addr unless location.geo_full_addr == nil
-        #     crm_acct = location.acct_name unless location.acct_name == nil
-        #     geo_acct = location.geo_acct_name unless location.geo_acct_name == nil
-        #
-        #     crm_hybrid = hybrid_address(crm_full_addy)
-        #     geo_hybrid = hybrid_address(geo_full_addy)
-        #
-        #     puts "------ #{counter} -------------"
-        #     puts "CRM: #{location.acct_name}"
-        #     puts "GEO: #{location.geo_acct_name}"
-        #     puts "CRM: #{location.address}"
-        #     puts "GEO: #{geo_full_addy}"
-        #     puts "--------------------------------"
-        #
-        #     counter +=1
-        #
-        # end
-
-    end
 
 
     def hybrid_address(full_address)

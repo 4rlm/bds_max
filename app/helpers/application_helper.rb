@@ -19,7 +19,7 @@ module ApplicationHelper
     end
 
     def duplicate_sts_list
-        ["Delete", "Save", "Duplicate", "None"]
+        ["Mix-Match", "Delete", "Merge", "Save"]
     end
 
     def url_redirect_sts_lists
