@@ -763,6 +763,7 @@ class LocationService
     end
 
 
+
     def root_matcher
         ### COME BACK TO THIS!! 3,500 MATCHING URLS!  BUT HAVE TWO VALID URLS!  NEED TO SAVE BOTH.
         # locations = Location.where("acct_name = geo_acct_name").where("address = geo_full_addr").where.not("url = crm_url")[0..200]
@@ -1293,7 +1294,7 @@ class LocationService
 
 
     def url_dup_finder
-        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where(crm_source: "CRM")
+        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where(crm_source: "CRM")[0..0]
 
         counter=0
         locs.each do |loc|
@@ -1338,7 +1339,7 @@ class LocationService
 
 
     def sample_dup_finder
-        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where.not(crm_source: "Web")
+        locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where.not(crm_source: "Web")[0..0]
 
         counter=0
         locs.each do |loc|
@@ -1403,11 +1404,108 @@ class LocationService
     end
 
 
+
+    def missing_address
+        locs = Location.where.not(crm_url: nil).where.not(crm_source: "Web").where(sts_duplicate: nil)
+
+        counter=0
+        locs.each do |loc|
+            counter+=1
+            print "#{counter}, "
+
+            targets = Location.where.not(sfdc_id: loc.sfdc_id).where(acct_name: loc.acct_name).where(address: loc.address).where(crm_source: "Web")
+
+            targets.each do |target|
+                p "  =====  (X-Match) =======  "
+                loc.update_attribute(:sts_duplicate, "O-Match")
+                target.update_attribute(:sts_duplicate, "X-Match")
+            end
+
+
+        end
+    end
+
+
+
+
+
+    def unmatched_url
+        # locations = Location.where("acct_name = geo_acct_name").where("address = geo_full_addr").where.not("url = crm_url")[0..100]
+
+        locations = Location.where.not(url: nil).where.not(url: "").where("acct_name = geo_acct_name").where("address = geo_full_addr").where.not("url = crm_url")[0..0]
+
+
+        locations.each do |location|
+
+
+            # URLs
+            loc_crm_url = location.crm_url
+            loc_geo_url = location.url
+            loc_url_arr = location.url_arr
+            comb_url_arr = []
+            comb_url_arr << loc_crm_url if loc_crm_url
+            comb_url_arr << loc_geo_url if loc_geo_url
+
+            comb_url_arr = comb_url_arr+loc_url_arr if loc_url_arr
+            comb_url_arr.compact!
+            comb_url_arr.uniq!
+            comb_url_arr.sort!
+
+            puts "==========================="
+            puts "CRM: #{loc_crm_url}"
+            puts "GEO: #{loc_geo_url}"
+            puts
+            puts "ARR:#{loc_url_arr}"
+            puts
+            puts "comb_url_arr"
+            p comb_url_arr
+            puts "---------------------"
+            puts "=============================================="
+            puts
+
+
+            # location.update_attribute(:url_arr, comb_url_arr)
+
+            location.update_attribute(:crm_url, location.url)
+
+
+            # location.update_attribute(:sts_duplicate, "!URL")
+
+        end
+
+    end
+
+
+    def loc_core_dup_remover
+        # locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where.not(crm_source: "CRM")
+        locs = Location.all
+
+        save_counter=0
+        locs.each do |loc|
+
+            cores = Core.where(sfdc_id: loc.sfdc_id)
+            cores.each do |core|
+                save_counter+=1
+                print "S:#{save_counter}, "
+                core.update_attribute(:bds_status, "Save")
+            end
+        end
+
+        removes = Core.where.not(bds_status: "Save")
+        remove_counter=0
+        removes.each do |remove|
+            remove_counter+=1
+            print "R:#{remove_counter}, "
+            remove.update_attribute(:bds_status, "Remove")
+        end
+
+    end
+
+
     def dup_finder
-        # saves = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where("url = crm_url").where.not(crm_source: "Web")
+        saves = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where(crm_source: "CRM")
 
-        saves = Location.where("url = crm_url")
-
+        # saves = Location.where("url = crm_url")
 
         stamp=0
         counter=0
@@ -1416,7 +1514,10 @@ class LocationService
             stamp+=1
             print "#{stamp}, "
 
-            merges = Location.where.not(sfdc_id: save.sfdc_id).where(crm_url: save.crm_url).where(crm_source: "Web")
+            # merges = Location.where.not(sfdc_id: save.sfdc_id).where(acct_name: save.acct_name).where(address: save.address).where.not(crm_source: "CRM")
+
+            merges = Location.where.not(sfdc_id: save.sfdc_id).where(acct_name: save.acct_name).where(address: save.address).where.not(crm_source: "CRM")
+
 
             merges.each do |merge|
 

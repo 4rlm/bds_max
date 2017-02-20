@@ -143,12 +143,26 @@ class LocationsController < ApplicationController
         # @service.root_and_url_finalizer
         # @service.delay.root_and_url_finalizer
         # @service.delay.root_matcher
+
         # @service.delay.sts_updater
+
+        @service.delay.loc_core_dup_remover
+
         # @service.delay.coord_id_arr_btn
         # @service.delay.duplicate_sts_btn
         # @service.delay.quick_coordinates_collector
         # @service.delay.cop_franch_migrator
-        # @service.phone_updater
+
+        # @service.delay.phone_updater
+
+
+
+        # @service.unmatched_url
+
+        # @service.sts_duplicate_nil
+        # @service.delay.missing_address
+
+
 
         # @service.db_check
 
@@ -162,6 +176,10 @@ class LocationsController < ApplicationController
         # @service.dup_finder
         # @service.delay.dup_finder
 
+
+        # @service.mix_match_addr_acct
+
+
         # @service.delay.non_matched_url_finder
 
 
@@ -173,10 +191,6 @@ class LocationsController < ApplicationController
 
 
         # @service.hybrid_address_matcher
-
-
-        # @service.sts_duplicate_nil
-        @service.mix_match_addr_acct
 
 
 

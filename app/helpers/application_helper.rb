@@ -11,7 +11,7 @@ module ApplicationHelper
 
 
     def geo_crm_sts_list
-        ["Matched-5", "Matched-4", "Matched-3", "Matched-2", "Matched-1", "Matched-0"]
+        ["Matched-4", "Matched-3", "Matched-2", "Matched-1", "Matched-0"]
     end
 
     def geo_sts_list
@@ -19,7 +19,7 @@ module ApplicationHelper
     end
 
     def duplicate_sts_list
-        ["Mix-Match", "Delete", "Merge", "Save"]
+        ["!Addr", "!URL", "Mix-Match", "Delete", "Merge", "Save"]
     end
 
     def url_redirect_sts_lists
