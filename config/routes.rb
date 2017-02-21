@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :indexers # do
-  #     collection {post :import_csv_data}
-  #     get :update_status, on: :collection
-  # end
-  # get 'indexers/import_page' => 'indexers#import_page'
+  resources :indexers do
+      collection {post :import_csv_data}
+    #   get :update_status, on: :collection
+  end
+  get 'indexer/import_page' => 'indexers#import_page'
   get 'indexer_starter_btn' => 'indexers#indexer_starter_btn'
 
 

@@ -12,6 +12,14 @@ class IndexersController < ApplicationController
     ## SET ORDER OF DISPLAYED DATA ##
     @indexers = @indexers.order(updated_at: :desc)
 
+    # CSV #
+    indexers_csv = @indexers.order(:clean_url)
+    respond_to do |format|
+        format.html
+        format.csv { render text: indexers_csv.to_csv }
+    end
+
+
     #---------  Adam's Trial - Starts --- WORKS WELL!
     # @indexers = @indexers.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
 
@@ -31,9 +39,22 @@ class IndexersController < ApplicationController
     @indexer = Indexer.new
   end
 
+  def import_page
+  end
+
+  def import_csv_data
+      file_name = params[:file]
+      Indexer.import_csv(file_name)
+
+      flash[:notice] = "CSV imported successfully."
+      redirect_to indexers_path
+  end
+
+
   # GET /indexers/1/edit
   def edit
   end
+
 
   # POST /indexers
   # POST /indexers.json

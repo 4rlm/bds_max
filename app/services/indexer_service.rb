@@ -44,12 +44,12 @@ class IndexerService
 
             @cols_hash = {
                 indexer_status: nil,
-                sfdc_acct: el[:sfdc_acct],
-                domain: el[:matched_url],
+                # sfdc_acct: el[:sfdc_acct],
+                domain: el[:clean_url],
                 text: nil,
                 href: nil,
-                link: nil,
-                sfdc_id: el[:sfdc_id]
+                link: nil
+                # sfdc_id: el[:sfdc_id]
             }
 
             begin
