@@ -13,17 +13,10 @@ class IndexerService
 ####################
 
     def indexer_starter
-        indexers = Indexer.where(indexer_status: nil).where.not(clean_url: nil)[0..10]
+        indexers = Indexer.where(indexer_status: nil).where.not(clean_url: nil)[0..100]
 
-        if redirect_status == "Same" || redirect_status == "Updated"
-
-            start_indexer(indexers)
-            puts "Starting indexer..."
-            # indexers.each do |indexer|
-            #     start_indexer(indexer)
-            # end
-
-        end
+        puts "Starting indexer..."
+        start_indexer(indexers)
 
     end
 
@@ -39,43 +32,65 @@ class IndexerService
         staff_text_list = CriteriaIndexerStaffText.all.map(&:term)
         staff_href_list = to_regexp(CriteriaIndexerStaffHref.all.map(&:term))
 
-        Core.where(id: ids).each do |el|
-            current_time = Time.new
+        counter=0
+        Indexer.where(id: ids).each do |el|
 
-            @cols_hash = {
-                indexer_status: nil,
-                # sfdc_acct: el[:sfdc_acct],
-                domain: el[:clean_url],
-                text: nil,
-                href: nil,
-                link: nil
-                # sfdc_id: el[:sfdc_id]
-            }
-
-            begin
-                url = @cols_hash[:domain]
-                page = agent.get(url)
-
-                page_finder(locations_text_list, locations_href_list, url, page, "location")
-                page_finder(staff_text_list, staff_href_list, url, page, "staff")
-
-            rescue
-                add_indexer_row_with("Error", "(none)", "(none)", $!.message, "error")
-            end
-
-            el.update_attributes(indexer_date: current_time, bds_status: "Indexer Result")
-
-            # Throttle V1
-            # delay_time = rand(30)
-            # sleep(delay_time)
-
-            # Throttle V2
-            #== Throttle (if needed) =====================
-            # throttle_delay_time = (1..2).to_a.sample
-            puts "Completed"
-            # puts "Please wait #{throttle_delay_time} seconds."
+            counter+=1
             puts "--------------------------------"
-            # sleep(throttle_delay_time)
+            puts "#{counter}"
+
+            redirect_status = el.redirect_status
+
+                if redirect_status == "Same" || redirect_status == "Updated"
+
+                # current_time = Time.new
+
+                @cols_hash = {
+                    indexer_status: nil,
+                    # sfdc_acct: el[:sfdc_acct],
+                    domain: el[:clean_url],
+                    text: nil,
+                    href: nil,
+                    link: nil
+                    # sfdc_id: el[:clean_url]
+                }
+
+                begin
+                    url = @cols_hash[:domain]
+                    page = agent.get(url)
+                    puts "Page: #{page}"
+                    puts "URL: #{url}"
+
+                    page_finder(locations_text_list, locations_href_list, url, page, "location")
+                    page_finder(staff_text_list, staff_href_list, url, page, "staff")
+
+                rescue
+
+                    error_msg = "Error: #{$!.message}"
+                    puts error_msg
+
+                    # add_indexer_row_with("Error", "(none)", "(none)", $!.message, "error")
+                    add_indexer_row_with("Error", nil, nil, error_msg, "error")
+
+
+                    # Throttle V1
+                    delay_time = rand(5)
+                    puts "Forced Delay: #{delay_time} seconds"
+                    sleep(delay_time)
+
+                end
+
+                el.update_attribute(:indexer_status, "Indexer Result")
+
+                # Throttle V2
+                #== Throttle (if needed) =====================
+                # throttle_delay_time = (1..2).to_a.sample
+                # puts "Completed"
+                # puts "Please wait #{throttle_delay_time} seconds."
+                # puts "--------------------------------"
+                # sleep(throttle_delay_time)
+
+            end
 
         end # Ends cores Loop
     end # Ends start_indexer(ids)
@@ -97,7 +112,7 @@ class IndexerService
             end
 
             if !pages
-                add_indexer_row_with("No Matches", "(none)", "(none)", "(none)", mode)
+                add_indexer_row_with("No Matches", nil, nil, nil, mode)
             end
         end
     end # Ends page_finder
@@ -109,6 +124,7 @@ class IndexerService
 
         joined_url = validater(url_http, '//', url_www, pages.href)
 
+
         add_indexer_row_with("Matched", pages.text.strip, pages.href, joined_url, mode)
     end
 
@@ -118,16 +134,18 @@ class IndexerService
         @cols_hash[:text] = text
         @cols_hash[:href] = href
         @cols_hash[:link] = link
-        core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
+        indexer = Indexer.find_by(raw_url: @cols_hash[:domain])
 
         if mode == "location" || mode == "error"
             IndexerLocation.create(@cols_hash)
-            core.update_attributes(location_indexer_status: status, location_link: link, location_text: text)
+            puts "#{status}: #{text}"
+            indexer.update_attributes(loc_status: status, location_url: link, location_text: text) if indexer != nil
         end
 
         if mode == "staff" || mode == "error"
             IndexerStaff.create(@cols_hash)
-            core.update_attributes(staff_indexer_status: status, staff_link: link, staff_text: text)
+            puts "#{status}: #{text}"
+            indexer.update_attributes(stf_status: status, staff_url: link, staff_text: text) if indexer != nil
         end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221002808) do
+ActiveRecord::Schema.define(version: 20170221131200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -254,6 +254,8 @@ ActiveRecord::Schema.define(version: 20170221002808) do
     t.string   "crm_id_arr",      default: [],              array: true
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.string   "loc_status"
+    t.string   "stf_status"
   end
 
   create_table "locations", force: :cascade do |t|

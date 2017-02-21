@@ -111,7 +111,7 @@ class IndexersController < ApplicationController
     #   @service.delay.url_redirect_checker
 
       @service.indexer_starter
-
+    #   @service.delay.indexer_starter
 
 
 
@@ -132,8 +132,17 @@ class IndexersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_params
-      params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :staff_url, :staff_text, :location_url, :location_text, :template, :crm_id_arr)
+      params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :staff_url, :staff_text, :location_url, :location_text, :template, :crm_id_arr, :loc_status, :stf_status)
     end
+
+
+    def filtering_params(params)
+        params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :staff_url, :staff_text, :location_url, :location_text, :template, :loc_status, :stf_status)
+    end
+
+
+
+
 
     def set_indexer_service
         @service = IndexerService.new

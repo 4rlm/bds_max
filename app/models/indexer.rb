@@ -6,10 +6,22 @@ class Indexer < ApplicationRecord
     include Filterable
 
     # == Multi-Select Search ==
-    # scope :HERE, -> (HERE) { where HERE: HERE }
+    scope :indexer_status, -> (indexer_status) { where indexer_status: indexer_status }
+    scope :redirect_status, -> (redirect_status) { where redirect_status: redirect_status }
+    scope :loc_status, -> (loc_status) { where loc_status: loc_status }
+    scope :stf_status, -> (stf_status) { where stf_status: stf_status }
+    scope :template, -> (template) { where template: template }
+
+
 
     # == Key Word Search ==
-    # scope :HERE, -> (HERE) { where("HERE like ?", "%#{HERE}%") }
+    scope :raw_url, -> (raw_url) { where("raw_url like ?", "%#{raw_url}%") }
+    scope :clean_url, -> (clean_url) { where("clean_url like ?", "%#{clean_url}%") }
+    scope :staff_url, -> (staff_url) { where("staff_url like ?", "%#{staff_url}%") }
+    scope :staff_text, -> (staff_text) { where("staff_text like ?", "%#{staff_text}%") }
+    scope :location_url, -> (location_url) { where("location_url like ?", "%#{location_url}%") }
+    scope :location_text, -> (location_text) { where("location_text like ?", "%#{location_text}%") }
+
 
 
     # CSV#

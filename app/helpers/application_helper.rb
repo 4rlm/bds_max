@@ -10,10 +10,17 @@ module ApplicationHelper
     end
 
 
-    def main_indexer_status_list
-        ["Queue Indexer", "Destroy"]
+    def url_redirect_sts_lists
+        ["Error", "Same", "Updated", "None"]
     end
 
+    def indexer_status_list
+        ['Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
+    end
+
+    def main_indexer_status_list
+        ["Indexer Result", "Queue Indexer", "Destroy"]
+    end
 
     def geo_crm_sts_list
         ["Matched-4", "Matched-3", "Matched-2", "Matched-1", "Matched-0"]
@@ -25,10 +32,6 @@ module ApplicationHelper
 
     def duplicate_sts_list
         ["!Addr", "!URL", "Mix-Match", "Delete", "Merge", "Save"]
-    end
-
-    def url_redirect_sts_lists
-        ["Error", "Follow", "None"]
     end
 
 
@@ -94,10 +97,6 @@ module ApplicationHelper
 
     def formatted_date_list(datetime_arr)
         datetime_arr.map {|datetime| datetime.strftime("%m/%d/%Y") if datetime}.uniq
-    end
-
-    def indexer_status_list
-        ['Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
     end
 
     def staffer_status_list

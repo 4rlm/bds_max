@@ -1,0 +1,70 @@
+<h3 class="section-header">Geo Filter</h3>
+
+<%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>
+
+<!-- # MOVE ABOVE TO INDEX WHEN COMPLETED! # -->
+
+<div class="theme-layout filter-container">
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-2">Indexer status</th>
+                    <th class="th-2">Redirect status</th>
+
+                    <th class="th-2">Staff Status</th>
+                    <th class="th-2">Loc Status</th>
+                    <th class="th-2">Template</th>
+                </tr>
+                <tr>
+
+                    <td><%= select_tag :indexer_status, options_for_select(main_indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :redirect_status, options_for_select(url_redirect_sts_lists), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :stf_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :loc_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-2">Raw url</th>
+                    <th class="th-2">Clean url</th>
+                    <th class="th-2">Staff url</th>
+                    <th class="th-2">Staff text</th>
+                    <th class="th-2">Location url</th>
+                    <th class="th-2">Location text</th>
+                </tr>
+                <tr>
+                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :raw_url } %></td>
+
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :clean_url } %></td>
+
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_url } %></td>
+
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_text } %></td>
+
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :location_text } %></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div> <!-- filter-container Ends -->
+
+<%= submit_tag "Search", class: 'wide-button green-button' %>
+
+<!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
+<% end %>
+<!-- # Filter Headers Form tag ends -->
