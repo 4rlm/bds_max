@@ -24,6 +24,10 @@
             </li>
         <% end %>
 
+        <% if admin_only %>
+            <li><%= link_to 'Indexer', indexers_path %></li>
+        <% end %>
+
         <!-- LOCATIONS -->
         <% if admin_only %>
             <li class="dropdown">

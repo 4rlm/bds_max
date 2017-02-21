@@ -1,0 +1,105 @@
+<h1 class="page-header">Indexer</h1>
+<h4 class="text-center">Indexer Links</h4>
+
+<h1>Indexers</h1>
+
+
+<%= link_to "indexer_starter_btn", indexer_starter_btn_path, class: 'btn btn-warning' %>
+<br> <br>
+
+<div class="row profile-row">
+    <div class="profile-col col-md-12">
+
+
+        <%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>
+
+
+        <table class="table table-bordered indexer-table">
+
+          <thead>
+            <tr>
+
+                <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+
+                <th>#</th>
+
+                <th>Indexer status</th>
+                <th>Redirect status</th>
+              <th>Raw url</th>
+              <th>Clean url</th>
+              <th>Staff url</th>
+              <th>Staff text</th>
+              <th>Location url</th>
+              <th>Location text</th>
+              <th>Template</th>
+              <th>Crm id arr</th>
+              <!-- <th colspan="3"></th> -->
+            </tr>
+          </thead>
+
+          <tbody>
+            <% num = 0 %>
+            <% @indexers.each do |indexer| %>
+              <tr>
+                  <td><%= check_box_tag "multi_checks[]",  indexer.id %></td>
+
+                  <% num +=1 %>
+                  <td><%= num %></td>
+
+                  <td><%= indexer.indexer_status %></td>
+
+                  <td class="<%= geo_indicator(indexer.raw_url, indexer.clean_url) %>"><%= indexer.redirect_status %></td>
+
+                <td class="<%= geo_indicator(indexer.raw_url, indexer.clean_url) %>">
+                    <%= link_to indexer.raw_url, :target => "_blank" do %>
+                        <%= indexer.raw_url %>
+                    <% end %>
+                </td>
+
+                <td class="<%= geo_indicator(indexer.raw_url, indexer.clean_url) %>">
+                    <%= link_to indexer.clean_url, :target => "_blank" do %>
+                        <%= indexer.clean_url %>
+                    <% end %>
+                </td>
+
+                <td><%= indexer.staff_url %></td>
+                <td><%= indexer.staff_text %></td>
+                <td><%= indexer.location_url %></td>
+                <td><%= indexer.location_text %></td>
+                <td><%= indexer.template %></td>
+                <td><%= indexer.crm_id_arr %></td>
+
+                <!-- <td><%#= link_to 'Show', indexer %></td> -->
+                <!-- <td><%#= link_to 'Edit', edit_indexer_path(indexer) %></td> -->
+                <!-- <td><%#= link_to 'Destroy', indexer, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+
+        <div class="pull-left">
+            <div class="form-group">
+
+                <div class="submit-button-area">
+                    <%= select_tag :selected_status, options_for_select(main_indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
+                </div>
+
+                <div class="submit-button-area">
+                    <%= submit_tag "Submit", class: 'btn btn-success' %>
+                </div>
+
+            </div>
+        </div>
+
+        <% end %>
+
+    </div>
+</div>
+
+<%= will_paginate @indexers, renderer: BootstrapPagination::Rails  %>
+
+<br>
+
+<%= link_to 'New Indexer', new_indexer_path %>

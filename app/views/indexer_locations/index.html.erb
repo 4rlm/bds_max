@@ -19,7 +19,9 @@
         <tr>
 
             <th>#</th>
+            
             <th>Indexer Status<br><%= render partial: 'layouts/select_tag', locals: { col: :indexer_status } %></th>
+
             <th>SFDC Account<br><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_acct } %></th>
             <th>Domain<br><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></th>
             <th>Text<br><%= render partial: 'layouts/text_field_tag', locals: { col: :text } %></th>

@@ -1,0 +1,2 @@
+class Indexer < ApplicationRecord
+end

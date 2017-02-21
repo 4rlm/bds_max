@@ -1475,6 +1475,16 @@ class LocationService
 
     end
 
+    def crm_source_web_matcher
+        locs = Location.where(crm_source: "Cop")
+        counter=0
+        locs.each do |loc|
+            counter+=1
+            print "Web:#{counter}, "
+            loc.update_attributes(acct_name: loc.geo_acct_name, address: loc.geo_full_addr, crm_phone: loc.phone)
+        end
+    end
+
 
     def loc_core_dup_remover
         # locs = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where.not(crm_source: "CRM")
@@ -1503,7 +1513,7 @@ class LocationService
 
 
     def dup_finder
-        saves = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where(crm_source: "CRM")
+        saves = Location.where("acct_name = geo_acct_name").where("geo_full_addr = address").where.not(crm_source: "Web")
 
         # saves = Location.where("url = crm_url")
 

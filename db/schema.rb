@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215160317) do
+ActiveRecord::Schema.define(version: 20170221002808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -239,6 +239,21 @@ ActiveRecord::Schema.define(version: 20170215160317) do
     t.string   "sfdc_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "indexers", force: :cascade do |t|
+    t.string   "raw_url"
+    t.string   "redirect_status"
+    t.string   "clean_url"
+    t.string   "indexer_status"
+    t.string   "staff_url"
+    t.string   "staff_text"
+    t.string   "location_url"
+    t.string   "location_text"
+    t.string   "template"
+    t.string   "crm_id_arr",      default: [],              array: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "locations", force: :cascade do |t|

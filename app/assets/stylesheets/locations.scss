@@ -24,6 +24,53 @@
 }
 
 
+
+
+
+
+.indexer-table {
+    box-shadow: 5px 5px 5px gray;
+    // max-width: 90%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.indexer-table tr:hover {
+    background: #ffffb3;
+}
+
+
+.indexer-table th, .indexer-table td {
+    font-size: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-left: 0;
+    text-align: center;
+    border: solid 1px #137fa0;
+    font-weight: normal;
+    white-space:nowrap;
+    line-height: normal;
+}
+
+.indexer-table th {
+    // background-image:linear-gradient(#32bde7, #1bb5e4);
+    background: #4285F4;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
 .geo-result-table {
     box-shadow: 5px 5px 5px gray;
     // max-width: 90%;
@@ -64,6 +111,8 @@
     background: #4285F4;
     color: white;
 }
+
+
 
 .geo {
     border-right: 0 !important;

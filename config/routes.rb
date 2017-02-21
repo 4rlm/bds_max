@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :indexers # do
+  #     collection {post :import_csv_data}
+  #     get :update_status, on: :collection
+  # end
+  # get 'indexers/import_page' => 'indexers#import_page'
+  get 'indexer_starter_btn' => 'indexers#indexer_starter_btn'
+
+
+
   devise_for :users
   resources :geo_places
   # resources :locations

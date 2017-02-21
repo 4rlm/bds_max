@@ -146,7 +146,7 @@ class LocationsController < ApplicationController
 
         # @service.delay.sts_updater
 
-        @service.delay.loc_core_dup_remover
+        # @service.delay.loc_core_dup_remover
 
         # @service.delay.coord_id_arr_btn
         # @service.delay.duplicate_sts_btn
@@ -174,7 +174,9 @@ class LocationsController < ApplicationController
         # @service.sts_duplicate_destroyer
 
         # @service.dup_finder
-        # @service.delay.dup_finder
+        @service.delay.dup_finder
+
+        # @service.delay.crm_source_web_matcher
 
 
         # @service.mix_match_addr_acct

@@ -10,6 +10,11 @@ module ApplicationHelper
     end
 
 
+    def main_indexer_status_list
+        ["Queue Indexer", "Destroy"]
+    end
+
+
     def geo_crm_sts_list
         ["Matched-4", "Matched-3", "Matched-2", "Matched-1", "Matched-0"]
     end
