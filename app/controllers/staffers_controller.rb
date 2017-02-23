@@ -18,7 +18,11 @@ def index
         @selected_data = Staffer.all.order
     end
 
-    @selected_data = @selected_data.order(updated_at: :desc)
+    if url = params[:url]
+        @selected_data = @selected_data.where(domain: url).order(updated_at: :desc)
+    else
+        @selected_data = @selected_data.order(updated_at: :desc)
+    end
     @staffer_count = Staffer.count
     @selected_staffer_count = @selected_data.count
 

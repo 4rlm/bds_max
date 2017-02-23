@@ -15,11 +15,19 @@ class IndexerService
 
     def indexer_starter
         snum = 0
-        enum = 1
-        # els = Indexer.where(indexer_status: "Re-Queue Indexer")[snum...enum]
-        els = Indexer.where(indexer_status: nil).where.not(clean_url: nil)[snum...enum]
+        enum = 1000
+        # snum = 1000
+        # enum = 2000
+        # snum = 2000
+        # enum = 3000
+        # snum = 3000
+        # enum = 4000
 
-        # els = Indexer.where(indexer_status: "TCP Error")[snum...enum]
+
+        # els = Indexer.where(indexer_status: "Re-Queue Indexer")[snum...enum]
+        # els = Indexer.where(indexer_status: nil).where.not(clean_url: nil)[snum...enum]
+
+        els = Indexer.where(indexer_status: "TCP Error")[snum...enum]
 
 
         @agent = Mechanize.new

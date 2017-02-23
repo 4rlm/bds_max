@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222150703) do
+ActiveRecord::Schema.define(version: 20170223152539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,8 @@ ActiveRecord::Schema.define(version: 20170222150703) do
     t.string   "loc_status"
     t.string   "stf_status"
     t.string   "contact_status"
+    t.string   "contacts_count"
+    t.string   "contacts_link"
   end
 
   create_table "locations", force: :cascade do |t|

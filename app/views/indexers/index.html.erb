@@ -53,11 +53,12 @@
                   <td><%= num %></td>
                   <td><%= indexer.indexer_status %></td>
                   <td>
-                      <% if core = Core.find_by(sfdc_url: indexer.clean_url) %>
-                          <%= link_to indexer.contact_status,  staffer_acct_contacts_path(core: core), :target => "_blank" %>
-                      <% else %>
-                          NO URL
-                      <% end %>
+                      <%# if Staffer.where(domain: indexer.clean_url).count > 0 %>
+                          <%= link_to indexer.contact_status, staffers_path(url: indexer.clean_url), target: "_blank" %>
+                          <%#= link_to "hey", "/staffers?url=https%3A%2F%2F#{indexer.clean_url}", target: "_blank" %>
+                      <%# else %>
+                          <!-- NO Same URL -->
+                      <%# end %>
                   </td>
 
                     <!-- staff status -->
