@@ -52,7 +52,13 @@
                   <% num +=1 %>
                   <td><%= num %></td>
                   <td><%= indexer.indexer_status %></td>
-                  <td><%= indexer.contact_status%></td>
+                  <td>
+                      <% if core = Core.find_by(sfdc_url: indexer.clean_url) %>
+                          <%= link_to indexer.contact_status,  staffer_acct_contacts_path(core: core), :target => "_blank" %>
+                      <% else %>
+                          NO URL
+                      <% end %>
+                  </td>
 
                     <!-- staff status -->
                   <td class="<%= match_sts_ind(indexer.stf_status) %>"><%= indexer.stf_status %></td>
