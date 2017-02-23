@@ -15,11 +15,11 @@ module ApplicationHelper
     end
 
     def indexer_status_list
-        ['Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
+        ["TCP Error", "403 Error", "410 Error", "500 Error", 'Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
     end
 
     def main_indexer_status_list
-        ["Indexer Result", "Queue Indexer", "Destroy"]
+        ["TCP Error", "403 Error", "410 Error", "500 Error", "Re-Queue Indexer", "Indexer Error", "Indexer Result", "Queue Indexer", "Destroy"]
     end
 
     def geo_crm_sts_list

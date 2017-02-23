@@ -813,4 +813,36 @@ class CoreService
     end
 
 
+    def core_staffer_domain_cleaner
+        indexers = Indexer.where.not(raw_url: nil)
+        counter=0
+        none_counter=0
+        indexers.each do |indexer|
+
+            raw_url = indexer.raw_url
+
+            if raw_url[-1] == "/"
+                counter+=1
+            # if crm_url_redirect == " "
+                puts
+                puts "#{counter}) Slash"
+                p raw_url
+                clean_domain = raw_url[0...-1]
+                # clean_domain = nil
+                puts "Clean:"
+                p clean_domain
+                indexer.update_attribute(:raw_url, clean_domain)
+                # indexer.update_attributes(location_status: "Clean-URL", raw_url: clean_domain)
+                puts
+            else
+                none_counter+=1
+                # print "#{none_counter}, "
+                # puts "#{counter}) No-Slash: #{raw_url}"
+                # indexer.update_attribute(:location_status, "Clean-URL")
+            end
+
+        end
+    end
+
+
 end  # Ends class CoreService  # GoogleSearchClass

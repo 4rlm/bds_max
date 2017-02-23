@@ -1,7 +1,7 @@
 class IndexersController < ApplicationController
   before_action :set_indexer, only: [:show, :edit, :update, :destroy]
 
-  before_action :set_indexer_service, only: [:indexer_starter_btn]
+  before_action :set_indexer_service, only: [:indexer_starter_btn, :reset_errors_btn, :indexer_power_btn]
 
 
   # GET /indexers
@@ -99,28 +99,41 @@ class IndexersController < ApplicationController
 
 
 
+  ## === BUTTONS ===
 
+  def indexer_power_btn
+    #   @service.url_arr_extractor
+    # @service.delay.url_arr_extractor
 
-  def indexer_starter_btn
+    # @service.delay.url_redirect_checker
 
-
-    #   @service.url_importer
-    #   @service.delay.url_importer
-
-    #   @service.url_redirect_checker
-    #   @service.delay.url_redirect_checker
-
-      @service.indexer_starter
-    #   @service.delay.indexer_starter
-
+    # @service.scraped_contacts_sts_checker
+    @service.delay.scraped_contacts_sts_checker
 
 
       redirect_to indexers_path
   end
 
 
+  def reset_errors_btn
+    #   @service.delay.reset_errors
+        @service.reset_errors
+
+      redirect_to indexers_path
+  end
 
 
+  def indexer_starter_btn
+    #   @service.indexer_starter
+        @service.delay.indexer_starter
+
+    #   @service.url_importer
+    #   @service.delay.url_importer
+    #   @service.url_redirect_checker
+    #   @service.delay.url_redirect_checker
+
+      redirect_to indexers_path
+  end
 
 
 
@@ -139,9 +152,6 @@ class IndexersController < ApplicationController
     def filtering_params(params)
         params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :staff_url, :staff_text, :location_url, :location_text, :template, :loc_status, :stf_status)
     end
-
-
-
 
 
     def set_indexer_service

@@ -111,7 +111,9 @@ end
 
     def acct_contacts
         @core = Core.find(params[:core])
-        @staffers = Staffer.where(sfdc_id: @core.sfdc_id)
+        # @staffers = Staffer.where(sfdc_id: @core.sfdc_id)
+        @staffers = Staffer.where(domain: @core.sfdc_url)
+
     end
 
 

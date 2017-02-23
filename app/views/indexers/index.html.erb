@@ -1,10 +1,14 @@
 <h1 class="page-header">Indexer</h1>
-<h4 class="text-center">Indexer Links</h4>
+<h4 class="text-center">Links Directory (Main URLs and Redirects, Staff Pages, Location Pages) </h4>
+<br>
 
-<h1>Indexers</h1>
 
-<%= link_to "indexer_starter_btn", indexer_starter_btn_path, class: 'btn btn-warning' %>
-<br> <br>
+<%= link_to "Queue Indexer", indexer_starter_btn_path, class: 'btn btn-warning' %>
+<%= link_to "Reset Errors", reset_errors_btn_path, class: 'btn btn-warning' %>
+<%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
+
+
+<br>
 
 <%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>
 
@@ -21,13 +25,18 @@
                 <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
                 <th>#</th>
                 <th>Indexer status</th>
-                <th>Redirect status</th>
+                <th>Contact Status</th>
+
                 <th>Staff Status</th>
                 <th>Staff text</th>
+
                 <th>Loc Status</th>
                 <th>Location text</th>
-              <th>Raw url</th>
+
+                <th>Redirect status</th>
               <th>Clean url</th>
+              <th>Raw url</th>
+
               <th>Template</th>
               <th>Crm id arr</th>
               <!-- <th colspan="3"></th> -->
@@ -43,34 +52,42 @@
                   <% num +=1 %>
                   <td><%= num %></td>
                   <td><%= indexer.indexer_status %></td>
-                  <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>"><%= indexer.redirect_status %></td>
+                  <td><%= indexer.contact_status%></td>
 
-
+                    <!-- staff status -->
                   <td class="<%= match_sts_ind(indexer.stf_status) %>"><%= indexer.stf_status %></td>
+
+                  <!-- Staff Text / URL -->
                   <td class="<%= match_sts_ind(indexer.stf_status) %>">
                       <%= link_to indexer.staff_url, :target => "_blank", class: 'tooltips', title: "#{indexer.staff_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
                           <%= indexer.staff_text %>
                       <% end %>
                   </td>
 
-
+                <!-- loc status -->
                   <td class="<%= match_sts_ind(indexer.loc_status) %>"><%= indexer.loc_status %></td>
+
+                  <!-- Loc Text / URL -->
                   <td class="<%= match_sts_ind(indexer.loc_status) %>">
                       <%= link_to indexer.location_url, :target => "_blank", class: 'tooltips', title: "#{indexer.location_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
                           <%= indexer.location_text %>
                       <% end %>
                   </td>
 
+                <!-- URL indexer_indicator -->
+                  <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>"><%= indexer.redirect_status %></td>
 
-                <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>">
-                    <%= link_to indexer.raw_url, :target => "_blank" do %>
-                        <%= indexer.raw_url %>
-                    <% end %>
-                </td>
-
+                <!-- Clean URL -->
                 <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>">
                     <%= link_to indexer.clean_url, :target => "_blank" do %>
                         <%= indexer.clean_url %>
+                    <% end %>
+                </td>
+
+                <!-- Raw URL -->
+                <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>">
+                    <%= link_to indexer.raw_url, :target => "_blank" do %>
+                        <%= indexer.raw_url %>
                     <% end %>
                 </td>
 

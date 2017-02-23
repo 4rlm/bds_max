@@ -1,4 +1,4 @@
-<h3 class="section-header">Geo Filter</h3>
+<h3 class="section-header">Indexer Filter</h3>
 
 <%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>
 
@@ -53,6 +53,8 @@
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_url } %></td>
 
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_text } %></td>
+
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :location_url } %></td>
 
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :location_text } %></td>
 

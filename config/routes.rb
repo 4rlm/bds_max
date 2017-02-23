@@ -5,9 +5,10 @@ Rails.application.routes.draw do
   end
   get 'indexer/import_page' => 'indexers#import_page'
   get 'indexer_starter_btn' => 'indexers#indexer_starter_btn'
+  get 'reset_errors_btn' => 'indexers#reset_errors_btn'
+  get 'indexer_power_btn' => 'indexers#indexer_power_btn'
 
-
-
+  
   devise_for :users
   resources :geo_places
   # resources :locations

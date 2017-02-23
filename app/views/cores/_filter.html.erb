@@ -26,7 +26,9 @@
                     <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td> text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
+
+                    <td> <%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
+
                 </tr>
             </table>
         </div>
