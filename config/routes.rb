@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   get 'indexer_starter_btn' => 'indexers#indexer_starter_btn'
   get 'reset_errors_btn' => 'indexers#reset_errors_btn'
   get 'indexer_power_btn' => 'indexers#indexer_power_btn'
+  get 'template_finder_btn' => 'indexers#template_finder_btn'
 
-  
+
   devise_for :users
   resources :geo_places
   # resources :locations

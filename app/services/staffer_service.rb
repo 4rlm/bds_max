@@ -45,6 +45,10 @@ class StafferService
         end # cores Loop - Ends
     end # start_staffer(ids) - Ends
 
+
+
+
+
     def search(core, url)
         begin
             temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage' ]
@@ -77,6 +81,17 @@ class StafferService
         sleep(throttle_delay_time)
 
     end
+
+
+
+
+
+
+
+
+
+
+
 
     def temp_method(term, doc, url)
         sc = Scrapers.new(@cols_hash)

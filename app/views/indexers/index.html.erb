@@ -4,8 +4,20 @@
 
 
 <%= link_to "Queue Indexer", indexer_starter_btn_path, class: 'btn btn-warning' %>
+<%= link_to "Template Finder", template_finder_btn_path, class: 'btn btn-warning' %>
+
+
+
+
+
+
+
 <%= link_to "Reset Errors", reset_errors_btn_path, class: 'btn btn-warning' %>
 <%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
+
+
+
+
 
 
 <br>
@@ -54,7 +66,10 @@
                   <td><%= indexer.indexer_status %></td>
                   <td>
                       <%# if Staffer.where(domain: indexer.clean_url).count > 0 %>
-                          <%= link_to indexer.contact_status, staffers_path(url: indexer.clean_url), target: "_blank" %>
+                      <%= indexer.contacts_count %>
+
+                          <%#= link_to indexer.contact_status, staffers_path(url: indexer.clean_url), target: "_blank" %>
+
                           <%#= link_to "hey", "/staffers?url=https%3A%2F%2F#{indexer.clean_url}", target: "_blank" %>
                       <%# else %>
                           <!-- NO Same URL -->
