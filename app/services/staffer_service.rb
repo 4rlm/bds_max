@@ -83,16 +83,6 @@ class StafferService
     end
 
 
-
-
-
-
-
-
-
-
-
-
     def temp_method(term, doc, url)
         sc = Scrapers.new(@cols_hash)
         domain = @cols_hash[:domain]
@@ -116,6 +106,14 @@ class StafferService
             puts "\n\n===== Found: DealerInspire.com =====\n\n"
         end
     end
+
+
+
+
+
+
+
+
 
     def diff_staff_url_for_ddc(scrapers_obj, url, domain)
         staff_url = domain + "dealership/staff.htm"
@@ -170,26 +168,21 @@ class StafferService
                 puts "Staff Source: #{staff_source}"
                 puts "---------------------------"
                 counter +=1
-
                 core.update_attributes(staffer_status: staff_source, staffer_date: staff.created_at)
-
             end
         end
-
-
-
-
-
     end ## staffer_core_updater
-
-
 end  # Ends class StafferService
+
+
 
 
 class Scrapers
     def initialize(cols_hash)
         @cols_hash = cols_hash
     end
+
+
 
     def ddc_scraper(html, url)
         begin
@@ -235,17 +228,21 @@ class Scrapers
         end
     end # End of Main Method: "def ddc_scraper"
 
+
     def xpath_fix(nodeSet)  # For: ddc_scraper
         nodeSet.empty? ? "N/A" : (nodeSet.map {|n| n}).join(' ').strip
     end
+
 
     def nil_fix(element)  # For: ddc_scraper
         element.nil? ? "N/A" : element.text.strip
     end
 
+
     def empty_arr_fix(arr)  # For: ddc_scraper
         arr.empty? ? ["N/A"] : arr.map {|el| el.text.strip}
     end
+
 
     def add_indexer_row_with(staffer_status, temp, org, street, city, state, zip, acc_phone, jobs, fnames, lnames, full_names, emails, cont_status, cont_source, influence)
         @cols_hash[:staffer_status] = staffer_status
@@ -288,6 +285,10 @@ class Scrapers
         return str1 == str2 ? "same" : "different"
     end
 
+
+
+
+
     def do_scraper(html, url)
         begin
             #==ACCOUNT FIELDS==ARRAYS
@@ -326,6 +327,10 @@ class Scrapers
             puts "\n\n===== DealerOn Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def do_scraper"
+
+
+
+
 
     def cobalt_scraper(html, url)   # Problems w/ cobalt_verify below
         begin
@@ -373,6 +378,7 @@ class Scrapers
         end
     end # End of Main Method: "def cobalt_scraper"
 
+
     def drop_comma(str)  # For: DealerFire
         if str.include?(',')
             str.delete(',')
@@ -381,6 +387,7 @@ class Scrapers
         end
     end
 
+
     def match_arr(size, array)  # For: DealerFire
         if array.length != size
             n = size - array.length
@@ -388,6 +395,10 @@ class Scrapers
         end
         return array
     end
+
+
+
+
 
     def df_scraper(html, url)   # Problem w/ email
         begin
@@ -436,6 +447,10 @@ class Scrapers
             puts "\n\n===== DealerFire Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def df_scraper"
+
+
+
+
 
     def di_scraper(html, url)
         begin
@@ -496,8 +511,12 @@ class Scrapers
         end
     end # End of Main Method: "def di_scraper"
 
+
+
     def error_indicator(url, temp_name)
         core = Core.find_by(staff_link: url)
         core.update_attribute(:staffer_status, "#{temp_name} Error")
     end
+
+
 end  # Ends class Scrapers

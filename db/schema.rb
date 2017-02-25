@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223152539) do
+ActiveRecord::Schema.define(version: 20170225145824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,6 +237,17 @@ ActiveRecord::Schema.define(version: 20170223152539) do
     t.string   "href"
     t.string   "link"
     t.string   "sfdc_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "indexer_terms", force: :cascade do |t|
+    t.string   "category"
+    t.string   "sub_category"
+    t.string   "criteria_term"
+    t.string   "response_term"
+    t.string   "criteria_count"
+    t.string   "response_count"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end

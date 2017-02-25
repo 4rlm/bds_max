@@ -99,26 +99,30 @@ class IndexersController < ApplicationController
 
 
 
-  ## === BUTTONS ===
+  ### =============== BUTTONS Start ===============
 
   def indexer_power_btn
-    #   @service.url_arr_extractor
-    # @service.delay.url_arr_extractor
-    # @service.delay.url_redirect_checker
+    # @service.url_arr_extractor
+    # @service.url_redirect_checker
     # @service.scraped_contacts_sts_checker
-    # @service.delay.scraped_contacts_sts_checker
-    # @service.delay.count_contacts
+    # @service.count_contacts
     # @service.dup_url_cleaner
     # @service.delay.dup_url_cleaner
+    # @service.staff_url_cleaner
+    # @service.pending_verifications_importer
+    # @service.delay.pending_verifications_importer
+    # @service.url_downcase
+    # @service.delay.url_downcase
+    # @service.hyrell_cleaner
+    # @service.url_redirect_checker
+      @service.delay.url_redirect_checker
 
-    # @service.delay.staff_url_cleaner
 
       redirect_to indexers_path
   end
 
 
   def reset_errors_btn
-    #   @service.delay.reset_errors
         @service.reset_errors
 
       redirect_to indexers_path
@@ -127,12 +131,8 @@ class IndexersController < ApplicationController
 
   def indexer_starter_btn
     #   @service.indexer_starter
-        @service.delay.indexer_starter
-
+        # @service.delay.indexer_starter
     #   @service.url_importer
-    #   @service.delay.url_importer
-    #   @service.url_redirect_checker
-    #   @service.delay.url_redirect_checker
 
       redirect_to indexers_path
   end
@@ -141,8 +141,12 @@ class IndexersController < ApplicationController
     #   @service.template_finder
       @service.delay.template_finder
 
+
       redirect_to indexers_path
   end
+
+  ### =============== BUTTONS End ===============
+
 
 
 

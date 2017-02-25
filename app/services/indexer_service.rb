@@ -14,13 +14,17 @@ class IndexerService
 #####################
 
     def indexer_starter
-        snum = 0
-        enum = 1
-        # snum = 2000
-        # enum = 3000
+        # a=0
+        # z=2500
+        # a=2500
+        # z=5000
+        a=5000
+        z=-1
         # els = Indexer.where(indexer_status: "Re-Queue Indexer")[snum...enum]
         # els = Indexer.where(indexer_status: nil).where.not(clean_url: nil)[snum...enum]
-        els = Indexer.where(indexer_status: "TCP Error")[snum...enum]
+        els = Indexer.where(stf_status: "SFDC URL").where.not(template: "Search Error").where.not(template: "Unidentified")[a...z]
+
+        els = Indexer.where(stf_status: "Pen URL").where.not(template: "Search Error").where.not(template: "Unidentified")[snum...enum]
 
         @agent = Mechanize.new
         @agent.follow_meta_refresh = true
@@ -32,10 +36,10 @@ class IndexerService
 
         counter=0
         els.each do |el|
+            template = el.template
 
             counter+=1
-            puts "[#{snum}...#{enum}]"
-            puts "------------------- #{counter} ---------------------"
+            puts "[#{a}...#{z}]  (#{counter}):  #{template}"
 
             redirect_status = el.redirect_status
                 if redirect_status == "Same" || redirect_status == "Updated"
@@ -58,7 +62,9 @@ class IndexerService
                         page = @agent.get(redirect_url)
                     end
 
-                    puts "URL: #{url}"
+                    puts
+                    puts "----------------------------------------"
+                    puts url
 
                     page_finder(locations_text_list, locations_href_list, url, page, "location")
                     page_finder(staff_text_list, staff_href_list, url, page, "staff")
@@ -101,21 +107,16 @@ class IndexerService
                         indexer_status = "Indexer Error" unless indexer_status == "TCP Error"
                         el.update_attribute(:indexer_status, indexer_status)
 
-                        puts
                         puts indexer_status
                         puts status
                         puts error_msg
-                        puts
 
                         add_indexer_row_with(status, nil, nil, error_msg, "error")
                     end
 
                 end
 
-                throttle_delay_time = 2
-                puts "--------------------------------"
-                puts
-                sleep(throttle_delay_time)
+                sleep(1)
 
             end
 
@@ -167,14 +168,24 @@ class IndexerService
             # IndexerLocation.create(@cols_hash)
             puts "#{status}: #{text}"
             indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if indexer != nil
+            puts link
+            puts text
+            puts "----------------------------------------"
         elsif mode == "staff"
             # IndexerStaff.create(@cols_hash)
             puts "#{status}: #{text}"
             indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if indexer != nil
+            puts link
+            puts text
+            puts "----------------------------------------"
         elsif mode == "error"
             puts "#{status}: #{text}"
             indexer.update_attributes(stf_status: status, staff_url: link, loc_status: status, location_url: link) if indexer != nil
+            puts link
+            puts text
         end
+
+        puts
 
     end
 
@@ -190,39 +201,324 @@ class IndexerService
         arr.map {|str| Regexp.new(str)}
     end
 
+    #####################
+    ### indexer_starter Ends
+    #####################
+
+
+    ####################
+    # TEMPLATE DETECTOR - STARTS
+    ####################
+
+    def template_finder
+        # indexers = Indexer.where(template: nil).where.not(staff_url: nil).where(stf_status: "Matched")
+        # indexers = Indexer.where(template: "Unidentified").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
+        # indexers = Indexer.where(template: "Search Error").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
+        # indexers = Indexer.where(template: nil).where.not(stf_status: "Matched")[0..1000]
+        # indexers = Indexer.where(staff_url: "http://www.supremeautosales.com")
+        # indexers = Indexer.where.not(clean_url: nil).where(template: nil)[snum...enum]
+        # indexers = Indexer.where("raw_url LIKE '%hornburg%'")[snum...enum]
+
+        # snum = 0
+        # enum = 300
+        # snum = 300
+        # enum = 600
+        snum = 600
+        enum = -1
+
+        # indexers = Indexer.where("raw_url LIKE '%auffenberg%'")
+        # indexers = Indexer.where(raw_url: "http://www.pattersonsupercenter.com")
+
+        # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[snum...enum]
+        # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[snum...enum]
+        indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[snum...enum]
+        # indexers = Indexer.where(clean_url: "http://www.mbplano.com")
+
+
+
+
+
+
+        puts "\n\n======================================\n\n"
+
+        counter=0
+        target_counter=0
+        indexers.each do |indexer|
+
+            #### !!!! Switched staff_url to clean_url #####
+            # staff_url = indexer.staff_url
+
+            #### !!!! Switched staff_url to raw_url #####
+            # clean_url = indexer.clean_url
+
+            clean_url = indexer.clean_url
+
+            counter+=1
+            begin
+                temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage', 'dealereprocess', 'dealersocket', 'fzautomotive', 'Dealer Direct', 'forddirect', 'Dealer Car Search', 'Autofusion', 'autofunds.com', 'drivewebsite.com', 'motionfuze', 'remorainc', 'Dominion Dealer Solutions', 'ebizautos.com', 'serpcom', 'Dealer Spike', 'All Auto Network', 'JazelAuto', 'foxdealer', 'VinSolutions', 'slipstream', 'autojini', 'dealertrend', 'chapman', 'motorwebs', 'searchoptics', 'drivingforceauto', 'DForce Web', 'pixelmotion', 'DealerPeak', 'DLD Websites', 'fusionZONE ', 'I/O COM']
+                ### Removed "edealer" from list.
+
+                @agent = Mechanize.new
+
+                doc = @agent.get(clean_url)
+                detect =  false
+                term=""
+
+                # puts "\n\n----------------------\n\n"
+                # puts "HTML........"
+                # all_html = doc.at_css('html')
+                # puts all_html
+                # puts
+                # puts "\n\n----------------------\n\n"
+
+                for term in temp_list
+                    if doc.at_css('html').text.include?(term)
+                    # if doc.at_css('html').include?(term)
+                        detect = true
+
+                        case term
+                        when "DDC"
+                            term = "Dealer.com"
+                        when "dealeron"
+                            term = "DealerOn"
+                        when "cobalt"
+                            term = "Cobalt"
+                        when "DealerFire"
+                            term = "DealerFire"
+                        when "di_homepage"
+                            term = "Dealer Inspire"
+                        when "dealereprocess"
+                            term = "DEALER eProcess"
+                        when "dealersocket"
+                            term = "Dealer Socket"
+                        when "fzautomotive"
+                            term = "fusionZone"
+                        when "Dealer Direct"
+                            term = "Dealer Direct"
+                        when "forddirect"
+                            term = "Dealer Direct"
+                        when "Dealer Car Search"
+                            term = "DealerCar Search"
+                        when "Autofusion"
+                            term = "Autofusion"
+                        when "autofunds.com"
+                            term = "Autofunds"
+                        when "drivewebsite.com"
+                            term = "Drive Website"
+                        when "motionfuze"
+                            term = "Motion Fuze"
+                        when "remorainc"
+                            term = "Remora"
+                        when "Dominion Dealer Solutions"
+                            term = "Dominion"
+                        when "ebizautos.com"
+                            term = "eBizAutos"
+                        when "serpcom"
+                            term = "SERPCOM"
+                        when "Dealer Spike"
+                            term = "Dealer Spike"
+                        when "All Auto Network"
+                            term = "All Auto Network"
+                        when "jazel"
+                            term = "Jazel Auto"
+                        when "foxdealer"
+                            term = "FoxDealer"
+                        when "VinSolutions"
+                            term = "VinSolutions"
+                        when "slipstream"
+                            term = "Slip Stream"
+                        when "autojini"
+                            term = "AutoJini"
+                        # when "edealer"
+                        #     term = "eDealer"
+                        when "dealertrend"
+                            term = "DealerTrend"
+                        when "chapman"
+                            term = "Chapman.co"
+                        when "motorwebs"
+                            term = "Motorwebs"
+                        when "searchoptics"
+                            term = "Search Optics"
+                        when "drivingforceauto"
+                            term = "Driving Force"
+                        when "DForce Web"
+                            term = "Driving Force"
+                        when "pixelmotion"
+                            term = "Pixel Motion"
+                        when "DealerPeak"
+                            term = "DealerPeak"
+                        when "DLD Websites"
+                            term = "DLD Websites"
+                        when "fusionZONE"
+                            term = "fusionZONE"
+                        when "I/O COM"
+                            term = "I/O COM"
+                        end
+
+                        # temp_method(term, doc, url)
+                        target_counter+=1
+                        puts "-----------------------------------------------------"
+                        puts "#{counter}-#{target_counter})  #{term}  [#{clean_url}]"
+                        puts "-----------------------------------------------------"
+                        indexer.update_attribute(:template, term)
+                    end
+                end
+
+                unless detect
+                    puts "#{counter} )  ?           [#{clean_url}]"
+                    indexer.update_attribute(:template, "Unidentified")
+                end
+            rescue
+                puts "#{counter} )  X           [#{clean_url}]"
+                indexer.update_attribute(:template, "Search Error")
+            end
+
+            sleep(1)
+
+        end
+
+        puts "\n\n======================================\n\n"
+
+    end
+
+    ####################
+    # TEMPLATE DETECTOR - Ends
+    ####################
+
+    ####################
+    # URL Redirect Checker - Starts
+    ####################
+
+    def url_redirect_checker
+        require 'curb'
+        # indexers = Indexer.where.not(crm_url: nil).where.not(crm_url: "").where("url != crm_url").where(crm_url_redirect: nil)
+        # indexers = Indexer.where.not(crm_url: nil).where.not(crm_url: "").where("url != crm_url").where(geo_url_redirect: nil)[20...-1]
+        # indexers = Indexer.where(redirect_status: nil).where(stf_status: "SFDC URL").where(indexer_status: "SFDC URL").where("raw_url LIKE '%http%'")[a...z]
+        # indexers = Indexer.where(redirect_status: nil).where(stf_status: "SFDC URL").where(indexer_status: "SFDC URL").where("raw_url LIKE '%www%'")[a...z]
+        # indexers = Indexer.where(redirect_status: nil).where(stf_status: "SFDC URL").where(indexer_status: "SFDC URL").where.not("raw_url LIKE '%www%'")[a...z]
+        # Indexer.where.not("redirect_status LIKE '%Error%'")
+
+        a=150
+        z=500
+        # a=350
+        # z=-1
+        # a=2600
+        # z2-1
+        # 2630
+
+        indexers = Indexer.where(clean_url: nil).where(redirect_status: nil)[a...z]
+
+        counter_fail = 0
+        counter_result = 0
+        total = 0
+        indexers.each do |indexer|
+            total +=1
+
+            raw_url = indexer.raw_url
+
+            begin ## rescue
+                result = Curl::Easy.perform(raw_url) do |curl|
+                    curl.follow_location = true
+                    curl.useragent = "curb"
+                    curl.connect_timeout = 10
+                    curl.enable_cookies = true
+                    # curl.ssl_verify_peer = false
+                end
+
+                curb_url_result = result.last_effective_url
+
+                crm_url_hash = url_formatter(curb_url_result)
+                raw_url_final = crm_url_hash[:new_url]
+
+                if raw_url != raw_url_final
+                    counter_result +=1
+                    puts
+                    puts "[#{a}...#{z}] (#{counter_result}/#{total})"
+                    puts "O: #{raw_url}"
+                    puts "N: #{raw_url_final}"
+                    puts "--------------------------------------------"
+                    puts
+                    indexer.update_attributes(redirect_status: "Updated", clean_url: raw_url_final)
+                else
+                    puts "[#{a}...#{z}] (#{total}): Same"
+                    indexer.update_attributes(redirect_status: "Same", clean_url: raw_url_final)
+                end
+
+            rescue  #begin rescue
+                error_message = $!.message
+                counter_fail +=1
+                final_error_msg = "Error: #{error_message}"
+                puts "(#{counter_fail}/#{total})  (#{final_error_msg})"
+
+                if final_error_msg && final_error_msg.include?("Error:")
+                    if final_error_msg.include?("SSL connect error")
+                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "SSL Error")
+                    elsif final_error_msg.include?("Couldn't resolve host name")
+                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Host Error")
+                    elsif final_error_msg.include?("Peer certificate")
+                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Certificate Error")
+                    elsif final_error_msg.include?("Failure when receiving data")
+                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Transfer Error")
+                    else
+                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Error")
+                    end
+                end
+            end  #end rescue
+        end
+    end
+
+    ####################
+    # URL Redirect Checker - Ends
+    ####################
+
+
+
 #####################
-### indexer_starter Ends
-#####################
 
 
 
+    def staff_url_cleaner
+        # indexers = Indexer.where(template: "Search Error").where("staff_url LIKE '%.comstaff%'")
+        indexers = Indexer.where(template: "Search Error").where(staff_url: nil)
+        counter=0
+        indexers.each do |indexer|
+            staff_url = indexer.staff_url
 
-#####################
+            counter+=1
+            puts "#{counter}) #{staff_url}"
+            # new_staff_url = staff_url.gsub(".comstaff", ".com/staff")
+            # puts new_staff_url
+            puts
+            # indexer.update_attributes(template: nil, staff_url: new_staff_url)
+            indexer.update_attribute(:template, nil)
+        end
+    end
+
 
     def dup_url_cleaner
-        bigs = Indexer.where.not(clean_url: nil)
+        bigs = Indexer.where.not(raw_url: nil)
         big_counter=0
         small_counter=0
-        bigs.each do |big|
-            big_clean_url = big.clean_url
-            big_id = big.id
+        if bigs
+            bigs.each do |big|
+                big_raw_url = big.raw_url
+                big_id = big.id
 
-            pre_count = Indexer.where(clean_url: big_clean_url).count
-            big_counter+=1
-            puts
-            puts "#{big_counter}) #{big_clean_url}"
-            puts "pre_count: #{pre_count}"
+                pre_count = Indexer.where(raw_url: big_raw_url).count
+                big_counter+=1
+                puts
+                puts "#{big_counter}) #{big_raw_url}"
+                puts "pre_count: #{pre_count}"
 
-
-                smalls = Indexer.where(clean_url: big_clean_url).where.not(id: big_id)
+                smalls = Indexer.where(raw_url: big_raw_url).where.not(id: big_id)
                 smalls.each do |small|
-                    small_raw_url = small.clean_url
+                    small_raw_url = small.raw_url
                     small_id = small.id
 
                     small_counter+=1
                     puts "------------------ #{small_counter} ------------------ "
                     puts
-                    puts "big_clean_url: #{big_clean_url}"
+                    puts "big_raw_url: #{big_raw_url}"
                     puts "small_raw_url: #{small_raw_url}"
                     puts "big_id: #{big_id}"
                     puts "small_id: #{small_id}"
@@ -230,17 +526,80 @@ class IndexerService
                     small.destroy
                 end
 
-                post_count = Indexer.where(clean_url: big_clean_url).count
+                post_count = Indexer.where(raw_url: big_raw_url).count
                 puts "post_count: #{post_count}"
                 puts
+            end
+        end
+    end
 
+    def url_downcase
+        a=0
+        z=-1
+        indexers = Indexer.where.not(raw_url: nil)[a..z]
+        counter=0
+        indexers.each do |indexer|
+            raw_url = indexer.raw_url
+            down_raw_url = raw_url.downcase if raw_url
+            counter+=1
+            unless raw_url == down_raw_url
+                puts
+                puts "[#{a}...#{z}] (#{counter}) #{raw_url} / #{down_raw_url}"
+                puts
+                indexer.update_attribute(:raw_url, down_raw_url)
+            end
         end
     end
 
 
+    def hyrell_cleaner
+        indexers = Indexer.where("raw_url LIKE '%.hyrell.%'")
+        indexers.each do |indexer|
+            raw_url = indexer.raw_url
+            if raw_url.include?(".hyrell")
+                puts
+                new_raw_url = raw_url.gsub(".hyrell.", ".")
+                puts raw_url
+                puts new_raw_url
+                indexer.update_attributes(raw_url: new_raw_url, redirect_status: nil)
+            end
+        end
+    end
+
+
+    def pending_verifications_importer
+        pens = PendingVerification.all
+        counter=0
+        target_counter=0
+
+        puts "\n\n======================================\n\n"
+
+        pens.each do |pen|
+            pen_url = pen.domain
+
+            pen_url[-1] == "/" ? pen_url = pen_url[0...-1] : pen_url
+
+            counter+=1
+            raw_url = Indexer.exists?(raw_url: pen_url)
+            clean_url = Indexer.exists?(clean_url: pen_url)
+
+            if raw_url || clean_url
+                puts "#{counter}/X) #{pen_url}"
+            else
+                target_counter+=1
+                puts "#{counter}/#{target_counter})     IMPORTING: #{pen_url}"
+
+                Indexer.create(raw_url: pen_url, indexer_status: "SFDC URL", stf_status: "SFDC URL", loc_status: "SFDC URL", template: "SFDC URL")
+            end
+
+        end
+
+        puts "\n\n======================================\n\n"
+
+    end
+
 
     def count_contacts
-
         indexers = Indexer.where.not(clean_url: nil).where(contacts_count: nil)
         counter=0
         indexers.each do |indexer|
@@ -253,11 +612,8 @@ class IndexerService
             puts contacts_count
             puts
             indexer.update_attribute(:contacts_count, contacts_count)
-
         end
-
     end
-
 
 
     def reset_errors
@@ -268,7 +624,6 @@ class IndexerService
 
         counter=0
         indexers.each do |indexer|
-
             puts
             counter+=1
             puts "Cleaning Record: #{counter} ....."
@@ -369,35 +724,23 @@ class IndexerService
                 status = "503 Error"
                 indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
             end
-
-
         end
-
     end
 
 
-    #####################
-    ### reset_errors Ends
-    #####################
-
-
     def scraped_contacts_sts_checker
-
         indexers = Indexer.where.not(staff_text: nil).where(contact_status: nil).where.not(clean_url: nil)
 
         counter=0
         indexers.each do |indexer|
-
             clean_url = indexer.clean_url
             indexer_template = indexer.template
             contact_status = indexer.contact_status
 
             contacts = Staffer.where(domain: clean_url)[0..0]
-
             contacts.each do |contact|
 
                 unless contact_status
-
                     staffer_status = contact.staffer_status
                     cont_status = contact.cont_status
                     staff_link = contact.staff_link
@@ -405,7 +748,6 @@ class IndexerService
                     staffer_template = contact.template
 
                     if domain == clean_url && contact_status == nil
-
                         counter+=1
                         puts
                         puts "------------------ #{counter} ------------------"
@@ -417,15 +759,10 @@ class IndexerService
                         puts
 
                         indexer.update_attributes(contact_status: "Scraped", template: staffer_template)
-
                     end
-
                 end
-
             end
-
         end
-
     end
 
 
@@ -435,14 +772,11 @@ class IndexerService
         num=0
         print "#{num}, "
 
-
         loc_count=0
         indexer_count=0
-
         puts
         locs.each do |loc|
             loc_count+=1
-
             url_arr = loc.url_arr
             crm_url = loc.crm_url
             geo_url = loc.url
@@ -458,11 +792,8 @@ class IndexerService
                 loc.update_attribute(:sts_duplicate, "URL Check")
                 Indexer.create(raw_url: geo_url_redirect)
             end
-
         end
-
         puts
-
     end
 
 
@@ -472,72 +803,6 @@ class IndexerService
         locs.each do |loc|
             puts "#{counter}) #{loc.url}"
             Indexer.create(raw_url: loc.url)
-        end
-    end
-
-
-    def url_redirect_checker
-        require 'curb'
-        # indexers = Indexer.where.not(crm_url: nil).where.not(crm_url: "").where("url != crm_url").where(crm_url_redirect: nil)
-        # indexers = Indexer.where.not(crm_url: nil).where.not(crm_url: "").where("url != crm_url").where(geo_url_redirect: nil)[20...-1]
-        indexers = Indexer.where(redirect_status: nil)[0..-1]
-
-        counter_result = 0
-        counter_fail = 0
-        match_counter = 0
-        total = 0
-        indexers.each do |indexer|
-            total +=1
-
-            raw_url = indexer.raw_url
-
-            begin ## rescue
-                result = Curl::Easy.perform(raw_url) do |curl|
-                    curl.follow_location = true
-                    curl.useragent = "curb"
-                    # curl.ssl_verify_peer = false
-                end
-
-                curb_url_result = result.last_effective_url
-
-                crm_url_hash = url_formatter(curb_url_result)
-                raw_url_final = crm_url_hash[:new_url]
-
-                if raw_url != raw_url_final
-                    counter_result +=1
-                    puts "======= (#{counter_result}/#{total}) ======="
-                    puts
-                    puts "O: #{raw_url}"
-                    puts "N: #{raw_url_final}"
-
-                    indexer.update_attributes(redirect_status: "Updated", clean_url: raw_url_final)
-                    puts
-                    puts "==================================="
-                else
-                    puts "(#{total}): Same"
-                    indexer.update_attributes(redirect_status: "Same", clean_url: raw_url_final)
-                end
-
-            rescue  #begin rescue
-                error_message = $!.message
-                counter_fail +=1
-                final_error_msg = "Error: #{error_message}"
-                puts "(#{counter_fail}/#{total})  (#{final_error_msg})"
-
-                if final_error_msg && final_error_msg.include?("Error:")
-                    if final_error_msg.include?("SSL connect error")
-                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "SSL Error")
-                    elsif final_error_msg.include?("Couldn't resolve host name")
-                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Host Error")
-                    elsif final_error_msg.include?("Peer certificate")
-                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Certificate Error")
-                    elsif final_error_msg.include?("Failure when receiving data")
-                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Transfer Error")
-                    else
-                        indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Error")
-                    end
-                end
-            end  #end rescue
         end
     end
 
@@ -577,307 +842,6 @@ class IndexerService
         url
     end
 
-
-
-    ####################
-    # TEMPLATE DETECTOR - STARTS
-    ####################
-
-
-
-    def staff_url_cleaner
-        # indexers = Indexer.where(template: "Search Error").where("staff_url LIKE '%.comstaff%'")
-        indexers = Indexer.where(template: "Search Error").where(staff_url: nil)
-
-        counter=0
-        indexers.each do |indexer|
-            staff_url = indexer.staff_url
-
-            counter+=1
-            puts "#{counter}) #{staff_url}"
-            # new_staff_url = staff_url.gsub(".comstaff", ".com/staff")
-            # puts new_staff_url
-            puts
-
-            # indexer.update_attributes(template: nil, staff_url: new_staff_url)
-            indexer.update_attribute(:template, nil)
-
-
-        end
-    end
-
-
-
-
-    def template_finder
-        # indexers = Indexer.where(template: nil).where.not(staff_url: nil).where(stf_status: "Matched")
-        # indexers = Indexer.where(template: "Unidentified").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
-        # indexers = Indexer.where(template: "Search Error").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
-        # indexers = Indexer.where(template: nil).where.not(stf_status: "Matched")[0..1000]
-        # indexers = Indexer.where(staff_url: "http://www.supremeautosales.com")
-        snum = 0
-        enum = 3000
-        # snum = 3000
-        # enum = 6000
-        # snum = 6000
-        # enum = -1
-
-        indexers = Indexer.where.not(clean_url: nil).where(template: nil)[snum...enum]
-
-        puts "\n\n======================================\n\n"
-
-        counter=0
-        target_counter=0
-        indexers.each do |indexer|
-
-            #### !!!! Switched staff_url to clean_url #####
-            # staff_url = indexer.staff_url
-            clean_url = indexer.clean_url
-
-            counter+=1
-            begin
-                temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage', 'dealereprocess', 'dealersocket', 'fzautomotive', 'Dealer Direct', 'forddirect', 'Dealer Car Search', 'autofusion.com', 'autofunds.com', 'drivewebsite.com', 'motionfuze', 'remorainc', 'Dominion Dealer Solutions', 'ebizautos.com', 'serpcom', 'Dealer Spike', 'All Auto Network', 'JazelAuto', 'foxdealer', 'VinSolutions', 'slipstream', 'autojini', 'edealer', 'dealertrend', 'chapman', 'motorwebs']
-
-                @agent = Mechanize.new
-                doc = @agent.get(clean_url)
-                detect =  false
-                term=""
-
-                # puts "\n\n----------------------\n\n"
-                # puts "HTML........"
-                # all_html = doc.at_css('html')
-                # puts all_html
-                # puts
-                # puts "\n\n----------------------\n\n"
-
-                for term in temp_list
-                    if doc.at_css('html').text.include?(term)
-                    # if doc.at_css('html').include?(term)
-
-                        detect = true
-
-                        case term
-                        when "DDC"
-                            term = "Dealer.com"
-                        when "dealeron"
-                            term = "DealerOn"
-                        when "cobalt"
-                            term = "Cobalt"
-                        when "DealerFire"
-                            term = "DealerFire"
-                        when "di_homepage"
-                            term = "Dealer Inspire"
-                        when "dealereprocess"
-                            term = "DEALER eProcess"
-                        when "dealersocket"
-                            term = "Dealer Socket"
-                        when "fzautomotive"
-                            term = "fusionZone"
-                        when "Dealer Direct"
-                            term = "Dealer Direct"
-                        when "forddirect"
-                            term = "Dealer Direct"
-                        when "Dealer Car Search"
-                            term = "DealerCar Search"
-                        when "autofusion.com"
-                            term = "Autofusion"
-                        when "autofunds.com"
-                            term = "Autofunds"
-                        when "drivewebsite.com"
-                            term = "Drive Website"
-                        when "motionfuze"
-                            term = "Motion Fuze"
-                        when "remorainc"
-                            term = "Remora"
-                        when "Dominion Dealer Solutions"
-                            term = "Dominion"
-                        when "ebizautos.com"
-                            term = "eBizAutos"
-                        when "serpcom"
-                            term = "SERPCOM"
-                        when "Dealer Spike"
-                            term = "Dealer Spike"
-                        when "All Auto Network"
-                            term = "All Auto Network"
-                        when "jazel"
-                            term = "Jazel Auto"
-                        when "foxdealer"
-                            term = "FoxDealer"
-                        when "VinSolutions"
-                            term = "VinSolutions"
-                        when "slipstream"
-                            term = "Slip Stream"
-                        when "autojini"
-                            term = "AutoJini"
-                        when "edealer"
-                            term = "eDealer"
-                        when "dealertrend"
-                            term = "DealerTrend"
-                        when "chapman"
-                            term = "Chapman.co"
-                        when "motorwebs"
-                            term = "Motorwebs"
-                        end
-
-                        # temp_method(term, doc, url)
-                        target_counter+=1
-                        puts "-----------------------------------------------------"
-                        puts "#{counter}-#{target_counter})  #{term}  [#{clean_url}]"
-                        puts "-----------------------------------------------------"
-                        indexer.update_attribute(:template, term)
-                    end
-                end
-
-                unless detect
-                    puts "#{counter} )  ?           [#{clean_url}]"
-                    indexer.update_attribute(:template, "Unidentified")
-                end
-            rescue
-                puts "#{counter} )  X           [#{clean_url}]"
-                indexer.update_attribute(:template, "Search Error")
-            end
-
-            sleep(2)
-
-        end
-
-        puts "\n\n======================================\n\n"
-
-    end
-
-
-    ####################
-    # TEMPLATE DETECTOR - ENDS
-    ####################
-
-
-
-
-
-#####################
-
-
-
-
-
-
-#####################
-####  STOP!!!!
-#####################
-# ORIGINAL INDEXER METHODS - SAVE
-
-    # def start_indexer(ids)
-    #     agent = Mechanize.new
-    #     locations_text_list = CriteriaIndexerLocText.all.map(&:term)
-    #     locations_href_list = to_regexp(CriteriaIndexerLocHref.all.map(&:term))
-    #     staff_text_list = CriteriaIndexerStaffText.all.map(&:term)
-    #     staff_href_list = to_regexp(CriteriaIndexerStaffHref.all.map(&:term))
-    #
-    #     Core.where(id: ids).each do |el|
-    #         current_time = Time.new
-    #
-    #         @cols_hash = {
-    #             indexer_status: nil,
-    #             sfdc_acct: el[:sfdc_acct],
-    #             domain: el[:matched_url],
-    #             text: nil,
-    #             href: nil,
-    #             link: nil,
-    #             sfdc_id: el[:sfdc_id]
-    #         }
-    #
-    #         begin
-    #             url = @cols_hash[:domain]
-    #             page = agent.get(url)
-    #
-    #             page_finder(locations_text_list, locations_href_list, url, page, "location")
-    #             page_finder(staff_text_list, staff_href_list, url, page, "staff")
-    #
-    #         rescue
-    #             add_indexer_row_with("Error", "(none)", "(none)", $!.message, "error")
-    #         end
-    #
-    #         el.update_attributes(indexer_date: current_time, bds_status: "Indexer Result")
-    #
-    #         # Throttle V1
-    #         # delay_time = rand(30)
-    #         # sleep(delay_time)
-    #
-    #         # Throttle V2
-    #         #== Throttle (if needed) =====================
-    #         # throttle_delay_time = (1..2).to_a.sample
-    #         puts "Completed"
-    #         # puts "Please wait #{throttle_delay_time} seconds."
-    #         puts "--------------------------------"
-    #         # sleep(throttle_delay_time)
-    #
-    #     end # Ends cores Loop
-    # end # Ends start_indexer(ids)
-    #
-    # def page_finder(text_list, href_list, url, page, mode)
-    #     for text in text_list
-    #         if pages = page.link_with(:text => text)
-    #             url_split_joiner(url, pages, mode)
-    #             break
-    #         end
-    #     end
-    #
-    #     if !pages
-    #         for href in href_list
-    #             if pages = page.link_with(:href => href)
-    #                 url_split_joiner(url, pages, mode)
-    #                 break
-    #             end
-    #         end
-    #
-    #         if !pages
-    #             add_indexer_row_with("No Matches", "(none)", "(none)", "(none)", mode)
-    #         end
-    #     end
-    # end # Ends page_finder
-    #
-    # def url_split_joiner(url, pages, mode)
-    #     url_s = url.split('/')
-    #     url_http = url_s[0]
-    #     url_www = url_s[2]
-    #
-    #     joined_url = validater(url_http, '//', url_www, pages.href)
-    #
-    #     add_indexer_row_with("Matched", pages.text.strip, pages.href, joined_url, mode)
-    # end
-    #
-    # def add_indexer_row_with(status, text, href, link, mode)
-    #     # binding.pry
-    #     @cols_hash[:indexer_status] = status
-    #     @cols_hash[:text] = text
-    #     @cols_hash[:href] = href
-    #     @cols_hash[:link] = link
-    #     core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
-    #
-    #     if mode == "location" || mode == "error"
-    #         IndexerLocation.create(@cols_hash)
-    #         core.update_attributes(location_indexer_status: status, location_link: link, location_text: text)
-    #     end
-    #
-    #     if mode == "staff" || mode == "error"
-    #         IndexerStaff.create(@cols_hash)
-    #         core.update_attributes(staff_indexer_status: status, staff_link: link, staff_text: text)
-    #     end
-    # end
-    #
-    # def validater(url_http, dbl_slash, url_www, dirty_url)
-    #     if dirty_url.include?(url_http + dbl_slash)
-    #         dirty_url
-    #     else
-    #         url_http + dbl_slash + url_www + dirty_url
-    #     end
-    # end
-    #
-    # def to_regexp(arr)
-    #     arr.map {|str| Regexp.new(str)}
-    # end
-
-#####################
 
 
 
