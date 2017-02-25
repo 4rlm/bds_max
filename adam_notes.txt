@@ -50,4 +50,4 @@ www.lewischevybuick.com
 ==============================
 
 
-rails g scaffold indexer_criteria category:string sub_category:string criteria_term:string response_term:string criteria_count:string response_count:string
+rails g scaffold IndexerTerm category:string sub_category:string criteria_term:string response_term:string criteria_count:string response_count:string

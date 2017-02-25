@@ -5,6 +5,13 @@ class IndexerTermsController < ApplicationController
   # GET /indexer_terms.json
   def index
     @indexer_terms = IndexerTerm.all
+
+    @indexer_terms = IndexerTerm.order(:category)
+    respond_to do |format|
+          format.html
+          format.csv { render text: @indexer_terms.to_csv }
+      end
+
   end
 
   # GET /indexer_terms/1
@@ -16,6 +23,24 @@ class IndexerTermsController < ApplicationController
   def new
     @indexer_term = IndexerTerm.new
   end
+
+
+
+  # Go to the CSV importing page
+  def import_page
+  end
+
+  def import_csv_data
+    file_name = params[:file]
+    IndexerTerm.import_csv(file_name)
+
+    flash[:notice] = "CSV imported successfully."
+    redirect_to indexer_terms_path
+
+  end
+
+
+
 
   # GET /indexer_terms/1/edit
   def edit

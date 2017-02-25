@@ -398,8 +398,8 @@ class IndexerService
         # indexers = Indexer.where(redirect_status: nil).where(stf_status: "SFDC URL").where(indexer_status: "SFDC URL").where.not("raw_url LIKE '%www%'")[a...z]
         # Indexer.where.not("redirect_status LIKE '%Error%'")
 
-        a=150
-        z=500
+        a=200
+        z=-1
         # a=350
         # z=-1
         # a=2600

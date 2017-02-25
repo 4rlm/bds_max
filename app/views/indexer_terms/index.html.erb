@@ -2,6 +2,12 @@
 
 <h1>Indexer Terms</h1>
 
+<div class="pull-right">
+    <%= link_to 'Add Record', new_indexer_term_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', indexer_term_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', indexer_terms_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
+
 <table>
   <thead>
     <tr>

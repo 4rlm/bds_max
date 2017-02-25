@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :indexer_terms
+  resources :indexer_terms do
+      collection { post :import_csv_data }
+  end
+  get 'indexer_term/import_page' => 'indexer_terms#import_page'
+
+
   resources :indexers do
       collection {post :import_csv_data}
     #   get :update_status, on: :collection
