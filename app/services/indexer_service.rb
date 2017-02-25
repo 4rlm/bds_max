@@ -210,360 +210,73 @@ class IndexerService
     # TEMPLATE DETECTOR - STARTS
     ####################
 
-
-    ### TRIAL TEMPLATE DETECTOR - STARTS ###
     def template_finder
-        # indexers = Indexer.where(template: nil).where.not(staff_url: nil).where(stf_status: "Matched")
-        # indexers = Indexer.where(template: "Unidentified").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
-        # indexers = Indexer.where(template: "Search Error").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
-        # indexers = Indexer.where(template: nil).where.not(stf_status: "Matched")[0..1000]
-        # indexers = Indexer.where(staff_url: "http://www.supremeautosales.com")
-        # indexers = Indexer.where.not(clean_url: nil).where(template: nil)[snum...enum]
-        # indexers = Indexer.where("raw_url LIKE '%hornburg%'")[snum...enum]
+        # a=0
+        # z=450
+        # a=450
+        # z=900
+        a=900
+        z=-1
 
-        snum = 0
-        enum = -1
-        # snum = 300
-        # enum = 600
-        # snum = 600
-        # enum = -1
-
-        # indexers = Indexer.where("raw_url LIKE '%auffenberg%'")
-        # indexers = Indexer.where(raw_url: "http://www.pattersonsupercenter.com")
-
-        # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[snum...enum]
-        # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[snum...enum]
-        indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[snum...enum]
-        # indexers = Indexer.where(clean_url: "http://www.mbplano.com")
-
-        templates = IndexerTerm.where(category: "template_finder")
-        templates.each do |template|
-            sub_category = template.sub_category
-            criteria_term = template.criteria_term
-            response_term = template.response_term
-        end
-
-        puts "\n\n======================================\n\n"
+        indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
+        # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
+        # indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[a..z] #138
+        # indexers = Indexer.where(template: "Dealer Inspire")[a..z]
 
         counter=0
-        target_counter=0
         indexers.each do |indexer|
-            #### !!!! Switched staff_url to clean_url #####
-            # staff_url = indexer.staff_url
-            #### !!!! Switched staff_url to raw_url #####
-            # clean_url = indexer.clean_url
-            clean_url = indexer.clean_url
-
-
-
+            url = indexer.clean_url
+            db_template = indexer.template
+            criteria_term = nil
+            template = nil
             counter+=1
+
             begin
-                temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage', 'dealereprocess', 'dealersocket', 'fzautomotive', 'Dealer Direct', 'forddirect', 'Dealer Car Search', 'Autofusion', 'autofunds.com', 'drivewebsite.com', 'motionfuze', 'remorainc', 'Dominion Dealer Solutions', 'ebizautos.com', 'serpcom', 'Dealer Spike', 'All Auto Network', 'JazelAuto', 'foxdealer', 'VinSolutions', 'slipstream', 'autojini', 'dealertrend', 'chapman', 'motorwebs', 'searchoptics', 'drivingforceauto', 'DForce Web', 'pixelmotion', 'DealerPeak', 'DLD Websites', 'fusionZONE ', 'I/O COM']
-                ### Removed "edealer" from list.
-
                 @agent = Mechanize.new
+                doc = @agent.get(url)
 
-                doc = @agent.get(clean_url)
-                detect =  false
-                term=""
+                indexer_terms = IndexerTerm.where(category: "template_finder").where(sub_category: "at_css")
+                indexer_terms.each do |indexer_term|
+                    criteria_term = indexer_term.criteria_term
+                    if doc.at_css('html').text.include?(criteria_term)
+                        template = indexer_term.response_term
 
-                # puts "\n\n----------------------\n\n"
-                # puts "HTML........"
-                # all_html = doc.at_css('html')
-                # puts all_html
-                # puts
-                # puts "\n\n----------------------\n\n"
-
-                for term in temp_list
-                    if doc.at_css('html').text.include?(term)
-                    # if doc.at_css('html').include?(term)
-                        detect = true
-
-                        case term
-                        when "DDC"
-                            term = "Dealer.com"
-                        when "dealeron"
-                            term = "DealerOn"
-                        when "cobalt"
-                            term = "Cobalt"
-                        when "DealerFire"
-                            term = "DealerFire"
-                        when "di_homepage"
-                            term = "Dealer Inspire"
-                        when "dealereprocess"
-                            term = "DEALER eProcess"
-                        when "dealersocket"
-                            term = "Dealer Socket"
-                        when "fzautomotive"
-                            term = "fusionZone"
-                        when "Dealer Direct"
-                            term = "Dealer Direct"
-                        when "forddirect"
-                            term = "Dealer Direct"
-                        when "Dealer Car Search"
-                            term = "DealerCar Search"
-                        when "Autofusion"
-                            term = "Autofusion"
-                        when "autofunds.com"
-                            term = "Autofunds"
-                        when "drivewebsite.com"
-                            term = "Drive Website"
-                        when "motionfuze"
-                            term = "Motion Fuze"
-                        when "remorainc"
-                            term = "Remora"
-                        when "Dominion Dealer Solutions"
-                            term = "Dominion"
-                        when "ebizautos.com"
-                            term = "eBizAutos"
-                        when "serpcom"
-                            term = "SERPCOM"
-                        when "Dealer Spike"
-                            term = "Dealer Spike"
-                        when "All Auto Network"
-                            term = "All Auto Network"
-                        when "jazel"
-                            term = "Jazel Auto"
-                        when "foxdealer"
-                            term = "FoxDealer"
-                        when "VinSolutions"
-                            term = "VinSolutions"
-                        when "slipstream"
-                            term = "Slip Stream"
-                        when "autojini"
-                            term = "AutoJini"
-                        # when "edealer"
-                        #     term = "eDealer"
-                        when "dealertrend"
-                            term = "DealerTrend"
-                        when "chapman"
-                            term = "Chapman.co"
-                        when "motorwebs"
-                            term = "Motorwebs"
-                        when "searchoptics"
-                            term = "Search Optics"
-                        when "drivingforceauto"
-                            term = "Driving Force"
-                        when "DForce Web"
-                            term = "Driving Force"
-                        when "pixelmotion"
-                            term = "Pixel Motion"
-                        when "DealerPeak"
-                            term = "DealerPeak"
-                        when "DLD Websites"
-                            term = "DLD Websites"
-                        when "fusionZONE"
-                            term = "fusionZONE"
-                        when "I/O COM"
-                            term = "I/O COM"
+                        if template
+                            puts
+                            puts "[#{a}...#{z}]  (#{counter})   Success!"
+                            puts url
+                            puts "Term: #{criteria_term}"
+                            puts "Temp: #{template}"
+                            puts "DB: #{db_template}"
+                        indexer.update_attribute(:template, template)
+                        else
+                            puts
+                            puts "[#{a}...#{z}]  (#{counter})   Unidentified"
+                            puts url
+                            puts "Term: #{criteria_term}"
+                            puts "Temp: #{template}"
+                            puts "DB: #{db_template}"
+                        indexer.update_attribute(:template, template)
                         end
 
-                        # temp_method(term, doc, url)
-                        target_counter+=1
-                        puts "-----------------------------------------------------"
-                        puts "#{counter}-#{target_counter})  #{term}  [#{clean_url}]"
-                        puts "-----------------------------------------------------"
-                        indexer.update_attribute(:template, term)
+                        break
                     end
                 end
 
-                unless detect
-                    puts "#{counter} )  ?           [#{clean_url}]"
-                    indexer.update_attribute(:template, "Unidentified")
-                end
             rescue
-                puts "#{counter} )  X           [#{clean_url}]"
+                puts
+                puts "[#{a}...#{z}]  (#{counter})   Search Error"
+                puts url
+                puts "Term: #{criteria_term}"
+                puts "Temp: #{template}"
+                puts "DB: #{db_template}"
                 indexer.update_attribute(:template, "Search Error")
             end
 
             sleep(1)
 
         end
-
-        puts "\n\n======================================\n\n"
-
     end
-
-    ### TRIAL TEMPLATE DETECTOR - ENDS ###
-
-
-
-
-
-
-    ### ORIGINAL TEMPLATE DETECTOR - STARTS ###
-    # def template_finder
-    #     # indexers = Indexer.where(template: nil).where.not(staff_url: nil).where(stf_status: "Matched")
-    #     # indexers = Indexer.where(template: "Unidentified").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
-    #     # indexers = Indexer.where(template: "Search Error").where.not(staff_url: nil).where(stf_status: "Matched")[0..-1]
-    #     # indexers = Indexer.where(template: nil).where.not(stf_status: "Matched")[0..1000]
-    #     # indexers = Indexer.where(staff_url: "http://www.supremeautosales.com")
-    #     # indexers = Indexer.where.not(clean_url: nil).where(template: nil)[snum...enum]
-    #     # indexers = Indexer.where("raw_url LIKE '%hornburg%'")[snum...enum]
-    #
-    #     snum = 0
-    #     enum = -1
-    #     # snum = 300
-    #     # enum = 600
-    #     # snum = 600
-    #     # enum = -1
-    #
-    #     # indexers = Indexer.where("raw_url LIKE '%auffenberg%'")
-    #     # indexers = Indexer.where(raw_url: "http://www.pattersonsupercenter.com")
-    #
-    #     # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[snum...enum]
-    #     # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[snum...enum]
-    #     indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[snum...enum]
-    #     # indexers = Indexer.where(clean_url: "http://www.mbplano.com")
-    #
-    #     puts "\n\n======================================\n\n"
-    #
-    #     counter=0
-    #     target_counter=0
-    #     indexers.each do |indexer|
-    #         #### !!!! Switched staff_url to clean_url #####
-    #         # staff_url = indexer.staff_url
-    #         #### !!!! Switched staff_url to raw_url #####
-    #         # clean_url = indexer.clean_url
-    #         clean_url = indexer.clean_url
-    #
-    #
-    #
-    #         counter+=1
-    #         begin
-    #             temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage', 'dealereprocess', 'dealersocket', 'fzautomotive', 'Dealer Direct', 'forddirect', 'Dealer Car Search', 'Autofusion', 'autofunds.com', 'drivewebsite.com', 'motionfuze', 'remorainc', 'Dominion Dealer Solutions', 'ebizautos.com', 'serpcom', 'Dealer Spike', 'All Auto Network', 'JazelAuto', 'foxdealer', 'VinSolutions', 'slipstream', 'autojini', 'dealertrend', 'chapman', 'motorwebs', 'searchoptics', 'drivingforceauto', 'DForce Web', 'pixelmotion', 'DealerPeak', 'DLD Websites', 'fusionZONE ', 'I/O COM']
-    #             ### Removed "edealer" from list.
-    #
-    #             @agent = Mechanize.new
-    #
-    #             doc = @agent.get(clean_url)
-    #             detect =  false
-    #             term=""
-    #
-    #             # puts "\n\n----------------------\n\n"
-    #             # puts "HTML........"
-    #             # all_html = doc.at_css('html')
-    #             # puts all_html
-    #             # puts
-    #             # puts "\n\n----------------------\n\n"
-    #
-    #             for term in temp_list
-    #                 if doc.at_css('html').text.include?(term)
-    #                 # if doc.at_css('html').include?(term)
-    #                     detect = true
-    #
-    #                     case term
-    #                     when "DDC"
-    #                         term = "Dealer.com"
-    #                     when "dealeron"
-    #                         term = "DealerOn"
-    #                     when "cobalt"
-    #                         term = "Cobalt"
-    #                     when "DealerFire"
-    #                         term = "DealerFire"
-    #                     when "di_homepage"
-    #                         term = "Dealer Inspire"
-    #                     when "dealereprocess"
-    #                         term = "DEALER eProcess"
-    #                     when "dealersocket"
-    #                         term = "Dealer Socket"
-    #                     when "fzautomotive"
-    #                         term = "fusionZone"
-    #                     when "Dealer Direct"
-    #                         term = "Dealer Direct"
-    #                     when "forddirect"
-    #                         term = "Dealer Direct"
-    #                     when "Dealer Car Search"
-    #                         term = "DealerCar Search"
-    #                     when "Autofusion"
-    #                         term = "Autofusion"
-    #                     when "autofunds.com"
-    #                         term = "Autofunds"
-    #                     when "drivewebsite.com"
-    #                         term = "Drive Website"
-    #                     when "motionfuze"
-    #                         term = "Motion Fuze"
-    #                     when "remorainc"
-    #                         term = "Remora"
-    #                     when "Dominion Dealer Solutions"
-    #                         term = "Dominion"
-    #                     when "ebizautos.com"
-    #                         term = "eBizAutos"
-    #                     when "serpcom"
-    #                         term = "SERPCOM"
-    #                     when "Dealer Spike"
-    #                         term = "Dealer Spike"
-    #                     when "All Auto Network"
-    #                         term = "All Auto Network"
-    #                     when "jazel"
-    #                         term = "Jazel Auto"
-    #                     when "foxdealer"
-    #                         term = "FoxDealer"
-    #                     when "VinSolutions"
-    #                         term = "VinSolutions"
-    #                     when "slipstream"
-    #                         term = "Slip Stream"
-    #                     when "autojini"
-    #                         term = "AutoJini"
-    #                     # when "edealer"
-    #                     #     term = "eDealer"
-    #                     when "dealertrend"
-    #                         term = "DealerTrend"
-    #                     when "chapman"
-    #                         term = "Chapman.co"
-    #                     when "motorwebs"
-    #                         term = "Motorwebs"
-    #                     when "searchoptics"
-    #                         term = "Search Optics"
-    #                     when "drivingforceauto"
-    #                         term = "Driving Force"
-    #                     when "DForce Web"
-    #                         term = "Driving Force"
-    #                     when "pixelmotion"
-    #                         term = "Pixel Motion"
-    #                     when "DealerPeak"
-    #                         term = "DealerPeak"
-    #                     when "DLD Websites"
-    #                         term = "DLD Websites"
-    #                     when "fusionZONE"
-    #                         term = "fusionZONE"
-    #                     when "I/O COM"
-    #                         term = "I/O COM"
-    #                     end
-    #
-    #                     # temp_method(term, doc, url)
-    #                     target_counter+=1
-    #                     puts "-----------------------------------------------------"
-    #                     puts "#{counter}-#{target_counter})  #{term}  [#{clean_url}]"
-    #                     puts "-----------------------------------------------------"
-    #                     indexer.update_attribute(:template, term)
-    #                 end
-    #             end
-    #
-    #             unless detect
-    #                 puts "#{counter} )  ?           [#{clean_url}]"
-    #                 indexer.update_attribute(:template, "Unidentified")
-    #             end
-    #         rescue
-    #             puts "#{counter} )  X           [#{clean_url}]"
-    #             indexer.update_attribute(:template, "Search Error")
-    #         end
-    #
-    #         sleep(1)
-    #
-    #     end
-    #
-    #     puts "\n\n======================================\n\n"
-    #
-    # end
-
-    ### ORIGINAL TEMPLATE DETECTOR - ENDS ###
-
-
-
-
-
-
 
     ####################
     # TEMPLATE DETECTOR - Ends
