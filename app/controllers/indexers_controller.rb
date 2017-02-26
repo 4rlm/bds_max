@@ -115,7 +115,9 @@ class IndexersController < ApplicationController
     # @service.delay.url_downcase
     # @service.hyrell_cleaner
     # @service.url_redirect_checker
-      @service.delay.url_redirect_checker
+    #   @service.delay.url_redirect_checker
+
+    # @service.template_counter
 
 
       redirect_to indexers_path
@@ -149,7 +151,7 @@ class IndexersController < ApplicationController
   def rooftop_data_getter_btn
       @service.rooftop_data_getter
     #   @service.delay.rooftop_data_getter
-    
+
       redirect_to indexers_path
   end
 

@@ -3,7 +3,8 @@
 <h4 class="text-center">Important: Logic Criteria and Terms for Indexer and Staffer</h4>
 <br>
 
-<!-- <%#= link_to "Calculate Totals", calculate_totals_btn_path, class: 'btn btn-warning' %> -->
+<%#= link_to "Calculate Totals", calculate_totals_btn_path, class: 'btn btn-warning' %>
+
 <br>
 
 <div class="pull-right">
@@ -21,10 +22,10 @@
               <th>category</th>
               <th>sub_category</th>
               <th>criteria_term</th>
+              <th class="indexer w-xsm">Crit #</th>
               <th>response_term</th>
+              <th class="indexer w-xsm">Resp #</th>
               <th>mth_name</th>
-              <th>criteria_count</th>
-              <th>response_count</th>
               <th colspan="3"></th>
             </tr>
           </thead>
@@ -38,10 +39,10 @@
                 <td><%= indexer_term.category %></td>
                 <td><%= indexer_term.sub_category %></td>
                 <td><%= indexer_term.criteria_term %></td>
+                <td class="indexer w-xsm"><%= indexer_term.criteria_count %></td>
                 <td><%= indexer_term.response_term %></td>
+                <td class="indexer w-xsm"><%= indexer_term.response_count %></td>
                 <td><%= indexer_term.mth_name %></td>
-                <td><%= indexer_term.criteria_count %></td>
-                <td><%= indexer_term.response_count %></td>
                 <td><%= link_to 'Show', indexer_term %></td>
                 <td><%= link_to 'Edit', edit_indexer_term_path(indexer_term) %></td>
                 <td><%= link_to 'Destroy', indexer_term, method: :delete, data: { confirm: 'Are you sure?' } %></td>

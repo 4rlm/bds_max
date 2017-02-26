@@ -15,44 +15,194 @@ class IndexerService
 
 
     def rooftop_data_getter
-        indexers = Indexer.where(template: "Dealer.com")[20..22]
+        a=140
+        z=150
+        # a=500
+        # z=1000
+        # a=1000
+        # z=-1
+        # indexers = Indexer.where(template: "DealerOn").where(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
+        indexers = Indexer.where(template: "Dealer.com")[a...z]
+
+        counter=0
+        range = z-a
+
         indexers.each do |indexer|
+            counter+=1
+            puts "[#{a}...#{z}]  (#{counter}/#{range})"
             url = indexer.clean_url
             template = indexer.template
             method = IndexerTerm.where(response_term: template).where.not(mth_name: nil).first
             term = method.mth_name
 
-            @agent = Mechanize.new
-            html = @agent.get(url)
+            begin
+                @agent = Mechanize.new
+                html = @agent.get(url)
 
-            ddc_scraper(html, url)
+                case term
+                when "dealer_com_rts"
+                    dealer_com_rts(html, url, indexer)
+                when "dealeron_rts"
+                    # dealeron_rts
+                    dealeron_rts(html, url, indexer)
+                when "cobalt_rts"
+                    # cobalt_rts(html, url, indexer)
+                when "dealerfire_rts"
+                    # dealerfire_rts(html, url, indexer)
+                when "dealer_inspire"
+                    # dealer_inspire(html, url, indexer)
+                end
 
-        end
+
+            rescue
+                error = $!.message
+                error_msg = "RT Error: #{error}"
+
+                if error_msg.include?("connection refused")
+                    rt_error_code = "Connection Error"
+                else
+                    rt_error_code = error_msg
+                end
+
+                puts "\n\n>>> #{error_msg} <<<\n\n"
+
+                # indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
+            end ## rescue ends
+
+        end ## .each loop ends
+        # sleep(1)
+
     end
 
 
-    def ddc_scraper(html, url)
+    def dealeron_rts(html, url, indexer)
+        acc_phones = html.css('.callNowClass').collect {|phone| phone.text if phone}
+        raw_full_addr = html.at_css('.adr').text if html.at_css('.adr')
+        full_addr_arr = raw_full_addr.split(",") if raw_full_addr
+        zip_state_arr = full_addr_arr[-1].split(" ")
 
+        org = html.at_css('.dealerName').text if html.at_css('.dealerName')
+        street = full_addr_arr[-3] if full_addr_arr
+        city = full_addr_arr[-2] if full_addr_arr
+        state = zip_state_arr[-2] if zip_state_arr
+        zip = zip_state_arr[-1] if zip_state_arr
+        phone = acc_phones[0]
+
+        rt_results_processor(org, street, city, state, zip, phone, indexer)
+    end
+
+
+    def dealer_com_rts(html, url, indexer)
         selector = "//meta[@name='author']/@content"
-        org = html.xpath(selector)
-        acc_phone = html.at_css('.value')
-        street = html.at_css('.adr .street-address')
-        city = html.at_css('.adr .locality')
-        state = html.at_css('.adr .region')
-        zip = html.at_css('.adr .postal-code')
 
-        puts "\n============\n"
-        puts org
-        puts acc_phone.text
-        puts street.text
-        puts city.text
-        puts state.text
-        puts zip.text
-        puts "\n============\n"
+        org = html.xpath(selector).text if html.xpath(selector)
+        street = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
+        city = html.at_css('.adr .locality').text if html.at_css('.adr .locality')
+        state = html.at_css('.adr .region').text if html.at_css('.adr .region')
+        zip = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
+        phone = html.at_css('.value').text if html.at_css('.value')
+
+        rt_results_processor(org, street, city, state, zip, phone, indexer)
+    end
+
+
+    def rt_results_processor(org, street, city, state, zip, phone, indexer)
+        phone = phone_formatter(phone)
+
+        if (city && street == nil) && city.include?("\r")
+            street_city_arr = city.split("\r")
+            street = street_city_arr[0]
+            city = street_city_arr[-1]
+        end
+
+        org.strip! if org
+        street.strip! if street
+        city.strip! if city
+        state.strip! if state
+        zip.strip! if zip
+
+        full_addr_street = "#{street}, " if street
+        full_addr_city = "#{city}, " if city
+        full_addr_state = "#{state}, " if state
+        full_addr_zip = "#{zip}" if zip
+        full_addr = "#{full_addr_street} #{full_addr_city} #{full_addr_state} #{full_addr_zip}"
+
+        full_addr = full_addr[0...-1] if full_addr && full_addr[-1] == ","
+        full_addr.strip!
+
+        puts "-----------------------------------"
+        p "org: #{org}"
+        puts
+        p "street: #{street}"
+        p "city: #{city}"
+        p "state: #{state}"
+        p "zip: #{zip}"
+        p "phone: #{phone}"
+        p "full_addr: #{full_addr}"
+        puts "-----------------------------------"
+        puts
+        # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone)
+    end
+
+
+    def rt_address_formatter(org, street, city, state, zip, phone)
 
     end
 
 
+
+    ###### ORIGINAL!!! ######
+    # def rt_results_processor(org, street, city, state, zip, phone, indexer)
+    #     phone = phone_formatter(phone)
+    #
+    #     if (city && street == nil) && city.include?("\r")
+    #         street_city_arr = city.split("\r")
+    #         street = street_city_arr[0]
+    #         city = street_city_arr[-1]
+    #     end
+    #
+    #     org.strip! if org
+    #     street.strip! if street
+    #     city.strip! if city
+    #     state.strip! if state
+    #     zip.strip! if zip
+    #
+    #     full_addr_street = "#{street}, " if street
+    #     full_addr_city = "#{city}, " if city
+    #     full_addr_state = "#{state}, " if state
+    #     full_addr_zip = "#{zip}" if zip
+    #     full_addr = "#{full_addr_street} #{full_addr_city} #{full_addr_state} #{full_addr_zip}"
+    #
+    #     full_addr = full_addr[0...-1] if full_addr && full_addr[-1] == ","
+    #     full_addr.strip!
+    #
+    #     puts "-----------------------------------"
+    #     p "org: #{org}"
+    #     puts
+    #     p "street: #{street}"
+    #     p "city: #{city}"
+    #     p "state: #{state}"
+    #     p "zip: #{zip}"
+    #     p "phone: #{phone}"
+    #     p "full_addr: #{full_addr}"
+    #     puts "-----------------------------------"
+    #     puts
+    #     # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone)
+    # end
+
+
+
+
+    def phone_formatter(phone)
+        final_phone = nil if phone == "N/A" || phone == "0"
+
+        phone_stripped = phone.gsub(/[^0-9]/, "") if phone
+        (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
+
+        !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone
+
+        final_phone
+    end
 
 
 
@@ -729,6 +879,21 @@ class IndexerService
             return parts[0..1].join
         end
         url
+    end
+
+
+    def template_counter
+        indexer_terms = IndexerTerm.where(sub_category: "at_css").where.not(response_term: nil)
+        indexer_terms.each do |term|
+            template = term.response_term
+            temp_count = Indexer.where(template: template).count
+
+            puts "#{template}: #{temp_count}"
+
+            term.update_attribute(:response_count, temp_count)
+
+        end
+
     end
 
 
