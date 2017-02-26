@@ -14,17 +14,18 @@ class IndexerService
 #####################
 
     def indexer_starter
-        # a=0
-        # z=2500
-        # a=2500
-        # z=5000
-        a=5000
-        z=-1
-        # els = Indexer.where(indexer_status: "Re-Queue Indexer")[snum...enum]
-        # els = Indexer.where(indexer_status: nil).where.not(clean_url: nil)[snum...enum]
-        els = Indexer.where(stf_status: "SFDC URL").where.not(template: "Search Error").where.not(template: "Unidentified")[a...z]
+        a=0
+        z=50
+        # a=2000
+        # z=4000
+        # a=4000
+        # z=-1
 
-        els = Indexer.where(stf_status: "Pen URL").where.not(template: "Search Error").where.not(template: "Unidentified")[snum...enum]
+        # els = Indexer.where(clean_url: "http://www.rhinebeckfordinc.com")
+
+        els = Indexer.where(stf_status: "SFDC URL").where.not(template: "Search Error").where.not(template: "Unidentified")[a...z] ##6669
+
+        # els = Indexer.where(stf_status: "Pen URL").where.not(template: "Search Error").where.not(template: "Unidentified")[a...z]
 
         @agent = Mechanize.new
         @agent.follow_meta_refresh = true
@@ -36,24 +37,25 @@ class IndexerService
 
         counter=0
         els.each do |el|
+            @indexer = el
             template = el.template
 
             counter+=1
-            puts "[#{a}...#{z}]  (#{counter}):  #{template}"
+            # puts "[#{a}...#{z}]  (#{counter}):  #{template}"
 
             redirect_status = el.redirect_status
-                if redirect_status == "Same" || redirect_status == "Updated"
+            if redirect_status == "Same" || redirect_status == "Updated"
 
-                @cols_hash = {
-                    indexer_status: nil,
-                    domain: el[:clean_url],
-                    text: nil,
-                    href: nil,
-                    link: nil
-                }
+                # @cols_hash = {
+                #     indexer_status: nil,
+                #     domain: el[:clean_url],
+                #     text: nil,
+                #     href: nil,
+                #     link: nil
+                # }
 
                 begin
-                    url = @cols_hash[:domain]
+                    url = el[:clean_url]
 
                     begin
                         page = @agent.get(url)
@@ -70,54 +72,30 @@ class IndexerService
                     page_finder(staff_text_list, staff_href_list, url, page, "staff")
 
                 rescue
-                    error_alert = $!.message
-                    error_msg = "Error: #{error_alert}"
+                    error_msg = "Error: #{$!.message}"
+                    status = nil
+                    indexer_status = nil
+                    found = false
 
-                    ##################################
-                    if error_msg
-                        if error_msg.include?("TCP connection")
-                            status = "TCP Error"
-                            indexer_status = "TCP Error"
-                        elsif error_msg.include?("403 => Net::HTTPForbidden")
-                            status = "403 Error"
-                        elsif error_msg.include?("410 => Net::HTTPGone")
-                            status = "410 Error"
-                        elsif error_msg.include?("500 => Net::HTTPInternalServerError")
-                            status = "500 Error"
-                        elsif error_msg.include?("SSL_connect returned")
-                            status = "SSL Error"
-                        elsif error_msg.include?("404 => Net::HTTPNotFound")
-                            status = "404 Error"
-                        elsif error_msg.include?("400 => Net::HTTPBadRequest")
-                            status = "400 Error"
-                        elsif error_msg.include?("nil:NilClass")
-                            status = "Nil Error"
-                        elsif error_msg.include?("undefined method")
-                            status = "Method Error"
-                        elsif error_msg.include?("503 => Net::HTTPServiceUnavailable")
-                            status = "503 Error"
-                        elsif error_msg.include?("Errno::ECONNRESET")
-                            status = "Reset Error"
-                        elsif error_msg.include?("504 => Net::HTTPGatewayTimeOut")
-                            status = "504 Error"
+                    indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: "error_msg")
+                    indexer_terms.each do |term|
+
+                        if error_msg.include?(term.criteria_term)
+                            status = term.response_term
+                            found = true
                         else
                             status = error_msg
                         end
 
-                        indexer_status = "Indexer Error" unless indexer_status == "TCP Error"
-                        el.update_attribute(:indexer_status, indexer_status)
+                        indexer_status = status == "TCP Error" ? status : "Indexer Error"
+                        break if found
+                    end # indexer_terms iteration ends
 
-                        puts indexer_status
-                        puts status
-                        puts error_msg
+                    indexer_status = "Indexer Error" unless found
 
-                        add_indexer_row_with(status, nil, nil, error_msg, "error")
-                    end
-
-                end
-
+                    el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
+                end # rescue ends
                 sleep(1)
-
             end
 
         end # Ends cores Loop
@@ -131,7 +109,6 @@ class IndexerService
             end
         end
 
-        # binding.pry
         if !pages
             for href in href_list
                 if pages = page.link_with(:href => href)
@@ -157,32 +134,26 @@ class IndexerService
     end
 
     def add_indexer_row_with(status, text, href, link, mode)
-        # binding.pry
-        @cols_hash[:indexer_status] = status
-        @cols_hash[:text] = text
-        @cols_hash[:href] = href
-        @cols_hash[:link] = link
-        indexer = Indexer.find_by(raw_url: @cols_hash[:domain])
+        # @cols_hash[:indexer_status] = status
+        # @cols_hash[:text] = text
+        # @cols_hash[:href] = href
+        # @cols_hash[:link] = link
+        # indexer = Indexer.find_by(raw_url: @cols_hash[:domain])
 
         if mode == "location"
             # IndexerLocation.create(@cols_hash)
             puts "#{status}: #{text}"
-            indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if indexer != nil
+            @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"
         elsif mode == "staff"
             # IndexerStaff.create(@cols_hash)
             puts "#{status}: #{text}"
-            indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if indexer != nil
+            @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"
-        elsif mode == "error"
-            puts "#{status}: #{text}"
-            indexer.update_attributes(stf_status: status, staff_url: link, loc_status: status, location_url: link) if indexer != nil
-            puts link
-            puts text
         end
 
         puts
@@ -211,15 +182,15 @@ class IndexerService
     ####################
 
     def template_finder
-        # a=0
-        # z=450
-        # a=450
-        # z=900
-        a=900
-        z=-1
+        # a=200
+        # z=2000
+        # a=2000
+        # z=4000
+        a=4000
+        z=6000
 
-        indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
-        # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
+        # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
+        indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
         # indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[a..z] #138
         # indexers = Indexer.where(template: "Dealer Inspire")[a..z]
 
