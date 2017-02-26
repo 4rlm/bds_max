@@ -5,7 +5,6 @@ require 'open-uri'
 
 class StafferService
 
-
     def start_staffer(ids)
         Core.where(id: ids).each do |el|
             current_time = Time.new
@@ -47,10 +46,6 @@ class StafferService
         end # cores Loop - Ends
     end # start_staffer(ids) - Ends
 
-
-
-
-
     def search(core, url)
         begin
             temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage' ]
@@ -84,7 +79,6 @@ class StafferService
 
     end
 
-
     def temp_method(term, doc, url)
         sc = Scrapers.new(@cols_hash)
         domain = @cols_hash[:domain]
@@ -105,13 +99,6 @@ class StafferService
     end
 
 
-
-
-
-
-
-
-
     def diff_staff_url_for_ddc(scrapers_obj, url, domain)
         staff_url = domain + "dealership/staff.htm"
         if url != staff_url
@@ -121,54 +108,54 @@ class StafferService
         end
     end
 
-    def staffer_sfdc_id_cleaner
-        cores = Core.where.not(temporary_id: nil, staff_link: nil)
-        cores.each do |core|
-            staffers = Staffer.where(cont_source: "Dealer Site", sfdc_id: core.temporary_id, staff_link: core.staff_link)
-            staffers.each do |staffer|
-                staffer.update_attribute(:sfdc_id, core.sfdc_id)
-            end
-        end
-    end
 
+    # def staffer_sfdc_id_cleaner
+    #     cores = Core.where.not(temporary_id: nil, staff_link: nil)
+    #     cores.each do |core|
+    #         staffers = Staffer.where(cont_source: "Dealer Site", sfdc_id: core.temporary_id, staff_link: core.staff_link)
+    #         staffers.each do |staffer|
+    #             staffer.update_attribute(:sfdc_id, core.sfdc_id)
+    #         end
+    #     end
+    # end
 
+    # def staffer_core_updater
+    #
+    #     # staffers = Staffer.where(cont_source: "CRM")
+    #     staffers = Staffer.all
+    #     counter = 0
+    #     staffers.each do |staff|
+    #         cores = Core.where(sfdc_id: staff.sfdc_id)
+    #         cores.each do |core|
+    #
+    #             ## CORES UPDATES STAFFERS ##
+    #             # staff.update_attributes(sfdc_sales_person: core.sfdc_sales_person, sfdc_type: core.sfdc_type, sfdc_tier: core.sfdc_tier, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, franchise: core.sfdc_franch_cons, coordinates: core.coordinates, full_address: core.full_address, franch_cat: core.sfdc_franch_cat)
+    #
+    #             ## STAFFERS UPDATES CORES ##
+    #
+    #             staff_source = staff.cont_source
+    #
+    #             if staff_source == "Web"
+    #                 staff_source = "Web Contacts"
+    #
+    #                 staff.update_attributes(franchise: core.sfdc_franch_cons, full_address: core.full_address, franch_cat: core.sfdc_franch_cat)
+    #
+    #             elsif staff_source == "CRM"
+    #                 staff_source = "CRM Contacts"
+    #             else
+    #                 staff_source
+    #             end
+    #
+    #             puts "---------------------------"
+    #             puts "Counter: #{counter}"
+    #             puts "Staff Source: #{staff_source}"
+    #             puts "---------------------------"
+    #             counter +=1
+    #             core.update_attributes(staffer_status: staff_source, staffer_date: staff.created_at)
+    #         end
+    #     end
+    # end ## staffer_core_updater
 
-    def staffer_core_updater
-
-        # staffers = Staffer.where(cont_source: "CRM")
-        staffers = Staffer.all
-        counter = 0
-        staffers.each do |staff|
-            cores = Core.where(sfdc_id: staff.sfdc_id)
-            cores.each do |core|
-
-                ## CORES UPDATES STAFFERS ##
-                # staff.update_attributes(sfdc_sales_person: core.sfdc_sales_person, sfdc_type: core.sfdc_type, sfdc_tier: core.sfdc_tier, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, franchise: core.sfdc_franch_cons, coordinates: core.coordinates, full_address: core.full_address, franch_cat: core.sfdc_franch_cat)
-
-                ## STAFFERS UPDATES CORES ##
-
-                staff_source = staff.cont_source
-
-                if staff_source == "Web"
-                    staff_source = "Web Contacts"
-
-                    staff.update_attributes(franchise: core.sfdc_franch_cons, full_address: core.full_address, franch_cat: core.sfdc_franch_cat)
-
-                elsif staff_source == "CRM"
-                    staff_source = "CRM Contacts"
-                else
-                    staff_source
-                end
-
-                puts "---------------------------"
-                puts "Counter: #{counter}"
-                puts "Staff Source: #{staff_source}"
-                puts "---------------------------"
-                counter +=1
-                core.update_attributes(staffer_status: staff_source, staffer_date: staff.created_at)
-            end
-        end
-    end ## staffer_core_updater
 end  # Ends class StafferService
 
 
@@ -266,21 +253,22 @@ class Scrapers
         core.update_attributes(staffer_status: staffer_status, template: temp, site_acct: org, site_street: street, site_city: city, site_state: state, site_zip: zip, site_ph: acc_phone)
     end
 
-    def indicator_gauge
-        core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
 
-        core.update_attributes(
-            acct_indicator: comparer(core.sfdc_acct, @cols_hash[:acct_name]),
-            street_indicator: comparer(core.sfdc_street, @cols_hash[:street]),
-            city_indicator: comparer(core.sfdc_city, @cols_hash[:city]),
-            state_indicator: comparer(core.sfdc_state, @cols_hash[:state]),
-            zip_indicator: comparer(core.sfdc_zip, @cols_hash[:zip]),
-            ph_indicator: comparer(core.sfdc_ph, @cols_hash[:phone]))
-    end
+    # def indicator_gauge
+    #     core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
+    #
+    #     core.update_attributes(
+    #         acct_indicator: comparer(core.sfdc_acct, @cols_hash[:acct_name]),
+    #         street_indicator: comparer(core.sfdc_street, @cols_hash[:street]),
+    #         city_indicator: comparer(core.sfdc_city, @cols_hash[:city]),
+    #         state_indicator: comparer(core.sfdc_state, @cols_hash[:state]),
+    #         zip_indicator: comparer(core.sfdc_zip, @cols_hash[:zip]),
+    #         ph_indicator: comparer(core.sfdc_ph, @cols_hash[:phone]))
+    # end
 
-    def comparer(str1, str2)
-        return str1 == str2 ? "same" : "different"
-    end
+    # def comparer(str1, str2)
+    #     return str1 == str2 ? "same" : "different"
+    # end
 
 
 

@@ -15,21 +15,44 @@ class IndexerService
 
 
     def rooftop_data_getter
-        indexers = Indexer.where(template: "Dealer.com")
+        indexers = Indexer.where(template: "Dealer.com")[20..22]
         indexers.each do |indexer|
             url = indexer.clean_url
+            template = indexer.template
+            method = IndexerTerm.where(response_term: template).where.not(mth_name: nil).first
+            term = method.mth_name
 
+            @agent = Mechanize.new
+            html = @agent.get(url)
 
-
-
-
-
-
-
+            ddc_scraper(html, url)
 
         end
+    end
+
+
+    def ddc_scraper(html, url)
+
+        selector = "//meta[@name='author']/@content"
+        org = html.xpath(selector)
+        acc_phone = html.at_css('.value')
+        street = html.at_css('.adr .street-address')
+        city = html.at_css('.adr .locality')
+        state = html.at_css('.adr .region')
+        zip = html.at_css('.adr .postal-code')
+
+        puts "\n============\n"
+        puts org
+        puts acc_phone.text
+        puts street.text
+        puts city.text
+        puts state.text
+        puts zip.text
+        puts "\n============\n"
 
     end
+
+
 
 
 
