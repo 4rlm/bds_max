@@ -1,7 +1,7 @@
 class IndexersController < ApplicationController
   before_action :set_indexer, only: [:show, :edit, :update, :destroy]
 
-  before_action :set_indexer_service, only: [:indexer_starter_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn]
+  before_action :set_indexer_service, only: [:indexer_starter_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn]
 
 
   # GET /indexers
@@ -130,8 +130,8 @@ class IndexersController < ApplicationController
 
 
   def indexer_starter_btn
-      @service.indexer_starter
-        # @service.delay.indexer_starter
+    #   @service.indexer_starter
+        @service.delay.indexer_starter
     #   @service.url_importer
 
       redirect_to indexers_path
@@ -144,6 +144,18 @@ class IndexersController < ApplicationController
 
       redirect_to indexers_path
   end
+
+
+  def rooftop_data_getter_btn
+      @service.rooftop_data_getter
+    #   @service.delay.rooftop_data_getter
+    
+      redirect_to indexers_path
+  end
+
+
+
+
 
   ### =============== BUTTONS End ===============
 

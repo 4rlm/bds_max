@@ -4,8 +4,12 @@
 
 <%= link_to "Queue Indexer", indexer_starter_btn_path, class: 'btn btn-warning' %>
 <%= link_to "Template Finder", template_finder_btn_path, class: 'btn btn-warning' %>
-<%= link_to "Reset Errors", reset_errors_btn_path, class: 'btn btn-warning' %>
+
+<%= link_to "RT Data Getter", rooftop_data_getter_btn_path, class: 'btn btn-warning' %>
+
+<%= link_to "Error Resetter", reset_errors_btn_path, class: 'btn btn-warning' %>
 <%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
+
 <br>
 
 <%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>

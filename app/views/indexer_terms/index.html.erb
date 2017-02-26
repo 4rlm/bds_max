@@ -18,12 +18,13 @@
           <thead>
             <tr>
                 <th>#</th>
-              <th>Category</th>
-              <th>Sub category</th>
-              <th>Criteria term</th>
-              <th>Response term</th>
-              <th>Criteria count</th>
-              <th>Response count</th>
+              <th>category</th>
+              <th>sub_category</th>
+              <th>criteria_term</th>
+              <th>response_term</th>
+              <th>mth_name</th>
+              <th>criteria_count</th>
+              <th>response_count</th>
               <th colspan="3"></th>
             </tr>
           </thead>
@@ -38,6 +39,7 @@
                 <td><%= indexer_term.sub_category %></td>
                 <td><%= indexer_term.criteria_term %></td>
                 <td><%= indexer_term.response_term %></td>
+                <td><%= indexer_term.mth_name %></td>
                 <td><%= indexer_term.criteria_count %></td>
                 <td><%= indexer_term.response_count %></td>
                 <td><%= link_to 'Show', indexer_term %></td>

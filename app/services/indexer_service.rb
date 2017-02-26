@@ -13,27 +13,45 @@ class IndexerService
 ### MAIN INDEXER METHODS !! Important!
 #####################
 
-    def indexer_starter
-        a=0
-        z=50
-        # a=2000
-        # z=4000
-        # a=4000
-        # z=-1
 
-        # els = Indexer.where(clean_url: "http://www.rhinebeckfordinc.com")
+    def rooftop_data_getter
+        indexers = Indexer.where(template: "Dealer.com")
+        indexers.each do |indexer|
+            url = indexer.clean_url
+
+
+
+
+
+
+
+
+
+        end
+
+    end
+
+
+
+
+
+    def indexer_starter
+        # a=0
+        # z=1800
+        # a=1800
+        # z=3600
+        a=3600
+        z=-1
 
         els = Indexer.where(stf_status: "SFDC URL").where.not(template: "Search Error").where.not(template: "Unidentified")[a...z] ##6669
-
-        # els = Indexer.where(stf_status: "Pen URL").where.not(template: "Search Error").where.not(template: "Unidentified")[a...z]
 
         @agent = Mechanize.new
         @agent.follow_meta_refresh = true
 
-        locations_text_list = CriteriaIndexerLocText.all.map(&:term)
-        locations_href_list = to_regexp(CriteriaIndexerLocHref.all.map(&:term))
-        staff_text_list = CriteriaIndexerStaffText.all.map(&:term)
-        staff_href_list = to_regexp(CriteriaIndexerStaffHref.all.map(&:term))
+        locations_text_list = IndexerTerm.where(sub_category: "loc_text").where(criteria_term: "general").map(&:response_term)
+        locations_href_list = to_regexp(IndexerTerm.where(sub_category: "loc_href").where(criteria_term: "general").map(&:response_term))
+        staff_text_list = IndexerTerm.where(sub_category: "staff_text").where(criteria_term: "general").map(&:response_term)
+        staff_href_list = to_regexp(IndexerTerm.where(sub_category: "staff_href").where(criteria_term: "general").map(&:response_term))
 
         counter=0
         els.each do |el|
@@ -41,18 +59,10 @@ class IndexerService
             template = el.template
 
             counter+=1
-            # puts "[#{a}...#{z}]  (#{counter}):  #{template}"
+            puts "[#{a}...#{z}]  (#{counter}):  #{template}"
 
             redirect_status = el.redirect_status
             if redirect_status == "Same" || redirect_status == "Updated"
-
-                # @cols_hash = {
-                #     indexer_status: nil,
-                #     domain: el[:clean_url],
-                #     text: nil,
-                #     href: nil,
-                #     link: nil
-                # }
 
                 begin
                     url = el[:clean_url]
@@ -64,8 +74,7 @@ class IndexerService
                         page = @agent.get(redirect_url)
                     end
 
-                    puts
-                    puts "----------------------------------------"
+                    puts "\n----------------------------------------\n"
                     puts url
 
                     page_finder(locations_text_list, locations_href_list, url, page, "location")
@@ -79,7 +88,6 @@ class IndexerService
 
                     indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: "error_msg")
                     indexer_terms.each do |term|
-
                         if error_msg.include?(term.criteria_term)
                             status = term.response_term
                             found = true
@@ -92,14 +100,13 @@ class IndexerService
                     end # indexer_terms iteration ends
 
                     indexer_status = "Indexer Error" unless found
-
                     el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
                 end # rescue ends
                 sleep(1)
             end
-
         end # Ends cores Loop
     end # Ends start_indexer(ids)
+
 
     def page_finder(text_list, href_list, url, page, mode)
         for text in text_list
@@ -123,42 +130,32 @@ class IndexerService
         end
     end # Ends page_finder
 
+
     def url_split_joiner(url, pages, mode)
         url_s = url.split('/')
         url_http = url_s[0]
         url_www = url_s[2]
-
         joined_url = validater(url_http, '//', url_www, pages.href)
-
         add_indexer_row_with("Matched", pages.text.strip, pages.href, joined_url, mode)
     end
 
-    def add_indexer_row_with(status, text, href, link, mode)
-        # @cols_hash[:indexer_status] = status
-        # @cols_hash[:text] = text
-        # @cols_hash[:href] = href
-        # @cols_hash[:link] = link
-        # indexer = Indexer.find_by(raw_url: @cols_hash[:domain])
 
+    def add_indexer_row_with(status, text, href, link, mode)
         if mode == "location"
-            # IndexerLocation.create(@cols_hash)
             puts "#{status}: #{text}"
             @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"
         elsif mode == "staff"
-            # IndexerStaff.create(@cols_hash)
             puts "#{status}: #{text}"
             @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"
         end
-
-        puts
-
     end
+
 
     def validater(url_http, dbl_slash, url_www, dirty_url)
         if dirty_url.include?(url_http + dbl_slash)
@@ -167,6 +164,7 @@ class IndexerService
             url_http + dbl_slash + url_www + dirty_url
         end
     end
+
 
     def to_regexp(arr)
         arr.map {|str| Regexp.new(str)}

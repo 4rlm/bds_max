@@ -4,6 +4,8 @@ require 'open-uri'
 # require_relative 'staffer_service_helper'
 
 class StafferService
+
+
     def start_staffer(ids)
         Core.where(id: ids).each do |el|
             current_time = Time.new
@@ -91,19 +93,14 @@ class StafferService
         when "DDC"
             sc.ddc_scraper(doc, url)
             diff_staff_url_for_ddc(sc, url, domain)
-            puts "\n\n===== Found: Dealer.com =====\n\n"
         when "dealeron"
             sc.do_scraper(doc, url)
-            puts "\n\n===== Found: DealerOn.com =====\n\n"
         when "cobalt"
             sc.cobalt_scraper(doc, url)
-            puts "\n\n===== Found: Cobalt.com =====\n\n"
         when "DealerFire"
             sc.df_scraper(doc, url)
-            puts "\n\n===== Found: DealerFire.com =====\n\n"
         when "di_homepage"
             sc.di_scraper(doc, url)
-            puts "\n\n===== Found: DealerInspire.com =====\n\n"
         end
     end
 

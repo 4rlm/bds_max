@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225145824) do
+ActiveRecord::Schema.define(version: 20170226031251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 20170225145824) do
     t.string   "response_count"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "mth_name"
   end
 
   create_table "indexers", force: :cascade do |t|
@@ -270,6 +271,15 @@ ActiveRecord::Schema.define(version: 20170225145824) do
     t.string   "contact_status"
     t.string   "contacts_count"
     t.string   "contacts_link"
+    t.string   "acct_name"
+    t.string   "rt_sts"
+    t.string   "cont_sts"
+    t.string   "full_addr"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "phone"
   end
 
   create_table "locations", force: :cascade do |t|
