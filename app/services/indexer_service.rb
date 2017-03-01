@@ -15,8 +15,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=14
-        z=24
+        a=24
+        z=34
         # a=500
         # z=1000
         # a=1000
@@ -29,8 +29,8 @@ class IndexerService
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
-        # indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result")[a...z] #1206
-        indexers = Indexer.where(clean_url: "http://www.josephvw.com")
+        indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result")[a...z] #1206
+        # indexers = Indexer.where(clean_url: "http://www.josephvw.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
@@ -132,15 +132,19 @@ class IndexerService
         zip = nil
         phone = nil
 
+        org_found = false
+        street_found = false
+        city_found = false
+        state_found = false
+        zip_found = false
         phone_found = false
         addr_found = false
-        org_found = false
 
         ### === PHONE VARIABLES ===
         phone1 = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
         phone2 = html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
         phone3 = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
-
+        phones = [phone1, phone2, phone3]
         puts "\n============================\n\n"
 
         # if !phone1.blank?
@@ -153,6 +157,21 @@ class IndexerService
         #     phone = phone3
         #     phone_found = true
         # end
+
+
+        if !phones.blank? && !phone_found
+            phones.each do |ph|
+                phone = ph_check(ph)
+                if phone
+                    phone_found = true
+                    break
+                end
+            end
+        end
+
+
+
+
 
         ### === FULL ADDRESS AND ORG VARIABLE ===
         addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
@@ -248,12 +267,14 @@ class IndexerService
 
         ### === FULL ADDRESS AND PHONE VARIABLE ===
         addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-        if !addr_n_ph1.blank? && (addr_found == false || phone_found == false)
+        # if !addr_n_ph1.blank? && (addr_found == false || phone_found == false)
+        if !addr_n_ph1.blank?
             p "addr_n_ph1: #{addr_n_ph1}"
 
             addr_arr = n_splitter(addr_n_ph1)
 
             unless addr_arr.blank?
+
                 unless phone_found
                     addr_arr.each do |item|
                         phone = ph_check(item)
@@ -263,6 +284,24 @@ class IndexerService
                         end
                     end
                 end
+
+                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                    addr_arr.each do |item|
+                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                            state_zip = state_zip_get(item)
+                            if state_zip
+                                state = state_zip[0..1]
+                                zip = state_zip[-5..-1]
+                                state_found = true
+                                zip_found = true
+                                p state_zip
+                                p state
+                                p zip
+                            end
+                        end
+                    end
+                end
+
 
                 item1 = addr_arr[0]
                 item2 = addr_arr[1]
@@ -318,6 +357,30 @@ class IndexerService
             objs.delete_if {|x| x.blank?}
         end
     end
+
+
+    def state_zip_get(item)
+        ## Detects and parses zip and state from string, without affecting original string.
+        if !item.nil?
+            smash = item.gsub(" ", "")
+            smash.strip!
+            alphanum = smash.tr('^A-Z0-9', '')
+
+            if alphanum.length == 7 && smash == alphanum
+                state_test = alphanum.tr('^A-Z', '')
+                zip_test = alphanum.tr('^0-9', '')
+
+                if state_test.length == 2 && zip_test.length == 5
+                    state = state_test
+                    zip = zip_test
+                    item = state+zip
+                else
+                    item = nil
+                end
+            end
+        end
+    end
+
 
 
 
