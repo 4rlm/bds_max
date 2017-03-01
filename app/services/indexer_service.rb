@@ -15,8 +15,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=70
-        z=80
+        a=14
+        z=24
         # a=500
         # z=1000
         # a=1000
@@ -29,9 +29,10 @@ class IndexerService
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
-        indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        # indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result")[a...z] #1206
+        indexers = Indexer.where(clean_url: "http://www.josephvw.com")
 
-        # indexers = Indexer.where(clean_url: "http://www.heritagevt.com")
+        # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
 
         counter=0
@@ -47,7 +48,7 @@ class IndexerService
             puts "\n============================\n"
             puts "[#{a}...#{z}]  (#{counter}/#{range})"
 
-            begin
+            # begin
                 @agent = Mechanize.new
                 html = @agent.get(url)
 
@@ -64,24 +65,24 @@ class IndexerService
                     dealerfire_rts(html, url, indexer)
                 end
 
-            rescue
-                error = $!.message
-                error_msg = "RT Error: #{error}"
-                if error_msg.include?("connection refused")
-                    rt_error_code = "Connection Error"
-                elsif error_msg.include?("undefined method")
-                    rt_error_code = "Method Error"
-                elsif error_msg.include?("404 => Net::HTTPNotFound")
-                    rt_error_code = "404 Error"
-                elsif error_msg.include?("TCP connection")
-                    rt_error_code = "TCP Error"
-                else
-                    rt_error_code = error_msg
-                end
-                puts "\n\n>>> #{error_msg} <<<\n\n"
+            # rescue
+                # error = $!.message
+                # error_msg = "RT Error: #{error}"
+                # if error_msg.include?("connection refused")
+                #     rt_error_code = "Connection Error"
+                # elsif error_msg.include?("undefined method")
+                #     rt_error_code = "Method Error"
+                # elsif error_msg.include?("404 => Net::HTTPNotFound")
+                #     rt_error_code = "404 Error"
+                # elsif error_msg.include?("TCP connection")
+                #     rt_error_code = "TCP Error"
+                # else
+                #     rt_error_code = error_msg
+                # end
+                # puts "\n\n>>> #{error_msg} <<<\n\n"
 
                 # indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
-            end ## rescue ends
+            # end ## rescue ends
 
             sleep(3)
         end ## .each loop ends
@@ -90,23 +91,9 @@ class IndexerService
 
 
     def dealerfire_rts(html, url, indexer)
-        puts url
-        puts "\n================================\n"
-        p "url: #{url}"
-
         result = DealerfireRts.rooftop_scraper(html)
-
-        # rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-
-    # def drop_comma(str)  # For: DealerFire
-    #     if str.include?(',')
-    #         str.delete(',')
-    #     else
-    #         str
-    #     end
-    # end
-
 
 
     def dealer_inspire_rts(html, url, indexer)
@@ -134,45 +121,259 @@ class IndexerService
     end
 
 
+
+
+
     def cobalt_rts(html, url, indexer)
-        ### Original Version
-        # org_sel = "//img[@class='cblt-lazy']/@alt"
-        # org_orig = html.xpath(org_sel)
-        # phone_orig = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
-        # selector = "//a[@href='HoursAndDirections']"
-        # street = html.xpath(selector).text if html.xpath(selector)
+        org = nil
+        street = nil
+        city = nil
+        state = nil
+        zip = nil
+        phone = nil
 
-        ### OPTION B
-        # extra_full_addr = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
-        # extra_full_addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-        # extra_acct_n_ph = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
-        # org_v3 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
-        # addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-        # phone_v2 = html.at_css('.contactUsInfo').text if html.at_css('.contactUsInfo')
-        ##!# full_addr = html.at_css('.addressText').text if html.at_css('.addressText')
-        ##!# full_addr_arr = cobalt_address_parser(full_addr) if full_addr
+        phone_found = false
+        addr_found = false
+        org_found = false
 
-        ### OPTION A
-        best_addr_n_acct = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
-        if best_addr_n_acct
-            best_addr_n_acct_arr = cobalt_address_parser(best_addr_n_acct) if best_addr_n_acct
-            org = best_addr_n_acct_arr[0] unless best_addr_n_acct_arr[0] == nil
-            city_state_zip = best_addr_n_acct_arr[2] if best_addr_n_acct_arr[2]
-            city_state_zip_arr = city_state_zip.split(",") if city_state_zip
-            state_zip = city_state_zip_arr[1] if city_state_zip_arr
-            state_zip_arr = state_zip.split(" ") if state_zip
+        ### === PHONE VARIABLES ===
+        phone1 = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
+        phone2 = html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
+        phone3 = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
 
-            street = best_addr_n_acct_arr[1] unless best_addr_n_acct_arr[1] == nil
-            city = city_state_zip_arr[0] unless city_state_zip_arr[0] == nil
-            state = state_zip_arr[0] unless state_zip_arr[0] == nil
-            zip = state_zip_arr[-1] unless state_zip_arr[-1] == nil
-            phone = nil
+        puts "\n============================\n\n"
+
+        # if !phone1.blank?
+        #     phone = phone1
+        #     phone_found = true
+        # elsif !phone2.blank? && phone_found == false
+        #     phone = phone2
+        #     phone_found = true
+        # elsif !phone3.blank? && phone_found == false
+        #     phone = phone3
+        #     phone_found = true
+        # end
+
+        ### === FULL ADDRESS AND ORG VARIABLE ===
+        addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
+        if !addr_n_org1.blank?
+            addr_arr = cobalt_addr_parser(addr_n_org1)
+
+            org = addr_arr[0]
+            city_state_zip = addr_arr[2]
+            city_state_zip_arr = city_state_zip.split(",")
+            state_zip = city_state_zip_arr[1]
+            state_zip_arr = state_zip.split(" ")
+
+            street = addr_arr[1]
+            city = city_state_zip_arr[0]
+            state = state_zip_arr[0]
+            zip = state_zip_arr[-1]
+
+            addr_found = true
+            org_found = true
         end
-        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
 
+        ### === FULL ADDRESS VARIABLES ===
+        addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
+        if !addr1.blank? && addr_found == false
+            addr_arr = n_splitter(addr1)
+            unless addr_arr.blank?
+            p "addr1: #{addr1}"
+
+            item1 = addr_arr[0]
+            item2 = addr_arr[1]
+            item3 = addr_arr[2]
+            item4 = addr_arr[3]
+            item5 = addr_arr[4]
+            puts "\n\n--------- (addr1) ----------\n\n"
+            p "item1: #{item1}"
+            p "item2: #{item2}"
+            p "item3: #{item3}"
+            p "item4: #{item4}"
+            p "item5: #{item5}"
+                puts "\n\n-----------------------------\n\n"
+            end
+
+            # addr_found = true
+        end
+
+        addr2_sel = "//a[@href='HoursAndDirections']"
+        addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
+        if !addr2.blank? && addr_found == false
+            p "addr2: #{addr2}"
+
+            addr_arr = n_splitter(addr2)
+
+            unless addr_arr.blank?
+                item1 = addr_arr[0]
+                item2 = addr_arr[1]
+                item3 = addr_arr[2]
+                item4 = addr_arr[3]
+                item5 = addr_arr[4]
+                puts "\n\n--------- (addr2) ----------\n\n"
+                p "item1: #{item1}"
+                p "item2: #{item2}"
+                p "item3: #{item3}"
+                p "item4: #{item4}"
+                p "item5: #{item5}"
+            end
+
+            # addr_found = true
+        end
+
+        addr3 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
+        if !addr3.blank? && addr_found == false
+            p "addr3: #{addr3}"
+            addr_arr = n_splitter(addr3)
+
+            unless addr_arr.blank?
+                item1 = addr_arr[0]
+                item2 = addr_arr[1]
+                item3 = addr_arr[2]
+                item4 = addr_arr[3]
+                item5 = addr_arr[4]
+                puts "\n\n--------- (addr3) ----------\n\n"
+                p "item1: #{item1}"
+                p "item2: #{item2}"
+                p "item3: #{item3}"
+                p "item4: #{item4}"
+                p "item5: #{item5}"
+                puts "\n\n-----------------------------\n\n"
+            end
+
+            # addr_found = true
+        end
+
+
+        ### === FULL ADDRESS AND PHONE VARIABLE ===
+        addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+        if !addr_n_ph1.blank? && (addr_found == false || phone_found == false)
+            p "addr_n_ph1: #{addr_n_ph1}"
+
+            addr_arr = n_splitter(addr_n_ph1)
+
+            unless addr_arr.blank?
+                unless phone_found
+                    addr_arr.each do |item|
+                        phone = ph_check(item)
+                        if phone
+                            phone_found = true
+                            break
+                        end
+                    end
+                end
+
+                item1 = addr_arr[0]
+                item2 = addr_arr[1]
+                item3 = addr_arr[2]
+                item4 = addr_arr[3]
+                item5 = addr_arr[4]
+                puts "\n\n--------- (addr_n_ph1) ----------\n\n"
+                p "item1: #{item1}"
+                p "item2: #{item2}"
+                p "item3: #{item3}"
+                p "item4: #{item4}"
+                p "item5: #{item5}"
+                puts "\n\n-----------------------------\n\n"
+            end
+
+            # addr_found = true
+            # phone_found = true
+        end
+
+
+        ### === ORG VARIABLES ===
+        org2 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
+        if !org2.blank? && org_found == false
+            p "org2: #{org2}"
+            # org = org2
+            # org_found = true
+        end
+
+        org3_sel = "//img[@class='cblt-lazy']/@alt"
+        org3 = html.xpath(org3_sel)
+        if !org3.blank? && org_found == false
+            p "org3: #{org3}"
+            # org = org3
+            # org_found = true
+        end
+
+        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 
-    def cobalt_address_parser(str)
+
+    def n_splitter(obj)
+        ### Removes "\t" from objects.
+        ### Then splits objects by "\n".
+        unless obj.blank?
+            obj.include?("\n") ? objs = obj.split("\n") : objs = obj.split(",")
+            objs = objs.join(",")
+            objs = objs.split(",")
+            objs.delete_if {|x| x.include?("Hours")}
+            objs.delete_if {|x| x.include?("Contact")}
+            objs.delete_if {|x| x.include?("Location")}
+            objs.delete_if {|x| x.include?("Map")}
+            objs.map!{|obj| obj.strip!}
+            objs.delete_if {|x| x.blank?}
+        end
+    end
+
+
+
+
+    ############################
+
+    ## COBALT RTS ORIGINAL
+    # def cobalt_rts(html, url, indexer)
+    #     ## Original Version
+    #     # org_sel = "//img[@class='cblt-lazy']/@alt"
+    #     # org_orig = html.xpath(org_sel)
+    #     # phone_orig = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
+    #     # selector = "//a[@href='HoursAndDirections']"
+    #     # street = html.xpath(selector).text if html.xpath(selector)
+    #
+    #     ## OPTION B
+    #     # extra_full_addr = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
+    #     # extra_full_addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+    #     # extra_acct_n_ph = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
+    #     # org_v3 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
+    #     # addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+    #     # phone_v2 = html.at_css('.contactUsInfo').text if html.at_css('.contactUsInfo')
+    #     #!# full_addr = html.at_css('.addressText').text if html.at_css('.addressText')
+    #     #!# full_addr_arr = cobalt_addr_parser(full_addr) if full_addr
+    #
+    #     ## OPTION A
+    #     best_addr_n_acct = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
+    #     if best_addr_n_acct
+    #         best_addr_n_acct_arr = cobalt_addr_parser(best_addr_n_acct) if best_addr_n_acct
+    #         org = best_addr_n_acct_arr[0] unless best_addr_n_acct_arr[0] == nil
+    #         city_state_zip = best_addr_n_acct_arr[2] if best_addr_n_acct_arr[2]
+    #         city_state_zip_arr = city_state_zip.split(",") if city_state_zip
+    #         state_zip = city_state_zip_arr[1] if city_state_zip_arr
+    #         state_zip_arr = state_zip.split(" ") if state_zip
+    #
+    #         street = best_addr_n_acct_arr[1] unless best_addr_n_acct_arr[1] == nil
+    #         city = city_state_zip_arr[0] unless city_state_zip_arr[0] == nil
+    #         state = state_zip_arr[0] unless state_zip_arr[0] == nil
+    #         zip = state_zip_arr[-1] unless state_zip_arr[-1] == nil
+    #
+    #         street = best_addr_n_acct_arr[1] unless best_addr_n_acct_arr == nil
+    #         city = city_state_zip_arr[0] unless city_state_zip_arr == nil
+    #         state = state_zip_arr[0] unless city_state_zip_arr == nil
+    #         zip = state_zip_arr[-1] unless city_state_zip_arr == nil
+    #
+    #
+    #         phone = nil
+    #     end
+    #     rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+    #
+    # end
+    ############################
+
+
+
+    def cobalt_addr_parser(str)
         ### PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
         str.strip!
         parts = str.split("   ")
@@ -276,11 +477,27 @@ class IndexerService
     end
 
 
-    def phone_formatter(phone)
-        ### USED FOR ALL TEMPLATES
+    def ph_check(phone)
+        ### USED FOR ALL TEMPLATES - STRICT QUALIFICATIONS!!!!!
         ### FORMATS PHONE AS: (000) 000-0000
-        if phone && (phone != "N/A" || phone != "0")
-            phone_stripped = phone.gsub(/[^0-9]/, "") if phone
+        if !phone.blank? && (phone != "N/A" || phone != "0") && (phone.include?("(") || phone.include?(")")) && phone.include?("-")
+            phone_stripped = phone.gsub(/[^0-9]/, "")
+            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
+
+            !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone
+        else
+            final_phone = nil
+        end
+
+    end
+
+
+
+    def phone_formatter(phone)
+        ### USED FOR ALL TEMPLATES  - LOOSE QUALIFICATIONS!!!!!
+        ### FORMATS PHONE AS: (000) 000-0000
+        if !phone.blank? && (phone != "N/A" || phone != "0")
+            phone_stripped = phone.gsub(/[^0-9]/, "")
             (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
 
             !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone

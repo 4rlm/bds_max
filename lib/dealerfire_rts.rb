@@ -8,6 +8,9 @@ module DealerfireRts
         addr_hash = self.find_address(html)
         result = {org: org}.merge(addr_hash)
 
+        result[:phone] = phone
+
+
         puts "\n================================\n"
         p "org: #{org}"
         p "street: #{addr_hash[:street]}"
@@ -129,22 +132,45 @@ module DealerfireRts
                 zip = state_zip_arr[1]
             end
 
+            ### NEED HELP.  NOT REACTING, BUT WORKS ON REPL.
+            ### http://www.avondalenissan.com
+            ### http://www.germainnissan.com
+            ### STREET: "4300 Morse Rd  \nColumbus, OH, 43230"
+            
+            # if street && street.include?("\n") && city == nil
+            #     street_arr = street.split("\n")
+            #     street = street_arr[0]
+            #     city = street_arr[1]
+            # end
+
+            ### NEED HELP.  NOT REACTING, BUT WORKS ON REPL.
+            ### http://www.avondalenissan.com
+            ### http://www.germainnissan.com
+            ### STREET: "4300 Morse Rd  \nColumbus, OH, 43230"
             street = self.store_info_helper(street) unless nil
-            city    = self.store_info_helper(city) unless nil
-            state  = self.store_info_helper(state) unless nil
-            zip     = self.store_info_helper(zip) unless nil
+            city = self.store_info_helper(city) unless nil
+            state = self.store_info_helper(state) unless nil
+            zip = self.store_info_helper(zip) unless nil
 
             info = [street, city, state, zip]
         end
     end
 
+
+
+
     def self.store_info_helper(item)
         if item
+            item.gsub!("  ", " ")
             item.gsub!("\t", "")
+            item.gsub!("\n", "")
             item.strip!
             item
         end
     end
+
+
+
 
     def self.copyright_extractor(copyright)
         ### FOR DealerFire RTS: Extracts org from copyright footer.
