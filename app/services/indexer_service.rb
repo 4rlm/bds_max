@@ -5,7 +5,7 @@ require 'nokogiri'
 require 'socket'
 require 'pry'
 require 'httparty'
-
+require 'dealerfire_rts'
 
 
 class IndexerService
@@ -15,41 +15,37 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=0
-        z=20
+        a=70
+        z=80
         # a=500
         # z=1000
         # a=1000
         # z=-1
         # indexers = Indexer.where(template: "DealerOn").where(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
-        indexers = Indexer.where(template: "Cobalt")[a...z]
+        # indexers = Indexer.where(template: "Cobalt")[a...z]
 
-        # http://www.penskechevroletofcerritos.com/HoursAndDirections
-        # http://www.hubbardchevrolet.com/HoursAndDirections
-        # http://www.nissanmarin.com/HoursAndDirections
-        # http://www.minisf.com/HoursAndDirections
-        # http://www.georgegeecadillac.com/HoursAndDirections
+        # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
+        # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+
+        indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+
+        # indexers = Indexer.where(clean_url: "http://www.heritagevt.com")
 
 
         counter=0
         range = z-a
-
         indexers.each do |indexer|
-            counter+=1
-            puts "[#{a}...#{z}]  (#{counter}/#{range})"
-
-            ### NORMAL STYLE
-            ### url = indexer.clean_url
-
-            ### COBALT SPECIAL STYLE
-            clean_url = indexer.clean_url
-            url = "#{clean_url}/HoursAndDirections"
-
-
             template = indexer.template
+            clean_url = indexer.clean_url
+            template == "Cobalt" ? url = "#{clean_url}/HoursAndDirections" : url = clean_url
             method = IndexerTerm.where(response_term: template).where.not(mth_name: nil).first
             term = method.mth_name
+
+            counter+=1
+            puts "\n============================\n"
+            puts "[#{a}...#{z}]  (#{counter}/#{range})"
 
             begin
                 @agent = Mechanize.new
@@ -62,130 +58,124 @@ class IndexerService
                     dealeron_rts(html, url, indexer)
                 when "cobalt_rts"
                     cobalt_rts(html, url, indexer)
+                when "dealer_inspire_rts"
+                    dealer_inspire_rts(html, url, indexer)
                 when "dealerfire_rts"
-                    # dealerfire_rts(html, url, indexer)
-                when "dealer_inspire"
-                    # dealer_inspire(html, url, indexer)
+                    dealerfire_rts(html, url, indexer)
                 end
 
             rescue
                 error = $!.message
                 error_msg = "RT Error: #{error}"
-
                 if error_msg.include?("connection refused")
                     rt_error_code = "Connection Error"
                 elsif error_msg.include?("undefined method")
-                        rt_error_code = "Method Error"
+                    rt_error_code = "Method Error"
                 elsif error_msg.include?("404 => Net::HTTPNotFound")
-                        rt_error_code = "404 Error"
+                    rt_error_code = "404 Error"
+                elsif error_msg.include?("TCP connection")
+                    rt_error_code = "TCP Error"
                 else
                     rt_error_code = error_msg
                 end
-
                 puts "\n\n>>> #{error_msg} <<<\n\n"
 
                 # indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
             end ## rescue ends
 
-            sleep(2)
+            sleep(3)
         end ## .each loop ends
 
     end
 
 
-    def cobalt_rts(html, url, indexer)
-
-        org_sel = "//img[@class='cblt-lazy']/@alt"
-        org = html.xpath(org_sel)
-        # if org.empty?
-        #     org = "Not Found"
-        # end
-
-        acc_phone = html.css('.CONTACTUsInfo').text if html.css('.CONTACTUsInfo')
-        selector = "//a[@href='HoursAndDirections']"
-        street = html.xpath(selector).text if html.xpath(selector)
-
-        puts
-        puts "----------------- Original ------------------"
+    def dealerfire_rts(html, url, indexer)
         puts url
-        puts
+        puts "\n================================\n"
+        p "url: #{url}"
 
-        puts "org: #{org}"
-        # puts "acc_phone: #{acc_phone}"
-        # puts "street: #{street}"
+        result = DealerfireRts.rooftop_scraper(html)
 
-        puts "----------------- Trial ------------------"
-        trial1 = html.at_css('.addressLine1').text if html.at_css('.addressLine1')
-        trial2 = html.at_css('.header-address').text if html.at_css('.header-address')
-        trial3 = html.at_css('.addressText').text if html.at_css('.addressText')
-        trial4 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
-        trial5 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
-        trial6 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-        trial7 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
-        trial8 = html.at_css('.contactUsInfo').text if html.at_css('.contactUsInfo')
-        trial9 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+        # rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
+    end
 
-        trial4_arr = parse_address(trial4) if trial4
-        trial3_arr = parse_address(trial3) if trial3
+    # def drop_comma(str)  # For: DealerFire
+    #     if str.include?(',')
+    #         str.delete(',')
+    #     else
+    #         str
+    #     end
+    # end
 
-        # puts "trial3: #{trial3.inspect}"
-        # puts "trial4: #{trial4.inspect}"
 
-        if trial3 || trial4_arr
-            if trial4_arr
-                puts "\n\n============================\n\n"
-                puts "OPTION A: [trial4_arr = parse_address(trial4)]"
-                puts "trial4_arr: #{trial4_arr}"
 
-                acct_name = trial4_arr[0]
-                street = trial4_arr[1]
-                city_state_zip = trial4_arr[2]
+    def dealer_inspire_rts(html, url, indexer)
+        org = html.at_css('.organization-name').text if html.at_css('.organization-name')
+        acc_phones = html.css('.tel').collect {|phone| phone.text if phone} if html.css('.tel')
+        phone = acc_phones.join(', ')
 
-                puts "acct_name: #{acct_name}"
-                puts "street: #{street}"
-                puts "city_state_zip: #{city_state_zip}"
-                puts "\n\n============================\n\n"
-            else
-                puts "\n\n============================\n\n"
-                puts "OPTION A: [trial4_arr = parse_address(trial4)]"
-                puts "No trial4_arr"
-                puts "\n\n============================\n\n"
+        street = html.at_css('.street-address').text if html.at_css('.street-address')
+
+        if street && street.include?(",")
+            street = street.split(",")
+            street = street[0]
+            if street.include?("  ")
+                street = street.split(" ")
+                street = street.join(" ")
             end
-
-            if trial3
-                puts "\n\n============================\n\n"
-                puts "OPTION B: [trial3.inspect]"
-                puts "trial3: #{trial3.inspect}"
-                puts "trial3_arr: #{trial3_arr}"
-                puts "\n\n============================\n\n"
-            else
-                puts "\n\n============================\n\n"
-                puts "OPTION B: [trial3.inspect]"
-                puts "trial3: #{trial3.inspect}"
-                puts "\n\n============================\n\n"
-            end
-
-        else
-            puts "\n\n============================\n\n"
-            puts "OPTION C: [trial1,2 & trial5,6,7,8,9]"
-            puts "trial1: #{trial1}"
-            puts "trial2: #{trial2}"
-            puts "trial5: #{trial5.inspect}"
-            puts "trial6: #{trial6}"
-            puts "trial7: #{trial7}"
-            puts "trial8: #{trial8}"
-            puts "trial9: #{trial9}"
-            puts "\n\n============================\n\n"
+            street.strip!
         end
 
+        city = html.at_css('.locality').text if html.at_css('.locality').text
+        state = html.at_css('.region').text if html.at_css('.region').text
+        zip = html.at_css('.postal-code').text if html.at_css('.postal-code').text
+
+        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 
 
+    def cobalt_rts(html, url, indexer)
+        ### Original Version
+        # org_sel = "//img[@class='cblt-lazy']/@alt"
+        # org_orig = html.xpath(org_sel)
+        # phone_orig = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
+        # selector = "//a[@href='HoursAndDirections']"
+        # street = html.xpath(selector).text if html.xpath(selector)
 
-    def parse_address(str)
+        ### OPTION B
+        # extra_full_addr = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
+        # extra_full_addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+        # extra_acct_n_ph = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
+        # org_v3 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
+        # addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+        # phone_v2 = html.at_css('.contactUsInfo').text if html.at_css('.contactUsInfo')
+        ##!# full_addr = html.at_css('.addressText').text if html.at_css('.addressText')
+        ##!# full_addr_arr = cobalt_address_parser(full_addr) if full_addr
+
+        ### OPTION A
+        best_addr_n_acct = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
+        if best_addr_n_acct
+            best_addr_n_acct_arr = cobalt_address_parser(best_addr_n_acct) if best_addr_n_acct
+            org = best_addr_n_acct_arr[0] unless best_addr_n_acct_arr[0] == nil
+            city_state_zip = best_addr_n_acct_arr[2] if best_addr_n_acct_arr[2]
+            city_state_zip_arr = city_state_zip.split(",") if city_state_zip
+            state_zip = city_state_zip_arr[1] if city_state_zip_arr
+            state_zip_arr = state_zip.split(" ") if state_zip
+
+            street = best_addr_n_acct_arr[1] unless best_addr_n_acct_arr[1] == nil
+            city = city_state_zip_arr[0] unless city_state_zip_arr[0] == nil
+            state = state_zip_arr[0] unless state_zip_arr[0] == nil
+            zip = state_zip_arr[-1] unless state_zip_arr[-1] == nil
+            phone = nil
+        end
+        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+
+    end
+
+    def cobalt_address_parser(str)
+        ### PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
         str.strip!
         parts = str.split("   ")
-
         parts.each do |s|
             if s == "" || s == "\n"
                 parts.delete(s)
@@ -197,10 +187,8 @@ class IndexerService
         for x in ["\n", ""]
             parts.delete(x) if parts.include?(x)
         end
-
         parts # returns array
     end
-
 
 
 
@@ -216,31 +204,41 @@ class IndexerService
         state = zip_state_arr[-2] if zip_state_arr
         zip = zip_state_arr[-1] if zip_state_arr
         phone = acc_phones[0]
+        ### MOVED FROM rt_address_formatter B/C DESIGNED ONLY FOR DO TEMP.
+        if (city && street == nil) && city.include?("\r")
+            street_city_arr = city.split("\r")
+            street = street_city_arr[0] unless street_city_arr[0] == nil
+            city = street_city_arr[-1] unless street_city_arr[-1] == nil
+        end
 
-        rt_address_formatter(org, street, city, state, zip, phone, indexer)
+        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 
 
     def dealer_com_rts(html, url, indexer)
         selector = "//meta[@name='author']/@content"
-
         org = html.xpath(selector).text if html.xpath(selector)
         street = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
         city = html.at_css('.adr .locality').text if html.at_css('.adr .locality')
         state = html.at_css('.adr .region').text if html.at_css('.adr .region')
         zip = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
         phone = html.at_css('.value').text if html.at_css('.value')
-
-        rt_address_formatter(org, street, city, state, zip, phone, indexer)
+        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 
 
-    def rt_address_formatter(org, street, city, state, zip, phone, indexer)
-        if (city && street == nil) && city.include?("\r")
-            street_city_arr = city.split("\r")
-            street = street_city_arr[0]
-            city = street_city_arr[-1]
-        end
+    ###### RT HELPER METHODS ~ BEGINS #######
+
+    def rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+        ### USED FOR ALL TEMPLATES
+        ### STRIPS AND FORMATS DATA BEFORE SAVING TO DB
+
+        org = nil unless org != "" && org != " "
+        street = nil unless street != "" && street != " "
+        city = nil unless city != "" && city != " "
+        state = nil unless state != "" && state != " "
+        zip = nil unless zip != "" && zip != " "
+        phone = nil unless phone != "" && phone != " "
 
         org.strip! if org
         street.strip! if street
@@ -248,53 +246,81 @@ class IndexerService
         state.strip! if state
         zip.strip! if zip
 
+        if zip && state && zip.length < 5 && state > 2
+            temp_zip = state
+            temp_state = zip
+            zip = temp_zip
+            state = temp_state
+        end
+
         full_addr_street = "#{street}, " if street
         full_addr_city = "#{city}, " if city
         full_addr_state = "#{state}, " if state
         full_addr_zip = "#{zip}" if zip
-        full_addr = "#{full_addr_street} #{full_addr_city} #{full_addr_state} #{full_addr_zip}"
-
-        full_addr = full_addr[0...-1] if full_addr && full_addr[-1] == ","
+        full_addr = "#{full_addr_street}#{full_addr_city}#{full_addr_state}#{full_addr_zip}"
         full_addr.strip!
 
-        rt_results_processor(org, street, city, state, zip, phone, full_addr, indexer)
+        if full_addr && full_addr[-1] == ","
+            full_addr = full_addr[0...-1]
+            full_addr.strip!
+        end
+
+        if full_addr && full_addr[0] == ","
+            full_addr = full_addr[1..-1]
+            full_addr.strip!
+        end
+
+        full_addr = nil unless full_addr != "" && full_addr != " " && full_addr != ","
+
+        rt_results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
     end
 
 
     def phone_formatter(phone)
-        final_phone = nil if phone == "N/A" || phone == "0"
+        ### USED FOR ALL TEMPLATES
+        ### FORMATS PHONE AS: (000) 000-0000
+        if phone && (phone != "N/A" || phone != "0")
+            phone_stripped = phone.gsub(/[^0-9]/, "") if phone
+            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
 
-        phone_stripped = phone.gsub(/[^0-9]/, "") if phone
-        (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
+            !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone
 
-        !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone
+            final_phone
+        else
+            final_phone = nil
+            final_phone
+        end
 
-        final_phone
     end
 
 
-    def rt_results_processor(org, street, city, state, zip, phone, full_addr, indexer)
+    def rt_results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
+        ### USED FOR ALL TEMPLATES
+        if org || street || city || state || zip || phone || full_addr
+            phone = phone_formatter(phone)
 
-        phone = phone_formatter(phone)
+            puts indexer.template
+            puts "#{url} \n\nRT Result - Success!\n\n"
+            org.nil? ? (puts "org: nil") : (p "org: #{org}")
+            phone.nil? ? (puts "phone: nil") : (p "phone: #{phone}")
+            street.nil? ? (puts "street: nil") : (p "street: #{street}")
+            city.nil? ? (puts "city: nil") : (p "city: #{city}")
+            state.nil? ? (puts "state: nil") : (p "state: #{state}")
+            zip.nil? ? (puts "zip: nil") : (p "zip: #{zip}")
+            full_addr.nil? ? (puts "full_addr: nil") : (p "full_addr: #{full_addr}")
 
-        puts "-----------------------------------"
-        puts indexer.template
-        puts indexer.clean_url
-        puts
-        p "org: #{org}"
-        p "phone: #{phone}"
-        puts
-        p "street: #{street}"
-        p "city: #{city}"
-        p "state: #{state}"
-        p "zip: #{zip}"
-        puts
-        p "full_addr: #{full_addr}"
-        puts "-----------------------------------"
-        puts
-        # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone)
+            # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone)
+        else
+            puts "#{url} \n\nRT No-Result - Check Template Version!\n\n"
+            # indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
+        end
+
+        puts "\n============================\n\n"
+
     end
 
+
+    ###### RT HELPER METHODS ~ ENDS #######
 
     ###########################################
     ###  SCRAPER METHODS: rooftop_data_getter ~ ENDS

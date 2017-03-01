@@ -3,111 +3,109 @@ require 'nokogiri'
 require 'open-uri'
 # require_relative 'staffer_service_helper'
 
-class StafferService
+# class StafferService
 
-    def start_staffer(ids)
-        Core.where(id: ids).each do |el|
-            current_time = Time.new
+    # def start_staffer(ids)
+    #     Core.where(id: ids).each do |el|
+    #         current_time = Time.new
+    #
+    #         @cols_hash = {
+    #             sfdc_id: el[:sfdc_id],
+    #             acct_name: el[:sfdc_acct],
+    #             group_name: el[:sfdc_group],
+    #             ult_group_name: el[:sfdc_ult_grp],
+    #             sfdc_sales_person: el[:sfdc_sales_person],
+    #             sfdc_type: el[:sfdc_type],
+    #             sfdc_tier: el[:sfdc_tier],
+    #             staff_link: el[:staff_link],
+    #             staff_text: el[:staff_text],
+    #             domain: el[:matched_url],
+    #             staffer_date: current_time,
+    #             staffer_status: nil,
+    #             template: nil,
+    #             # acct_name: nil,
+    #             street: nil,
+    #             city: nil,
+    #             state: nil,
+    #             zip: nil,
+    #             phone: nil,
+    #             job_raw: nil,
+    #             fname: nil,
+    #             lname: nil,
+    #             fullname: nil,
+    #             email: nil,
+    #             cont_status: nil,
+    #             cont_source: nil,
+    #             influence: nil
+    #         }
+    #
+    #         search(el, @cols_hash[:staff_link])
+    #
+    #         el.update_attributes(staffer_date: current_time, bds_status: "Staffer Result")
+    #
+    #     end # cores Loop - Ends
+    # end # start_staffer(ids) - Ends
 
-            @cols_hash = {
-                sfdc_id: el[:sfdc_id],
-                acct_name: el[:sfdc_acct],
-                group_name: el[:sfdc_group],
-                ult_group_name: el[:sfdc_ult_grp],
-                sfdc_sales_person: el[:sfdc_sales_person],
-                sfdc_type: el[:sfdc_type],
-                sfdc_tier: el[:sfdc_tier],
-                staff_link: el[:staff_link],
-                staff_text: el[:staff_text],
-                domain: el[:matched_url],
-                staffer_date: current_time,
-                staffer_status: nil,
-                template: nil,
-                # acct_name: nil,
-                street: nil,
-                city: nil,
-                state: nil,
-                zip: nil,
-                phone: nil,
-                job_raw: nil,
-                fname: nil,
-                lname: nil,
-                fullname: nil,
-                email: nil,
-                cont_status: nil,
-                cont_source: nil,
-                influence: nil
-            }
+    # def search(core, url)
+    #     begin
+    #         temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage' ]
+    #
+    #         @agent = Mechanize.new
+    #         doc = @agent.get(url)
+    #         detect =  false
+    #
+    #         for term in temp_list
+    #             if doc.at_css('head').text.include?(term)
+    #                 detect = true
+    #                 temp_method(term, doc, url)
+    #             end
+    #         end
+    #
+    #         unless detect
+    #             core.update_attribute(:staffer_status, "Temp Error")
+    #             puts "\n\n===== Template Unidentified =====\n\n"
+    #         end
+    #     rescue
+    #         core.update_attribute(:staffer_status, "Search Error")
+    #         puts "\n\n===== StafferService#search Error: #{$!.message} =====\n\n"
+    #     end
+    #
+    #     #== Throttle (if needed) =====================
+    #     throttle_delay_time = (1..2).to_a.sample
+    #     puts "Completed"
+    #     puts "Please wait #{throttle_delay_time} seconds."
+    #     puts "--------------------------------"
+    #     sleep(throttle_delay_time)
+    #
+    # end
 
-            search(el, @cols_hash[:staff_link])
+    # def temp_method(term, doc, url)
+    #     sc = Scrapers.new(@cols_hash)
+    #     domain = @cols_hash[:domain]
+    #
+    #     case term
+    #     when "DDC"
+    #         sc.ddc_scraper(doc, url)
+    #         diff_staff_url_for_ddc(sc, url, domain)
+    #     when "dealeron"
+    #         sc.do_scraper(doc, url)
+    #     when "cobalt"
+    #         sc.cobalt_scraper(doc, url)
+    #     when "DealerFire"
+    #         sc.df_scraper(doc, url)
+    #     when "di_homepage"
+    #         sc.di_scraper(doc, url)
+    #     end
+    # end
 
-            el.update_attributes(staffer_date: current_time, bds_status: "Staffer Result")
-
-        end # cores Loop - Ends
-    end # start_staffer(ids) - Ends
-
-    def search(core, url)
-        begin
-            temp_list = [ 'DDC', 'dealeron', 'cobalt', 'DealerFire', 'di_homepage' ]
-
-            @agent = Mechanize.new
-            doc = @agent.get(url)
-            detect =  false
-
-            for term in temp_list
-                if doc.at_css('head').text.include?(term)
-                    detect = true
-                    temp_method(term, doc, url)
-                end
-            end
-
-            unless detect
-                core.update_attribute(:staffer_status, "Temp Error")
-                puts "\n\n===== Template Unidentified =====\n\n"
-            end
-        rescue
-            core.update_attribute(:staffer_status, "Search Error")
-            puts "\n\n===== StafferService#search Error: #{$!.message} =====\n\n"
-        end
-
-        #== Throttle (if needed) =====================
-        throttle_delay_time = (1..2).to_a.sample
-        puts "Completed"
-        puts "Please wait #{throttle_delay_time} seconds."
-        puts "--------------------------------"
-        sleep(throttle_delay_time)
-
-    end
-
-    def temp_method(term, doc, url)
-        sc = Scrapers.new(@cols_hash)
-        domain = @cols_hash[:domain]
-
-        case term
-        when "DDC"
-            sc.ddc_scraper(doc, url)
-            diff_staff_url_for_ddc(sc, url, domain)
-        when "dealeron"
-            sc.do_scraper(doc, url)
-        when "cobalt"
-            sc.cobalt_scraper(doc, url)
-        when "DealerFire"
-            sc.df_scraper(doc, url)
-        when "di_homepage"
-            sc.di_scraper(doc, url)
-        end
-    end
-
-
-    def diff_staff_url_for_ddc(scrapers_obj, url, domain)
-        staff_url = domain + "dealership/staff.htm"
-        if url != staff_url
-            staff_docu = @agent.get(staff_url)
-            scrapers_obj.ddc_scraper(staff_docu, staff_url)
-            puts "\n\n===== Different staff url for ddc =====\n\n"
-        end
-    end
-
+    # def diff_staff_url_for_ddc(scrapers_obj, url, domain)
+    #     staff_url = domain + "dealership/staff.htm"
+    #     if url != staff_url
+    #         staff_docu = @agent.get(staff_url)
+    #         scrapers_obj.ddc_scraper(staff_docu, staff_url)
+    #         puts "\n\n===== Different staff url for ddc =====\n\n"
+    #     end
+    # end
 
     # def staffer_sfdc_id_cleaner
     #     cores = Core.where.not(temporary_id: nil, staff_link: nil)
@@ -156,7 +154,7 @@ class StafferService
     #     end
     # end ## staffer_core_updater
 
-end  # Ends class StafferService
+# end  # Ends class StafferService
 
 
 
@@ -228,30 +226,30 @@ class Scrapers
     end
 
 
-    def add_indexer_row_with(staffer_status, temp, org, street, city, state, zip, acc_phone, jobs, fnames, lnames, full_names, emails, cont_status, cont_source, influence)
-        @cols_hash[:staffer_status] = staffer_status
-        @cols_hash[:template] = temp
-        @cols_hash[:acct_name] = org
-        @cols_hash[:street] = street
-        @cols_hash[:city] = city
-        @cols_hash[:state] = state
-        @cols_hash[:zip] = zip
-        @cols_hash[:phone] = acc_phone
-        @cols_hash[:job_raw] = jobs
-        @cols_hash[:fname] = fnames
-        @cols_hash[:lname] = lnames
-        @cols_hash[:fullname] = full_names
-        @cols_hash[:email] = emails
-        @cols_hash[:cont_status] = cont_status
-        @cols_hash[:cont_source] = cont_source
-        @cols_hash[:influence] = influence
-
-        core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
-        indicator_gauge
-
-        Staffer.create(@cols_hash)
-        core.update_attributes(staffer_status: staffer_status, template: temp, site_acct: org, site_street: street, site_city: city, site_state: state, site_zip: zip, site_ph: acc_phone)
-    end
+    # def add_indexer_row_with(staffer_status, temp, org, street, city, state, zip, acc_phone, jobs, fnames, lnames, full_names, emails, cont_status, cont_source, influence)
+    #     @cols_hash[:staffer_status] = staffer_status
+    #     @cols_hash[:template] = temp
+    #     @cols_hash[:acct_name] = org
+    #     @cols_hash[:street] = street
+    #     @cols_hash[:city] = city
+    #     @cols_hash[:state] = state
+    #     @cols_hash[:zip] = zip
+    #     @cols_hash[:phone] = acc_phone
+    #     @cols_hash[:job_raw] = jobs
+    #     @cols_hash[:fname] = fnames
+    #     @cols_hash[:lname] = lnames
+    #     @cols_hash[:fullname] = full_names
+    #     @cols_hash[:email] = emails
+    #     @cols_hash[:cont_status] = cont_status
+    #     @cols_hash[:cont_source] = cont_source
+    #     @cols_hash[:influence] = influence
+    #
+    #     core = Core.find_by(sfdc_id: @cols_hash[:sfdc_id])
+    #     indicator_gauge
+    #
+    #     Staffer.create(@cols_hash)
+    #     core.update_attributes(staffer_status: staffer_status, template: temp, site_acct: org, site_street: street, site_city: city, site_state: state, site_zip: zip, site_ph: acc_phone)
+    # end
 
 
     # def indicator_gauge
@@ -312,9 +310,6 @@ class Scrapers
             puts "\n\n===== DealerOn Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def do_scraper"
-
-
-
 
 
     def cobalt_scraper(html, url)   # Problems w/ cobalt_verify below
@@ -382,9 +377,6 @@ class Scrapers
     end
 
 
-
-
-
     def df_scraper(html, url)   # Problem w/ email
         begin
             #==ACCOUNT FIELDS==ARRAYS
@@ -432,9 +424,6 @@ class Scrapers
             puts "\n\n===== DealerFire Error | Msg: #{$!.message} =====\n\n"
         end
     end # End of Main Method: "def df_scraper"
-
-
-
 
 
     def di_scraper(html, url)
