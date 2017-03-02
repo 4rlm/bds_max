@@ -15,8 +15,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=5
-        z=15
+        a=20
+        z=30
         # a=500
         # z=1000
         # a=1000
@@ -30,7 +30,7 @@ class IndexerService
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
         indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
-        # indexers = Indexer.where(clean_url: "http://www.gregleblanchyundai.com")
+        # indexers = Indexer.where(clean_url: "http://www.woodmotornissan.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
@@ -176,6 +176,14 @@ class IndexerService
         cobalt_addr_processor(addr_n_ph1, orgs, streets, cities, states, zips, phones)
 
         ### Methods to Process above Data
+        # org = cobalt_final_arr_qualifier(orgs, org)
+        # street = cobalt_final_arr_qualifier(streets, street)
+        # city = cobalt_final_arr_qualifier(cities, city)
+        # state = cobalt_final_arr_qualifier(states, state)
+        # zip = cobalt_final_arr_qualifier(zips, zip)
+        # phone = cobalt_final_arr_qualifier(phones, phone)
+
+        ### Methods to Process above Data
         org = cobalt_final_arr_qualifier(orgs, org)
         street = cobalt_final_arr_qualifier(streets, street)
         city = cobalt_final_arr_qualifier(cities, city)
@@ -183,18 +191,53 @@ class IndexerService
         zip = cobalt_final_arr_qualifier(zips, zip)
         phone = cobalt_final_arr_qualifier(phones, phone)
 
+        street = street_qualifier(street) if !street.nil?
+        city = city_qualifier(city) if !city.nil?
+        zip = zip_qualifier(zip) if !zip.nil?
+
+        # org = org_qualifier(org)
+        state = state_qualifier(state) if !state.nil?
+
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
     ##### COBALT RTS CORE METHOD ENDS ~ ##########
-
-
     ###### COBALT RTS HELPER METHODS ENDS ~ #######
+
+
+    def state_qualifier(state)
+        st = state if !state.nil?
+        alpha = st.tr('^A-Za-z', '')
+        digits = st.tr('^0-9', '')
+        (digits != '' || alpha == '' || alpha.length != 2) ? state = nil : state
+    end
+
+    def street_qualifier(street)
+        st = street if !street.nil?
+        alpha = st.tr('^A-Za-z', '')
+        digits = st.tr('^0-9', '')
+        (digits == '' || alpha == '' || alpha.length == 2) ? street = nil : street
+    end
+
+    def city_qualifier(city)
+        cit = city if !city.nil?
+        alpha = cit.tr('^A-Za-z', '')
+        digits = cit.tr('^0-9', '')
+        (alpha.nil? || alpha.length == 2 || digits != "") ? city = nil : city
+    end
+
+    def zip_qualifier(zip)
+        zp = zip if !zip.nil?
+        alpha = zp.tr('^A-Za-z', '')
+        digits = zp.tr('^0-9', '')
+        (digits == '' || digits.length != 5 || alpha != '') ? zip = nil : zip
+    end
+
+
     def cobalt_final_arr_qualifier(array, cat)
         if !array.blank? && cat.blank?
             array.each do |item|
                 cat = item if !item.blank?
                 if cat
-                    # cat_found = true
                     break
                 end
             end
@@ -206,7 +249,6 @@ class IndexerService
     def cobalt_addr_processor(full_addr, orgs, streets, cities, states, zips, phones)
         if !full_addr.blank?
             addr_arr = n_splitter(full_addr)
-
             unless addr_arr.blank?
                 # Sends Each Result Item to Check for Phone
                 addr_arr.each do |item|
@@ -336,12 +378,13 @@ class IndexerService
     def rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
         ### USED FOR ALL TEMPLATES
         ### STRIPS AND FORMATS DATA BEFORE SAVING TO DB
-        org = nil unless org != "" && org != " "
-        street = nil unless street != "" && street != " "
-        city = nil unless city != "" && city != " "
-        state = nil unless state != "" && state != " "
-        zip = nil unless zip != "" && zip != " "
-        phone = nil unless phone != "" && phone != " "
+
+        org = nil if org.blank?
+        street = nil if org.blank?
+        city = nil if org.blank?
+        state = nil if org.blank?
+        zip = nil if org.blank?
+        phone = nil if org.blank?
 
         org.strip! if org
         street.strip! if street
@@ -373,7 +416,7 @@ class IndexerService
             full_addr.strip!
         end
 
-        full_addr = nil unless full_addr != "" && full_addr != " " && full_addr != ","
+        full_addr = nil if full_addr.blank?  || full_addr == ","
 
         rt_results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
     end
