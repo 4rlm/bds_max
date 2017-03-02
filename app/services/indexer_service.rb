@@ -15,8 +15,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=35
-        z=45
+        a=5
+        z=15
         # a=500
         # z=1000
         # a=1000
@@ -29,7 +29,7 @@ class IndexerService
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
-        indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result")[a...z] #1206
+        indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
         # indexers = Indexer.where(clean_url: "http://www.gregleblanchyundai.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
@@ -90,12 +90,15 @@ class IndexerService
     end
 
 
+    ##### DEALER FIRE RTS CORE METHOD BEGINS ~ ########
     def dealerfire_rts(html, url, indexer)
         result = DealerfireRts.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
+    ##### DEALER FIRE RTS CORE METHOD ENDS ~ #########
 
 
+    ##### DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
     def dealer_inspire_rts(html, url, indexer)
         org = html.at_css('.organization-name').text if html.at_css('.organization-name')
         acc_phones = html.css('.tel').collect {|phone| phone.text if phone} if html.css('.tel')
@@ -119,19 +122,11 @@ class IndexerService
 
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
+    ##### DEALER INSPIRE RTS CORE METHOD ENDS ~ ######
 
 
-
-
-
+    ##### COBALT RTS CORE METHOD BEGINS ~ ##########
     def cobalt_rts(html, url, indexer)
-        org = nil
-        street = nil
-        city = nil
-        state = nil
-        zip = nil
-        phone = nil
-
         orgs = []
         streets = []
         cities = []
@@ -139,14 +134,21 @@ class IndexerService
         zips = []
         phones = []
 
-        org_found = false
-        street_found = false
-        city_found = false
-        state_found = false
-        zip_found = false
-        phone_found = false
-        addr_found = false
-
+        ### OUTLYER: Special format, so doesn't follow same process as others below.
+        ### === FULL ADDRESS AND ORG VARIABLE ===
+        addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
+        if !addr_n_org1.blank?
+            addr_arr = cobalt_addr_parser(addr_n_org1)
+            city_state_zip = addr_arr[2]
+            city_state_zip_arr = city_state_zip.split(",")
+            state_zip = city_state_zip_arr[1]
+            state_zip_arr = state_zip.split(" ")
+            orgs << addr_arr[0]
+            streets << addr_arr[1]
+            cities << city_state_zip_arr[0]
+            states << state_zip_arr[0]
+            zips << state_zip_arr[-1]
+        end
 
         ### === PHONE VARIABLES ===
         phone1 = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
@@ -162,29 +164,6 @@ class IndexerService
         org2 = html.xpath(org2_sel)
         orgs << org1 if !org1.blank?
         orgs << org2 if !org1.blank?
-        puts "\n============================\n\n"
-
-
-        ### === FULL ADDRESS AND ORG VARIABLE ===
-        addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
-        if !addr_n_org1.blank?
-            addr_arr = cobalt_addr_parser(addr_n_org1)
-
-            org = addr_arr[0]
-            city_state_zip = addr_arr[2]
-            city_state_zip_arr = city_state_zip.split(",")
-            state_zip = city_state_zip_arr[1]
-            state_zip_arr = state_zip.split(" ")
-
-            street = addr_arr[1]
-            city = city_state_zip_arr[0]
-            state = state_zip_arr[0]
-            zip = state_zip_arr[-1]
-
-            addr_found = true
-            org_found = true
-        end
-
 
         ### === ADDRESS VARIABLES ===
         # addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
@@ -196,83 +175,32 @@ class IndexerService
         cobalt_addr_processor(addr3, orgs, streets, cities, states, zips, phones)
         cobalt_addr_processor(addr_n_ph1, orgs, streets, cities, states, zips, phones)
 
-
-
-        # PROCESSES ORG ARRAY RESULTS - CHOOSES FIRST
-        if !orgs.blank? && !org_found && org.blank?
-            orgs.each do |loc|
-                org = loc if !loc.blank?
-                if org
-                    org_found = true
-                    break
-                end
-            end
-        end
-
-        # PROCESSES PHONE ARRAY RESULTS - CHOOSES FIRST
-        if !phones.blank? && !phone_found && phone.blank?
-            phones.each do |ph|
-                phone = ph_check(ph) if !ph_check(ph).blank?
-                if phone
-                    phone_found = true
-                    break
-                end
-            end
-        end
-
-        # PROCESSES STREET ARRAY RESULTS - CHOOSES FIRST
-        if !streets.blank? && !street_found && street.blank?
-            streets.each do |str|
-                street = str if !str.blank?
-                if street
-                    street_found = true
-                    break
-                end
-            end
-        end
-
-        # PROCESSES CITIES ARRAY RESULTS - CHOOSES FIRST
-        if !cities.blank? && !city_found && city.blank?
-            cities.each do |cit|
-                city = cit if !cit.blank?
-                if city
-                    city_found = true
-                    break
-                end
-            end
-        end
-
-        # PROCESSES STATES ARRAY RESULTS - CHOOSES FIRST
-        if !states.blank? && !state_found && state.blank?
-            states.each do |st|
-                state = st if !st.blank?
-                if state
-                    state_found = true
-                    break
-                end
-            end
-        end
-
-        # PROCESSES STATES ARRAY RESULTS - CHOOSES FIRST
-        if !zips.blank? && !zip_found && zip.blank?
-            zips.each do |zp|
-                zip = zp if !zp.blank?
-                if zip
-                    zip_found = true
-                    break
-                end
-            end
-        end
+        ### Methods to Process above Data
+        org = cobalt_final_arr_qualifier(orgs, org)
+        street = cobalt_final_arr_qualifier(streets, street)
+        city = cobalt_final_arr_qualifier(cities, city)
+        state = cobalt_final_arr_qualifier(states, state)
+        zip = cobalt_final_arr_qualifier(zips, zip)
+        phone = cobalt_final_arr_qualifier(phones, phone)
 
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
+    ##### COBALT RTS CORE METHOD ENDS ~ ##########
 
 
-
-
-
-    ############ COBALT RTS ENDS ~ ###################
-
+    ###### COBALT RTS HELPER METHODS ENDS ~ #######
+    def cobalt_final_arr_qualifier(array, cat)
+        if !array.blank? && cat.blank?
+            array.each do |item|
+                cat = item if !item.blank?
+                if cat
+                    # cat_found = true
+                    break
+                end
+            end
+        end
+        cat
+    end
 
     ### === FULL ADDRESS METHOD ===
     def cobalt_addr_processor(full_addr, orgs, streets, cities, states, zips, phones)
@@ -302,12 +230,6 @@ class IndexerService
         end
     end
 
-
-
-
-
-
-
     def n_splitter(obj)
         ### Removes "\t" from objects.
         ### Then splits objects by "\n".
@@ -319,11 +241,12 @@ class IndexerService
             objs.delete_if {|x| x.include?("Contact")}
             objs.delete_if {|x| x.include?("Location")}
             objs.delete_if {|x| x.include?("Map")}
+            objs.delete_if {|x| x.include?("Info")}
+            objs.delete_if {|x| x.include?("Directions")}
             objs.map!{|obj| obj.strip!}
             objs.delete_if {|x| x.blank?}
         end
     end
-
 
     def state_zip_get(item)
         ## Detects and parses zip and state from string, without affecting original string.
@@ -347,61 +270,6 @@ class IndexerService
         end
     end
 
-
-
-
-
-    ############################
-
-    ## COBALT RTS ORIGINAL
-    # def cobalt_rts(html, url, indexer)
-    #     ## Original Version
-    #     # org_sel = "//img[@class='cblt-lazy']/@alt"
-    #     # org_orig = html.xpath(org_sel)
-    #     # phone_orig = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
-    #     # selector = "//a[@href='HoursAndDirections']"
-    #     # street = html.xpath(selector).text if html.xpath(selector)
-    #
-    #     ## OPTION B
-    #     # extra_full_addr = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
-    #     # extra_full_addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-    #     # extra_acct_n_ph = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
-    #     # org_v3 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
-    #     # addr_n_ph = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-    #     # phone_v2 = html.at_css('.contactUsInfo').text if html.at_css('.contactUsInfo')
-    #     #!# full_addr = html.at_css('.addressText').text if html.at_css('.addressText')
-    #     #!# full_addr_arr = cobalt_addr_parser(full_addr) if full_addr
-    #
-    #     ## OPTION A
-    #     best_addr_n_acct = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
-    #     if best_addr_n_acct
-    #         best_addr_n_acct_arr = cobalt_addr_parser(best_addr_n_acct) if best_addr_n_acct
-    #         org = best_addr_n_acct_arr[0] unless best_addr_n_acct_arr[0] == nil
-    #         city_state_zip = best_addr_n_acct_arr[2] if best_addr_n_acct_arr[2]
-    #         city_state_zip_arr = city_state_zip.split(",") if city_state_zip
-    #         state_zip = city_state_zip_arr[1] if city_state_zip_arr
-    #         state_zip_arr = state_zip.split(" ") if state_zip
-    #
-    #         street = best_addr_n_acct_arr[1] unless best_addr_n_acct_arr[1] == nil
-    #         city = city_state_zip_arr[0] unless city_state_zip_arr[0] == nil
-    #         state = state_zip_arr[0] unless state_zip_arr[0] == nil
-    #         zip = state_zip_arr[-1] unless state_zip_arr[-1] == nil
-    #
-    #         street = best_addr_n_acct_arr[1] unless best_addr_n_acct_arr == nil
-    #         city = city_state_zip_arr[0] unless city_state_zip_arr == nil
-    #         state = state_zip_arr[0] unless city_state_zip_arr == nil
-    #         zip = state_zip_arr[-1] unless city_state_zip_arr == nil
-    #
-    #
-    #         phone = nil
-    #     end
-    #     rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
-    #
-    # end
-    ############################
-
-
-
     def cobalt_addr_parser(str)
         ### PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
         str.strip!
@@ -419,9 +287,10 @@ class IndexerService
         end
         parts # returns array
     end
+    ###### COBALT RTS HELPER METHODS END ~ ########
 
 
-
+    ##### DEALERON RTS CORE METHOD BEGINS ~ #######
     def dealeron_rts(html, url, indexer)
         acc_phones = html.css('.callNowClass').collect {|phone| phone.text if phone}
         raw_full_addr = html.at_css('.adr').text if html.at_css('.adr')
@@ -443,8 +312,10 @@ class IndexerService
 
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
+    ##### DEALERON RTS CORE METHOD ENDS ~ #######
 
 
+    ##### DEALER.COM RTS CORE METHOD BEGINS ~ #######
     def dealer_com_rts(html, url, indexer)
         selector = "//meta[@name='author']/@content"
         org = html.xpath(selector).text if html.xpath(selector)
@@ -455,14 +326,16 @@ class IndexerService
         phone = html.at_css('.value').text if html.at_css('.value')
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
+    ##### DEALER.COM RTS CORE METHOD ENDS ~ #######
 
 
-    ###### RT HELPER METHODS ~ BEGINS #######
 
+    ###############################################
+    ### RTS PROCESSING METHODS ~ BEGIN (ALL TEMPLATES USE THESE!!!)
+    ###############################################
     def rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
         ### USED FOR ALL TEMPLATES
         ### STRIPS AND FORMATS DATA BEFORE SAVING TO DB
-
         org = nil unless org != "" && org != " "
         street = nil unless street != "" && street != " "
         city = nil unless city != "" && city != " "
@@ -528,7 +401,6 @@ class IndexerService
             phone = nil
         end
     end
-
 
 
     def phone_formatter(phone)
