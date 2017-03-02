@@ -132,6 +132,13 @@ class IndexerService
         zip = nil
         phone = nil
 
+        orgs = []
+        streets = []
+        cities = []
+        states = []
+        zips = []
+        phones = []
+
         org_found = false
         street_found = false
         city_found = false
@@ -140,9 +147,8 @@ class IndexerService
         phone_found = false
         addr_found = false
 
-        ### === PHONE VARIABLES ===
 
-        phones = []
+        ### === PHONE VARIABLES ===
         phone1 = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
         phone2 = html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
         phone3 = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
@@ -151,7 +157,6 @@ class IndexerService
         phones << phone3 if !phone3.blank?
 
         ### === ORG VARIABLES ===
-        orgs = []
         org1 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
         org2_sel = "//img[@class='cblt-lazy']/@alt"
         org2 = html.xpath(org2_sel)
@@ -180,130 +185,23 @@ class IndexerService
             org_found = true
         end
 
-        ### === FULL ADDRESS VARIABLES ===
-        # addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
 
+        ### === ADDRESS VARIABLES ===
+        # addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
         addr2_sel = "//a[@href='HoursAndDirections']"
         addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
-        if !addr2.blank? && addr_found == false
-            addr_arr = n_splitter(addr2)
-
-            unless addr_arr.blank?
-
-                # Sends Each Result Item to Check for Phone
-                if phone_found == false && phone == nil
-                    addr_arr.each do |item|
-                        phones << item
-                    end
-                end
-
-                # Sends each Results Item to Check for State and Zip
-                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                    addr_arr.each do |item|
-                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                            state_zip = state_zip_get(item)
-                            if state_zip
-                                state = state_zip[0..1]
-                                zip = state_zip[-5..-1]
-                                state_found = true
-                                zip_found = true
-                                p state_zip
-                                p state
-                                p zip
-                            end
-                        end
-                    end
-                end
-
-                street = addr_arr[0]
-                city = addr_arr[1]
-                state_zip = addr_arr[2]
-            end
-        end
-
         addr3 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
-        if !addr3.blank? && addr_found == false
-            addr_arr = n_splitter(addr3)
-
-            unless addr_arr.blank?
-
-                # Sends Each Result Item to Check for Phone
-                if phone_found == false && phone == nil
-                    addr_arr.each do |item|
-                        phones << item
-                    end
-                end
-
-                # Sends each Results Item to Check for State and Zip
-                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                    addr_arr.each do |item|
-                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                            state_zip = state_zip_get(item)
-                            if state_zip
-                                state = state_zip[0..1]
-                                zip = state_zip[-5..-1]
-                                state_found = true
-                                zip_found = true
-                                p state_zip
-                                p state
-                                p zip
-                            end
-                        end
-                    end
-                end
-
-                street = addr_arr[0]
-                city = addr_arr[1]
-                state_zip = addr_arr[2]
-            end
-        end
-
-
-        ### === FULL ADDRESS AND PHONE VARIABLE ===
         addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-        # if !addr_n_ph1.blank? && (addr_found == false || phone_found == false)
-        if !addr_n_ph1.blank?
-            addr_arr = n_splitter(addr_n_ph1)
+        cobalt_addr_processor(addr2, orgs, streets, cities, states, zips, phones)
+        cobalt_addr_processor(addr3, orgs, streets, cities, states, zips, phones)
+        cobalt_addr_processor(addr_n_ph1, orgs, streets, cities, states, zips, phones)
 
-            unless addr_arr.blank?
 
-                # Sends Each Result Item to Check for Phone
-                if phone_found == false && phone == nil
-                    addr_arr.each do |item|
-                        phones << item
-                    end
-                end
-
-                # Sends each Results Item to Check for State and Zip
-                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                    addr_arr.each do |item|
-                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                            state_zip = state_zip_get(item)
-                            if state_zip
-                                state = state_zip[0..1]
-                                zip = state_zip[-5..-1]
-                                state_found = true
-                                zip_found = true
-                                p state_zip
-                                p state
-                                p zip
-                            end
-                        end
-                    end
-                end
-
-                street = addr_arr[0]
-                city = addr_arr[1]
-                state_zip = addr_arr[2]
-            end
-
-        end
 
         # PROCESSES ORG ARRAY RESULTS - CHOOSES FIRST
-        if !orgs.blank? && !org_found && org == nil
-            orgs.each do |name|
-                org = name unless name == nil
-                puts "name: #{name}"
+        if !orgs.blank? && !org_found && org.blank?
+            orgs.each do |loc|
+                org = loc if !loc.blank?
                 if org
                     org_found = true
                     break
@@ -312,11 +210,55 @@ class IndexerService
         end
 
         # PROCESSES PHONE ARRAY RESULTS - CHOOSES FIRST
-        if !phones.blank? && !phone_found
+        if !phones.blank? && !phone_found && phone.blank?
             phones.each do |ph|
-                phone = ph_check(ph) unless ph_check(ph) == nil
+                phone = ph_check(ph) if !ph_check(ph).blank?
                 if phone
                     phone_found = true
+                    break
+                end
+            end
+        end
+
+        # PROCESSES STREET ARRAY RESULTS - CHOOSES FIRST
+        if !streets.blank? && !street_found && street.blank?
+            streets.each do |str|
+                street = str if !str.blank?
+                if street
+                    street_found = true
+                    break
+                end
+            end
+        end
+
+        # PROCESSES CITIES ARRAY RESULTS - CHOOSES FIRST
+        if !cities.blank? && !city_found && city.blank?
+            cities.each do |cit|
+                city = cit if !cit.blank?
+                if city
+                    city_found = true
+                    break
+                end
+            end
+        end
+
+        # PROCESSES STATES ARRAY RESULTS - CHOOSES FIRST
+        if !states.blank? && !state_found && state.blank?
+            states.each do |st|
+                state = st if !st.blank?
+                if state
+                    state_found = true
+                    break
+                end
+            end
+        end
+
+        # PROCESSES STATES ARRAY RESULTS - CHOOSES FIRST
+        if !zips.blank? && !zip_found && zip.blank?
+            zips.each do |zp|
+                zip = zp if !zp.blank?
+                if zip
+                    zip_found = true
                     break
                 end
             end
@@ -325,7 +267,41 @@ class IndexerService
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 
+
+
+
+
     ############ COBALT RTS ENDS ~ ###################
+
+
+    ### === FULL ADDRESS METHOD ===
+    def cobalt_addr_processor(full_addr, orgs, streets, cities, states, zips, phones)
+        if !full_addr.blank?
+            addr_arr = n_splitter(full_addr)
+
+            unless addr_arr.blank?
+                # Sends Each Result Item to Check for Phone
+                addr_arr.each do |item|
+                    phones << item if !item.blank?
+                end
+
+                # Sends each Results Item to Check for State and Zip
+                addr_arr.each do |item|
+                    state_zip = state_zip_get(item) if !state_zip_get(item).blank?
+
+                    if state_zip
+                        states << state_zip[0..1] if !state_zip[0..1].blank? ## state
+                        zips << state_zip[-5..-1] if !state_zip[-5..-1].blank? ## zip
+                    end
+                end
+
+                # Sends Street to Street Array and City to City Array.
+                streets << addr_arr[0] if !addr_arr[0].blank? ## street
+                cities << addr_arr[1] if !addr_arr[1].blank? ## city
+            end
+        end
+    end
+
 
 
 
