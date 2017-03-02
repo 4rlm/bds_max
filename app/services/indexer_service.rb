@@ -15,8 +15,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=15
-        z=25
+        a=35
+        z=45
         # a=500
         # z=1000
         # a=1000
@@ -141,11 +141,24 @@ class IndexerService
         addr_found = false
 
         ### === PHONE VARIABLES ===
+
+        phones = []
         phone1 = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
         phone2 = html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
         phone3 = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
-        phones = [phone1, phone2, phone3]
+        phones << phone1 if !phone1.blank?
+        phones << phone2 if !phone2.blank?
+        phones << phone3 if !phone3.blank?
+
+        ### === ORG VARIABLES ===
+        orgs = []
+        org1 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
+        org2_sel = "//img[@class='cblt-lazy']/@alt"
+        org2 = html.xpath(org2_sel)
+        orgs << org1 if !org1.blank?
+        orgs << org2 if !org1.blank?
         puts "\n============================\n\n"
+
 
         ### === FULL ADDRESS AND ORG VARIABLE ===
         addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
@@ -168,61 +181,11 @@ class IndexerService
         end
 
         ### === FULL ADDRESS VARIABLES ===
-        addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
-        if !addr1.blank? && addr_found == false
-            p "addr1: #{addr1}"
-            addr_arr = n_splitter(addr1)
-            unless addr_arr.blank?
-
-                # Sends Each Result Item to Check for Phone
-                if phone_found == false && phone == nil
-                    addr_arr.each do |item|
-                        phones << item
-                    end
-                end
-
-                # Sends each Results Item to Check for State and Zip
-                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                    addr_arr.each do |item|
-                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
-                            state_zip = state_zip_get(item)
-                            if state_zip
-                                state = state_zip[0..1]
-                                zip = state_zip[-5..-1]
-                                state_found = true
-                                zip_found = true
-                                p state_zip
-                                p state
-                                p zip
-                            end
-                        end
-                    end
-                end
-
-
-
-                item1 = addr_arr[0]
-                item2 = addr_arr[1]
-                item3 = addr_arr[2]
-                item4 = addr_arr[3]
-                item5 = addr_arr[4]
-                puts "\n\n--------- (addr1) ----------\n\n"
-                p "item1: #{item1}"
-                p "item2: #{item2}"
-                p "item3: #{item3}"
-                p "item4: #{item4}"
-                p "item5: #{item5}"
-                puts "\n\n-----------------------------\n\n"
-
-            end
-
-            # addr_found = true
-        end
+        # addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
 
         addr2_sel = "//a[@href='HoursAndDirections']"
         addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
         if !addr2.blank? && addr_found == false
-            p "addr2: #{addr2}"
             addr_arr = n_splitter(addr2)
 
             unless addr_arr.blank?
@@ -252,26 +215,14 @@ class IndexerService
                     end
                 end
 
-
-                item1 = addr_arr[0]
-                item2 = addr_arr[1]
-                item3 = addr_arr[2]
-                item4 = addr_arr[3]
-                item5 = addr_arr[4]
-                puts "\n\n--------- (addr2) ----------\n\n"
-                p "item1: #{item1}"
-                p "item2: #{item2}"
-                p "item3: #{item3}"
-                p "item4: #{item4}"
-                p "item5: #{item5}"
+                street = addr_arr[0]
+                city = addr_arr[1]
+                state_zip = addr_arr[2]
             end
-
-            # addr_found = true
         end
 
         addr3 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
         if !addr3.blank? && addr_found == false
-            p "addr3: #{addr3}"
             addr_arr = n_splitter(addr3)
 
             unless addr_arr.blank?
@@ -301,24 +252,10 @@ class IndexerService
                     end
                 end
 
-
-
-
-                item1 = addr_arr[0]
-                item2 = addr_arr[1]
-                item3 = addr_arr[2]
-                item4 = addr_arr[3]
-                item5 = addr_arr[4]
-                puts "\n\n--------- (addr3) ----------\n\n"
-                p "item1: #{item1}"
-                p "item2: #{item2}"
-                p "item3: #{item3}"
-                p "item4: #{item4}"
-                p "item5: #{item5}"
-                puts "\n\n-----------------------------\n\n"
+                street = addr_arr[0]
+                city = addr_arr[1]
+                state_zip = addr_arr[2]
             end
-
-            # addr_found = true
         end
 
 
@@ -326,7 +263,6 @@ class IndexerService
         addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
         # if !addr_n_ph1.blank? && (addr_found == false || phone_found == false)
         if !addr_n_ph1.blank?
-            p "addr_n_ph1: #{addr_n_ph1}"
             addr_arr = n_splitter(addr_n_ph1)
 
             unless addr_arr.blank?
@@ -356,43 +292,24 @@ class IndexerService
                     end
                 end
 
-
-                item1 = addr_arr[0]
-                item2 = addr_arr[1]
-                item3 = addr_arr[2]
-                item4 = addr_arr[3]
-                item5 = addr_arr[4]
-                puts "\n\n--------- (addr_n_ph1) ----------\n\n"
-                puts "phone: #{phone}"
-                p "item1: #{item1}"
-                p "item2: #{item2}"
-                p "item3: #{item3}"
-                p "item4: #{item4}"
-                p "item5: #{item5}"
-                puts "\n\n-----------------------------\n\n"
+                street = addr_arr[0]
+                city = addr_arr[1]
+                state_zip = addr_arr[2]
             end
 
-            # addr_found = true
-            # phone_found = true
         end
 
-
-        ### === ORG VARIABLES ===
-        org2 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
-        if !org2.blank? && org_found == false
-            p "org2: #{org2}"
-            # org = org2
-            # org_found = true
+        # PROCESSES ORG ARRAY RESULTS - CHOOSES FIRST
+        if !orgs.blank? && !org_found && org == nil
+            orgs.each do |name|
+                org = name unless name == nil
+                puts "name: #{name}"
+                if org
+                    org_found = true
+                    break
+                end
+            end
         end
-
-        org3_sel = "//img[@class='cblt-lazy']/@alt"
-        org3 = html.xpath(org3_sel)
-        if !org3.blank? && org_found == false
-            p "org3: #{org3}"
-            # org = org3
-            # org_found = true
-        end
-
 
         # PROCESSES PHONE ARRAY RESULTS - CHOOSES FIRST
         if !phones.blank? && !phone_found
@@ -405,9 +322,10 @@ class IndexerService
             end
         end
 
-
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
+
+    ############ COBALT RTS ENDS ~ ###################
 
 
 
