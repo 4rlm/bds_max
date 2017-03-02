@@ -15,8 +15,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=24
-        z=34
+        a=15
+        z=25
         # a=500
         # z=1000
         # a=1000
@@ -30,7 +30,7 @@ class IndexerService
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
         indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result")[a...z] #1206
-        # indexers = Indexer.where(clean_url: "http://www.josephvw.com")
+        # indexers = Indexer.where(clean_url: "http://www.gregleblanchyundai.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
@@ -147,32 +147,6 @@ class IndexerService
         phones = [phone1, phone2, phone3]
         puts "\n============================\n\n"
 
-        # if !phone1.blank?
-        #     phone = phone1
-        #     phone_found = true
-        # elsif !phone2.blank? && phone_found == false
-        #     phone = phone2
-        #     phone_found = true
-        # elsif !phone3.blank? && phone_found == false
-        #     phone = phone3
-        #     phone_found = true
-        # end
-
-
-        if !phones.blank? && !phone_found
-            phones.each do |ph|
-                phone = ph_check(ph)
-                if phone
-                    phone_found = true
-                    break
-                end
-            end
-        end
-
-
-
-
-
         ### === FULL ADDRESS AND ORG VARIABLE ===
         addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
         if !addr_n_org1.blank?
@@ -196,22 +170,50 @@ class IndexerService
         ### === FULL ADDRESS VARIABLES ===
         addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
         if !addr1.blank? && addr_found == false
+            p "addr1: #{addr1}"
             addr_arr = n_splitter(addr1)
             unless addr_arr.blank?
-            p "addr1: #{addr1}"
 
-            item1 = addr_arr[0]
-            item2 = addr_arr[1]
-            item3 = addr_arr[2]
-            item4 = addr_arr[3]
-            item5 = addr_arr[4]
-            puts "\n\n--------- (addr1) ----------\n\n"
-            p "item1: #{item1}"
-            p "item2: #{item2}"
-            p "item3: #{item3}"
-            p "item4: #{item4}"
-            p "item5: #{item5}"
+                # Sends Each Result Item to Check for Phone
+                if phone_found == false && phone == nil
+                    addr_arr.each do |item|
+                        phones << item
+                    end
+                end
+
+                # Sends each Results Item to Check for State and Zip
+                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                    addr_arr.each do |item|
+                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                            state_zip = state_zip_get(item)
+                            if state_zip
+                                state = state_zip[0..1]
+                                zip = state_zip[-5..-1]
+                                state_found = true
+                                zip_found = true
+                                p state_zip
+                                p state
+                                p zip
+                            end
+                        end
+                    end
+                end
+
+
+
+                item1 = addr_arr[0]
+                item2 = addr_arr[1]
+                item3 = addr_arr[2]
+                item4 = addr_arr[3]
+                item5 = addr_arr[4]
+                puts "\n\n--------- (addr1) ----------\n\n"
+                p "item1: #{item1}"
+                p "item2: #{item2}"
+                p "item3: #{item3}"
+                p "item4: #{item4}"
+                p "item5: #{item5}"
                 puts "\n\n-----------------------------\n\n"
+
             end
 
             # addr_found = true
@@ -221,10 +223,36 @@ class IndexerService
         addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
         if !addr2.blank? && addr_found == false
             p "addr2: #{addr2}"
-
             addr_arr = n_splitter(addr2)
 
             unless addr_arr.blank?
+
+                # Sends Each Result Item to Check for Phone
+                if phone_found == false && phone == nil
+                    addr_arr.each do |item|
+                        phones << item
+                    end
+                end
+
+                # Sends each Results Item to Check for State and Zip
+                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                    addr_arr.each do |item|
+                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                            state_zip = state_zip_get(item)
+                            if state_zip
+                                state = state_zip[0..1]
+                                zip = state_zip[-5..-1]
+                                state_found = true
+                                zip_found = true
+                                p state_zip
+                                p state
+                                p zip
+                            end
+                        end
+                    end
+                end
+
+
                 item1 = addr_arr[0]
                 item2 = addr_arr[1]
                 item3 = addr_arr[2]
@@ -247,6 +275,35 @@ class IndexerService
             addr_arr = n_splitter(addr3)
 
             unless addr_arr.blank?
+
+                # Sends Each Result Item to Check for Phone
+                if phone_found == false && phone == nil
+                    addr_arr.each do |item|
+                        phones << item
+                    end
+                end
+
+                # Sends each Results Item to Check for State and Zip
+                if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                    addr_arr.each do |item|
+                        if (state.nil? && zip.nil?) && (!state_found && !zip_found)
+                            state_zip = state_zip_get(item)
+                            if state_zip
+                                state = state_zip[0..1]
+                                zip = state_zip[-5..-1]
+                                state_found = true
+                                zip_found = true
+                                p state_zip
+                                p state
+                                p zip
+                            end
+                        end
+                    end
+                end
+
+
+
+
                 item1 = addr_arr[0]
                 item2 = addr_arr[1]
                 item3 = addr_arr[2]
@@ -270,21 +327,18 @@ class IndexerService
         # if !addr_n_ph1.blank? && (addr_found == false || phone_found == false)
         if !addr_n_ph1.blank?
             p "addr_n_ph1: #{addr_n_ph1}"
-
             addr_arr = n_splitter(addr_n_ph1)
 
             unless addr_arr.blank?
 
-                unless phone_found
+                # Sends Each Result Item to Check for Phone
+                if phone_found == false && phone == nil
                     addr_arr.each do |item|
-                        phone = ph_check(item)
-                        if phone
-                            phone_found = true
-                            break
-                        end
+                        phones << item
                     end
                 end
 
+                # Sends each Results Item to Check for State and Zip
                 if (state.nil? && zip.nil?) && (!state_found && !zip_found)
                     addr_arr.each do |item|
                         if (state.nil? && zip.nil?) && (!state_found && !zip_found)
@@ -309,6 +363,7 @@ class IndexerService
                 item4 = addr_arr[3]
                 item5 = addr_arr[4]
                 puts "\n\n--------- (addr_n_ph1) ----------\n\n"
+                puts "phone: #{phone}"
                 p "item1: #{item1}"
                 p "item2: #{item2}"
                 p "item3: #{item3}"
@@ -338,8 +393,25 @@ class IndexerService
             # org_found = true
         end
 
+
+        # PROCESSES PHONE ARRAY RESULTS - CHOOSES FIRST
+        if !phones.blank? && !phone_found
+            phones.each do |ph|
+                phone = ph_check(ph) unless ph_check(ph) == nil
+                if phone
+                    phone_found = true
+                    break
+                end
+            end
+        end
+
+
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
+
+
+
+
 
 
     def n_splitter(obj)
@@ -540,18 +612,27 @@ class IndexerService
     end
 
 
-    def ph_check(phone)
+    def ph_check(string)
         ### USED FOR ALL TEMPLATES - STRICT QUALIFICATIONS!!!!!
         ### FORMATS PHONE AS: (000) 000-0000
-        if !phone.blank? && (phone != "N/A" || phone != "0") && (phone.include?("(") || phone.include?(")")) && phone.include?("-")
-            phone_stripped = phone.gsub(/[^0-9]/, "")
-            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
+        if !string.blank? && string != "N/A" && string != "0" && (string.include?("(") || string.include?("-"))
+            if string[0] == "0" || string[0] == "1"
+                stripped = string[1..-1]
+            else
+                stripped = string
+            end
 
-            !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone
+            # smash = stripped.gsub(/[^A-Za-z0-9]/, "")
+            digits = stripped.tr('^0-9', '')
+            # if smash == digits && digits.length == 10
+            if digits.length == 10
+                phone = "(#{digits[0..2]}) #{(digits[3..5])}-#{(digits[6..9])}"
+            else
+                phone = nil
+            end
         else
-            final_phone = nil
+            phone = nil
         end
-
     end
 
 
