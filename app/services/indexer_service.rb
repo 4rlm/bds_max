@@ -29,8 +29,8 @@ class IndexerService
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
-        indexers = Indexer.where(template: "Cobalt").where(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
-        # indexers = Indexer.where(clean_url: "http://www.woodmotornissan.com")
+        # indexers = Indexer.where(template: "Cobalt").where(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
+        indexers = Indexer.where(clean_url: "http://www.advantagechevbb.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
@@ -176,14 +176,6 @@ class IndexerService
         cobalt_addr_processor(addr_n_ph1, orgs, streets, cities, states, zips, phones)
 
         ### Methods to Process above Data
-        # org = cobalt_final_arr_qualifier(orgs, org)
-        # street = cobalt_final_arr_qualifier(streets, street)
-        # city = cobalt_final_arr_qualifier(cities, city)
-        # state = cobalt_final_arr_qualifier(states, state)
-        # zip = cobalt_final_arr_qualifier(zips, zip)
-        # phone = cobalt_final_arr_qualifier(phones, phone)
-
-        ### Methods to Process above Data
         org = cobalt_final_arr_qualifier(orgs, org)
         street = cobalt_final_arr_qualifier(streets, street)
         city = cobalt_final_arr_qualifier(cities, city)
@@ -191,51 +183,57 @@ class IndexerService
         zip = cobalt_final_arr_qualifier(zips, zip)
         phone = cobalt_final_arr_qualifier(phones, phone)
 
-        negs = ["contact", "link", "click", "map", "(", "-", "location", "savings"]
-        org = org_qualifier(org, negs) if !org.nil?
-        street = street_qualifier(street, negs) if !street.nil?
-        city = city_qualifier(city, negs) if !city.nil?
-        state = state_qualifier(state, negs) if !state.nil?
-        zip = zip_qualifier(zip, negs) if !zip.nil?
+        negs = ["contact", "link", "click", "map", "(", "-", "location", "savings", "bolingbrook"]
+        org = org_qualifier(org, negs, orgs) if !org.nil?
+        street = street_qualifier(street) if !street.nil?
+        city = city_qualifier(city) if !city.nil?
+        state = state_qualifier(state) if !state.nil?
+        zip = zip_qualifier(zip) if !zip.nil?
 
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
     ##### COBALT RTS CORE METHOD ENDS ~ ##########
     ###### COBALT RTS HELPER METHODS ENDS ~ #######
 
-    def org_qualifier(org, negs)
+    def org_qualifier(org, negs, orgs)
         og = org if !org.nil?
         alpha = og.tr('^A-Za-z', '')
         digits = og.tr('^0-9', '')
         smash = alpha+digits
         ogs = og.downcase
         selected = negs.select {|neg| ogs.include?(neg) }
-        (alpha == '' || alpha.length < 6) || (smash.length == 7 && digits.length == 5) || (selected.any?) ? org = nil : org
+
+        if (alpha == '' || alpha.length < 6) || (smash.length == 7 && digits.length == 5) || (selected.any?)
+            orgs.delete(org)
+            org = cobalt_final_arr_qualifier(orgs, org)
+        else
+            org
+        end
     end
 
-
-    def street_qualifier(street, negs)
+    def street_qualifier(street)
         st = street if !street.nil?
         alpha = st.tr('^A-Za-z', '')
         digits = st.tr('^0-9', '')
         (digits == '' || alpha == '' || alpha.length == 2) ? street = nil : street
     end
 
-    def city_qualifier(city, negs)
+    def city_qualifier(city)
         cit = city if !city.nil?
         alpha = cit.tr('^A-Za-z', '')
         digits = cit.tr('^0-9', '')
         (alpha.nil? || alpha.length == 2 || digits != "") ? city = nil : city
     end
 
-    def state_qualifier(state, negs)
+    def state_qualifier(state)
         st = state if !state.nil?
         alpha = st.tr('^A-Za-z', '')
         digits = st.tr('^0-9', '')
+
         (digits != '' || alpha == '' || alpha.length != 2) ? state = nil : state
     end
 
-    def zip_qualifier(zip, negs)
+    def zip_qualifier(zip)
         zp = zip if !zip.nil?
         alpha = zp.tr('^A-Za-z', '')
         digits = zp.tr('^0-9', '')
