@@ -168,16 +168,16 @@ class Scrapers
 
     def ddc_scraper(html, url)
         begin
-            #==ACCOUNT FIELDS==ARRAYS
-            selector = "//meta[@name='author']/@content"
-            org = xpath_fix(html.xpath(selector))
-            acc_phone = nil_fix(html.at_css('.value'))
-
-            # ACCOUNT ADDRESS:
-            street = nil_fix(html.at_css('.adr .street-address'))
-            city = nil_fix(html.at_css('.adr .locality'))
-            state = nil_fix(html.at_css('.adr .region'))
-            zip = nil_fix(html.at_css('.adr .postal-code'))
+            # #==ACCOUNT FIELDS==ARRAYS
+            # selector = "//meta[@name='author']/@content"
+            # org = xpath_fix(html.xpath(selector))
+            # acc_phone = nil_fix(html.at_css('.value'))
+            #
+            # # ACCOUNT ADDRESS:
+            # street = nil_fix(html.at_css('.adr .street-address'))
+            # city = nil_fix(html.at_css('.adr .locality'))
+            # state = nil_fix(html.at_css('.adr .region'))
+            # zip = nil_fix(html.at_css('.adr .postal-code'))
 
             #==CONTACT FIELDS==ARRAYS
             full_names = empty_arr_fix(html.css('#staffList .vcard .fn'))
@@ -274,13 +274,13 @@ class Scrapers
 
     def do_scraper(html, url)
         begin
-            #==ACCOUNT FIELDS==ARRAYS
-            org = html.at_css('.dealerName').text
-            acc_phones = html.css('.callNowClass').collect {|phone| phone.text}
-            acc_phones_str = acc_phones.join(', ')
-
-            # ACCOUNT FULL ADDRESS: #=NEED TO SPLIT!!!!!!!
-            addy = html.at_css('.adr').text
+            # #==ACCOUNT FIELDS==ARRAYS
+            # org = html.at_css('.dealerName').text
+            # acc_phones = html.css('.callNowClass').collect {|phone| phone.text}
+            # acc_phones_str = acc_phones.join(', ')
+            #
+            # # ACCOUNT FULL ADDRESS: #=NEED TO SPLIT!!!!!!!
+            # addy = html.at_css('.adr').text
 
             #==CONTACT FIELDS==ARRAYS
             full_names = html.css('.staff-title').map {|name| name.text.strip}
@@ -314,20 +314,20 @@ class Scrapers
 
     def cobalt_scraper(html, url)   # Problems w/ cobalt_verify below
         begin
-            #==ACCOUNT FIELDS==ARRAYS
-            org_sel = "//img[@class='cblt-lazy']/@alt"
-            org = html.xpath(org_sel)
-            if org.empty?
-                org = "Not Found"
-            end
-            acc_phone = html.css('.CONTACTUsInfo').text
-
-            # ACCOUNT FULL ADDRESS: # ONE SINGLE ADDRESS STRING
-            selector = "//a[@href='HoursAndDirections']"
-            street = html.xpath(selector).text
-            city = ''
-            state = ''
-            zip = ''
+            # #==ACCOUNT FIELDS==ARRAYS
+            # org_sel = "//img[@class='cblt-lazy']/@alt"
+            # org = html.xpath(org_sel)
+            # if org.empty?
+            #     org = "Not Found"
+            # end
+            # acc_phone = html.css('.CONTACTUsInfo').text
+            #
+            # # ACCOUNT FULL ADDRESS: # ONE SINGLE ADDRESS STRING
+            # selector = "//a[@href='HoursAndDirections']"
+            # street = html.xpath(selector).text
+            # city = ''
+            # state = ''
+            # zip = ''
 
             #==CONTACT FIELDS==ARRAYS
             full_names = html.css('.contact-name').map {|name| name.text.strip}
@@ -379,17 +379,17 @@ class Scrapers
 
     def df_scraper(html, url)   # Problem w/ email
         begin
-            #==ACCOUNT FIELDS==ARRAYS
-            org = html.at_css('.foot-thanks h1').text
-            acc_phones = html.css('#salesphone').collect {|phone| phone.text}
-            acc_phones_str = acc_phones.join(', ')
-
-            # ACCOUNT FULL ADDRESS:
-            addy = html.at_css('.hide-address').text.split(' ')
-            street = addy[0..-4].join(' ')
-            city = drop_comma(addy[-3])
-            state = drop_comma(addy[-2])
-            zip = addy[-1]
+            # #==ACCOUNT FIELDS==ARRAYS
+            # org = html.at_css('.foot-thanks h1').text
+            # acc_phones = html.css('#salesphone').collect {|phone| phone.text}
+            # acc_phones_str = acc_phones.join(', ')
+            #
+            # # ACCOUNT FULL ADDRESS:
+            # addy = html.at_css('.hide-address').text.split(' ')
+            # street = addy[0..-4].join(' ')
+            # city = drop_comma(addy[-3])
+            # state = drop_comma(addy[-2])
+            # zip = addy[-1]
 
             #==CONTACT FIELDS==ARRAYS
             full_names = html.css('.fn').map {|name| name.text.strip}
@@ -428,16 +428,16 @@ class Scrapers
 
     def di_scraper(html, url)
         begin
-            #==ACCOUNT FIELDS==ARRAYS
-            org = html.at_css('.organization-name').text
-            acc_phones = html.css('.tel').collect {|phone| phone.text}
-            acc_phones_str = acc_phones.join(', ')
-
-            # ACCOUNT ADDRESS:
-            street = html.at_css('.street-address').text
-            city = html.at_css('.locality').text
-            state = html.at_css('.region').text
-            zip = html.at_css('.postal-code').text
+            # #==ACCOUNT FIELDS==ARRAYS
+            # org = html.at_css('.organization-name').text
+            # acc_phones = html.css('.tel').collect {|phone| phone.text}
+            # acc_phones_str = acc_phones.join(', ')
+            #
+            # # ACCOUNT ADDRESS:
+            # street = html.at_css('.street-address').text
+            # city = html.at_css('.locality').text
+            # state = html.at_css('.region').text
+            # zip = html.at_css('.postal-code').text
 
             #==CONTACT FIELDS==ARRAYS
             full_names = []  # BEGIN NAMES ARRAY

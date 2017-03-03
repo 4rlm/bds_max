@@ -16,8 +16,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=0
-        z=10
+        a=5
+        z=15
         # a=500
         # z=1000
         # a=1000
@@ -25,15 +25,16 @@ class IndexerService
         # indexers = Indexer.where(template: "DealerOn").where(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(template: "Cobalt")[a...z]
-
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
+        # indexers = Indexer.where(template: "DealerCar Search")[a...z]
+        # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
-        indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
-
-        # indexers = Indexer.where(clean_url: "http://www.lexusgwinnett.com")
+        indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        # indexers = Indexer.where(clean_url: "http://www.roncarter.com/")
 
 
         counter=0
@@ -49,41 +50,48 @@ class IndexerService
             puts "\n============================\n"
             puts "[#{a}...#{z}]  (#{counter}/#{range})"
 
-            # begin
+            begin
+
                 @agent = Mechanize.new
                 html = @agent.get(url)
 
                 case term
                 when "dealer_com_rts"
                     dealer_com_rts(html, url, indexer)
-                when "dealeron_rts"
-                    dealeron_rts(html, url, indexer)
                 when "cobalt_rts"
                     cobalt_rts(html, url, indexer)
+                when "dealeron_rts"
+                    dealeron_rts(html, url, indexer)
+                when "dealercar_search_rts"
+                    dealercar_search_rts(html, url, indexer)
+                when "dealer_direct_rts"
+                    dealer_direct_rts(html, url, indexer)
                 when "dealer_inspire_rts"
                     dealer_inspire_rts(html, url, indexer)
                 when "dealerfire_rts"
                     dealerfire_rts(html, url, indexer)
+                when "dealer_eprocess_rts"
+                    dealer_eprocess_rts(html, url, indexer)
                 end
 
-            # rescue
-                # error = $!.message
-                # error_msg = "RT Error: #{error}"
-                # if error_msg.include?("connection refused")
-                #     rt_error_code = "Connection Error"
-                # elsif error_msg.include?("undefined method")
-                #     rt_error_code = "Method Error"
-                # elsif error_msg.include?("404 => Net::HTTPNotFound")
-                #     rt_error_code = "404 Error"
-                # elsif error_msg.include?("TCP connection")
-                #     rt_error_code = "TCP Error"
-                # else
-                #     rt_error_code = error_msg
-                # end
-                # puts "\n\n>>> #{error_msg} <<<\n\n"
+            rescue
+                error = $!.message
+                error_msg = "RT Error: #{error}"
+                if error_msg.include?("connection refused")
+                    rt_error_code = "Connection Error"
+                elsif error_msg.include?("undefined method")
+                    rt_error_code = "Method Error"
+                elsif error_msg.include?("404 => Net::HTTPNotFound")
+                    rt_error_code = "404 Error"
+                elsif error_msg.include?("TCP connection")
+                    rt_error_code = "TCP Error"
+                else
+                    rt_error_code = error_msg
+                end
+                puts "\n\n>>> #{error_msg} <<<\n\n"
 
                 # indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
-            # end ## rescue ends
+            end ## rescue ends
 
             sleep(3)
         end ## .each loop ends
@@ -91,42 +99,205 @@ class IndexerService
     end
 
 
-    ##### DEALER FIRE RTS CORE METHOD BEGINS ~ ########
-    def dealerfire_rts(html, url, indexer)
-        result = DealerfireRts.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
+
+    ##### (8: 554) DEALER eProcess RTS CORE METHOD BEGINS ~ ########
+    def dealer_eprocess_rts(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        org1 = html.at_css('.hd_site_title').text if html.at_css('.hd_site_title')
+        org2 = html.at_css('#footer_site_info_rights').text if html.at_css('#footer_site_info_rights')
+        org3 = html.at_css('head title').text if html.at_css('head title')
+        org4 = html.at_css('#footer_seo_text_container h1').text if html.at_css('#footer_seo_text_container h1')
+        org4 = html.at_css('.dealer-name').text if html.at_css('.dealer-name')
+
+        org_n_addr1 = html.css('#nav_group_1_col_1').text if html.css('#nav_group_1_col_1')
+        org_n_addr2 = html.at_css('.footer_location_data').text if html.at_css('.footer_location_data')
+
+        addr1 = html.at_css('.address').text if html.at_css('.address')
+        addr2 = html.at_css('.header_address').text if html.at_css('.header_address')
+        addr3 = html.at_css('.banner-address').text if html.at_css('.banner-address')
+        addr4 = html.at_css('.subnav').text if html.at_css('.subnav')
+        addr5 = html.at_css('.address-container').text if html.at_css('.address-container')
+
+        phone1 = html.at_css('.phone-number').text if html.at_css('.phone-number')
+        phone2 = html.at_css('.dept_number').text if html.at_css('.dept_number')
+        phone4 = html.at_css('.hd_phone_no').text if html.at_css('.hd_phone_no')
+        phone5 = html.at_css('.banner-phones').text if html.at_css('.banner-phones')
+        phone6 = html.at_css('#contact-no').text if html.at_css('#contact-no')
+
+
+        puts "================================"
+        p "org1: #{org1}"
+        p "org2: #{org2}"
+        p "org3: #{org3}"
+        p "org4: #{org4}"
+
+        p "org_n_addr1: #{org_n_addr1}"
+        p "org_n_addr2: #{org_n_addr2}"
+
+        p "addr1: #{addr1}"
+        p "addr2: #{addr2}"
+        p "addr3: #{addr3}"
+        p "addr4: #{addr4}"
+        p "addr5: #{addr5}"
+
+        p "phone1: #{phone1}"
+        p "phone2: #{phone2}"
+        p "phone4: #{phone4}"
+        p "phone5: #{phone5}"
+        p "phone6: #{phone6}"
+
+        puts "================================"
+
+        # binding.pry
+
+
+        # rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
-    ##### DEALER FIRE RTS CORE METHOD ENDS ~ #########
+    ##### DEALER eProcess RTS CORE METHOD ENDS ~ #########
 
 
-    ##### DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
-    def dealer_inspire_rts(html, url, indexer)
-        org = html.at_css('.organization-name').text if html.at_css('.organization-name')
-        acc_phones = html.css('.tel').collect {|phone| phone.text if phone} if html.css('.tel')
-        phone = acc_phones.join(', ')
 
-        street = html.at_css('.street-address').text if html.at_css('.street-address')
+    ##### (5: 702) Dealer Direct RTS CORE METHOD BEGINS ~ ########
+    def dealer_direct_rts(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
 
-        if street && street.include?(",")
-            street = street.split(",")
-            street = street[0]
-            if street.include?("  ")
-                street = street.split(" ")
-                street = street.join(" ")
-            end
-            street.strip!
-        end
+        org1 = html.at_css('.dealer-name').text if html.at_css('.dealer-name')
+        org2 = html.at_css('title').text if html.at_css('title')
+        org3 = html.at_css('.adr .org').text if html.at_css('.adr .org')
+        org4 = html.at_css('.org').text if html.at_css('.org')
+        org5 = html.at_css('.dealer-title a alt').text if html.at_css('.dealer-title a alt')
 
-        city = html.at_css('.locality').text if html.at_css('.locality').text
-        state = html.at_css('.region').text if html.at_css('.region').text
-        zip = html.at_css('.postal-code').text if html.at_css('.postal-code').text
+        phone1 = html.at_css('span[@itemprop="telephone"]').text if html.at_css('span[@itemprop="telephone"]')
+        phone2 = html.at_css('#CTN_primary').text if html.at_css('#CTN_primary')
+        phone3 = html.at_css('.phones').text if html.at_css('.phones')
+        phone4 = html.at_css('.dept_phn_num').text if html.at_css('.dept_phn_num')
+        phone5 = html.at_css('.phone1 .value').text if html.at_css('.phone1 .value')
+        phone6 = html.at_css('#header-phone').text if html.at_css('#header-phone')
+        phone7 = html.at_css('.PhoneNumber').text if html.at_css('.PhoneNumber')
+        phone8 = html.at_css('.department-phone-numbers').text if html.at_css('.department-phone-numbers')
 
+        street1 = html.at_css('span[@itemprop="streetAddress"]').text if html.at_css('span[@itemprop="streetAddress"]')
+        street2 = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
+        street3 = html.at_css('.street-address').text if html.at_css('.street-address')
+
+        city1 = html.at_css('span[@itemprop="addressLocality"]').text if html.at_css('span[@itemprop="addressLocality"]')
+        city2 = html.at_css('.adr .locality').text if html.at_css('.adr .locality')
+        city3 = html.at_css('.locality').text if html.at_css('.locality')
+
+        state1 = html.at_css('span[@itemprop="addressRegion"]').text if html.at_css('span[@itemprop="addressRegion"]')
+        state2 = html.at_css('.adr .region').text if html.at_css('.adr .region')
+        state3 = html.at_css('.region').text if html.at_css('.region')
+
+        zip1 = html.at_css('span[@itemprop="postalCode"]').text if html.at_css('span[@itemprop="postalCode"]')
+        zip2 = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
+        zip3 = html.at_css('.postal-code').text if html.at_css('.postal-code')
+
+        addr1 = html.at_css('#address').text if html.at_css('#address')
+        addr2 = html.at_css('.footer-address').text if html.at_css('.footer-address')
+
+
+        puts "================================"
+        p "org1: #{org1}"
+        p "org2: #{org2}"
+        p "org3: #{org3}"
+        p "org4: #{org4}"
+        p "org5: #{org5}"
+        puts "================================"
+
+        p "phone1: #{phone1}"
+        p "phone2: #{phone2}"
+        p "phone3: #{phone3}"
+        p "phone4: #{phone4}"
+        p "phone5: #{phone5}"
+        p "phone6: #{phone6}"
+        p "phone7: #{phone7}"
+        p "phone8: #{phone8}"
+
+        puts "================================"
+
+        p "street1: #{street1}"
+        p "street2: #{street2}"
+        p "street3: #{street3}"
+        puts "================================"
+
+        p "city1: #{city1}"
+        p "city2: #{city2}"
+        p "city3: #{city3}"
+        puts "================================"
+
+        p "state1: #{state1}"
+        p "state2: #{state2}"
+        p "state3: #{state3}"
+        puts "================================"
+
+        p "zip1: #{zip1}"
+        p "zip2: #{zip2}"
+        p "zip3: #{zip3}"
+        puts "================================"
+
+        p "addr1: #{addr1}"
+        p "addr2: #{addr2}"
+
+
+        puts "================================"
+
+        # binding.pry
+        puts "\n\n================================\n\n"
+
+        # rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+    end
+    ##### Dealer Direct RTS CORE METHOD ENDS ~ #########
+
+
+
+    ##### (4: 779) DealerCar Search RTS CORE METHOD BEGINS ~ ########
+    def dealercar_search_rts(html, url, indexer)
+        puts url
+        puts indexer.template
+
+        addr_n_ph1 = html.at_css('.AddressPhone_Main').text if html.at_css('.AddressPhone_Main')
+        street = html.at_css('.LabelAddress1').text if html.at_css('.LabelAddress1')
+        city_state_zip = html.at_css('.LabelCityStateZip1').text if html.at_css('.LabelCityStateZip1')
+        phone = html.at_css('.LabelPhone1').text if html.at_css('.LabelPhone1')
+        org1 = html.css('title').text if html.css('title')
+        org2 = html.css('.sepBar').text if html.css('.sepBar')
+
+        p "addr_n_ph1: \n\n#{addr_n_ph1}\n\n"
+        p "city_state_zip: \n\n#{city_state_zip}\n\n"
+        p "street: \n\n#{street}\n\n"
+        p "phone: \n\n#{phone}\n\n"
+        p "org1: \n\n#{org1}\n\n"
+        p "org2: \n\n#{org2}\n\n"
+
+        # binding.pry
+        puts "\n\n================================\n\n"
+
+        # rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+    end
+    ##### DealerCar Search RTS CORE METHOD ENDS ~ #########
+
+
+
+    ##### (1: 7,339) DEALER.COM RTS CORE METHOD BEGINS ~ #######
+    def dealer_com_rts(html, url, indexer)
+        selector = "//meta[@name='author']/@content"
+        org = html.xpath(selector).text if html.xpath(selector)
+        street = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
+        city = html.at_css('.adr .locality').text if html.at_css('.adr .locality')
+        state = html.at_css('.adr .region').text if html.at_css('.adr .region')
+        zip = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
+        phone = html.at_css('.value').text if html.at_css('.value')
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
-    ##### DEALER INSPIRE RTS CORE METHOD ENDS ~ ######
+    ##### DEALER.COM RTS CORE METHOD ENDS ~ #######
 
 
-    # ##### COBALT RTS CORE METHOD BEGINS ~ ##########
+    # #### (2) (MOVED TO LIB)COBALT RTS  ~ ##########
     # def cobalt_rts(html, url, indexer)
     #     orgs = []
     #     streets = []
@@ -339,13 +510,16 @@ class IndexerService
     #     parts # returns array
     # end
     # ###### COBALT RTS HELPER METHODS END ~ ########
+
+    ##### (2: 3,798) COBALT RTS CORE METHOD BEGINS ~ #######
     def cobalt_rts(html, url, indexer)
         puts url
         result = CobaltRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
 
-    ##### DEALERON RTS CORE METHOD BEGINS ~ #######
+
+    #### (3: 852) DEALERON RTS CORE METHOD BEGINS ~ #######
     def dealeron_rts(html, url, indexer)
         acc_phones = html.css('.callNowClass').collect {|phone| phone.text if phone}
         raw_full_addr = html.at_css('.adr').text if html.at_css('.adr')
@@ -370,18 +544,43 @@ class IndexerService
     ##### DEALERON RTS CORE METHOD ENDS ~ #######
 
 
-    ##### DEALER.COM RTS CORE METHOD BEGINS ~ #######
-    def dealer_com_rts(html, url, indexer)
-        selector = "//meta[@name='author']/@content"
-        org = html.xpath(selector).text if html.xpath(selector)
-        street = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
-        city = html.at_css('.adr .locality').text if html.at_css('.adr .locality')
-        state = html.at_css('.adr .region').text if html.at_css('.adr .region')
-        zip = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
-        phone = html.at_css('.value').text if html.at_css('.value')
+    ##### (6: 675) DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
+    def dealer_inspire_rts(html, url, indexer)
+        org = html.at_css('.organization-name').text if html.at_css('.organization-name')
+        acc_phones = html.css('.tel').collect {|phone| phone.text if phone} if html.css('.tel')
+        phone = acc_phones.join(', ')
+
+        street = html.at_css('.street-address').text if html.at_css('.street-address')
+
+        if street && street.include?(",")
+            street = street.split(",")
+            street = street[0]
+            if street.include?("  ")
+                street = street.split(" ")
+                street = street.join(" ")
+            end
+            street.strip!
+        end
+
+        city = html.at_css('.locality').text if html.at_css('.locality').text
+        state = html.at_css('.region').text if html.at_css('.region').text
+        zip = html.at_css('.postal-code').text if html.at_css('.postal-code').text
+
         rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
-    ##### DEALER.COM RTS CORE METHOD ENDS ~ #######
+    ##### DEALER INSPIRE RTS CORE METHOD ENDS ~ ######
+
+
+    ##### (7: 660) DEALER FIRE RTS CORE METHOD BEGINS ~ ########
+    def dealerfire_rts(html, url, indexer)
+        result = DealerfireRts.rooftop_scraper(html)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
+    end
+    ##### DEALER FIRE RTS CORE METHOD ENDS ~ #########
+
+
+
+
 
 
 
@@ -438,7 +637,7 @@ class IndexerService
     def ph_check(string)
         ### USED FOR ALL TEMPLATES - STRICT QUALIFICATIONS!!!!!
         ### FORMATS PHONE AS: (000) 000-0000
-        if !string.blank? && string != "N/A" && string != "0" && (string.include?("(") || string.include?("-"))
+        if !string.blank? && string != "N/A" && string != "0" && (string.include?("(") || string.include?("-") || string.include?("."))
             if string[0] == "0" || string[0] == "1"
                 stripped = string[1..-1]
             else

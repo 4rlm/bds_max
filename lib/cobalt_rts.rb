@@ -32,15 +32,7 @@ class CobaltRts
         orgs << html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
         orgs.concat(html.xpath("//img[@class='cblt-lazy']/@alt").map(&:value))
         orgs << html.at_css('.dealer .insight').text if html.at_css('.dealer .insight')
-        orgs.concat(html.css('.card .title').map(&:children).map(&:text)) if html.css('.card .title').any? ## NEW
-
-        ### ==TOOLS==
-        ###html.at_css('.card .title')
-        ###html.css('.card .title').text
-        ###html.css('span span').text
-        ###html.css('.card .content .text .copy streetAddress').text
-        ###html.css('.card .content .text .copy span').text
-        ###html.at_css('span').text
+        orgs.concat(html.css('.card .title').map(&:children).map(&:text)) if html.css('.card .title').any?
 
         ### === ADDRESS VARIABLES ===
         addr2_sel = "//a[@href='HoursAndDirections']"
@@ -49,7 +41,7 @@ class CobaltRts
         addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
         addr4 = html.at_css('address').text if html.at_css('address')
         addr4 = html.at_css('address').text if html.at_css('address')
-        addr5 = html.css('.card .content .text .copy span').map(&:children).map(&:text).join(', ') if html.css('.card .content .text .copy span') ## NEW
+        addr5 = html.css('.card .content .text .copy span').map(&:children).map(&:text).join(', ') if html.css('.card .content .text .copy span')
 
         puts "\n>>>>>>>>>>\n orgs: #{orgs}, addr_n_org1: #{addr_n_org1}, phones: #{phones}\n>>>>>>>>>>\n"
 
@@ -177,37 +169,47 @@ class CobaltRts
 
             if obj.include?("\n")
                 objs = obj.split("\n")
-            elsif obj.include?("|")
-                objs = obj.split("|")
-            else
-                objs = obj.split(",")
+                objs = objs.join(",")
             end
 
-            objs = objs.join(",")
+            if obj.include?("|")
+                objs = obj.split("|")
+                objs = objs.join(",")
+            end
+
             objs = objs.split(",")
-            objs.delete_if {|x| x.include?("Hours")}
-            objs.delete_if {|x| x.include?("Contact")}
-            objs.delete_if {|x| x.include?("Location")}
-            objs.delete_if {|x| x.include?("Map")}
-            objs.delete_if {|x| x.include?("Info")}
-            objs.delete_if {|x| x.include?("Directions")}
-            objs.delete_if {|x| x.include?("Used")}
-            objs.delete_if {|x| x.include?("Click")}
-            objs.delete_if {|x| x.include?("proudly")}
-            objs.delete_if {|x| x.include?("serves")}
-            objs.delete_if {|x| x.include?("Twitter")}
-            objs.delete_if {|x| x.include?("Geoplaces")}
-            objs.delete_if {|x| x.include?("Youtube")}
-            objs.delete_if {|x| x.include?("Facebook")}
-            objs.delete_if {|x| x.include?("Privacy")}
-            objs.delete_if {|x| x.include?("Choices")}
-            objs.delete_if {|x| x.include?("window")}
-            objs.delete_if {|x| x.include?("Event")}
-            objs.delete_if {|x| x.include?("Listener")}
-            objs.delete_if {|x| x.include?("Contact")}
-            objs.delete_if {|x| x.include?("function")}
-            objs.delete_if {|x| x.include?("Department")}
-            objs.delete_if {|x| x.include?("Department")}
+
+            negs = ["hours", "contact", "location", "map", "info", "directions", "used", "Click", "proudly", "serves", "twitter", "geoplaces", "youtube", "facebook", "privacy", "choices", "window", "event", "listener", "contact", "function", "department", "featured", "vehicle", "customer", "today"]
+
+            ## Need to Downcase temporarily before running through negs.
+
+            # objs.delete_if {|x| x.include?("hours")}
+            # objs.delete_if {|x| x.include?("contact")}
+            # objs.delete_if {|x| x.include?("location")}
+            # objs.delete_if {|x| x.include?("map")}
+            # objs.delete_if {|x| x.include?("info")}
+            # objs.delete_if {|x| x.include?("directions")}
+            # objs.delete_if {|x| x.include?("used")}
+            # objs.delete_if {|x| x.include?("Click")}
+            # objs.delete_if {|x| x.include?("proudly")}
+            # objs.delete_if {|x| x.include?("serves")}
+            # objs.delete_if {|x| x.include?("twitter")}
+            # objs.delete_if {|x| x.include?("geoplaces")}
+            # objs.delete_if {|x| x.include?("youtube")}
+            # objs.delete_if {|x| x.include?("facebook")}
+            # objs.delete_if {|x| x.include?("privacy")}
+            # objs.delete_if {|x| x.include?("choices")}
+            # objs.delete_if {|x| x.include?("window")}
+            # objs.delete_if {|x| x.include?("event")}
+            # objs.delete_if {|x| x.include?("listener")}
+            # objs.delete_if {|x| x.include?("contact")}
+            # objs.delete_if {|x| x.include?("function")}
+            # objs.delete_if {|x| x.include?("department")}
+            # objs.delete_if {|x| x.include?("featured")}
+            # objs.delete_if {|x| x.include?("vehicle")}
+            # objs.delete_if {|x| x.include?("customer")}
+            # objs.delete_if {|x| x.include?("today")}
+
             objs.map!{|obj| obj.strip!}
             objs.delete_if {|x| x.blank?}
 
