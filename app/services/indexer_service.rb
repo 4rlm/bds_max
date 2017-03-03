@@ -16,8 +16,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=0
-        z=1
+        a=30
+        z=40
         # a=500
         # z=1000
         # a=1000
@@ -31,7 +31,7 @@ class IndexerService
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
         indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
-        # indexers = Indexer.where(clean_url: "http://www.advantagechevbb.com")
+        # indexers = Indexer.where(clean_url: "http://www.burdicklexus.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
@@ -340,6 +340,7 @@ class IndexerService
     # end
     # ###### COBALT RTS HELPER METHODS END ~ ########
     def cobalt_rts(html, url, indexer)
+        puts url
         result = CobaltRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
@@ -392,11 +393,11 @@ class IndexerService
         ### STRIPS AND FORMATS DATA BEFORE SAVING TO DB
 
         org = nil if org.blank?
-        street = nil if org.blank?
-        city = nil if org.blank?
-        state = nil if org.blank?
-        zip = nil if org.blank?
-        phone = nil if org.blank?
+        street = nil if street.blank?
+        city = nil if city.blank?
+        state = nil if state.blank?
+        zip = nil if zip.blank?
+        phone = nil if phone.blank?
 
         org.strip! if org
         street.strip! if street
@@ -467,13 +468,10 @@ class IndexerService
             (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
 
             !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone
-
-            final_phone
         else
             final_phone = nil
-            final_phone
         end
-
+        final_phone
     end
 
 

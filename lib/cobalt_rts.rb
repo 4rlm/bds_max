@@ -5,34 +5,38 @@ class CobaltRts
         ### OUTLYER: Special format, so doesn't follow same process as others below.
         ### === FULL ADDRESS AND ORG VARIABLE ===
         addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
-        return {} if addr_n_org1.blank?
+        if !addr_n_org1.blank?
+            addr_arr = cobalt_addr_parser(addr_n_org1)
+            city_state_zip = addr_arr[2]
+            city_state_zip_arr = city_state_zip.split(",")
+            state_zip = city_state_zip_arr[1]
+            state_zip_arr = state_zip.split(" ")
 
-        addr_arr = cobalt_addr_parser(addr_n_org1)
-        city_state_zip = addr_arr[2]
-        city_state_zip_arr = city_state_zip.split(",")
-        state_zip = city_state_zip_arr[1]
-        state_zip_arr = state_zip.split(" ")
-
-        orgs << addr_arr[0]
-        streets << addr_arr[1]
-        cities << city_state_zip_arr[0]
-        states << state_zip_arr[0]
-        zips << state_zip_arr[-1]
+            orgs << addr_arr[0]
+            streets << addr_arr[1]
+            cities << city_state_zip_arr[0]
+            states << state_zip_arr[0]
+            zips << state_zip_arr[-1]
+        end
 
         ### === PHONE VARIABLES ===
-        phones << html.css('.contactUsInfo').text if html.css('.contactUsInfo')
+        phones.concat(html.css('.contactUsInfo').map(&:children).map(&:text)) if html.css('.contactUsInfo').any?
         phones << html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
         phones << html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
+        phones << html.at_css('.cta .insight').text if html.at_css('.cta .insight')
 
         ### === ORG VARIABLES ===
         orgs << html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
         orgs.concat(html.xpath("//img[@class='cblt-lazy']/@alt").map(&:value))
+        orgs << html.at_css('.dealer .insight').text if html.at_css('.dealer .insight')
 
         ### === ADDRESS VARIABLES ===
         addr2_sel = "//a[@href='HoursAndDirections']"
         addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
         addr3 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
         addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+
+        puts "\n>>>>>>>>>>\n orgs: #{orgs}, addr_n_org1: #{addr_n_org1}, phones: #{phones}\n>>>>>>>>>>\n"
 
         result_1 = cobalt_addr_processor(addr2)
         result_2 = cobalt_addr_processor(addr3)
@@ -115,7 +119,7 @@ class CobaltRts
                 result = city_qualifier(el, negs) if option == "city"
                 result = state_qualifier(el, negs) if option == "state"
                 result = zip_qualifier(el, negs) if option == "zip"
-                result = IndexerService.new.ph_check(el) if option == "phone"
+                result = IndexerService.new.phone_formatter(el) if option == "phone"
                 break if result
             end
         end
