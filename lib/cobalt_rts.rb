@@ -19,11 +19,14 @@ class CobaltRts
             zips << state_zip_arr[-1]
         end
 
+        # binding.pry
+
         ### === PHONE VARIABLES ===
         phones.concat(html.css('.contactUsInfo').map(&:children).map(&:text)) if html.css('.contactUsInfo').any?
         phones << html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
         phones << html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
         phones << html.at_css('.cta .insight').text if html.at_css('.cta .insight')
+        phones << html.at_css('.dealer-ctn').text if html.at_css('.dealer-ctn')
 
         ### === ORG VARIABLES ===
         orgs << html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
@@ -35,18 +38,20 @@ class CobaltRts
         addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
         addr3 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
         addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+        addr4 = html.at_css('address').text if html.at_css('address')
 
         puts "\n>>>>>>>>>>\n orgs: #{orgs}, addr_n_org1: #{addr_n_org1}, phones: #{phones}\n>>>>>>>>>>\n"
 
         result_1 = cobalt_addr_processor(addr2)
         result_2 = cobalt_addr_processor(addr3)
         result_3 = cobalt_addr_processor(addr_n_ph1)
+        result_4 = cobalt_addr_processor(addr4)
 
-        streets.concat([ result_1[:street], result_2[:street], result_3[:street] ])
-        cities.concat([ result_1[:city], result_2[:city], result_3[:city] ])
-        states.concat(result_1[:states] + result_2[:states] + result_3[:states])
-        zips.concat(result_1[:zips] + result_2[:zips] + result_3[:zips])
-        phones.concat(result_1[:phones] + result_2[:phones] + result_3[:phones])
+        streets.concat([ result_1[:street], result_2[:street], result_3[:street], result_4[:street] ])
+        cities.concat([ result_1[:city], result_2[:city], result_3[:city], result_4[:city] ])
+        states.concat(result_1[:states] + result_2[:states] + result_3[:states] + result_4[:states])
+        zips.concat(result_1[:zips] + result_2[:zips] + result_3[:zips] + result_4[:zips])
+        phones.concat(result_1[:phones] + result_2[:phones] + result_3[:phones] + result_4[:phones])
 
         ### Call Methods to Process above Data
         org = cobalt_final_arr_qualifier(orgs, "org")

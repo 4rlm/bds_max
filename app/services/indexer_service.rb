@@ -16,8 +16,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=30
-        z=40
+        a=10
+        z=20
         # a=500
         # z=1000
         # a=1000
@@ -31,7 +31,7 @@ class IndexerService
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
         indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
-        # indexers = Indexer.where(clean_url: "http://www.burdicklexus.com")
+        # indexers = Indexer.where(clean_url: "http://www.buygghyundai.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
