@@ -6,6 +6,7 @@ require 'socket'
 require 'pry'
 require 'httparty'
 require 'dealerfire_rts'
+require 'cobalt_rts'
 
 
 class IndexerService
@@ -15,8 +16,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=30
-        z=40
+        a=0
+        z=1
         # a=500
         # z=1000
         # a=1000
@@ -29,8 +30,8 @@ class IndexerService
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
-        # indexers = Indexer.where(template: "Cobalt").where(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
-        indexers = Indexer.where(clean_url: "http://www.advantagechevbb.com")
+        indexers = Indexer.where(template: "Cobalt").where.not(rt_sts: "RT Result").where.not(clean_url: nil)[a...z] #1206
+        # indexers = Indexer.where(clean_url: "http://www.advantagechevbb.com")
 
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
 
@@ -125,220 +126,223 @@ class IndexerService
     ##### DEALER INSPIRE RTS CORE METHOD ENDS ~ ######
 
 
-    ##### COBALT RTS CORE METHOD BEGINS ~ ##########
+    # ##### COBALT RTS CORE METHOD BEGINS ~ ##########
+    # def cobalt_rts(html, url, indexer)
+    #     orgs = []
+    #     streets = []
+    #     cities = []
+    #     states = []
+    #     zips = []
+    #     phones = []
+    #
+    #     ### OUTLYER: Special format, so doesn't follow same process as others below.
+    #     ### === FULL ADDRESS AND ORG VARIABLE ===
+    #     addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
+    #     if !addr_n_org1.blank?
+    #         addr_arr = cobalt_addr_parser(addr_n_org1)
+    #         city_state_zip = addr_arr[2]
+    #         city_state_zip_arr = city_state_zip.split(",")
+    #         state_zip = city_state_zip_arr[1]
+    #         state_zip_arr = state_zip.split(" ")
+    #         orgs << addr_arr[0]
+    #         streets << addr_arr[1]
+    #         cities << city_state_zip_arr[0]
+    #         states << state_zip_arr[0]
+    #         zips << state_zip_arr[-1]
+    #     end
+    #
+    #     ### === PHONE VARIABLES ===
+    #     phone1 = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
+    #     phone2 = html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
+    #     phone3 = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
+    #     phones << phone1 if !phone1.blank?
+    #     phones << phone2 if !phone2.blank?
+    #     phones << phone3 if !phone3.blank?
+    #
+    #     ### === ORG VARIABLES ===
+    #     org1 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
+    #     org2_sel = "//img[@class='cblt-lazy']/@alt"
+    #     org2 = html.xpath(org2_sel)
+    #     orgs << org1 if !org1.blank?
+    #     orgs << org2 if !org1.blank?
+    #
+    #     ### === ADDRESS VARIABLES ===
+    #     # addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
+    #     addr2_sel = "//a[@href='HoursAndDirections']"
+    #     addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
+    #     addr3 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
+    #     addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
+    #     cobalt_addr_processor(addr2, orgs, streets, cities, states, zips, phones)
+    #     cobalt_addr_processor(addr3, orgs, streets, cities, states, zips, phones)
+    #     cobalt_addr_processor(addr_n_ph1, orgs, streets, cities, states, zips, phones)
+    #
+    #     ### Methods to Process above Data
+    #     org = cobalt_final_arr_qualifier(orgs, org)
+    #     street = cobalt_final_arr_qualifier(streets, street)
+    #     city = cobalt_final_arr_qualifier(cities, city)
+    #     state = cobalt_final_arr_qualifier(states, state)
+    #     zip = cobalt_final_arr_qualifier(zips, zip)
+    #     phone = cobalt_final_arr_qualifier(phones, phone)
+    #
+    #     negs = ["contact", "link", "click", "map", "(", "-", "location", "savings", "bolingbrook"]
+    #     org = org_qualifier(org, negs, orgs) if !org.nil?
+    #     street = street_qualifier(street) if !street.nil?
+    #     city = city_qualifier(city) if !city.nil?
+    #     state = state_qualifier(state) if !state.nil?
+    #     zip = zip_qualifier(zip) if !zip.nil?
+    #
+    #     rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+    # end
+    # ##### COBALT RTS CORE METHOD ENDS ~ ##########
+    # ###### COBALT RTS HELPER METHODS ENDS ~ #######
+    #
+    # def org_qualifier(org, negs, orgs)
+    #     og = org if !org.nil?
+    #     alpha = og.tr('^A-Za-z', '')
+    #     digits = og.tr('^0-9', '')
+    #     smash = alpha+digits
+    #     ogs = og.downcase
+    #     selected = negs.select {|neg| ogs.include?(neg) }
+    #
+    #     if (alpha == '' || alpha.length < 6) || (smash.length == 7 && digits.length == 5) || (selected.any?)
+    #         orgs.delete(org)
+    #         org = cobalt_final_arr_qualifier(orgs, org)
+    #     else
+    #         org
+    #     end
+    # end
+    #
+    # def street_qualifier(street)
+    #     st = street if !street.nil?
+    #     alpha = st.tr('^A-Za-z', '')
+    #     digits = st.tr('^0-9', '')
+    #     (digits == '' || alpha == '' || alpha.length == 2) ? street = nil : street
+    # end
+    #
+    # def city_qualifier(city)
+    #     cit = city if !city.nil?
+    #     alpha = cit.tr('^A-Za-z', '')
+    #     digits = cit.tr('^0-9', '')
+    #     (alpha.nil? || alpha.length == 2 || digits != "") ? city = nil : city
+    # end
+    #
+    # def state_qualifier(state)
+    #     st = state if !state.nil?
+    #     alpha = st.tr('^A-Za-z', '')
+    #     digits = st.tr('^0-9', '')
+    #
+    #     (digits != '' || alpha == '' || alpha.length != 2) ? state = nil : state
+    # end
+    #
+    # def zip_qualifier(zip)
+    #     zp = zip if !zip.nil?
+    #     alpha = zp.tr('^A-Za-z', '')
+    #     digits = zp.tr('^0-9', '')
+    #     (digits == '' || digits.length != 5 || alpha != '') ? zip = nil : zip
+    # end
+    #
+    #
+    # def cobalt_final_arr_qualifier(array, cat)
+    #     if !array.blank? && cat.blank?
+    #         array.each do |item|
+    #             cat = item if !item.blank?
+    #             if cat
+    #                 break
+    #             end
+    #         end
+    #     end
+    #     cat
+    # end
+    #
+    # ### === FULL ADDRESS METHOD ===
+    # def cobalt_addr_processor(full_addr, orgs, streets, cities, states, zips, phones)
+    #     if !full_addr.blank?
+    #         addr_arr = n_splitter(full_addr)
+    #         unless addr_arr.blank?
+    #             # Sends Each Result Item to Check for Phone
+    #             addr_arr.each do |item|
+    #                 phones << item if !item.blank?
+    #             end
+    #
+    #             # Sends each Results Item to Check for State and Zip
+    #             addr_arr.each do |item|
+    #                 state_zip = state_zip_get(item) if !state_zip_get(item).blank?
+    #
+    #                 if state_zip
+    #                     states << state_zip[0..1] if !state_zip[0..1].blank? ## state
+    #                     zips << state_zip[-5..-1] if !state_zip[-5..-1].blank? ## zip
+    #                 end
+    #             end
+    #
+    #             # Sends Street to Street Array and City to City Array.
+    #             streets << addr_arr[0] if !addr_arr[0].blank? ## street
+    #             cities << addr_arr[1] if !addr_arr[1].blank? ## city
+    #         end
+    #     end
+    # end
+    #
+    # def n_splitter(obj)
+    #     ### Removes "\t" from objects.
+    #     ### Then splits objects by "\n".
+    #     unless obj.blank?
+    #         obj.include?("\n") ? objs = obj.split("\n") : objs = obj.split(",")
+    #         objs = objs.join(",")
+    #         objs = objs.split(",")
+    #         objs.delete_if {|x| x.include?("Hours")}
+    #         objs.delete_if {|x| x.include?("Contact")}
+    #         objs.delete_if {|x| x.include?("Location")}
+    #         objs.delete_if {|x| x.include?("Map")}
+    #         objs.delete_if {|x| x.include?("Info")}
+    #         objs.delete_if {|x| x.include?("Directions")}
+    #         objs.map!{|obj| obj.strip!}
+    #         objs.delete_if {|x| x.blank?}
+    #     end
+    # end
+    #
+    # def state_zip_get(item)
+    #     ## Detects and parses zip and state from string, without affecting original string.
+    #     if !item.nil?
+    #         smash = item.gsub(" ", "")
+    #         smash.strip!
+    #         alphanum = smash.tr('^A-Z0-9', '')
+    #
+    #         if alphanum.length == 7 && smash == alphanum
+    #             state_test = alphanum.tr('^A-Z', '')
+    #             zip_test = alphanum.tr('^0-9', '')
+    #
+    #             if state_test.length == 2 && zip_test.length == 5
+    #                 state = state_test
+    #                 zip = zip_test
+    #                 item = state+zip
+    #             else
+    #                 item = nil
+    #             end
+    #         end
+    #     end
+    # end
+    #
+    # def cobalt_addr_parser(str)
+    #     ### PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
+    #     str.strip!
+    #     parts = str.split("   ")
+    #     parts.each do |s|
+    #         if s == "" || s == "\n"
+    #             parts.delete(s)
+    #         else
+    #             s.strip!
+    #         end
+    #     end
+    #
+    #     for x in ["\n", ""]
+    #         parts.delete(x) if parts.include?(x)
+    #     end
+    #     parts # returns array
+    # end
+    # ###### COBALT RTS HELPER METHODS END ~ ########
     def cobalt_rts(html, url, indexer)
-        orgs = []
-        streets = []
-        cities = []
-        states = []
-        zips = []
-        phones = []
-
-        ### OUTLYER: Special format, so doesn't follow same process as others below.
-        ### === FULL ADDRESS AND ORG VARIABLE ===
-        addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
-        if !addr_n_org1.blank?
-            addr_arr = cobalt_addr_parser(addr_n_org1)
-            city_state_zip = addr_arr[2]
-            city_state_zip_arr = city_state_zip.split(",")
-            state_zip = city_state_zip_arr[1]
-            state_zip_arr = state_zip.split(" ")
-            orgs << addr_arr[0]
-            streets << addr_arr[1]
-            cities << city_state_zip_arr[0]
-            states << state_zip_arr[0]
-            zips << state_zip_arr[-1]
-        end
-
-        ### === PHONE VARIABLES ===
-        phone1 = html.css('.contactUsInfo').text if html.css('.contactUsInfo')
-        phone2 = html.at_css('.dealerphones_masthead').text if html.at_css('.dealerphones_masthead')
-        phone3 = html.at_css('.dealerTitle').text if html.at_css('.dealerTitle')
-        phones << phone1 if !phone1.blank?
-        phones << phone2 if !phone2.blank?
-        phones << phone3 if !phone3.blank?
-
-        ### === ORG VARIABLES ===
-        org1 = html.at_css('.dealerNameInfo').text if html.at_css('.dealerNameInfo')
-        org2_sel = "//img[@class='cblt-lazy']/@alt"
-        org2 = html.xpath(org2_sel)
-        orgs << org1 if !org1.blank?
-        orgs << org2 if !org1.blank?
-
-        ### === ADDRESS VARIABLES ===
-        # addr1 = html.at_css('.addressText').text if html.at_css('.addressText')
-        addr2_sel = "//a[@href='HoursAndDirections']"
-        addr2 = html.xpath(addr2_sel).text if html.xpath(addr2_sel)
-        addr3 = html.at_css('.dealerAddressInfo').text if html.at_css('.dealerAddressInfo')
-        addr_n_ph1 = html.at_css('.dealerDetailInfo').text if html.at_css('.dealerDetailInfo')
-        cobalt_addr_processor(addr2, orgs, streets, cities, states, zips, phones)
-        cobalt_addr_processor(addr3, orgs, streets, cities, states, zips, phones)
-        cobalt_addr_processor(addr_n_ph1, orgs, streets, cities, states, zips, phones)
-
-        ### Methods to Process above Data
-        org = cobalt_final_arr_qualifier(orgs, org)
-        street = cobalt_final_arr_qualifier(streets, street)
-        city = cobalt_final_arr_qualifier(cities, city)
-        state = cobalt_final_arr_qualifier(states, state)
-        zip = cobalt_final_arr_qualifier(zips, zip)
-        phone = cobalt_final_arr_qualifier(phones, phone)
-
-        negs = ["contact", "link", "click", "map", "(", "-", "location", "savings", "bolingbrook"]
-        org = org_qualifier(org, negs, orgs) if !org.nil?
-        street = street_qualifier(street) if !street.nil?
-        city = city_qualifier(city) if !city.nil?
-        state = state_qualifier(state) if !state.nil?
-        zip = zip_qualifier(zip) if !zip.nil?
-
-        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+        result = CobaltRts.new.rooftop_scraper(html)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-    ##### COBALT RTS CORE METHOD ENDS ~ ##########
-    ###### COBALT RTS HELPER METHODS ENDS ~ #######
-
-    def org_qualifier(org, negs, orgs)
-        og = org if !org.nil?
-        alpha = og.tr('^A-Za-z', '')
-        digits = og.tr('^0-9', '')
-        smash = alpha+digits
-        ogs = og.downcase
-        selected = negs.select {|neg| ogs.include?(neg) }
-
-        if (alpha == '' || alpha.length < 6) || (smash.length == 7 && digits.length == 5) || (selected.any?)
-            orgs.delete(org)
-            org = cobalt_final_arr_qualifier(orgs, org)
-        else
-            org
-        end
-    end
-
-    def street_qualifier(street)
-        st = street if !street.nil?
-        alpha = st.tr('^A-Za-z', '')
-        digits = st.tr('^0-9', '')
-        (digits == '' || alpha == '' || alpha.length == 2) ? street = nil : street
-    end
-
-    def city_qualifier(city)
-        cit = city if !city.nil?
-        alpha = cit.tr('^A-Za-z', '')
-        digits = cit.tr('^0-9', '')
-        (alpha.nil? || alpha.length == 2 || digits != "") ? city = nil : city
-    end
-
-    def state_qualifier(state)
-        st = state if !state.nil?
-        alpha = st.tr('^A-Za-z', '')
-        digits = st.tr('^0-9', '')
-
-        (digits != '' || alpha == '' || alpha.length != 2) ? state = nil : state
-    end
-
-    def zip_qualifier(zip)
-        zp = zip if !zip.nil?
-        alpha = zp.tr('^A-Za-z', '')
-        digits = zp.tr('^0-9', '')
-        (digits == '' || digits.length != 5 || alpha != '') ? zip = nil : zip
-    end
-
-
-    def cobalt_final_arr_qualifier(array, cat)
-        if !array.blank? && cat.blank?
-            array.each do |item|
-                cat = item if !item.blank?
-                if cat
-                    break
-                end
-            end
-        end
-        cat
-    end
-
-    ### === FULL ADDRESS METHOD ===
-    def cobalt_addr_processor(full_addr, orgs, streets, cities, states, zips, phones)
-        if !full_addr.blank?
-            addr_arr = n_splitter(full_addr)
-            unless addr_arr.blank?
-                # Sends Each Result Item to Check for Phone
-                addr_arr.each do |item|
-                    phones << item if !item.blank?
-                end
-
-                # Sends each Results Item to Check for State and Zip
-                addr_arr.each do |item|
-                    state_zip = state_zip_get(item) if !state_zip_get(item).blank?
-
-                    if state_zip
-                        states << state_zip[0..1] if !state_zip[0..1].blank? ## state
-                        zips << state_zip[-5..-1] if !state_zip[-5..-1].blank? ## zip
-                    end
-                end
-
-                # Sends Street to Street Array and City to City Array.
-                streets << addr_arr[0] if !addr_arr[0].blank? ## street
-                cities << addr_arr[1] if !addr_arr[1].blank? ## city
-            end
-        end
-    end
-
-    def n_splitter(obj)
-        ### Removes "\t" from objects.
-        ### Then splits objects by "\n".
-        unless obj.blank?
-            obj.include?("\n") ? objs = obj.split("\n") : objs = obj.split(",")
-            objs = objs.join(",")
-            objs = objs.split(",")
-            objs.delete_if {|x| x.include?("Hours")}
-            objs.delete_if {|x| x.include?("Contact")}
-            objs.delete_if {|x| x.include?("Location")}
-            objs.delete_if {|x| x.include?("Map")}
-            objs.delete_if {|x| x.include?("Info")}
-            objs.delete_if {|x| x.include?("Directions")}
-            objs.map!{|obj| obj.strip!}
-            objs.delete_if {|x| x.blank?}
-        end
-    end
-
-    def state_zip_get(item)
-        ## Detects and parses zip and state from string, without affecting original string.
-        if !item.nil?
-            smash = item.gsub(" ", "")
-            smash.strip!
-            alphanum = smash.tr('^A-Z0-9', '')
-
-            if alphanum.length == 7 && smash == alphanum
-                state_test = alphanum.tr('^A-Z', '')
-                zip_test = alphanum.tr('^0-9', '')
-
-                if state_test.length == 2 && zip_test.length == 5
-                    state = state_test
-                    zip = zip_test
-                    item = state+zip
-                else
-                    item = nil
-                end
-            end
-        end
-    end
-
-    def cobalt_addr_parser(str)
-        ### PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
-        str.strip!
-        parts = str.split("   ")
-        parts.each do |s|
-            if s == "" || s == "\n"
-                parts.delete(s)
-            else
-                s.strip!
-            end
-        end
-
-        for x in ["\n", ""]
-            parts.delete(x) if parts.include?(x)
-        end
-        parts # returns array
-    end
-    ###### COBALT RTS HELPER METHODS END ~ ########
-
 
     ##### DEALERON RTS CORE METHOD BEGINS ~ #######
     def dealeron_rts(html, url, indexer)
@@ -451,6 +455,7 @@ class IndexerService
         else
             phone = nil
         end
+        phone
     end
 
 
