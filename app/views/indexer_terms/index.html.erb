@@ -1,0 +1,58 @@
+<h1 class="page-header">Indexer Terms</h1>
+<h3 class="text-center">Caution!</h3>
+<h4 class="text-center">Important: Logic Criteria and Terms for Indexer and Staffer</h4>
+<br>
+
+<%#= link_to "Calculate Totals", calculate_totals_btn_path, class: 'btn btn-warning' %>
+
+<br>
+
+<div class="pull-right">
+    <%= link_to 'Add Record', new_indexer_term_path, class: 'btn btn-primary' %>
+    <%= link_to 'Import CSV', indexer_term_import_page_path, class: 'btn btn-primary' %>
+    <%= link_to 'Download CSV', indexer_terms_path(format: "csv"), class: 'btn btn-primary' %>
+</div>
+
+<div class="row profile-row">
+    <div class="profile-col col-md-12">
+        <table class="table table-bordered indexer-table">
+          <thead>
+            <tr>
+                <th>#</th>
+              <th>category</th>
+              <th>sub_category</th>
+              <th>criteria_term</th>
+              <th class="indexer w-xsm">Crit #</th>
+              <th>response_term</th>
+              <th class="indexer w-xsm">Resp #</th>
+              <th>mth_name</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% num = 0 %>
+            <% @indexer_terms.each do |indexer_term| %>
+              <tr>
+                  <% num +=1 %>
+                  <td><%= num %></td>
+                <td><%= indexer_term.category %></td>
+                <td><%= indexer_term.sub_category %></td>
+                <td><%= indexer_term.criteria_term %></td>
+                <td class="indexer w-xsm"><%= indexer_term.criteria_count %></td>
+                <td><%= indexer_term.response_term %></td>
+                <td class="indexer w-xsm"><%= indexer_term.response_count %></td>
+                <td><%= indexer_term.mth_name %></td>
+                <td><%= link_to 'Show', indexer_term %></td>
+                <td><%= link_to 'Edit', edit_indexer_term_path(indexer_term) %></td>
+                <td><%= link_to 'Destroy', indexer_term, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<br>
+
+<%= link_to 'New Indexer Term', new_indexer_term_path %>

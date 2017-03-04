@@ -9,6 +9,32 @@ module ApplicationHelper
         end
     end
 
+
+    def url_redirect_sts_lists
+        ["Error", "Same", "Updated", "None"]
+    end
+
+    def indexer_status_list
+        ["TCP Error", "403 Error", "410 Error", "500 Error", 'Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
+    end
+
+    def main_indexer_status_list
+        ["TCP Error", "403 Error", "410 Error", "500 Error", "Re-Queue Indexer", "Indexer Error", "Indexer Result", "Queue Indexer", "Destroy"]
+    end
+
+    def geo_crm_sts_list
+        ["Matched-4", "Matched-3", "Matched-2", "Matched-1", "Matched-0"]
+    end
+
+    def geo_sts_list
+        ["Matched", "None"]
+    end
+
+    def duplicate_sts_list
+        ["!Addr", "!URL", "Mix-Match", "Delete", "Merge", "Save"]
+    end
+
+
     def sfdc_type_list
         ["Web", "Solitary", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
     end
@@ -73,10 +99,6 @@ module ApplicationHelper
         datetime_arr.map {|datetime| datetime.strftime("%m/%d/%Y") if datetime}.uniq
     end
 
-    def indexer_status_list
-        ['Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
-    end
-
     def staffer_status_list
         ["CRM Contacts", "Web Contacts", "Imported", "Scraped", "Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', 'Verified', 'Destroy', "Matched"]
     end
@@ -121,6 +143,9 @@ module ApplicationHelper
     def state_list
         ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
     end
+
+
+
 
 
 

@@ -11,7 +11,8 @@
     // width: 800px;
 }
 
-
+.geo-container {
+}
 
 .geo-map-2 {
     box-shadow: 5px 5px 5px gray;
@@ -22,19 +23,21 @@
     width: 100%;
 }
 
-
 .geo-result-table {
     box-shadow: 5px 5px 5px gray;
-    min-width: 90%;
-    padding-right: 0px;
-    padding-left: 0px;
+    // max-width: 90%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
 
 .geo-result-table tr:hover {
     background: #ffffb3;
 }
 
-.geo-result-tr {
+.blue-bg {
     background: #cfe0fc;
 }
 
@@ -43,7 +46,11 @@
 }
 
 .geo-result-table th, .geo-result-table td {
-    font-size: 90%;
+    font-size: 80%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-left: 0;
     text-align: center;
     border: solid 1px #137fa0;
     font-weight: normal;
@@ -57,28 +64,46 @@
     color: white;
 }
 
+
+
 .geo {
     border-right: 0 !important;
 
 }
 
-// fa_icon "circle-thin lg"
+.geo {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+// .account {
+//     min-width: 150px;
+// }
+//
+// .address {
+//     min-width: 200px;
+//     padding-left: 2 !important;
+//     padding-right: 2 !important;
+// }
+
+// .bold {
+//     font-weight: bold;
+// }
+
+
+
 .fa-clear {
     color: #ccccff;
 }
 
-// fa_icon "minus-circle lg"
-// fa_icon "warning lg"
 .fa-red {
     color: #ff0000;
 }
 
-// fa_icon "plus-circle lg"
 .fa-green {
     color: #008000;
 }
 
-// fa_icon "check-circle lg"
 .fa-blue {
     color: #4285F4;
 }
@@ -91,23 +116,15 @@
     color: #bfbfbf;
 }
 
-.fa-green {
-    color: green;
-}
-
-.fa-green {
-    color: black;
-}
-
 .fa-orange {
     color: orange;
 }
 
 
-.geo {
-    padding-left: 0;
-    padding-right: 0;
+.ind-green {
+    background-color: #ccffcc;
 }
+
 
 .geo.w-xxsm, .geo.w-xsm, .geo.w-sm {
     padding-left: 0;
@@ -125,6 +142,18 @@
 .geo.w-xxsm {
     max-width: 15px;
 }
+
+.geo-img {
+    width: 173px;
+    height: 173px;
+    border: 2px solid #4285F4;
+    border-left: 3px solid #4285F4;
+    border-radius: 4px;
+    margin: auto;
+    margin-left: -2px;
+}
+
+
 
 @media (min-width: 768px) {
     #myModal .modal-dialog {

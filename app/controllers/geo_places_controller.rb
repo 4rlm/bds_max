@@ -1,6 +1,6 @@
 class GeoPlacesController < ApplicationController
     before_action :set_geo_place, only: [:show, :edit, :update, :destroy]
-    before_action :set_geo_place_service, only: [:geo_places_starter_btn]
+    before_action :set_geo_place_service, only: [:geo_places_starter_btn, :geo_power_btn]
 
     # GET /geo_places
     # GET /geo_places.json
@@ -61,6 +61,12 @@ class GeoPlacesController < ApplicationController
             format.json { head :no_content }
         end
     end
+
+    def geo_power_btn
+        @service.street_cleaner
+        redirect_to geo_places_path
+    end
+
 
     def geo_places_starter_btn
         @service.geo_places_starter

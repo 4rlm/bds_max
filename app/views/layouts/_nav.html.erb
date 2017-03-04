@@ -25,7 +25,18 @@
         <% end %>
 
         <% if admin_only %>
-            <li><%= link_to 'Geo', locations_path %></li>
+            <li><%= link_to 'Indexer', indexers_path %></li>
+        <% end %>
+
+        <!-- LOCATIONS -->
+        <% if admin_only %>
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">GeoLocation <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><%= link_to 'Search', location_search_path %></li>
+                    <li><%= link_to 'View', locations_path %></li>
+                </ul>
+            </li>
         <% end %>
 
         <% if admin_only %>
@@ -51,43 +62,9 @@
             </li>
         <% end %>
 
-        <% if admin_only %>
-            <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Solitary <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><%= link_to 'Solitary', solitaries_path %></li>
-                    <li><%= link_to 'Pending Verification', pending_verifications_path %></li>
-                </ul>
-            </li>
-        <% end %>
 
-        <% if admin_only %>
-            <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="glyphicon glyphicon-cog"></span></a>
-                <ul class="dropdown-menu">
-                    <li><%= link_to 'Junk Roots', exclude_roots_path %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= link_to 'InRoot Franchise Terms', in_host_pos_path %></li>
-                    <li><%= link_to 'InRoot Deleted Terms', in_host_dels_path %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= link_to 'InText Franchise Terms', in_text_pos_path %></li>
-                    <li><%= link_to 'InText Deleted Terms', in_text_dels_path %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= link_to 'Indexer Location Hrefs', criteria_indexer_loc_hrefs_path %></li>
-                    <li><%= link_to 'Indexer Location Texts', criteria_indexer_loc_texts_path %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= link_to 'Indexer Staff Hrefs', criteria_indexer_staff_hrefs_path %></li>
-                    <li><%= link_to 'Indexer Staff Texts', criteria_indexer_staff_texts_path %></li>
-                </ul>
-            </li>
-        <% end %>
-
-        <% if admin_only %>
-            <li><%= link_to 'Dashboards', dashboards_path %></li>
-        <% end %>
-
-        <% if admin_only %>
-            <li class="dropdown">
+            <!-- PHASE II -->
+            <!-- <li class="dropdown">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Phase II <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a>WhoIs</a></li>
@@ -98,8 +75,8 @@
                     <li><a>Predictor</a></li>
                     <li><a>Socializer</a></li>
                 </ul>
-            </li>
-        <% end %>
+            </li> -->
+
 
         <li class="dropdown">
             <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong><%= current_user.first_name %></strong> <span class="caret"></span></a>
@@ -107,6 +84,25 @@
                 <% if admin_only %>
                     <li><%= link_to 'Google Search', search_path %></li>
                     <li><%= link_to 'Admin', admin_index_path %></li>
+                    <li role="separator" class="divider"></li>
+                    <li><%= link_to 'Dashboards', dashboards_path %></li>
+
+                    <li><%= link_to 'Solitary', solitaries_path %></li>
+                    <li><%= link_to 'Pending Verification', pending_verifications_path %></li>
+
+                    <li><%= link_to '(C) Blocked URLs', exclude_roots_path %></li>
+                    <li><%= link_to '(C) Blocked Terms', in_host_dels_path %></li>
+                    <li><%= link_to '(C) Franchises', in_host_pos_path %></li>
+
+                    <li><%= link_to '(C) INDEXER TERMS', indexer_terms_path %></li>
+
+
+                    <li><%= link_to '(C) Indexer Location Hrefs', criteria_indexer_loc_hrefs_path %></li>
+                    <li><%= link_to '(C) Indexer Location Texts', criteria_indexer_loc_texts_path %></li>
+
+                    <li><%= link_to '(C) Indexer Staff Hrefs', criteria_indexer_staff_hrefs_path %></li>
+                    <li><%= link_to '(C) Indexer Staff Texts', criteria_indexer_staff_texts_path %></li>
+
                     <li role="separator" class="divider"></li>
                 <% end %>
                 <li><%= link_to 'Edit profile', edit_user_registration_path %></li>

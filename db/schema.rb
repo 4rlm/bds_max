@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205192912) do
+ActiveRecord::Schema.define(version: 20170226031251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,14 +22,11 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "sfdc_sales_person"
     t.string   "sfdc_type"
     t.string   "sfdc_ult_grp"
-    t.integer  "sfdc_ult_rt"
     t.string   "sfdc_group"
-    t.integer  "sfdc_grp_rt"
     t.string   "sfdc_acct"
     t.string   "sfdc_street"
     t.string   "sfdc_city"
     t.string   "sfdc_state"
-    t.integer  "sfdc_zip"
     t.string   "sfdc_ph"
     t.string   "sfdc_url"
     t.datetime "created_at",               null: false
@@ -82,6 +79,14 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "geo_zip"
     t.string   "geo_ph"
     t.string   "geo_url"
+    t.string   "acct_merge_stat"
+    t.string   "acct_merge_stat_dt"
+    t.string   "cont_merge_stat"
+    t.string   "cont_merge_stat_dt"
+    t.string   "img_url"
+    t.string   "sfdc_ult_rt"
+    t.string   "sfdc_grp_rt"
+    t.string   "sfdc_zip"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -236,11 +241,52 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.datetime "updated_at",     null: false
   end
 
+  create_table "indexer_terms", force: :cascade do |t|
+    t.string   "category"
+    t.string   "sub_category"
+    t.string   "criteria_term"
+    t.string   "response_term"
+    t.string   "criteria_count"
+    t.string   "response_count"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "mth_name"
+  end
+
+  create_table "indexers", force: :cascade do |t|
+    t.string   "raw_url"
+    t.string   "redirect_status"
+    t.string   "clean_url"
+    t.string   "indexer_status"
+    t.string   "staff_url"
+    t.string   "staff_text"
+    t.string   "location_url"
+    t.string   "location_text"
+    t.string   "template"
+    t.string   "crm_id_arr",      default: [],              array: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "loc_status"
+    t.string   "stf_status"
+    t.string   "contact_status"
+    t.string   "contacts_count"
+    t.string   "contacts_link"
+    t.string   "acct_name"
+    t.string   "rt_sts"
+    t.string   "cont_sts"
+    t.string   "full_addr"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "phone"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "city"
     t.string   "state"
     t.string   "state_code"
@@ -258,7 +304,6 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "url"
     t.string   "street"
     t.string   "address"
-    t.string   "hierarchy"
     t.string   "temporary_id"
     t.string   "geo_acct_name"
     t.string   "geo_full_addr"
@@ -277,10 +322,28 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "crm_franch_cons"
     t.string   "crm_franch_cat"
     t.string   "crm_phone"
-    t.string   "crm_hierarchy"
     t.string   "geo_type"
-    t.string   "coord_id_arr",    default: [],              array: true
+    t.string   "coord_id_arr",     default: [],              array: true
     t.string   "sfdc_acct_url"
+    t.string   "street_num"
+    t.string   "street_text"
+    t.string   "crm_street"
+    t.string   "crm_city"
+    t.string   "crm_state"
+    t.string   "crm_zip"
+    t.string   "crm_url_redirect"
+    t.string   "geo_url_redirect"
+    t.string   "sts_geo_crm"
+    t.string   "sts_url"
+    t.string   "sts_root"
+    t.string   "sts_acct"
+    t.string   "sts_addr"
+    t.string   "sts_ph"
+    t.string   "sts_duplicate"
+    t.string   "url_arr",          default: [],              array: true
+    t.string   "duplicate_arr",    default: [],              array: true
+    t.string   "cop_franch_arr",   default: [],              array: true
+    t.string   "cop_franch"
   end
 
   create_table "pending_verifications", force: :cascade do |t|
@@ -337,7 +400,8 @@ ActiveRecord::Schema.define(version: 20170205192912) do
     t.string   "coordinates"
     t.string   "full_address"
     t.string   "franch_cat"
-    t.string   "sfdc_acct_url"
+    t.string   "cont_merge_stat"
+    t.string   "cont_merge_stat_dt"
   end
 
   create_table "users", force: :cascade do |t|

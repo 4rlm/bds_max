@@ -1,48 +1,36 @@
 <h1 class="page-header">Accounts</h1>
 <h4 class="text-center">Accounts from All Sources</h4>
 <h3 class="section-header">Search Accounts</h3>
+
 <h4>Total Accounts: <%= number_with_delimiter(@cores_count) %></h4>
 
 <%= form_tag "/search_result_page_core", method: :post  do %>
+
 <div class="text-nowrap theme-layout search-container">
-    <div class="row filter-row">
-        <div class="filter-col col-md-12">
-            <table class="theme-layout-table core-search-table table table-bordered table-hover text-nowrap">
-                <tr>
-                    <th class="th-1"><span class="glyphicon glyphicon-flag"></span> Account Search</th>
-                    <th class="th-2 w-sm">Sales Person:</th>
-                    <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <th class="th-2 w-xsm">Type:</th>
-                    <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <th class="th-2 w-xsm">SFDC ID:</th>
-                    <td class="w-md"><%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+
 
     <div class="row filter-row">
         <div class="filter-col col-md-12">
             <table class="theme-layout-table core-search-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Account</th>
-                    <th class="th-2 w-md">Source</th>
+                    <th class="th-2">Source</th>
                     <th class="th-2">Account Name</th>
                     <th class="th-2">Group Name</th>
                     <th class="th-2">Ultimate Group Name</th>
-                    <th class="th-2 w-md">Sales Tier</th>
-                    <th class="th-2 w-xsm">Group RT</th>
-                    <th class="th-2 w-xsm">Ult RT</th>
+                    <th class="th-2">Type:</th>
+                    <th class="th-2">Sales Tier</th>
+                    <th class="th-2">Sales Person:</th>
+                    <th class="th-2">SFDC ID:</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= select_tag :acct_source, options_for_select(acct_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_ult_grp, params[:sfdc_ult_grp], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= text_field_tag :sfdc_grp_rt, params[:sfdc_grp_rt], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= text_field_tag :sfdc_ult_rt, params[:sfdc_ult_rt], placeholder: "----", class: 'form-control' %></td>
+                    <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td ><%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
                 </tr>
             </table>
         </div>
@@ -52,26 +40,22 @@
         <div class="col-md-12">
             <table class="theme-layout-table core-search-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Address</th>
-                    <th class="th-2 w-md">Hierarchy</th>
-                    <th class="th-2 w-lg">Coordinates</th>
-                    <th class="th-2 w-lg">Full Address</th>
+                    <th class="th-2">Coordinates</th>
+                    <th class="th-2">Full Address</th>
                     <th class="th-2">Street</th>
                     <th class="th-2">City</th>
-                    <th class="th-2 w-xsm">State</th>
-                    <th class="th-2 w-xsm">Zip</th>
-                    <th class="th-2 w-md">Phone</th>
+                    <th class="th-2">State</th>
+                    <th class="th-2">Zip</th>
+                    <th class="th-2">Phone</th>
                 </tr>
                 <tr>
-                    <th class="th-2">SFDC</th>
-                    <td><%= select_tag :hierarchy, options_for_select(hierarchy_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :coordinates } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :full_address } %></td>
                     <td><%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "----", class: 'form-control' %></td>
                     <td><%= select_tag :sfdc_state, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_ph, params[:sfdc_ph], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :full_address } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :coordinates } %></td>
                 </tr>
             </table>
         </div>
@@ -81,28 +65,20 @@
         <div class="col-md-12">
             <table class="theme-layout-table core-search-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Digital</th>
-                    <th class="th-2 w-md">URL Status</th>
+                    <th class="th-2">URL Status</th>
                     <th class="th-2">Website</th>
                     <th class="th-2">Root</th>
                     <th class="th-2">Franchise:</th>
                     <th class="th-2">Store Type:</th>
                     <th class="th-2">Template</th>
-                    <th class="th-2">IP</th>
-                    <th class="th-2">DNS-1</th>
-                    <th class="th-2">DNS-2</th>
                 </tr>
                 <tr>
-                    <th class="th-2 th-2a">SFDC</th>
                     <td><%= select_tag :url_status, options_for_select(url_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "----", class: 'form-control' %></td>
                     <td><%= select_tag :sfdc_franch_cons, options_for_select(franch_cons_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :sfdc_franch_cat, options_for_select(franch_cat_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :sfdc_template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td>IP</td>
-                    <td>DNS-1</td>
-                    <td>DNS-2</td>
                 </tr>
             </table>
         </div>
@@ -112,8 +88,7 @@
         <div class="col-md-12">
             <table class="theme-layout-table core-search-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-1 t3">Modules</th>
-                    <th class="th-2 w-md">Accounts</th>
+                    <th class="th-2">Accounts</th>
                     <th class="th-2">Domainer</th>
                     <th class="th-2">Staff Index</th>
                     <th class="th-2">Location Index</th>
@@ -121,7 +96,6 @@
                     <th class="th-2">GeoCoder</th>
                 </tr>
                 <tr>
-                    <th class="th-2">Status</th>
                     <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :domain_status, options_for_select(status_list_search), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
@@ -129,25 +103,11 @@
                     <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :geo_status, options_for_select(location_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                 </tr>
-                <tr>
-                    <th class="th-2">Date</th>
-                    <!-- Core Updated -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :updated_at } %></td>
-                    <!-- Domainer Date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domainer_date } %></td>
-                    <!-- Staff Indexer Date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_date } %></td>
-                    <!-- location indexer date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :indexer_date } %></td>
-                    <!-- staffer date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staffer_date } %></td>
-                    <!-- geo date -->
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :geo_date } %></td>
-                </tr>
             </table>
         </div>
     </div>  <!-- row ends -->
 </div> <!-- search-container Ends -->
+
 
 <div class="radio">
     <label><%= radio_button_tag 'view_mode', 'list', true %> List View</label>
@@ -155,6 +115,7 @@
 <div class="radio">
     <label><%= radio_button_tag 'view_mode', 'detail' %> Detail View</label>
 </div>
+
 
 <%= submit_tag "Search", class: 'wide-button blue-button' %>
 <% end %>

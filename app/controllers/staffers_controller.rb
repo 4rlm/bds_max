@@ -1,6 +1,6 @@
 class StaffersController < ApplicationController
   before_action :set_staffer, only: [:show, :edit, :update, :destroy]
-  before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn]
+  before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn]
 
   # GET /staffers
   # GET /staffers.json
@@ -18,7 +18,11 @@ def index
         @selected_data = Staffer.all.order
     end
 
-    @selected_data = @selected_data.order(updated_at: :desc)
+    if url = params[:url]
+        @selected_data = @selected_data.where(domain: url).order(updated_at: :desc)
+    else
+        @selected_data = @selected_data.order(updated_at: :desc)
+    end
     @staffer_count = Staffer.count
     @selected_staffer_count = @selected_data.count
 
@@ -111,7 +115,9 @@ end
 
     def acct_contacts
         @core = Core.find(params[:core])
-        @staffers = Staffer.where(sfdc_id: @core.sfdc_id)
+        # @staffers = Staffer.where(sfdc_id: @core.sfdc_id)
+        @staffers = Staffer.where(domain: @core.sfdc_url)
+
     end
 
 
@@ -124,6 +130,14 @@ end
 
         redirect_to root_path
     end
+
+
+    def cs_data_getter_btn
+        @staffer_service.cs_data_getter
+      #   @staffer_service.delay.cs_data_getter
+        redirect_to indexers_path
+    end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

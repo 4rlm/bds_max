@@ -1,14 +1,34 @@
 Rails.application.routes.draw do
+  resources :indexer_terms do
+      collection { post :import_csv_data }
+  end
+  get 'indexer_term/import_page' => 'indexer_terms#import_page'
+
+
+  resources :indexers do
+      collection {post :import_csv_data}
+    #   get :update_status, on: :collection
+  end
+  get 'indexer/import_page' => 'indexers#import_page'
+  get 'indexer_starter_btn' => 'indexers#indexer_starter_btn'
+  get 'reset_errors_btn' => 'indexers#reset_errors_btn'
+  get 'indexer_power_btn' => 'indexers#indexer_power_btn'
+  get 'template_finder_btn' => 'indexers#template_finder_btn'
+  get 'rooftop_data_getter_btn' => 'indexers#rooftop_data_getter_btn'
+
   devise_for :users
   resources :geo_places
   # resources :locations
 
   resources :locations do
       collection {post :import_csv_data}
+      get :update_status, on: :collection
   end
   get 'location/import_page' => 'locations#import_page'
   get 'location/search' => 'locations#search'
   get 'geo_places_starter_btn' => 'locations#geo_places_starter_btn'
+  get 'location_power_btn' => 'locations#location_power_btn'
+  get 'turbo_matcher_btn' => 'locations#turbo_matcher_btn'
 
   get 'location/old_index' => 'locations#old_index'
 
@@ -21,6 +41,7 @@ Rails.application.routes.draw do
   get 'staffer/import_page' => 'staffers#import_page'
   get 'staffer/search' => 'staffers#search'
   get 'staffer/acct_contacts' => 'staffers#acct_contacts'
+  get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
 
     resources :cores do
         collection { post :import_core_data }

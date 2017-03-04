@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
     before_action :set_location, only: [:show, :edit, :update, :destroy]
-    before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_places_starter_btn]
+    before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_places_starter_btn, :location_power_btn, :turbo_matcher_btn]
 
     # GET /locations
     # GET /locations.json
@@ -33,7 +33,7 @@ class LocationsController < ApplicationController
         end
 
         # WILL_PAGINATE #
-        @locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
+        @locations = @locations.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 20)
 
 
         ## GEOCODER SEARCH NEARBY - STARTS##
@@ -82,6 +82,11 @@ class LocationsController < ApplicationController
         redirect_to locations_path
     end
 
+
+    def search
+
+    end
+
     # Testing iFrame
     # def open_url
     #   @url = params[:url]
@@ -127,16 +132,85 @@ class LocationsController < ApplicationController
         end
     end
 
+    def turbo_matcher_btn
+        # @service.turbo_matcher
+        # @service.delay.turbo_matcher
+        # @service.delay.web_acct_name_cleaner
+        # @service.www_inserter
+        # @service.url_redirect_checker
+        # @service.delay.url_redirect_checker
+        # @service.address_checker
+        # @service.root_and_url_finalizer
+        # @service.delay.root_and_url_finalizer
+        # @service.delay.root_matcher
+
+        # @service.delay.sts_updater
+
+        # @service.delay.loc_core_dup_remover
+
+        # @service.delay.coord_id_arr_btn
+        # @service.delay.duplicate_sts_btn
+        # @service.delay.quick_coordinates_collector
+        # @service.delay.cop_franch_migrator
+
+        # @service.delay.phone_updater
+
+
+
+        # @service.unmatched_url
+
+        # @service.sts_duplicate_nil
+        # @service.delay.missing_address
+
+
+
+        # @service.db_check
+
+        # @service.duplicate_match_collector
+        # @service.delay.duplicate_match_collector
+
+        # @service.delay.sts_duplicate_tagger
+
+        # @service.sts_duplicate_destroyer
+
+        # @service.dup_finder
+        @service.delay.dup_finder
+
+        # @service.delay.crm_source_web_matcher
+
+
+        # @service.mix_match_addr_acct
+
+
+        # @service.delay.non_matched_url_finder
+
+
+
+        # @service.sample_dup_finder
+        # @service.delay.sample_dup_finder
+
+        # @service.delay.url_dup_finder
+
+
+        # @service.hybrid_address_matcher
+
+
+
+        redirect_to locations_path
+    end
+
+
+    def location_power_btn
+        # @service.street_cleaner
+        # @service.white_space_cleaner
+
+        redirect_to locations_path
+    end
+
 
     def geo_places_starter_btn
-        @service.delay.geo_places_starter
         # @service.geo_places_starter
-
-        # @service.delay.make_bds_status_nil
-
-        # @service.delay.url_root_formatter
-
-        # @service.delay.type_hierarchy_updater
+        @service.delay.geo_places_starter
 
         redirect_to locations_path
     end
@@ -166,6 +240,19 @@ class LocationsController < ApplicationController
         redirect_to root_path
     end
 
+    def update_status
+        location = Location.find(params[:location_id])
+
+        case params[:location_col]
+        when "root"
+            location.update_attributes(crm_url: location.url, crm_root: location.geo_root)
+        when "acct"
+            location.update_attribute(:acct_name, location.geo_acct_name)
+        when "address"
+            location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+        end
+    end
+
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_location
@@ -174,11 +261,11 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :phone, :map_url, :img_url, :place_id, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat, :crm_phone)
+        params.require(:location).permit(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :phone, :map_url, :img_url, :place_id, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat, :crm_phone, :crm_url_redirect, :geo_url_redirect, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate)
     end
 
     def filtering_params(params)
-        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat)
+        params.slice(:latitude, :longitude, :created_at, :updated_at, :city, :state, :state_code, :postal_code, :coordinates, :acct_name, :group_name, :ult_group_name, :source, :sfdc_id, :tier, :sales_person, :acct_type, :location_status, :url, :crm_root, :street, :address, :temporary_id, :geo_acct_name, :geo_full_addr, :crm_source, :geo_root, :crm_root, :crm_url, :geo_franch_term, :geo_franch_cons, :geo_franch_cat, :crm_franch_term, :crm_franch_cons, :crm_franch_cat, :crm_phone, :crm_url_redirect, :geo_url_redirect, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate)
     end
 
 
