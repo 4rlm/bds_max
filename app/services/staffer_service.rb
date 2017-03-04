@@ -11,8 +11,8 @@ class StafferService
 
     def cs_data_getter
 
-        a=0
-        z=5
+        a=5
+        z=10
         # a=500
         # z=1000
         # a=1000
@@ -26,38 +26,51 @@ class StafferService
         # indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
 
-        ###### DEALER.com STAFF PAGE
+        ###### (*DONE!) DEALER.com STAFF PAGE
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.bobbellford.net")
         # indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
+        # indexers = Indexer.where(clean_url: "http://www.hallmarkvw.com")
+        # indexers = Indexer.where(clean_url: "http://www.fairoaksmotors.com")
+
+
+        ###### (*DONE!)  Dealer Direct STAFF PAGE
+        # indexers = Indexer.where(template: "Dealer Direct")[a...z]
+        # indexers = Indexer.where(clean_url: "http://www.larrygewekeford.net")
+        # indexers = Indexer.where(clean_url: "http://www.thinkfullerford.com")
+        # indexers = Indexer.where(clean_url: "http://www.acrivelliford.com")
+        # indexers = Indexer.where(clean_url: "http://www.midwayfordtruck.com")
+        # indexers = Indexer.where(clean_url: "http://www.kelleher-ford.com")
+        # indexers = Indexer.where(clean_url: "http://www.dovecreekford.com")
+        # indexers = Indexer.where(clean_url: "http://www.salesfordlincoln.com")
+        # indexers = Indexer.where(clean_url: "http://www.boeckmanford.net")
+        # indexers = Indexer.where(clean_url: "http://milwaukeeford.com")
 
 
         ###### DealerOn STAFF PAGE
         # indexers = Indexer.where(template: "DealerOn")[a...z]
-        indexers = Indexer.where(clean_url: "http://www.vwmankato.com")
-        # http://www.vwmankato.com/staff.aspx
-        # http://www.laurelkia.com/staff.aspx
-        # http://www.dalehoward.com/staff.aspx
-        # http://www.porscheofranchomirage.com/staff.aspx
-        # http://www.borcherding.com/staff.aspx
-        # http://www.mywhalingcity.com/staff.aspx
+        # indexers = Indexer.where(clean_url: "http://www.vwmankato.com")
+        indexers = Indexer.where(clean_url: "http://www.laurelkia.com")
+        # indexers = Indexer.where(clean_url: "http://www.dalehoward.com")
+        # indexers = Indexer.where(clean_url: "http://www.porscheofranchomirage.com")
+        # indexers = Indexer.where(clean_url: "http://www.borcherding.com")
+        # indexers = Indexer.where(clean_url: "http://www.mywhalingcity.com")
         # /staff.aspx
-
 
 
         ###### DEALER eProcess STAFF PAGE
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
-        # http://www.karitoyota.com/meet-our-staff/
-        # http://www.usedcarnh.net/meet-our-staff/
-        # http://www.mazdaofclearlake.com/meet-our-staff/
-        # http://www.rrmcsterling.com/meet-our-staff/
-        # http://www.alohakiaairport.com/meet-our-staff/
-        # http://www.joecooperfordtulsa.com/meet-our-staff/
-        # http://www.valenciaacura.com/meet-our-staff/
-        # http://www.harrisisuzu.com/meet-our-staff/
-        # http://www.lumsautocenter.com/meet-our-staff/
-        # meet-our-staff
+
+        # indexers = Indexer.where(clean_url: "http://www.karitoyota.com")
+        # indexers = Indexer.where(clean_url: "http://www.usedcarnh.net")
+        # indexers = Indexer.where(clean_url: "http://www.rrmcsterling.com")
+        # indexers = Indexer.where(clean_url: "http://www.alohakiaairport.com")
+        # indexers = Indexer.where(clean_url: "http://www.joecooperfordtulsa.com")
+        # indexers = Indexer.where(clean_url: "http://www.valenciaacura.com")
+        # indexers = Indexer.where(clean_url: "http://www.lumsautocenter.com")
+        # indexers = Indexer.where(clean_url: "http://www.harrisisuzu.com")
+        # /meet-our-staff/
 
 
         ###### Cobalt STAFF PAGE
@@ -91,7 +104,7 @@ class StafferService
             when "DealerCar Search"
                 # url = "#{clean_url}/"
             when "Dealer Direct"
-                # url = "#{clean_url}/"
+                url = "#{clean_url}/staff"
             when "Dealer Inspire"
                 # url = "#{clean_url}/"
             when "DealerFire"
@@ -144,8 +157,8 @@ class StafferService
             #         cs_error_code = error_msg
             #     end
             #     puts "\n\n>>> #{error_msg} <<<\n\n"
-            #
-            #     # indexer.update_attributes(indexer_status: "CS Error", cs_sts: cs_error_code)
+
+                # indexer.update_attributes(indexer_status: "CS Error", cs_sts: cs_error_code)
             # end ## rescue ends
 
             sleep(3)
@@ -154,24 +167,185 @@ class StafferService
     end
 
 
+
+    def dealer_direct_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        if html.css('.staff-desc .staff-name')
+            staff_count = html.css('.staff-desc .staff-name').count
+            puts "staff_count: #{staff_count}"
+            staff_hash_array = []
+
+            for i in 0...staff_count
+                staff_hash = {}
+                staff_hash[:full_name] = html.css('.staff-desc .staff-name')[i].text.strip
+                staff_hash[:job] = html.css('.staff-desc .staff-title')[i] ? html.css('.staff-desc .staff-title')[i].text.strip : ""
+                staff_hash[:email] = html.css('.staff-info .staff-email a')[i] ? html.css('.staff-info .staff-email a')[i].text.strip : ""
+                staff_hash[:phone] = html.css('.staff-info .staff-tel')[i] ? html.css('.staff-info .staff-tel')[i].text.strip : ""
+
+                staff_hash_array << staff_hash
+            end
+
+            puts "staff_hash_array: #{staff_hash_array}"
+
+            staff_hash_array.each do |hash|
+                puts
+                hash.each do |key, value|
+                    puts "#{key}: #{value.inspect}"
+                end
+            end
+            puts "-------------------------------"
+
+            staff_hash_array
+        end
+
+        # binding.pry
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+
+    def dealer_eprocess_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        # html.css('.employee_name').text
+        # html.css('.employee_title').text
+        # html.css('.employee_email').text
+        # html.css('.dept_number').text
+
+        full_names = html.css('.employee_name').text.strip if html.css('.employee_name')
+        full_names = html.css('.employee_name_staff').text.strip if full_names.blank? && html.css('.employee_name_staff')
+
+        if !full_names.blank?
+
+            # jobs = html.css('.employee_title').text.strip if html.css('.employee_title')
+            # jobs = html.css('.employee_title_staff').text.strip if jobs.blank? && html.css('.employee_title_staff')
+            #
+            # emails = html.css('.employee_email').text.strip if html.css('.employee_email')
+            # emails = html.css('.employee_link_staff').text.strip if emails.blank? && html.css('.employee_link_staff')
+            #
+            # phones = html.css('.dept_number').text.strip if html.css('.dept_number')
+            # phones = html.css('.employee_info').text.strip if phones.blank? && html.css('.employee_info')
+
+
+            staff_count = full_names.length
+            puts "staff_count: #{staff_count}"
+            staff_hash_array = []
+
+            for i in 0...staff_count
+                staff_hash = {}
+
+                staff_hash[:full_name] = html.css('.employee_name')[i].text.strip if html.css('.employee_name')[i]
+                staff_hash[:full_name] = html.css('.employee_name_staff')[i].text.strip if html.css('.employee_name_staff')[i]
+                staff_hash[:job] = html.css('.employee_title')[i].text.strip if html.css('.employee_title')[i]
+                staff_hash[:job] = html.css('.employee_title_staff')[i].text.strip if html.css('.employee_title_staff')[i]
+                staff_hash[:email] = html.css('.employee_email')[i].text.strip if html.css('.employee_email')[i]
+                staff_hash[:phone] = html.css('.dept_number')[0].text.strip if html.css('.dept_number')
+
+
+                # staff_hash[:full_name] = full_names
+                # staff_hash[:job] = jobs
+                # staff_hash[:emails] = emails
+                # staff_hash[:phones] = phones
+
+
+                staff_hash_array << staff_hash
+            end
+
+            puts "staff_hash_array: #{staff_hash_array}"
+
+            staff_hash_array.each do |hash|
+                puts
+                hash.each do |key, value|
+                    puts "#{key}: #{value.inspect}"
+                end
+            end
+            puts "-------------------------------"
+
+            staff_hash_array
+        end
+
+
+        #
+        # if html.css('.employee_name')
+        #     staff_count = html.css('.employee_name').count
+        #     puts "staff_count: #{staff_count}"
+        #     staff_hash_array = []
+        #
+        #     for i in 0...staff_count
+        #         staff_hash = {}
+        #         staff_hash[:full_name] = html.css('.employee_name')[i].text.strip
+        #         staff_hash[:job] = html.css('.employee_title')[i] ? html.css('.employee_title')[i].text.strip : ""
+        #         staff_hash[:email] = html.css('.employee_email')[i] ? html.css('.employee_email')[i].text.strip : ""
+        #         staff_hash[:phone] = html.css('.dept_number')[0] ? html.css('.dept_number')[0].text.strip : ""
+        #
+        #         staff_hash_array << staff_hash
+        #     end
+        #
+        #     puts "staff_hash_array: #{staff_hash_array}"
+        #
+        #     staff_hash_array.each do |hash|
+        #         puts
+        #         hash.each do |key, value|
+        #             puts "#{key}: #{value.inspect}"
+        #         end
+        #     end
+        #     puts "-------------------------------"
+        #
+        #     staff_hash_array
+        # end
+
+        # binding.pry
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+
     def dealeron_cs(html, url, indexer)
         puts indexer.template
         puts url
         puts
 
+
+        if html.css('.staff-row .staff-title')
+            staff_count = html.css('.staff-row .staff-title').count
+            puts "staff_count: #{staff_count}"
+            staff_hash_array = []
+
+            for i in 0...staff_count
+                staff_hash = {}
+                staff_hash[:full_name] = html.css('.staff-row .staff-title')[i].text.strip
+                staff_hash[:job] = html.css('.staff-desc')[i] ? html.css('.staff-desc')[i].text.strip : ""
+
+                email_expath = "//a[starts-with(@href, 'mailto:')]/@href"
+                staff_hash[:email] = html.xpath(email_expath)[i] ? html.xpath(email_expath)[i].text.strip : ""
+
+                ph_xpath = "//a[starts-with(@href, 'tel:')]/@href"
+                staff_hash[:phone] = html.xpath(ph_xpath)[i] ? html.xpath(ph_xpath)[i].text.strip : ""
+
+                staff_hash_array << staff_hash
+            end
+
+            puts "staff_hash_array: #{staff_hash_array}"
+
+            staff_hash_array.each do |hash|
+                puts
+                hash.each do |key, value|
+                    puts "#{key}: #{value.inspect}"
+                end
+            end
+            puts "-------------------------------"
+
+            staff_hash_array
+        end
+
         binding.pry
-
-        full_names = html.css('.staff-title').map {|name| name.text.strip}
-        jobs = html.css('.staff-desc').map {|job| job.text.strip}
-        phones = html.css('.phone1').map {|phone| phone.text.strip}
-        emails = html.css('.email').map {|email| email.text.strip}
-
-
-
-        puts "full_names: #{full_names}\n\n"
-        puts "jobs: #{jobs}\n\n"
-        puts "phones: #{phones}\n\n"
-        puts "emails: #{emails}\n\n"
 
         # cs_formatter(fname, lname, fullname, title, email)
     end
@@ -184,21 +358,22 @@ class StafferService
 
         if html.css('#staffList .vcard .fn')
             staff_count = html.css('#staffList .vcard .fn').count
-            staff_hash_array = []
-
             puts "staff_count: #{staff_count}"
+            staff_hash_array = []
 
             for i in 0...staff_count
                 staff_hash = {}
                 staff_hash[:full_name] = html.css('#staffList .vcard .fn')[i].text.strip
-                staff_hash[:job] = html.css('#staffList .vcard .title')[i] ? html.css('#staffList .vcard .title')[i].text.strip : ""
+                staff_hash[:job] = html.css('#staffList .vcard .title') ? html.css('#staffList .vcard .title')[i].text.strip : ""
                 staff_hash[:email] = html.css('#staffList .vcard .email') ? html.css('#staffList .vcard .email')[i].text.strip : ""
+                staff_hash[:phone] = html.css('#staffList .vcard .phone') ? html.css('#staffList .vcard .phone')[i].text.strip : ""
                 staff_hash_array << staff_hash
             end
 
             puts "staff_hash_array: #{staff_hash_array}"
 
             staff_hash_array.each do |hash|
+                puts
                 hash.each do |key, value|
                     puts "#{key}: #{value.inspect}"
                 end
@@ -228,17 +403,6 @@ class StafferService
 
 
     def dealercar_search_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-
-        #  STAFF PAGE
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealer_direct_cs(html, url, indexer)
         puts indexer.template
         puts url
         puts
@@ -293,17 +457,6 @@ class StafferService
         selector = "//meta[@itemprop='email']/@content"
         nodes = html.xpath(selector)
         emails = nodes.map {|n| n}
-
-        #  STAFF PAGE
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealer_eprocess_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
 
         #  STAFF PAGE
 
