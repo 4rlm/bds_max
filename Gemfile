@@ -54,7 +54,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
 
 
-ruby "2.3.1"
+# ruby "2.3.1"
 
 gem 'mechanize'
 # gem 'delayed_job_web'
