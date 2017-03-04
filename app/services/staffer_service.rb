@@ -18,6 +18,7 @@ class StafferService
         # a=1000
         # z=-1
 
+        ###### GENERAL
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
         # indexers = Indexer.where(template: "DealerOn")[a...z]  ##852
@@ -25,21 +26,27 @@ class StafferService
         # indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
 
-        # DEALER.com STAFF PAGE
+        ###### DEALER.com STAFF PAGE
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.bobbellford.net")
-        indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
+        # indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
 
 
-        # DealerOn STAFF PAGE
-
+        ###### DealerOn STAFF PAGE
+        # indexers = Indexer.where(template: "DealerOn")[a...z]
+        indexers = Indexer.where(clean_url: "http://www.vwmankato.com")
         # http://www.vwmankato.com/staff.aspx
         # http://www.laurelkia.com/staff.aspx
         # http://www.dalehoward.com/staff.aspx
+        # http://www.porscheofranchomirage.com/staff.aspx
+        # http://www.borcherding.com/staff.aspx
+        # http://www.mywhalingcity.com/staff.aspx
+        # /staff.aspx
 
 
 
-        # indexers = Indexer.where(template: "DealerOn")[a...z]
+        ###### DEALER eProcess STAFF PAGE
+        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
         # http://www.karitoyota.com/meet-our-staff/
         # http://www.usedcarnh.net/meet-our-staff/
@@ -53,7 +60,7 @@ class StafferService
         # meet-our-staff
 
 
-        # Cobalt STAFF PAGE
+        ###### Cobalt STAFF PAGE
         # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
         # http://www.shireycadillacgm.com/MeetOurDepartments
         # http://www.nissanmarin.com/MeetOurDepartments
@@ -75,7 +82,7 @@ class StafferService
             when "Dealer.com"
                 url = "#{clean_url}/dealership/staff.htm"
             when "DealerOn"
-                url = "#{clean_url}/meet-our-staff/"
+                url = "#{clean_url}/staff.aspx"
             when "Cobalt"
                 # MeetOurDepartments
                 # MeetOurStaff
@@ -90,15 +97,12 @@ class StafferService
             when "DealerFire"
                 # url = "#{clean_url}/"
             when "DEALER eProcess"
-                # url = "#{clean_url}/"
+                url = "#{clean_url}/meet-our-staff"
             end
 
             counter+=1
             puts "\n============================\n"
             puts "[#{a}...#{z}]  (#{counter}/#{range})"
-
-
-            # url = "http://www.mazdaofclearlake.com/meet-our-staff/"
 
             # begin
                 @agent = Mechanize.new
@@ -178,18 +182,6 @@ class StafferService
         puts url
         puts
 
-
-        #==CONTACT FIELDS==ARRAYS
-        # full_names = empty_arr_fix(html.css('#staffList .vcard .fn'))
-        # jobs = empty_arr_fix(html.css('#staffList .vcard .title'))
-        # emails = empty_arr_fix(html.css('#staffList .vcard .email'))
-
-
-        # full_names = html.css('#staffList .vcard .fn').text if html.css('#staffList .vcard .fn')
-        # jobs = html.css('#staffList .vcard .title').text if html.css('#staffList .vcard .title')
-        # emails = html.css('#staffList .vcard .email').text if html.css('#staffList .vcard .email')
-
-
         if html.css('#staffList .vcard .fn')
             staff_count = html.css('#staffList .vcard .fn').count
             staff_hash_array = []
@@ -217,34 +209,6 @@ class StafferService
         end
 
         # binding.pry
-
-
-        # p "full_names: #{full_names}"
-        # p "jobs: #{jobs}"
-        # p "emails: #{emails}"
-
-
-        # size = full_names.length
-        # if jobs.length != size
-        #     n = size - jobs.length
-        #     n.times {jobs << "N/A"} if n >= 0
-        # elsif emails.length != size
-        #     n = size - emails.length
-        #     n.times {emails << "N/A"} if n >= 0
-        # end
-
-        # fnames = []
-        # lnames = []
-        # full_names.each do |name|
-        #     words = name.split(' ')
-        #     fnames << words[0]
-        #     lnames << words[-1]
-        # end
-        #
-        # for i in 0...size
-        #     add_indexer_row_with("Web Contacts", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", "")
-        # end
-
 
         # cs_formatter(fname, lname, fullname, title, email)
     end
