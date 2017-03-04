@@ -1,5 +1,23 @@
 # Helper Method for CobaltRts
 class RtsHelper
+    # PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
+    def cobalt_addr_parser(str)
+        str.strip!
+        parts = str.split("   ")
+        parts.each do |s|
+            if s == "" || s == "\n"
+                parts.delete(s)
+            else
+                s.strip!
+            end
+        end
+
+        for x in ["\n", ""]
+            parts.delete(x) if parts.include?(x)
+        end
+        parts # returns array
+    end
+
     # Parse full address into org, street, city, state, zip, phone.
     def cobalt_addr_processor(full_addr)
         states, zips, phones = [], [], []
@@ -144,23 +162,5 @@ class RtsHelper
             end
         end
         item
-    end
-
-    def cobalt_addr_parser(str)
-        ### PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
-        str.strip!
-        parts = str.split("   ")
-        parts.each do |s|
-            if s == "" || s == "\n"
-                parts.delete(s)
-            else
-                s.strip!
-            end
-        end
-
-        for x in ["\n", ""]
-            parts.delete(x) if parts.include?(x)
-        end
-        parts # returns array
     end
 end

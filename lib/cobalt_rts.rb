@@ -1,4 +1,10 @@
+require 'rts_helper'
+
 class CobaltRts
+    def initialize
+        @helper = RtsHelper.new
+    end
+
     def rooftop_scraper(html)
         orgs, streets, cities, states, zips, phones = [], [], [], [], [], []
 
@@ -6,7 +12,7 @@ class CobaltRts
         ### === FULL ADDRESS AND ORG VARIABLE ===
         addr_n_org1 = html.at_css('.dealer-info').text if html.at_css('.dealer-info')
         if !addr_n_org1.blank?
-            addr_arr = cobalt_addr_parser(addr_n_org1)
+            addr_arr = @helper.cobalt_addr_parser(addr_n_org1)
             city_state_zip = addr_arr[2]
             city_state_zip_arr = city_state_zip.split(",")
             state_zip = city_state_zip_arr[1]
@@ -45,11 +51,11 @@ class CobaltRts
 
         puts "\n>>>>>>>>>>\n orgs: #{orgs}, addr_n_org1: #{addr_n_org1}, phones: #{phones}\n>>>>>>>>>>\n"
 
-        result_1 = cobalt_addr_processor(addr2)
-        result_2 = cobalt_addr_processor(addr3)
-        result_3 = cobalt_addr_processor(addr_n_ph1)
-        result_4 = cobalt_addr_processor(addr4)
-        result_5 = cobalt_addr_processor(addr5)
+        result_1 = @helper.cobalt_addr_processor(addr2)
+        result_2 = @helper.cobalt_addr_processor(addr3)
+        result_3 = @helper.cobalt_addr_processor(addr_n_ph1)
+        result_4 = @helper.cobalt_addr_processor(addr4)
+        result_5 = @helper.cobalt_addr_processor(addr5)
 
         streets.concat([ result_1[:street], result_2[:street], result_3[:street], result_4[:street], result_5[:street] ]) # [string, string ...]
         cities.concat([ result_1[:city], result_2[:city], result_3[:city], result_4[:city], result_5[:city] ]) # [string, string ...]
@@ -58,12 +64,12 @@ class CobaltRts
         phones.concat(result_1[:phones] + result_2[:phones] + result_3[:phones] + result_4[:phones] + result_5[:phones]) # arrary + array + ....
 
         ### Call Methods to Process above Data
-        org = cobalt_final_arr_qualifier(orgs, "org")
-        street = cobalt_final_arr_qualifier(streets, "street")
-        city = cobalt_final_arr_qualifier(cities, "city")
-        state = cobalt_final_arr_qualifier(states, "state")
-        zip = cobalt_final_arr_qualifier(zips, "zip")
-        phone = cobalt_final_arr_qualifier(phones, "phone")
+        org    = @helper.cobalt_final_arr_qualifier(orgs, "org")
+        street = @helper.cobalt_final_arr_qualifier(streets, "street")
+        city   = @helper.cobalt_final_arr_qualifier(cities, "city")
+        state  = @helper.cobalt_final_arr_qualifier(states, "state")
+        zip    = @helper.cobalt_final_arr_qualifier(zips, "zip")
+        phone  = @helper.cobalt_final_arr_qualifier(phones, "phone")
 
         {org: org, street: street, city: city, state: state, zip: zip, phone: phone}
     end

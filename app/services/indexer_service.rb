@@ -16,8 +16,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=15
-        z=25
+        a=40
+        z=50
         # a=500
         # z=1000
         # a=1000
