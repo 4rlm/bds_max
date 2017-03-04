@@ -5,8 +5,9 @@ require 'nokogiri'
 require 'socket'
 require 'pry'
 require 'httparty'
-require 'dealerfire_rts'
-require 'cobalt_rts'
+require 'indexer_service_helper/dealerfire_rts'
+require 'indexer_service_helper/cobalt_rts'
+require 'indexer_service_helper/dealer_inspire_rts'
 
 
 class IndexerService
@@ -16,8 +17,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=40
-        z=50
+        a=0
+        z=10
         # a=500
         # z=1000
         # a=1000
@@ -27,14 +28,14 @@ class IndexerService
         # indexers = Indexer.where(template: "Cobalt")[a...z]
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        # indexers = Indexer.where(template: "Dealer Inspire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
+        # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        # indexers = Indexer.where(clean_url: "http://www.roncarter.com/")
+        # indexers = Indexer.where(clean_url: "http://www.wrightchevroletinc.net")
 
 
         counter=0
@@ -331,27 +332,9 @@ class IndexerService
 
     ##### (6: 675) DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
     def dealer_inspire_rts(html, url, indexer)
-        org = html.at_css('.organization-name').text if html.at_css('.organization-name')
-        acc_phones = html.css('.tel').collect {|phone| phone.text if phone} if html.css('.tel')
-        phone = acc_phones.join(', ')
-
-        street = html.at_css('.street-address').text if html.at_css('.street-address')
-
-        if street && street.include?(",")
-            street = street.split(",")
-            street = street[0]
-            if street.include?("  ")
-                street = street.split(" ")
-                street = street.join(" ")
-            end
-            street.strip!
-        end
-
-        city = html.at_css('.locality').text if html.at_css('.locality').text
-        state = html.at_css('.region').text if html.at_css('.region').text
-        zip = html.at_css('.postal-code').text if html.at_css('.postal-code').text
-
-        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+        puts url
+        result = DealerInspireRts.new.rooftop_scraper(html)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
     ##### DEALER INSPIRE RTS CORE METHOD ENDS ~ ######
 

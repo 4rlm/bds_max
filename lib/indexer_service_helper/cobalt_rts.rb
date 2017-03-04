@@ -1,4 +1,4 @@
-require 'rts_helper'
+require 'indexer_service_helper/rts_helper'
 
 class CobaltRts
     def initialize
@@ -16,13 +16,13 @@ class CobaltRts
             city_state_zip = addr_arr[2]
             city_state_zip_arr = city_state_zip.split(",")
             state_zip = city_state_zip_arr[1]
-            state_zip_arr = state_zip.split(" ")
+            state_zip_arr = state_zip.split(" ") if state_zip
 
             orgs << addr_arr[0]
             streets << addr_arr[1]
             cities << city_state_zip_arr[0]
-            states << state_zip_arr[0]
-            zips << state_zip_arr[-1]
+            states << state_zip_arr[0] if state_zip_arr
+            zips << state_zip_arr[-1] if state_zip_arr
         end
 
         # binding.pry
