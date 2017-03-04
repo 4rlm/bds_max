@@ -1,7 +1,7 @@
 # Helper Method for CobaltRts
 class RtsHelper
     # PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
-    def cobalt_addr_parser(str)
+    def addr_parser(str)
         str.strip!
         parts = str.split("   ")
         parts.each do |s|
@@ -19,7 +19,7 @@ class RtsHelper
     end
 
     # Parse full address into org, street, city, state, zip, phone.
-    def cobalt_addr_processor(full_addr)
+    def addr_processor(full_addr)
         states, zips, phones = [], [], []
 
         if !full_addr.blank?
@@ -44,7 +44,7 @@ class RtsHelper
         {street: street, city: city, states: states, zips: zips, phones: phones}
     end
 
-    # Helper method for `cobalt_addr_processor(full_addr)`
+    # Helper method for `addr_processor(full_addr)`
     def n_splitter(obj)
         ### Removes "\t" from objects.
         ### Then splits objects by "\n".
@@ -74,7 +74,7 @@ class RtsHelper
     end
 
     # Validate org, street, city, state, zip, phone individually.
-    def cobalt_final_arr_qualifier(array, option)
+    def final_arr_qualifier(array, option)
         return if array.empty?
         negs = ["contact", "link", "click", "map", "(", "-", "location", "savings"]
         result = nil
@@ -93,7 +93,7 @@ class RtsHelper
         result
     end
 
-    # Helper method for `cobalt_final_arr_qualifier(array, option)`
+    # Helper method for `final_arr_qualifier(array, option)`
     def org_qualifier(org, negs)
         return if org.nil?
         alpha = org.tr('^A-Za-z', '')
