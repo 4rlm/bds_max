@@ -1,6 +1,6 @@
 class StaffersController < ApplicationController
   before_action :set_staffer, only: [:show, :edit, :update, :destroy]
-  before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn]
+  before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn]
 
   # GET /staffers
   # GET /staffers.json
@@ -130,6 +130,14 @@ end
 
         redirect_to root_path
     end
+
+
+    def cs_data_getter_btn
+        @staffer_service.cs_data_getter
+      #   @staffer_service.delay.cs_data_getter
+        redirect_to indexers_path
+    end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

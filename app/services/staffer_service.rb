@@ -3,7 +3,394 @@ require 'nokogiri'
 require 'open-uri'
 # require_relative 'staffer_service_helper'
 
-# class StafferService
+class StafferService
+
+###########################################
+###  SCRAPER METHODS: contact_data_getter ~ STARTS
+###########################################
+
+    def cs_data_getter
+
+        a=0
+        z=5
+        # a=500
+        # z=1000
+        # a=1000
+        # z=-1
+
+        # indexers = Indexer.where(template: "DealerCar Search")[a...z]
+        # indexers = Indexer.where(template: "Dealer Direct")[a...z]
+        # indexers = Indexer.where(template: "DealerOn")[a...z]  ##852
+        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
+        # indexers = Indexer.where(template: "DealerFire")[a...z]
+        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+
+        # DEALER.com STAFF PAGE
+        # indexers = Indexer.where(template: "Dealer.com")[a...z]
+        # indexers = Indexer.where(clean_url: "http://www.bobbellford.net")
+        # indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
+
+
+        # DEALERON STAFF PAGE
+        # indexers = Indexer.where(template: "DealerOn")[a...z]
+        indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
+
+
+        # http://www.karitoyota.com/meet-our-staff/
+        # http://www.usedcarnh.net/meet-our-staff/
+        # http://www.mazdaofclearlake.com/meet-our-staff/
+        # http://www.rrmcsterling.com/meet-our-staff/
+        # http://www.alohakiaairport.com/meet-our-staff/
+        # http://www.joecooperfordtulsa.com/meet-our-staff/
+        # http://www.valenciaacura.com/meet-our-staff/
+        # http://www.harrisisuzu.com/meet-our-staff/
+        # http://www.lumsautocenter.com/meet-our-staff/
+        # meet-our-staff
+
+
+        # COBALT STAFF PAGE
+        # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
+        # http://www.shireycadillacgm.com/MeetOurDepartments
+        # http://www.nissanmarin.com/MeetOurDepartments
+        # http://www.lexusgwinnett.com/Meet-Our-Staff
+        # http://www.irwinautoco.com/MeetOurDepartments
+        # http://www.vivachevy.com/MeetOurStaff
+        # MeetOurDepartments
+        # MeetOurStaff
+        # Meet-Our-Staff
+
+
+        counter=0
+        range = z-a
+        indexers.each do |indexer|
+            template = indexer.template
+            clean_url = indexer.clean_url
+
+            # case template
+            # when "Dealer.com"
+            #     url = "#{clean_url}/dealership/staff.htm"
+            # when "DealerOn"
+            #     url = "#{clean_url}/meet-our-staff/"
+            # when "Cobalt"
+            #     # MeetOurDepartments
+            #     # MeetOurStaff
+            #     # Meet-Our-Staff
+            #     # url = "#{clean_url}/"
+            # when "DealerCar Search"
+            #     # url = "#{clean_url}/"
+            # when "Dealer Direct"
+            #     # url = "#{clean_url}/"
+            # when "Dealer Inspire"
+            #     # url = "#{clean_url}/"
+            # when "DealerFire"
+            #     # url = "#{clean_url}/"
+            # when "DEALER eProcess"
+            #     # url = "#{clean_url}/"
+            # end
+
+            counter+=1
+            puts "\n============================\n"
+            puts "[#{a}...#{z}]  (#{counter}/#{range})"
+
+
+            url = "http://www.mazdaofclearlake.com/meet-our-staff/"
+
+            # begin
+                @agent = Mechanize.new
+                html = @agent.get(url)
+
+
+                case template
+                when "Dealer.com"
+                    dealer_com_cs(html, url, indexer)
+                when "Cobalt"
+                    cobalt_cs(html, url, indexer)
+                when "DealerOn"
+                    dealeron_cs(html, url, indexer)
+                when "DealerCar Search"
+                    dealercar_search_cs(html, url, indexer)
+                when "Dealer Direct"
+                    dealer_direct_cs(html, url, indexer)
+                when "Dealer Inspire"
+                    dealer_inspire_cs(html, url, indexer)
+                when "DealerFire"
+                    dealerfire_cs(html, url, indexer)
+                when "DEALER eProcess"
+                    dealer_eprocess_cs(html, url, indexer)
+                end
+
+
+            # rescue
+            #     error = $!.message
+            #     error_msg = "RT Error: #{error}"
+            #     if error_msg.include?("connection refused")
+            #         cs_error_code = "Connection Error"
+            #     elsif error_msg.include?("undefined method")
+            #         cs_error_code = "Method Error"
+            #     elsif error_msg.include?("404 => Net::HTTPNotFound")
+            #         cs_error_code = "404 Error"
+            #     elsif error_msg.include?("TCP connection")
+            #         cs_error_code = "TCP Error"
+            #     else
+            #         cs_error_code = error_msg
+            #     end
+            #     puts "\n\n>>> #{error_msg} <<<\n\n"
+            #
+            #     # indexer.update_attributes(indexer_status: "CS Error", cs_sts: cs_error_code)
+            # end ## rescue ends
+
+            sleep(3)
+        end ## .each loop ends
+
+    end
+
+
+    def dealeron_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+        
+        binding.pry
+
+        full_names = html.css('.staff-title').map {|name| name.text.strip}
+        jobs = html.css('.staff-desc').map {|job| job.text.strip}
+        phones = html.css('.phone1').map {|phone| phone.text.strip}
+        emails = html.css('.email').map {|email| email.text.strip}
+
+
+
+        puts "full_names: #{full_names}\n\n"
+        puts "jobs: #{jobs}\n\n"
+        puts "phones: #{phones}\n\n"
+        puts "emails: #{emails}\n\n"
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealer_com_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+
+        #==CONTACT FIELDS==ARRAYS
+        # full_names = empty_arr_fix(html.css('#staffList .vcard .fn'))
+        # jobs = empty_arr_fix(html.css('#staffList .vcard .title'))
+        # emails = empty_arr_fix(html.css('#staffList .vcard .email'))
+
+
+        # full_names = html.css('#staffList .vcard .fn').text if html.css('#staffList .vcard .fn')
+        # jobs = html.css('#staffList .vcard .title').text if html.css('#staffList .vcard .title')
+        # emails = html.css('#staffList .vcard .email').text if html.css('#staffList .vcard .email')
+
+
+        if html.css('#staffList .vcard .fn')
+            staff_count = html.css('#staffList .vcard .fn').count
+            staff_hash_array = []
+
+            puts "staff_count: #{staff_count}"
+
+            for i in 0...staff_count
+                staff_hash = {}
+                # staff_hash[:full_name] = html.css('#staffList .vcard .fn') ? html.css('#staffList .vcard .fn')[i].text.strip! : ""
+                staff_hash[:full_name] = html.css('#staffList .vcard .fn')[i].text.strip!
+
+                # staff_hash[:job] = html.css('#staffList .vcard .title')[i] ? html.css('#staffList .vcard .title')[i].text.strip! : ""
+                if html.css('#staffList .vcard .title')[i]
+                    staff_hash[:job] = html.css('#staffList .vcard .title')[i].text.strip!
+                else
+                    staff_hash[:job] = ""
+                end
+
+
+                staff_hash[:email] = html.css('#staffList .vcard .email') ? html.css('#staffList .vcard .email')[i].text.strip! : ""
+                staff_hash_array << staff_hash
+            end
+
+            puts "staff_hash_array: #{staff_hash_array}"
+
+            staff_hash_array.each do |hash|
+                hash.each do |key, value|
+                    puts "#{key}: #{value.inspect}"
+                end
+            end
+            puts "-------------------------------"
+
+            staff_hash_array
+
+        end
+
+        # binding.pry
+
+
+        # p "full_names: #{full_names}"
+        # p "jobs: #{jobs}"
+        # p "emails: #{emails}"
+
+
+        # size = full_names.length
+        # if jobs.length != size
+        #     n = size - jobs.length
+        #     n.times {jobs << "N/A"} if n >= 0
+        # elsif emails.length != size
+        #     n = size - emails.length
+        #     n.times {emails << "N/A"} if n >= 0
+        # end
+
+        # fnames = []
+        # lnames = []
+        # full_names.each do |name|
+        #     words = name.split(' ')
+        #     fnames << words[0]
+        #     lnames << words[-1]
+        # end
+        #
+        # for i in 0...size
+        #     add_indexer_row_with("Web Contacts", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", "")
+        # end
+
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def cobalt_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        full_names = html.css('.contact-name').map {|name| name.text.strip}
+        jobs = html.css('.contact-title').map {|job| job.text.strip}
+        emails = html.css('.contact-email').map {|email| email.text.strip}
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealercar_search_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealer_direct_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealer_inspire_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        #==CONTACT FIELDS==ARRAYS
+        full_names = []  # BEGIN NAMES ARRAY
+        html.css('.staff-item h3').map {|name|
+            unless full_names.include?(name.text.strip)
+                full_names.push(name.text.strip)
+            end
+        } # END NAMES
+
+        jobs = []  # BEGIN JOBS ARRAY
+        html.css('.staff-item h4').map {|job|
+            unless jobs.include?(job.text.strip)
+                jobs.push(job.text.strip)
+            end
+        }  # END JOBS ARRAY
+
+        phones = html.css('.staffphone').map {|phone| phone.text.strip}
+
+        # EMAILS BELOW
+        selector = "//a[starts-with(@href, 'mailto:')]/@href"
+        nodes = html.xpath(selector)
+        emails =  nodes.collect {|n| n.value[7..-1]}
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealerfire_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        full_names = html.css('.fn').map {|name| name.text.strip}
+        jobs = html.css('.position').map {|job| job.text.strip}
+        phones = html.css('.tel').map {|phone| phone.text.strip}
+        selector = "//meta[@itemprop='email']/@content"
+        nodes = html.xpath(selector)
+        emails = nodes.map {|n| n}
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealer_eprocess_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+
+    ###############################################
+    ### CS PROCESSING METHODS ~ BEGIN (ALL TEMPLATES USE THESE!!!)
+    ###############################################
+    def cs_formatter(fname, lname, fullname, title, email)
+        ### USED FOR ALL TEMPLATES
+        ### STRIPS AND FORMATS DATA BEFORE SAVING TO DB
+
+        cs_results_processor(fname, lname, fullname, title, email)
+    end
+
+
+    def cs_results_processor(fname, lname, fullname, title, email)
+        ### USED FOR ALL TEMPLATES
+        if fname || lname || fullname || title || email
+            puts indexer.template
+            puts "#{url} \n\nSC Result - Success!\n\n"
+            fname.nil? ? (puts "fname: nil") : (p "fname: #{fname}")
+            lname.nil? ? (puts "lname: nil") : (p "lname: #{lname}")
+            fullname.nil? ? (puts "fullname: nil") : (p "fullname: #{fullname}")
+            title.nil? ? (puts "title: nil") : (p "title: #{title}")
+            email.nil? ? (puts "email: nil") : (p "email: #{email}")
+            # need to create table row / send results to db
+            # indexer.update_attributes(indexer_status: "CS Result", cs_sts: CS Result)
+        else
+            puts "#{url} \n\nCS No-Result - Check Template Version!\n\n"
+            # need to create table row / send results to db
+            # indexer.update_attributes(indexer_status: "CS Result", cs_sts: CS Result)
+        end
+
+        puts "\n============================\n\n"
+    end
+
+    ###  SCRAPER METHODS: cs_results_processor ~ ENDS
+
+    ###########################################
+    ###### CS HELPER METHODS ~ ENDS #######
+    ###########################################
+
 
     # def start_staffer(ids)
     #     Core.where(id: ids).each do |el|
@@ -154,7 +541,7 @@ require 'open-uri'
     #     end
     # end ## staffer_core_updater
 
-# end  # Ends class StafferService
+end  # Ends class StafferService
 
 
 
@@ -166,8 +553,8 @@ class Scrapers
 
 
 
-    def ddc_scraper(html, url)
-        begin
+    # def ddc_scraper(html, url)
+        # begin
             # #==ACCOUNT FIELDS==ARRAYS
             # selector = "//meta[@name='author']/@content"
             # org = xpath_fix(html.xpath(selector))
@@ -179,36 +566,36 @@ class Scrapers
             # state = nil_fix(html.at_css('.adr .region'))
             # zip = nil_fix(html.at_css('.adr .postal-code'))
 
-            #==CONTACT FIELDS==ARRAYS
-            full_names = empty_arr_fix(html.css('#staffList .vcard .fn'))
-            jobs = empty_arr_fix(html.css('#staffList .vcard .title'))
-            emails = empty_arr_fix(html.css('#staffList .vcard .email'))
-
-            size = full_names.length
-            if jobs.length != size
-                n = size - jobs.length
-                n.times {jobs << "N/A"} if n >= 0
-            elsif emails.length != size
-                n = size - emails.length
-                n.times {emails << "N/A"} if n >= 0
-            end
-
-            fnames = []
-            lnames = []
-            full_names.each do |name|
-                words = name.split(' ')
-                fnames << words[0]
-                lnames << words[-1]
-            end
-
-            for i in 0...size
-                add_indexer_row_with("Web Contacts", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", "")
-            end
-        rescue
-            error_indicator(url, "Dearler.com")
-            puts "\n\n===== Dealer.com Error | Msg: #{$!.message} =====\n\n"
-        end
-    end # End of Main Method: "def ddc_scraper"
+        #     #==CONTACT FIELDS==ARRAYS
+        #     full_names = empty_arr_fix(html.css('#staffList .vcard .fn'))
+        #     jobs = empty_arr_fix(html.css('#staffList .vcard .title'))
+        #     emails = empty_arr_fix(html.css('#staffList .vcard .email'))
+        #
+        #     size = full_names.length
+        #     if jobs.length != size
+        #         n = size - jobs.length
+        #         n.times {jobs << "N/A"} if n >= 0
+        #     elsif emails.length != size
+        #         n = size - emails.length
+        #         n.times {emails << "N/A"} if n >= 0
+        #     end
+        #
+        #     fnames = []
+        #     lnames = []
+        #     full_names.each do |name|
+        #         words = name.split(' ')
+        #         fnames << words[0]
+        #         lnames << words[-1]
+        #     end
+        #
+        #     for i in 0...size
+        #         add_indexer_row_with("Web Contacts", "Dealer.com", org, street, city, state, zip, acc_phone, jobs[i], fnames[i], lnames[i], full_names[i], emails[i], "Web Contacts", "Dealer Site", "")
+        #     end
+        # rescue
+        #     error_indicator(url, "Dearler.com")
+        #     puts "\n\n===== Dealer.com Error | Msg: #{$!.message} =====\n\n"
+        # end
+    # end # End of Main Method: "def ddc_scraper"
 
 
     def xpath_fix(nodeSet)  # For: ddc_scraper
@@ -283,10 +670,10 @@ class Scrapers
             # addy = html.at_css('.adr').text
 
             #==CONTACT FIELDS==ARRAYS
-            full_names = html.css('.staff-title').map {|name| name.text.strip}
-            jobs = html.css('.staff-desc').map {|job| job.text.strip}
-            phones = html.css('.phone1').map {|phone| phone.text.strip}
-            emails = html.css('.email').map {|email| email.text.strip}
+            # full_names = html.css('.staff-title').map {|name| name.text.strip}
+            # jobs = html.css('.staff-desc').map {|job| job.text.strip}
+            # phones = html.css('.phone1').map {|phone| phone.text.strip}
+            # emails = html.css('.email').map {|email| email.text.strip}
 
             size = full_names.length
             if jobs.length &&  phones.length && emails.length == size
@@ -330,9 +717,9 @@ class Scrapers
             # zip = ''
 
             #==CONTACT FIELDS==ARRAYS
-            full_names = html.css('.contact-name').map {|name| name.text.strip}
-            jobs = html.css('.contact-title').map {|job| job.text.strip}
-            emails = html.css('.contact-email').map {|email| email.text.strip}
+            # full_names = html.css('.contact-name').map {|name| name.text.strip}
+            # jobs = html.css('.contact-title').map {|job| job.text.strip}
+            # emails = html.css('.contact-email').map {|email| email.text.strip}
 
             size = full_names.length
             if jobs.length && emails.length == size
@@ -392,12 +779,12 @@ class Scrapers
             # zip = addy[-1]
 
             #==CONTACT FIELDS==ARRAYS
-            full_names = html.css('.fn').map {|name| name.text.strip}
-            jobs = html.css('.position').map {|job| job.text.strip}
-            phones = html.css('.tel').map {|phone| phone.text.strip}
-            selector = "//meta[@itemprop='email']/@content"
-            nodes = html.xpath(selector)
-            emails = nodes.map {|n| n}
+            # full_names = html.css('.fn').map {|name| name.text.strip}
+            # jobs = html.css('.position').map {|job| job.text.strip}
+            # phones = html.css('.tel').map {|phone| phone.text.strip}
+            # selector = "//meta[@itemprop='email']/@content"
+            # nodes = html.xpath(selector)
+            # emails = nodes.map {|n| n}
 
             size = full_names.length
             if jobs.length == size
@@ -439,27 +826,27 @@ class Scrapers
             # state = html.at_css('.region').text
             # zip = html.at_css('.postal-code').text
 
-            #==CONTACT FIELDS==ARRAYS
-            full_names = []  # BEGIN NAMES ARRAY
-            html.css('.staff-item h3').map {|name|
-                unless full_names.include?(name.text.strip)
-                    full_names.push(name.text.strip)
-                end
-            } # END NAMES
-
-            jobs = []  # BEGIN JOBS ARRAY
-            html.css('.staff-item h4').map {|job|
-                unless jobs.include?(job.text.strip)
-                    jobs.push(job.text.strip)
-                end
-            }  # END JOBS ARRAY
-
-            phones = html.css('.staffphone').map {|phone| phone.text.strip}
-
-            # EMAILS BELOW
-            selector = "//a[starts-with(@href, 'mailto:')]/@href"
-            nodes = html.xpath(selector)
-            emails =  nodes.collect {|n| n.value[7..-1]}
+            # #==CONTACT FIELDS==ARRAYS
+            # full_names = []  # BEGIN NAMES ARRAY
+            # html.css('.staff-item h3').map {|name|
+            #     unless full_names.include?(name.text.strip)
+            #         full_names.push(name.text.strip)
+            #     end
+            # } # END NAMES
+            #
+            # jobs = []  # BEGIN JOBS ARRAY
+            # html.css('.staff-item h4').map {|job|
+            #     unless jobs.include?(job.text.strip)
+            #         jobs.push(job.text.strip)
+            #     end
+            # }  # END JOBS ARRAY
+            #
+            # phones = html.css('.staffphone').map {|phone| phone.text.strip}
+            #
+            # # EMAILS BELOW
+            # selector = "//a[starts-with(@href, 'mailto:')]/@href"
+            # nodes = html.xpath(selector)
+            # emails =  nodes.collect {|n| n.value[7..-1]}
             # END EMAILS
 
             size = full_names.length

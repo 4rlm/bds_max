@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   get 'template_finder_btn' => 'indexers#template_finder_btn'
   get 'rooftop_data_getter_btn' => 'indexers#rooftop_data_getter_btn'
 
-
   devise_for :users
   resources :geo_places
   # resources :locations
@@ -42,6 +41,7 @@ Rails.application.routes.draw do
   get 'staffer/import_page' => 'staffers#import_page'
   get 'staffer/search' => 'staffers#search'
   get 'staffer/acct_contacts' => 'staffers#acct_contacts'
+  get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
 
     resources :cores do
         collection { post :import_core_data }
