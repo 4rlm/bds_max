@@ -8,6 +8,7 @@ require 'httparty'
 require 'indexer_service_helper/dealerfire_rts'
 require 'indexer_service_helper/cobalt_rts'
 require 'indexer_service_helper/dealer_inspire_rts'
+require 'indexer_service_helper/dealeron_rts'
 
 
 class IndexerService
@@ -23,12 +24,12 @@ class IndexerService
         # z=1000
         # a=1000
         # z=-1
-        # indexers = Indexer.where(template: "DealerOn").where(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
+        indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(template: "Cobalt")[a...z]
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        # indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
@@ -304,31 +305,12 @@ class IndexerService
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
 
-
     #### (3: 852) DEALERON RTS CORE METHOD BEGINS ~ #######
     def dealeron_rts(html, url, indexer)
-        acc_phones = html.css('.callNowClass').collect {|phone| phone.text if phone}
-        raw_full_addr = html.at_css('.adr').text if html.at_css('.adr')
-        full_addr_arr = raw_full_addr.split(",") if raw_full_addr
-        zip_state_arr = full_addr_arr[-1].split(" ")
-
-        org = html.at_css('.dealerName').text if html.at_css('.dealerName')
-        street = full_addr_arr[-3] if full_addr_arr
-        city = full_addr_arr[-2] if full_addr_arr
-        state = zip_state_arr[-2] if zip_state_arr
-        zip = zip_state_arr[-1] if zip_state_arr
-        phone = acc_phones[0]
-        ### MOVED FROM rt_address_formatter B/C DESIGNED ONLY FOR DO TEMP.
-        if (city && street == nil) && city.include?("\r")
-            street_city_arr = city.split("\r")
-            street = street_city_arr[0] unless street_city_arr[0] == nil
-            city = street_city_arr[-1] unless street_city_arr[-1] == nil
-        end
-
-        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+        puts url
+        result = DealeronRts.new.rooftop_scraper(html)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-    ##### DEALERON RTS CORE METHOD ENDS ~ #######
-
 
     ##### (6: 675) DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
     def dealer_inspire_rts(html, url, indexer)
@@ -336,19 +318,12 @@ class IndexerService
         result = DealerInspireRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-    ##### DEALER INSPIRE RTS CORE METHOD ENDS ~ ######
-
 
     ##### (7: 660) DEALER FIRE RTS CORE METHOD BEGINS ~ ########
     def dealerfire_rts(html, url, indexer)
         result = DealerfireRts.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-    ##### DEALER FIRE RTS CORE METHOD ENDS ~ #########
-
-
-
-
 
 
 
