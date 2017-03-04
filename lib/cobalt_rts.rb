@@ -165,8 +165,6 @@ class CobaltRts
         ### Removes "\t" from objects.
         ### Then splits objects by "\n".
         unless obj.blank?
-            # obj.include?("\n") ? objs = obj.split("\n") : objs = obj.split(",")
-
             if obj.include?("\n")
                 objs = obj.split("\n")
                 objs = objs.join(",")
@@ -181,38 +179,12 @@ class CobaltRts
 
             negs = ["hours", "contact", "location", "map", "info", "directions", "used", "Click", "proudly", "serves", "twitter", "geoplaces", "youtube", "facebook", "privacy", "choices", "window", "event", "listener", "contact", "function", "department", "featured", "vehicle", "customer", "today"]
 
-            ## Need to Downcase temporarily before running through negs.
-
-            # objs.delete_if {|x| x.include?("hours")}
-            # objs.delete_if {|x| x.include?("contact")}
-            # objs.delete_if {|x| x.include?("location")}
-            # objs.delete_if {|x| x.include?("map")}
-            # objs.delete_if {|x| x.include?("info")}
-            # objs.delete_if {|x| x.include?("directions")}
-            # objs.delete_if {|x| x.include?("used")}
-            # objs.delete_if {|x| x.include?("Click")}
-            # objs.delete_if {|x| x.include?("proudly")}
-            # objs.delete_if {|x| x.include?("serves")}
-            # objs.delete_if {|x| x.include?("twitter")}
-            # objs.delete_if {|x| x.include?("geoplaces")}
-            # objs.delete_if {|x| x.include?("youtube")}
-            # objs.delete_if {|x| x.include?("facebook")}
-            # objs.delete_if {|x| x.include?("privacy")}
-            # objs.delete_if {|x| x.include?("choices")}
-            # objs.delete_if {|x| x.include?("window")}
-            # objs.delete_if {|x| x.include?("event")}
-            # objs.delete_if {|x| x.include?("listener")}
-            # objs.delete_if {|x| x.include?("contact")}
-            # objs.delete_if {|x| x.include?("function")}
-            # objs.delete_if {|x| x.include?("department")}
-            # objs.delete_if {|x| x.include?("featured")}
-            # objs.delete_if {|x| x.include?("vehicle")}
-            # objs.delete_if {|x| x.include?("customer")}
-            # objs.delete_if {|x| x.include?("today")}
+            negs.each do |neg|
+                objs.delete_if { |x| x.downcase.include?("hours") }
+            end
 
             objs.map!{|obj| obj.strip!}
             objs.delete_if {|x| x.blank?}
-
             objs.uniq!
         end
     end

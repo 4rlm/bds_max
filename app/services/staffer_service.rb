@@ -28,14 +28,19 @@ class StafferService
         # DEALER.com STAFF PAGE
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.bobbellford.net")
-        # indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
+        indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
 
 
-        # DEALERON STAFF PAGE
+        # DealerOn STAFF PAGE
+
+        # http://www.vwmankato.com/staff.aspx
+        # http://www.laurelkia.com/staff.aspx
+        # http://www.dalehoward.com/staff.aspx
+
+
+
         # indexers = Indexer.where(template: "DealerOn")[a...z]
-        indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
-
-
+        # indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
         # http://www.karitoyota.com/meet-our-staff/
         # http://www.usedcarnh.net/meet-our-staff/
         # http://www.mazdaofclearlake.com/meet-our-staff/
@@ -48,7 +53,7 @@ class StafferService
         # meet-our-staff
 
 
-        # COBALT STAFF PAGE
+        # Cobalt STAFF PAGE
         # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
         # http://www.shireycadillacgm.com/MeetOurDepartments
         # http://www.nissanmarin.com/MeetOurDepartments
@@ -66,34 +71,34 @@ class StafferService
             template = indexer.template
             clean_url = indexer.clean_url
 
-            # case template
-            # when "Dealer.com"
-            #     url = "#{clean_url}/dealership/staff.htm"
-            # when "DealerOn"
-            #     url = "#{clean_url}/meet-our-staff/"
-            # when "Cobalt"
-            #     # MeetOurDepartments
-            #     # MeetOurStaff
-            #     # Meet-Our-Staff
-            #     # url = "#{clean_url}/"
-            # when "DealerCar Search"
-            #     # url = "#{clean_url}/"
-            # when "Dealer Direct"
-            #     # url = "#{clean_url}/"
-            # when "Dealer Inspire"
-            #     # url = "#{clean_url}/"
-            # when "DealerFire"
-            #     # url = "#{clean_url}/"
-            # when "DEALER eProcess"
-            #     # url = "#{clean_url}/"
-            # end
+            case template
+            when "Dealer.com"
+                url = "#{clean_url}/dealership/staff.htm"
+            when "DealerOn"
+                url = "#{clean_url}/meet-our-staff/"
+            when "Cobalt"
+                # MeetOurDepartments
+                # MeetOurStaff
+                # Meet-Our-Staff
+                # url = "#{clean_url}/"
+            when "DealerCar Search"
+                # url = "#{clean_url}/"
+            when "Dealer Direct"
+                # url = "#{clean_url}/"
+            when "Dealer Inspire"
+                # url = "#{clean_url}/"
+            when "DealerFire"
+                # url = "#{clean_url}/"
+            when "DEALER eProcess"
+                # url = "#{clean_url}/"
+            end
 
             counter+=1
             puts "\n============================\n"
             puts "[#{a}...#{z}]  (#{counter}/#{range})"
 
 
-            url = "http://www.mazdaofclearlake.com/meet-our-staff/"
+            # url = "http://www.mazdaofclearlake.com/meet-our-staff/"
 
             # begin
                 @agent = Mechanize.new
@@ -149,7 +154,7 @@ class StafferService
         puts indexer.template
         puts url
         puts
-        
+
         binding.pry
 
         full_names = html.css('.staff-title').map {|name| name.text.strip}
@@ -193,18 +198,9 @@ class StafferService
 
             for i in 0...staff_count
                 staff_hash = {}
-                # staff_hash[:full_name] = html.css('#staffList .vcard .fn') ? html.css('#staffList .vcard .fn')[i].text.strip! : ""
-                staff_hash[:full_name] = html.css('#staffList .vcard .fn')[i].text.strip!
-
-                # staff_hash[:job] = html.css('#staffList .vcard .title')[i] ? html.css('#staffList .vcard .title')[i].text.strip! : ""
-                if html.css('#staffList .vcard .title')[i]
-                    staff_hash[:job] = html.css('#staffList .vcard .title')[i].text.strip!
-                else
-                    staff_hash[:job] = ""
-                end
-
-
-                staff_hash[:email] = html.css('#staffList .vcard .email') ? html.css('#staffList .vcard .email')[i].text.strip! : ""
+                staff_hash[:full_name] = html.css('#staffList .vcard .fn')[i].text.strip
+                staff_hash[:job] = html.css('#staffList .vcard .title')[i] ? html.css('#staffList .vcard .title')[i].text.strip : ""
+                staff_hash[:email] = html.css('#staffList .vcard .email') ? html.css('#staffList .vcard .email')[i].text.strip : ""
                 staff_hash_array << staff_hash
             end
 
@@ -218,7 +214,6 @@ class StafferService
             puts "-------------------------------"
 
             staff_hash_array
-
         end
 
         # binding.pry
