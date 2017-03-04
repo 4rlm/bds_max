@@ -9,6 +9,7 @@ require 'indexer_service_helper/dealerfire_rts'
 require 'indexer_service_helper/cobalt_rts'
 require 'indexer_service_helper/dealer_inspire_rts'
 require 'indexer_service_helper/dealeron_rts'
+require 'indexer_service_helper/dealer_com_rts'
 
 
 class IndexerService
@@ -24,8 +25,8 @@ class IndexerService
         # z=1000
         # a=1000
         # z=-1
-        indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
-        # indexers = Indexer.where(template: "Dealer.com")[a...z]
+        # indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
+        indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(template: "Cobalt")[a...z]
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
@@ -287,16 +288,10 @@ class IndexerService
 
     ##### (1: 7,339) DEALER.COM RTS CORE METHOD BEGINS ~ #######
     def dealer_com_rts(html, url, indexer)
-        selector = "//meta[@name='author']/@content"
-        org = html.xpath(selector).text if html.xpath(selector)
-        street = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
-        city = html.at_css('.adr .locality').text if html.at_css('.adr .locality')
-        state = html.at_css('.adr .region').text if html.at_css('.adr .region')
-        zip = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
-        phone = html.at_css('.value').text if html.at_css('.value')
-        rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+        puts url
+        result = DealerComRts.new.rooftop_scraper(html)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-    ##### DEALER.COM RTS CORE METHOD ENDS ~ #######
 
     ##### (2: 3,798) COBALT RTS CORE METHOD BEGINS ~ #######
     def cobalt_rts(html, url, indexer)
