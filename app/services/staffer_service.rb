@@ -311,23 +311,21 @@ class StafferService
         puts indexer.template
         puts url
         puts
-
+        staff_hash_array = []
 
         if html.css('.staff-row .staff-title')
             staff_count = html.css('.staff-row .staff-title').count
             puts "staff_count: #{staff_count}"
-            staff_hash_array = []
+            staffs = html.css(".staff-contact")
 
             for i in 0...staff_count
                 staff_hash = {}
                 staff_hash[:full_name] = html.css('.staff-row .staff-title')[i].text.strip
                 staff_hash[:job] = html.css('.staff-desc')[i] ? html.css('.staff-desc')[i].text.strip : ""
 
-                email_expath = "//a[starts-with(@href, 'mailto:')]/@href"
-                staff_hash[:email] = html.xpath(email_expath)[i] ? html.xpath(email_expath)[i].text.strip : ""
-
-                ph_xpath = "//a[starts-with(@href, 'tel:')]/@href"
-                staff_hash[:phone] = html.xpath(ph_xpath)[i] ? html.xpath(ph_xpath)[i].text.strip : ""
+                ph_email_hash = ph_email_scraper(staffs[i])
+                staff_hash[:phone] = ph_email_hash[:phone]
+                staff_hash[:email] = ph_email_hash[:email]
 
                 staff_hash_array << staff_hash
             end
@@ -335,19 +333,37 @@ class StafferService
             puts "staff_hash_array: #{staff_hash_array}"
 
             staff_hash_array.each do |hash|
-                puts
                 hash.each do |key, value|
                     puts "#{key}: #{value.inspect}"
                 end
+                puts "---------------------------------------------"
             end
-            puts "-------------------------------"
-
-            staff_hash_array
         end
 
+        staff_hash_array
         binding.pry
-
         # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+    def ph_email_scraper(staff)
+        info = {}
+        return info unless staff.children[1] || staff.children[3] # children[2] has no valuable data.
+
+        value_1 = staff.children[1].attributes["href"].value if staff.children[1]
+        value_3 = staff.children[3].attributes["href"].value if staff.children[3]
+
+        if value_1 && value_1.include?("tel:")
+            info[:phone] = value_1
+        elsif value_1 && value_1.include?("mailto:")
+            info[:email] = value_1
+        end
+
+        if value_3 && value_3.include?("tel:")
+            info[:phone] = value_3
+        elsif value_3 && value_3.include?("mailto:")
+            info[:email] = value_3
+        end
+        info
     end
 
 
