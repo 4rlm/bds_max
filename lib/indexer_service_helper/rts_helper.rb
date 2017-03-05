@@ -23,7 +23,7 @@ class RtsHelper
         states, zips, phones = [], [], []
 
         if !full_addr.blank?
-            addr_arr = n_splitter(full_addr)
+            addr_arr = rts_validator(full_addr)
             unless addr_arr.blank?
                 # Sends Each Result Item to Check for Phone, State and Zip
                 addr_arr.each do |item|
@@ -44,8 +44,9 @@ class RtsHelper
         {street: street, city: city, states: states, zips: zips, phones: phones}
     end
 
-    # Helper method for `addr_processor(full_addr)`
-    def n_splitter(obj)
+    # Helper method for `addr_processor(full_addr)` and `org_processor(orgs)`
+    def rts_validator(obj)
+        objs = []
         ### Removes "\t" from objects.
         ### Then splits objects by "\n".
         unless obj.blank?
@@ -59,18 +60,27 @@ class RtsHelper
                 objs = objs.join(",")
             end
 
-            objs = objs.split(",")
+            objs = objs.is_a?(String) ? objs.split(",") : [obj]
 
-            negs = ["hours", "contact", "location", "map", "info", "directions", "used", "Click", "proudly", "serves", "twitter", "geoplaces", "youtube", "facebook", "privacy", "choices", "window", "event", "listener", "contact", "function", "department", "featured", "vehicle", "customer", "today"]
+            negs = ["hours", "contact", "location", "map", "info", "directions", "used", "click", "proudly", "serves", "twitter", "geoplaces", "youtube", "facebook", "privacy", "choices", "window", "event", "listener", "contact", "function", "department", "featured", "vehicle", "customer", "today"]
 
             negs.each do |neg|
-                objs.delete_if { |x| x.downcase.include?("hours") }
+                objs.delete_if { |x| x.downcase.include?(neg) }
             end
 
-            objs.map!{|obj| obj.strip!}
+            objs.map!{|obj| obj.strip}
             objs.delete_if {|x| x.blank?}
-            objs.uniq!
+            objs = objs.uniq
         end
+        objs
+    end
+
+    def org_processor(orgs)
+        result = []
+        orgs.each do |org|
+            result.concat(rts_validator(org))
+        end
+        result
     end
 
     # Validate org, street, city, state, zip, phone individually.
