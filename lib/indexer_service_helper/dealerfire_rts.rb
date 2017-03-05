@@ -136,7 +136,7 @@ module DealerfireRts
             ### http://www.avondalenissan.com
             ### http://www.germainnissan.com
             ### STREET: "4300 Morse Rd  \nColumbus, OH, 43230"
-            
+
             # if street && street.include?("\n") && city == nil
             #     street_arr = street.split("\n")
             #     street = street_arr[0]
