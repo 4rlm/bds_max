@@ -34,8 +34,15 @@ class RtsHelper
                     #     states << state_zip[0..1] if !state_zip[0..1].blank? ## state
                     #     zips << state_zip[-5..-1] if !state_zip[-5..-1].blank? ## zip
                     # end
-                    states << item
-                    zips << item
+
+                    if item.include?(" ") && item.split(" ").length == 2
+                        splits = item.split(" ")
+                        states.concat(splits)
+                        zips.concat(splits)
+                    else
+                        states << item
+                        zips << item
+                    end
                 end
                 street = addr_arr[0]
                 city = addr_arr[1]
@@ -60,6 +67,15 @@ class RtsHelper
                 objs = objs.join(",")
             end
 
+            if obj.include?(",")
+                objs = obj
+            end
+
+            regex = Regexp.new("[a-z][\.]?[A-Z][a-z]")
+            if regex.match(obj)
+                objs = obj.gsub(/([a-z])[.]?([A-Z][a-z])/,'\1,\2')
+            end
+
             objs = objs.is_a?(String) ? objs.split(",") : [obj]
 
             negs = ["hours", "contact", "location", "map", "info", "directions", "used", "click", "proudly", "serves", "twitter", "geoplaces", "youtube", "facebook", "privacy", "choices", "window", "event", "listener", "contact", "function", "department", "featured", "vehicle", "customer", "today"]
@@ -81,6 +97,14 @@ class RtsHelper
             result.concat(rts_validator(org))
         end
         result
+    end
+
+    def org_addr_divider(org_n_addr)
+        return {} if org_n_addr.nil?
+        splits = org_n_addr.split("\n")
+        parts = splits.map(&:strip).delete_if {|x| x.blank?}
+
+        {org: parts.delete_at(0), addr: parts.join(',')}
     end
 
     # Validate org, street, city, state, zip, phone individually.

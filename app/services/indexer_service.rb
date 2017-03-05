@@ -11,6 +11,7 @@ require 'indexer_service_helper/dealer_inspire_rts'
 require 'indexer_service_helper/dealeron_rts'
 require 'indexer_service_helper/dealer_com_rts'
 require 'indexer_service_helper/dealer_direct_rts'
+require 'indexer_service_helper/dealer_eprocess_rts'
 
 
 class IndexerService
@@ -33,12 +34,12 @@ class IndexerService
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
+        # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        # indexers = Indexer.where(clean_url: "http://www.marlerford.com")
+        indexers = Indexer.where(clean_url: %w(http://www.friendlyford.com http://www.dennymenholthonda.com http://www.whitefaceford.net http://www.rushmorehonda.com))
 
 
         counter=0
@@ -106,63 +107,10 @@ class IndexerService
 
     ##### (8: 554) DEALER eProcess RTS CORE METHOD BEGINS ~ ########
     def dealer_eprocess_rts(html, url, indexer)
-        puts indexer.template
         puts url
-        puts
-
-        org1 = html.at_css('.hd_site_title').text if html.at_css('.hd_site_title')
-        org2 = html.at_css('#footer_site_info_rights').text if html.at_css('#footer_site_info_rights')
-        org3 = html.at_css('head title').text if html.at_css('head title')
-        org4 = html.at_css('#footer_seo_text_container h1').text if html.at_css('#footer_seo_text_container h1')
-        org4 = html.at_css('.dealer-name').text if html.at_css('.dealer-name')
-
-        org_n_addr1 = html.css('#nav_group_1_col_1').text if html.css('#nav_group_1_col_1')
-        org_n_addr2 = html.at_css('.footer_location_data').text if html.at_css('.footer_location_data')
-
-        addr1 = html.at_css('.address').text if html.at_css('.address')
-        addr2 = html.at_css('.header_address').text if html.at_css('.header_address')
-        addr3 = html.at_css('.banner-address').text if html.at_css('.banner-address')
-        addr4 = html.at_css('.subnav').text if html.at_css('.subnav')
-        addr5 = html.at_css('.address-container').text if html.at_css('.address-container')
-
-        phone1 = html.at_css('.phone-number').text if html.at_css('.phone-number')
-        phone2 = html.at_css('.dept_number').text if html.at_css('.dept_number')
-        phone4 = html.at_css('.hd_phone_no').text if html.at_css('.hd_phone_no')
-        phone5 = html.at_css('.banner-phones').text if html.at_css('.banner-phones')
-        phone6 = html.at_css('#contact-no').text if html.at_css('#contact-no')
-
-
-        puts "================================"
-        p "org1: #{org1}"
-        p "org2: #{org2}"
-        p "org3: #{org3}"
-        p "org4: #{org4}"
-
-        p "org_n_addr1: #{org_n_addr1}"
-        p "org_n_addr2: #{org_n_addr2}"
-
-        p "addr1: #{addr1}"
-        p "addr2: #{addr2}"
-        p "addr3: #{addr3}"
-        p "addr4: #{addr4}"
-        p "addr5: #{addr5}"
-
-        p "phone1: #{phone1}"
-        p "phone2: #{phone2}"
-        p "phone4: #{phone4}"
-        p "phone5: #{phone5}"
-        p "phone6: #{phone6}"
-
-        puts "================================"
-
-        # binding.pry
-
-
-        # rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+        result = DealerEprocessRts.new.rooftop_scraper(html)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-    ##### DEALER eProcess RTS CORE METHOD ENDS ~ #########
-
-
 
     ##### (5: 702) Dealer Direct RTS CORE METHOD BEGINS ~ ########
     def dealer_direct_rts(html, url, indexer)
