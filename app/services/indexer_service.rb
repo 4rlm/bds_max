@@ -3,7 +3,6 @@ require 'mechanize'
 require 'uri'
 require 'nokogiri'
 require 'socket'
-require 'pry'
 require 'httparty'
 require 'indexer_service_helper/dealerfire_rts'
 require 'indexer_service_helper/cobalt_rts'
@@ -12,7 +11,7 @@ require 'indexer_service_helper/dealeron_rts'
 require 'indexer_service_helper/dealer_com_rts'
 require 'indexer_service_helper/dealer_direct_rts'
 require 'indexer_service_helper/dealer_eprocess_rts'
-
+require 'indexer_service_helper/dealercar_search_rts'
 
 class IndexerService
 
@@ -21,8 +20,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=10
-        z=20
+        a=11
+        z=21
         # a=500
         # z=1000
         # a=1000
@@ -38,8 +37,8 @@ class IndexerService
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
-        indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        # indexers = Indexer.where(clean_url: %w(http://www.friendlyford.com http://www.dennymenholthonda.com http://www.whitefaceford.net http://www.rushmorehonda.com))
+        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        indexers = Indexer.where(clean_url: %w(http://www.bigdiscountmotors.com))
 
 
         counter=0
@@ -107,70 +106,42 @@ class IndexerService
 
     ##### (8: 554) DEALER eProcess RTS CORE METHOD BEGINS ~ ########
     def dealer_eprocess_rts(html, url, indexer)
-        puts url
         result = DealerEprocessRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
 
     ##### (5: 702) Dealer Direct RTS CORE METHOD BEGINS ~ ########
     def dealer_direct_rts(html, url, indexer)
-        puts url
         result = DealerDirectRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
 
     ##### (4: 779) DealerCar Search RTS CORE METHOD BEGINS ~ ########
     def dealercar_search_rts(html, url, indexer)
-        puts url
-        puts indexer.template
-
-        addr_n_ph1 = html.at_css('.AddressPhone_Main').text if html.at_css('.AddressPhone_Main')
-        street = html.at_css('.LabelAddress1').text if html.at_css('.LabelAddress1')
-        city_state_zip = html.at_css('.LabelCityStateZip1').text if html.at_css('.LabelCityStateZip1')
-        phone = html.at_css('.LabelPhone1').text if html.at_css('.LabelPhone1')
-        org1 = html.css('title').text if html.css('title')
-        org2 = html.css('.sepBar').text if html.css('.sepBar')
-
-        p "addr_n_ph1: \n\n#{addr_n_ph1}\n\n"
-        p "city_state_zip: \n\n#{city_state_zip}\n\n"
-        p "street: \n\n#{street}\n\n"
-        p "phone: \n\n#{phone}\n\n"
-        p "org1: \n\n#{org1}\n\n"
-        p "org2: \n\n#{org2}\n\n"
-
-        # binding.pry
-        puts "\n\n================================\n\n"
-
-        # rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
+        result = DealercarSearchRts.new.rooftop_scraper(html)
+        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
-    ##### DealerCar Search RTS CORE METHOD ENDS ~ #########
-
-
 
     ##### (1: 7,339) DEALER.COM RTS CORE METHOD BEGINS ~ #######
     def dealer_com_rts(html, url, indexer)
-        puts url
         result = DealerComRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
 
     ##### (2: 3,798) COBALT RTS CORE METHOD BEGINS ~ #######
     def cobalt_rts(html, url, indexer)
-        puts url
         result = CobaltRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
 
     #### (3: 852) DEALERON RTS CORE METHOD BEGINS ~ #######
     def dealeron_rts(html, url, indexer)
-        puts url
         result = DealeronRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
 
     ##### (6: 675) DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
     def dealer_inspire_rts(html, url, indexer)
-        puts url
         result = DealerInspireRts.new.rooftop_scraper(html)
         rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
     end
@@ -261,11 +232,12 @@ class IndexerService
     def phone_formatter(phone)
         ### USED FOR ALL TEMPLATES  - LOOSE QUALIFICATIONS!!!!!
         ### FORMATS PHONE AS: (000) 000-0000
-        if !phone.blank? && (phone != "N/A" || phone != "0")
+        regex = Regexp.new("[A-Z]+[a-z]+")
+        if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
             phone_stripped = phone.gsub(/[^0-9]/, "")
             (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
 
-            !(phone_step2 && phone_step2.length < 10) ? final_phone = "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : final_phone = phone
+            final_phone = !(phone_step2 && phone_step2.length < 10) ? "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : phone
         else
             final_phone = nil
         end

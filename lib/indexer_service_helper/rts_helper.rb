@@ -107,10 +107,25 @@ class RtsHelper
         {org: parts.delete_at(0), addr: parts.join(',')}
     end
 
+    def addr_ph_divider(addr_n_ph)
+        return {} if addr_n_ph.nil?
+        splits = addr_n_ph.split("\n")
+        splits.map(&:strip).delete_if {|x| x.blank?}
+    end
+
+    def city_state_zip_divider(city_state_zip)
+        return {} if city_state_zip.nil?
+        splits = city_state_zip.split(",")
+        city = splits.delete_at(0)
+        st_zip = splits.first.strip.split(" ")
+
+        {city: city, state: st_zip[0], zip: st_zip[1]}
+    end
+
     # Validate org, street, city, state, zip, phone individually.
     def final_arr_qualifier(array, option)
         return if array.empty?
-        negs = ["contact", "link", "click", "map", "(", "-", "location", "savings"]
+        negs = ["contact", "link", "click", "map", "(", "location", "savings"]
         result = nil
 
         array.each do |el|
@@ -143,8 +158,7 @@ class RtsHelper
         alpha = street.tr('^A-Za-z', '')
         digits = street.tr('^0-9', '')
         selected = negs.select {|neg| street.downcase.include?(neg) }
-
-        (digits == '' || alpha == '' || alpha.length == 2) || (selected.any?) ? nil : street
+        (digits == '' || alpha == '' || (alpha.length == 2 && alpha != "US") ) || (selected.any?) ? nil : street
     end
 
     def city_qualifier(city, negs)
@@ -152,6 +166,8 @@ class RtsHelper
         alpha = city.tr('^A-Za-z', '')
         digits = city.tr('^0-9', '')
         selected = negs.select {|neg| city.downcase.include?(neg) }
+        city.capitalize!
+        city = city.split(" ").map(&:capitalize).join(" ") if city.include?(" ")
 
         (alpha.nil? || alpha.length == 2 || digits != "") || (selected.any?) ? nil : city
     end
