@@ -59,7 +59,7 @@ class StafferService
         # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
         # indexers = Indexer.where(clean_url: "http://www.shireycadillacgm.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.nissanmarin.com")  ## /MeetOurDepartments
-        # indexers = Indexer.where(clean_url: "http://www.irwinautoco.com")  ## /MeetOurDepartments
+        indexers = Indexer.where(clean_url: "http://www.irwinautoco.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.jcharriscadillac.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.chasechevroletstockton.com")  ## /MeetOurDepartments
 
@@ -231,48 +231,43 @@ class StafferService
 
     def cobalt_cs(html, url, indexer) ### Need Help!
         ### MULTIPLE URL EXTENSIONS FOR STAFF PAGE.
-        ### Emails not matching.  http://www.shireycadillacgm.com/MeetOurDepartments
-        puts indexer.template
-        puts url
-        puts
+        # indexers = Indexer.where(clean_url: "http://www.irwinautoco.com")  ## phone number mismatching
 
-        if html.css('span[@itemprop="givenName"]')
-            staff_count = html.css('span[@itemprop="givenName"]').count
-            puts "staff_count: #{staff_count}"
-            staff_hash_array = []
+        staffs = html.css("[@itemprop='employee']")
+        staff_hash_array = []
 
-            for i in 0...staff_count
-                staff_hash = {}
-                # staff_hash[:full_name] = nil
-                staff_hash[:fname] = html.css('span[@itemprop="givenName"]')[i] ? html.css('span[@itemprop="givenName"]')[i].text.strip : ""
-                staff_hash[:lname] = html.css('span[@itemprop="familyName"]')[i] ? html.css('span[@itemprop="familyName"]')[i].text.strip : ""
-                staff_hash[:job] = html.css('[@itemprop="jobTitle"]')[i] ? html.css('[@itemprop="jobTitle"]')[i].text.strip : ""
-                staff_hash[:email1] = html.xpath("//a[starts-with(@href, 'mailto:')]/@href")[i] ? html.xpath("//a[starts-with(@href, 'mailto:')]/@href")[i].text  : ""
+        puts "count: #{staffs.count}, url: #{url}"
 
-                ## Should find a common class within contact profile area.
-                staff_hash[:phone1] = html.css('span[@itemprop="telephone"]')[i] ? html.css('span[@itemprop="telephone"]')[i].text.strip : ""
-                staff_hash[:phone2] = html.css('.link [@itemprop="telephone"]')[i] ? html.css('.link [@itemprop="telephone"]')[i].text.strip : ""
+        for i in 0...staffs.count
+            staff_hash = {}
+            staff_str = staffs[i].inner_html
 
+            staff_hash[:fname] = html.css('span[@itemprop="givenName"]')[i].text.strip if html.css('span[@itemprop="givenName"]')[i]
+            staff_hash[:lname] = html.css('span[@itemprop="familyName"]')[i].text.strip if html.css('span[@itemprop="familyName"]')[i]
+            staff_hash[:job]   = html.css('[@itemprop="jobTitle"]')[i].text.strip   if html.css('[@itemprop="jobTitle"]')[i]
 
+            regex = Regexp.new("[a-z]+[@][a-z]+[.][a-z]+")
+            matched_email = regex.match(staff_str)
+            staff_hash[:email] = matched_email.to_s if matched_email
 
-                staff_hash_array << staff_hash
-            end
+            # Should find a common class within contact profile area.
+            staff_hash[:ph1] = html.css('span[@itemprop="telephone"]')[i].text.strip if html.css('span[@itemprop="telephone"]')[i]
+            staff_hash[:ph2] = html.css('.link [@itemprop="telephone"]')[i].text.strip if html.css('.link [@itemprop="telephone"]')[i]
 
-            puts "staff_hash_array: #{staff_hash_array}"
-
-            staff_hash_array.each do |hash|
-                puts
-                hash.each do |key, value|
-                    puts "#{key}: #{value.inspect}"
-                end
-            end
-            puts "-------------------------------"
-
-            staff_hash_array
-
+            staff_hash_array << staff_hash
         end
 
-        # binding.pry
+        puts "staff_hash_array: #{staff_hash_array}"
+
+        staff_hash_array.each do |hash|
+            puts
+            hash.each do |key, value|
+                puts "#{key}: #{value.inspect}"
+            end
+        end
+        puts "-------------------------------"
+
+        staff_hash_array
 
         # cs_formatter(fname, lname, fullname, title, email)
     end
