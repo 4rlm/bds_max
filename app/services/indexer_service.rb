@@ -290,23 +290,33 @@ class IndexerService
         # z=1800
         # a=1800
         # z=3600
-        a=3600
-        z=-1
+        a=0
+        z=3
 
-        els = Indexer.where(stf_status: "SFDC URL").where.not(template: "Search Error").where.not(template: "Unidentified")[a...z] ##6669
+        # els = Indexer.where(template: "Cobalt").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        # els = Indexer.where(template: "Dealer Inspire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
+        # els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+
+        els = Indexer.where(clean_url: "http://www.vivachevy.com")
+        puts "count: #{els.count}\n\n\n"
 
         @agent = Mechanize.new
         @agent.follow_meta_refresh = true
-
-        locations_text_list = IndexerTerm.where(sub_category: "loc_text").where(criteria_term: "general").map(&:response_term)
-        locations_href_list = to_regexp(IndexerTerm.where(sub_category: "loc_href").where(criteria_term: "general").map(&:response_term))
-        staff_text_list = IndexerTerm.where(sub_category: "staff_text").where(criteria_term: "general").map(&:response_term)
-        staff_href_list = to_regexp(IndexerTerm.where(sub_category: "staff_href").where(criteria_term: "general").map(&:response_term))
 
         counter=0
         els.each do |el|
             @indexer = el
             template = el.template
+
+            staff_text_list = IndexerTerm.where(sub_category: "staff_text").where(criteria_term: template).map(&:response_term)
+            staff_href_list = to_regexp(IndexerTerm.where(sub_category: "staff_href").where(criteria_term: template).map(&:response_term))
+
+            locations_text_list = IndexerTerm.where(sub_category: "loc_text").where(criteria_term: "general").map(&:response_term)
+            locations_href_list = to_regexp(IndexerTerm.where(sub_category: "loc_href").where(criteria_term: "general").map(&:response_term))
+
 
             counter+=1
             puts "[#{a}...#{z}]  (#{counter}):  #{template}"
@@ -327,8 +337,8 @@ class IndexerService
                     puts "\n----------------------------------------\n"
                     puts url
 
-                    page_finder(locations_text_list, locations_href_list, url, page, "location")
                     page_finder(staff_text_list, staff_href_list, url, page, "staff")
+                    page_finder(locations_text_list, locations_href_list, url, page, "location")
 
                 rescue
                     error_msg = "Error: #{$!.message}"
@@ -350,7 +360,7 @@ class IndexerService
                     end # indexer_terms iteration ends
 
                     indexer_status = "Indexer Error" unless found
-                    el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
+                    # el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
                 end # rescue ends
                 sleep(1)
             end
@@ -359,23 +369,23 @@ class IndexerService
 
 
     def page_finder(text_list, href_list, url, page, mode)
-        for text in text_list
-            if pages = page.link_with(:text => text)
+        for href in href_list
+            if pages = page.link_with(:href => href)
                 url_split_joiner(url, pages, mode)
                 break
             end
         end
 
         if !pages
-            for href in href_list
-                if pages = page.link_with(:href => href)
+            for text in text_list
+                if pages = page.link_with(:text => text)
                     url_split_joiner(url, pages, mode)
                     break
                 end
             end
 
             if !pages
-                add_indexer_row_with("No Matches", nil, nil, nil, mode)
+                add_indexer_row_with("Invalid Link", nil, nil, nil, mode)
             end
         end
     end # Ends page_finder
@@ -386,20 +396,19 @@ class IndexerService
         url_http = url_s[0]
         url_www = url_s[2]
         joined_url = validater(url_http, '//', url_www, pages.href)
-        add_indexer_row_with("Matched", pages.text.strip, pages.href, joined_url, mode)
+        add_indexer_row_with("Valid Link", pages.text.strip, pages.href, joined_url, mode)
     end
-
 
     def add_indexer_row_with(status, text, href, link, mode)
         if mode == "location"
             puts "#{status}: #{text}"
-            @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
+            # @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"
         elsif mode == "staff"
             puts "#{status}: #{text}"
-            @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
+            # @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"
@@ -408,6 +417,10 @@ class IndexerService
 
 
     def validater(url_http, dbl_slash, url_www, dirty_url)
+        if dirty_url[0] != "/"
+            dirty_url = "/" + dirty_url
+        end
+
         if dirty_url.include?(url_http + dbl_slash)
             dirty_url
         else

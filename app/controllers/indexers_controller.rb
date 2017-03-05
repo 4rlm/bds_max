@@ -132,8 +132,8 @@ class IndexersController < ApplicationController
 
 
   def indexer_starter_btn
-    #   @service.indexer_starter
-        @service.delay.indexer_starter
+      @service.indexer_starter
+        # @service.delay.indexer_starter
     #   @service.url_importer
 
       redirect_to indexers_path
