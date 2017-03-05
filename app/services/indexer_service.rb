@@ -21,8 +21,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=0
-        z=10
+        a=10
+        z=20
         # a=500
         # z=1000
         # a=1000
@@ -38,8 +38,8 @@ class IndexerService
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
-        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        indexers = Indexer.where(clean_url: %w(http://www.friendlyford.com http://www.dennymenholthonda.com http://www.whitefaceford.net http://www.rushmorehonda.com))
+        indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        # indexers = Indexer.where(clean_url: %w(http://www.friendlyford.com http://www.dennymenholthonda.com http://www.whitefaceford.net http://www.rushmorehonda.com))
 
 
         counter=0

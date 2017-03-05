@@ -44,6 +44,7 @@ class DealerEprocessRts
             phones.concat(result[:phones])
         end
 
+        orgs = remove_copyright(orgs)
         orgs = @helper.org_processor(orgs)
 
         ### Call Methods to Process above Data
@@ -55,5 +56,12 @@ class DealerEprocessRts
         phone  = @helper.final_arr_qualifier(phones, "phone")
 
         {org: org, street: street, city: city, state: state, zip: zip, phone: phone}
+    end
+
+    def remove_copyright(orgs)
+        orgs.map do |org|
+            org.delete!("©") if org.include?("©")
+            org.split("All Rights Reserved.").first if org.include?("All Rights Reserved.")
+        end
     end
 end
