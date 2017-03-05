@@ -27,31 +27,50 @@ class StafferService
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
 
 
-        ###### Dealer Inspire STAFF PAGE
-        ### (HELP!!) ### DUPLICATE DATA B/C FLUID AND STATIC VERSION.
-        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
-        indexers = Indexer.where(clean_url: "http://www.garberbuickgmc.com")  ## /about-us/staff/
-        # indexers = Indexer.where(clean_url: "http://www.fiatoftacoma.com")  ## /about-us/staff/
-        # indexers = Indexer.where(clean_url: "http://www.commonwealthhonda.com")  ## /about-us/staff/
-
-        # http://www.clevelandmotorsports.com/about-us/meet-our-staff/
-        # https://www.palmerstoyota.com/about-us/meet-our-staff/
-        # https://www.pretoy.com/team/
-        # http://www.landroverpalmbeach.com/staff/
-        # MEET OUR STAFF
-        # Meet Our Staff
-        # MEET OUR TEAM
-        # OUR TEAM
-
-
         ###### DealerFire STAFF PAGE
         # indexers = Indexer.where(template: "DealerFire")[a...z]
-        # indexers = Indexer.where(clean_url: "here")
+        indexers = Indexer.where(clean_url: "http://www.donjacobsvolkswagen.com")
+        # indexers = Indexer.where(clean_url: "http://www.weslacoford.com")
+        # indexers = Indexer.where(clean_url: "http://www.weslacoford.com")
+        # indexers = Indexer.where(clean_url: "http://www.palmen.com")
+        # indexers = Indexer.where(clean_url: "http://www.cochranvwnorth.com")
+        # indexers = Indexer.where(clean_url: "http://www.perrymotorshonda.com")
+        # indexers = Indexer.where(clean_url: "http://www.jcbillionnissan.com")
+
+        # http://www.donjacobsvolkswagen.com/team-don-jacobs-volkswagen-in-lexington-ky
+        # http://www.weslacoford.com/team-payne-weslaco-ford-in-weslaco-tx
+        # http://www.palmen.com/team-palmen-in-racine-kenosha-wi
+        # http://www.cochranvwnorth.com/team-volkswagen-north-hills-in-wexford-pa
+        # http://www.perrymotorshonda.com/team-perry-honda-in-bishop-ca
+        # http://www.jcbillionnissan.com/team-jc-billion-nissan-in-bozeman-mt
+        #OUR TEAM
 
 
         ###### DealerCar Search STAFF PAGE
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(clean_url: "here")
+
+
+        ###### Cobalt STAFF PAGE
+        ### (HELP!!) ### DIFFERENT CSS CLASS NAMES for Email / Phone.
+        ### MULTIPLE URL EXTENSIONS FOR STAFF PAGE.
+        # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
+        # indexers = Indexer.where(clean_url: "http://www.shireycadillacgm.com")  ## /MeetOurDepartments
+        # indexers = Indexer.where(clean_url: "http://www.nissanmarin.com")  ## /MeetOurDepartments
+        # indexers = Indexer.where(clean_url: "http://www.irwinautoco.com")  ## /MeetOurDepartments
+        # indexers = Indexer.where(clean_url: "http://www.jcharriscadillac.com")  ## /MeetOurDepartments
+        # indexers = Indexer.where(clean_url: "http://www.chasechevroletstockton.com")  ## /MeetOurDepartments
+
+        # http://www.lexusgwinnett.com/Meet-Our-Staff
+        # http://www.vivachevy.com/MeetOurStaff
+        # /MeetOurDepartments
+        # /MeetOurStaff
+        # /Meet-Our-Staff
+        # /Staff
+
+        # MEET OUR TEAM
+        # MEET OUR STAFF
+        # MEET THE STAFF
 
 
         ###### DEALER eProcess STAFF PAGE
@@ -68,17 +87,23 @@ class StafferService
         # indexers = Indexer.where(clean_url: "http://www.harrisisuzu.com")
         # /meet-our-staff/
 
-        ###### Cobalt STAFF PAGE
-        ### MULTIPLE URL EXTENSIONS FOR STAFF PAGE.
-        # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
-        # http://www.shireycadillacgm.com/MeetOurDepartments
-        # http://www.nissanmarin.com/MeetOurDepartments
-        # http://www.lexusgwinnett.com/Meet-Our-Staff
-        # http://www.irwinautoco.com/MeetOurDepartments
-        # http://www.vivachevy.com/MeetOurStaff
-        # MeetOurDepartments
-        # MeetOurStaff
-        # Meet-Our-Staff
+
+        ###### Dealer Inspire STAFF PAGE
+        ### (HELP!!) ### DUPLICATE DATA B/C FLUID AND STATIC VERSION.
+        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
+        # indexers = Indexer.where(clean_url: "http://www.garberbuickgmc.com")  ## /about-us/staff/
+        # indexers = Indexer.where(clean_url: "http://www.fiatoftacoma.com")  ## /about-us/staff/
+        # indexers = Indexer.where(clean_url: "http://www.commonwealthhonda.com")  ## /about-us/staff/
+
+        # http://www.clevelandmotorsports.com/about-us/meet-our-staff/
+        # https://www.palmerstoyota.com/about-us/meet-our-staff/
+        # https://www.pretoy.com/team/
+        # http://www.landroverpalmbeach.com/staff/
+        # MEET OUR STAFF
+        # Meet Our Staff
+        # MEET OUR TEAM
+        # OUR TEAM
+
 
         ###### (*DONE!) DEALER.com STAFF PAGE
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
@@ -122,10 +147,11 @@ class StafferService
             when "DealerOn"
                 url = "#{clean_url}/staff.aspx"
             when "Cobalt"
-                # MeetOurDepartments
-                # MeetOurStaff
-                # Meet-Our-Staff
-                # url = "#{clean_url}/"
+                url = "#{clean_url}/MeetOurDepartments"
+                # url = "#{clean_url}/MeetOurStaff/staff.htm"
+                # url = "#{clean_url}/Meet-Our-Staff/staff.htm"
+                # url = "#{clean_url}/Staff/staff.htm"
+                # url = "#{clean_url}/dealership/staff.htm"
             when "DealerCar Search"
                 # url = "#{clean_url}/"
             when "Dealer Direct"
@@ -136,7 +162,7 @@ class StafferService
                 # url = "#{clean_url}/staff/"
 
             when "DealerFire"
-                # url = "#{clean_url}/"
+                url = "#{clean_url}/team-don-jacobs-volkswagen-in-lexington-ky"
             when "DEALER eProcess"
                 url = "#{clean_url}/meet-our-staff"
             end
@@ -195,8 +221,85 @@ class StafferService
     end
 
 
+    def cobalt_cs(html, url, indexer) ### Need Help!
+        ### MULTIPLE URL EXTENSIONS FOR STAFF PAGE.
+        ### Emails not matching.  http://www.shireycadillacgm.com/MeetOurDepartments
+        puts indexer.template
+        puts url
+        puts
+
+        if html.css('span[@itemprop="givenName"]')
+            staff_count = html.css('span[@itemprop="givenName"]').count
+            puts "staff_count: #{staff_count}"
+            staff_hash_array = []
+
+            for i in 0...staff_count
+                staff_hash = {}
+                # staff_hash[:full_name] = nil
+                staff_hash[:fname] = html.css('span[@itemprop="givenName"]')[i] ? html.css('span[@itemprop="givenName"]')[i].text.strip : ""
+                staff_hash[:lname] = html.css('span[@itemprop="familyName"]')[i] ? html.css('span[@itemprop="familyName"]')[i].text.strip : ""
+                staff_hash[:job] = html.css('[@itemprop="jobTitle"]')[i] ? html.css('[@itemprop="jobTitle"]')[i].text.strip : ""
+                staff_hash[:email1] = html.xpath("//a[starts-with(@href, 'mailto:')]/@href")[i] ? html.xpath("//a[starts-with(@href, 'mailto:')]/@href")[i].text  : ""
+
+                ## Should find a common class within contact profile area.
+                staff_hash[:phone1] = html.css('span[@itemprop="telephone"]')[i] ? html.css('span[@itemprop="telephone"]')[i].text.strip : ""
+                staff_hash[:phone2] = html.css('.link [@itemprop="telephone"]')[i] ? html.css('.link [@itemprop="telephone"]')[i].text.strip : ""
+
+
+
+                staff_hash_array << staff_hash
+            end
+
+            puts "staff_hash_array: #{staff_hash_array}"
+
+            staff_hash_array.each do |hash|
+                puts
+                hash.each do |key, value|
+                    puts "#{key}: #{value.inspect}"
+                end
+            end
+            puts "-------------------------------"
+
+            staff_hash_array
+
+        end
+
+        # binding.pry
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealerfire_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        html.css('.staffs-list .name').text
+        html.css('.staffs-list [@itemprop="name"]')
+
+
+        binding.pry
+
+
+        # cs_formatter(fname, lname, fullname, title, email)
+
+    end
+
+
+    def dealercar_search_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
     def dealer_inspire_cs(html, url, indexer)  ### NEED HELP!
-        ### HELP - emails not matchin at bottom of page.
+        ### HELP - emails not matching at bottom of page.
         # http://www.garberbuickgmc.com/about-us/staff/
         # http://www.fiatoftacoma.com/about-us/staff/
         puts indexer.template
@@ -221,88 +324,6 @@ class StafferService
 
 
                 staff_hash[:phone] = html.css('.staffphone')[i] ? html.css('.staffphone')[i].text.strip : ""
-
-                staff_hash_array << staff_hash
-            end
-
-            puts "staff_hash_array: #{staff_hash_array}"
-
-            staff_hash_array.each do |hash|
-                puts
-                hash.each do |key, value|
-                    puts "#{key}: #{value.inspect}"
-                end
-            end
-            puts "-------------------------------"
-
-            staff_hash_array
-        end
-
-        # binding.pry
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealerfire_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-
-        full_names = html.css('.fn').map {|name| name.text.strip}
-        jobs = html.css('.position').map {|job| job.text.strip}
-        phones = html.css('.tel').map {|phone| phone.text.strip}
-        selector = "//meta[@itemprop='email']/@content"
-        nodes = html.xpath(selector)
-        emails = nodes.map {|n| n}
-
-        #  STAFF PAGE
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealercar_search_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-
-        #  STAFF PAGE
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def cobalt_cs(html, url, indexer)
-        ### MULTIPLE URL EXTENSIONS FOR STAFF PAGE.
-        puts indexer.template
-        puts url
-        puts
-
-        full_names = html.css('.contact-name').map {|name| name.text.strip}
-        jobs = html.css('.contact-title').map {|job| job.text.strip}
-        emails = html.css('.contact-email').map {|email| email.text.strip}
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealer_direct_cs(html, url, indexer) ### DONE!
-        puts indexer.template
-        puts url
-        puts
-
-        if html.css('.staff-desc .staff-name')
-            staff_count = html.css('.staff-desc .staff-name').count
-            puts "staff_count: #{staff_count}"
-            staff_hash_array = []
-
-            for i in 0...staff_count
-                staff_hash = {}
-                staff_hash[:full_name] = html.css('.staff-desc .staff-name')[i].text.strip
-                staff_hash[:job] = html.css('.staff-desc .staff-title')[i] ? html.css('.staff-desc .staff-title')[i].text.strip : ""
-                staff_hash[:email] = html.css('.staff-info .staff-email a')[i] ? html.css('.staff-info .staff-email a')[i].text.strip : ""
-                staff_hash[:phone] = html.css('.staff-info .staff-tel')[i] ? html.css('.staff-info .staff-tel')[i].text.strip : ""
 
                 staff_hash_array << staff_hash
             end
@@ -418,6 +439,45 @@ class StafferService
         #
         #     staff_hash_array
         # end
+
+        # binding.pry
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealer_direct_cs(html, url, indexer) ### DONE!
+        puts indexer.template
+        puts url
+        puts
+
+        if html.css('.staff-desc .staff-name')
+            staff_count = html.css('.staff-desc .staff-name').count
+            puts "staff_count: #{staff_count}"
+            staff_hash_array = []
+
+            for i in 0...staff_count
+                staff_hash = {}
+                staff_hash[:full_name] = html.css('.staff-desc .staff-name')[i].text.strip
+                staff_hash[:job] = html.css('.staff-desc .staff-title')[i] ? html.css('.staff-desc .staff-title')[i].text.strip : ""
+                staff_hash[:email] = html.css('.staff-info .staff-email a')[i] ? html.css('.staff-info .staff-email a')[i].text.strip : ""
+                staff_hash[:phone] = html.css('.staff-info .staff-tel')[i] ? html.css('.staff-info .staff-tel')[i].text.strip : ""
+
+                staff_hash_array << staff_hash
+            end
+
+            puts "staff_hash_array: #{staff_hash_array}"
+
+            staff_hash_array.each do |hash|
+                puts
+                hash.each do |key, value|
+                    puts "#{key}: #{value.inspect}"
+                end
+            end
+            puts "-------------------------------"
+
+            staff_hash_array
+        end
 
         # binding.pry
 
