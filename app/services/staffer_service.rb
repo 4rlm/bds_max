@@ -11,8 +11,8 @@ class StafferService
 
     def cs_data_getter
 
-        a=5
-        z=10
+        a=20
+        z=25
         # a=500
         # z=1000
         # a=1000
@@ -26,13 +26,66 @@ class StafferService
         # indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
 
+
+        ###### Dealer Inspire STAFF PAGE
+        ### (HELP!!) ### DUPLICATE DATA B/C FLUID AND STATIC VERSION.
+        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
+        indexers = Indexer.where(clean_url: "http://www.garberbuickgmc.com")  ## /about-us/staff/
+        # indexers = Indexer.where(clean_url: "http://www.fiatoftacoma.com")  ## /about-us/staff/
+        # indexers = Indexer.where(clean_url: "http://www.commonwealthhonda.com")  ## /about-us/staff/
+
+        # http://www.clevelandmotorsports.com/about-us/meet-our-staff/
+        # https://www.palmerstoyota.com/about-us/meet-our-staff/
+        # https://www.pretoy.com/team/
+        # http://www.landroverpalmbeach.com/staff/
+        # MEET OUR STAFF
+        # Meet Our Staff
+        # MEET OUR TEAM
+        # OUR TEAM
+
+
+        ###### DealerFire STAFF PAGE
+        # indexers = Indexer.where(template: "DealerFire")[a...z]
+        # indexers = Indexer.where(clean_url: "here")
+
+
+        ###### DealerCar Search STAFF PAGE
+        # indexers = Indexer.where(template: "DealerCar Search")[a...z]
+        # indexers = Indexer.where(clean_url: "here")
+
+
+        ###### DEALER eProcess STAFF PAGE
+        ### (HELP!!) ### DIFFERENT CSS CLASS NAMES.
+        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        # indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
+        # indexers = Indexer.where(clean_url: "http://www.karitoyota.com")
+        # indexers = Indexer.where(clean_url: "http://www.usedcarnh.net")
+        # indexers = Indexer.where(clean_url: "http://www.rrmcsterling.com")
+        # indexers = Indexer.where(clean_url: "http://www.alohakiaairport.com")
+        # indexers = Indexer.where(clean_url: "http://www.joecooperfordtulsa.com")
+        # indexers = Indexer.where(clean_url: "http://www.valenciaacura.com")
+        # indexers = Indexer.where(clean_url: "http://www.lumsautocenter.com")
+        # indexers = Indexer.where(clean_url: "http://www.harrisisuzu.com")
+        # /meet-our-staff/
+
+        ###### Cobalt STAFF PAGE
+        ### MULTIPLE URL EXTENSIONS FOR STAFF PAGE.
+        # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
+        # http://www.shireycadillacgm.com/MeetOurDepartments
+        # http://www.nissanmarin.com/MeetOurDepartments
+        # http://www.lexusgwinnett.com/Meet-Our-Staff
+        # http://www.irwinautoco.com/MeetOurDepartments
+        # http://www.vivachevy.com/MeetOurStaff
+        # MeetOurDepartments
+        # MeetOurStaff
+        # Meet-Our-Staff
+
         ###### (*DONE!) DEALER.com STAFF PAGE
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.bobbellford.net")
         # indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
         # indexers = Indexer.where(clean_url: "http://www.hallmarkvw.com")
         # indexers = Indexer.where(clean_url: "http://www.fairoaksmotors.com")
-
 
         ###### (*DONE!)  Dealer Direct STAFF PAGE
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
@@ -46,43 +99,15 @@ class StafferService
         # indexers = Indexer.where(clean_url: "http://www.boeckmanford.net")
         # indexers = Indexer.where(clean_url: "http://milwaukeeford.com")
 
-
-        ###### DealerOn STAFF PAGE
+        ###### (*DONE!) DealerOn STAFF PAGE
         # indexers = Indexer.where(template: "DealerOn")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.vwmankato.com")
-        indexers = Indexer.where(clean_url: "http://www.laurelkia.com")
+        # indexers = Indexer.where(clean_url: "http://www.laurelkia.com")
         # indexers = Indexer.where(clean_url: "http://www.dalehoward.com")
         # indexers = Indexer.where(clean_url: "http://www.porscheofranchomirage.com")
         # indexers = Indexer.where(clean_url: "http://www.borcherding.com")
         # indexers = Indexer.where(clean_url: "http://www.mywhalingcity.com")
         # /staff.aspx
-
-
-        ###### DEALER eProcess STAFF PAGE
-        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        # indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
-
-        # indexers = Indexer.where(clean_url: "http://www.karitoyota.com")
-        # indexers = Indexer.where(clean_url: "http://www.usedcarnh.net")
-        # indexers = Indexer.where(clean_url: "http://www.rrmcsterling.com")
-        # indexers = Indexer.where(clean_url: "http://www.alohakiaairport.com")
-        # indexers = Indexer.where(clean_url: "http://www.joecooperfordtulsa.com")
-        # indexers = Indexer.where(clean_url: "http://www.valenciaacura.com")
-        # indexers = Indexer.where(clean_url: "http://www.lumsautocenter.com")
-        # indexers = Indexer.where(clean_url: "http://www.harrisisuzu.com")
-        # /meet-our-staff/
-
-
-        ###### Cobalt STAFF PAGE
-        # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
-        # http://www.shireycadillacgm.com/MeetOurDepartments
-        # http://www.nissanmarin.com/MeetOurDepartments
-        # http://www.lexusgwinnett.com/Meet-Our-Staff
-        # http://www.irwinautoco.com/MeetOurDepartments
-        # http://www.vivachevy.com/MeetOurStaff
-        # MeetOurDepartments
-        # MeetOurStaff
-        # Meet-Our-Staff
 
 
         counter=0
@@ -106,7 +131,10 @@ class StafferService
             when "Dealer Direct"
                 url = "#{clean_url}/staff"
             when "Dealer Inspire"
-                # url = "#{clean_url}/"
+                url = "#{clean_url}/about-us/staff/"
+                # url = "#{clean_url}/team/"
+                # url = "#{clean_url}/staff/"
+
             when "DealerFire"
                 # url = "#{clean_url}/"
             when "DEALER eProcess"
@@ -117,7 +145,7 @@ class StafferService
             puts "\n============================\n"
             puts "[#{a}...#{z}]  (#{counter}/#{range})"
 
-            # begin
+            begin
                 @agent = Mechanize.new
                 html = @agent.get(url)
 
@@ -142,24 +170,24 @@ class StafferService
                 end
 
 
-            # rescue
-            #     error = $!.message
-            #     error_msg = "RT Error: #{error}"
-            #     if error_msg.include?("connection refused")
-            #         cs_error_code = "Connection Error"
-            #     elsif error_msg.include?("undefined method")
-            #         cs_error_code = "Method Error"
-            #     elsif error_msg.include?("404 => Net::HTTPNotFound")
-            #         cs_error_code = "404 Error"
-            #     elsif error_msg.include?("TCP connection")
-            #         cs_error_code = "TCP Error"
-            #     else
-            #         cs_error_code = error_msg
-            #     end
-            #     puts "\n\n>>> #{error_msg} <<<\n\n"
+            rescue
+                error = $!.message
+                error_msg = "RT Error: #{error}"
+                if error_msg.include?("connection refused")
+                    cs_error_code = "Connection Error"
+                elsif error_msg.include?("undefined method")
+                    cs_error_code = "Method Error"
+                elsif error_msg.include?("404 => Net::HTTPNotFound")
+                    cs_error_code = "404 Error"
+                elsif error_msg.include?("TCP connection")
+                    cs_error_code = "TCP Error"
+                else
+                    cs_error_code = error_msg
+                end
+                puts "\n\n>>> #{error_msg} <<<\n\n"
 
                 # indexer.update_attributes(indexer_status: "CS Error", cs_sts: cs_error_code)
-            # end ## rescue ends
+            end ## rescue ends
 
             sleep(3)
         end ## .each loop ends
@@ -167,8 +195,99 @@ class StafferService
     end
 
 
+    def dealer_inspire_cs(html, url, indexer)  ### NEED HELP!
+        ### HELP - emails not matchin at bottom of page.
+        # http://www.garberbuickgmc.com/about-us/staff/
+        # http://www.fiatoftacoma.com/about-us/staff/
+        puts indexer.template
+        puts url
+        puts
 
-    def dealer_direct_cs(html, url, indexer)
+        if html.css('.staff-bio h3')
+            staff_count = html.css('.staff-bio h3').count
+            puts "staff_count: #{staff_count}"
+            staff_hash_array = []
+
+            for i in 0...staff_count
+                staff_hash = {}
+                # staff_hash[:full_name] = html.xpath("//a[starts-with(@href, 'mailto:')]/@data-staff-name")[i].value
+                # staff_hash[:job] = html.xpath("//a[starts-with(@href, 'mailto:')]/@data-staff-title") ? html.xpath("//a[starts-with(@href, 'mailto:')]/@data-staff-title")[i].value : ""
+                staff_hash[:full_name] = html.css('.staff-bio h3')[i] ? html.css('.staff-bio h3')[i].text.strip : ""
+                staff_hash[:job] = html.css('.staff-bio h4')[i] ? html.css('.staff-bio h4')[i].text.strip : ""
+
+                staff_hash[:email] = html.css('.staff-email-button')[i] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
+
+                # staff_hash[:email] = html.css('.staff-email-button')[i].attributes["href"] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
+
+
+                staff_hash[:phone] = html.css('.staffphone')[i] ? html.css('.staffphone')[i].text.strip : ""
+
+                staff_hash_array << staff_hash
+            end
+
+            puts "staff_hash_array: #{staff_hash_array}"
+
+            staff_hash_array.each do |hash|
+                puts
+                hash.each do |key, value|
+                    puts "#{key}: #{value.inspect}"
+                end
+            end
+            puts "-------------------------------"
+
+            staff_hash_array
+        end
+
+        # binding.pry
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealerfire_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        full_names = html.css('.fn').map {|name| name.text.strip}
+        jobs = html.css('.position').map {|job| job.text.strip}
+        phones = html.css('.tel').map {|phone| phone.text.strip}
+        selector = "//meta[@itemprop='email']/@content"
+        nodes = html.xpath(selector)
+        emails = nodes.map {|n| n}
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealercar_search_cs(html, url, indexer)
+        puts indexer.template
+        puts url
+        puts
+
+        #  STAFF PAGE
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def cobalt_cs(html, url, indexer)
+        ### MULTIPLE URL EXTENSIONS FOR STAFF PAGE.
+        puts indexer.template
+        puts url
+        puts
+
+        full_names = html.css('.contact-name').map {|name| name.text.strip}
+        jobs = html.css('.contact-title').map {|job| job.text.strip}
+        emails = html.css('.contact-email').map {|email| email.text.strip}
+
+        # cs_formatter(fname, lname, fullname, title, email)
+    end
+
+
+    def dealer_direct_cs(html, url, indexer) ### DONE!
         puts indexer.template
         puts url
         puts
@@ -207,8 +326,8 @@ class StafferService
     end
 
 
-
-    def dealer_eprocess_cs(html, url, indexer)
+    def dealer_eprocess_cs(html, url, indexer) ### NEED HELP!
+        ### (HELP!!) ### DIFFERENT CSS CLASS NAMES.
         puts indexer.template
         puts url
         puts
@@ -306,8 +425,8 @@ class StafferService
     end
 
 
-
-    def dealeron_cs(html, url, indexer)
+    def dealeron_cs(html, url, indexer) ### DONE!
+        ### (*Done!!) ###
         puts indexer.template
         puts url
         puts
@@ -341,11 +460,12 @@ class StafferService
         end
 
         staff_hash_array
-        binding.pry
+        # binding.pry
         # cs_formatter(fname, lname, fullname, title, email)
     end
 
     def ph_email_scraper(staff)
+        ## Designed to work with dealeron_cs for when phone and email tags are missing on template, which creates mis-aligned data results.
         info = {}
         return info unless staff.children[1] || staff.children[3] # children[2] has no valuable data.
 
@@ -367,7 +487,7 @@ class StafferService
     end
 
 
-    def dealer_com_cs(html, url, indexer)
+    def dealer_com_cs(html, url, indexer) ### DONE!
         puts indexer.template
         puts url
         puts
@@ -403,82 +523,6 @@ class StafferService
 
         # cs_formatter(fname, lname, fullname, title, email)
     end
-
-
-    def cobalt_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-
-        full_names = html.css('.contact-name').map {|name| name.text.strip}
-        jobs = html.css('.contact-title').map {|job| job.text.strip}
-        emails = html.css('.contact-email').map {|email| email.text.strip}
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealercar_search_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-
-        #  STAFF PAGE
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealer_inspire_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-
-        #==CONTACT FIELDS==ARRAYS
-        full_names = []  # BEGIN NAMES ARRAY
-        html.css('.staff-item h3').map {|name|
-            unless full_names.include?(name.text.strip)
-                full_names.push(name.text.strip)
-            end
-        } # END NAMES
-
-        jobs = []  # BEGIN JOBS ARRAY
-        html.css('.staff-item h4').map {|job|
-            unless jobs.include?(job.text.strip)
-                jobs.push(job.text.strip)
-            end
-        }  # END JOBS ARRAY
-
-        phones = html.css('.staffphone').map {|phone| phone.text.strip}
-
-        # EMAILS BELOW
-        selector = "//a[starts-with(@href, 'mailto:')]/@href"
-        nodes = html.xpath(selector)
-        emails =  nodes.collect {|n| n.value[7..-1]}
-
-        #  STAFF PAGE
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
-
-    def dealerfire_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-
-        full_names = html.css('.fn').map {|name| name.text.strip}
-        jobs = html.css('.position').map {|job| job.text.strip}
-        phones = html.css('.tel').map {|phone| phone.text.strip}
-        selector = "//meta[@itemprop='email']/@content"
-        nodes = html.xpath(selector)
-        emails = nodes.map {|n| n}
-
-        #  STAFF PAGE
-
-        # cs_formatter(fname, lname, fullname, title, email)
-    end
-
 
 
     ###############################################
