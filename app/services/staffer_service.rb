@@ -29,7 +29,9 @@ class StafferService
 
         ###### DealerFire STAFF PAGE
         # indexers = Indexer.where(template: "DealerFire")[a...z]
-        indexers = Indexer.where(clean_url: "http://www.donjacobsvolkswagen.com")
+        # indexers = Indexer.where(clean_url: "http://www.donjacobsvolkswagen.com")
+        indexers = Indexer.where(clean_url: "http://www.hubbardchevrolet.com")
+
         # indexers = Indexer.where(clean_url: "http://www.weslacoford.com")
         # indexers = Indexer.where(clean_url: "http://www.weslacoford.com")
         # indexers = Indexer.where(clean_url: "http://www.palmen.com")
@@ -99,6 +101,12 @@ class StafferService
         # https://www.palmerstoyota.com/about-us/meet-our-staff/
         # https://www.pretoy.com/team/
         # http://www.landroverpalmbeach.com/staff/
+
+        # http://www.clevelandmotorsports.com/about-us/meet-our-staff/
+        # https://www.palmerstoyota.com/about-us/meet-our-staff/
+        # https://www.pretoy.com/team/
+        # http://www.landroverpalmbeach.com/staff/
+
         # MEET OUR STAFF
         # Meet Our Staff
         # MEET OUR TEAM
@@ -279,7 +287,7 @@ class StafferService
         html.css('.staffs-list [@itemprop="name"]')
 
 
-        binding.pry
+        # binding.pry
 
 
         # cs_formatter(fname, lname, fullname, title, email)
