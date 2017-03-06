@@ -336,9 +336,9 @@ class StafferService
 
     def dealer_eprocess_cs(html, url, indexer) ### NEED HELP!
         ### (HELP!!) ### DIFFERENT CSS CLASS NAMES.
-        puts indexer.template
-        puts url
-        puts
+        # puts indexer.template
+        # puts url
+        # puts
 
         staffs = html.css(".employee_wrap")
         staff_hash_array = []
@@ -358,7 +358,7 @@ class StafferService
                     staff_hash[:job] = info
                 elsif names.include?(info)
                     staff_hash[:full_name] = info
-                elsif num_reg.match(info)
+                elsif num_reg.match(info) && info.length < 17
                     staff_hash[:phone] = info
                 end
             end
@@ -372,16 +372,17 @@ class StafferService
             staff_hash_array << staff_hash
         end
 
-        staff_hash_array.each do |hash|
-            puts
-            hash.each do |key, value|
-                puts "#{key}: #{value.inspect}"
-            end
-            puts "-------------------------------"
-        end
+        # staff_hash_array.each do |hash|
+        #     puts
+        #     hash.each do |key, value|
+        #         puts "#{key}: #{value.inspect}"
+        #     end
+        #     puts "-------------------------------"
+        # end
 
-        staff_hash_array
+        print_result(indexer.template, url, staff_hash_array)
 
+        prep_create_staffer(staff_hash_array)
 
         # html.css('.employee_name').text
         # html.css('.employee_title').text
@@ -439,8 +440,6 @@ class StafferService
         #
         #     staff_hash_array
         # end
-
-        # cs_formatter(fname, lname, fullname, title, email)
     end
 
 
@@ -491,7 +490,7 @@ class StafferService
             end
         end
 
-        staff_hash_array
+        prep_create_staffer(staff_hash_array)
     end
 
 
@@ -544,9 +543,7 @@ class StafferService
             staff_hash_array
         end
 
-        # binding.pry
-
-        # cs_formatter(fname, lname, fullname, title, email)
+        prep_create_staffer(staff_hash_array)
     end
 
 
@@ -585,12 +582,10 @@ class StafferService
             hash.each do |key, value|
                 puts "#{key}: #{value.inspect}"
             end
+            puts "-------------------------------"
         end
-        puts "-------------------------------"
 
-        staff_hash_array
-
-        # cs_formatter(fname, lname, fullname, title, email)
+        prep_create_staffer(staff_hash_array)
     end
 
 
@@ -627,9 +622,7 @@ class StafferService
             staff_hash_array
         end
 
-        # binding.pry
-
-        # cs_formatter(fname, lname, fullname, title, email)
+        prep_create_staffer(staff_hash_array)
     end
 
 
@@ -667,9 +660,7 @@ class StafferService
             end
         end
 
-        staff_hash_array
-        # binding.pry
-        # cs_formatter(fname, lname, fullname, title, email)
+        prep_create_staffer(staff_hash_array)
     end
 
     def ph_email_scraper(staff)
@@ -727,9 +718,7 @@ class StafferService
             staff_hash_array
         end
 
-        # binding.pry
-
-        # cs_formatter(fname, lname, fullname, title, email)
+        prep_create_staffer(staff_hash_array)
     end
 
 
@@ -771,7 +760,6 @@ class StafferService
             staff_hash[:email] = email_reg.to_s if email_reg
 
             staff_hash_array << staff_hash
-            puts "-------------------------------"
         end
 
         staff_hash_array.each do |hash|
@@ -781,7 +769,40 @@ class StafferService
             end
         end
 
-        staff_hash_array
+        prep_create_staffer(staff_hash_array)
+    end
+
+    def print_result(template, url, hash_array)
+        puts "\ntemplate: #{template}\nurl: #{url}\n\n"
+        hash_array.each do |hash|
+            hash.each do |key, value|
+                puts "#{key}: #{value.inspect}"
+            end
+            puts "-------------------------------"
+        end
+    end
+
+    def prep_create_staffer(staff_hash_array)
+        staff_hash_array.each do |staff_hash|
+            name_parts = staff_hash[:full_name].split(" ")
+            staff_hash[:fname] = name_parts[0]
+            staff_hash[:lname] = name_parts[-1]
+        end
+        create_staffer(staff_hash_array)
+    end
+
+    def create_staffer(staff_hash_array)
+        staff_hash_array.each do |staff_hash|
+            full_name = staff_hash[:full_name] ? staff_hash[:full_name] : staff_hash[:fname] + " " + staff_hash[:lname]
+            # Staffer.create(
+            #     fname:    staff_hash[:fname],
+            #     lname:    staff_hash[:lname],
+            #     fullname: full_name,
+            #     job:      staff_hash[:job],
+            #     phone:    staff_hash[:phone],
+            #     email:    staff_hash[:email]
+            # )
+        end
     end
 
 
