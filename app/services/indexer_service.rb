@@ -291,17 +291,17 @@ class IndexerService
         # a=1800
         # z=3600
         a=0
-        z=3
+        z=500
 
-        # els = Indexer.where(template: "Cobalt").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "Dealer Inspire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Link Unverified")[a...z] ##6669
 
-        els = Indexer.where(clean_url: "http://www.vivachevy.com")
-        puts "count: #{els.count}\n\n\n"
+        # els = Indexer.where(clean_url: "http://www.vivachevy.com")
+        # puts "count: #{els.count}\n\n\n"
 
         @agent = Mechanize.new
         @agent.follow_meta_refresh = true
@@ -360,7 +360,7 @@ class IndexerService
                     end # indexer_terms iteration ends
 
                     indexer_status = "Indexer Error" unless found
-                    # el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
+                    el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
                 end # rescue ends
                 sleep(1)
             end
@@ -402,13 +402,13 @@ class IndexerService
     def add_indexer_row_with(status, text, href, link, mode)
         if mode == "location"
             puts "#{status}: #{text}"
-            # @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"
         elsif mode == "staff"
             puts "#{status}: #{text}"
-            # @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
             puts link
             puts text
             puts "----------------------------------------"

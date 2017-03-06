@@ -125,14 +125,14 @@ class IndexersController < ApplicationController
 
 
   def reset_errors_btn
-        @service.reset_errors
+        # @service.reset_errors
 
       redirect_to indexers_path
   end
 
 
   def indexer_starter_btn
-      @service.indexer_starter
+    #   @service.indexer_starter
         # @service.delay.indexer_starter
     #   @service.url_importer
 
@@ -141,7 +141,7 @@ class IndexersController < ApplicationController
 
   def template_finder_btn
     #   @service.template_finder
-      @service.delay.template_finder
+    #   @service.delay.template_finder
 
 
       redirect_to indexers_path
@@ -149,7 +149,7 @@ class IndexersController < ApplicationController
 
 
   def rooftop_data_getter_btn
-      @service.rooftop_data_getter
+    #   @service.rooftop_data_getter
     #   @service.delay.rooftop_data_getter
 
       redirect_to indexers_path
