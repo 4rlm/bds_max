@@ -117,6 +117,8 @@ class IndexersController < ApplicationController
     # @service.url_redirect_checker
     #   @service.delay.url_redirect_checker
 
+    @service.stafflink_express
+
     # @service.template_counter
 
 

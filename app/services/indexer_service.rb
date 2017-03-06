@@ -648,6 +648,49 @@ class IndexerService
     end
 
 
+    def stafflink_express
+        # Dealer.com > "#{clean_url}/dealership/staff.htm"
+        # DealerOn" > "#{clean_url}/staff.aspx"
+        # Dealer Direct" > "#{clean_url}/staff"
+        # DEALER eProcess > "#{clean_url}/meet-our-staff"
+
+        # Dealer Inspire > Meet Our Staff, Meet Our Team, Staff
+
+        # /about-us/meet-our-staff/
+        # /about-us/staff/
+        # /staff/
+        # /dealership/staff/
+
+        # DealerFire > Our Team, Meet the Staff
+        #     # url = "#{clean_url}/team-don-jacobs-volkswagen-in-lexington-ky"
+        #     # url = "#{clean_url}/team-payne-weslaco-ford-in-weslaco-tx"
+
+        indexers = Indexer.where(template: "DealerFire").where.not(indexer_status: "Staff Link Updated")[0..40]
+        indexers.each do |indexer|
+            clean_url = indexer.clean_url
+            staff_url = indexer.staff_url
+            staff_text = indexer.staff_text
+            unless clean_url.blank?
+                # new_link = "#{clean_url}/meet-our-staff"
+                puts "staff_text: #{staff_text}"
+                puts "clean_url: #{clean_url}"
+                puts "staff_url: #{staff_url}"
+                # puts "new_link: #{new_link}"
+                puts "-------------------------------"
+                # indexer.update_attributes(staff_url: new_link, indexer_status: "Staff Link Updated", staff_text: "Staff Page", stf_status: "Staff Link Updated")
+            end
+        end
+    end
+
+
+
+
+
+
+
+
+
+
 
 
 end # IndexerService class Ends ---
