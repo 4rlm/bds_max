@@ -1,5 +1,4 @@
-# Helper Method for CobaltRts
-class RtsHelper
+class RtsHelper # RoofTop Scraper Helper Method
     # PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
     def addr_parser(str)
         str.strip!
