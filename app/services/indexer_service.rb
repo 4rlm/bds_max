@@ -12,6 +12,7 @@ require 'indexer_service_helper/dealer_com_rts'
 require 'indexer_service_helper/dealer_direct_rts'
 require 'indexer_service_helper/dealer_eprocess_rts'
 require 'indexer_service_helper/dealercar_search_rts'
+require 'indexer_helper/cobalt_indexer'
 
 class IndexerService
 
@@ -290,18 +291,22 @@ class IndexerService
         # z=1800
         # a=1800
         # z=3600
-        a=0
-        z=500
 
-        els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
+        a=13
+        z=23
+
+        # els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "Dealer Inspire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Link Unverified")[a...z] ##6669
 
+        els = Indexer.where(template: "Cobalt")[a...z]
         # els = Indexer.where(clean_url: "http://www.vivachevy.com")
-        # puts "count: #{els.count}\n\n\n"
+        # els = Indexer.where(clean_url: "http://www.hyundaiofmyrtlebeach.com")
+
+        puts "count: #{els.count}\n\n\n"
 
         @agent = Mechanize.new
         @agent.follow_meta_refresh = true
@@ -316,7 +321,6 @@ class IndexerService
 
             locations_text_list = IndexerTerm.where(sub_category: "loc_text").where(criteria_term: "general").map(&:response_term)
             locations_href_list = to_regexp(IndexerTerm.where(sub_category: "loc_href").where(criteria_term: "general").map(&:response_term))
-
 
             counter+=1
             puts "[#{a}...#{z}]  (#{counter}):  #{template}"
@@ -334,11 +338,16 @@ class IndexerService
                         page = @agent.get(redirect_url)
                     end
 
-                    puts "\n----------------------------------------\n"
-                    puts url
+                    puts "\n----------------------------------------\n#{url}"
 
-                    page_finder(staff_text_list, staff_href_list, url, page, "staff")
-                    page_finder(locations_text_list, locations_href_list, url, page, "location")
+                    if template == "Cobalt"
+                        cobalt_i = CobaltIndexer.new
+                        cobalt_i.page_finder(staff_text_list, staff_href_list, url, page, "staff")
+                        cobalt_i.page_finder(locations_text_list, locations_href_list, url, page, "location")
+                    else
+                        page_finder(staff_text_list, staff_href_list, url, page, "staff")
+                        page_finder(locations_text_list, locations_href_list, url, page, "location")
+                    end
 
                 rescue
                     error_msg = "Error: #{$!.message}"
