@@ -1,4 +1,4 @@
-require 'indexer_service_helper/rts_helper'
+require 'rts/rts_helper'
 
 class DealercarSearchRts
     def initialize
