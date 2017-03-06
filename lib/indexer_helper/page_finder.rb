@@ -1,16 +1,16 @@
 class PageFinder
     def indexer_starter
-        a=50
-        z=60
+        a=30
+        z=40
 
         # els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "Dealer Inspire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        # els = Indexer.where(template: "DealerFire")[a...z]
+        els = Indexer.where(template: "Dealer Inspire")[a...z]
         # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Link Unverified")[a...z] ##6669
 
-        els = Indexer.where(template: "Cobalt")[a...z]
+        # els = Indexer.where(template: "Cobalt")[a...z]
         # els = Indexer.where(clean_url: "http://www.bouldernissan.com")
         # els = Indexer.where(clean_url: %w(http://www.bouldernissan.com http://www.nissan422oflimerick.com http://www.cavendercadillac.com http://www.alanwebbchevy.com http://www.lindsaycadillac.com))
 
@@ -110,10 +110,10 @@ class PageFinder
 
     def add_indexer_row_with(status, text, href, link, mode)
         if mode == "location"
-            puts "\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
+            puts "\nmode: #{mode}\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
             # @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
-            puts "\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
+            puts "\nmode: #{mode}\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
             # @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
