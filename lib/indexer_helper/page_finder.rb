@@ -1,7 +1,7 @@
 class PageFinder
     def indexer_starter
-        a=40
-        z=50
+        a=50
+        z=60
 
         # els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
@@ -22,32 +22,25 @@ class PageFinder
         counter=0
         els.each do |el|
             @indexer = el
-            template = el.template
-
-            staff_text_list = IndexerTerm.where(sub_category: "staff_text").where(criteria_term: template).map(&:response_term)
-            staff_href_list = to_regexp(IndexerTerm.where(sub_category: "staff_href").where(criteria_term: template).map(&:response_term))
-
-            locations_text_list = IndexerTerm.where(sub_category: "loc_text").where(criteria_term: "general").map(&:response_term)
-            locations_href_list = to_regexp(IndexerTerm.where(sub_category: "loc_href").where(criteria_term: "general").map(&:response_term))
 
             counter+=1
-            puts "[#{a}...#{z}]  (#{counter}):  #{template}\n----------------------------------------\n#{el.clean_url}"
+            puts "\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n----------------------------------------\n#{el.clean_url}\n"
 
             redirect_status = el.redirect_status
             if redirect_status == "Same" || redirect_status == "Updated"
 
                 begin
-                    url = el[:clean_url]
+                    @url = el.clean_url
 
                     begin
-                        page = agent.get(url)
+                        page = agent.get(@url)
                     rescue Mechanize::ResponseCodeError => e
-                        redirect_url = HTTParty.get(url).request.last_uri.to_s
+                        redirect_url = HTTParty.get(@url).request.last_uri.to_s
                         page = agent.get(redirect_url)
                     end
 
-                    page_finder(staff_text_list, staff_href_list, url, page, "staff")
-                    page_finder(locations_text_list, locations_href_list, url, page, "location")
+                    page_finder(page, "staff")
+                    page_finder(page, "location")
                 rescue
                     error_msg = "Error: #{$!.message}"
                     status = nil
@@ -75,27 +68,31 @@ class PageFinder
         end # Ends cores Loop
     end # Ends start_indexer(ids)
 
-    def page_finder(text_list, href_list, url, page, mode)
+    def page_finder(page, mode)
+        list = text_href_list(mode)
+
+        text_list = list[:text_list]
         for text in text_list
             pages = page.links.select {|link| link.text.downcase.include?(text.downcase)}
             if pages.any?
-                url_split_joiner(url, pages.first, mode)
+                url_split_joiner(pages.first, mode)
                 break
             end
         end
 
         if !pages
+            href_list = list[:href_list]
             href_list.delete(/MeetOurDepartments/) # /MeetOurDepartments/ is the last href to search.
             for href in href_list
                 if pages = page.link_with(:href => href)
-                    url_split_joiner(url, pages, mode)
+                    url_split_joiner(pages, mode)
                     break
                 end
             end
 
             if !pages
                 if pages = page.link_with(:href => /MeetOurDepartments/)
-                    url_split_joiner(url, pages, mode)
+                    url_split_joiner(pages, mode)
                 else
                     add_indexer_row_with("Invalid Link", nil, nil, nil, mode)
                 end
@@ -103,8 +100,8 @@ class PageFinder
         end
     end
 
-    def url_split_joiner(url, pages, mode)
-        url_s = url.split('/')
+    def url_split_joiner(pages, mode)
+        url_s = @url.split('/')
         url_http = url_s[0]
         url_www = url_s[2]
         joined_url = validater(url_http, '//', url_www, pages.href)
@@ -113,10 +110,10 @@ class PageFinder
 
     def add_indexer_row_with(status, text, href, link, mode)
         if mode == "location"
-            puts "#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------"
+            puts "\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
             # @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
-            puts "#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------"
+            puts "\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
             # @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
@@ -135,6 +132,19 @@ class PageFinder
 
     def to_regexp(arr)
         arr.map {|str| Regexp.new(str)}
+    end
+
+    def text_href_list(mode)
+        if mode == "staff"
+            text, href, term = "staff_text", "staff_href", @indexer.template
+        elsif mode == "location"
+            text, href, term = "loc_text", "loc_href", "general"
+        end
+
+        text_list = IndexerTerm.where(sub_category: text).where(criteria_term: term).map(&:response_term)
+        href_list = to_regexp(IndexerTerm.where(sub_category: href).where(criteria_term: term).map(&:response_term))
+
+        {text_list: text_list, href_list: href_list}
     end
 
 end
