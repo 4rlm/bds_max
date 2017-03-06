@@ -4,6 +4,8 @@ require 'open-uri'
 # require_relative 'staffer_service_helper'
 require 'staffer_helper/cs_helper'
 require 'staffer_helper/dealer_eprocess_cs'
+require 'staffer_helper/dealerfire_cs'
+require 'staffer_helper/dealer_inspire_cs'
 
 class StafferService
 
@@ -41,7 +43,7 @@ class StafferService
         # indexers = Indexer.where(clean_url: "http://www.palmen.com")
         # indexers = Indexer.where(clean_url: "http://www.cochranvwnorth.com")
         # indexers = Indexer.where(clean_url: "http://www.perrymotorshonda.com")
-        indexers = Indexer.where(clean_url: "http://www.jcbillionnissan.com")
+        # indexers = Indexer.where(clean_url: "http://www.jcbillionnissan.com")
 
         # http://www.donjacobsvolkswagen.com/team-don-jacobs-volkswagen-in-lexington-ky
         # http://www.weslacoford.com/team-payne-weslaco-ford-in-weslaco-tx
@@ -94,7 +96,7 @@ class StafferService
         ###### Dealer Inspire STAFF PAGE
         ### (HELP!!) ### DUPLICATE DATA B/C FLUID AND STATIC VERSION.
         # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
-        # indexers = Indexer.where(clean_url: "http://www.garberbuickgmc.com")  ## /about-us/staff/
+        indexers = Indexer.where(clean_url: "http://www.garberbuickgmc.com")  ## /about-us/staff/
         # indexers = Indexer.where(clean_url: "http://www.fiatoftacoma.com")  ## /about-us/staff/
         # indexers = Indexer.where(clean_url: "http://www.commonwealthhonda.com")  ## /about-us/staff/
 
@@ -172,8 +174,8 @@ class StafferService
                 # url = "#{clean_url}/team-payne-weslaco-ford-in-weslaco-tx"
                 # url = "#{clean_url}/team-palmen-in-racine-kenosha-wi"
                 # url = "#{clean_url}/team-volkswagen-north-hills-in-wexford-pa"
-                # url = "#{clean_url}/team-perry-honda-in-bishop-ca"
-                url = "#{clean_url}/team-jc-billion-nissan-in-bozeman-mt"
+                url = "#{clean_url}/team-perry-honda-in-bishop-ca"
+                # url = "#{clean_url}/team-jc-billion-nissan-in-bozeman-mt"
             when "DEALER eProcess"
                 url = "#{clean_url}/meet-our-staff"
             when "DealerCar Search"
@@ -201,9 +203,9 @@ class StafferService
                 when "Dealer Direct"
                     dealer_direct_cs(html, url, indexer)
                 when "Dealer Inspire"
-                    dealer_inspire_cs(html, url, indexer)
+                    DealerInspireCs.new.contact_scraper(html, url, indexer)
                 when "DealerFire"
-                    dealerfire_cs(html, url, indexer)
+                    DealerfireCs.new.contact_scraper(html, url, indexer)
                 when "DEALER eProcess"
                     DealerEprocessCs.new.contact_scraper(html, url, indexer)
                 end
@@ -232,109 +234,6 @@ class StafferService
         end ## .each loop ends
 
     end
-
-
-    def dealerfire_cs(html, url, indexer)
-        puts indexer.template
-        puts url
-        puts
-        staffs = html.xpath("//div[@class='staffs-list']/div[@itemprop='employees']")
-        staff_hash_array = []
-
-        staffs.each do |staff|
-            staff_hash = {}
-            # Get name, job, phone
-            info_ori = staff.text.split("\n").map {|el| el.delete("\t") }
-            infos = info_ori.delete_if {|el| el.blank?}
-
-            jobs = html.css("[@itemprop='jobTitle']").text
-            names = html.css("[@itemprop='name']").text
-
-            infos.each do |info|
-                num_reg = Regexp.new("[0-9]+")
-                if jobs.include?(info)
-                    staff_hash[:job] = info
-                elsif names.include?(info)
-                    staff_hash[:full_name] = info
-                elsif num_reg.match(info)
-                    staff_hash[:phone] = info
-                end
-            end
-
-            # Get email
-            data = staff.inner_html
-            regex = Regexp.new("[a-z]+[@][a-z]+[.][a-z]+")
-            email_reg = regex.match(data)
-            staff_hash[:email] = email_reg.to_s if email_reg
-
-            staff_hash_array << staff_hash
-            puts "-------------------------------"
-        end
-
-        staff_hash_array.each do |hash|
-            puts
-            hash.each do |key, value|
-                puts "#{key}: #{value.inspect}"
-            end
-        end
-
-        prep_create_staffer(staff_hash_array)
-    end
-
-
-
-
-
-
-
-
-    def dealer_inspire_cs(html, url, indexer)  ### NEED HELP!
-        ### HELP - emails not matching at bottom of page.
-        # http://www.garberbuickgmc.com/about-us/staff/
-        # http://www.fiatoftacoma.com/about-us/staff/
-        puts indexer.template
-        puts url
-        puts
-
-        if html.css('.staff-bio h3')
-            staff_count = html.css('.staff-bio h3').count
-            puts "staff_count: #{staff_count}"
-            staff_hash_array = []
-
-            for i in 0...staff_count
-                staff_hash = {}
-                # staff_hash[:full_name] = html.xpath("//a[starts-with(@href, 'mailto:')]/@data-staff-name")[i].value
-                # staff_hash[:job] = html.xpath("//a[starts-with(@href, 'mailto:')]/@data-staff-title") ? html.xpath("//a[starts-with(@href, 'mailto:')]/@data-staff-title")[i].value : ""
-                staff_hash[:full_name] = html.css('.staff-bio h3')[i] ? html.css('.staff-bio h3')[i].text.strip : ""
-                staff_hash[:job] = html.css('.staff-bio h4')[i] ? html.css('.staff-bio h4')[i].text.strip : ""
-
-                staff_hash[:email] = html.css('.staff-email-button')[i] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
-
-                # staff_hash[:email] = html.css('.staff-email-button')[i].attributes["href"] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
-
-
-                staff_hash[:phone] = html.css('.staffphone')[i] ? html.css('.staffphone')[i].text.strip : ""
-
-                staff_hash_array << staff_hash
-            end
-
-            puts "staff_hash_array: #{staff_hash_array}"
-
-            staff_hash_array.each do |hash|
-                puts
-                hash.each do |key, value|
-                    puts "#{key}: #{value.inspect}"
-                end
-            end
-            puts "-------------------------------"
-
-            staff_hash_array
-        end
-
-        prep_create_staffer(staff_hash_array)
-    end
-
-
 
     def cobalt_cs(html, url, indexer) ### Perfect, except for phone numbers not matching.
         ### Perfect, except for phone numbers not matching.
