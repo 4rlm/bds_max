@@ -8,6 +8,7 @@ require 'staffer_helper/dealerfire_cs'
 require 'staffer_helper/dealer_inspire_cs'
 require 'staffer_helper/cobalt_cs'
 require 'staffer_helper/dealeron_cs'
+require 'staffer_helper/dealer_direct_cs'
 
 class StafferService
 
@@ -128,7 +129,7 @@ class StafferService
         ###### (*DONE!)  Dealer Direct STAFF PAGE
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.larrygewekeford.net")
-        # indexers = Indexer.where(clean_url: "http://www.thinkfullerford.com")
+        indexers = Indexer.where(clean_url: "http://www.thinkfullerford.com")
         # indexers = Indexer.where(clean_url: "http://www.acrivelliford.com")
         # indexers = Indexer.where(clean_url: "http://www.midwayfordtruck.com")
         # indexers = Indexer.where(clean_url: "http://www.kelleher-ford.com")
@@ -140,7 +141,7 @@ class StafferService
         ###### (*DONE!) DealerOn STAFF PAGE
         # indexers = Indexer.where(template: "DealerOn")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.vwmankato.com")
-        indexers = Indexer.where(clean_url: "http://www.laurelkia.com")
+        # indexers = Indexer.where(clean_url: "http://www.laurelkia.com")
         # indexers = Indexer.where(clean_url: "http://www.dalehoward.com")
         # indexers = Indexer.where(clean_url: "http://www.porscheofranchomirage.com")
         # indexers = Indexer.where(clean_url: "http://www.borcherding.com")
@@ -203,7 +204,7 @@ class StafferService
                 when "DealerCar Search"
                     dealercar_search_cs(html, url, indexer)
                 when "Dealer Direct"
-                    dealer_direct_cs(html, url, indexer)
+                    DealerDirectCs.new.contact_scraper(html, url, indexer)
                 when "Dealer Inspire"
                     DealerInspireCs.new.contact_scraper(html, url, indexer)
                 when "DealerFire"
@@ -235,42 +236,6 @@ class StafferService
             sleep(3)
         end ## .each loop ends
 
-    end
-
-    def dealer_direct_cs(html, url, indexer) ### DONE!
-        puts indexer.template
-        puts url
-        puts
-
-        if html.css('.staff-desc .staff-name')
-            staff_count = html.css('.staff-desc .staff-name').count
-            puts "staff_count: #{staff_count}"
-            staff_hash_array = []
-
-            for i in 0...staff_count
-                staff_hash = {}
-                staff_hash[:full_name] = html.css('.staff-desc .staff-name')[i].text.strip
-                staff_hash[:job] = html.css('.staff-desc .staff-title')[i] ? html.css('.staff-desc .staff-title')[i].text.strip : ""
-                staff_hash[:email] = html.css('.staff-info .staff-email a')[i] ? html.css('.staff-info .staff-email a')[i].text.strip : ""
-                staff_hash[:phone] = html.css('.staff-info .staff-tel')[i] ? html.css('.staff-info .staff-tel')[i].text.strip : ""
-
-                staff_hash_array << staff_hash
-            end
-
-            puts "staff_hash_array: #{staff_hash_array}"
-
-            staff_hash_array.each do |hash|
-                puts
-                hash.each do |key, value|
-                    puts "#{key}: #{value.inspect}"
-                end
-            end
-            puts "-------------------------------"
-
-            staff_hash_array
-        end
-
-        prep_create_staffer(staff_hash_array)
     end
 
     def dealer_com_cs(html, url, indexer) ### DONE!
