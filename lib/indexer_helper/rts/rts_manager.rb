@@ -45,27 +45,20 @@ class RtsManager # Update database with the result of RoofTop Scraper
     end
 
     def results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
-        if org || street || city || state || zip || phone || full_addr
-            phone = phone_formatter(phone)
+        phone = phone_formatter(phone) if phone
 
-            puts indexer.template
-            puts "#{url} \n\nRT Result - Success!\n\n"
-            org.nil? ? (puts "org: nil") : (p "org: #{org}")
-            phone.nil? ? (puts "phone: nil") : (p "phone: #{phone}")
-            street.nil? ? (puts "street: nil") : (p "street: #{street}")
-            city.nil? ? (puts "city: nil") : (p "city: #{city}")
-            state.nil? ? (puts "state: nil") : (p "state: #{state}")
-            zip.nil? ? (puts "zip: nil") : (p "zip: #{zip}")
-            full_addr.nil? ? (puts "full_addr: nil") : (p "full_addr: #{full_addr}")
+        # Clean the Data before updating database
+        clean = record_cleaner(org, street, city, state, zip)
+        org, street, city, state, zip = clean[:org], clean[:street], clean[:city], clean[:state], clean[:zip]
+
+        if org || street || city || state || zip || phone || full_addr
+            printer(org, street, city, state, zip, phone, full_addr, url, indexer)
 
             # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone)
         else
-            puts "#{url} \n\nRT No-Result - Check Template Version!\n\n"
+            puts "url: #{url} \n\nRT No-Result - Check Template Version!\n\n#{'='*30}\n\n"
             # indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
         end
-
-        puts "\n============================\n\n"
-
     end
 
     # ================== Helper ==================
@@ -82,5 +75,27 @@ class RtsManager # Update database with the result of RoofTop Scraper
             final_phone = nil
         end
         final_phone
+    end
+
+    def record_cleaner(org, street, city, state, zip)
+        puts "#{"="*15} DIRTY DATA #{"="*15}\norg: #{org.inspect}\nstreet: #{street.inspect}\ncity: #{city.inspect}\nstate: #{state.inspect}\nzip: #{zip.inspect}\n#{"-"*40}"
+
+        # Cleaning code goes here.
+
+        {org: org, street: street, city: city, state: state, zip: zip}
+    end
+
+    def printer(org, street, city, state, zip, phone, full_addr, url, indexer)
+        puts "template: #{indexer.template}\nurl: #{url} \n\nRT Result - Success!\n\n"
+
+        puts "org: #{org.nil? ? "nil" : org.inspect}"
+        puts "street: #{street.nil? ? "nil" : street.inspect}"
+        puts "city: #{city.nil? ? "nil" : city.inspect}"
+        puts "state: #{state.nil? ? "nil" : state.inspect}"
+        puts "zip: #{zip.nil? ? "nil" : zip.inspect}"
+        puts "phone: #{phone.nil? ? "nil" : phone.inspect}"
+        puts "full_addr: #{full_addr.nil? ? "nil" : full_addr.inspect}"
+
+        puts "\n#{'='*30}\n\n"
     end
 end

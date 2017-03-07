@@ -111,14 +111,17 @@ class PageFinder
     end
 
     def add_indexer_row_with(status, text, href, link, mode)
+        # Clean the Data before updating database
         clean = record_cleaner(text, href, link)
         text, href, link = clean[:text], clean[:href], clean[:link]
 
         if mode == "location"
-            puts "\nmode: #{mode}\n#{status}: #{text}\nlink: #{link}\ntext: #{text}\n#{"-"*40}\n"
+            printer(mode, status, text, link)
+
             # @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
-            puts "\nmode: #{mode}\n#{status}: #{text}\nlink: #{link}\ntext: #{text}\n#{"-"*40}\n"
+            printer(mode, status, text, link)
+
             # @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
@@ -152,12 +155,18 @@ class PageFinder
         {text_list: text_list, href_list: href_list}
     end
 
+    # ================== Helper ==================
+    # Clean the Data before updating database
     def record_cleaner(text, href, link)
-        puts "#{"="*15} DIRTY DATA #{"="*15}\ntext: #{text}\nhref: #{href}\nlink: #{link}\n#{"-"*40}"
+        puts "#{"="*15} DIRTY DATA #{"="*15}\ntext: #{text.inspect}\nhref: #{href.inspect}\nlink: #{link.inspect}\n#{"-"*40}"
 
         # Cleaning code goes here.
         ## 1) href starts with "/"
 
         {text: text, href: href, link: link}
+    end
+
+    def printer(mode, status, text, link)
+        puts "\nmode: #{mode.inspect}\n#{status.inspect}: #{text.inspect}\nlink: #{link.inspect}\ntext: #{text.inspect}\n#{"-"*40}\n"
     end
 end
