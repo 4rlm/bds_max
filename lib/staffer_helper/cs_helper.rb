@@ -52,4 +52,26 @@ class CsHelper # Contact Scraper Helper Method
             # )
         end
     end
+
+    def ph_email_scraper(staff)
+        ## Designed to work with dealeron_cs for when phone and email tags are missing on template, which creates mis-aligned data results.
+        info = {}
+        return info unless staff.children[1] || staff.children[3] # children[2] has no valuable data.
+
+        value_1 = staff.children[1].attributes["href"].value if staff.children[1]
+        value_3 = staff.children[3].attributes["href"].value if staff.children[3]
+
+        if value_1 && value_1.include?("tel:")
+            info[:phone] = value_1
+        elsif value_1 && value_1.include?("mailto:")
+            info[:email] = value_1
+        end
+
+        if value_3 && value_3.include?("tel:")
+            info[:phone] = value_3
+        elsif value_3 && value_3.include?("mailto:")
+            info[:email] = value_3
+        end
+        info
+    end
 end

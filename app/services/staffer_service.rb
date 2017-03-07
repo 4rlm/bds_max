@@ -7,6 +7,7 @@ require 'staffer_helper/dealer_eprocess_cs'
 require 'staffer_helper/dealerfire_cs'
 require 'staffer_helper/dealer_inspire_cs'
 require 'staffer_helper/cobalt_cs'
+require 'staffer_helper/dealeron_cs'
 
 class StafferService
 
@@ -62,7 +63,7 @@ class StafferService
         # indexers = Indexer.where(clean_url: "http://www.shireycadillacgm.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.nissanmarin.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.irwinautoco.com")  ## /MeetOurDepartments
-        indexers = Indexer.where(clean_url: "http://www.jcharriscadillac.com")  ## /MeetOurDepartments
+        # indexers = Indexer.where(clean_url: "http://www.jcharriscadillac.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.chasechevroletstockton.com")  ## /MeetOurDepartments
 
         # http://www.lexusgwinnett.com/Meet-Our-Staff
@@ -139,7 +140,7 @@ class StafferService
         ###### (*DONE!) DealerOn STAFF PAGE
         # indexers = Indexer.where(template: "DealerOn")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.vwmankato.com")
-        # indexers = Indexer.where(clean_url: "http://www.laurelkia.com")
+        indexers = Indexer.where(clean_url: "http://www.laurelkia.com")
         # indexers = Indexer.where(clean_url: "http://www.dalehoward.com")
         # indexers = Indexer.where(clean_url: "http://www.porscheofranchomirage.com")
         # indexers = Indexer.where(clean_url: "http://www.borcherding.com")
@@ -198,7 +199,7 @@ class StafferService
                 when "Cobalt"
                     CobaltCs.new.contact_scraper(html, url, indexer)
                 when "DealerOn"
-                    dealeron_cs(html, url, indexer)
+                    DealeronCs.new.contact_scraper(html, url, indexer)
                 when "DealerCar Search"
                     dealercar_search_cs(html, url, indexer)
                 when "Dealer Direct"
@@ -271,67 +272,6 @@ class StafferService
 
         prep_create_staffer(staff_hash_array)
     end
-
-
-    def dealeron_cs(html, url, indexer) ### DONE!
-        ### (*Done!!) ###
-        puts indexer.template
-        puts url
-        puts
-        staff_hash_array = []
-
-        if html.css('.staff-row .staff-title')
-            staff_count = html.css('.staff-row .staff-title').count
-            puts "staff_count: #{staff_count}"
-            staffs = html.css(".staff-contact")
-
-            for i in 0...staff_count
-                staff_hash = {}
-                staff_hash[:full_name] = html.css('.staff-row .staff-title')[i].text.strip
-                staff_hash[:job] = html.css('.staff-desc')[i] ? html.css('.staff-desc')[i].text.strip : ""
-
-                ph_email_hash = ph_email_scraper(staffs[i])
-                staff_hash[:phone] = ph_email_hash[:phone]
-                staff_hash[:email] = ph_email_hash[:email]
-
-                staff_hash_array << staff_hash
-            end
-
-            puts "staff_hash_array: #{staff_hash_array}"
-
-            staff_hash_array.each do |hash|
-                hash.each do |key, value|
-                    puts "#{key}: #{value.inspect}"
-                end
-                puts "---------------------------------------------"
-            end
-        end
-
-        prep_create_staffer(staff_hash_array)
-    end
-
-    def ph_email_scraper(staff)
-        ## Designed to work with dealeron_cs for when phone and email tags are missing on template, which creates mis-aligned data results.
-        info = {}
-        return info unless staff.children[1] || staff.children[3] # children[2] has no valuable data.
-
-        value_1 = staff.children[1].attributes["href"].value if staff.children[1]
-        value_3 = staff.children[3].attributes["href"].value if staff.children[3]
-
-        if value_1 && value_1.include?("tel:")
-            info[:phone] = value_1
-        elsif value_1 && value_1.include?("mailto:")
-            info[:email] = value_1
-        end
-
-        if value_3 && value_3.include?("tel:")
-            info[:phone] = value_3
-        elsif value_3 && value_3.include?("mailto:")
-            info[:email] = value_3
-        end
-        info
-    end
-
 
     def dealer_com_cs(html, url, indexer) ### DONE!
         puts indexer.template
