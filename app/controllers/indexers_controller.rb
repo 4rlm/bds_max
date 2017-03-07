@@ -103,7 +103,6 @@ class IndexersController < ApplicationController
 
   def indexer_power_btn
     # @service.url_arr_extractor
-    # @service.url_redirect_checker
     # @service.scraped_contacts_sts_checker
     # @service.count_contacts
     # @service.dup_url_cleaner
@@ -114,10 +113,15 @@ class IndexersController < ApplicationController
     # @service.url_downcase
     # @service.delay.url_downcase
     # @service.hyrell_cleaner
-    # @service.url_redirect_checker
-    #   @service.delay.url_redirect_checker
-
     # @service.template_counter
+    # @service.stafflink_express
+    # @service.core_phone_norm
+    # @service.core_url_redirect
+
+    # @service.url_redirect_checker
+    @service.delay.url_redirect_checker
+
+    # @service.indexer_duplicate_purger
 
 
       redirect_to indexers_path
@@ -140,7 +144,7 @@ class IndexersController < ApplicationController
 
   def template_finder_btn
     #   @service.template_finder
-    #   @service.delay.template_finder
+      @service.delay.template_finder
 
 
       redirect_to indexers_path

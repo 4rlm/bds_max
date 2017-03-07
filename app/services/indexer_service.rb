@@ -104,15 +104,22 @@ class IndexerService
     ####################
 
     def template_finder
-        # a=200
-        # z=2000
-        # a=2000
-        # z=4000
-        a=4000
-        z=6000
+        # a=300
+        # z=1500
+        # a=1500
+        # z=3000
+        # a=3000
+        # z=4500
+        # a=4500
+        # z=6000
+        a=6000
+        z=-1
+
+
+        indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 7,736
 
         # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
-        indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
+        # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
         # indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[a..z] #138
         # indexers = Indexer.where(template: "Dealer Inspire")[a..z]
 
@@ -188,15 +195,11 @@ class IndexerService
         # indexers = Indexer.where(redirect_status: nil).where(stf_status: "SFDC URL").where(indexer_status: "SFDC URL").where.not("raw_url LIKE '%www%'")[a...z]
         # Indexer.where.not("redirect_status LIKE '%Error%'")
 
-        a=200
+        a=0
         z=-1
-        # a=350
-        # z=-1
-        # a=2600
-        # z2-1
-        # 2630
 
-        indexers = Indexer.where(clean_url: nil).where(redirect_status: nil)[a...z]
+        indexers = Indexer.where(indexer_status: "COP URL").where(clean_url: nil)[a...z]  ##17,033
+
 
         counter_fail = 0
         counter_result = 0
@@ -646,6 +649,134 @@ class IndexerService
         end
 
     end
+
+
+    def stafflink_express
+        # Dealer.com > "#{clean_url}/dealership/staff.htm"
+        # DealerOn" > "#{clean_url}/staff.aspx"
+        # Dealer Direct" > "#{clean_url}/staff"
+        # DEALER eProcess > "#{clean_url}/meet-our-staff"
+
+        # Dealer Inspire > Meet Our Staff, Meet Our Team, Staff
+
+        # /about-us/meet-our-staff/
+        # /about-us/staff/
+        # /staff/
+        # /dealership/staff/
+
+        # DealerFire > Our Team, Meet the Staff
+        #     # url = "#{clean_url}/team-don-jacobs-volkswagen-in-lexington-ky"
+        #     # url = "#{clean_url}/team-payne-weslaco-ford-in-weslaco-tx"
+
+        indexers = Indexer.where(template: "DealerFire").where.not(indexer_status: "Staff Link Updated")[0..40]
+        indexers.each do |indexer|
+            clean_url = indexer.clean_url
+            staff_url = indexer.staff_url
+            staff_text = indexer.staff_text
+            unless clean_url.blank?
+                # new_link = "#{clean_url}/meet-our-staff"
+                puts "staff_text: #{staff_text}"
+                puts "clean_url: #{clean_url}"
+                puts "staff_url: #{staff_url}"
+                # puts "new_link: #{new_link}"
+                puts "-------------------------------"
+                # indexer.update_attributes(staff_url: new_link, indexer_status: "Staff Link Updated", staff_text: "Staff Page", stf_status: "Staff Link Updated")
+            end
+        end
+
+    end
+
+
+
+    def core_phone_norm
+        #normalizes phone in core sfdc accounts.
+        cores = Core.where.not(sfdc_ph: nil)
+        cores.each do |core|
+            alert = ""
+            sfdc_ph = core.sfdc_ph
+            puts "sfdc_ph: #{sfdc_ph}"
+            norm_ph = phone_formatter(sfdc_ph)
+            if norm_ph != sfdc_ph
+                alert = "Alert!"
+                core.update_attribute(:sfdc_ph, norm_ph)
+            end
+            puts "norm_ph: #{norm_ph} #{alert}\n\n"
+        end
+    end
+
+    def core_url_redirect
+        #Checks if sfdc_url exists in Indexer raw_url column, then saves Indexer clean_url to core_url_redirect column.
+        # cores = Core.where.not(sfdc_url: nil).where(sfdc_url_redirect: nil)
+        # cores.each do |core|
+        #     sfdc_url = core.sfdc_url
+        #     sfdc_url_redirect = core.sfdc_url_redirect
+        #     indexer_raw = Indexer.where(raw_url: sfdc_url).map(&:raw_url).first
+        #     indexer_clean = Indexer.where(raw_url: sfdc_url).map(&:clean_url).first
+        #     puts "\n\n============="
+        #     puts sfdc_url
+        #     puts indexer_raw
+        #     puts indexer_clean
+        #     core.update_attribute(:sfdc_url_redirect, indexer_clean)
+        #     puts "=============\n\n"
+        # end
+
+        ## Step 2: Sends core sfdc_url to indexer raw_url if doesn't exist in indexer raw_url column.
+        # cores = Core.where.not(sfdc_url: nil).where(sfdc_url_redirect: nil)
+        # counter = 0
+        # cores.each do |core|
+        #     sfdc_url = core.sfdc_url
+        #     raw_url = Indexer.where(raw_url: sfdc_url).first
+        #     if raw_url.blank?
+        #         counter +=1
+        #         puts "=============\n\n"
+        #         puts "counter: #{counter}"
+        #         puts "sfdc_url: #{sfdc_url}"
+        #         puts "raw_url: #{raw_url}"
+        #         Indexer.create(indexer_status: "SFDC URL", redirect_status: "SFDC URL", raw_url: sfdc_url)
+        #         puts "=============\n\n"
+        #     end
+        # end
+
+
+        # cops = Indexer.where(redirect_status: "COP URL")
+        # cops.each do |cop|
+        #     raw_cop = cop.raw_url
+        #     url_count = Indexer.where(raw_url: raw_cop).map(&:raw_url).count
+        #     raw_keep = Indexer.where.not(id: cop.id).where(raw_url: raw_cop).map(&:raw_url).first
+        #
+        #     if raw_keep
+        #         puts "\n\n========================\n\n"
+        #         puts "url_count: #{url_count}"
+        #         puts "raw_cop: #{raw_cop}"
+        #         puts "raw_keep: #{raw_keep}"
+        #         cop.update_attribute(:redirect_status, "Delete")
+        #         puts "\n\n========================\n\n"
+        #     end
+        # end
+    end
+
+
+    def indexer_duplicate_purger
+
+        # Indexer.select([:raw_url]).group(:raw_url).having("count(*) > 1").map.count
+        # Indexer.select([:template]).group(:template).having("count(*) > 1").map.count
+        # Indexer.select([:clean_url]).group(:clean_url).having("count(*) > 1").map.count
+        # Indexer.select([:clean_url]).group(:clean_url).having("count(*) < 2").map.count
+        # Indexer.all.map(&:template).uniq
+
+        templates =
+
+        indexers = Indexer.select([:clean_url]).group(:clean_url).having("count(*) < 2").where(template: nil).count
+
+        indexers.each do |indexer|
+
+        end
+
+
+
+
+    end
+
 
 
 
