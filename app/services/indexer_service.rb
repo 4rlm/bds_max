@@ -18,7 +18,7 @@ require 'indexer_helper/rts/rts_manager'
 
 class IndexerService
     def rooftop_data_getter # RoofTop Scraper
-        a=40
+        a=20
         z=45
         # indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
         # indexers = Indexer.where(template: "DealerOn")[a...z]
@@ -52,8 +52,8 @@ class IndexerService
 
             begin
 
-                @agent = Mechanize.new
-                html = @agent.get(url)
+                agent = Mechanize.new
+                html = agent.get(url)
 
                 case term
                 when "dealer_com_rts"
@@ -103,19 +103,26 @@ class IndexerService
     ####################
 
     def template_finder
-        # a=300
+        a=600
+        z=-1
+        # a=500
+        # z=1000
+        # a=1000
         # z=1500
         # a=1500
-        # z=3000
-        # a=3000
-        # z=4500
-        # a=4500
-        # z=6000
-        a=6000
-        z=-1
+        # z=-1
 
 
-        indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 7,736
+        # indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 2,400
+        # indexers = Indexer.where(clean_url: "http://www.howellnissan.com") ## 2,400
+        indexers = Indexer.where(clean_url: "https://www.deaconjonesnissan.com")
+        # indexers = Indexer.where(clean_url: "http://www.seaviewbuickgmc.com")
+        # indexers = Indexer.where(clean_url: "http://lexusofgreenwich.com")
+        # indexers = Indexer.where(clean_url: "https://www.bobkingmitsubishi.com")
+        # indexers = Indexer.where(clean_url: "https://porscheofocala.com")
+
+
+
 
         # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
         # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
@@ -131,45 +138,35 @@ class IndexerService
             counter+=1
 
             begin
-                @agent = Mechanize.new
-                doc = @agent.get(url)
+                agent = Mechanize.new
+                doc = agent.get(url)
+                found = false
 
                 indexer_terms = IndexerTerm.where(category: "template_finder").where(sub_category: "at_css")
                 indexer_terms.each do |indexer_term|
                     criteria_term = indexer_term.criteria_term
                     if doc.at_css('html').text.include?(criteria_term)
+                        found = true
                         template = indexer_term.response_term
-
-                        if template
-                            puts
-                            puts "[#{a}...#{z}]  (#{counter})   Success!"
-                            puts url
-                            puts "Term: #{criteria_term}"
-                            puts "Temp: #{template}"
-                            puts "DB: #{db_template}"
-                        indexer.update_attribute(:template, template)
-                        else
-                            puts
-                            puts "[#{a}...#{z}]  (#{counter})   Unidentified"
-                            puts url
-                            puts "Term: #{criteria_term}"
-                            puts "Temp: #{template}"
-                            puts "DB: #{db_template}"
-                        indexer.update_attribute(:template, template)
-                        end
-
+                        puts "\n[#{a}...#{z}]  (#{counter})   Success!\nurl\nTerm: #{criteria_term}\nTemp: #{template}\nDB: #{db_template}\n"
+                        indexer.update_attribute(:template, template) if template
                         break
                     end
                 end
 
-            rescue
-                puts
-                puts "[#{a}...#{z}]  (#{counter})   Search Error"
-                puts url
-                puts "Term: #{criteria_term}"
-                puts "Temp: #{template}"
-                puts "DB: #{db_template}"
-                indexer.update_attribute(:template, "Search Error")
+                if !found # criteria_term not found
+                    puts "\n[#{a}...#{z}]  (#{counter})   Unidentified\nurl\nTerm: #{criteria_term}\nTemp: #{template}\nDB: #{db_template}\n"
+                    indexer.update_attribute(:template, "Unidentified")
+                end
+
+            # rescue
+            #     puts
+            #     puts "[#{a}...#{z}]  (#{counter})   Search Error"
+            #     puts url
+            #     puts "Term: #{criteria_term}"
+            #     puts "Temp: #{template}"
+            #     puts "DB: #{db_template}"
+            #     indexer.update_attribute(:template, "Search Error")
             end
 
             sleep(1)
