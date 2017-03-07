@@ -9,6 +9,7 @@ require 'staffer_helper/dealer_inspire_cs'
 require 'staffer_helper/cobalt_cs'
 require 'staffer_helper/dealeron_cs'
 require 'staffer_helper/dealer_direct_cs'
+require 'staffer_helper/dealer_com_cs'
 
 class StafferService
 
@@ -122,14 +123,14 @@ class StafferService
         ###### (*DONE!) DEALER.com STAFF PAGE
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.bobbellford.net")
-        # indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
+        indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
         # indexers = Indexer.where(clean_url: "http://www.hallmarkvw.com")
         # indexers = Indexer.where(clean_url: "http://www.fairoaksmotors.com")
 
         ###### (*DONE!)  Dealer Direct STAFF PAGE
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.larrygewekeford.net")
-        indexers = Indexer.where(clean_url: "http://www.thinkfullerford.com")
+        # indexers = Indexer.where(clean_url: "http://www.thinkfullerford.com")
         # indexers = Indexer.where(clean_url: "http://www.acrivelliford.com")
         # indexers = Indexer.where(clean_url: "http://www.midwayfordtruck.com")
         # indexers = Indexer.where(clean_url: "http://www.kelleher-ford.com")
@@ -196,7 +197,7 @@ class StafferService
 
                 case template
                 when "Dealer.com"
-                    dealer_com_cs(html, url, indexer)
+                    DealerComCs.new.contact_scraper(html, url, indexer)
                 when "Cobalt"
                     CobaltCs.new.contact_scraper(html, url, indexer)
                 when "DealerOn"
@@ -237,42 +238,6 @@ class StafferService
         end ## .each loop ends
 
     end
-
-    def dealer_com_cs(html, url, indexer) ### DONE!
-        puts indexer.template
-        puts url
-        puts
-
-        if html.css('#staffList .vcard .fn')
-            staff_count = html.css('#staffList .vcard .fn').count
-            puts "staff_count: #{staff_count}"
-            staff_hash_array = []
-
-            for i in 0...staff_count
-                staff_hash = {}
-                staff_hash[:full_name] = html.css('#staffList .vcard .fn')[i].text.strip
-                staff_hash[:job] = html.css('#staffList .vcard .title') ? html.css('#staffList .vcard .title')[i].text.strip : ""
-                staff_hash[:email] = html.css('#staffList .vcard .email') ? html.css('#staffList .vcard .email')[i].text.strip : ""
-                staff_hash[:phone] = html.css('#staffList .vcard .phone') ? html.css('#staffList .vcard .phone')[i].text.strip : ""
-                staff_hash_array << staff_hash
-            end
-
-            puts "staff_hash_array: #{staff_hash_array}"
-
-            staff_hash_array.each do |hash|
-                puts
-                hash.each do |key, value|
-                    puts "#{key}: #{value.inspect}"
-                end
-            end
-            puts "-------------------------------"
-
-            staff_hash_array
-        end
-
-        prep_create_staffer(staff_hash_array)
-    end
-
 
     def dealercar_search_cs(html, url, indexer)
         ## Not Scraping - Junk
