@@ -1,14 +1,16 @@
 class PageFinder
     def indexer_starter
         a=30
-        z=40
+        z=34
 
         # els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DealerFire")[a...z]
-        els = Indexer.where(template: "Dealer Inspire")[a...z]
+        # els = Indexer.where(template: "Dealer Inspire")[a...z]
         # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        # els = Indexer.where(template: "DealerOn")[a...z]
         # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Link Unverified")[a...z] ##6669
+        els = Indexer.where(template: "DEALER eProcess")[a...z]
 
         # els = Indexer.where(template: "Cobalt")[a...z]
         # els = Indexer.where(clean_url: "http://www.bouldernissan.com")
@@ -24,7 +26,7 @@ class PageFinder
             @indexer = el
 
             counter+=1
-            puts "\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n----------------------------------------\n#{el.clean_url}\n"
+            puts "\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n#{"-"*40}\n#{el.clean_url}\n"
 
             redirect_status = el.redirect_status
             if redirect_status == "Same" || redirect_status == "Updated"
@@ -109,11 +111,14 @@ class PageFinder
     end
 
     def add_indexer_row_with(status, text, href, link, mode)
+        clean = record_cleaner(text, href, link)
+        text, href, link = clean[:text], clean[:href], clean[:link]
+
         if mode == "location"
-            puts "\nmode: #{mode}\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
+            puts "\nmode: #{mode}\n#{status}: #{text}\nlink: #{link}\ntext: #{text}\n#{"-"*40}\n"
             # @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
-            puts "\nmode: #{mode}\n#{status}: #{text}\n#{link}\n#{text}\n----------------------------------------\n"
+            puts "\nmode: #{mode}\n#{status}: #{text}\nlink: #{link}\ntext: #{text}\n#{"-"*40}\n"
             # @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
@@ -147,4 +152,12 @@ class PageFinder
         {text_list: text_list, href_list: href_list}
     end
 
+    def record_cleaner(text, href, link)
+        puts "#{"="*15} DIRTY DATA #{"="*15}\ntext: #{text}\nhref: #{href}\nlink: #{link}\n#{"-"*40}"
+
+        # Cleaning code goes here.
+        ## 1) href starts with "/"
+
+        {text: text, href: href, link: link}
+    end
 end
