@@ -1,4 +1,4 @@
-require 'rts/rts_helper'
+require 'indexer_helper/rts/rts_helper'
 
 class DealerDirectRts
     def initialize

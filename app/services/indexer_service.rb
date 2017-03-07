@@ -4,14 +4,14 @@ require 'uri'
 require 'nokogiri'
 require 'socket'
 require 'httparty'
-require 'rts/dealerfire_rts'
-require 'rts/cobalt_rts'
-require 'rts/dealer_inspire_rts'
-require 'rts/dealeron_rts'
-require 'rts/dealer_com_rts'
-require 'rts/dealer_direct_rts'
-require 'rts/dealer_eprocess_rts'
-require 'rts/dealercar_search_rts'
+require 'indexer_helper/rts/dealerfire_rts'
+require 'indexer_helper/rts/cobalt_rts'
+require 'indexer_helper/rts/dealer_inspire_rts'
+require 'indexer_helper/rts/dealeron_rts'
+require 'indexer_helper/rts/dealer_com_rts'
+require 'indexer_helper/rts/dealer_direct_rts'
+require 'indexer_helper/rts/dealer_eprocess_rts'
+require 'indexer_helper/rts/dealercar_search_rts'
 require 'indexer_helper/page_finder'  # Indexer Page Finder
 
 class IndexerService
@@ -21,8 +21,8 @@ class IndexerService
     ###########################################
 
     def rooftop_data_getter
-        a=11
-        z=21
+        a=20
+        z=30
         # a=500
         # z=1000
         # a=1000
@@ -33,13 +33,14 @@ class IndexerService
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        indexers = Indexer.where(template: "Dealer Inspire")[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        indexers = Indexer.where(clean_url: %w(http://www.bigdiscountmotors.com))
+        # indexers = Indexer.where(clean_url: %w(http://www.bigdiscountmotors.com))
 
 
         counter=0

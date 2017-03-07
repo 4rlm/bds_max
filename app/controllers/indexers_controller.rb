@@ -148,7 +148,7 @@ class IndexersController < ApplicationController
 
 
   def rooftop_data_getter_btn
-    #   @service.rooftop_data_getter
+      @service.rooftop_data_getter
     #   @service.delay.rooftop_data_getter
 
       redirect_to indexers_path
