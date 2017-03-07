@@ -6,6 +6,7 @@ require 'staffer_helper/cs_helper'
 require 'staffer_helper/dealer_eprocess_cs'
 require 'staffer_helper/dealerfire_cs'
 require 'staffer_helper/dealer_inspire_cs'
+require 'staffer_helper/cobalt_cs'
 
 class StafferService
 
@@ -61,7 +62,7 @@ class StafferService
         # indexers = Indexer.where(clean_url: "http://www.shireycadillacgm.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.nissanmarin.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.irwinautoco.com")  ## /MeetOurDepartments
-        # indexers = Indexer.where(clean_url: "http://www.jcharriscadillac.com")  ## /MeetOurDepartments
+        indexers = Indexer.where(clean_url: "http://www.jcharriscadillac.com")  ## /MeetOurDepartments
         # indexers = Indexer.where(clean_url: "http://www.chasechevroletstockton.com")  ## /MeetOurDepartments
 
         # http://www.lexusgwinnett.com/Meet-Our-Staff
@@ -96,7 +97,7 @@ class StafferService
         ###### Dealer Inspire STAFF PAGE
         ### (HELP!!) ### DUPLICATE DATA B/C FLUID AND STATIC VERSION.
         # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
-        indexers = Indexer.where(clean_url: "http://www.garberbuickgmc.com")  ## /about-us/staff/
+        # indexers = Indexer.where(clean_url: "http://www.garberbuickgmc.com")  ## /about-us/staff/
         # indexers = Indexer.where(clean_url: "http://www.fiatoftacoma.com")  ## /about-us/staff/
         # indexers = Indexer.where(clean_url: "http://www.commonwealthhonda.com")  ## /about-us/staff/
 
@@ -195,7 +196,7 @@ class StafferService
                 when "Dealer.com"
                     dealer_com_cs(html, url, indexer)
                 when "Cobalt"
-                    cobalt_cs(html, url, indexer)
+                    CobaltCs.new.contact_scraper(html, url, indexer)
                 when "DealerOn"
                     dealeron_cs(html, url, indexer)
                 when "DealerCar Search"
@@ -234,47 +235,6 @@ class StafferService
         end ## .each loop ends
 
     end
-
-    def cobalt_cs(html, url, indexer) ### Perfect, except for phone numbers not matching.
-        ### Perfect, except for phone numbers not matching.
-
-        staffs = html.css("[@itemprop='employee']")
-        staff_hash_array = []
-
-        puts "count: #{staffs.count}, url: #{url}"
-
-        for i in 0...staffs.count
-            staff_hash = {}
-            staff_str = staffs[i].inner_html
-
-            staff_hash[:fname] = html.css('span[@itemprop="givenName"]')[i].text.strip if html.css('span[@itemprop="givenName"]')[i]
-            staff_hash[:lname] = html.css('span[@itemprop="familyName"]')[i].text.strip if html.css('span[@itemprop="familyName"]')[i]
-            staff_hash[:job]   = html.css('[@itemprop="jobTitle"]')[i].text.strip   if html.css('[@itemprop="jobTitle"]')[i]
-
-            regex = Regexp.new("[a-z]+[@][a-z]+[.][a-z]+")
-            matched_email = regex.match(staff_str)
-            staff_hash[:email] = matched_email.to_s if matched_email
-
-            # Should find a common class within contact profile area.
-            staff_hash[:ph1] = html.css('span[@itemprop="telephone"]')[i].text.strip if html.css('span[@itemprop="telephone"]')[i]
-            staff_hash[:ph2] = html.css('.link [@itemprop="telephone"]')[i].text.strip if html.css('.link [@itemprop="telephone"]')[i]
-
-            staff_hash_array << staff_hash
-        end
-
-        puts "staff_hash_array: #{staff_hash_array}"
-
-        staff_hash_array.each do |hash|
-            puts
-            hash.each do |key, value|
-                puts "#{key}: #{value.inspect}"
-            end
-            puts "-------------------------------"
-        end
-
-        prep_create_staffer(staff_hash_array)
-    end
-
 
     def dealer_direct_cs(html, url, indexer) ### DONE!
         puts indexer.template

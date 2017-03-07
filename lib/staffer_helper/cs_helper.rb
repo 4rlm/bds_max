@@ -12,19 +12,25 @@ class CsHelper # Contact Scraper Helper Method
     def prep_create_staffer(staff_hash_array)
         staff_hash_array.each do |staff_hash|
             # Clean & Divide full name
-            name_parts = staff_hash[:full_name].split(" ")
-            staff_hash[:fname] = name_parts[0].strip
-            staff_hash[:lname] = name_parts[1].strip
-            staff_hash[:full_name] = staff_hash[:full_name].strip
+            if staff_hash[:full_name]
+                name_parts = staff_hash[:full_name].split(" ")
+                staff_hash[:fname] = name_parts[0].strip
+                staff_hash[:lname] = name_parts[1].strip
+                staff_hash[:full_name] = staff_hash[:full_name].strip
+            else
+                staff_hash[:fname] = staff_hash[:fname].strip if staff_hash[:fname]
+                staff_hash[:lname] = staff_hash[:lname].strip if staff_hash[:lname]
+            end
 
             # Clean email address
-            email = staff_hash[:email]
-            email.gsub!(/mailto:/, '') if email.include?("mailto:")
-            staff_hash[:email] = email.strip
+            if email = staff_hash[:email]
+                email.gsub!(/mailto:/, '') if email.include?("mailto:")
+                staff_hash[:email] = email.strip
+            end
 
             # Clean rest
-            staff_hash[:job] = staff_hash[:job].strip
-            staff_hash[:phone] = staff_hash[:phone].strip
+            staff_hash[:job] = staff_hash[:job].strip if staff_hash[:job]
+            staff_hash[:phone] = staff_hash[:phone].strip if staff_hash[:phone]
         end
         create_staffer(staff_hash_array)
     end
@@ -33,6 +39,9 @@ class CsHelper # Contact Scraper Helper Method
         puts ">>> #{staff_hash_array.count} staffs will be saved to Staffer table."
         staff_hash_array.each do |staff_hash|
             full_name = staff_hash[:full_name] ? staff_hash[:full_name] : staff_hash[:fname] + " " + staff_hash[:lname]
+
+            p staff_hash
+
             # Staffer.create(
             #     fname:    staff_hash[:fname],
             #     lname:    staff_hash[:lname],
