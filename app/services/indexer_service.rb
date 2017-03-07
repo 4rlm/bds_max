@@ -4,42 +4,38 @@ require 'uri'
 require 'nokogiri'
 require 'socket'
 require 'httparty'
-require 'rts/dealerfire_rts'
-require 'rts/cobalt_rts'
-require 'rts/dealer_inspire_rts'
-require 'rts/dealeron_rts'
-require 'rts/dealer_com_rts'
-require 'rts/dealer_direct_rts'
-require 'rts/dealer_eprocess_rts'
-require 'rts/dealercar_search_rts'
-require 'indexer_helper/cobalt_indexer'
+require 'indexer_helper/rts/dealerfire_rts'
+require 'indexer_helper/rts/cobalt_rts'
+require 'indexer_helper/rts/dealer_inspire_rts'
+require 'indexer_helper/rts/dealeron_rts'
+require 'indexer_helper/rts/dealer_com_rts'
+require 'indexer_helper/rts/dealer_direct_rts'
+require 'indexer_helper/rts/dealer_eprocess_rts'
+require 'indexer_helper/rts/dealercar_search_rts'
+require 'indexer_helper/page_finder'  # Indexer Page Finder
+require 'indexer_helper/rts/rts_helper'
+require 'indexer_helper/rts/rts_manager'
 
 class IndexerService
-
-    ###########################################
-    ###  SCRAPER METHODS: rooftop_data_getter ~ STARTS
-    ###########################################
-
-    def rooftop_data_getter
-        a=11
-        z=21
-        # a=500
-        # z=1000
-        # a=1000
-        # z=-1
+    def rooftop_data_getter # RoofTop Scraper
+        a=40
+        z=45
         # indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
+        # indexers = Indexer.where(template: "DealerOn")[a...z]
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(template: "Cobalt")[a...z]
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        indexers = Indexer.where(clean_url: %w(http://www.bigdiscountmotors.com))
+        # indexers = Indexer.where(clean_url: %w(http://www.bigdiscountmotors.com))
 
 
         counter=0
@@ -62,21 +58,21 @@ class IndexerService
 
                 case term
                 when "dealer_com_rts"
-                    dealer_com_rts(html, url, indexer)
+                    DealerComRts.new.rooftop_scraper(html, url, indexer)
                 when "cobalt_rts"
-                    cobalt_rts(html, url, indexer)
+                    CobaltRts.new.rooftop_scraper(html, url, indexer)
                 when "dealeron_rts"
-                    dealeron_rts(html, url, indexer)
+                    DealeronRts.new.rooftop_scraper(html, url, indexer)
                 when "dealercar_search_rts"
-                    dealercar_search_rts(html, url, indexer)
+                    DealercarSearchRts.new.rooftop_scraper(html, url, indexer)
                 when "dealer_direct_rts"
-                    dealer_direct_rts(html, url, indexer)
+                    DealerDirectRts.new.rooftop_scraper(html, url, indexer)
                 when "dealer_inspire_rts"
-                    dealer_inspire_rts(html, url, indexer)
+                    DealerInspireRts.new.rooftop_scraper(html, url, indexer)
                 when "dealerfire_rts"
-                    dealerfire_rts(html, url, indexer)
+                    DealerfireRts.new.rooftop_scraper(html, url, indexer)
                 when "dealer_eprocess_rts"
-                    dealer_eprocess_rts(html, url, indexer)
+                    DealerEprocessRts.new.rooftop_scraper(html, url, indexer)
                 end
 
             rescue
@@ -100,351 +96,7 @@ class IndexerService
 
             sleep(3)
         end ## .each loop ends
-
-    end
-
-
-
-    ##### (8: 554) DEALER eProcess RTS CORE METHOD BEGINS ~ ########
-    def dealer_eprocess_rts(html, url, indexer)
-        result = DealerEprocessRts.new.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (5: 702) Dealer Direct RTS CORE METHOD BEGINS ~ ########
-    def dealer_direct_rts(html, url, indexer)
-        result = DealerDirectRts.new.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (4: 779) DealerCar Search RTS CORE METHOD BEGINS ~ ########
-    def dealercar_search_rts(html, url, indexer)
-        result = DealercarSearchRts.new.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (1: 7,339) DEALER.COM RTS CORE METHOD BEGINS ~ #######
-    def dealer_com_rts(html, url, indexer)
-        result = DealerComRts.new.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (2: 3,798) COBALT RTS CORE METHOD BEGINS ~ #######
-    def cobalt_rts(html, url, indexer)
-        result = CobaltRts.new.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    #### (3: 852) DEALERON RTS CORE METHOD BEGINS ~ #######
-    def dealeron_rts(html, url, indexer)
-        result = DealeronRts.new.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (6: 675) DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
-    def dealer_inspire_rts(html, url, indexer)
-        result = DealerInspireRts.new.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (7: 660) DEALER FIRE RTS CORE METHOD BEGINS ~ ########
-    def dealerfire_rts(html, url, indexer)
-        result = DealerfireRts.rooftop_scraper(html)
-        rt_address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-
-
-    ###############################################
-    ### RTS PROCESSING METHODS ~ BEGIN (ALL TEMPLATES USE THESE!!!)
-    ###############################################
-    def rt_address_formatter(org, street, city, state, zip, phone, url, indexer)
-        ### USED FOR ALL TEMPLATES
-        ### STRIPS AND FORMATS DATA BEFORE SAVING TO DB
-
-        org = nil if org.blank?
-        street = nil if street.blank?
-        city = nil if city.blank?
-        state = nil if state.blank?
-        zip = nil if zip.blank?
-        phone = nil if phone.blank?
-
-        org.strip! if org
-        street.strip! if street
-        city.strip! if city
-        state.strip! if state
-        zip.strip! if zip
-
-        if zip && state && zip.length < 5 && state > 2
-            temp_zip = state
-            temp_state = zip
-            zip = temp_zip
-            state = temp_state
-        end
-
-        full_addr_street = "#{street}, " if street
-        full_addr_city = "#{city}, " if city
-        full_addr_state = "#{state}, " if state
-        full_addr_zip = "#{zip}" if zip
-        full_addr = "#{full_addr_street}#{full_addr_city}#{full_addr_state}#{full_addr_zip}"
-        full_addr.strip!
-
-        if full_addr && full_addr[-1] == ","
-            full_addr = full_addr[0...-1]
-            full_addr.strip!
-        end
-
-        if full_addr && full_addr[0] == ","
-            full_addr = full_addr[1..-1]
-            full_addr.strip!
-        end
-
-        full_addr = nil if full_addr.blank?  || full_addr == ","
-
-        rt_results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
-    end
-
-
-    def ph_check(string)
-        ### USED FOR ALL TEMPLATES - STRICT QUALIFICATIONS!!!!!
-        ### FORMATS PHONE AS: (000) 000-0000
-        if !string.blank? && string != "N/A" && string != "0" && (string.include?("(") || string.include?("-") || string.include?("."))
-            if string[0] == "0" || string[0] == "1"
-                stripped = string[1..-1]
-            else
-                stripped = string
-            end
-
-            # smash = stripped.gsub(/[^A-Za-z0-9]/, "")
-            digits = stripped.tr('^0-9', '')
-            # if smash == digits && digits.length == 10
-            if digits.length == 10
-                phone = "(#{digits[0..2]}) #{(digits[3..5])}-#{(digits[6..9])}"
-            else
-                phone = nil
-            end
-        else
-            phone = nil
-        end
-        phone
-    end
-
-
-    def phone_formatter(phone)
-        ### USED FOR ALL TEMPLATES  - LOOSE QUALIFICATIONS!!!!!
-        ### FORMATS PHONE AS: (000) 000-0000
-        regex = Regexp.new("[A-Z]+[a-z]+")
-        if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
-            phone_stripped = phone.gsub(/[^0-9]/, "")
-            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
-
-            final_phone = !(phone_step2 && phone_step2.length < 10) ? "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : phone
-        else
-            final_phone = nil
-        end
-        final_phone
-    end
-
-
-    def rt_results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
-        ### USED FOR ALL TEMPLATES
-        if org || street || city || state || zip || phone || full_addr
-            phone = phone_formatter(phone)
-
-            puts indexer.template
-            puts "#{url} \n\nRT Result - Success!\n\n"
-            org.nil? ? (puts "org: nil") : (p "org: #{org}")
-            phone.nil? ? (puts "phone: nil") : (p "phone: #{phone}")
-            street.nil? ? (puts "street: nil") : (p "street: #{street}")
-            city.nil? ? (puts "city: nil") : (p "city: #{city}")
-            state.nil? ? (puts "state: nil") : (p "state: #{state}")
-            zip.nil? ? (puts "zip: nil") : (p "zip: #{zip}")
-            full_addr.nil? ? (puts "full_addr: nil") : (p "full_addr: #{full_addr}")
-
-            # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone)
-        else
-            puts "#{url} \n\nRT No-Result - Check Template Version!\n\n"
-            # indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
-        end
-
-        puts "\n============================\n\n"
-
-    end
-
-
-    ###### RT HELPER METHODS ~ ENDS #######
-
-    ###########################################
-    ###  SCRAPER METHODS: rooftop_data_getter ~ ENDS
-    ###########################################
-
-
-
-
-
-    ###########################################
-    ###  MAIN INDEXER METHODS: rooftop_data_getter ~ BEGINS
-    ###########################################
-
-    def indexer_starter
-        # a=0
-        # z=1800
-        # a=1800
-        # z=3600
-
-        a=13
-        z=23
-
-        # els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "Dealer Inspire").where.not(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Link Unverified")[a...z] ##6669
-
-        els = Indexer.where(template: "Cobalt")[a...z]
-        # els = Indexer.where(clean_url: "http://www.vivachevy.com")
-        # els = Indexer.where(clean_url: "http://www.hyundaiofmyrtlebeach.com")
-
-        puts "count: #{els.count}\n\n\n"
-
-        @agent = Mechanize.new
-        @agent.follow_meta_refresh = true
-
-        counter=0
-        els.each do |el|
-            @indexer = el
-            template = el.template
-
-            staff_text_list = IndexerTerm.where(sub_category: "staff_text").where(criteria_term: template).map(&:response_term)
-            staff_href_list = to_regexp(IndexerTerm.where(sub_category: "staff_href").where(criteria_term: template).map(&:response_term))
-
-            locations_text_list = IndexerTerm.where(sub_category: "loc_text").where(criteria_term: "general").map(&:response_term)
-            locations_href_list = to_regexp(IndexerTerm.where(sub_category: "loc_href").where(criteria_term: "general").map(&:response_term))
-
-            counter+=1
-            puts "[#{a}...#{z}]  (#{counter}):  #{template}"
-
-            redirect_status = el.redirect_status
-            if redirect_status == "Same" || redirect_status == "Updated"
-
-                begin
-                    url = el[:clean_url]
-
-                    begin
-                        page = @agent.get(url)
-                    rescue Mechanize::ResponseCodeError => e
-                        redirect_url = HTTParty.get(url).request.last_uri.to_s
-                        page = @agent.get(redirect_url)
-                    end
-
-                    puts "\n----------------------------------------\n#{url}"
-
-                    if template == "Cobalt"
-                        cobalt_i = CobaltIndexer.new
-                        cobalt_i.page_finder(staff_text_list, staff_href_list, url, page, "staff")
-                        cobalt_i.page_finder(locations_text_list, locations_href_list, url, page, "location")
-                    else
-                        page_finder(staff_text_list, staff_href_list, url, page, "staff")
-                        page_finder(locations_text_list, locations_href_list, url, page, "location")
-                    end
-
-                rescue
-                    error_msg = "Error: #{$!.message}"
-                    status = nil
-                    indexer_status = nil
-                    found = false
-
-                    indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: "error_msg")
-                    indexer_terms.each do |term|
-                        if error_msg.include?(term.criteria_term)
-                            status = term.response_term
-                            found = true
-                        else
-                            status = error_msg
-                        end
-
-                        indexer_status = status == "TCP Error" ? status : "Indexer Error"
-                        break if found
-                    end # indexer_terms iteration ends
-
-                    indexer_status = "Indexer Error" unless found
-                    el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
-                end # rescue ends
-                sleep(1)
-            end
-        end # Ends cores Loop
-    end # Ends start_indexer(ids)
-
-
-    def page_finder(text_list, href_list, url, page, mode)
-        for href in href_list
-            if pages = page.link_with(:href => href)
-                url_split_joiner(url, pages, mode)
-                break
-            end
-        end
-
-        if !pages
-            for text in text_list
-                if pages = page.link_with(:text => text)
-                    url_split_joiner(url, pages, mode)
-                    break
-                end
-            end
-
-            if !pages
-                add_indexer_row_with("Invalid Link", nil, nil, nil, mode)
-            end
-        end
-    end # Ends page_finder
-
-
-    def url_split_joiner(url, pages, mode)
-        url_s = url.split('/')
-        url_http = url_s[0]
-        url_www = url_s[2]
-        joined_url = validater(url_http, '//', url_www, pages.href)
-        add_indexer_row_with("Valid Link", pages.text.strip, pages.href, joined_url, mode)
-    end
-
-    def add_indexer_row_with(status, text, href, link, mode)
-        if mode == "location"
-            puts "#{status}: #{text}"
-            @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
-            puts link
-            puts text
-            puts "----------------------------------------"
-        elsif mode == "staff"
-            puts "#{status}: #{text}"
-            @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
-            puts link
-            puts text
-            puts "----------------------------------------"
-        end
-    end
-
-
-    def validater(url_http, dbl_slash, url_www, dirty_url)
-        if dirty_url[0] != "/"
-            dirty_url = "/" + dirty_url
-        end
-
-        if dirty_url.include?(url_http + dbl_slash)
-            dirty_url
-        else
-            url_http + dbl_slash + url_www + dirty_url
-        end
-    end
-
-
-    def to_regexp(arr)
-        arr.map {|str| Regexp.new(str)}
-    end
-
-    #####################
-    ### indexer_starter Ends
-    #####################
+    end # rooftop_data_getter ends
 
 
     ####################

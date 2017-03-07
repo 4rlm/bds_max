@@ -1,11 +1,9 @@
-require 'rts/rts_helper'
-
 class DealercarSearchRts
     def initialize
         @helper = RtsHelper.new
     end
 
-    def rooftop_scraper(html)
+    def rooftop_scraper(html, url, indexer)
         orgs, streets, cities, states, zips, phones, addrs = [], [], [], [], [], [], []
 
         orgs << html.css('title').text if html.css('title')
@@ -49,6 +47,6 @@ class DealercarSearchRts
         zip    = @helper.final_arr_qualifier(zips, "zip")
         phone  = @helper.final_arr_qualifier(phones, "phone")
 
-        {org: org, street: street, city: city, state: state, zip: zip, phone: phone}
+        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 end

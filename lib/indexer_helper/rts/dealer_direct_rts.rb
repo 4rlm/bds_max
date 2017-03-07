@@ -1,11 +1,9 @@
-require 'rts/rts_helper'
-
 class DealerDirectRts
     def initialize
         @helper = RtsHelper.new
     end
 
-    def rooftop_scraper(html)
+    def rooftop_scraper(html, url, indexer)
         orgs, streets, cities, states, zips, phones = [], [], [], [], [], []
 
         orgs << html.at_css('.dealer-name').text if html.at_css('.dealer-name')
@@ -60,6 +58,6 @@ class DealerDirectRts
         zip    = @helper.final_arr_qualifier(zips, "zip")
         phone  = @helper.final_arr_qualifier(phones, "phone")
 
-        {org: org, street: street, city: city, state: state, zip: zip, phone: phone}
+        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 end
