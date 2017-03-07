@@ -11,9 +11,20 @@ class CsHelper # Contact Scraper Helper Method
 
     def prep_create_staffer(staff_hash_array)
         staff_hash_array.each do |staff_hash|
+            # Clean & Divide full name
             name_parts = staff_hash[:full_name].split(" ")
-            staff_hash[:fname] = name_parts[0]
-            staff_hash[:lname] = name_parts[-1]
+            staff_hash[:fname] = name_parts[0].strip
+            staff_hash[:lname] = name_parts[1].strip
+            staff_hash[:full_name] = staff_hash[:full_name].strip
+
+            # Clean email address
+            email = staff_hash[:email]
+            email.gsub!(/mailto:/, '') if email.include?("mailto:")
+            staff_hash[:email] = email.strip
+
+            # Clean rest
+            staff_hash[:job] = staff_hash[:job].strip
+            staff_hash[:phone] = staff_hash[:phone].strip
         end
         create_staffer(staff_hash_array)
     end

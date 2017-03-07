@@ -8,7 +8,6 @@ class DealerInspireCs
     def contact_scraper(html, url, indexer)
         if html.css('.staff-bio h3')
             staff_count = html.css('.staff-bio h3').count
-            puts "staff_count: #{staff_count}"
             staff_hash_array = []
 
             for i in 0...staff_count
@@ -21,7 +20,6 @@ class DealerInspireCs
                 staff_hash[:email] = html.css('.staff-email-button')[i] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
 
                 # staff_hash[:email] = html.css('.staff-email-button')[i].attributes["href"] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
-
 
                 staff_hash[:phone] = html.css('.staffphone')[i] ? html.css('.staffphone')[i].text.strip : ""
 
