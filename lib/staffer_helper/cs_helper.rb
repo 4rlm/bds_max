@@ -1,6 +1,6 @@
 class CsHelper # Contact Scraper Helper Method
     def print_result(template, url, hash_array)
-        puts "\ntemplate: #{template}\nurl: #{url}\n\n"
+        puts "\ntemplate: #{template.inspect}\nurl: #{url.inspect}\n\n"
         hash_array.each do |hash|
             hash.each do |key, value|
                 puts "#{key}: #{value.inspect}"
@@ -20,6 +20,7 @@ class CsHelper # Contact Scraper Helper Method
             else
                 staff_hash[:fname] = staff_hash[:fname].strip if staff_hash[:fname]
                 staff_hash[:lname] = staff_hash[:lname].strip if staff_hash[:lname]
+                staff_hash[:full_name] = staff_hash[:fname] + " " + staff_hash[:lname]
             end
 
             # Clean email address
@@ -31,21 +32,23 @@ class CsHelper # Contact Scraper Helper Method
             # Clean rest
             staff_hash[:job] = staff_hash[:job].strip if staff_hash[:job]
             staff_hash[:phone] = staff_hash[:phone].strip if staff_hash[:phone]
+
+            # Cleaning code goes here.
+            ## 1) phone number has "EXT" kind of string.
+            ## 2) job has \t and \n.
         end
         create_staffer(staff_hash_array)
     end
 
     def create_staffer(staff_hash_array)
-        puts ">>> #{staff_hash_array.count} staffs will be saved to Staffer table."
+        puts "\n\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
         staff_hash_array.each do |staff_hash|
-            full_name = staff_hash[:full_name] ? staff_hash[:full_name] : staff_hash[:fname] + " " + staff_hash[:lname]
-
-            p staff_hash
+            printer(staff_hash)
 
             # Staffer.create(
             #     fname:    staff_hash[:fname],
             #     lname:    staff_hash[:lname],
-            #     fullname: full_name,
+            #     fullname: staff_hash[:full_name],
             #     job:      staff_hash[:job],
             #     phone:    staff_hash[:phone],
             #     email:    staff_hash[:email]
@@ -73,5 +76,12 @@ class CsHelper # Contact Scraper Helper Method
             info[:email] = value_3
         end
         info
+    end
+
+    def printer(staff_hash)
+        staff_hash.each do |key, val|
+            puts "#{key}: #{val.nil? ? "nil" : val.inspect}"
+        end
+        puts '-'*15
     end
 end

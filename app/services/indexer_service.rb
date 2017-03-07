@@ -29,10 +29,10 @@ class IndexerService
         # indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        indexers = Indexer.where(template: "DealerFire")[a...z]
+        # indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
-        # indexers = Indexer.where(template: "Dealer Direct")[a...z]
+        indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
         # indexers = Indexer.where(clean_url: %w(http://www.bigdiscountmotors.com))
@@ -48,8 +48,7 @@ class IndexerService
             term = method.mth_name
 
             counter+=1
-            puts "\n============================\n"
-            puts "[#{a}...#{z}]  (#{counter}/#{range})"
+            puts "\n#{'='*30}\n[#{a}...#{z}]  (#{counter}/#{range})"
 
             begin
 

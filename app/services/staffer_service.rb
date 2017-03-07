@@ -72,7 +72,7 @@ class StafferService
 
         ###### DEALER eProcess STAFF PAGE
         ### (HELP!!) ### DIFFERENT CSS CLASS NAMES.
-        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        indexers = Indexer.where(template: "DEALER eProcess")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
         # indexers = Indexer.where(clean_url: "http://www.karitoyota.com") # not working
         # indexers = Indexer.where(clean_url: "http://www.usedcarnh.net") # not working
@@ -113,7 +113,7 @@ class StafferService
         ###### (*DONE!) DEALER.com STAFF PAGE
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.bobbellford.net")
-        indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
+        # indexers = Indexer.where(clean_url: "http://www.norrishonda.com")
         # indexers = Indexer.where(clean_url: "http://www.hallmarkvw.com")
         # indexers = Indexer.where(clean_url: "http://www.fairoaksmotors.com")
 
