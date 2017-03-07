@@ -103,31 +103,31 @@ class IndexerService
     ####################
 
     def template_finder
-        a=600
+        a=0
+        # z=50
+        # a=50
+        # z=100
+        # a=100
+        # z=150
+        # a=150
         z=-1
-        # a=500
-        # z=1000
-        # a=1000
-        # z=1500
-        # a=1500
-        # z=-1
 
 
-        # indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 2,400
+
+
+        indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 2,211
         # indexers = Indexer.where(clean_url: "http://www.howellnissan.com") ## 2,400
-        indexers = Indexer.where(clean_url: "https://www.deaconjonesnissan.com")
-        # indexers = Indexer.where(clean_url: "http://www.seaviewbuickgmc.com")
-        # indexers = Indexer.where(clean_url: "http://lexusofgreenwich.com")
-        # indexers = Indexer.where(clean_url: "https://www.bobkingmitsubishi.com")
-        # indexers = Indexer.where(clean_url: "https://porscheofocala.com")
-
-
-
 
         # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
         # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
         # indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[a..z] #138
         # indexers = Indexer.where(template: "Dealer Inspire")[a..z]
+
+        # indexers = Indexer.where(indexer_status: "Target").where(template: "Search Error")
+        # indexers.each{|x| x.update_attribute(:template, nil)}
+
+        # indexers = Indexer.where(indexer_status: "Archived")
+        # indexers.each{|x| x.update_attributes(staff_url: nil, staff_text: nil, location_url: nil, location_text: nil, template: nil, contact_status: nil, contacts_count: nil, contacts_link: nil, acct_name: nil, rt_sts: nil, cont_sts: nil, full_addr: nil, street: nil, city: nil, state: nil, zip: nil, phone: nil)}
 
         counter=0
         indexers.each do |indexer|
@@ -148,7 +148,7 @@ class IndexerService
                     if doc.at_css('html').text.include?(criteria_term)
                         found = true
                         template = indexer_term.response_term
-                        puts "\n[#{a}...#{z}]  (#{counter})   Success!\nurl\nTerm: #{criteria_term}\nTemp: #{template}\nDB: #{db_template}\n"
+                        puts "\n[#{a}...#{z}]  (#{counter})   Success!\nurl: #{url}\nTerm: #{criteria_term}\nTemp: #{template}\nDB: #{db_template}\n"
                         indexer.update_attribute(:template, template) if template
                         break
                     end
@@ -159,17 +159,17 @@ class IndexerService
                     indexer.update_attribute(:template, "Unidentified")
                 end
 
-            # rescue
-            #     puts
-            #     puts "[#{a}...#{z}]  (#{counter})   Search Error"
-            #     puts url
-            #     puts "Term: #{criteria_term}"
-            #     puts "Temp: #{template}"
-            #     puts "DB: #{db_template}"
-            #     indexer.update_attribute(:template, "Search Error")
+            rescue
+                puts
+                puts "[#{a}...#{z}]  (#{counter})   Search Error"
+                puts url
+                puts "Term: #{criteria_term}"
+                puts "Temp: #{template}"
+                puts "DB: #{db_template}"
+                indexer.update_attribute(:template, "Search Error")
             end
 
-            sleep(1)
+            sleep(2)
 
         end
     end

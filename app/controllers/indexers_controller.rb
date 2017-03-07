@@ -143,8 +143,8 @@ class IndexersController < ApplicationController
   end
 
   def template_finder_btn
-      @service.template_finder
-    #   @service.delay.template_finder
+    #   @service.template_finder
+      @service.delay.template_finder
 
 
       redirect_to indexers_path
