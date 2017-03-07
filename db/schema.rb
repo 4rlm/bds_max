@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170226031251) do
+ActiveRecord::Schema.define(version: 20170306144722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20170226031251) do
     t.string   "sfdc_ult_rt"
     t.string   "sfdc_grp_rt"
     t.string   "sfdc_zip"
+    t.string   "sfdc_url_redirect"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
