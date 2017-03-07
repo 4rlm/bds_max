@@ -1,10 +1,14 @@
 class CobaltRts
     def initialize
-        @helper = RtsHelper.new
+        @helper  = RtsHelper.new
+        @manager = RtsManager.new
     end
 
     def rooftop_scraper(html, url, indexer)
+        puts "\n#{'='*30}\nurl: #{url.inspect}\n"
+
         orgs, streets, cities, states, zips, phones = [], [], [], [], [], []
+        rts_phones = @manager.rts_phones_finder(html) # Scrape all the phone numbers.
 
         ### OUTLYER: Special format, so doesn't follow same process as others below.
         ### === FULL ADDRESS AND ORG VARIABLE ===
@@ -22,8 +26,6 @@ class CobaltRts
             states << state_zip_arr[0] if state_zip_arr
             zips << state_zip_arr[-1] if state_zip_arr
         end
-
-        # binding.pry
 
         ### === PHONE VARIABLES ===
         phones.concat(html.css('.contactUsInfo').map(&:children).map(&:text)) if html.css('.contactUsInfo').any?
@@ -69,6 +71,6 @@ class CobaltRts
         zip    = @helper.final_arr_qualifier(zips, "zip")
         phone  = @helper.final_arr_qualifier(phones, "phone")
 
-        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
+        @manager.address_formatter(org, street, city, state, zip, phone, rts_phones, url, indexer)
     end
 end
