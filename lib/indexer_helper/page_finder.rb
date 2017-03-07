@@ -1,16 +1,23 @@
 class PageFinder
     def indexer_starter
-        a=30
-        z=34
+        # a=5
+        # z=60
+        a=60
+        z=-1
+        # a=150
+        # z=225
+        # a=300
+        # z=-1
 
-        # els = Indexer.where(template: "Cobalt").where(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "DealerFire")[a...z]
-        # els = Indexer.where(template: "Dealer Inspire")[a...z]
+        # els = Indexer.where(template: "Cobalt").where.not(indexer_status: "Page Result")[a...z] ##5,273
+        # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Page Result")[a...z] ##943
+        # els = Indexer.where(template: "Dealer Inspire").where.not(indexer_status: "Page Result")[a...z]
+
         # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
         # els = Indexer.where(template: "DealerOn")[a...z]
         # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Link Unverified")[a...z] ##6669
-        els = Indexer.where(template: "DEALER eProcess")[a...z]
+
+        els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Page Result")[a...z]
 
         # els = Indexer.where(template: "Cobalt")[a...z]
         # els = Indexer.where(clean_url: "http://www.bouldernissan.com")
@@ -26,7 +33,7 @@ class PageFinder
             @indexer = el
 
             counter+=1
-            puts "\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n#{"-"*40}\n#{el.clean_url}\n"
+            puts "\n\n#{'='*40}\n\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n#{"-"*40}\n#{el.clean_url}\n\n"
 
             redirect_status = el.redirect_status
             if redirect_status == "Same" || redirect_status == "Updated"
@@ -58,12 +65,12 @@ class PageFinder
                             status = error_msg
                         end
 
-                        indexer_status = status == "TCP Error" ? status : "Indexer Error"
+                        indexer_status = status == "TCP Error" ? status : "Page Error"
                         break if found
                     end # indexer_terms iteration ends
 
-                    indexer_status = "Indexer Error" unless found
-                    # el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
+                    indexer_status = "Page Error" unless found
+                    el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
                 end # rescue ends
                 sleep(1)
             end
@@ -107,7 +114,7 @@ class PageFinder
         url_http = url_s[0]
         url_www = url_s[2]
         joined_url = validater(url_http, '//', url_www, pages.href)
-        add_indexer_row_with("Valid Link", pages.text.strip, pages.href, joined_url, mode)
+        add_indexer_row_with("Page Result", pages.text.strip, pages.href, joined_url, mode)
     end
 
     def add_indexer_row_with(status, text, href, link, mode)
@@ -118,11 +125,11 @@ class PageFinder
         if mode == "location"
             printer(mode, status, text, link)
 
-            # @indexer.update_attributes(indexer_status: "Indexer Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: status, loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
             printer(mode, status, text, link)
 
-            # @indexer.update_attributes(indexer_status: "Indexer Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: status, stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
 
@@ -158,15 +165,19 @@ class PageFinder
     # ================== Helper ==================
     # Clean the Data before updating database
     def record_cleaner(text, href, link)
-        puts "#{"="*15} DIRTY DATA #{"="*15}\ntext: #{text.inspect}\nhref: #{href.inspect}\nlink: #{link.inspect}\n#{"-"*40}"
-
-        # Cleaning code goes here.
-        ## 1) href starts with "/"
-
+        # puts "\n\n==================================\n#{"="*15} DIRTY DATA #{"="*15}\ntext: #{text.inspect}\nhref: #{href.inspect}\nlink: #{link.inspect}\n#{"-"*40}\n\n"
+        link = link_deslasher(link)
         {text: text, href: href, link: link}
     end
 
-    def printer(mode, status, text, link)
-        puts "\nmode: #{mode.inspect}\n#{status.inspect}: #{text.inspect}\nlink: #{link.inspect}\ntext: #{text.inspect}\n#{"-"*40}\n"
+    def link_deslasher(link)
+        link[0] == "/" ? link = link[1..-1] : link
+        link[-1] == "/" ? link = link[0...-1] : link
     end
+
+    def printer(mode, status, text, link)
+        puts "\n\n==================================\n\nmode: #{mode.inspect}\n#{status.inspect}: #{text.inspect}\nlink: #{link.inspect}\ntext: #{text.inspect}\n#{"-"*40}\n\n"
+    end
+
+
 end

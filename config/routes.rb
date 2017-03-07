@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     #   get :update_status, on: :collection
   end
   get 'indexer/import_page' => 'indexers#import_page'
-  get 'indexer_starter_btn' => 'indexers#indexer_starter_btn'
+  get 'page_finder_btn' => 'indexers#page_finder_btn'
   get 'reset_errors_btn' => 'indexers#reset_errors_btn'
   get 'indexer_power_btn' => 'indexers#indexer_power_btn'
   get 'template_finder_btn' => 'indexers#template_finder_btn'
