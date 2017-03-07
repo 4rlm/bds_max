@@ -1,5 +1,5 @@
 class DealerComRts
-    def rooftop_scraper(html)
+    def rooftop_scraper(html, url, indexer)
         selector = "//meta[@name='author']/@content"
         org = html.xpath(selector).text if html.xpath(selector)
         street = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
@@ -8,6 +8,6 @@ class DealerComRts
         zip = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
         phone = html.at_css('.value').text if html.at_css('.value')
 
-        {org: org, street: street, city: city, state: state, zip: zip, phone: phone}
+        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 end

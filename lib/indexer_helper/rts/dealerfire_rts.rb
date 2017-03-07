@@ -1,29 +1,16 @@
-module DealerfireRts
-    def self.rooftop_scraper(html)
+class DealerfireRts
+    def rooftop_scraper(html, url, indexer)
         # v7_street = html.at_css('.full-address .address-1').text if html.at_css('.full-address .address-1')
         # v7_city_st_zp = html.at_css('.full-address .address-2').text if html.at_css('.full-address .address-2')
 
         phone = html.at_css('.contactWrap .hidden-text').text if html.at_css('.contactWrap .hidden-text')
-        org = self.find_organization(html)
-        addr_hash = self.find_address(html)
-        result = {org: org}.merge(addr_hash)
+        org = find_organization(html)
+        addr_hash = find_address(html)
 
-        result[:phone] = phone
-
-
-        puts "\n================================\n"
-        p "org: #{org}"
-        p "street: #{addr_hash[:street]}"
-        p "city: #{addr_hash[:city]}"
-        p "state: #{addr_hash[:state]}"
-        p "zip: #{addr_hash[:zip]}"
-        p "phone: #{phone}"
-        puts "\n================================\n"
-
-        result
+        RtsManager.new.address_formatter(org, addr_hash[:street], addr_hash[:city], addr_hash[:state], addr_hash[:zip], phone, url, indexer)
     end
 
-    def self.find_organization(html)
+    def find_organization(html)
         ### ORG: Copyright includes Org (Account Name).  Ranked based on reliability.
         if html.at_css('.location-name')
             org = html.at_css('.location-name').text
@@ -32,17 +19,17 @@ module DealerfireRts
         elsif html.at_css('.ws-info-dealer')
             org = html.at_css('.ws-info-dealer').text
         elsif html.at_css('.layout-footer .links')
-            org = self.copyright_extractor(html.at_css('.layout-footer .links').text)
+            org = copyright_extractor(html.at_css('.layout-footer .links').text)
         elsif html.at_css('.bottom-footer .links')
-            org = self.copyright_extractor(html.at_css('.bottom-footer .links').text)
+            org = copyright_extractor(html.at_css('.bottom-footer .links').text)
         elsif html.at_css('.dealer-name')
             org = html.at_css('.dealer-name').text
         end
 
-        org = self.store_info_helper(org)
+        org = store_info_helper(org)
     end
 
-    def self.find_address(html)
+    def find_address(html)
         ### FULL ADDRESS: RANKED BY MOST RELIABLE. ###
         street1 = html.at_css('.location-address').text if html.at_css('.location-address')
         city_state_zip1 = html.at_css('.location-state').text if html.at_css('.location-state')
@@ -73,7 +60,7 @@ module DealerfireRts
             add = html.css('.contact .footer-address').text
         end
 
-        addr_arr = self.addr_get(add) if add
+        addr_arr = addr_get(add) if add
         addr_hash = {}
         if addr_arr
             addr_hash[:street] = addr_arr[0]
@@ -84,7 +71,7 @@ module DealerfireRts
         addr_hash
     end
 
-    def self.addr_get(info)
+    def addr_get(info)
         ### FOR DealerFire RTS: Extracts full addr from "store info" section.
         info = nil if info.include?("\t\tClick Here for Locations\n\t")
 
@@ -147,19 +134,16 @@ module DealerfireRts
             ### http://www.avondalenissan.com
             ### http://www.germainnissan.com
             ### STREET: "4300 Morse Rd  \nColumbus, OH, 43230"
-            street = self.store_info_helper(street) unless nil
-            city = self.store_info_helper(city) unless nil
-            state = self.store_info_helper(state) unless nil
-            zip = self.store_info_helper(zip) unless nil
+            street = store_info_helper(street) unless nil
+            city = store_info_helper(city) unless nil
+            state = store_info_helper(state) unless nil
+            zip = store_info_helper(zip) unless nil
 
             info = [street, city, state, zip]
         end
     end
 
-
-
-
-    def self.store_info_helper(item)
+    def store_info_helper(item)
         if item
             item.gsub!("  ", " ")
             item.gsub!("\t", "")
@@ -169,10 +153,7 @@ module DealerfireRts
         end
     end
 
-
-
-
-    def self.copyright_extractor(copyright)
+    def copyright_extractor(copyright)
         ### FOR DealerFire RTS: Extracts org from copyright footer.
         if copyright && (copyright.include?("©") || copyright.include?("Copyright"))
             copyright_arr = copyright.split("©")

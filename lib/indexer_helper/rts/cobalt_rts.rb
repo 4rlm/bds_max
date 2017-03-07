@@ -1,11 +1,9 @@
-require 'indexer_helper/rts/rts_helper'
-
 class CobaltRts
     def initialize
         @helper = RtsHelper.new
     end
 
-    def rooftop_scraper(html)
+    def rooftop_scraper(html, url, indexer)
         orgs, streets, cities, states, zips, phones = [], [], [], [], [], []
 
         ### OUTLYER: Special format, so doesn't follow same process as others below.
@@ -71,6 +69,6 @@ class CobaltRts
         zip    = @helper.final_arr_qualifier(zips, "zip")
         phone  = @helper.final_arr_qualifier(phones, "phone")
 
-        {org: org, street: street, city: city, state: state, zip: zip, phone: phone}
+        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
     end
 end

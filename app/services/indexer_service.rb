@@ -17,19 +17,11 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 
 class IndexerService
-
-    ###########################################
-    ###  SCRAPER METHODS: rooftop_data_getter ~ STARTS
-    ###########################################
-
-    def rooftop_data_getter
+    def rooftop_data_getter # RoofTop Scraper
         a=40
         z=45
-        # a=500
-        # z=1000
-        # a=1000
-        # z=-1
         # indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
+        # indexers = Indexer.where(template: "DealerOn")[a...z]
         # indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(template: "Cobalt")[a...z]
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
@@ -37,11 +29,12 @@ class IndexerService
         # indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
+        indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 
-        indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
         # indexers = Indexer.where(clean_url: %w(http://www.bigdiscountmotors.com))
 
 
@@ -65,19 +58,19 @@ class IndexerService
 
                 case term
                 when "dealer_com_rts"
-                    dealer_com_rts(html, url, indexer)
+                    DealerComRts.new.rooftop_scraper(html, url, indexer)
                 when "cobalt_rts"
-                    cobalt_rts(html, url, indexer)
+                    CobaltRts.new.rooftop_scraper(html, url, indexer)
                 when "dealeron_rts"
-                    dealeron_rts(html, url, indexer)
+                    DealeronRts.new.rooftop_scraper(html, url, indexer)
                 when "dealercar_search_rts"
-                    dealercar_search_rts(html, url, indexer)
+                    DealercarSearchRts.new.rooftop_scraper(html, url, indexer)
                 when "dealer_direct_rts"
-                    dealer_direct_rts(html, url, indexer)
+                    DealerDirectRts.new.rooftop_scraper(html, url, indexer)
                 when "dealer_inspire_rts"
-                    dealer_inspire_rts(html, url, indexer)
+                    DealerInspireRts.new.rooftop_scraper(html, url, indexer)
                 when "dealerfire_rts"
-                    dealerfire_rts(html, url, indexer)
+                    DealerfireRts.new.rooftop_scraper(html, url, indexer)
                 when "dealer_eprocess_rts"
                     DealerEprocessRts.new.rooftop_scraper(html, url, indexer)
                 end
@@ -103,54 +96,7 @@ class IndexerService
 
             sleep(3)
         end ## .each loop ends
-
-    end
-
-    ##### (5: 702) Dealer Direct RTS CORE METHOD BEGINS ~ ########
-    def dealer_direct_rts(html, url, indexer)
-        result = DealerDirectRts.new.rooftop_scraper(html)
-        RtsManager.new.address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (4: 779) DealerCar Search RTS CORE METHOD BEGINS ~ ########
-    def dealercar_search_rts(html, url, indexer)
-        result = DealercarSearchRts.new.rooftop_scraper(html)
-        RtsManager.new.address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (1: 7,339) DEALER.COM RTS CORE METHOD BEGINS ~ #######
-    def dealer_com_rts(html, url, indexer)
-        result = DealerComRts.new.rooftop_scraper(html)
-        RtsManager.new.address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (2: 3,798) COBALT RTS CORE METHOD BEGINS ~ #######
-    def cobalt_rts(html, url, indexer)
-        result = CobaltRts.new.rooftop_scraper(html)
-        RtsManager.new.address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    #### (3: 852) DEALERON RTS CORE METHOD BEGINS ~ #######
-    def dealeron_rts(html, url, indexer)
-        result = DealeronRts.new.rooftop_scraper(html)
-        RtsManager.new.address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (6: 675) DEALER INSPIRE RTS CORE METHOD BEGINS ~ ######
-    def dealer_inspire_rts(html, url, indexer)
-        result = DealerInspireRts.new.rooftop_scraper(html)
-        RtsManager.new.address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ##### (7: 660) DEALER FIRE RTS CORE METHOD BEGINS ~ ########
-    def dealerfire_rts(html, url, indexer)
-        result = DealerfireRts.rooftop_scraper(html)
-        RtsManager.new.address_formatter(result[:org], result[:street], result[:city], result[:state], result[:zip], result[:phone], url, indexer)
-    end
-
-    ###########################################
-    ###  SCRAPER METHODS: rooftop_data_getter ~ ENDS
-    ###########################################
+    end # rooftop_data_getter ends
 
 
     ####################
