@@ -11,13 +11,13 @@ class DealeronRts
         state = zip_state_arr[-2] if zip_state_arr
         zip = zip_state_arr[-1] if zip_state_arr
         phone = acc_phones[0]
-        ### MOVED FROM rt_address_formatter B/C DESIGNED ONLY FOR DO TEMP.
+        ### MOVED FROM address_formatter B/C DESIGNED ONLY FOR DO TEMP.
         if (city && street == nil) && city.include?("\r")
             street_city_arr = city.split("\r")
             street = street_city_arr[0] unless street_city_arr[0] == nil
             city = street_city_arr[-1] unless street_city_arr[-1] == nil
         end
-        
+
         {org: org, street: street, city: city, state: state, zip: zip, phone: phone}
     end
 end

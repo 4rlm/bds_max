@@ -134,7 +134,7 @@ class RtsHelper # RoofTop Scraper Helper Method
                 result = city_qualifier(el, negs) if option == "city"
                 result = state_qualifier(el, negs) if option == "state"
                 result = zip_qualifier(el, negs) if option == "zip"
-                result = IndexerService.new.phone_formatter(el) if option == "phone"
+                result = RtsManager.new.phone_formatter(el) if option == "phone"
                 break if result
             end
         end
@@ -211,5 +211,29 @@ class RtsHelper # RoofTop Scraper Helper Method
             end
         end
         item
+    end
+
+    def ph_check(string)
+        ### USED FOR ALL TEMPLATES - STRICT QUALIFICATIONS!!!!!
+        ### FORMATS PHONE AS: (000) 000-0000
+        if !string.blank? && string != "N/A" && string != "0" && (string.include?("(") || string.include?("-") || string.include?("."))
+            if string[0] == "0" || string[0] == "1"
+                stripped = string[1..-1]
+            else
+                stripped = string
+            end
+
+            # smash = stripped.gsub(/[^A-Za-z0-9]/, "")
+            digits = stripped.tr('^0-9', '')
+            # if smash == digits && digits.length == 10
+            if digits.length == 10
+                phone = "(#{digits[0..2]}) #{(digits[3..5])}-#{(digits[6..9])}"
+            else
+                phone = nil
+            end
+        else
+            phone = nil
+        end
+        phone
     end
 end
