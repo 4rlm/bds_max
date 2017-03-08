@@ -1,10 +1,12 @@
 class DealerEprocessRts
     def initialize
         @helper = RtsHelper.new
+        @manager = RtsManager.new
     end
 
     def rooftop_scraper(html, url, indexer)
         orgs, streets, cities, states, zips, phones, addrs = [], [], [], [], [], [], []
+        rts_phones = @manager.rts_phones_finder(html) # Scrape all the phone numbers.
 
         orgs << html.at_css('.hd_site_title').text if html.at_css('.hd_site_title')
         orgs << html.at_css('#footer_site_info_rights').text if html.at_css('#footer_site_info_rights')
@@ -53,7 +55,7 @@ class DealerEprocessRts
         zip    = @helper.final_arr_qualifier(zips, "zip")
         phone  = @helper.final_arr_qualifier(phones, "phone")
 
-        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
+        @manager.address_formatter(org, street, city, state, zip, phone, rts_phones, url, indexer)
     end
 
     def remove_copyright(orgs)

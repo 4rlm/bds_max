@@ -1,13 +1,19 @@
 class DealerfireRts
+    def initialize
+        @helper  = RtsHelper.new
+        @manager = RtsManager.new
+    end
+
     def rooftop_scraper(html, url, indexer)
         # v7_street = html.at_css('.full-address .address-1').text if html.at_css('.full-address .address-1')
         # v7_city_st_zp = html.at_css('.full-address .address-2').text if html.at_css('.full-address .address-2')
+        rts_phones = @manager.rts_phones_finder(html) # Scrape all the phone numbers.
 
         phone = html.at_css('.contactWrap .hidden-text').text if html.at_css('.contactWrap .hidden-text')
         org = find_organization(html)
         addr_hash = find_address(html)
 
-        RtsManager.new.address_formatter(org, addr_hash[:street], addr_hash[:city], addr_hash[:state], addr_hash[:zip], phone, url, indexer)
+        @manager.address_formatter(org, addr_hash[:street], addr_hash[:city], addr_hash[:state], addr_hash[:zip], phone, rts_phones, url, indexer)
     end
 
     def find_organization(html)

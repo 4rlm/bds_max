@@ -22,7 +22,7 @@ class IndexerService
         z=52
         # indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
         # indexers = Indexer.where(template: "DealerOn")[a...z]
-        # indexers = Indexer.where(template: "Dealer.com")[a...z]
+        indexers = Indexer.where(template: "Dealer.com")[a...z]
         # indexers = Indexer.where(template: "Cobalt")[a...z]
         # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
@@ -30,7 +30,7 @@ class IndexerService
         # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
         # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
         # indexers = Indexer.where(template: "DealerFire")[a...z]
-        indexers = Indexer.where(template: "Cobalt")[a...z] #3792
+        # indexers = Indexer.where(template: "Cobalt")[a...z] #3792
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
         # indexers = Indexer.where(template: "Dealer Direct")[a...z]
 

@@ -1,5 +1,12 @@
 class DealeronRts
+    def initialize
+        @helper  = RtsHelper.new
+        @manager = RtsManager.new
+    end
+
     def rooftop_scraper(html, url, indexer)
+        rts_phones = @manager.rts_phones_finder(html) # Scrape all the phone numbers.
+
         acc_phones = html.css('.callNowClass').collect {|phone| phone.text if phone}
         raw_full_addr = html.at_css('.adr').text if html.at_css('.adr')
         full_addr_arr = raw_full_addr.split(",") if raw_full_addr
@@ -18,6 +25,6 @@ class DealeronRts
             city = street_city_arr[-1] unless street_city_arr[-1] == nil
         end
 
-        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
+        @manager.address_formatter(org, street, city, state, zip, phone, rts_phones, url, indexer)
     end
 end
