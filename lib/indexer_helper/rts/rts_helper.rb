@@ -51,33 +51,14 @@ class RtsHelper # RoofTop Scraper Helper Method
     end
 
     # Helper method for `addr_processor(full_addr)` and `org_processor(orgs)`
+    # Removes "\t", "\n"... from objects.
     def rts_validator(obj)
         objs = []
-        ### Removes "\t" from objects.
-        ### Then splits objects by "\n".
         unless obj.blank?
             obj = filter(obj, "\n")
-
-            if obj.include?("|")
-                objs = obj.split("|")
-                objs.delete_if {|x| x.blank?}
-                objs = objs.uniq
-                obj = objs.map(&:strip).join(",")
-            end
-
-            if obj.include?("\t")
-                objs = obj.split("\t")
-                objs.delete_if {|x| x.blank?}
-                objs = objs.uniq
-                obj = objs.map(&:strip).join(",")
-            end
-
-            if obj.include?(",")
-                objs = obj.split(",")
-                objs.delete_if {|x| x.blank?}
-                objs = objs.uniq
-                obj = objs.map(&:strip).join(",")
-            end
+            obj = filter(obj, "|")
+            obj = filter(obj, "\t")
+            obj = filter(obj, ",")
 
             # Separate address. eg. Nice Rd.CityName
             regex = Regexp.new("[a-z][\.]?[A-Z][a-z]")
