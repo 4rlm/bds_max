@@ -241,19 +241,35 @@ class LocationsController < ApplicationController
     end
 
     def update_status
-        location = Location.find(params[:location_id])
+        selects = params[:selects]
+        p selects
+        if root_ids = selects[:root]
+            locations = Location.where(id: root_ids)
 
-        case params[:location_col]
-        when "root"
-            puts "\n\n\n\nROOT\n\n\n\n"
-            # location.update_attributes(crm_url: location.url, crm_root: location.geo_root)
-        when "acct"
-            puts "\n\n\n\nACCT\n\n\n\n"
-            # location.update_attribute(:acct_name, location.geo_acct_name)
-        when "address"
-            puts "\n\n\n\nADDRESS\n\n\n\n"
-            # location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+            locations.each do |location|
+                puts "\n\n\n\nROOT\n\n\n\n"
+                # location.update_attributes(crm_url: location.url, crm_root: location.geo_root)
+            end
         end
+
+        if acct_ids =  selects[:accts]
+            locations = Location.where(id: acct_ids)
+
+            locations.each do |location|
+                puts "\n\n\n\nACCT\n\n\n\n"
+                # location.update_attribute(:acct_name, location.geo_acct_name)
+            end
+        end
+
+        if address_ids =  selects[:address]
+            locations = Location.where(id: address_ids)
+
+            locations.each do |location|
+                puts "\n\n\n\nADDRESS\n\n\n\n"
+                # location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+            end
+        end
+        flash[:notice] = "Updating Status Completed"
     end
 
     private

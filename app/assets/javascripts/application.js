@@ -36,7 +36,7 @@ function checkAll(check_all) {
     }
 }
 
-var selected_ids = new Array();
+var selects = new Object();
 
 function changeStatus(el) {
     var stat = el.getElementsByClassName('stat-btn')[0];
@@ -45,18 +45,26 @@ function changeStatus(el) {
 
     if (stat.className.includes('fa-circle-thin')) {
         stat.className = "fa fa-check-circle fa-lg fa-green stat-btn";
-        selected_ids.push(location_id);
-        // console.log(selected_ids);
+        if (selects[location_col]) {
+            selects[location_col].push(location_id);
+        } else {
+            selects[location_col] = [location_id];
+        }
+        // console.log(selects);
     } else if (stat.className.includes('fa-check-circle')) {
         stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
-        var index = selected_ids.indexOf(location_id);
-        selected_ids.splice(index, 1);
-        // console.log(selected_ids);
+        var index = selects[location_col].indexOf(location_id);
+        selects[location_col].splice(index, 1);
+        // console.log(selects);
     }
 }
 
 function matchStatus() {
-    console.log(selected_ids);
+    console.log(selects);
+    $.ajax({
+        url: "/locations/update_status",
+        data: {selects: selects}
+    });
 }
 
 // function changeStatus(el) {
