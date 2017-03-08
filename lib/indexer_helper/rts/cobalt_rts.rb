@@ -5,8 +5,6 @@ class CobaltRts
     end
 
     def rooftop_scraper(html, url, indexer)
-        puts "\n#{'='*30}\nurl: #{url.inspect}\n"
-
         orgs, streets, cities, states, zips, phones = [], [], [], [], [], []
         rts_phones = @manager.rts_phones_finder(html) # Scrape all the phone numbers.
 

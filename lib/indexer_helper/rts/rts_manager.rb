@@ -65,7 +65,7 @@ class RtsManager # Update database with the result of RoofTop Scraper
 
     # FORMATS PHONE AS: (000) 000-0000
     def phone_formatter(phone)
-        regex = Regexp.new("[A-Z]+[a-z]+")
+        regex = Regexp.new("[[A-Z]+[a-z]+]")
         if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
             phone_stripped = phone.gsub(/[^0-9]/, "")
             (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped

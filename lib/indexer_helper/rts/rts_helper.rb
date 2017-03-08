@@ -56,29 +56,38 @@ class RtsHelper # RoofTop Scraper Helper Method
         ### Removes "\t" from objects.
         ### Then splits objects by "\n".
         unless obj.blank?
-            if obj.include?("\n")
-                objs = obj.split("\n")
-                objs = objs.join(",")
-            end
+            obj = filter(obj, "\n")
 
             if obj.include?("|")
                 objs = obj.split("|")
-                objs = objs.join(",")
+                objs.delete_if {|x| x.blank?}
+                objs = objs.uniq
+                obj = objs.map(&:strip).join(",")
+            end
+
+            if obj.include?("\t")
+                objs = obj.split("\t")
+                objs.delete_if {|x| x.blank?}
+                objs = objs.uniq
+                obj = objs.map(&:strip).join(",")
             end
 
             if obj.include?(",")
-                objs = obj
+                objs = obj.split(",")
+                objs.delete_if {|x| x.blank?}
+                objs = objs.uniq
+                obj = objs.map(&:strip).join(",")
             end
 
+            # Separate address. eg. Nice Rd.CityName
             regex = Regexp.new("[a-z][\.]?[A-Z][a-z]")
             if regex.match(obj)
-                objs = obj.gsub(/([a-z])[.]?([A-Z][a-z])/,'\1,\2')
+                obj = obj.gsub(/([a-z])[.]?([A-Z][a-z])/,'\1,\2')
             end
 
-            objs = objs.is_a?(String) ? objs.split(",") : [obj]
+            objs = obj.split(",")
 
             negs = ["hours", "contact", "location", "map", "info", "directions", "used", "click", "proudly", "serves", "twitter", "geoplaces", "youtube", "facebook", "privacy", "choices", "window", "event", "listener", "contact", "function", "department", "featured", "vehicle", "customer", "today"]
-
             negs.each do |neg|
                 objs.delete_if { |x| x.downcase.include?(neg) }
             end
@@ -187,6 +196,16 @@ class RtsHelper # RoofTop Scraper Helper Method
         selected = negs.select {|neg| zip.downcase.include?(neg) }
 
         (digits == '' || digits.length != 5 || alpha != '') || (selected.any?) ? nil : zip
+    end
+
+    def filter(str, bad)
+        if str.include?(bad)
+            objs = str.split(bad)
+            objs.delete_if {|x| x.blank?}
+            objs = objs.uniq
+            str = objs.map(&:strip).join(",")
+        end
+        str
     end
 
     # ================== NOT USED ==================
