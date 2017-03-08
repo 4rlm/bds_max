@@ -37,6 +37,21 @@ function checkAll(check_all) {
 }
 
 var selects = new Object();
+var rows = new Array();
+
+function changeAllStatus(el) {
+    var stat = el.getElementsByClassName('stat-btn')[0];
+    var location_id = $(el).data("id");
+
+    if (stat.className.includes('fa-circle-thin')) {
+        stat.className = "fa fa-check-circle fa-lg fa-orange stat-btn";
+        rows.push(location_id);
+    } else if (stat.className.includes('fa-check-circle')) {
+        stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
+        var index = rows.indexOf(location_id);
+        rows.splice(index, 1);
+    }
+}
 
 function changeStatus(el) {
     var stat = el.getElementsByClassName('stat-btn')[0];
@@ -58,18 +73,20 @@ function changeStatus(el) {
 }
 
 function mergeData() {
-    console.log("mergeData Clicked", selects);
+    // console.log("mergeData Clicked", selects, rows);
     $.ajax({
         url: "/locations/merge_data",
-        data: {selects: selects}
+        data: {selects: selects, rows: rows},
+        success: function() { location.reload(); }
     });
 }
 
 function flagData() {
-    console.log("flagData Clicked", selects);
+    // console.log("flagData Clicked", selects, rows);
     $.ajax({
         url: "/locations/flag_data",
-        data: {selects: selects}
+        data: {selects: selects, rows: rows},
+        success: function() { location.reload(); }
     });
 }
 

@@ -1,5 +1,7 @@
 <tr><!-- 3RD ROW: CRM DATA -->
 
+    <td class="geo w-xxsm" data-id="<%= location.id %>" onClick="changeAllStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Select Row" %></td>
+
     <!-- <td><%= location.crm_source %></td> -->
     <% if location.sfdc_acct_url %>
         <td><%= link_to location.sfdc_acct_url, :target => "_blank" %></td>
@@ -66,7 +68,7 @@
 
 
     <!-- JS ACCT NAME -->
-    <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %> geo w-xxsm" data-id="<%= location.id %>" data-col="acct" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Select Cell" %></td>
+    <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %> geo w-xxsm" data-id="<%= location.id %>" data-col="account" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Select Cell" %></td>
 
     <!-- CRM ACCOUNT NAME w/ MODAL LIGHTBOX-->
     <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %>">

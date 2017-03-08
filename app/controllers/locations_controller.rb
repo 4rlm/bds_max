@@ -242,82 +242,90 @@ class LocationsController < ApplicationController
 
     def merge_data
         selects = params[:selects]
-        puts "\n\nmerge_data selects: #{selects.inspect}\n\n"
-        if url_ids = selects[:url]
-            locations = Location.where(id: url_ids)
+        rows = params[:rows]
+        data_hash = id_merger(selects, rows)
+        puts "\n\nmerge_data selects: #{selects.inspect}, rows: #{rows.inspect}\ndata_hash: #{data_hash.inspect}\n\n"
+
+        if data_hash[:url].any?
+            locations = Location.where(id: data_hash[:url])
 
             locations.each do |location|
-                puts "\n\n\n\nURL\n\n\n\n"
-                # location.update_attributes(url_sts: "Merge", crm_url: location.url, crm_root: location.geo_root)
+                puts "\nURL #{location.id}\n"
+                location.update_attributes(url_sts: "Merge", crm_url: location.url)
             end
         end
 
-        if acct_ids =  selects[:acct]
-            locations = Location.where(id: acct_ids)
+        if data_hash[:account].any?
+            locations = Location.where(id: data_hash[:account])
 
             locations.each do |location|
-                puts "\n\n\n\nACCT\n\n\n\n"
-                # location.update_attributes(acct_sts: "Merge", acct_name: location.geo_acct_name)
+                puts "\nACCT #{location.id}\n"
+                location.update_attributes(acct_sts: "Merge", acct_name: location.geo_acct_name)
             end
         end
 
-        if address_ids =  selects[:address]
-            locations = Location.where(id: address_ids)
+        if data_hash[:address].any?
+            locations = Location.where(id: data_hash[:address])
 
             locations.each do |location|
-                puts "\n\n\n\nADDRESS\n\n\n\n"
-                # location.update_attributes(addr_sts: "Merge", address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+                puts "\nADDRESS #{location.id}\n"
+                location.update_attributes(addr_sts: "Merge", address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
             end
         end
 
-        if phone_ids =  selects[:phone]
-            locations = Location.where(id: phone_ids)
+        if data_hash[:phone].any?
+            locations = Location.where(id: data_hash[:phone])
 
             locations.each do |location|
-                puts "\n\n\n\nPHONE\n\n\n\n"
-                # location.update_attributes(ph_sts: "Merge")
+                puts "\nPHONE #{location.id}\n"
+                location.update_attributes(ph_sts: "Merge", crm_phone: location.phone)
             end
         end
+        flash[:notice] = "Merging Data Done!"
     end
 
     def flag_data
         selects = params[:selects]
-        puts "\n\nflag_data selects: #{selects.inspect}\n\n"
-        if url_ids = selects[:url]
-            locations = Location.where(id: url_ids)
+        rows = params[:rows]
+        data_hash = id_merger(selects, rows)
+        puts "\n\nmerge_data selects: #{selects.inspect}, rows: #{rows.inspect}\ndata_hash: #{data_hash.inspect}\n\n"
+
+        if data_hash[:url].any?
+            locations = Location.where(id: data_hash[:url])
 
             locations.each do |location|
-                puts "\n\n\n\nURL\n\n\n\n"
-                # location.update_attributes(url_sts: "Flag")
+                puts "\nurl #{location.id}\n"
+                location.update_attributes(url_sts: "Flag")
             end
         end
 
-        if acct_ids =  selects[:acct]
-            locations = Location.where(id: acct_ids)
+        if data_hash[:account].any?
+            locations = Location.where(id: data_hash[:account])
 
             locations.each do |location|
-                puts "\n\n\n\nACCT\n\n\n\n"
-                # location.update_attributes(acct_sts: "Flag")
+                puts "\nacct #{location.id}\n"
+                location.update_attributes(acct_sts: "Flag")
             end
         end
 
-        if address_ids =  selects[:address]
-            locations = Location.where(id: address_ids)
+        if data_hash[:address].any?
+            locations = Location.where(id: data_hash[:address])
 
             locations.each do |location|
-                puts "\n\n\n\nADDRESS\n\n\n\n"
-                # location.update_attributes(addr_sts: "Flag")
+                puts "\naddress #{location.id}\n"
+                location.update_attributes(addr_sts: "Flag")
             end
         end
 
-        if phone_ids =  selects[:phone]
-            locations = Location.where(id: phone_ids)
+        if data_hash[:phone].any?
+            locations = Location.where(id: data_hash[:phone])
 
             locations.each do |location|
-                puts "\n\n\n\nPHONE\n\n\n\n"
-                # location.update_attributes(ph_sts: "Flag")
+                puts "\nphone #{location.id}\n"
+                location.update_attributes(ph_sts: "Flag")
             end
         end
+        flash[:notice] = "Flagging Data Done!"
     end
 
     private
@@ -356,6 +364,17 @@ class LocationsController < ApplicationController
     def destroy_rows(ids)
         rows = Location.where(id: ids)
         rows.destroy_all
+    end
+
+    def id_merger(selects, ids)
+        ids = [] if ids.nil?
+        result = {url: ids, account: ids, address: ids, phone: ids}
+        return result if selects.nil?
+
+        selects.each do |key, value|
+            result[key.to_sym] = (result[key.to_sym] + value).uniq
+        end
+        result
     end
 
 end
