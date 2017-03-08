@@ -17,6 +17,12 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 
 class IndexerService
+    
+    # Delay Job has a problem to run PageFinder's instance directly from indexer controller (PageFinder.new.delay.indexer_starter)
+    def page_finder_starter
+        PageFinder.new.indexer_starter
+    end
+
     def rooftop_data_getter # RoofTop Scraper
         a=20
         z=45

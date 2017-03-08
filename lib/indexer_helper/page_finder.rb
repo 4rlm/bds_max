@@ -1,11 +1,11 @@
 class PageFinder
     def indexer_starter
-        # a=5
-        # z=60
-        a=60
-        z=-1
+        a=0
+        z=150
         # a=150
-        # z=225
+        # z=300
+        # a=300
+        # z=450
         # a=300
         # z=-1
 
@@ -17,7 +17,7 @@ class PageFinder
         # els = Indexer.where(template: "DealerOn")[a...z]
         # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
 
-        els = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Page Result")[a...z]
+        els = Indexer.where(template: "DEALER eProcess").where(indexer_status: "Goose")[a...z]
 
         # els = Indexer.where(template: "Cobalt")[a...z]
         # els = Indexer.where(clean_url: "http://www.bouldernissan.com")
@@ -114,7 +114,7 @@ class PageFinder
         url_http = url_s[0]
         url_www = url_s[2]
         joined_url = validater(url_http, '//', url_www, pages.href)
-        add_indexer_row_with("Page Result", pages.text.strip, pages.href, joined_url, mode)
+        add_indexer_row_with("Valid Link", pages.text.strip, pages.href, joined_url, mode)
     end
 
     def add_indexer_row_with(status, text, href, link, mode)
@@ -125,11 +125,11 @@ class PageFinder
         if mode == "location"
             printer(mode, status, text, link)
 
-            @indexer.update_attributes(indexer_status: status, loc_status: status, location_url: link, location_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: "Page Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
             printer(mode, status, text, link)
 
-            @indexer.update_attributes(indexer_status: status, stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: "Page Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
 
