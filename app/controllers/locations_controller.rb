@@ -245,11 +245,14 @@ class LocationsController < ApplicationController
 
         case params[:location_col]
         when "root"
-            location.update_attributes(crm_url: location.url, crm_root: location.geo_root)
+            puts "\n\n\n\nROOT\n\n\n\n"
+            # location.update_attributes(crm_url: location.url, crm_root: location.geo_root)
         when "acct"
-            location.update_attribute(:acct_name, location.geo_acct_name)
+            puts "\n\n\n\nACCT\n\n\n\n"
+            # location.update_attribute(:acct_name, location.geo_acct_name)
         when "address"
-            location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+            puts "\n\n\n\nADDRESS\n\n\n\n"
+            # location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
         end
     end
 

@@ -36,6 +36,7 @@ function checkAll(check_all) {
     }
 }
 
+var selected_ids = new Array();
 
 function changeStatus(el) {
     var stat = el.getElementsByClassName('stat-btn')[0];
@@ -43,27 +44,48 @@ function changeStatus(el) {
     var location_col = $(el).data("col");
 
     if (stat.className.includes('fa-circle-thin')) {
-        stat.className = "fa fa-check-circle fa-lg fa-blue stat-btn";
-        $(stat).attr('data-original-title', 'Update Cell');
+        stat.className = "fa fa-check-circle fa-lg fa-green stat-btn";
+        selected_ids.push(location_id);
+        // console.log(selected_ids);
     } else if (stat.className.includes('fa-check-circle')) {
-        stat.className = "fa fa-plus-circle fa-lg fa-green stat-btn";
-        $(stat).attr('data-original-title', 'Update Row');
-        update_status(location_id, location_col);
-    } else if (stat.className.includes('fa-plus-circle')) {
-        stat.className = "fa fa-minus-circle fa-lg fa-red stat-btn";
-        $(stat).attr('data-original-title', 'Remove Row');
-    } else if (stat.className.includes('fa-minus-circle')) {
         stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
-        $(stat).attr('data-original-title', 'Reset');
+        var index = selected_ids.indexOf(location_id);
+        selected_ids.splice(index, 1);
+        // console.log(selected_ids);
     }
 }
 
-function update_status(location_id, location_col) {
-    $.ajax({
-        url: "/locations/update_status",
-        data: {location_id: location_id, location_col: location_col}
-    });
+function matchStatus() {
+    console.log(selected_ids);
 }
+
+// function changeStatus(el) {
+//     var stat = el.getElementsByClassName('stat-btn')[0];
+//     var location_id = $(el).data("id");
+//     var location_col = $(el).data("col");
+//
+//     if (stat.className.includes('fa-circle-thin')) {
+//         stat.className = "fa fa-check-circle fa-lg fa-blue stat-btn";
+//         $(stat).attr('data-original-title', 'Update Cell');
+//     } else if (stat.className.includes('fa-check-circle')) {
+//         stat.className = "fa fa-plus-circle fa-lg fa-green stat-btn";
+//         $(stat).attr('data-original-title', 'Update Row');
+//         update_status(location_id, location_col);
+//     } else if (stat.className.includes('fa-plus-circle')) {
+//         stat.className = "fa fa-minus-circle fa-lg fa-red stat-btn";
+//         $(stat).attr('data-original-title', 'Remove Row');
+//     } else if (stat.className.includes('fa-minus-circle')) {
+//         stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
+//         $(stat).attr('data-original-title', 'Reset');
+//     }
+// }
+//
+// function update_status(location_id, location_col) {
+//     $.ajax({
+//         url: "/locations/update_status",
+//         data: {location_id: location_id, location_col: location_col}
+//     });
+// }
 
 
 $(function () {
