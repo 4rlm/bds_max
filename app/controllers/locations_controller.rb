@@ -243,12 +243,12 @@ class LocationsController < ApplicationController
     def merge_data
         selects = params[:selects]
         puts "\n\nmerge_data selects: #{selects.inspect}\n\n"
-        if root_ids = selects[:root]
-            locations = Location.where(id: root_ids)
+        if url_ids = selects[:url]
+            locations = Location.where(id: url_ids)
 
             locations.each do |location|
-                puts "\n\n\n\nROOT\n\n\n\n"
-                # location.update_attributes(crm_url: location.url, crm_root: location.geo_root)
+                puts "\n\n\n\nURL\n\n\n\n"
+                # location.update_attributes(url_sts: "Merge", crm_url: location.url, crm_root: location.geo_root)
             end
         end
 
@@ -257,7 +257,7 @@ class LocationsController < ApplicationController
 
             locations.each do |location|
                 puts "\n\n\n\nACCT\n\n\n\n"
-                # location.update_attribute(:acct_name, location.geo_acct_name)
+                # location.update_attributes(acct_sts: "Merge", acct_name: location.geo_acct_name)
             end
         end
 
@@ -266,7 +266,16 @@ class LocationsController < ApplicationController
 
             locations.each do |location|
                 puts "\n\n\n\nADDRESS\n\n\n\n"
-                # location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+                # location.update_attributes(addr_sts: "Merge", address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
+            end
+        end
+
+        if phone_ids =  selects[:phone]
+            locations = Location.where(id: phone_ids)
+
+            locations.each do |location|
+                puts "\n\n\n\nPHONE\n\n\n\n"
+                # location.update_attributes(ph_sts: "Merge")
             end
         end
     end
@@ -274,12 +283,12 @@ class LocationsController < ApplicationController
     def flag_data
         selects = params[:selects]
         puts "\n\nflag_data selects: #{selects.inspect}\n\n"
-        if root_ids = selects[:root]
-            locations = Location.where(id: root_ids)
+        if url_ids = selects[:url]
+            locations = Location.where(id: url_ids)
 
             locations.each do |location|
-                puts "\n\n\n\nROOT\n\n\n\n"
-                # location.update_attributes()
+                puts "\n\n\n\nURL\n\n\n\n"
+                # location.update_attributes(url_sts: "Flag")
             end
         end
 
@@ -288,7 +297,7 @@ class LocationsController < ApplicationController
 
             locations.each do |location|
                 puts "\n\n\n\nACCT\n\n\n\n"
-                # location.update_attribute()
+                # location.update_attributes(acct_sts: "Flag")
             end
         end
 
@@ -297,7 +306,16 @@ class LocationsController < ApplicationController
 
             locations.each do |location|
                 puts "\n\n\n\nADDRESS\n\n\n\n"
-                # location.update_attribute()
+                # location.update_attributes(addr_sts: "Flag")
+            end
+        end
+
+        if phone_ids =  selects[:phone]
+            locations = Location.where(id: phone_ids)
+
+            locations.each do |location|
+                puts "\n\n\n\nPHONE\n\n\n\n"
+                # location.update_attributes(ph_sts: "Flag")
             end
         end
     end
