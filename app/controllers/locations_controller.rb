@@ -252,7 +252,7 @@ class LocationsController < ApplicationController
             end
         end
 
-        if acct_ids =  selects[:accts]
+        if acct_ids =  selects[:acct]
             locations = Location.where(id: acct_ids)
 
             locations.each do |location|

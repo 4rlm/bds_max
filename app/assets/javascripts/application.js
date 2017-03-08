@@ -44,7 +44,7 @@ function changeStatus(el) {
     var location_col = $(el).data("col");
 
     if (stat.className.includes('fa-circle-thin')) {
-        stat.className = "fa fa-check-circle fa-lg fa-green stat-btn";
+        stat.className = "fa fa-check-circle fa-lg fa-orange stat-btn";
         if (selects[location_col]) {
             selects[location_col].push(location_id);
         } else {
@@ -59,7 +59,7 @@ function changeStatus(el) {
     }
 }
 
-function matchStatus() {
+function mergeData() {
     console.log(selects);
     $.ajax({
         url: "/locations/update_status",
