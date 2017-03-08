@@ -17,6 +17,12 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 
 class IndexerService
+
+    # Delay Job has a problem to run PageFinder's instance directly from indexer controller (PageFinder.new.delay.indexer_starter)
+    def page_finder_starter
+        PageFinder.new.indexer_starter
+    end
+
     def rooftop_data_getter # RoofTop Scraper
         a=64
         z=65
@@ -126,8 +132,7 @@ class IndexerService
         # indexers = Indexer.where(indexer_status: "Target").where(template: "Search Error")
         # indexers.each{|x| x.update_attribute(:template, nil)}
 
-        # indexers = Indexer.where(indexer_status: "Archived")
-        # indexers.each{|x| x.update_attributes(staff_url: nil, staff_text: nil, location_url: nil, location_text: nil, template: nil, contact_status: nil, contacts_count: nil, contacts_link: nil, acct_name: nil, rt_sts: nil, cont_sts: nil, full_addr: nil, street: nil, city: nil, state: nil, zip: nil, phone: nil)}
+
 
         counter=0
         indexers.each do |indexer|
@@ -637,13 +642,9 @@ class IndexerService
         indexer_terms.each do |term|
             template = term.response_term
             temp_count = Indexer.where(template: template).count
-
             puts "#{template}: #{temp_count}"
-
             term.update_attribute(:response_count, temp_count)
-
         end
-
     end
 
 
@@ -653,30 +654,22 @@ class IndexerService
         # Dealer Direct" > "#{clean_url}/staff"
         # DEALER eProcess > "#{clean_url}/meet-our-staff"
 
-        # Dealer Inspire > Meet Our Staff, Meet Our Team, Staff
+        indexers = Indexer.where(template: "DEALER eProcess").where.not(indexer_status: "Archived").where.not(indexer_status: "Staff Link Updated")
 
-        # /about-us/meet-our-staff/
-        # /about-us/staff/
-        # /staff/
-        # /dealership/staff/
-
-        # DealerFire > Our Team, Meet the Staff
-        #     # url = "#{clean_url}/team-don-jacobs-volkswagen-in-lexington-ky"
-        #     # url = "#{clean_url}/team-payne-weslaco-ford-in-weslaco-tx"
-
-        indexers = Indexer.where(template: "DealerFire").where.not(indexer_status: "Staff Link Updated")[0..40]
         indexers.each do |indexer|
             clean_url = indexer.clean_url
             staff_url = indexer.staff_url
             staff_text = indexer.staff_text
             unless clean_url.blank?
-                # new_link = "#{clean_url}/meet-our-staff"
+                new_link = "#{clean_url}/meet-our-staff"
                 puts "staff_text: #{staff_text}"
                 puts "clean_url: #{clean_url}"
                 puts "staff_url: #{staff_url}"
-                # puts "new_link: #{new_link}"
+                puts "new_link: #{new_link}"
                 puts "-------------------------------"
-                # indexer.update_attributes(staff_url: new_link, indexer_status: "Staff Link Updated", staff_text: "Staff Page", stf_status: "Staff Link Updated")
+                indexer.update_attributes(staff_url: new_link, indexer_status: "Staff Link Updated", staff_text: "Staff Page", stf_status: "Staff Link Updated")
+
+                Indexer.where.not(template: nil).count
             end
         end
 
@@ -753,24 +746,28 @@ class IndexerService
 
 
     def indexer_duplicate_purger
-
-        # Indexer.select([:raw_url]).group(:raw_url).having("count(*) > 1").map.count
-        # Indexer.select([:template]).group(:template).having("count(*) > 1").map.count
         # Indexer.select([:clean_url]).group(:clean_url).having("count(*) > 1").map.count
         # Indexer.select([:clean_url]).group(:clean_url).having("count(*) < 2").map.count
         # Indexer.all.map(&:template).uniq
-
-        templates =
-
-        indexers = Indexer.select([:clean_url]).group(:clean_url).having("count(*) < 2").where(template: nil).count
-
-        indexers.each do |indexer|
-
-        end
+        # Indexer.all.map(&:clean_url).uniq.count
+        # Indexer.where.not(indexer_status: "Archived").count
+    end
 
 
+    def melissa
+        addr = AddressStandardization::MelissaData.standardize_address(
+          :street => "1 Infinite Loop",
+          :city => "Cupertino",
+          :state => "CA"
+        )
 
+        # addr.street  #=> "1 INFINITE LOOP"
+        # addr.city    #=> "CUPERTINO"
+        # addr.state   #=> "CA"
+        # addr.zip     #=> "95014-2083"
+        # addr.country #=> "USA"
 
+        binding.pry
     end
 
 

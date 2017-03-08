@@ -1,7 +1,7 @@
 class IndexersController < ApplicationController
   before_action :set_indexer, only: [:show, :edit, :update, :destroy]
 
-  before_action :set_indexer_service, only: [:indexer_starter_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn]
+  before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn]
 
 
   # GET /indexers
@@ -119,9 +119,27 @@ class IndexersController < ApplicationController
     # @service.core_url_redirect
 
     # @service.url_redirect_checker
-    @service.delay.url_redirect_checker
+    # @service.delay.url_redirect_checker
 
     # @service.indexer_duplicate_purger
+
+
+    # @service.melissa
+
+    addr = AddressStandardization::MelissaData.standardize_address(
+      :street => "1 Infinite Loop",
+      :city => "Cupertino",
+      :state => "CA"
+    )
+
+    # addr.street  #=> "1 INFINITE LOOP"
+    # addr.city    #=> "CUPERTINO"
+    # addr.state   #=> "CA"
+    # addr.zip     #=> "95014-2083"
+    # addr.country #=> "USA"
+
+    binding.pry
+
 
 
       redirect_to indexers_path
@@ -135,8 +153,9 @@ class IndexersController < ApplicationController
   end
 
 
-  def indexer_starter_btn
-      PageFinder.new.indexer_starter
+  def page_finder_btn
+    # @service.page_finder_starter
+    @service.delay.page_finder_starter
     #   @service.url_importer
 
       redirect_to indexers_path
@@ -144,7 +163,7 @@ class IndexersController < ApplicationController
 
   def template_finder_btn
     #   @service.template_finder
-      @service.delay.template_finder
+    #   @service.delay.template_finder
 
 
       redirect_to indexers_path
@@ -152,7 +171,7 @@ class IndexersController < ApplicationController
 
 
   def rooftop_data_getter_btn
-      @service.rooftop_data_getter
+    #   @service.rooftop_data_getter
     #   @service.delay.rooftop_data_getter
 
       redirect_to indexers_path
