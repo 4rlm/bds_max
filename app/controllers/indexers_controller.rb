@@ -124,6 +124,24 @@ class IndexersController < ApplicationController
     # @service.indexer_duplicate_purger
 
 
+    # @service.melissa
+
+    addr = AddressStandardization::MelissaData.standardize_address(
+      :street => "1 Infinite Loop",
+      :city => "Cupertino",
+      :state => "CA"
+    )
+
+    # addr.street  #=> "1 INFINITE LOOP"
+    # addr.city    #=> "CUPERTINO"
+    # addr.state   #=> "CA"
+    # addr.zip     #=> "95014-2083"
+    # addr.country #=> "USA"
+
+    binding.pry
+
+
+
       redirect_to indexers_path
   end
 

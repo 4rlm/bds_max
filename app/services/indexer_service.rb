@@ -17,7 +17,7 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 
 class IndexerService
-    
+
     # Delay Job has a problem to run PageFinder's instance directly from indexer controller (PageFinder.new.delay.indexer_starter)
     def page_finder_starter
         PageFinder.new.indexer_starter
@@ -751,6 +751,23 @@ class IndexerService
         # Indexer.all.map(&:template).uniq
         # Indexer.all.map(&:clean_url).uniq.count
         # Indexer.where.not(indexer_status: "Archived").count
+    end
+
+
+    def melissa
+        addr = AddressStandardization::MelissaData.standardize_address(
+          :street => "1 Infinite Loop",
+          :city => "Cupertino",
+          :state => "CA"
+        )
+
+        # addr.street  #=> "1 INFINITE LOOP"
+        # addr.city    #=> "CUPERTINO"
+        # addr.state   #=> "CA"
+        # addr.zip     #=> "95014-2083"
+        # addr.country #=> "USA"
+
+        binding.pry
     end
 
 

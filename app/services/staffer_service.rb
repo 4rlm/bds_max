@@ -144,37 +144,39 @@ class StafferService
         range = z-a
         indexers.each do |indexer|
             template = indexer.template
-            clean_url = indexer.clean_url
+            # clean_url = indexer.clean_url
+            # clean_url = indexer.clean_url
+            url = indexer.staff_url
 
-            case template
-            when "Dealer.com"
-                url = "#{clean_url}/dealership/staff.htm"
-            when "DealerOn"
-                url = "#{clean_url}/staff.aspx"
-            when "Cobalt"
-                url = "#{clean_url}/MeetOurDepartments"
-                # url = "#{clean_url}/MeetOurStaff/staff.htm"
-                # url = "#{clean_url}/Meet-Our-Staff/staff.htm"
-                # url = "#{clean_url}/Staff/staff.htm"
-                # url = "#{clean_url}/dealership/staff.htm"
-            when "Dealer Direct"
-                url = "#{clean_url}/staff"
-            when "Dealer Inspire"
-                url = "#{clean_url}/about-us/staff/"
-                # url = "#{clean_url}/team/"
-                # url = "#{clean_url}/staff/"
-            when "DealerFire"
-                # url = "#{clean_url}/team-don-jacobs-volkswagen-in-lexington-ky"
-                # url = "#{clean_url}/team-payne-weslaco-ford-in-weslaco-tx"
-                # url = "#{clean_url}/team-palmen-in-racine-kenosha-wi"
-                # url = "#{clean_url}/team-volkswagen-north-hills-in-wexford-pa"
-                url = "#{clean_url}/team-perry-honda-in-bishop-ca"
-                # url = "#{clean_url}/team-jc-billion-nissan-in-bozeman-mt"
-            when "DEALER eProcess"
-                url = "#{clean_url}/meet-our-staff"
-            when "DealerCar Search"
-                # url = "#{clean_url}/"
-            end
+            # case template
+            # when "Dealer.com"
+            #     url = "#{clean_url}/dealership/staff.htm"
+            # when "DealerOn"
+            #     url = "#{clean_url}/staff.aspx"
+            # when "Cobalt"
+            #     url = "#{clean_url}/MeetOurDepartments"
+            #     # url = "#{clean_url}/MeetOurStaff/staff.htm"
+            #     # url = "#{clean_url}/Meet-Our-Staff/staff.htm"
+            #     # url = "#{clean_url}/Staff/staff.htm"
+            #     # url = "#{clean_url}/dealership/staff.htm"
+            # when "Dealer Direct"
+            #     url = "#{clean_url}/staff"
+            # when "Dealer Inspire"
+            #     url = "#{clean_url}/about-us/staff/"
+            #     # url = "#{clean_url}/team/"
+            #     # url = "#{clean_url}/staff/"
+            # when "DealerFire"
+            #     # url = "#{clean_url}/team-don-jacobs-volkswagen-in-lexington-ky"
+            #     # url = "#{clean_url}/team-payne-weslaco-ford-in-weslaco-tx"
+            #     # url = "#{clean_url}/team-palmen-in-racine-kenosha-wi"
+            #     # url = "#{clean_url}/team-volkswagen-north-hills-in-wexford-pa"
+            #     url = "#{clean_url}/team-perry-honda-in-bishop-ca"
+            #     # url = "#{clean_url}/team-jc-billion-nissan-in-bozeman-mt"
+            # when "DEALER eProcess"
+            #     url = "#{clean_url}/meet-our-staff"
+            # when "DealerCar Search"
+            #     # url = "#{clean_url}/"
+            # end
 
             counter+=1
             puts "\n============================\n"

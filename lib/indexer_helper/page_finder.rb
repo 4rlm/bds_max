@@ -1,27 +1,21 @@
 class PageFinder
     def indexer_starter
-        a=0
-        z=150
-        # a=150
+        # a=0
+        # z=100
+        # a=100
+        # z=200
+        # a=200
         # z=300
-        # a=300
-        # z=450
-        # a=300
-        # z=-1
+        a=300
+        z=-1
 
-        # els = Indexer.where(template: "Cobalt").where.not(indexer_status: "Page Result")[a...z] ##5,273
-        # els = Indexer.where(template: "DealerFire").where.not(indexer_status: "Page Result")[a...z] ##943
-        # els = Indexer.where(template: "Dealer Inspire").where.not(indexer_status: "Page Result")[a...z]
+        # els = Indexer.where(template: "DealerFire").where(indexer_status: "Goose")[a...z]
+        # els = Indexer.where(template: "Cobalt").where(indexer_status: "Goose")[a...z]
+        # els = Indexer.where(template: "Cobalt").where(indexer_status: "TCP Error")[a...z]
+        els = Indexer.where(template: "Dealer Inspire").where(indexer_status: "Goose")[a...z]
 
-        # els = Indexer.where(template: "DealerOn").where.not(indexer_status: "Link Unverified")[a...z] ##6669
-        # els = Indexer.where(template: "DealerOn")[a...z]
-        # els = Indexer.where(template: "Dealer.com").where(indexer_status: "Link Unverified")[a...z] ##6669
-
-        els = Indexer.where(template: "DEALER eProcess").where(indexer_status: "Goose")[a...z]
-
-        # els = Indexer.where(template: "Cobalt")[a...z]
-        # els = Indexer.where(clean_url: "http://www.bouldernissan.com")
-        # els = Indexer.where(clean_url: %w(http://www.bouldernissan.com http://www.nissan422oflimerick.com http://www.cavendercadillac.com http://www.alanwebbchevy.com http://www.lindsaycadillac.com))
+        # indexers = Indexer.where(template: "Dealer Inspire").where(stf_status: "Valid Link")
+        # indexers.each{|x| x.update_attribute(:indexer_status, "Page Result")}
 
         puts "count: #{els.count}\n\n\n"
 
@@ -100,11 +94,11 @@ class PageFinder
             end
 
             if !pages
-                if pages = page.link_with(:href => /MeetOurDepartments/)
-                    url_split_joiner(pages, mode)
-                else
+                # if pages = page.link_with(:href => /MeetOurDepartments/)
+                #     url_split_joiner(pages, mode)
+                # else
                     add_indexer_row_with("Invalid Link", nil, nil, nil, mode)
-                end
+                # end
             end
         end
     end
@@ -124,11 +118,9 @@ class PageFinder
 
         if mode == "location"
             printer(mode, status, text, link)
-
             @indexer.update_attributes(indexer_status: "Page Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
             printer(mode, status, text, link)
-
             @indexer.update_attributes(indexer_status: "Page Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
