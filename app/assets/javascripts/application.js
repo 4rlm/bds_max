@@ -50,19 +50,25 @@ function changeStatus(el) {
         } else {
             selects[location_col] = [location_id];
         }
-        // console.log(selects);
     } else if (stat.className.includes('fa-check-circle')) {
         stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
         var index = selects[location_col].indexOf(location_id);
         selects[location_col].splice(index, 1);
-        // console.log(selects);
     }
 }
 
 function mergeData() {
-    console.log(selects);
+    console.log("mergeData Clicked", selects);
     $.ajax({
-        url: "/locations/update_status",
+        url: "/locations/merge_data",
+        data: {selects: selects}
+    });
+}
+
+function flagData() {
+    console.log("flagData Clicked", selects);
+    $.ajax({
+        url: "/locations/flag_data",
         data: {selects: selects}
     });
 }
@@ -78,7 +84,7 @@ function mergeData() {
 //     } else if (stat.className.includes('fa-check-circle')) {
 //         stat.className = "fa fa-plus-circle fa-lg fa-green stat-btn";
 //         $(stat).attr('data-original-title', 'Update Row');
-//         update_status(location_id, location_col);
+//         merge_data(location_id, location_col);
 //     } else if (stat.className.includes('fa-plus-circle')) {
 //         stat.className = "fa fa-minus-circle fa-lg fa-red stat-btn";
 //         $(stat).attr('data-original-title', 'Remove Row');
@@ -88,9 +94,9 @@ function mergeData() {
 //     }
 // }
 //
-// function update_status(location_id, location_col) {
+// function merge_data(location_id, location_col) {
 //     $.ajax({
-//         url: "/locations/update_status",
+//         url: "/locations/merge_data",
 //         data: {location_id: location_id, location_col: location_col}
 //     });
 // }

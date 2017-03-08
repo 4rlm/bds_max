@@ -240,9 +240,9 @@ class LocationsController < ApplicationController
         redirect_to root_path
     end
 
-    def update_status
+    def merge_data
         selects = params[:selects]
-        p selects
+        puts "\n\nmerge_data selects: #{selects.inspect}\n\n"
         if root_ids = selects[:root]
             locations = Location.where(id: root_ids)
 
@@ -269,7 +269,37 @@ class LocationsController < ApplicationController
                 # location.update_attributes(address: location.geo_full_addr, crm_street: location.street, crm_city: location.city, crm_state: location.state_code, crm_zip: location.postal_code)
             end
         end
-        flash[:notice] = "Updating Status Completed"
+    end
+
+    def flag_data
+        selects = params[:selects]
+        puts "\n\nflag_data selects: #{selects.inspect}\n\n"
+        if root_ids = selects[:root]
+            locations = Location.where(id: root_ids)
+
+            locations.each do |location|
+                puts "\n\n\n\nROOT\n\n\n\n"
+                # location.update_attributes()
+            end
+        end
+
+        if acct_ids =  selects[:acct]
+            locations = Location.where(id: acct_ids)
+
+            locations.each do |location|
+                puts "\n\n\n\nACCT\n\n\n\n"
+                # location.update_attribute()
+            end
+        end
+
+        if address_ids =  selects[:address]
+            locations = Location.where(id: address_ids)
+
+            locations.each do |location|
+                puts "\n\n\n\nADDRESS\n\n\n\n"
+                # location.update_attribute()
+            end
+        end
     end
 
     private
