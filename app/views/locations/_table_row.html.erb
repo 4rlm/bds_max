@@ -34,7 +34,7 @@
 
 
     <!-- CRM URL JS BUTTON-->
-    <td class="<%= geo_indicator(location.crm_url, location.url) %> geo w-xxsm" data-id="<%= location.id %>" data-col="root" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+    <td class="<%= geo_indicator(location.crm_url, location.url) %> geo w-xxsm" data-id="<%= location.id %>" data-col="root" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Match" %></td>
 
 
     <!-- CRM URL LIGTHBOX MODAL  -->
@@ -66,7 +66,7 @@
 
 
     <!-- JS ACCT NAME -->
-    <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %> geo w-xxsm" data-id="<%= location.id %>" data-col="acct" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+    <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %> geo w-xxsm" data-id="<%= location.id %>" data-col="acct" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Match" %></td>
 
     <!-- CRM ACCOUNT NAME w/ MODAL LIGHTBOX-->
     <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %>">
@@ -78,7 +78,7 @@
     <td class="<%= geo_indicator(location.address, location.geo_full_addr) %>"><span data-toggle="tooltip" data-placement="top" title="<%= location.coordinates %> <%= location.sfdc_id %>"><%= location.geo_full_addr %></span></td>
 
     <!-- JS ADDRESS -->
-    <td class="<%= geo_indicator(location.address, location.geo_full_addr) %> geo w-xxsm" data-id="<%= location.id %>" data-col="address" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Reset" %></td>
+    <td class="<%= geo_indicator(location.address, location.geo_full_addr) %> geo w-xxsm" data-id="<%= location.id %>" data-col="address" onClick="changeStatus(this);"><%= fa_icon "circle-thin lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Match" %></td>
 
     <!-- CRM ADDRESS -->
     <td class="<%= geo_indicator(location.address, location.geo_full_addr) %> address"><%= location.address %></td>

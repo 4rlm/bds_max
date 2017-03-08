@@ -1,7 +1,7 @@
 class RtsManager # Update database with the result of RoofTop Scraper
 
     # STRIPS AND FORMATS DATA BEFORE SAVING TO DB
-    def address_formatter(org, street, city, state, zip, phone, url, indexer)
+    def address_formatter(org, street, city, state, zip, phone, rts_phones, url, indexer)
         org = nil if org.blank?
         street = nil if street.blank?
         city = nil if city.blank?
@@ -41,20 +41,20 @@ class RtsManager # Update database with the result of RoofTop Scraper
 
         full_addr = nil if full_addr.blank?  || full_addr == ","
 
-        results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
+        results_processor(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
     end
 
-    def results_processor(org, street, city, state, zip, phone, full_addr, url, indexer)
+    def results_processor(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
         phone = phone_formatter(phone) if phone
 
         # Clean the Data before updating database
         clean = record_cleaner(org, street, city, state, zip)
         org, street, city, state, zip = clean[:org], clean[:street], clean[:city], clean[:state], clean[:zip]
 
-        if org || street || city || state || zip || phone || full_addr
-            printer(org, street, city, state, zip, phone, full_addr, url, indexer)
+        if org || street || city || state || zip || phone || full_addr || rts_phones
+            printer(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
 
-            # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone)
+            # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone, phones: rts_phones)
         else
             puts "url: #{url} \n\nRT No-Result - Check Template Version!\n\n#{'='*30}\n\n"
             # indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
@@ -65,7 +65,7 @@ class RtsManager # Update database with the result of RoofTop Scraper
 
     # FORMATS PHONE AS: (000) 000-0000
     def phone_formatter(phone)
-        regex = Regexp.new("[A-Z]+[a-z]+")
+        regex = Regexp.new("[[A-Z]+[a-z]+]")
         if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
             phone_stripped = phone.gsub(/[^0-9]/, "")
             (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
@@ -85,7 +85,7 @@ class RtsManager # Update database with the result of RoofTop Scraper
         {org: org, street: street, city: city, state: state, zip: zip}
     end
 
-    def printer(org, street, city, state, zip, phone, full_addr, url, indexer)
+    def printer(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
         puts "template: #{indexer.template}\nurl: #{url} \n\nRT Result - Success!\n\n"
 
         puts "org: #{org.nil? ? "nil" : org.inspect}"
@@ -94,8 +94,22 @@ class RtsManager # Update database with the result of RoofTop Scraper
         puts "state: #{state.nil? ? "nil" : state.inspect}"
         puts "zip: #{zip.nil? ? "nil" : zip.inspect}"
         puts "phone: #{phone.nil? ? "nil" : phone.inspect}"
+        puts "rts_phones: #{rts_phones.empty? ? [] : rts_phones.inspect}"
         puts "full_addr: #{full_addr.nil? ? "nil" : full_addr.inspect}"
 
         puts "\n#{'='*30}\n\n"
+    end
+
+    def rts_phones_finder(html)
+        raw_data_1 = html.at_css('body').inner_html
+        raw_data_2 = html.at_css('body').text
+
+        reg = Regexp.new("[(]?[0-9]{3}[ ]?[)-.]?[ ]?[0-9]{3}[ ]?[-. ][ ]?[0-9]{4}")
+
+        data_1 = raw_data_1.scan(reg)
+        data_2 = raw_data_2.scan(reg)
+
+        phones = data_1.uniq + data_2.uniq
+        phones.uniq
     end
 end

@@ -23,6 +23,10 @@
 
 <!-- ## FILTER - ENDS## -->
 
+<div class="pull-left">
+    <span class="btn btn-success" onClick="matchStatus();">Match Data</span>
+</div>
+
 <div class="pull-right">
     <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
     <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
@@ -56,7 +60,9 @@
 
 </div>
 
-
+<div class="pull-left">
+    <span class="btn btn-success" onClick="matchStatus();">Match Data</span>
+</div>
 
 <div class="pull-right">
     <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>

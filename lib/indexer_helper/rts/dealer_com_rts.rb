@@ -1,5 +1,12 @@
 class DealerComRts
+    def initialize
+        @helper = RtsHelper.new
+        @manager = RtsManager.new
+    end
+
     def rooftop_scraper(html, url, indexer)
+        rts_phones = @manager.rts_phones_finder(html) # Scrape all the phone numbers.
+
         selector = "//meta[@name='author']/@content"
         org = html.xpath(selector).text if html.xpath(selector)
         street = html.at_css('.adr .street-address').text if html.at_css('.adr .street-address')
@@ -8,6 +15,6 @@ class DealerComRts
         zip = html.at_css('.adr .postal-code').text if html.at_css('.adr .postal-code')
         phone = html.at_css('.value').text if html.at_css('.value')
 
-        RtsManager.new.address_formatter(org, street, city, state, zip, phone, url, indexer)
+        @manager.address_formatter(org, street, city, state, zip, phone, rts_phones, url, indexer)
     end
 end
