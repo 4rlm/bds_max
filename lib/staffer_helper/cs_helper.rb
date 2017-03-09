@@ -5,12 +5,12 @@ class CsHelper # Contact Scraper Helper Method
 
     def print_result(indexer, url, hash_array)
         puts "\ndomain: #{indexer.clean_url.inspect}\ntemplate: #{indexer.template.inspect}\nurl: #{url.inspect}\n\n"
-        hash_array.each do |hash|
-            hash.each do |key, value|
-                puts "#{key}: #{value.inspect}"
-            end
-            puts "-------------------------------"
-        end
+        # hash_array.each do |hash|
+        #     hash.each do |key, value|
+        #         puts "#{key}: #{value.inspect}"
+        #     end
+        #     puts "-------------------------------"
+        # end
     end
 
     def prep_create_staffer(indexer, staff_hash_array)
@@ -46,6 +46,7 @@ class CsHelper # Contact Scraper Helper Method
 
     def create_staffer(indexer, staff_hash_array)
         puts "\n\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
+        phones = []
         staff_hash_array.each do |staff_hash|
             printer(staff_hash)
 
@@ -64,8 +65,10 @@ class CsHelper # Contact Scraper Helper Method
             #     staffer.template       = indexer.template
             # end
 
-            update_indexer_attrs(indexer, staff_hash[:phone])
+            ph = staff_hash[:phone]
+            phones << ph if ph && !ph.blank? && !phones.include?(ph)
         end
+        update_indexer_attrs(indexer, phones, staff_hash_array.count)
     end
 
     def ph_email_scraper(staff)
@@ -96,12 +99,17 @@ class CsHelper # Contact Scraper Helper Method
         end
     end
 
-    def update_indexer_attrs(indexer, phone)
-        phones = indexer.phones
-        puts "\nOLD phones: #{indexer.phones}"
-        phones << phone if phone && !phone.blank? && !phones.include?(phone)
-        puts "\nNEW phones: #{phones} \n indexer status will be updated.\n#{'='*30}\n\n"
-        # indexer.update_attributes(phones: phones, contact_status: "Contact Scraped", indexer_status: "Contact Scraped")
+    def update_indexer_attrs(indexer, phones, count)
+        indexer_phones = indexer.phones
+        puts "\nOLD phones: #{indexer_phones}"
+        indexer_phones.concat(phones)
+        puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
+
+        if count > 0
+            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "Staffer Result")
+        else
+            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "No Contacts")
+        end
     end
 
     def job_detector(str)
