@@ -51,12 +51,16 @@ class StafferService
 
         # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a..z]  ## 2,691
         # indexers = Indexer.where(template: "DealerOn").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 325
-        indexers = Indexer.where(template: "DEALER eProcess").where.not(staff_url: nil).where(contact_status: nil)[a..z]  ## 547
+        # indexers = Indexer.where(template: "DEALER eProcess").where.not(staff_url: nil).where(contact_status: nil)[a..z]  ## 547
         # indexers = Indexer.where(template: "Dealer Inspire").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 197
 
         # indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 0
         # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(indexer_status: "Retry")[a..z] ## 13
         # indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 50
+
+
+        # indexers = Indexer.where(staff_url: %w( http://www.maxmadsenmitsubishiaurora.com/dealership/staff.htm http://www.southwesthyundai.com/dealership/staff.htm http://www.robinsford.com/dealership/staff.htm http://www.cecilhondo.com/dealership/staff.htm http://www.sonicautomotive.com/dealership/staff.htm http://www.grooveford.net/dealership/staff.htm http://www.jimwhitehonda.com/dealership/staff.htm ))
+        indexers = Indexer.where(staff_url: "http://www.robinsford.com/dealership/staff.htm")
 
 
         counter=0
