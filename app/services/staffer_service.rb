@@ -13,21 +13,22 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        a=70
-        z=80
+        a=71
+        z=75
 
         ###### GENERAL
         # indexers = Indexer.where(template: "DealerCar Search").where.not(staff_url: nil).where(contact_status: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a...z]
         # indexers = Indexer.where(template: "DealerOn").where.not(staff_url: nil).where(contact_status: nil)[a...z]  ##852
         # indexers = Indexer.where(template: "Dealer Inspire").where.not(staff_url: nil).where(contact_status: nil)[a...z]
-        indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a...z]
         # indexers = Indexer.where(template: "DEALER eProcess").where.not(staff_url: nil).where(contact_status: nil)[a...z]
-        # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(contact_status: nil)[a...z]
 
         ###### TEST WITH SPECIFIC URL
         # indexers = Indexer.where(clean_url: "http://www.billdelord.com")
+        # indexers = Indexer.where(staff_url: %w(http://www.southwestvw.com/staff.aspx http://www.myindyford.com/staff.aspx http://www.porscheofftmyers.com/staff.aspx http://www.olathedodgechryslerjeep.net/staff.aspx http://www.newburghtoyota.com/staff.aspx))
 
 
         ###### DealerCar Search STAFF PAGE

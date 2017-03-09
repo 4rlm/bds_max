@@ -18,7 +18,7 @@ class DealeronCs
 
                 ph_email_hash = @helper.ph_email_scraper(staffs[i])
                 staff_hash[:phone] = ph_email_hash[:phone]
-                staff_hash[:email] = ph_email_hash[:email]
+                staff_hash[:email] = @helper.email_cleaner(ph_email_hash[:email])
 
                 staff_hash_array << staff_hash
             end

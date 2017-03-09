@@ -125,10 +125,13 @@ class CsHelper # Contact Scraper Helper Method
         num_reg.match(str) && str.length < 17
     end
 
+    def email_cleaner(str)
+        str ? str.gsub(/^mailto:/, '') : str
+    end
+
     # In case, template scraper wants to use this way.
-    # Just add this line: `staff_hash_array = @helper.standard_scraper(html, '.staff-item')`
-    def standard_scraper(html, class_name)
-        staffs = html.css(class_name)
+    # Just add this line: `staff_hash_array = @helper.standard_scraper(staffs)`
+    def standard_scraper(staffs)
         staff_hash_array = []
 
         if staffs.any?
