@@ -54,10 +54,10 @@ class RtsManager # Update database with the result of RoofTop Scraper
         if org || street || city || state || zip || phone || full_addr || rts_phones
             printer(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
 
-            # indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone, phones: rts_phones)
+            indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone, phones: rts_phones)
         else
             puts "url: #{url} \n\nRT No-Result - Check Template Version!\n\n#{'='*30}\n\n"
-            # indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
+            indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
         end
     end
 
@@ -78,7 +78,7 @@ class RtsManager # Update database with the result of RoofTop Scraper
     end
 
     def record_cleaner(org, street, city, state, zip)
-        puts "#{"="*15} DIRTY DATA #{"="*15}\norg: #{org.inspect}\nstreet: #{street.inspect}\ncity: #{city.inspect}\nstate: #{state.inspect}\nzip: #{zip.inspect}\n#{"-"*40}"
+        # puts "#{"="*15} DIRTY DATA #{"="*15}\norg: #{org.inspect}\nstreet: #{street.inspect}\ncity: #{city.inspect}\nstate: #{state.inspect}\nzip: #{zip.inspect}\n#{"-"*40}"
 
         # Cleaning code goes here.
 

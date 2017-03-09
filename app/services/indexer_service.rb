@@ -23,26 +23,37 @@ class IndexerService
         PageFinder.new.indexer_starter
     end
 
+
+    ##########################################
+    # RT SCRAPER - STARTS
+    ##########################################
     def rooftop_data_getter # RoofTop Scraper
-        a=64
-        z=65
-        # indexers = Indexer.where(template: "DealerOn").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]  ##852
-        # indexers = Indexer.where(template: "DealerOn")[a...z]
-        # indexers = Indexer.where(template: "Dealer.com")[a...z]
-        # indexers = Indexer.where(template: "Cobalt")[a...z]
-        # indexers = Indexer.where(rt_sts: "TCP Error").where.not(clean_url: nil)[a...z]
-        # indexers = Indexer.where(template: "Cobalt").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        # indexers = Indexer.where(template: "Dealer Inspire").where.not(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
-        # indexers = Indexer.where(template: "DealerFire").where(rt_sts: nil).where.not(clean_url: nil)[a...z]
-        # indexers = Indexer.where(template: "DealerFire")[a...z]
-        # indexers = Indexer.where(template: "Cobalt")[a...z]
-        # indexers = Indexer.where(template: "DealerCar Search")[a...z]
-        # indexers = Indexer.where(template: "Dealer Direct")[a...z]
+        a=0
+        z=-1
+        # a=200
+        # z=400
+        # a=400
+        # z=600
+        # a=600
+        # z=800
+        # a=800
+        # z=1000
 
-        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        indexers = Indexer.where(clean_url: %w(http://www.gayfamilyauto.com))
 
+        ### Completed: Dealer.com, Dealer Direct, DealerOn, DealerFire, Dealer Inspire, DEALER eProcess
+        ## Remember to Scrape:
+        ## 1. Templates where staff url: nil
+        ## 2. Templates where rt_sts: "TCP Error"
+
+
+        ###########################################
+        indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "Cobalt")[a..z] #5,273
+
+        # indexers = Indexer.where(rt_sts: nil).where.not(template: nil).where(indexer_status: "Page Result")[a..z] ##3,350
+
+        # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: "TCP Error").where.not(template: nil)[a..z]
+
+        # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "DealerCar Search")[a...z] #840
 
         counter=0
         range = z-a
@@ -96,17 +107,22 @@ class IndexerService
                 end
                 puts "\n\n>>> #{error_msg} <<<\n\n"
 
-                # indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
+                indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
             end ## rescue ends
 
             sleep(3)
         end ## .each loop ends
     end # rooftop_data_getter ends
 
+    ##########################################
 
-    ####################
+
+
+
+
+    ##########################################
     # TEMPLATE DETECTOR - STARTS
-    ####################
+    ##########################################
 
     def template_finder
         a=0
@@ -118,10 +134,7 @@ class IndexerService
         # a=150
         z=-1
 
-
-
-
-        indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 2,211
+        # indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 2,211
         # indexers = Indexer.where(clean_url: "http://www.howellnissan.com") ## 2,400
 
         # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
@@ -131,7 +144,6 @@ class IndexerService
 
         # indexers = Indexer.where(indexer_status: "Target").where(template: "Search Error")
         # indexers.each{|x| x.update_attribute(:template, nil)}
-
 
 
         counter=0
@@ -755,11 +767,11 @@ class IndexerService
 
 
     def melissa
-        addr = AddressStandardization::MelissaData.standardize_address(
-          :street => "1 Infinite Loop",
-          :city => "Cupertino",
-          :state => "CA"
-        )
+        # addr = AddressStandardization::MelissaData.standardize_address(
+        #   :street => "1 Infinite Loop",
+        #   :city => "Cupertino",
+        #   :state => "CA"
+        # )
 
         # addr.street  #=> "1 INFINITE LOOP"
         # addr.city    #=> "CUPERTINO"
@@ -767,8 +779,83 @@ class IndexerService
         # addr.zip     #=> "95014-2083"
         # addr.country #=> "USA"
 
-        binding.pry
+        # binding.pry
     end
+
+
+    def db_data_trimmer
+        # indexers = Indexer.where(clean_url: "http://www.alwestnissan.com")
+        indexers = Indexer.where.not(indexer_status: "Archived").where.not(clean_url: nil)
+        # indexers = Indexer.where("length(full_addr) > 100")[100...200]
+        counter=0
+        indexers.each do |indexer|
+            clean_url = indexer.clean_url
+
+            staff_text = indexer.staff_text
+            location_text = indexer.location_text
+            acct_name = indexer.acct_name
+            street = indexer.street
+            city = indexer.city
+            state = indexer.state
+            zip = indexer.zip
+            phone = indexer.phone
+            full_addr = indexer.full_addr
+
+            trim_staff_text = trimmer(staff_text)
+            trim_location_text = trimmer(location_text)
+            trim_acct_name = trimmer(acct_name)
+            trim_street = trimmer(street)
+            trim_city = trimmer(city)
+            trim_state = trimmer(state)
+            trim_zip = trimmer(zip)
+            trim_phone = trimmer(phone)
+            trim_full_addr = long_trimmer(full_addr)
+
+            counter+=1
+            puts "#{counter}) #{clean_url}"
+            if staff_text != trim_staff_text || location_text != trim_location_text || acct_name != trim_acct_name || street != trim_street || city != trim_city || state != trim_state || zip != trim_zip || phone != trim_phone || full_addr != trim_full_addr
+                puts "\n\nLength Alert!\n\n"
+                indexer.update_attributes(indexer_status: "Length Alert", staff_text: trim_staff_text, location_text: trim_location_text, acct_name: trim_acct_name, street: trim_street, city: trim_city, state: trim_state, zip: trim_zip, phone: trim_phone, full_addr: trim_full_addr)
+            end
+        end
+
+    end
+
+
+    def trimmer(str)
+        if !str.blank? && str.length > 50
+            puts "Old: #{str}"
+            new_strs = str.split("\n")
+            new_str = new_strs[0]
+            new_str = new_str[0..50]
+            new_str.gsub!("  ", "")
+            new_str.strip!
+            puts "New: #{new_str}\n#{"-"*40}\n\n"
+        else
+            new_str = str
+        end
+        new_str
+    end
+
+    def long_trimmer(str)
+        if !str.blank? && str.length > 80
+            puts "Old: #{str}"
+            new_strs = str.split(",")
+            new_strs.each do |sub_str|
+                sub_str = sub_str[0..50]
+                sub_str.gsub!("  ", "")
+                sub_str.strip!
+            end
+            new_str = new_strs.join(",")
+            puts "New: #{new_str}\n#{"-"*40}\n\n"
+        else
+            new_str = str
+        end
+        new_str
+    end
+
+
+
 
 
 

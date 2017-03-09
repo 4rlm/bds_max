@@ -6,8 +6,8 @@ class PageFinder
         # z=200
         # a=200
         # z=300
-        a=300
-        z=-1
+        a=0
+        z=0
 
         # els = Indexer.where(template: "DealerFire").where(indexer_status: "Goose")[a...z]
         # els = Indexer.where(template: "Cobalt").where(indexer_status: "Goose")[a...z]

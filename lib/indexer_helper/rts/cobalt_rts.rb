@@ -47,7 +47,7 @@ class CobaltRts
         addr4 = html.at_css('address').text if html.at_css('address')
         addr5 = html.css('.card .content .text .copy span').map(&:children).map(&:text).join(', ') if html.css('.card .content .text .copy span')
 
-        puts "\n>>>>>>>>>>\n orgs: #{orgs}, addr_n_org1: #{addr_n_org1}, phones: #{phones}\n>>>>>>>>>>\n"
+        # puts "\n>>>>>>>>>>\n orgs: #{orgs}, addr_n_org1: #{addr_n_org1}, phones: #{phones}\n>>>>>>>>>>\n"
 
         result_1 = @helper.addr_processor(addr2)
         result_2 = @helper.addr_processor(addr3)
