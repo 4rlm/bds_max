@@ -23,7 +23,10 @@ class StafferService
         # indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
         # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a...z]
-        indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+
+        ###### TEST WITH SPECIFIC URL
+        indexers = Indexer.where(clean_url: "http://www.johngreenechrysler.com")
 
 
         ###### DealerCar Search STAFF PAGE
