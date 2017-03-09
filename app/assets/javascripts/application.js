@@ -37,6 +37,21 @@ function checkAll(check_all) {
 }
 
 var selects = new Object();
+var rows = new Array();
+
+function changeAllStatus(el) {
+    var stat = el.getElementsByClassName('stat-btn')[0];
+    var location_id = $(el).data("id");
+
+    if (stat.className.includes('fa-circle-thin')) {
+        stat.className = "fa fa-check-circle fa-lg fa-orange stat-btn";
+        rows.push(location_id);
+    } else if (stat.className.includes('fa-check-circle')) {
+        stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
+        var index = rows.indexOf(location_id);
+        rows.splice(index, 1);
+    }
+}
 
 function changeStatus(el) {
     var stat = el.getElementsByClassName('stat-btn')[0];
@@ -44,26 +59,34 @@ function changeStatus(el) {
     var location_col = $(el).data("col");
 
     if (stat.className.includes('fa-circle-thin')) {
-        stat.className = "fa fa-check-circle fa-lg fa-green stat-btn";
+        stat.className = "fa fa-check-circle fa-lg fa-orange stat-btn";
         if (selects[location_col]) {
             selects[location_col].push(location_id);
         } else {
             selects[location_col] = [location_id];
         }
-        // console.log(selects);
     } else if (stat.className.includes('fa-check-circle')) {
         stat.className = "fa fa-circle-thin fa-lg fa-clear stat-btn";
         var index = selects[location_col].indexOf(location_id);
         selects[location_col].splice(index, 1);
-        // console.log(selects);
     }
 }
 
-function matchStatus() {
-    console.log(selects);
+function mergeData() {
+    // console.log("mergeData Clicked", selects, rows);
     $.ajax({
-        url: "/locations/update_status",
-        data: {selects: selects}
+        url: "/locations/merge_data",
+        data: {selects: selects, rows: rows},
+        success: function() { location.reload(); }
+    });
+}
+
+function flagData() {
+    // console.log("flagData Clicked", selects, rows);
+    $.ajax({
+        url: "/locations/flag_data",
+        data: {selects: selects, rows: rows},
+        success: function() { location.reload(); }
     });
 }
 
@@ -78,7 +101,7 @@ function matchStatus() {
 //     } else if (stat.className.includes('fa-check-circle')) {
 //         stat.className = "fa fa-plus-circle fa-lg fa-green stat-btn";
 //         $(stat).attr('data-original-title', 'Update Row');
-//         update_status(location_id, location_col);
+//         merge_data(location_id, location_col);
 //     } else if (stat.className.includes('fa-plus-circle')) {
 //         stat.className = "fa fa-minus-circle fa-lg fa-red stat-btn";
 //         $(stat).attr('data-original-title', 'Remove Row');
@@ -88,9 +111,9 @@ function matchStatus() {
 //     }
 // }
 //
-// function update_status(location_id, location_col) {
+// function merge_data(location_id, location_col) {
 //     $.ajax({
-//         url: "/locations/update_status",
+//         url: "/locations/merge_data",
 //         data: {location_id: location_id, location_col: location_col}
 //     });
 // }

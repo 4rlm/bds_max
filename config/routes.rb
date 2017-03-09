@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :indexers do
       collection {post :import_csv_data}
-    #   get :update_status, on: :collection
+    #   get :merge_data, on: :collection
   end
   get 'indexer/import_page' => 'indexers#import_page'
   get 'page_finder_btn' => 'indexers#page_finder_btn'
@@ -18,11 +18,11 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :geo_places
-  # resources :locations
 
   resources :locations do
       collection {post :import_csv_data}
-      get :update_status, on: :collection
+      get :merge_data, on: :collection
+      get :flag_data, on: :collection
   end
   get 'location/import_page' => 'locations#import_page'
   get 'location/search' => 'locations#search'

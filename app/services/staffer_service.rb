@@ -1,7 +1,6 @@
 require 'mechanize'
 require 'nokogiri'
 require 'open-uri'
-# require_relative 'staffer_service_helper'
 require 'staffer_helper/cs_helper'
 require 'staffer_helper/dealer_eprocess_cs'
 require 'staffer_helper/dealerfire_cs'
@@ -13,8 +12,8 @@ require 'staffer_helper/dealer_com_cs'
 
 class StafferService
     def cs_data_getter
-        a=30
-        z=35
+        a=34
+        z=40
 
         ###### GENERAL
         # indexers = Indexer.where(template: "DealerCar Search")[a...z]
@@ -23,6 +22,11 @@ class StafferService
         # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
         # indexers = Indexer.where(template: "DealerFire")[a...z]
         # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+
+        ###### TEST WITH SPECIFIC URL
+        indexers = Indexer.where(clean_url: "http://www.johngreenechrysler.com")
 
 
         ###### DealerCar Search STAFF PAGE
@@ -72,7 +76,7 @@ class StafferService
 
         ###### DEALER eProcess STAFF PAGE
         ### (HELP!!) ### DIFFERENT CSS CLASS NAMES.
-        indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
         # indexers = Indexer.where(clean_url: "http://www.mazdaofclearlake.com")
         # indexers = Indexer.where(clean_url: "http://www.karitoyota.com") # not working
         # indexers = Indexer.where(clean_url: "http://www.usedcarnh.net") # not working
