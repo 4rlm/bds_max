@@ -1,5 +1,3 @@
-require 'staffer_helper/cs_helper'
-
 class DealerComCs
     def initialize
         @helper = CsHelper.new
@@ -21,7 +19,7 @@ class DealerComCs
             end
         end
 
-        @helper.print_result(indexer.template, url, staff_hash_array)
-        @helper.prep_create_staffer(staff_hash_array)
+        @helper.print_result(indexer, url, staff_hash_array)
+        @helper.prep_create_staffer(indexer, staff_hash_array)
     end
 end

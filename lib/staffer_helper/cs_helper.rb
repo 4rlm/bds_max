@@ -1,6 +1,6 @@
 class CsHelper # Contact Scraper Helper Method
-    def print_result(template, url, hash_array)
-        puts "\ntemplate: #{template.inspect}\nurl: #{url.inspect}\n\n"
+    def print_result(indexer, url, hash_array)
+        puts "\ndomain: #{indexer.clean_url.inspect}\ntemplate: #{indexer.template.inspect}\nurl: #{url.inspect}\n\n"
         hash_array.each do |hash|
             hash.each do |key, value|
                 puts "#{key}: #{value.inspect}"
@@ -9,13 +9,13 @@ class CsHelper # Contact Scraper Helper Method
         end
     end
 
-    def prep_create_staffer(staff_hash_array)
+    def prep_create_staffer(indexer, staff_hash_array)
         staff_hash_array.each do |staff_hash|
             # Clean & Divide full name
             if staff_hash[:full_name]
                 name_parts = staff_hash[:full_name].split(" ")
                 staff_hash[:fname] = name_parts[0].strip
-                staff_hash[:lname] = name_parts[1].strip
+                staff_hash[:lname] = name_parts[-1].strip
                 staff_hash[:full_name] = staff_hash[:full_name].strip
             else
                 staff_hash[:fname] = staff_hash[:fname].strip if staff_hash[:fname]
@@ -37,10 +37,10 @@ class CsHelper # Contact Scraper Helper Method
             ## 1) phone number has "EXT" kind of string.
             ## 2) job has \t and \n.
         end
-        create_staffer(staff_hash_array)
+        create_staffer(indexer, staff_hash_array)
     end
 
-    def create_staffer(staff_hash_array)
+    def create_staffer(indexer, staff_hash_array)
         puts "\n\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
         staff_hash_array.each do |staff_hash|
             printer(staff_hash)
@@ -51,8 +51,11 @@ class CsHelper # Contact Scraper Helper Method
             #     fullname: staff_hash[:full_name],
             #     job:      staff_hash[:job],
             #     phone:    staff_hash[:phone],
-            #     email:    staff_hash[:email]
+            #     email:    staff_hash[:email],
+            #     domain:   indexer.clean_url
             # )
+
+            update_indexer_attrs(indexer, staff_hash[:phone])
         end
     end
 
@@ -82,6 +85,13 @@ class CsHelper # Contact Scraper Helper Method
         staff_hash.each do |key, val|
             puts "#{key}: #{val.nil? ? "nil" : val.inspect}"
         end
-        puts '-'*15
+    end
+
+    def update_indexer_attrs(indexer, phone)
+        phones = indexer.phones
+        puts "\nOLD phones: #{indexer.phones}"
+        phones << phone if phone && !phone.blank? && !phones.include?(phone)
+        puts "\nNEW phones: #{phones} \n indexer status will be updated.\n#{'='*30}\n\n"
+        # indexer.update_attributes(phones: phones, contact_status: "Contact Scraped", indexer_status: "Contact Scraped")
     end
 end
