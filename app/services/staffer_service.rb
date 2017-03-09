@@ -13,22 +13,21 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        a=50
-        z=60
+        a=70
+        z=80
 
         ###### GENERAL
-        # indexers = Indexer.where(template: "DealerCar Search")[a...z]
-        indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a...z]
-        # indexers = Indexer.where(template: "DealerOn")[a...z]  ##852
-        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
-        # indexers = Indexer.where(template: "DealerFire")[a...z]
-        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
+        # indexers = Indexer.where(template: "DealerCar Search").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "DealerOn").where.not(staff_url: nil).where(contact_status: nil)[a...z]  ##852
+        # indexers = Indexer.where(template: "Dealer Inspire").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "DEALER eProcess").where.not(staff_url: nil).where(contact_status: nil)[a...z]
         # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(contact_status: nil)[a...z]
 
         ###### TEST WITH SPECIFIC URL
-        # indexers = Indexer.where(clean_url: "http://www.gregoryford.net")
-        # indexers = Indexer.where(clean_url: "http://www.randallnoe.net")
+        # indexers = Indexer.where(clean_url: "http://www.billdelord.com")
 
 
         ###### DealerCar Search STAFF PAGE
@@ -186,7 +185,7 @@ class StafferService
 
             counter+=1
             puts "\n============================\n"
-            puts "[#{a}...#{z}]  (#{counter}/#{range})"
+            puts "[#{a}...#{z}]  (#{counter}/#{range})\nurl: #{url}\nindexer id: #{indexer.id}"
 
             begin
                 @agent = Mechanize.new
@@ -213,23 +212,23 @@ class StafferService
                 end
 
 
-            # rescue
-            #     error = $!.message
-            #     error_msg = "RT Error: #{error}"
-            #     if error_msg.include?("connection refused")
-            #         cs_error_code = "Connection Error"
-            #     elsif error_msg.include?("undefined method")
-            #         cs_error_code = "Method Error"
-            #     elsif error_msg.include?("404 => Net::HTTPNotFound")
-            #         cs_error_code = "404 Error"
-            #     elsif error_msg.include?("TCP connection")
-            #         cs_error_code = "TCP Error"
-            #     else
-            #         cs_error_code = error_msg
-            #     end
-            #     puts "\n\n>>> #{error_msg} <<<\n\n"
-            #
-            #     # indexer.update_attributes(indexer_status: "CS Error", cs_sts: cs_error_code)
+            rescue
+                error = $!.message
+                error_msg = "RT Error: #{error}"
+                if error_msg.include?("connection refused")
+                    cs_error_code = "Connection Error"
+                elsif error_msg.include?("undefined method")
+                    cs_error_code = "Method Error"
+                elsif error_msg.include?("404 => Net::HTTPNotFound")
+                    cs_error_code = "404 Error"
+                elsif error_msg.include?("TCP connection")
+                    cs_error_code = "TCP Error"
+                else
+                    cs_error_code = error_msg
+                end
+                puts "\n\n>>> #{error_msg} <<<\n\n"
+
+                # indexer.update_attributes(indexer_status: "CS Error", cs_sts: cs_error_code)
             end ## rescue ends
 
             sleep(3)
