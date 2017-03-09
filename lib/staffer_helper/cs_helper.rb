@@ -99,4 +99,25 @@ class CsHelper # Contact Scraper Helper Method
         puts "\nNEW phones: #{phones} \n indexer status will be updated.\n#{'='*30}\n\n"
         # indexer.update_attributes(phones: phones, contact_status: "Contact Scraped", indexer_status: "Contact Scraped")
     end
+
+    def job_detector(str)
+        jobs = ["director", "sales", "advisor", "manager", "agent", "general", "internet", "president", "finance", "accountant", "coordinator", "engineer", "officer", "marketing", "help", "specialist", "assistant", "professional", "service", "salesman", "owner", "vehicle", "special", "owned"]
+
+        jobs.each do |job|
+            if str.downcase.include?(job)
+                return true
+            end
+        end
+        return false
+    end
+
+    def name_detector(str)
+        name_reg = Regexp.new("[@./]")
+        !str.scan(name_reg).any?
+    end
+
+    def phone_detector(str)
+        num_reg = Regexp.new("[0-9]{3}")
+        num_reg.match(str) && str.length < 17
+    end
 end

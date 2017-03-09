@@ -1,14 +1,14 @@
-require 'staffer_helper/cs_helper'
-
 class DealerDirectCs
     def initialize
         @helper = CsHelper.new
+        @rts_manager = RtsManager.new
     end
 
     def contact_scraper(html, url, indexer)
-        if html.css('.staff-desc .staff-name')
+        staff_hash_array = []
+        
+        if html.css('.staff-desc .staff-name').any?
             staff_count = html.css('.staff-desc .staff-name').count
-            staff_hash_array = []
 
             for i in 0...staff_count
                 staff_hash = {}
@@ -19,9 +19,40 @@ class DealerDirectCs
 
                 staff_hash_array << staff_hash
             end
+        elsif html.css('.staff-info').any?
+            staffs = html.css('.staff-info')
+
+            staffs.each do |staff|
+                staff_hash = {}
+                # Get name, job, phone
+                info_ori = staff.text.split("\n").map {|el| el.delete("\t") }
+                infos = info_ori.delete_if {|el| el.blank?}
+
+                infos.each do |info|
+                    name_bool = @helper.name_detector(info)
+                    job_bool = @helper.job_detector(info)
+                    phone_bool = @helper.phone_detector(info)
+
+                    if job_bool
+                        staff_hash[:job] = info
+                    elsif name_bool && !job_bool && !phone_bool
+                        staff_hash[:full_name] = info
+                    elsif phone_bool
+                        staff_hash[:phone] = @rts_manager.phone_formatter(info)
+                    end
+                end
+
+                # Get email
+                data = staff.inner_html
+                regex = Regexp.new("[a-z]+[@][a-z]+[.][a-z]+")
+                email_reg = regex.match(data)
+                staff_hash[:email] = email_reg.to_s if email_reg
+
+                staff_hash_array << staff_hash
+            end
         end
 
-        @helper.print_result(indexer.template, url, staff_hash_array)
-        @helper.prep_create_staffer(staff_hash_array)
+        @helper.print_result(indexer, url, staff_hash_array)
+        @helper.prep_create_staffer(indexer, staff_hash_array)
     end
 end
