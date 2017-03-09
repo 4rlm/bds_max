@@ -126,8 +126,6 @@ GEM
     minitest (5.9.1)
     multi_json (1.12.1)
     multi_xml (0.6.0)
-    mysmallidea-address_standardization (0.4.1)
-      mechanize
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
     nio4r (1.2.1)
@@ -239,7 +237,6 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   mechanize
-  mysmallidea-address_standardization (~> 0.4.1)
   pg
   pry
   puma (~> 3.0)

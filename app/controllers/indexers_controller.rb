@@ -122,24 +122,7 @@ class IndexersController < ApplicationController
     # @service.delay.url_redirect_checker
 
     # @service.indexer_duplicate_purger
-
-
-    # @service.melissa
-
-    addr = AddressStandardization::MelissaData.standardize_address(
-      :street => "1 Infinite Loop",
-      :city => "Cupertino",
-      :state => "CA"
-    )
-
-    # addr.street  #=> "1 INFINITE LOOP"
-    # addr.city    #=> "CUPERTINO"
-    # addr.state   #=> "CA"
-    # addr.zip     #=> "95014-2083"
-    # addr.country #=> "USA"
-
-    binding.pry
-
+    # @service.db_data_trimmer
 
 
       redirect_to indexers_path
@@ -155,7 +138,7 @@ class IndexersController < ApplicationController
 
   def page_finder_btn
     # @service.page_finder_starter
-    @service.delay.page_finder_starter
+    # @service.delay.page_finder_starter
     #   @service.url_importer
 
       redirect_to indexers_path
@@ -172,7 +155,7 @@ class IndexersController < ApplicationController
 
   def rooftop_data_getter_btn
     #   @service.rooftop_data_getter
-    #   @service.delay.rooftop_data_getter
+      @service.delay.rooftop_data_getter
 
       redirect_to indexers_path
   end
