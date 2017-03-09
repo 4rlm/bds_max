@@ -13,22 +13,51 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        # a=0
-        # z=1500
-        # a=1500
-        # z=3000
-        # a=3000
-        # z=4500
-        a=4500
+        a=50
+        # z=350
+        # a=200
+        # z=400
+        # a=400
+        # z=600
+        # a=600
+        # z=800
+        # a=800
+        # z=1000
+        # a=1000
+        # z=1200
+        # a=1200
         z=-1
 
-        indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 9,812
-        # indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a..z]
-        # indexers = Indexer.where(template: "DealerOn").where.not(staff_url: nil).where(contact_status: nil)[a..z]
-        # indexers = Indexer.where(template: "Dealer Inspire").where.not(staff_url: nil).where(contact_status: nil)[a..z]
-        # indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a..z]
-        # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a..z]
-        # indexers = Indexer.where(template: "DealerEprocess").where.not(staff_url: nil).where(contact_status: nil)[a..z]
+
+
+        #### NEED HELP: undefined method `text' for nil:NilClass (DEALER.COM) / "METHOD ERROR"
+
+        ### DEALER.COM:
+        # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(indexer_status: "CS Error")[a..z] ## 6,180
+        # indexers = Indexer.where(clean_url: "http://www.yarktoyota.com").where.not(staff_url: nil)
+        # http://www.maxmadsenmitsubishiaurora.com/dealership/staff.htm
+        # http://www.southwesthyundai.com/dealership/staff.htm
+        # http://www.robinsford.com/dealership/staff.htm
+        # http://www.cecilhondo.com/dealership/staff.htm
+        # http://www.sonicautomotive.com/dealership/staff.htm
+        # http://www.grooveford.net/dealership/staff.htm
+        # http://www.jimwhitehonda.com/dealership/staff.htm
+
+        # Ford Direct (Change from Dealer.com)
+        # http://www.nyeford.net/dealership/staff.htm
+        # http://www.murphyfordonline.com/dealership/staff.htm
+        # http://www.gbwestbend.com/dealership/staff.htm
+
+
+        # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a..z]  ## 2,691
+        # indexers = Indexer.where(template: "DealerOn").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 325
+        indexers = Indexer.where(template: "DEALER eProcess").where.not(staff_url: nil).where(contact_status: nil)[a..z]  ## 547
+        # indexers = Indexer.where(template: "Dealer Inspire").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 197
+
+        # indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 0
+        # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(indexer_status: "Retry")[a..z] ## 13
+        # indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 50
+
 
         counter=0
         range = z-a

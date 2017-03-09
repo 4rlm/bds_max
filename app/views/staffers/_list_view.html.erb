@@ -10,23 +10,19 @@
       <th>Contact Status</th>
       <th>Contact Source<br></th>
       <th>SFDC Account ID</th>
-      <th>Sales Person</th>
-      <th>Type</th>
-
-      <th>Franchise</th>
-      <th>Category</th>
-
       <th>Account Name</th>
-      <th>Group Name</th>
-      <th>Ultimate Group</th>
-
-      <th>Coordinates</th>
       <th>Full Address</th>
-
-      <th>Street</th>
-      <th>City</th>
-      <th>State</th>
-      <th>Zip</th>
+      <!-- <th>Group Name</th> -->
+      <!-- <th>Sales Person</th> -->
+      <!-- <th>Type</th> -->
+      <!-- <th>Franchise</th> -->
+      <!-- <th>Category</th> -->
+      <!-- <th>Ultimate Group</th> -->
+      <!-- <th>Coordinates</th> -->
+      <!-- <th>Street</th> -->
+      <!-- <th>City</th> -->
+      <!-- <th>State</th> -->
+      <!-- <th>Zip</th> -->
       <th>Inactive</th>
       <th>SFDC Contact ID</th>
       <th>First Name</th>
@@ -39,14 +35,14 @@
       <th>Email</th>
       <th>Influence</th>
       <th>Template</th>
-      <th>Staff Link</th>
-      <th>Staff Text</th>
-      <th>Tier</th>
       <th>Domain</th>
-      <th>Staffer Date</th>
+      <!-- <th>Staff Link</th> -->
+      <!-- <th>Staff Text</th> -->
+      <!-- <th>Tier</th> -->
+      <!-- <th>Staffer Date</th>
       <th>Last Activity</th>
       <th>Created</th>
-      <th>Updated</th>
+      <th>Updated</th> -->
 
       <th colspan="3"></th>
     </tr>
@@ -65,21 +61,21 @@
         <td><%= staffer.cont_status %></td>
         <td><%= staffer.cont_source %></td>
         <td><%= staffer.sfdc_id %></td>
-        <td><%= staffer.sfdc_sales_person %></td>
-        <td><%= staffer.sfdc_type %></td>
-        <td><%= staffer.franchise %></td>
-        <td><%= staffer.franch_cat %></td>
         <td><%= staffer.acct_name %></td>
-        <td><%= staffer.group_name %></td>
-        <td><%= staffer.ult_group_name %></td>
-
-        <td><%= staffer.coordinates %></td>
         <td><%= staffer.full_address %></td>
 
-        <td><%= staffer.street %></td>
-        <td><%= staffer.city %></td>
-        <td><%= staffer.state %></td>
-        <td><%= staffer.zip %></td>
+        <!-- <td><%#= staffer.sfdc_sales_person %></td> -->
+        <!-- <td><%#= staffer.sfdc_type %></td> -->
+        <!-- <td><%#= staffer.franchise %></td> -->
+        <!-- <td><%#= staffer.franch_cat %></td> -->
+        <!-- <td><%#= staffer.group_name %></td> -->
+        <!-- <td><%#= staffer.ult_group_name %></td> -->
+        <!-- <td><%#= staffer.coordinates %></td> -->
+        <!-- <td><%#= staffer.street %></td> -->
+        <!-- <td><%#= staffer.city %></td> -->
+        <!-- <td><%#= staffer.state %></td> -->
+        <!-- <td><%#= staffer.zip %></td> -->
+
         <td><%= staffer.sfdc_cont_active %></td>
         <td><%= staffer.sfdc_cont_id %></td>
         <td><%= staffer.fname %></td>
@@ -92,18 +88,15 @@
         <td><%= staffer.email %></td>
         <td><%= staffer.influence %></td>
         <td><%= staffer.template %></td>
-        <td><%= staffer.staff_link %></td>
-        <td><%= staffer.staff_text %></td>
-        <td><%= staffer.sfdc_tier %></td>
         <td><%= staffer.domain %></td>
 
-        <td><%= staffer.staffer_date %></td>
-
-        <td><%= staffer.last_activity_date %></td>
-        <td><%= staffer.created_date %></td>
-        <td><%= staffer.updated_date %></td>
-
-
+        <!-- <td><%#= staffer.staff_link %></td> -->
+        <!-- <td><%#= staffer.staff_text %></td> -->
+        <!-- <td><%#= staffer.sfdc_tier %></td> -->
+        <!-- <td><%#= staffer.staffer_date %></td> -->
+        <!-- <td><%#= staffer.last_activity_date %></td> -->
+        <!-- <td><%#= staffer.created_date %></td> -->
+        <!-- <td><%#= staffer.updated_date %></td> -->
 
         <td><%= link_to 'Show', staffer %></td>
         <td><%= link_to 'Edit', edit_staffer_path(staffer) %></td>

@@ -50,20 +50,20 @@ class CsHelper # Contact Scraper Helper Method
         staff_hash_array.each do |staff_hash|
             printer(staff_hash)
 
-            # Staffer.find_or_create_by(
-            #     fullname:       staff_hash[:full_name],
-            #     domain:         indexer.clean_url
-            # ) do |staffer|
-            #     staffer.fname          = staff_hash[:fname],
-            #     staffer.lname          = staff_hash[:lname],
-            #     staffer.job_raw        = staff_hash[:job],
-            #     staffer.email          = staff_hash[:email],
-            #     staffer.phone          = staff_hash[:phone],
-            #     staffer.cont_source    = "Web",
-            #     staffer.cont_status    = "Scraped",
-            #     staffer.staffer_status = "Scraped",
-            #     staffer.template       = indexer.template
-            # end
+            Staffer.find_or_create_by(
+                fullname:       staff_hash[:full_name],
+                domain:         indexer.clean_url
+            ) do |staffer|
+                staffer.fname          = staff_hash[:fname],
+                staffer.lname          = staff_hash[:lname],
+                staffer.job_raw        = staff_hash[:job],
+                staffer.email          = staff_hash[:email],
+                staffer.phone          = staff_hash[:phone],
+                staffer.cont_source    = "Web",
+                staffer.cont_status    = "Scraped",
+                staffer.staffer_status = "Scraped",
+                staffer.template       = indexer.template
+            end
 
             ph = staff_hash[:phone]
             phones << ph if ph && !ph.blank? && !phones.include?(ph)

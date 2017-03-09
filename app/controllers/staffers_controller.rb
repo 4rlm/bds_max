@@ -125,7 +125,7 @@ end
         # @staffer_service.staffer_sfdc_id_cleaner
 
         # @staffer_service.staffer_core_updater
-        @staffer_service.delay.staffer_core_updater
+        # @staffer_service.delay.staffer_core_updater
 
 
         redirect_to root_path
@@ -135,6 +135,7 @@ end
     def cs_data_getter_btn
         @staffer_service.cs_data_getter
         # @staffer_service.delay.cs_data_getter
+
         redirect_to indexers_path
     end
 
