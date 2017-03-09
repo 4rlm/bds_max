@@ -1,4 +1,8 @@
 class CsHelper # Contact Scraper Helper Method
+    def initialize
+        @rts_manager = RtsManager.new
+    end
+
     def print_result(indexer, url, hash_array)
         puts "\ndomain: #{indexer.clean_url.inspect}\ntemplate: #{indexer.template.inspect}\nurl: #{url.inspect}\n\n"
         hash_array.each do |hash|
@@ -20,7 +24,7 @@ class CsHelper # Contact Scraper Helper Method
             else
                 staff_hash[:fname] = staff_hash[:fname].strip if staff_hash[:fname]
                 staff_hash[:lname] = staff_hash[:lname].strip if staff_hash[:lname]
-                staff_hash[:full_name] = staff_hash[:fname] + " " + staff_hash[:lname]
+                staff_hash[:full_name] = staff_hash[:fname] + " " + staff_hash[:lname] if staff_hash[:fname] && staff_hash[:lname]
             end
 
             # Clean email address
@@ -45,20 +49,20 @@ class CsHelper # Contact Scraper Helper Method
         staff_hash_array.each do |staff_hash|
             printer(staff_hash)
 
-            Staffer.find_or_create_by(
-                fullname:       staff_hash[:full_name],
-                domain:         indexer.clean_url
-            ) do |staffer|
-                staffer.fname          = staff_hash[:fname],
-                staffer.lname          = staff_hash[:lname],
-                staffer.job_raw        = staff_hash[:job],
-                staffer.email          = staff_hash[:email],
-                staffer.phone          = staff_hash[:phone],
-                staffer.cont_source    = "Web",
-                staffer.cont_status    = "Scraped",
-                staffer.staffer_status = "Scraped",
-                staffer.template       = indexer.template
-            end
+            # Staffer.find_or_create_by(
+            #     fullname:       staff_hash[:full_name],
+            #     domain:         indexer.clean_url
+            # ) do |staffer|
+            #     staffer.fname          = staff_hash[:fname],
+            #     staffer.lname          = staff_hash[:lname],
+            #     staffer.job_raw        = staff_hash[:job],
+            #     staffer.email          = staff_hash[:email],
+            #     staffer.phone          = staff_hash[:phone],
+            #     staffer.cont_source    = "Web",
+            #     staffer.cont_status    = "Scraped",
+            #     staffer.staffer_status = "Scraped",
+            #     staffer.template       = indexer.template
+            # end
 
             update_indexer_attrs(indexer, staff_hash[:phone])
         end
@@ -98,5 +102,69 @@ class CsHelper # Contact Scraper Helper Method
         phones << phone if phone && !phone.blank? && !phones.include?(phone)
         puts "\nNEW phones: #{phones} \n indexer status will be updated.\n#{'='*30}\n\n"
         # indexer.update_attributes(phones: phones, contact_status: "Contact Scraped", indexer_status: "Contact Scraped")
+    end
+
+    def job_detector(str)
+        jobs = ["director", "sales", "advisor", "manager", "agent", "general", "internet", "president", "finance", "accountant", "coordinator", "engineer", "officer", "marketing", "help", "specialist", "assistant", "professional", "service", "salesman", "owner", "vehicle", "special", "owned", "receptionist", "accounting", "consultant", "admin", "technician", "parts", "tech", "shop", "estimator", "cashier", "shipping", "receiving", "warranty", "executive", "recruiter", "trainer", "inventory", "certified", "maintenance", "license", "clerk", "controller", "leasing", "support", "customer", "online", "transmission", "dealer", "principal"]
+
+        jobs.each do |job|
+            if str.downcase.include?(job)
+                return true
+            end
+        end
+        return false
+    end
+
+    def name_detector(str)
+        name_reg = Regexp.new("[@./]")
+        !str.scan(name_reg).any?
+    end
+
+    def phone_detector(str)
+        num_reg = Regexp.new("[0-9]{3}")
+        num_reg.match(str) && str.length < 17
+    end
+
+    def email_cleaner(str)
+        str ? str.gsub(/^mailto:/, '') : str
+    end
+
+    # In case, template scraper wants to use this way.
+    # Just add this line: `staff_hash_array = @helper.standard_scraper(staffs)`
+    def standard_scraper(staffs)
+        staff_hash_array = []
+
+        if staffs.any?
+            staffs.each do |staff|
+                staff_hash = {}
+                # Get name, job, phone
+                info_ori = staff.text.split("\n").map {|el| el.delete("\t") }
+                infos = info_ori.delete_if {|el| el.blank?}
+                infos = infos.uniq
+
+                infos.each do |info|
+                    name_bool = name_detector(info)
+                    job_bool = job_detector(info)
+                    phone_bool = phone_detector(info)
+
+                    if job_bool
+                        staff_hash[:job] = info
+                    elsif name_bool && !job_bool && !phone_bool
+                        staff_hash[:full_name] = info
+                    elsif phone_bool
+                        staff_hash[:phone] = @rts_manager.phone_formatter(info)
+                    end
+                end
+
+                # Get email
+                data = staff.inner_html
+                regex = Regexp.new("[a-z]+[@][a-z]+[.][a-z]+")
+                email_reg = regex.match(data)
+                staff_hash[:email] = email_reg.to_s if email_reg
+
+                staff_hash_array << staff_hash
+            end
+        end
+        staff_hash_array
     end
 end

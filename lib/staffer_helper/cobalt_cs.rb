@@ -19,9 +19,10 @@ class CobaltCs
             matched_email = regex.match(staff_str)
             staff_hash[:email] = matched_email.to_s if matched_email
 
-            # Should find a common class within contact profile area.
-            staff_hash[:ph1] = html.css('span[@itemprop="telephone"]')[i].text.strip if html.css('span[@itemprop="telephone"]')[i]
-            staff_hash[:ph2] = html.css('.link [@itemprop="telephone"]')[i].text.strip if html.css('.link [@itemprop="telephone"]')[i]
+            # # Should find a common class within contact profile area.
+            # [gh] phone is not listed for each employee.
+            # staff_hash[:ph1] = html.css('span[@itemprop="telephone"]')[i].text.strip if html.css('span[@itemprop="telephone"]')[i]
+            # staff_hash[:ph2] = html.css('.link [@itemprop="telephone"]')[i].text.strip if html.css('.link [@itemprop="telephone"]')[i]
 
             staff_hash_array << staff_hash
         end

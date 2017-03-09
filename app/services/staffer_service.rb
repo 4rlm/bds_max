@@ -9,24 +9,26 @@ require 'staffer_helper/cobalt_cs'
 require 'staffer_helper/dealeron_cs'
 require 'staffer_helper/dealer_direct_cs'
 require 'staffer_helper/dealer_com_cs'
+require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        a=34
-        z=40
+        a=71
+        z=75
 
         ###### GENERAL
-        # indexers = Indexer.where(template: "DealerCar Search")[a...z]
-        # indexers = Indexer.where(template: "Dealer Direct")[a...z]
-        # indexers = Indexer.where(template: "DealerOn")[a...z]  ##852
-        # indexers = Indexer.where(template: "Dealer Inspire")[a...z]
-        # indexers = Indexer.where(template: "DealerFire")[a...z]
-        # indexers = Indexer.where(template: "DEALER eProcess")[a...z]
-        # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "DealerCar Search").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "DealerOn").where.not(staff_url: nil).where(contact_status: nil)[a...z]  ##852
+        # indexers = Indexer.where(template: "Dealer Inspire").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        # indexers = Indexer.where(template: "DEALER eProcess").where.not(staff_url: nil).where(contact_status: nil)[a...z]
+        indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a...z]
         # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(contact_status: nil)[a...z]
 
         ###### TEST WITH SPECIFIC URL
-        indexers = Indexer.where(clean_url: "http://www.johngreenechrysler.com")
+        # indexers = Indexer.where(clean_url: "http://www.billdelord.com")
+        # indexers = Indexer.where(staff_url: %w(http://www.southwestvw.com/staff.aspx http://www.myindyford.com/staff.aspx http://www.porscheofftmyers.com/staff.aspx http://www.olathedodgechryslerjeep.net/staff.aspx http://www.newburghtoyota.com/staff.aspx))
 
 
         ###### DealerCar Search STAFF PAGE
@@ -184,7 +186,7 @@ class StafferService
 
             counter+=1
             puts "\n============================\n"
-            puts "[#{a}...#{z}]  (#{counter}/#{range})"
+            puts "[#{a}...#{z}]  (#{counter}/#{range})\nurl: #{url}\nindexer id: #{indexer.id}"
 
             begin
                 @agent = Mechanize.new

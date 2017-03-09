@@ -1,5 +1,3 @@
-require 'staffer_helper/cs_helper'
-
 class DealerInspireCs
     def initialize
         @helper = CsHelper.new
@@ -17,7 +15,7 @@ class DealerInspireCs
                 staff_hash[:full_name] = html.css('.staff-bio h3')[i] ? html.css('.staff-bio h3')[i].text.strip : ""
                 staff_hash[:job] = html.css('.staff-bio h4')[i] ? html.css('.staff-bio h4')[i].text.strip : ""
 
-                staff_hash[:email] = html.css('.staff-email-button')[i] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
+                staff_hash[:email] = html.css('.staff-email-button')[i] ? html.css('.staff-email-button')[i].attributes["href"].text.gsub(/^mailto:/, '') : ""
 
                 # staff_hash[:email] = html.css('.staff-email-button')[i].attributes["href"] ? html.css('.staff-email-button')[i].attributes["href"].text : ""
 
@@ -27,7 +25,7 @@ class DealerInspireCs
             end
         end
 
-        @helper.print_result(indexer.template, url, staff_hash_array)
-        @helper.prep_create_staffer(staff_hash_array)
+        @helper.print_result(indexer, url, staff_hash_array)
+        @helper.prep_create_staffer(indexer, staff_hash_array)
     end
 end
