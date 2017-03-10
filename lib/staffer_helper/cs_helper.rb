@@ -45,25 +45,25 @@ class CsHelper # Contact Scraper Helper Method
     end
 
     def create_staffer(indexer, staff_hash_array)
-        puts "\n\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
+        puts "\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
         phones = []
         staff_hash_array.each do |staff_hash|
             printer(staff_hash)
 
-            Staffer.find_or_create_by(
-                fullname:       staff_hash[:full_name],
-                domain:         indexer.clean_url
-            ) do |staffer|
-                staffer.fname          = staff_hash[:fname],
-                staffer.lname          = staff_hash[:lname],
-                staffer.job_raw        = staff_hash[:job],
-                staffer.email          = staff_hash[:email],
-                staffer.phone          = staff_hash[:phone],
-                staffer.cont_source    = "Web",
-                staffer.cont_status    = "Scraped",
-                staffer.staffer_status = "Scraped",
-                staffer.template       = indexer.template
-            end
+            # Staffer.find_or_create_by(
+            #     fullname:       staff_hash[:full_name],
+            #     domain:         indexer.clean_url
+            # ) do |staffer|
+            #     staffer.fname          = staff_hash[:fname],
+            #     staffer.lname          = staff_hash[:lname],
+            #     staffer.job_raw        = staff_hash[:job],
+            #     staffer.email          = staff_hash[:email],
+            #     staffer.phone          = staff_hash[:phone],
+            #     staffer.cont_source    = "Web",
+            #     staffer.cont_status    = "Scraped",
+            #     staffer.staffer_status = "Scraped",
+            #     staffer.template       = indexer.template
+            # end
 
             ph = staff_hash[:phone]
             phones << ph if ph && !ph.blank? && !phones.include?(ph)
@@ -97,6 +97,7 @@ class CsHelper # Contact Scraper Helper Method
         staff_hash.each do |key, val|
             puts "#{key}: #{val.nil? ? "nil" : val.inspect}"
         end
+        puts '-'*30
     end
 
     def update_indexer_attrs(indexer, phones, count)
@@ -106,35 +107,50 @@ class CsHelper # Contact Scraper Helper Method
         puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
 
         if count > 0
-            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "Staffer Result")
+            # indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "Staffer Result")
         else
-            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "No Contacts")
+            # indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "No Contacts")
         end
     end
 
     def job_detector(str)
-        jobs = ["director", "sales", "advisor", "manager", "agent", "general", "internet", "president", "finance", "accountant", "coordinator", "engineer", "officer", "marketing", "help", "specialist", "assistant", "professional", "service", "salesman", "owner", "vehicle", "special", "owned", "receptionist", "accounting", "consultant", "admin", "technician", "parts", "tech", "shop", "estimator", "cashier", "shipping", "receiving", "warranty", "executive", "recruiter", "trainer", "inventory", "certified", "maintenance", "license", "clerk", "controller", "leasing", "support", "customer", "online", "transmission", "dealer", "principal"]
+        return false if str.length > 48 || include_neg(str)
 
+        jobs = ["director", "sales", "advisor", "manager", "agent", "president", "accountant", "accounting", "coordinator", "engineer", "officer", "marketing", "specialist", "assistant", "professional", "owner", "owned", "receptionist", "consultant", "admin", "parts", "tech", "shop", "estimator", "cashier", "shipping", "receiving", "warranty", "executive", "recruiter", "trainer", "inventory", "certified", "maintenance", "license", "clerk", "leasing", "support", "customer", "online", "transmission", "dealer", "principal", "shuttle", "driver", "writer", "scheduler", "business", "develop", "representative", "fleet", "associate", "service", "transportation", "attendant"]
+
+        str = str.downcase
         jobs.each do |job|
-            if str.downcase.include?(job)
-                return true
-            end
+            return true if str.include?(job)
         end
+
         return false
     end
 
     def name_detector(str)
-        name_reg = Regexp.new("[@./]")
-        !str.scan(name_reg).any?
+        return false if str.length > 48 || include_neg(str)
+
+        parts = str.split(" ")
+        name_reg = Regexp.new("[@./0-9]")
+        !str.scan(name_reg).any? && (parts.length < 5 && parts.length > 1)
     end
 
     def phone_detector(str)
+        return false if str.length > 48 || include_neg(str)
+
         num_reg = Regexp.new("[0-9]{3}")
         num_reg.match(str) && str.length < 17
     end
 
     def email_cleaner(str)
         str ? str.gsub(/^mailto:/, '') : str
+    end
+
+    def include_neg(str)
+        negs = ["today", "great", "call", "give", "contact", "saving", "@", "!", "?"]
+        negs.each do |neg|
+            return true if str.include?(neg)
+        end
+        return false
     end
 
     # In case, template scraper wants to use this way.
@@ -146,7 +162,12 @@ class CsHelper # Contact Scraper Helper Method
             staffs.each do |staff|
                 staff_hash = {}
                 # Get name, job, phone
-                info_ori = staff.text.split("\n").map {|el| el.delete("\t") }
+                info_ori = staff.text.split("\n").map do |el|
+                    el = el.delete("\t")
+                    el = el.delete(",")
+                    el = el.delete("\r")
+                    el = el.strip
+                end
                 infos = info_ori.delete_if {|el| el.blank?}
                 infos = infos.uniq
 
