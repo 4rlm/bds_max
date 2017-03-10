@@ -114,29 +114,43 @@ class CsHelper # Contact Scraper Helper Method
     end
 
     def job_detector(str)
-        jobs = ["director", "sales", "advis", "manager", "agent", "general", "internet", "president", "financ", "account", "coordinator", "engin", "office", "market", "specialist", "assist", "professional", "service", "owner", "vehicle", "special", "owned", "recept", "consult", "admin", "part", "tech", "shop", "estimat", "cashier", "shipping", "receiv", "warranty", "executive", "recruiter", "trainer", "inventory", "certif", "maintenance", "license", "clerk", "control", "leas", "support", "customer", "online", "transmission", "deal", "principal", "shuttle", "drive", "write", "schedule", "bdc", "repres", "loob", "auto", "detail", "fleet"]
+        return false if str.length > 48 || include_neg(str)
 
+        jobs = ["director", "sales", "advisor", "manager", "agent", "president", "accountant", "accounting", "coordinator", "engineer", "officer", "marketing", "specialist", "assistant", "professional", "owner", "owned", "receptionist", "consultant", "admin", "parts", "tech", "shop", "estimator", "cashier", "shipping", "receiving", "warranty", "executive", "recruiter", "trainer", "inventory", "certified", "maintenance", "license", "clerk", "leasing", "support", "customer", "online", "transmission", "dealer", "principal", "shuttle", "driver", "writer", "scheduler", "business", "develop", "representative", "fleet", "associate", "service", "transportation", "attendant"]
+
+        str = str.downcase
         jobs.each do |job|
-            if str.downcase.include?(job) && str.length < 50
-                return true
-            end
+            return true if str.include?(job)
         end
+
         return false
     end
 
     def name_detector(str)
+        return false if str.length > 48 || include_neg(str)
+
         parts = str.split(" ")
         name_reg = Regexp.new("[@./0-9]")
         !str.scan(name_reg).any? && (parts.length < 5 && parts.length > 1)
     end
 
     def phone_detector(str)
+        return false if str.length > 48 || include_neg(str)
+
         num_reg = Regexp.new("[0-9]{3}")
         num_reg.match(str) && str.length < 17
     end
 
     def email_cleaner(str)
         str ? str.gsub(/^mailto:/, '') : str
+    end
+
+    def include_neg(str)
+        negs = ["today", "great", "call", "give", "contact", "saving", "@", "!", "?"]
+        negs.each do |neg|
+            return true if str.include?(neg)
+        end
+        return false
     end
 
     # In case, template scraper wants to use this way.

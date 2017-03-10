@@ -59,8 +59,7 @@ class StafferService
         # indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 50
 
 
-        # indexers = Indexer.where(staff_url: %w( http://www.maxmadsenmitsubishiaurora.com/dealership/staff.htm http://www.southwesthyundai.com/dealership/staff.htm http://www.robinsford.com/dealership/staff.htm http://www.cecilhondo.com/dealership/staff.htm http://www.sonicautomotive.com/dealership/staff.htm http://www.grooveford.net/dealership/staff.htm http://www.jimwhitehonda.com/dealership/staff.htm ))
-        indexers = Indexer.where(staff_url: "http://www.robinsford.com/dealership/staff.htm")
+        indexers = Indexer.where(staff_url: "http://www.jimwhitehonda.com/dealership/staff.htm")
 
 
         counter=0
