@@ -25,31 +25,32 @@ class CoreService
             zip = el[:sfdc_zip]
             url_o = el[:sfdc_url]
 
+            ### SFDC CORE ROOT HAS BEEN REMOVED FROM DB!!!!!
             #-- Split for sfdc_root ---**********new***Test
-            sfdc_root = url_o
-
-            unless sfdc_root == nil
-                if sfdc_root.include?('//')
-                    sfdc_root = sfdc_root.split("//")
-                    sfdc_root = sfdc_root[1]
-                else
-                    sfdc_root
-                end
-
-                if sfdc_root.include?('www')
-                    sfdc_root = sfdc_root.split(".")
-                    sfdc_root = sfdc_root[1]
-                else
-                    sfdc_root
-                end
-
-                if sfdc_root.include?('.')
-                    sfdc_root = sfdc_root.split(".")
-                    sfdc_root = sfdc_root[0]
-                else
-                    sfdc_root
-                end
-            end
+            # sfdc_root = url_o
+            #
+            # unless sfdc_root == nil
+            #     if sfdc_root.include?('//')
+            #         sfdc_root = sfdc_root.split("//")
+            #         sfdc_root = sfdc_root[1]
+            #     else
+            #         sfdc_root
+            #     end
+            #
+            #     if sfdc_root.include?('www')
+            #         sfdc_root = sfdc_root.split(".")
+            #         sfdc_root = sfdc_root[1]
+            #     else
+            #         sfdc_root
+            #     end
+            #
+            #     if sfdc_root.include?('.')
+            #         sfdc_root = sfdc_root.split(".")
+            #         sfdc_root = sfdc_root[0]
+            #     else
+            #         sfdc_root
+            #     end
+            # end
             #-- Split for sfdc_root ---Ends **********new***Test
 
             # Set the time when "el" is being searched.

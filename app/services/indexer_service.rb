@@ -117,16 +117,79 @@ class IndexerService
 
 
     def meta_scraper
+
+        # a=22
+        # z=100
+        a=100
+        z=200
+        # a=300
+        # z=400
+
+        # indexers = Indexer.where.not(indexer_status: "Meta Result").where(template: ["eBizAutos", "fusionZone", "VinSolutions", "fusionZONE", "Dealer Spike", "Pixel Motion", "Dominion", "Search Optics", "Remora", "Chapman.co", "FoxDealer", "Autofusion", "DealerPeak", "Driving Force", "Driving Force", "Jazel Auto", "Dealer Socket", "All Auto Network", "Drive Website", "Motorwebs", "DealerTrend", "Motion Fuze", "Slip Stream", "I/O COM", "Autofunds", "DLD Websites", "AutoJini", "SERPCOM"])
+        # indexers.each{|x| x.update_attribute(:indexer_status, "Target Meta")}
         # indexers = Indexer.where.not(clean_url: nil).where(template: "eBizAutos")[0..10]
-        indexers = Indexer.where(indexer_status: "Meta Result")
+
+        indexers = Indexer.where(indexer_status: "Target Meta")[a..z] ##1,780
+        # indexers = Indexer.where(template: "Unidentified")[a..z] ##1,780
+        # indexers = Indexer.where(indexer_status: "Target Meta").where(template: "eBizAutos")[a..z]
+
         agent = Mechanize.new
 
+        counter=0
+        range = z-a
+
+        # indexers.each do |indexer|
+        #     counter+=1
+        #     puts "\n#{"="*40}\n[#{a}..#{z}]  (#{counter}/#{range})\nIndexer ID: #{indexer.id}\nTemplate: #{indexer.template}\nURL: #{indexer.clean_url}\nLoading . . ."
+        #     url = indexer.clean_url
+        #     html = agent.get(url)
+        #     UnknownTemplate.new.meta_scraper(html, url, indexer)
+        # end
+
+
         indexers.each do |indexer|
+            counter+=1
+            puts "\n#{"="*40}\n[#{a}..#{z}]  (#{counter}/#{range})\nIndexer ID: #{indexer.id}\nTemplate: #{indexer.template}\nURL: #{indexer.clean_url}\nLoading . . ."
             url = indexer.clean_url
             html = agent.get(url)
-            UnknownTemplate.new.meta_scraper(html, url, indexer)
+
+            begin
+                meta_scraper_caller(html, url, indexer)
+            rescue
+                error = $!.message
+                error_msg = "RT Error: #{error}"
+                if error_msg.include?("connection refused")
+                    rt_error_code = "Connection Error"
+                elsif error_msg.include?("undefined method")
+                    rt_error_code = "Method Error"
+                elsif error_msg.include?("404 => Net::HTTPNotFound")
+                    rt_error_code = "404 Error"
+                elsif error_msg.include?("TCP connection")
+                    rt_error_code = "TCP Error"
+                else
+                    rt_error_code = error_msg
+                end
+                puts "\n\n>>> #{error_msg} <<<\n\n"
+
+                indexer.update_attributes(indexer_status: "Meta Error", rt_sts: rt_error_code)
+            end ## rescue ends
+
+            sleep(2)
+
         end
+
     end
+
+
+    def meta_scraper_caller(html, url, indexer)
+        UnknownTemplate.new.meta_scraper(html, url, indexer)
+    end
+
+
+
+
+
+
 
 
     ##########################################
@@ -912,6 +975,41 @@ class IndexerService
         #     puts "\n#{"-"*30}\npin: #{target_pin}\acct: #{acct}\addr: #{addr}\n#{"-"*30}\n"
         # end
 
+    end
+
+    def redirect_url_migrator
+
+        ## Step 1: Convert Indexer clean_url to downcase.
+        # indexers = Indexer.where.not(clean_url: nil)
+        # puts "\n#{"="*30}\n"
+        # indexers.each do |indexer|
+        #     clean_url = indexer.clean_url
+        #     down_clean_url = clean_url.downcase
+        #     if !clean_url.blank? && (clean_url != down_clean_url)
+        #         puts "\n------------------------"
+        #         puts "clean_url: #{clean_url}"
+        #         puts "down_clean_url: #{down_clean_url}"
+        #         puts "\n------------------------\n"
+        #         indexer.update_attribute(:clean_url, down_clean_url)
+        #     end
+        # end
+
+
+        ## Step 2: Migrate Indexer clean_url to Core sfdc_clean_url.
+        cores = Core.where.not(sfdc_url: nil)
+        cores.each do |core|
+            sfdc_url = core.sfdc_url
+            sfdc_clean_url = core.sfdc_clean_url
+            bds_status = core.bds_status
+            sfdc_acct = core.sfdc_acct
+            clean_url = Indexer.where(raw_url: sfdc_url).map(&:clean_url).first
+            puts "\n------------------------"
+            puts "sfdc_url: #{sfdc_url}"
+            puts "clean_url: #{clean_url}"
+            puts "sfdc_acct: #{sfdc_acct}"
+            puts "\n------------------------\n"
+            core.update_attribute(:sfdc_clean_url, clean_url)
+        end
     end
 
 
