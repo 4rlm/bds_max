@@ -105,8 +105,12 @@ class IndexerService
 
 
     def meta_scraper
-        a=40
-        z=50
+        # a=0
+        # z=100
+        a=100
+        z=200
+        # a=300
+        # z=400
 
         # indexers = Indexer.where.not(indexer_status: "Meta Result").where(template: ["eBizAutos", "fusionZone", "VinSolutions", "fusionZONE", "Dealer Spike", "Pixel Motion", "Dominion", "Search Optics", "Remora", "Chapman.co", "FoxDealer", "Autofusion", "DealerPeak", "Driving Force", "Driving Force", "Jazel Auto", "Dealer Socket", "All Auto Network", "Drive Website", "Motorwebs", "DealerTrend", "Motion Fuze", "Slip Stream", "I/O COM", "Autofunds", "DLD Websites", "AutoJini", "SERPCOM"])
         # indexers.each{|x| x.update_attribute(:indexer_status, "Target Meta")}
@@ -871,19 +875,19 @@ class IndexerService
     def acct_pin_gen
         indexers = Indexer.where.not(street: nil).where.not(zip: nil).where(acct_pin: nil)
         indexers.each do |indexer|
-                street = indexer.street
-                zip = indexer.zip
-                street_parts = street.split(" ")
-                street_num = street_parts[0]
-                street_num = street_num.tr('^0-9', '')
-                new_zip = zip.strip
-                new_zip = zip[0..4]
-                acct_pin = "z#{new_zip}-s#{street_num}"
-                puts "zip: #{zip}"
-                puts "street: #{street}"
-                puts "acct_pin: #{acct_pin}\n#{"-"*30}\n\n"
-                indexer.update_attribute(:acct_pin, acct_pin)
-            end
+            street = indexer.street
+            zip = indexer.zip
+            street_parts = street.split(" ")
+            street_num = street_parts[0]
+            street_num = street_num.tr('^0-9', '')
+            new_zip = zip.strip
+            new_zip = zip[0..4]
+            acct_pin = "z#{new_zip}-s#{street_num}"
+            puts "zip: #{zip}"
+            puts "street: #{street}"
+            puts "acct_pin: #{acct_pin}\n#{"-"*30}\n\n"
+            indexer.update_attribute(:acct_pin, acct_pin)
+        end
     end
 
     def pin_acct_counter
@@ -938,21 +942,58 @@ class IndexerService
 
 
         ## Step 2: Migrate Indexer clean_url to Core sfdc_clean_url.
-        cores = Core.where.not(sfdc_url: nil)
-        cores.each do |core|
-            sfdc_url = core.sfdc_url
-            sfdc_clean_url = core.sfdc_clean_url
-            bds_status = core.bds_status
-            sfdc_acct = core.sfdc_acct
-            clean_url = Indexer.where(raw_url: sfdc_url).map(&:clean_url).first
-            puts "\n------------------------"
-            puts "sfdc_url: #{sfdc_url}"
-            puts "clean_url: #{clean_url}"
-            puts "sfdc_acct: #{sfdc_acct}"
-            puts "\n------------------------\n"
-            core.update_attribute(:sfdc_clean_url, clean_url)
+        # cores = Core.where.not(sfdc_url: nil)
+        # cores.each do |core|
+        #     sfdc_url = core.sfdc_url
+        #     sfdc_clean_url = core.sfdc_clean_url
+        #     bds_status = core.bds_status
+        #     sfdc_acct = core.sfdc_acct
+        #     clean_url = Indexer.where(raw_url: sfdc_url).map(&:clean_url).first
+        #     puts "\n------------------------"
+        #     puts "sfdc_url: #{sfdc_url}"
+        #     puts "clean_url: #{clean_url}"
+        #     puts "sfdc_acct: #{sfdc_acct}"
+        #     puts "\n------------------------\n"
+        #     core.update_attribute(:sfdc_clean_url, clean_url)
+        # end
+
+        # # Step 3: Migrate Indexer clean_url to Staffer sfdc_clean_url.
+        # staffs = Staffer.where(cont_source: "CRM")[0..100]
+        # staffs.each do |staff|
+        #     domain = staff.domain
+        #     acct_name = staff.acct_name
+        #     clean_url = Indexer.where(raw_url: domain).map(&:clean_url).first
+        #     puts "\n------------------------"
+        #     puts "domain: #{domain}"
+        #     puts "clean_url: #{clean_url}"
+        #     puts "acct_name: #{acct_name}"
+        #     puts "\n------------------------\n"
+        #     # staff.update_attribute(:domain, clean_url)
+        # end
+
+        # Step 3: Migrate Indexer clean_url to Staffer sfdc_clean_url.
+        staffs = Staffer.where(cont_source: "CRM")
+        staffs.each do |staff|
+            domain = staff.domain
+            acct_name = staff.acct_name
+            staff_acct_id = staff.sfdc_id
+            sfdc_id = Core.where(sfdc_id: staff_acct_id).map(&:sfdc_id).first
+            sfdc_clean_url = Core.where(sfdc_id: staff_acct_id).map(&:sfdc_clean_url).first
+
+            if (sfdc_id && staff_acct_id && sfdc_clean_url) && (sfdc_id == staff_acct_id)
+                puts "\n------------------------"
+                puts "domain: #{domain}"
+                puts "sfdc_clean_url: #{sfdc_clean_url}"
+                puts "Staff_id: #{staff_acct_id}"
+                puts "Core_id: #{sfdc_id}"
+                puts "acct_name: #{acct_name}"
+                puts "\n------------------------\n"
+                staff.update_attribute(:domain, sfdc_clean_url)
+            end
         end
+
     end
+
 
 
 

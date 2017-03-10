@@ -120,7 +120,7 @@ module ApplicationHelper
     end
 
     def job_title_list
-        ["CEO", "Dealer Principal", "Director", "Fixed Operations Manager", "Ecommerce Director", "General Manager", "General Sales Manager", "Internet Manager", "Internet Director", "Marketing Manager", "Marketing Director", "President", "Sales Manager", "Salesperson", "Used Car Manager", "Used Car Director", "Variable Operations Director", "Vice President" ]
+        ["Account Director", "Account Executive", "Accounts Payable", "Administrative", "AR/Billing", "Area Regional Manager", "Area VP", "Asst. Treasurer", "Attorney", "Business Development Manager", "Business Development Rep", "Buyer", "CEO", "CFO", "Chairman", "Controller", "COO", "CTO", "Data Management", "Dealer Principal", "Desk Manager", "Digital Marketing Manager", "Digital Marketing Rep", "Director", "Director of Alliances", "District Mgr", "Divisional Development Exec", "DMS Administrator", "Ecommerce Director", "Executive Manager", "F&I Manager", "First Look Internal Rep", "Fixed Operations Manager", "General Manager", "General Sales Manager", "Group Owner", "Internet Director", "Internet Manager", "IT", "Managing Partner", "Marketing Director", "Marketing Manager", "New Car Manager", "Office Manager", "Other", "Owner", "Photo Person/Photo Loader", "Platform/Regional Manager", "President", "Program Manager", "Purchasing Manager", "Regional Development Exec", "Regional Operations Director", "Resource", "Retail Operations Manager", "Sales Manager", "Salesperson", "Territory Sales Manager", "Used Car Director", "Used Car Manager", "Variable Operations Director", "Vice President"]
     end
 
     def influence_list

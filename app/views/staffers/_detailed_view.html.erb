@@ -19,7 +19,6 @@
       <th>Contact Source<br></th>
       <th>SFDC Account ID</th>
       <th>Account Name</th>
-      <th>Inactive</th>
       <th>SFDC Contact ID</th>
       <th>First Name</th>
       <th>Last Name</th>
@@ -28,10 +27,11 @@
       <th>Job Description</th>
       <th>Phone</th>
       <th>Email</th>
-      <th>Influence</th>
-      <th>Template</th>
       <th>Domain</th>
 
+      <!-- <th>Influence</th> -->
+      <!-- <th>Template</th> -->
+      <!-- <th>Inactive</th> -->
       <!-- <th>Sales Person</th> -->
       <!-- <th>Type</th> -->
       <!-- <th>Franchise</th> -->
@@ -68,7 +68,6 @@
         <td><%= staffer.cont_source %></td>
         <td><%= staffer.sfdc_id %></td>
         <td><%= staffer.acct_name %></td>
-        <td><%= staffer.sfdc_cont_active %></td>
         <td><%= staffer.sfdc_cont_id %></td>
         <td><%= staffer.fname %></td>
         <td><%= staffer.lname %></td>
@@ -77,9 +76,11 @@
         <td><%= staffer.job_raw %></td>
         <td><%= staffer.phone %></td>
         <td><%= staffer.email %></td>
-        <td><%= staffer.influence %></td>
-        <td><%= staffer.template %></td>
         <td><%= staffer.domain %></td>
+
+        <td><%#= staffer.sfdc_cont_active %></td>
+        <td><%#= staffer.influence %></td>
+        <td><%#= staffer.template %></td>
 
         <!-- <td><%#= staffer.sfdc_sales_person %></td> -->
         <!-- <td><%#= staffer.sfdc_type %></td> -->
