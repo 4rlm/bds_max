@@ -48,9 +48,7 @@ class IndexerService
 
         ###########################################
         indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "Cobalt")[a..z] #5,273
-
         # indexers = Indexer.where(rt_sts: nil).where.not(template: nil).where(indexer_status: "Page Result")[a..z] ##3,350
-
         # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: "TCP Error").where.not(template: nil)[a..z]
 
         # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "DealerCar Search")[a...z] #840
