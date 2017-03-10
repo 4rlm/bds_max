@@ -1354,7 +1354,6 @@ class LocationService
             end
 
             deletes = webs.where(coordinates: loc.coordinates).where(sts_duplicate: nil)
-            # binding.pry if deletes.count > 0
             deletes.each do |delete|
                 counter +=1
                 puts "#{counter}) Delete"

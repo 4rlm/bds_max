@@ -92,21 +92,8 @@ class IndexerService
                 end
 
             rescue
-                error = $!.message
-                error_msg = "RT Error: #{error}"
-                if error_msg.include?("connection refused")
-                    rt_error_code = "Connection Error"
-                elsif error_msg.include?("undefined method")
-                    rt_error_code = "Method Error"
-                elsif error_msg.include?("404 => Net::HTTPNotFound")
-                    rt_error_code = "404 Error"
-                elsif error_msg.include?("TCP connection")
-                    rt_error_code = "TCP Error"
-                else
-                    rt_error_code = error_msg
-                end
-                puts "\n\n>>> #{error_msg} <<<\n\n"
-
+                rt_error_code = Helper.new.err_code_finder($!.message)
+                puts "\n\n>>> #{rt_error_code} <<<\n\n"
                 indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
             end ## rescue ends
 
@@ -807,8 +794,6 @@ class IndexerService
         # addr.state   #=> "CA"
         # addr.zip     #=> "95014-2083"
         # addr.country #=> "USA"
-
-        # binding.pry
     end
 
 
