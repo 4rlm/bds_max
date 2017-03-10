@@ -1,7 +1,7 @@
 class IndexersController < ApplicationController
   before_action :set_indexer, only: [:show, :edit, :update, :destroy]
 
-  before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn]
+  before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
 
 
   # GET /indexers
@@ -162,7 +162,10 @@ class IndexersController < ApplicationController
       redirect_to indexers_path
   end
 
-
+  def meta_scraper_btn
+      @service.meta_scraper
+      redirect_to indexers_path
+  end
 
 
 

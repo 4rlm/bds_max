@@ -15,6 +15,7 @@ require 'indexer_helper/rts/dealercar_search_rts'
 require 'indexer_helper/page_finder'  # Indexer Page Finder
 require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
+require 'indexer_helper/unknown_template' # Unknown template's info scraper
 
 class IndexerService
 
@@ -55,6 +56,8 @@ class IndexerService
 
         counter=0
         range = z-a
+        agent = Mechanize.new
+
         indexers.each do |indexer|
             template = indexer.template
             clean_url = indexer.clean_url
@@ -66,8 +69,6 @@ class IndexerService
             puts "\n#{'='*30}\n[#{a}...#{z}]  (#{counter}/#{range})"
 
             begin
-
-                agent = Mechanize.new
                 html = agent.get(url)
 
                 case term
@@ -115,7 +116,17 @@ class IndexerService
     ##########################################
 
 
+    def meta_scraper
+        # indexers = Indexer.where.not(clean_url: nil).where(template: "eBizAutos")[0..10]
+        indexers = Indexer.where(indexer_status: "Meta Result")
+        agent = Mechanize.new
 
+        indexers.each do |indexer|
+            url = indexer.clean_url
+            html = agent.get(url)
+            UnknownTemplate.new.meta_scraper(html, url, indexer)
+        end
+    end
 
 
     ##########################################
