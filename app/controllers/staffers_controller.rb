@@ -148,11 +148,11 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def staffer_params
-      params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :template, :staffer_date, :created_at, :updated_at, :staff_link, :staff_text, :sfdc_cont_active, :sfdc_tier, :domain, :acct_name, :group_name, :ult_group_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :influence, :cell_phone, :last_activity_date, :created_date, :updated_date, :franchise)
+      params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
     end
 
       def filtering_params(params)
-          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :template, :staffer_date, :created_at, :updated_at, :staff_link, :staff_text, :sfdc_cont_active, :sfdc_tier, :domain, :acct_name, :group_name, :ult_group_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :influence, :cell_phone, :last_activity_date, :created_date, :updated_date, :franchise, :coordinates, :full_address, :franch_cat)
+          params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
         end
 
 

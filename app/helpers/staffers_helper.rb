@@ -10,11 +10,7 @@ module StaffersHelper
     # def template_list
     #     ['Dealer.com', 'DealerOn', 'Cobalt', 'DealerFire', 'DealerInspire', ["None", nil]]
     # end
-    #
-    # def job_title_list
-    #     ["CEO", "Dealer Principal", "Director", "Fixed Operations Manager", "Ecommerce Director", "General Manager", "General Sales Manager", "Internet Manager", "Internet Director", "Marketing Manager", "Marketing Director", "President", "Sales Manager", "Salesperson", "Used Car Manager", "Used Car Director", "Variable Operations Director", "Vice President" ]
-    # end
-    #
+
     # def influence_list
     #     ["Decision Influencer", "Decision Maker", "Other", "N/A", ["None", nil]]
     # end
