@@ -73,7 +73,6 @@
                 <tr>
                     <td><%= select_tag :url_status, options_for_select(url_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= text_field_tag :sfdc_root, params[:sfdc_root], placeholder: "----", class: 'form-control' %></td>
                     <td><%= select_tag :sfdc_franch_cons, options_for_select(franch_cons_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :sfdc_franch_cat, options_for_select(franch_cat_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :sfdc_template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>

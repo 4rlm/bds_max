@@ -13,14 +13,11 @@ class Core < ApplicationRecord
     scope :sfdc_state, -> (sfdc_state) { where sfdc_state: sfdc_state }
     scope :staff_indexer_status, -> (staff_indexer_status) { where staff_indexer_status: staff_indexer_status }
     scope :location_indexer_status, -> (location_indexer_status) { where location_indexer_status: location_indexer_status }
-    scope :inventory_indexer_status, -> (inventory_indexer_status) { where inventory_indexer_status: inventory_indexer_status }
     scope :domain_status, -> (domain_status) { where domain_status: domain_status }
     scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
     scope :sfdc_franch_cat, -> (sfdc_franch_cat) { where sfdc_franch_cat: sfdc_franch_cat }
     scope :acct_source, -> (acct_source) { where acct_source: acct_source }
     scope :geo_status, -> (geo_status) { where geo_status: geo_status }
-    scope :url_status, -> (url_status) { where url_status: url_status }
-    scope :hierarchy, -> (hierarchy) { where hierarchy: hierarchy }
     scope :sfdc_franch_cons, -> (sfdc_franch_cons) { where sfdc_franch_cons: sfdc_franch_cons }
     scope :sfdc_template, -> (sfdc_template) { where sfdc_template: sfdc_template }
 
@@ -40,13 +37,14 @@ class Core < ApplicationRecord
     scope :domainer_date, -> (domainer_date) { where("domainer_date like ?", "%#{domainer_date}%") }
     scope :indexer_date, -> (indexer_date) { where("indexer_date like ?", "%#{indexer_date}%") }
     scope :staffer_date, -> (staffer_date) { where("staffer_date like ?", "%#{staffer_date}%") }
-    scope :sfdc_root, -> (sfdc_root) { where("sfdc_root like ?", "%#{sfdc_root}%") }
     scope :full_address, -> (full_address) { where("full_address like ?", "%#{full_address}%") }
     scope :geo_date, -> (geo_date) { where("geo_date like ?", "%#{geo_date}%") }
     scope :coordinates, -> (coordinates) { where("coordinates like ?", "%#{coordinates}%") }
     scope :geo_address, -> (geo_address) { where("geo_address like ?", "%#{geo_address}%") }
     scope :geo_acct, -> (geo_acct) { where("geo_acct like ?", "%#{geo_acct}%") }
-
+    scope :sfdc_clean_url, -> (sfdc_clean_url) { where("sfdc_clean_url like ?", "%#{sfdc_clean_url}%") }
+    scope :crm_acct_pin, -> (crm_acct_pin) { where("crm_acct_pin like ?", "%#{crm_acct_pin}%") }
+    scope :web_acct_pin, -> (web_acct_pin) { where("web_acct_pin like ?", "%#{web_acct_pin}%") }
 
 
 
@@ -82,7 +80,6 @@ class Core < ApplicationRecord
 
             # Downcase columns
             # row_hash[:sfdc_url] = Core.downcased(row_hash["sfdc_url"])
-            # row_hash[:sfdc_root] = Core.downcased(row_hash["sfdc_root"])
             # ========= Ends CSV column formatting =========
 
             # if core = Core.find_by(sfdc_id: row_hash["sfdc_id"])
