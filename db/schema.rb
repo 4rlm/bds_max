@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310063109) do
+ActiveRecord::Schema.define(version: 20170310154117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,17 +29,14 @@ ActiveRecord::Schema.define(version: 20170310063109) do
     t.string   "sfdc_state"
     t.string   "sfdc_ph"
     t.string   "sfdc_url"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.datetime "core_date"
     t.datetime "domainer_date"
     t.datetime "indexer_date"
     t.datetime "staffer_date"
-    t.datetime "whois_date"
-    t.string   "sfdc_root"
     t.string   "staff_indexer_status"
     t.string   "location_indexer_status"
-    t.string   "inventory_indexer_status"
     t.string   "staff_link"
     t.string   "staff_text"
     t.string   "location_link"
@@ -52,8 +49,6 @@ ActiveRecord::Schema.define(version: 20170310063109) do
     t.string   "sfdc_franch_cons"
     t.string   "sfdc_template"
     t.string   "temporary_id"
-    t.string   "url_status"
-    t.string   "hierarchy"
     t.string   "full_address"
     t.float    "latitude"
     t.float    "longitude"
@@ -69,7 +64,6 @@ ActiveRecord::Schema.define(version: 20170310063109) do
     t.string   "cop_template"
     t.string   "cop_franch"
     t.string   "conf_cat"
-    t.string   "lock"
     t.string   "sfdc_acct_url"
     t.string   "sfdc_ult_grp_id"
     t.string   "sfdc_group_id"
@@ -87,8 +81,11 @@ ActiveRecord::Schema.define(version: 20170310063109) do
     t.string   "sfdc_ult_rt"
     t.string   "sfdc_grp_rt"
     t.string   "sfdc_zip"
-    t.string   "sfdc_url_redirect"
-    t.string   "acct_pin"
+    t.string   "sfdc_clean_url"
+    t.string   "crm_acct_pin"
+    t.string   "web_acct_pin"
+    t.string   "crm_phones",              default: [],              array: true
+    t.string   "web_phones",              default: [],              array: true
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
