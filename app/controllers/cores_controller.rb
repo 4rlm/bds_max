@@ -1,7 +1,9 @@
 class CoresController < ApplicationController
+    before_action :intermediate_and_up, only: [:index, :show, :search, :quick_core_view_queue]
+    before_action :advanced_and_up, only: [:edit, :update]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_core_data, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
     before_action :set_core, only: [:show, :edit, :update, :destroy]
     before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
-    before_action :authorize_user
 
     # GET /cores
     # GET /cores.json
@@ -123,27 +125,6 @@ class CoresController < ApplicationController
         redirect_to cores_path
     end
 
-    def batch_status
-        ids = params[:status_checks]
-        status = params[:selected_status]
-        unless ids.nil?
-            for id in ids
-                data = Core.find(id)
-                data.update_attribute(:bds_status, status)
-            end
-            # Queue
-            if status == 'Queue Domainer'
-                start_domainer(ids)
-            elsif status == 'Queue Indexer'
-                start_indexer(ids)
-            elsif status == 'Queue Staffer'
-                start_staffer(ids)
-            elsif status == 'Queue Geo'
-                geo_starter(ids)
-            end
-        end
-    end
-
     def anything_btn
         # previously called franchiser_btn
         # !! CAUTION !!
@@ -199,6 +180,10 @@ class CoresController < ApplicationController
         @core = Core.find(params[:id])
     end
 
+    def set_core_service
+        @core_service = CoreService.new
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
         params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :domainer_date, :indexer_date, :staffer_date, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staff_link, :staff_text, :location_link, :location_text, :domain_status, :staffer_status, :sfdc_franchise, :sfdc_franch_cat, :acct_source, :full_address, :latitude, :longitude, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :geo_address, :geo_acct, :sfdc_clean_url, :crm_acct_pin, :web_acct_pin, :crm_phones, :web_phones)
@@ -208,6 +193,26 @@ class CoresController < ApplicationController
         params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :domainer_date, :indexer_date, :staffer_date, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staff_link, :staff_text, :location_link, :location_text, :domain_status, :staffer_status, :sfdc_franchise, :sfdc_franch_cat, :acct_source, :full_address, :latitude, :longitude, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :geo_address, :geo_acct, :sfdc_clean_url, :crm_acct_pin, :web_acct_pin, :crm_phones, :web_phones)
     end
 
+    def batch_status
+        ids = params[:status_checks]
+        status = params[:selected_status]
+        unless ids.nil?
+            for id in ids
+                data = Core.find(id)
+                data.update_attribute(:bds_status, status)
+            end
+            # Queue
+            if status == 'Queue Domainer'
+                start_domainer(ids)
+            elsif status == 'Queue Indexer'
+                start_indexer(ids)
+            elsif status == 'Queue Staffer'
+                start_staffer(ids)
+            elsif status == 'Queue Geo'
+                geo_starter(ids)
+            end
+        end
+    end
 
     def start_domainer(ids)
         @core_service.delay.scrape_listing(ids)
@@ -240,16 +245,5 @@ class CoresController < ApplicationController
 
         flash[:notice] = 'Geo started!'
         redirect_to cores_path
-    end
-
-    def set_core_service
-        @core_service = CoreService.new
-    end
-
-    def authorize_user
-        unless current_user && (current_user.basic? || current_user.intermediate? || current_user.advanced? || current_user.admin?)
-            flash[:alert] = "Not Authorized"
-            redirect_to root_path
-        end
     end
 end
