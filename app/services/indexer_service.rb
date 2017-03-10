@@ -938,21 +938,36 @@ class IndexerService
 
 
         ## Step 2: Migrate Indexer clean_url to Core sfdc_clean_url.
-        cores = Core.where.not(sfdc_url: nil)
-        cores.each do |core|
-            sfdc_url = core.sfdc_url
-            sfdc_clean_url = core.sfdc_clean_url
-            bds_status = core.bds_status
-            sfdc_acct = core.sfdc_acct
-            clean_url = Indexer.where(raw_url: sfdc_url).map(&:clean_url).first
+        # cores = Core.where.not(sfdc_url: nil)
+        # cores.each do |core|
+        #     sfdc_url = core.sfdc_url
+        #     sfdc_clean_url = core.sfdc_clean_url
+        #     bds_status = core.bds_status
+        #     sfdc_acct = core.sfdc_acct
+        #     clean_url = Indexer.where(raw_url: sfdc_url).map(&:clean_url).first
+        #     puts "\n------------------------"
+        #     puts "sfdc_url: #{sfdc_url}"
+        #     puts "clean_url: #{clean_url}"
+        #     puts "sfdc_acct: #{sfdc_acct}"
+        #     puts "\n------------------------\n"
+        #     core.update_attribute(:sfdc_clean_url, clean_url)
+        # end
+
+        # Step 3: Migrate Indexer clean_url to Staffer sfdc_clean_url.
+        staffs = Staffer.where(cont_source: "CRM")[0..100]
+        staffs.each do |staff|
+            domain = staff.domain
+            acct_name = staff.acct_name
+            clean_url = Indexer.where(raw_url: domain).map(&:clean_url).first
             puts "\n------------------------"
-            puts "sfdc_url: #{sfdc_url}"
+            puts "domain: #{domain}"
             puts "clean_url: #{clean_url}"
-            puts "sfdc_acct: #{sfdc_acct}"
+            puts "acct_name: #{acct_name}"
             puts "\n------------------------\n"
-            core.update_attribute(:sfdc_clean_url, clean_url)
+            # staff.update_attribute(:domain, clean_url)
         end
     end
+
 
 
 

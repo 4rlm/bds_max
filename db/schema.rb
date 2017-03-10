@@ -376,18 +376,12 @@ ActiveRecord::Schema.define(version: 20170310195554) do
     t.string   "sfdc_sales_person"
     t.string   "sfdc_type"
     t.string   "sfdc_cont_id"
-    t.string   "template"
     t.datetime "staffer_date"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "staff_link"
-    t.string   "staff_text"
-    t.integer  "sfdc_cont_active"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "sfdc_tier"
     t.string   "domain"
     t.string   "acct_name"
-    t.string   "group_name"
-    t.string   "ult_group_name"
     t.string   "street"
     t.string   "city"
     t.string   "state"
@@ -399,17 +393,7 @@ ActiveRecord::Schema.define(version: 20170310195554) do
     t.string   "job_raw"
     t.string   "phone"
     t.string   "email"
-    t.string   "influence"
-    t.string   "cell_phone"
-    t.datetime "last_activity_date"
-    t.datetime "created_date"
-    t.datetime "updated_date"
-    t.string   "franchise"
-    t.string   "coordinates"
     t.string   "full_address"
-    t.string   "franch_cat"
-    t.string   "cont_merge_stat"
-    t.string   "cont_merge_stat_dt"
     t.string   "acct_pin"
     t.string   "cont_pin"
   end
