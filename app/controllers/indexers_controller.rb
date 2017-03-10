@@ -165,8 +165,8 @@ class IndexersController < ApplicationController
   end
 
   def meta_scraper_btn
-    #   @service.meta_scraper
-      @service.delay.meta_scraper
+      @service.meta_scraper
+    #   @service.delay.meta_scraper
       redirect_to indexers_path
   end
 
