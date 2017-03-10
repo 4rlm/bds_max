@@ -38,6 +38,37 @@ class ApplicationController < ActionController::Base
         $location_choice_hash
     end
 
+
+    # ========== Detect User's Level(Role) ==========
+
+    def basic_and_up
+        unless current_user && (current_user.basic? || current_user.intermediate? || current_user.advanced? || current_user.admin?)
+            flash[:alert] = "NOT AUTHORIZED [1]"
+            redirect_to root_path
+        end
+    end
+
+    def intermediate_and_up
+        unless current_user && (current_user.intermediate? || current_user.advanced? || current_user.admin?)
+            flash[:alert] = "NOT AUTHORIZED [2]"
+            redirect_to root_path
+        end
+    end
+
+    def advanced_and_up
+        unless current_user && (current_user.advanced? || current_user.admin?)
+            flash[:alert] = "NOT AUTHORIZED [3]"
+            redirect_to root_path
+        end
+    end
+
+    def admin_only
+        unless current_user && current_user.admin?
+            flash[:alert] = "NOT AUTHORIZED [4]"
+            redirect_to root_path
+        end
+    end
+
     protected
 
     def configure_permitted_parameters
