@@ -13,41 +13,28 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        # a=10
-        # z=150
-        a=150
-        # z=600
-        # a=600
-        # z=850
-        # a=850
-        # z=1100
-        # a=1100
+        # a=0
+        # z=125
+        # a=125
+        # z=250
+        # a=250
+        # z=375
+        a=375
+        # z=400
+        # a=400
         # z=1300
         z=-1
 
 
-        indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 1948
+        indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 504
 
-        #### NEED HELP: undefined method `text' for nil:NilClass (DEALER.COM) / "METHOD ERROR"
-        ### DEALER.COM:
-        # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(indexer_status: "CS Error")[a..z] ## 6,180
-        # indexers = Indexer.where(clean_url: "http://www.yarktoyota.com").where.not(staff_url: nil)
-        # http://www.maxmadsenmitsubishiaurora.com/dealership/staff.htm
-        # http://www.southwesthyundai.com/dealership/staff.htm
-        # http://www.robinsford.com/dealership/staff.htm
-        # http://www.cecilhondo.com/dealership/staff.htm
-        # http://www.sonicautomotive.com/dealership/staff.htm
-        # http://www.grooveford.net/dealership/staff.htm
-        # http://www.jimwhitehonda.com/dealership/staff.htm
-        # http://www.deurspeetmotors.net/dealership/staff.htm
+        # indexers = Indexer.where.not(template: "Dealer.com").where.not(template: nil).where.not(staff_url: nil).where(indexer_status: "CS Error")
+        # indexers.each{|x|x.update_attribute(:indexer_status, "Retry")}
 
         # Ford Direct (Change from Dealer.com)
         # http://www.nyeford.net/dealership/staff.htm
         # http://www.murphyfordonline.com/dealership/staff.htm
         # http://www.gbwestbend.com/dealership/staff.htm
-
-
-        indexers = Indexer.where(staff_url: "http://www.jimwhitehonda.com/dealership/staff.htm")
 
 
         counter=0

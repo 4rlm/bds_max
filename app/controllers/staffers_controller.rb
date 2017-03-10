@@ -133,8 +133,8 @@ end
 
 
     def cs_data_getter_btn
-        # @staffer_service.cs_data_getter
-        @staffer_service.delay.cs_data_getter
+        @staffer_service.cs_data_getter
+        # @staffer_service.delay.cs_data_getter
 
         redirect_to indexers_path
     end
