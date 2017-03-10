@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308174536) do
+ActiveRecord::Schema.define(version: 20170310001357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20170308174536) do
     t.string   "sfdc_grp_rt"
     t.string   "sfdc_zip"
     t.string   "sfdc_url_redirect"
+    t.string   "acct_pin"
   end
 
   create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
@@ -282,6 +283,7 @@ ActiveRecord::Schema.define(version: 20170308174536) do
     t.string   "zip"
     t.string   "phone"
     t.string   "phones",          default: [],              array: true
+    t.string   "acct_pin"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -350,6 +352,8 @@ ActiveRecord::Schema.define(version: 20170308174536) do
     t.string   "acct_sts"
     t.string   "addr_sts"
     t.string   "ph_sts"
+    t.string   "sfdc_acct_pin"
+    t.string   "geo_acct_pin"
   end
 
   create_table "pending_verifications", force: :cascade do |t|
@@ -408,6 +412,8 @@ ActiveRecord::Schema.define(version: 20170308174536) do
     t.string   "franch_cat"
     t.string   "cont_merge_stat"
     t.string   "cont_merge_stat_dt"
+    t.string   "acct_pin"
+    t.string   "cont_pin"
   end
 
   create_table "users", force: :cascade do |t|

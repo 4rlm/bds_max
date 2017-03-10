@@ -48,9 +48,7 @@ class IndexerService
 
         ###########################################
         indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "Cobalt")[a..z] #5,273
-
         # indexers = Indexer.where(rt_sts: nil).where.not(template: nil).where(indexer_status: "Page Result")[a..z] ##3,350
-
         # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: "TCP Error").where.not(template: nil)[a..z]
 
         # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "DealerCar Search")[a...z] #840
@@ -852,6 +850,57 @@ class IndexerService
             new_str = str
         end
         new_str
+    end
+
+    def acct_pin_gen
+        indexers = Indexer.where.not(street: nil).where.not(zip: nil).where(acct_pin: nil)
+        indexers.each do |indexer|
+                street = indexer.street
+                zip = indexer.zip
+                street_parts = street.split(" ")
+                street_num = street_parts[0]
+                street_num = street_num.tr('^0-9', '')
+                new_zip = zip.strip
+                new_zip = zip[0..4]
+                acct_pin = "z#{new_zip}-s#{street_num}"
+                puts "zip: #{zip}"
+                puts "street: #{street}"
+                puts "acct_pin: #{acct_pin}\n#{"-"*30}\n\n"
+                indexer.update_attribute(:acct_pin, acct_pin)
+            end
+    end
+
+    def pin_acct_counter
+        # acct_pin_count = Indexer.select([:acct_pin]).group(:acct_pin).having("count(*) > 1").map.count
+        # puts "\n#{"-"*30}\nacct_pin_count: #{acct_pin_count}\n#{"-"*30}\n"
+
+        acct_pins = Indexer.select([:acct_pin]).group(:acct_pin).having("count(*) > 1")[0..100]
+        acct_pins.each do |pin|
+            indexers = Indexer.where(acct_pin: pin.acct_pin).where.not(acct_pin: nil)
+            puts "--------------------------------"
+            indexers.each do |indexer|
+                target_pin = indexer.acct_pin
+                target_addr = indexer.full_addr
+                acct = indexer.acct_name
+                puts "acct: #{acct}"
+                puts "target_pin: #{target_pin}"
+                puts "target_addr: #{target_addr}\n\n"
+            end
+        end
+
+
+        # indexers = Indexer.where.not(indexer_status: "Archived").where()
+        # dup_pins = Indexer.all.map(&:acct_pin).uniq
+        #
+        #
+        # dup_pins.each do |pin|
+        #     pin = pin.acct_pin
+        #     addr = pin.addr
+        #     acct = pin.acct_name
+        #     target_pin = Indexer.where(acct_pin: pin)
+        #     puts "\n#{"-"*30}\npin: #{target_pin}\acct: #{acct}\addr: #{addr}\n#{"-"*30}\n"
+        # end
+
     end
 
 

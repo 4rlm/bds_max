@@ -13,25 +13,22 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        a=50
-        # z=350
-        # a=200
-        # z=400
-        # a=400
+        # a=10
+        # z=150
+        a=150
         # z=600
         # a=600
-        # z=800
-        # a=800
-        # z=1000
-        # a=1000
-        # z=1200
-        # a=1200
+        # z=850
+        # a=850
+        # z=1100
+        # a=1100
+        # z=1300
         z=-1
 
 
+        indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 1948
 
         #### NEED HELP: undefined method `text' for nil:NilClass (DEALER.COM) / "METHOD ERROR"
-
         ### DEALER.COM:
         # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(indexer_status: "CS Error")[a..z] ## 6,180
         # indexers = Indexer.where(clean_url: "http://www.yarktoyota.com").where.not(staff_url: nil)
@@ -42,21 +39,12 @@ class StafferService
         # http://www.sonicautomotive.com/dealership/staff.htm
         # http://www.grooveford.net/dealership/staff.htm
         # http://www.jimwhitehonda.com/dealership/staff.htm
+        # http://www.deurspeetmotors.net/dealership/staff.htm
 
         # Ford Direct (Change from Dealer.com)
         # http://www.nyeford.net/dealership/staff.htm
         # http://www.murphyfordonline.com/dealership/staff.htm
         # http://www.gbwestbend.com/dealership/staff.htm
-
-
-        # indexers = Indexer.where(template: "Cobalt").where.not(staff_url: nil).where(contact_status: nil)[a..z]  ## 2,691
-        # indexers = Indexer.where(template: "DealerOn").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 325
-        # indexers = Indexer.where(template: "DEALER eProcess").where.not(staff_url: nil).where(contact_status: nil)[a..z]  ## 547
-        # indexers = Indexer.where(template: "Dealer Inspire").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 197
-
-        # indexers = Indexer.where(template: "Dealer Direct").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 0
-        # indexers = Indexer.where(template: "Dealer.com").where.not(staff_url: nil).where(indexer_status: "Retry")[a..z] ## 13
-        # indexers = Indexer.where(template: "DealerFire").where.not(staff_url: nil).where(contact_status: nil)[a..z] ## 50
 
 
         indexers = Indexer.where(staff_url: "http://www.jimwhitehonda.com/dealership/staff.htm")
