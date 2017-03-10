@@ -977,6 +977,41 @@ class IndexerService
 
     end
 
+    def redirect_url_migrator
+
+        ## Step 1: Convert Indexer clean_url to downcase.
+        # indexers = Indexer.where.not(clean_url: nil)
+        # puts "\n#{"="*30}\n"
+        # indexers.each do |indexer|
+        #     clean_url = indexer.clean_url
+        #     down_clean_url = clean_url.downcase
+        #     if !clean_url.blank? && (clean_url != down_clean_url)
+        #         puts "\n------------------------"
+        #         puts "clean_url: #{clean_url}"
+        #         puts "down_clean_url: #{down_clean_url}"
+        #         puts "\n------------------------\n"
+        #         indexer.update_attribute(:clean_url, down_clean_url)
+        #     end
+        # end
+
+
+        ## Step 2: Migrate Indexer clean_url to Core sfdc_clean_url.
+        cores = Core.where.not(sfdc_url: nil)
+        cores.each do |core|
+            sfdc_url = core.sfdc_url
+            sfdc_clean_url = core.sfdc_clean_url
+            bds_status = core.bds_status
+            sfdc_acct = core.sfdc_acct
+            clean_url = Indexer.where(raw_url: sfdc_url).map(&:clean_url).first
+            puts "\n------------------------"
+            puts "sfdc_url: #{sfdc_url}"
+            puts "clean_url: #{clean_url}"
+            puts "sfdc_acct: #{sfdc_acct}"
+            puts "\n------------------------\n"
+            core.update_attribute(:sfdc_clean_url, clean_url)
+        end
+    end
+
 
 
 

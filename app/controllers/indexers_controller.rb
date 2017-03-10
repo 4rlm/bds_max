@@ -124,7 +124,9 @@ class IndexersController < ApplicationController
     # @service.indexer_duplicate_purger
     # @service.db_data_trimmer
     # @service.acct_pin_gen
-    @service.pin_acct_counter
+    # @service.pin_acct_counter
+
+    @service.redirect_url_migrator
 
 
       redirect_to indexers_path
