@@ -9,14 +9,10 @@
 <%= link_to "5. Meta Scraper", meta_scraper_btn_path, class: 'btn btn-warning' %>
 <%= link_to "Error Resetter", reset_errors_btn_path, class: 'btn btn-warning' %>
 <%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
-
 <br>
-
-<%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
-
 <%= render partial: 'buttons' %>
 
 <div class="row profile-row">
@@ -24,7 +20,7 @@
         <table class="table table-bordered indexer-table">
           <thead>
             <tr>
-                <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+                <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
                 <th>#</th>
                 <th>Indexer Status</th>
                 <th>Redirect status</th>
@@ -55,7 +51,7 @@
             <% num = 0 %>
             <% @indexers.each do |indexer| %>
               <tr>
-                  <td><%= check_box_tag "multi_checks[]",  indexer.id %></td>
+                  <!-- <td><%#= check_box_tag "multi_checks[]",  indexer.id %></td> -->
 
                   <% num +=1 %>
                   <td><%= num %></td>
@@ -81,8 +77,6 @@
                   </td>
 
                   <td><%= indexer.acct_name %></td>
-
-
                   <td><%= indexer.full_addr %></td>
                   <td><%= indexer.street %></td>
                   <td><%= indexer.city %></td>
@@ -118,36 +112,18 @@
 
 
                 <!-- <td><%#= link_to 'Show', indexer %></td> -->
-                <td><%= link_to 'Edit', edit_indexer_path(indexer) %></td>
-                <!-- <td><%#= link_to 'Destroy', indexer, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+                <% if advanced_and_up %>
+                    <td><%= link_to 'Edit', edit_indexer_path(indexer) %></td>
+                <% end %>
+                <% if admin_only %>
+                    <!-- <td><%#= link_to 'Destroy', indexer, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+                <% end %>
               </tr>
             <% end %>
           </tbody>
         </table>
-
-
-        <div class="pull-left">
-            <div class="form-group">
-
-                <div class="submit-button-area">
-                    <%= select_tag :selected_status, options_for_select(main_indexer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
-                </div>
-
-                <div class="submit-button-area">
-                    <%= submit_tag "Submit", class: 'btn btn-success' %>
-                </div>
-
-            </div>
-        </div>
-
-
     </div>
 </div>
 
-<% end %>
-
+<%= render partial: 'buttons' %>
 <%= will_paginate @indexers, renderer: BootstrapPagination::Rails  %>
-
-<br>
-
-<%= link_to 'New Indexer', new_indexer_path %>

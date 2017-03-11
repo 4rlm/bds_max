@@ -1,5 +1,3 @@
-require_relative '../services/core_service'
-
 class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 

@@ -39,8 +39,8 @@ class CoresController < ApplicationController
             format.csv { render text: cores_csv.to_csv }
         end
 
-        # Checkbox
-        batch_status
+        # Checkbox - Deprecated!
+        # batch_status
     end
 
     # GET /cores/1

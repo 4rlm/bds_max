@@ -7,7 +7,7 @@
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
     <thead>
         <tr>
-            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
+            <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
             <th>#</th>
             <th>Core</th>
             <th>Domainer</th>
@@ -33,7 +33,7 @@
         <% @cores.each do |core| %>
             <% num +=1 %>
             <tr>
-                <td><%= check_box_tag "status_checks[]",  core.id %></td>
+                <!-- <td><%#= check_box_tag "status_checks[]",  core.id %></td> -->
                 <td><%= num %></td>
                 <td><%= core.bds_status %></td>
                 <td><%= core.domain_status %></td>
@@ -54,24 +54,25 @@
                 <td><%= core.sfdc_type %></td>
                 <td><%= core.sfdc_sales_person %></td>
                 <td><%= core.sfdc_id %></td>
-                <!-- <td><%#= link_to 'Show', core %></td> -->
                 <td class='details-btn' >
-                    <%= link_to core, method: :details do %>
+                    <%= link_to core do %>
                         <span class="glyphicon glyphicon-folder-open"></span>
                     <% end %>
                 </td>
-                <!-- <td><%#= link_to 'Edit', edit_core_path(core) %></td> -->
-                <td class='edit-btn' >
-                    <%= link_to core, method: :edit do %>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    <% end %>
-                </td>
-                <!-- <td><%= link_to 'Destroy', core, method: :delete %></td> -->
-                <td class='delete-btn' >
-                    <%= link_to core, method: :delete do %>
-                        <span class="glyphicon glyphicon-trash"></span>
-                    <% end %>
-                </td>
+                <% if advanced_and_up %>
+                    <td class='edit-btn' >
+                        <%= link_to edit_core_path(core) do %>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        <% end %>
+                    </td>
+                <% end %>
+                <% if admin_only %>
+                    <td class='delete-btn' >
+                        <%= link_to core, method: :delete do %>
+                            <span class="glyphicon glyphicon-trash"></span>
+                        <% end %>
+                    </td>
+                <% end %>
             </tr>
         <% end %>
     </tbody>

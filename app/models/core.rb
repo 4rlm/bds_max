@@ -58,12 +58,12 @@ class Core < ApplicationRecord
     end
 
     def self.import_csv(file_name)
-        # CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
-        #     row_hash = row.to_hash
+        CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
+            row_hash = row.to_hash
             # row_hash[:core_date] = Time.new
             # row_hash[:bds_status] = "Imported"
 
-            # ========= CSV column formatting =========
+            # # ========= CSV column formatting =========
             # Capitalize columns
             # row_hash[:bds_status] = Core.capitalized(row_hash["bds_status"])
             # row_hash[:sfdc_tier] = Core.capitalized(row_hash["sfdc_tier"])
@@ -74,20 +74,20 @@ class Core < ApplicationRecord
             # row_hash[:sfdc_acct] = Core.capitalized(row_hash["sfdc_acct"])
             # row_hash[:sfdc_street] = Core.capitalized(row_hash["sfdc_street"])
             # row_hash[:sfdc_city] = Core.capitalized(row_hash["sfdc_city"])
-
+            #
             # Upcase column
             # row_hash[:sfdc_state] = Core.upcased(row_hash["sfdc_state"])
-
+            #
             # Downcase columns
             # row_hash[:sfdc_url] = Core.downcased(row_hash["sfdc_url"])
-            # ========= Ends CSV column formatting =========
+            # # ========= Ends CSV column formatting =========
 
-            # if core = Core.find_by(sfdc_id: row_hash["sfdc_id"])
-            #     core.update_attributes(bds_status: "Re-Imported", sfdc_acct: row_hash["sfdc_acct"], sfdc_sales_person: row_hash["sfdc_sales_person"], sfdc_acct_url: row_hash["sfdc_acct_url"], sfdc_type: row_hash["sfdc_type"], sfdc_ult_grp: row_hash["sfdc_ult_grp"], sfdc_ult_grp_id: row_hash["sfdc_ult_grp_id"], sfdc_group: row_hash["sfdc_group"], sfdc_group_id: row_hash["sfdc_group_id"])
-            # else
-            #     Core.create!(row_hash)
-            # end
-        # end
+            if core = Core.find_by(sfdc_id: row_hash["sfdc_id"])
+                core.update_attributes(bds_status: "Re-Imported", sfdc_acct: row_hash["sfdc_acct"], sfdc_sales_person: row_hash["sfdc_sales_person"], sfdc_acct_url: row_hash["sfdc_acct_url"], sfdc_type: row_hash["sfdc_type"], sfdc_ult_grp: row_hash["sfdc_ult_grp"], sfdc_ult_grp_id: row_hash["sfdc_ult_grp_id"], sfdc_group: row_hash["sfdc_group"], sfdc_group_id: row_hash["sfdc_group_id"])
+            else
+                Core.create!(row_hash)
+            end
+        end
     end
 
     # ========= CSV column formatting =========

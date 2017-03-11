@@ -57,12 +57,21 @@ Rails.application.routes.draw do
     end
     get 'in_host_po/import_page' => 'in_host_pos#import_page'
 
-    #==== Delayed_Jobs_Interface Starts=========
-    # match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
-
     resources :dashboards
 
     devise_for :users
+
+    #==== Delayed_Jobs_Interface Starts=========
+    # match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
+    # #==== Search Pages Start=========
+    post 'search_result_page_core' => 'search#search_result_core'
+    post 'search_result_page_gcse' => 'search#search_result_gcse'
+    post 'search_result_page_staffer' => 'search#search_result_staffer'
+    post 'search_result_page_location' => 'search#search_result_location'
+    post 'search_result_page_indexer' => 'search#search_result_indexer'
+    post 'search_result_page_indexer' => 'search#search_result_indexer'
+
 
     get 'admin/index'
 
@@ -72,13 +81,6 @@ Rails.application.routes.draw do
 
     # Hide all CRUD actions 2017.03.10 ==================================
 
-    # #==== Search Pages Start=========
-    # post 'search_result_page_core' => 'search#search_result_core'
-    # post 'search_result_page_gcse' => 'search#search_result_gcse'
-    # post 'search_result_page_staffer' => 'search#search_result_staffer'
-    # post 'search_result_page_location' => 'search#search_result_location'
-    # post 'search_result_page_indexer' => 'search#search_result_indexer'
-    # post 'search_result_page_indexer' => 'search#search_result_indexer'
     # # === Google API Route ===
     # get '/search' => 'search#index'
 

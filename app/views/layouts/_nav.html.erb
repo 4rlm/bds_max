@@ -4,7 +4,7 @@
 
         <li><%= link_to 'SageDataForce', root_path, class: 'navbar-brand' %></li>
 
-        <% if admin_only %>
+        <% if intermediate_and_up %>
             <li class="dropdown">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts  <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -12,9 +12,7 @@
                     <li><%= link_to 'View', cores_path %></li>
                 </ul>
             </li>
-        <% end %>
 
-        <% if admin_only %>
             <li class="dropdown">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contacts  <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -22,10 +20,7 @@
                     <li><%= link_to 'View', staffers_path %></li>
                 </ul>
             </li>
-        <% end %>
 
-
-        <% if admin_only %>
             <li class="dropdown">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Indexers  <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -33,11 +28,7 @@
                     <li><%= link_to 'View', indexers_path %></li>
                 </ul>
             </li>
-        <% end %>
 
-
-        <!-- LOCATIONS -->
-        <% if admin_only %>
             <li class="dropdown">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">GeoLocation <span class="caret"></span></a>
                 <ul class="dropdown-menu">
