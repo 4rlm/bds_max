@@ -1,9 +1,4 @@
-<% if intermediate_and_up %>
-
-<h1 class="page-header">Core Accounts</h1>
 <h4 class="text-center">Accounts from All Sources</h4>
-
-<%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
@@ -15,40 +10,18 @@
 
 <!-- ACCOUNTS - DETAILED VIEW PARTIAL -->
 <% if @view_mode == "detail" %>
-
-<h3 class="section-header">Detailed Account View</h3>
-
-<%= render partial: 'buttons' %>
-
-<h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
-
+    <h3 class="section-header">Detailed Account View</h3>
+    <%= render partial: 'buttons' %>
+    <h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
 
     <% num = 0 %>
     <% @cores.each do |core| %>
-
         <% num +=1 %>
-
         <%= render partial: 'detailed_view', locals: { core: core, num: num } %>
-
     <% end %>
 <% end %>
-
-
-<div class="pull-left">
-    <div class="form-group">
-        <div class="submit-button-area">
-            <%= submit_tag "Submit", class: 'btn btn-success' %>
-        </div>
-    </div>
-</div>
 
 <div class="pull-right">
     <%= render partial: 'buttons' %>
 </div><br>
 <%= will_paginate @cores, renderer: BootstrapPagination::Rails  %>
-
-<!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
-<% end %>
-<!-- Filter Headers Form tag ends -->
-
-<% end %>

@@ -13,7 +13,7 @@
 
 <body>
 
-    <% if intermediate_and_up %>
+    <% if user_signed_in? %>
         <%= render partial: 'layouts/nav' %>
     <% end %>
 
