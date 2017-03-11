@@ -2,79 +2,43 @@
 <h4 class="text-center">Detailed Domain Registration Data</h4>
 <br>
 
+<%= link_to "WhoIs Starter", who_starter_btn_path, class: 'btn btn-warning' %>
+<br>
+<br>
+
+
+<% num = 0 %>
+<% @whos.each do |who| %>
+<% num +=1 %>
+
+<div id="core-detail" class="text-nowrap geo-result-table">
+
 <div class="row profile-row">
     <div class="profile-col col-md-12">
         <table class="table table-bordered indexer-table">
           <thead>
             <tr>
-              <th>Domain</th>
-              <th>Domain ID</th>
-              <th>Ip</th>
-              <th>Server1</th>
-              <th>Server2</th>
-              <th>Registrar url</th>
-              <th>Registrar</th>
-              <th>Tech created on</th>
-              <th>Tech updated on</th>
-              <th colspan="3"></th>
-          </tr>
-          <tr>
-              <th>Registrant ID</th>
-              <th>Registrant type</th>
-              <th>Registrant name</th>
-              <th>Registrant organization</th>
-              <th>Registrant address</th>
-              <th>Registrant city</th>
-              <th>Registrant zip</th>
-              <th>Registrant state</th>
-              <th>Registrant country</th>
-              <th>Registrant country code</th>
-              <th>Registrant phone</th>
-              <th>Registrant fax</th>
-              <th>Registrant email</th>
-              <th>Registrant url</th>
-              <th>Registrant created on</th>
-              <th>Registrant updated on</th>
-          </tr>
-          <tr>
-              <th>Admin ID</th>
-              <th>Admin type</th>
-              <th>Admin name</th>
-              <th>Admin organization</th>
-              <th>Admin address</th>
-              <th>Admin city</th>
-              <th>Admin zip</th>
-              <th>Admin state</th>
-              <th>Admin country</th>
-              <th>Admin country code</th>
-              <th>Admin phone</th>
-              <th>Admin fax</th>
-              <th>Admin email</th>
-              <th>Admin url</th>
-              <th>Admin created on</th>
-              <th>Admin updated on</th>
-          </tr>
-          <tr>
-              <th>Tech ID</th>
-              <th>Tech type</th>
-              <th>Tech name</th>
-              <th>Tech organization</th>
-              <th>Tech address</th>
-              <th>Tech city</th>
-              <th>Tech zip</th>
-              <th>Tech state</th>
-              <th>Tech country</th>
-              <th>Tech country code</th>
-              <th>Tech phone</th>
-              <th>Tech fax</th>
-              <th>Tech email</th>
-              <th>Tech url</th>
-          </tr>
+                <th>#</th>
+                <th>WhoIs Status</th>
+                <th>URL Status</th>
+                  <th>URL</th>
+                  <th>URL ID</th>
+                  <th>IP</th>
+                  <th>Server1</th>
+                  <th>Server2</th>
+                  <th>Registrar URL</th>
+                  <th>Registrar</th>
+                  <!-- <th>Tech created on</th>
+                  <th>Tech updated on</th> -->
+                  <th colspan="2"></th>
+              </tr>
           </thead>
 
           <tbody>
-            <% @whos.each do |who| %>
-              <tr>
+          <tr>
+              <td><%= num %></td>
+                 <td><%= who.who_status %></td>
+                 <td><%= who.url_status %></td>
                 <td><%= who.domain %></td>
                 <td><%= who.domain_id %></td>
                 <td><%= who.ip %></td>
@@ -82,48 +46,35 @@
                 <td><%= who.server2 %></td>
                 <td><%= who.registrar_url %></td>
                 <td><%= who.registrar_id %></td>
-                <td><%= who.tech_created_on %></td>
-                <td><%= who.tech_updated_on %></td>
-                <td><%= link_to 'Show', who %></td>
+                <!-- <td><%#= who.tech_created_on %></td> -->
+                <!-- <td><%#= who.tech_updated_on %></td> -->
+
                 <td><%= link_to 'Edit', edit_who_path(who) %></td>
                 <td><%= link_to 'Destroy', who, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
-            <tr>
-                <td><%= who.registrant_id %></td>
-                <td><%= who.registrant_type %></td>
-                <td><%= who.registrant_name %></td>
-                <td><%= who.registrant_organization %></td>
-                <td><%= who.registrant_address %></td>
-                <td><%= who.registrant_city %></td>
-                <td><%= who.registrant_zip %></td>
-                <td><%= who.registrant_state %></td>
-                <td><%= who.registrant_country %></td>
-                <td><%= who.registrant_country_code %></td>
-                <td><%= who.registrant_phone %></td>
-                <td><%= who.registrant_fax %></td>
-                <td><%= who.registrant_email %></td>
-                <td><%= who.registrant_url %></td>
-                <td><%= who.registrant_created_on %></td>
-                <td><%= who.registrant_updated_on %></td>
-            </tr>
-            <tr>
-                <td><%= who.admin_id %></td>
-                <td><%= who.admin_type %></td>
-                <td><%= who.admin_name %></td>
-                <td><%= who.admin_organization %></td>
-                <td><%= who.admin_address %></td>
-                <td><%= who.admin_city %></td>
-                <td><%= who.admin_zip %></td>
-                <td><%= who.admin_state %></td>
-                <td><%= who.admin_country %></td>
-                <td><%= who.admin_country_code %></td>
-                <td><%= who.admin_phone %></td>
-                <td><%= who.admin_fax %></td>
-                <td><%= who.admin_email %></td>
-                <td><%= who.admin_url %></td>
-                <td><%= who.admin_created_on %></td>
-                <td><%= who.admin_updated_on %></td>
-            </tr>
+        </tbody>
+    </table>
+
+  <table class="table table-bordered indexer-table">
+
+          <tr>
+              <th rowspan="2" class="th-middle w-sm">Tech</th>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Organization</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>Zip</th>
+              <th>State</th>
+              <!-- <th>country</th> -->
+              <!-- <th>country code</th> -->
+              <th>Phone</th>
+              <th>Fax</th>
+              <th>Email</th>
+              <th>URL</th>
+          </tr>
+
             <tr>
                 <td><%= who.tech_id %></td>
                 <td><%= who.tech_type %></td>
@@ -133,16 +84,106 @@
                 <td><%= who.tech_city %></td>
                 <td><%= who.tech_zip %></td>
                 <td><%= who.tech_state %></td>
-                <td><%= who.tech_country %></td>
-                <td><%= who.tech_country_code %></td>
+                <!-- <td><%#= who.tech_country %></td> -->
+                <!-- <td><%#= who.tech_country_code %></td> -->
                 <td><%= who.tech_phone %></td>
                 <td><%= who.tech_fax %></td>
                 <td><%= who.tech_email %></td>
                 <td><%= who.tech_url %></td>
             </tr>
-            <% end %>
-          </tbody>
-        </table>
+
+
+        <!-- <thead> -->
+          <tr>
+              <th rowspan="2" class="th-middle w-sm">Registrant</th>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Organization</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>Zip</th>
+              <th>State</th>
+              <!-- <th>country</th> -->
+              <!-- <th>country code</th> -->
+              <th>Phone</th>
+              <th>Fax</th>
+              <th>Email</th>
+              <th>URL</th>
+              <!-- <th>created on</th> -->
+              <!-- <th>updated on</th> -->
+          </tr>
+      <!-- </thead> -->
+
+      <!-- <tbody> -->
+          <tr>
+              <td><%= who.registrant_id %></td>
+              <td><%= who.registrant_type %></td>
+              <td><%= who.registrant_name %></td>
+              <td><%= who.registrant_organization %></td>
+              <td><%= who.registrant_address %></td>
+              <td><%= who.registrant_city %></td>
+              <td><%= who.registrant_zip %></td>
+              <td><%= who.registrant_state %></td>
+              <!-- <td><%= who.registrant_country %></td> -->
+              <!-- <td><%= who.registrant_country_code %></td> -->
+              <td><%= who.registrant_phone %></td>
+              <td><%= who.registrant_fax %></td>
+              <td><%= who.registrant_email %></td>
+              <td><%= who.registrant_url %></td>
+              <!-- <td><%#= who.registrant_created_on %></td> -->
+              <!-- <td><%#= who.registrant_updated_on %></td> -->
+          </tr>
+      <!-- </tbody> -->
+
+      <!-- <thead> -->
+          <tr>
+              <th rowspan="2" class="th-middle w-sm">Admin</th>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Organization</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>Zip</th>
+              <th>State</th>
+              <!-- <th>country</th> -->
+              <!-- <th>country code</th> -->
+              <th>Phone</th>
+              <th>Fax</th>
+              <th>Email</th>
+              <th>URL</th>
+              <!-- <th>created on</th> -->
+              <!-- <th>updated on</th> -->
+          </tr>
+      <!-- </thead> -->
+
+      <!-- <tbody> -->
+          <tr>
+              <td><%= who.admin_id %></td>
+              <td><%= who.admin_type %></td>
+              <td><%= who.admin_name %></td>
+              <td><%= who.admin_organization %></td>
+              <td><%= who.admin_address %></td>
+              <td><%= who.admin_city %></td>
+              <td><%= who.admin_zip %></td>
+              <td><%= who.admin_state %></td>
+              <!-- <td><%= who.admin_country %></td> -->
+              <!-- <td><%= who.admin_country_code %></td> -->
+              <td><%= who.admin_phone %></td>
+              <td><%= who.admin_fax %></td>
+              <td><%= who.admin_email %></td>
+              <td><%= who.admin_url %></td>
+              <!-- <td><%#= who.admin_created_on %></td> -->
+              <!-- <td><%#= who.admin_updated_on %></td> -->
+          </tr>
+      <!-- </tbody> -->
+  </table>
+
+</div>
+
+<% end %>
+
     </div>
 </div>
 

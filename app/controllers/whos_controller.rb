@@ -1,5 +1,7 @@
 class WhosController < ApplicationController
   before_action :set_who, only: [:show, :edit, :update, :destroy]
+  before_action :set_who_service, only: [:who_starter_btn]
+
 
   # GET /whos
   # GET /whos.json
@@ -61,6 +63,17 @@ class WhosController < ApplicationController
     end
   end
 
+
+  def who_starter_btn
+      @who_service.who_starter
+      # @who_service.delay.who_starter
+
+      redirect_to whos_path
+  end
+
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_who
@@ -71,4 +84,12 @@ class WhosController < ApplicationController
     def who_params
       params.require(:who).permit(:domain, :domain_id, :ip, :server1, :server2, :registrar_url, :registrar_id, :registrant_id, :registrant_type, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_zip, :registrant_state, :registrant_country, :registrant_country_code, :registrant_phone, :registrant_fax, :registrant_email, :registrant_url, :registrant_created_on, :registrant_updated_on, :admin_id, :admin_type, :admin_name, :admin_organization, :admin_address, :admin_city, :admin_zip, :admin_state, :admin_country, :admin_country_code, :admin_phone, :admin_fax, :admin_email, :admin_url, :admin_created_on, :admin_updated_on, :tech_id, :tech_type, :tech_name, :tech_organization, :tech_address, :tech_city, :tech_zip, :tech_state, :tech_country, :tech_country_code, :tech_phone, :tech_fax, :tech_email, :tech_url, :tech_created_on, :tech_updated_on)
     end
+
+
+    def set_who_service
+        @who_service = WhoService.new
+    end
+
+
+
 end

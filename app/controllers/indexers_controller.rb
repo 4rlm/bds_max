@@ -136,9 +136,6 @@ class IndexersController < ApplicationController
 
         # @service.redirect_url_migrator
 
-        @service.whois
-
-
         redirect_to indexers_path
     end
 
