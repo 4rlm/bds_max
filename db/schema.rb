@@ -153,6 +153,8 @@ ActiveRecord::Schema.define(version: 20170311053614) do
     t.datetime "updated_at",        null: false
     t.string   "consolidated_term"
     t.string   "category"
+    t.string   "brand_count"
+    t.string   "cat_count"
   end
 
   create_table "in_text_dels", force: :cascade do |t|
