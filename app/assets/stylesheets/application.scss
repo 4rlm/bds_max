@@ -133,9 +133,6 @@ table.theme-layout-table {
 
 
 
-
-
-
 // PROFILE STARTS
 .profile-container {
     // border: solid 1px #18a3cd;
@@ -570,3 +567,13 @@ th.indicator {
 
 
 // style="background: green; color: white; border-radius: 5px; a:visited:white;"
+
+
+.th-middle {
+    vertical-align: middle !important;
+}
+
+.geo-result-table .w-sm {
+    // min-width: 30px;
+    width: 70px;
+}

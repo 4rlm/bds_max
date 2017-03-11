@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170311053614) do
+ActiveRecord::Schema.define(version: 20170311215534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20170311053614) do
     t.string   "web_acct_pin"
     t.string   "crm_phones",              default: [],              array: true
     t.string   "web_phones",              default: [],              array: true
+    t.string   "who_status"
   end
 
   create_table "dashboards", force: :cascade do |t|
@@ -213,6 +214,7 @@ ActiveRecord::Schema.define(version: 20170311053614) do
     t.string   "phones",          default: [],              array: true
     t.string   "acct_pin"
     t.string   "raw_street"
+    t.string   "who_status"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -355,6 +357,56 @@ ActiveRecord::Schema.define(version: 20170311053614) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "whos", force: :cascade do |t|
+    t.string   "domain"
+    t.string   "domain_id"
+    t.string   "ip"
+    t.string   "server1"
+    t.string   "server2"
+    t.string   "registrar_url"
+    t.string   "registrar_id"
+    t.string   "registrant_id"
+    t.string   "registrant_type"
+    t.string   "registrant_name"
+    t.string   "registrant_organization"
+    t.string   "registrant_address"
+    t.string   "registrant_city"
+    t.string   "registrant_zip"
+    t.string   "registrant_state"
+    t.string   "registrant_phone"
+    t.string   "registrant_fax"
+    t.string   "registrant_email"
+    t.string   "registrant_url"
+    t.string   "admin_id"
+    t.string   "admin_type"
+    t.string   "admin_name"
+    t.string   "admin_organization"
+    t.string   "admin_address"
+    t.string   "admin_city"
+    t.string   "admin_zip"
+    t.string   "admin_state"
+    t.string   "admin_phone"
+    t.string   "admin_fax"
+    t.string   "admin_email"
+    t.string   "admin_url"
+    t.string   "tech_id"
+    t.string   "tech_type"
+    t.string   "tech_name"
+    t.string   "tech_organization"
+    t.string   "tech_address"
+    t.string   "tech_city"
+    t.string   "tech_zip"
+    t.string   "tech_state"
+    t.string   "tech_phone"
+    t.string   "tech_fax"
+    t.string   "tech_email"
+    t.string   "tech_url"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "who_status"
+    t.string   "url_status"
   end
 
 end

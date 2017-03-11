@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :whos
+  get 'who_starter_btn' => 'whos#who_starter_btn'
+
+
+
     resources :indexer_terms do
         collection { post :import_csv_data }
     end
