@@ -1,4 +1,8 @@
 class InTextDelsController < ApplicationController
+    # Hide all CRUD actions 2017.03.10
+    # So all CRUD actions are only accessible to admin only for now.
+    before_action :admin_only
+    
     before_action :set_in_text_del, only: [:show, :edit, :update, :destroy]
 
     # GET /in_text_dels

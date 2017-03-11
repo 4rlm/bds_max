@@ -1,4 +1,8 @@
 class InHostDelsController < ApplicationController
+    # Hide all CRUD actions 2017.03.10
+    # So all CRUD actions are only accessible to admin only for now.
+    before_action :admin_only
+    
     before_action :set_in_host_del, only: [:show, :edit, :update, :destroy]
 
     # GET /in_host_dels
