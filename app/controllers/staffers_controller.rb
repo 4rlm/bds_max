@@ -1,4 +1,7 @@
 class StaffersController < ApplicationController
+    before_action :intermediate_and_up, only: [:index, :show, :search, :acct_contacts]
+    before_action :advanced_and_up, only: [:edit, :update]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn]
   before_action :set_staffer, only: [:show, :edit, :update, :destroy]
   before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn]
 
@@ -15,7 +18,7 @@ def index
         end
         @selected_data = Staffer.where(clean_choice_hash)
     else # choice_hash is nil
-        @selected_data = Staffer.all.order
+        @selected_data = Staffer.all.order(updated_at: :desc)
     end
 
     if url = params[:url]
