@@ -52,22 +52,10 @@ Rails.application.routes.draw do
     # Quick Search Button
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
 
-    #==== Criteria CSV Imports =========
     resources :in_host_pos do
         collection { post :import_csv_data }
     end
     get 'in_host_po/import_page' => 'in_host_pos#import_page'
-
-    resources :criteria_indexer_staff_hrefs do
-        collection { post :import_csv_data }
-    end
-    get 'criteria_indexer_staff_href/import_page' => 'criteria_indexer_staff_hrefs#import_page'
-
-    resources :criteria_indexer_loc_texts do
-        collection { post :import_csv_data }
-    end
-    get 'criteria_indexer_loc_text/import_page' => 'criteria_indexer_loc_texts#import_page'
-    #==== Criteria CSV Imports Ends=========
 
     #==== Delayed_Jobs_Interface Starts=========
     # match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]

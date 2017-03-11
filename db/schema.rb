@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170311033841) do
+ActiveRecord::Schema.define(version: 20170311053614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,18 +86,6 @@ ActiveRecord::Schema.define(version: 20170311033841) do
     t.string   "web_acct_pin"
     t.string   "crm_phones",              default: [],              array: true
     t.string   "web_phones",              default: [],              array: true
-  end
-
-  create_table "criteria_indexer_loc_texts", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "criteria_indexer_staff_hrefs", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "dashboards", force: :cascade do |t|

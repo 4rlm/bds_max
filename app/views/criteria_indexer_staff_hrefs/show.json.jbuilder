@@ -1,1 +1,0 @@
-json.partial! "criteria_indexer_staff_hrefs/criteria_indexer_staff_href", criteria_indexer_staff_href: @criteria_indexer_staff_href
