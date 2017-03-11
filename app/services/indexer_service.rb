@@ -102,17 +102,20 @@ class IndexerService
 
 
     def meta_scraper
-        a=0
-        z=150
-        # a=150
-        # z=300
-        # a=300
-        # z=450
-        # a=450
+        # a=0
+        # z=200
+        # a=200
+        # z=400
+        # a=400
         # z=600
+        # a=600
+        # z=800
 
         # indexers = Indexer.where(template: "Unidentified")[a..z] ##1,780
-        indexers = Indexer.where.not(indexer_status: ["Meta Result", "Meta Error"]).where(template: "Unidentified")[a..z]
+        # indexers = Indexer.where.not(indexer_status: ["Meta Result", "Meta Error"]).where(template: "Unidentified")[a..z]
+
+        indexers = Indexer.where.not(indexer_status: "Archived").where.not(clean_url: nil).where(template: nil)[a..z]
+
 
         # indexers = Indexer.where(indexer_status: "Meta Error")[a..z] ##1,780
         # indexers.each{|x| x.update_attribute(:indexer_status, "Target Meta")}
@@ -994,6 +997,25 @@ class IndexerService
             end
         end
 
+    end
+
+    def junk_cleaner
+        junk = %w(advertising, feast, burger, weather, guide, motorcycle, atvs, accessories, manufacturer, coupon, agency, digital, media, credit, medical, communication, diner, dinner, food, cuisine, hotel, architect, journal, superstition, glass, sentinel, staffing, temporary, employment, robert half, harley-davidson, breaking, entertainment, traffic, boat, rvs, campers, atvs, sea-doo, ski-doo, trailer, equipment, racing, attorney, accident, personal injury, divorce, criminal, lawyer, watercraft, animal, powersport, scooter, estate, news, business, education, classified, directory, job, apt, home, house, apartment, video, streaming, trouble, restaurant, market, opinion, satire, drunk, eyewitness, haul, motorhomes, funeral, property, management, contractor, event, youth, tool, vacation, resort, medicine, health, casa, hear, grill, fitness, health, し, 大, ま, institute, economic, aviation, insurance)
+
+        indexers = Indexer.where(indexer_status: "Meta Result").where.not(acct_name: nil)
+        counter = 0
+        indexers.each do |indexer|
+            junk.each do |x|
+                acct_name = indexer.acct_name
+                down_name = acct_name.downcase
+                if down_name.include?(x)
+                    counter +=1
+                    puts "\n\n#{counter}) X:> #{x}"
+                    puts "Title: #{down_name}\n\n"
+                    indexer.destroy
+                end
+            end
+        end
     end
 
 
