@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
     # Hide all CRUD actions 2017.03.10
     # So all CRUD actions are only accessible to admin only for now.
-    before_action :admin_only
+    before_action :admin_only, only: [:index]
 
     def index
 
@@ -31,9 +31,6 @@ class SearchController < ApplicationController
 
     end
 
-    def dashboard
-    end
-
     def search_result_core
         set_selected_status_core({bds_status: params[:bds_status], sfdc_id: params[:sfdc_id], sfdc_tier: params[:sfdc_tier], sfdc_sales_person: params[:sfdc_sales_person], sfdc_type: params[:sfdc_type], sfdc_ult_grp: params[:sfdc_ult_grp], sfdc_ult_rt: params[:sfdc_ult_rt], sfdc_group: params[:sfdc_group], sfdc_grp_rt: params[:sfdc_grp_rt], sfdc_acct: params[:sfdc_acct], sfdc_street: params[:sfdc_street], sfdc_city: params[:sfdc_city], sfdc_state: params[:sfdc_state], sfdc_zip: params[:sfdc_zip], sfdc_ph: params[:sfdc_ph], sfdc_url: params[:sfdc_url], created_at: params[:created_at], updated_at: params[:updated_at], core_date: params[:core_date], domainer_date: params[:domainer_date], indexer_date: params[:indexer_date], staffer_date: params[:staffer_date], staff_indexer_status: params[:staff_indexer_status], location_indexer_status: params[:location_indexer_status], domain_status: params[:domain_status], staffer_status: params[:staffer_status], sfdc_franch_cat: params[:sfdc_franch_cat], acct_source: params[:acct_source], full_address: params[:full_address], geo_status: params[:geo_status], geo_date: params[:geo_date], coordinates: params[:coordinates], sfdc_franch_cons: params[:sfdc_franch_cons], sfdc_template: params[:sfdc_template], url_status: params[:url_status], hierarchy: params[:hierarchy], view_mode: params[:view_mode], geo_address: params[:geo_address], geo_acct: params[:geo_acct], sfdc_clean_url: params[:sfdc_clean_url], crm_acct_pin: params[:crm_acct_pin], web_acct_pin: params[:web_acct_pin]})
         redirect_to cores_path
@@ -55,11 +52,11 @@ class SearchController < ApplicationController
     end
 
 
-        def search_result_indexer
-            set_selected_status_indexer({raw_url: params[:raw_url], redirect_status: params[:redirect_status], clean_url: params[:clean_url], indexer_status: params[:indexer_status], template: params[:template], loc_status: params[:loc_status], stf_status: params[:stf_status], contact_status: params[:contact_status], acct_name: params[:acct_name], rt_sts: params[:rt_sts], cont_sts: params[:cont_sts], full_addr: params[:full_addr], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], phone: params[:phone], acct_pin: params[:acct_pin]})
+    def search_result_indexer
+        set_selected_status_indexer({raw_url: params[:raw_url], redirect_status: params[:redirect_status], clean_url: params[:clean_url], indexer_status: params[:indexer_status], template: params[:template], loc_status: params[:loc_status], stf_status: params[:stf_status], contact_status: params[:contact_status], acct_name: params[:acct_name], rt_sts: params[:rt_sts], cont_sts: params[:cont_sts], full_addr: params[:full_addr], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], phone: params[:phone], acct_pin: params[:acct_pin]})
 
-            redirect_to indexers_path
-        end
+        redirect_to indexers_path
+    end
 
 
 

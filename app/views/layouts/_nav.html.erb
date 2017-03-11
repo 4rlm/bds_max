@@ -4,48 +4,40 @@
 
         <li><%= link_to 'SageDataForce', root_path, class: 'navbar-brand' %></li>
 
-        <% if admin_only %>
-            <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts  <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><%= link_to 'Search', core_search_path %></li>
-                    <li><%= link_to 'View', cores_path %></li>
-                </ul>
-            </li>
-        <% end %>
+        <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><%= link_to 'Search', core_search_path %></li>
+                <li><%= link_to 'View', cores_path %></li>
+            </ul>
+        </li>
 
-        <% if admin_only %>
-            <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contacts  <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><%= link_to 'Search', staffer_search_path %></li>
-                    <li><%= link_to 'View', staffers_path %></li>
-                </ul>
-            </li>
-        <% end %>
+        <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contacts  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><%= link_to 'Search', staffer_search_path %></li>
+                <li><%= link_to 'View', staffers_path %></li>
+            </ul>
+        </li>
 
 
-        <% if admin_only %>
-            <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Indexers  <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><%= link_to 'Search', indexer_search_path %></li>
-                    <li><%= link_to 'View', indexers_path %></li>
-                </ul>
-            </li>
-        <% end %>
+        <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Indexers  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><%= link_to 'Search', indexer_search_path %></li>
+                <li><%= link_to 'View', indexers_path %></li>
+            </ul>
+        </li>
 
 
         <!-- LOCATIONS -->
-        <% if admin_only %>
-            <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">GeoLocation <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><%= link_to 'Search', location_search_path %></li>
-                    <li><%= link_to 'View', locations_path %></li>
-                </ul>
-            </li>
-        <% end %>
+        <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">GeoLocation <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><%= link_to 'Search', location_search_path %></li>
+                <li><%= link_to 'View', locations_path %></li>
+            </ul>
+        </li>
 
 
         <!-- <%# if admin_only %> -->

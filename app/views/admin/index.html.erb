@@ -1,3 +1,5 @@
+<% if admin_only %>
+
 <h3>Pending</h3>
 <%= render partial: 'table', locals: { users: @pending_users } %>
 
@@ -12,3 +14,5 @@
 
 <h3>Admin</h3>
 <%= render partial: 'table', locals: { users: @admin_users } %>
+
+<% end %>
