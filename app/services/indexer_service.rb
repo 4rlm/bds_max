@@ -105,19 +105,25 @@ class IndexerService
 
 
     def meta_scraper
-        # a=0
-        # z=100
-        a=100
-        z=200
+        a=0
+        z=5
+        # a=150
+        # z=300
         # a=300
-        # z=400
+        # z=450
+        # a=450
+        # z=600
+
+
+        # indexers = Indexer.where(template: "Unidentified")[a..z] ##1,780
+        indexers = Indexer.where.not(indexer_status: ["Meta Result", "Meta Error"]).where(template: "Unidentified")[a..z] 
+
+        # indexers = Indexer.where(indexer_status: "Meta Error")[a..z] ##1,780
+        # indexers.each{|x| x.update_attribute(:indexer_status, "Target Meta")}
+        # indexers = Indexer.where(indexer_status: "Target Meta")[a..z] ##1,780
 
         # indexers = Indexer.where.not(indexer_status: "Meta Result").where(template: ["eBizAutos", "fusionZone", "VinSolutions", "fusionZONE", "Dealer Spike", "Pixel Motion", "Dominion", "Search Optics", "Remora", "Chapman.co", "FoxDealer", "Autofusion", "DealerPeak", "Driving Force", "Driving Force", "Jazel Auto", "Dealer Socket", "All Auto Network", "Drive Website", "Motorwebs", "DealerTrend", "Motion Fuze", "Slip Stream", "I/O COM", "Autofunds", "DLD Websites", "AutoJini", "SERPCOM"])
-        # indexers.each{|x| x.update_attribute(:indexer_status, "Target Meta")}
         # indexers = Indexer.where.not(clean_url: nil).where(template: "eBizAutos")[0..10]
-
-        # indexers = Indexer.where(indexer_status: "Target Meta")[a..z] ##1,780
-        indexers = Indexer.where(template: "Unidentified")[a..z] ##1,780
         # indexers = Indexer.where(indexer_status: "Target Meta").where(template: "eBizAutos")[a..z]
 
         counter=0

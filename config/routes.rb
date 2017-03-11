@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       collection {post :import_csv_data}
     #   get :merge_data, on: :collection
   end
+  get 'indexer/search' => 'indexers#search'
   get 'indexer/import_page' => 'indexers#import_page'
   get 'page_finder_btn' => 'indexers#page_finder_btn'
   get 'reset_errors_btn' => 'indexers#reset_errors_btn'
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
   get 'template_finder_btn' => 'indexers#template_finder_btn'
   get 'rooftop_data_getter_btn' => 'indexers#rooftop_data_getter_btn'
   get 'meta_scraper_btn' => 'indexers#meta_scraper_btn'
+
 
   devise_for :users
   resources :geo_places
@@ -153,7 +155,11 @@ Rails.application.routes.draw do
     post 'search_result_page_gcse' => 'search#search_result_gcse'
     post 'search_result_page_staffer' => 'search#search_result_staffer'
     post 'search_result_page_location' => 'search#search_result_location'
+    post 'search_result_page_indexer' => 'search#search_result_indexer'
+
+
     # === Google API Route ===
+
     get '/search' => 'search#index'
 
     get 'admin/index'

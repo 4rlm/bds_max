@@ -4,31 +4,59 @@
 
 <!-- # MOVE ABOVE TO INDEX WHEN COMPLETED! # -->
 
-<div class="theme-layout filter-container">
+<div class="theme-layout search-container">
 
     <div class="row filter-row">
         <div class="filter-col col-md-12">
             <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                 <tr>
-                    <th class="th-2">Indexer status</th>
-                    <th class="th-2">Redirect status</th>
-
+                    <th class="th-2">Indexer Status</th>
+                    <th class="th-2">Redirect Status</th>
                     <th class="th-2">Staff Status</th>
                     <th class="th-2">Loc Status</th>
+                    <th class="th-2">Contact Status</th>
+                    <th class="th-2">RT Status</th>
+                    <th class="th-2">Cont Status</th>
                     <th class="th-2">Template</th>
                 </tr>
                 <tr>
-
                     <td><%= select_tag :indexer_status, options_for_select(main_indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
                     <td><%= select_tag :redirect_status, options_for_select(url_redirect_sts_lists), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
                     <td><%= select_tag :stf_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
                     <td><%= select_tag :loc_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-                    <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :contact_status, options_for_select(indexer_contact_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :rt_sts, options_for_select(indexer_rt_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :cont_sts, options_for_select(indexer_cont_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
+                    <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                <tr>
+                    <th class="th-2">Account Name</th>
+                    <th class="th-2">Full Address</th>
+                    <th class="th-2">Street</th>
+                    <th class="th-2">City</th>
+                    <th class="th-2">State</th>
+                    <th class="th-2">Zip</th>
+                    <th class="th-2">Phone</th>
+                    <th class="th-2">Acct Pin</th>
+                </tr>
+                <tr>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :full_addr } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :street } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :city } %></td>
+                    <td><%= select_tag :state, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :zip } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :phone } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_pin } %></td>
                 </tr>
             </table>
         </div>
@@ -41,31 +69,21 @@
                     <th class="th-2">Raw url</th>
                     <th class="th-2">Clean url</th>
                     <th class="th-2">Staff url</th>
-                    <th class="th-2">Staff text</th>
                     <th class="th-2">Location url</th>
-                    <th class="th-2">Location text</th>
                 </tr>
                 <tr>
-                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :raw_url } %></td>
-
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :raw_url } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :clean_url } %></td>
-
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_url } %></td>
-
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :staff_text } %></td>
-
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :location_url } %></td>
-
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :location_text } %></td>
-
                 </tr>
             </table>
         </div>
     </div>
 
-</div> <!-- filter-container Ends -->
+</div> <!-- search-container Ends -->
 
-<%= submit_tag "Search", class: 'wide-button green-button' %>
+<%= submit_tag "Search", class: 'wide-button blue-button' %>
 
 <!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
 <% end %>

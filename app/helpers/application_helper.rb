@@ -116,7 +116,7 @@ module ApplicationHelper
     end
 
     def template_list
-        ['Dealer.com', 'DealerOn', 'Cobalt', 'DealerFire', 'DealerInspire', ["None", nil]]
+        ["All Auto Network", "Autofunds", "Autofusion", "AutoJini", "Chapman.co", "Cobalt", "Dealer Direct", "DEALER eProcess", "Dealer Inspire", "Dealer Socket", "Dealer Spike", "Dealer.com", "DealerCar Search", "DealerFire", "DealerOn", "DealerPeak", "DealerTrend", "DLD Websites", "Dominion", "Drive Website", "Driving Force", "Driving Force", "eBizAutos", "FoxDealer", "fusionZone", "fusionZONE", "I/O COM", "Jazel Auto", "Motion Fuze", "Motorwebs", "Pixel Motion", "Remora", "Search Optics", "SERPCOM", "Slip Stream", "VinSolutions"]
     end
 
     def job_title_list
@@ -143,6 +143,21 @@ module ApplicationHelper
     def state_list
         ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
     end
+
+
+    def indexer_contact_status_list
+        ['Fill In!']
+    end
+
+    def indexer_rt_sts_list
+        ['Fill In!']
+    end
+
+    def indexer_cont_sts_list
+        ['Fill In!']
+    end
+
+
 
 
 

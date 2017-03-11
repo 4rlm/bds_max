@@ -7,6 +7,7 @@ class IndexersController < ApplicationController
   # GET /indexers
   # GET /indexers.json
   def index
+
     @indexers = Indexer.all
 
     ## SET ORDER OF DISPLAYED DATA ##
@@ -19,12 +20,11 @@ class IndexersController < ApplicationController
         format.csv { render text: indexers_csv.to_csv }
     end
 
+    # @indexers = @indexers.paginate(:page => params[:page], :per_page => 100)
 
-    #---------  Adam's Trial - Starts --- WORKS WELL!
-    # @indexers = @indexers.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
+    # WILL_PAGINATE #
+    @indexers = @indexers.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
 
-    @indexers = @indexers.paginate(:page => params[:page], :per_page => 100)
-    #---------  Adam's Trial - Ends -------
 
     batch_status
   end
@@ -49,6 +49,11 @@ class IndexersController < ApplicationController
       flash[:notice] = "CSV imported successfully."
       redirect_to indexers_path
   end
+
+  def search
+      @indexer_count = Indexer.count
+  end
+
 
 
   # GET /indexers/1/edit
@@ -165,8 +170,8 @@ class IndexersController < ApplicationController
   end
 
   def meta_scraper_btn
-    #   @service.meta_scraper
-      @service.delay.meta_scraper
+      @service.meta_scraper
+    #   @service.delay.meta_scraper
 
       redirect_to indexers_path
   end
@@ -186,12 +191,12 @@ class IndexersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_params
-      params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :staff_url, :staff_text, :location_url, :location_text, :template, :crm_id_arr, :loc_status, :stf_status)
+      params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin)
     end
 
 
     def filtering_params(params)
-        params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :staff_url, :staff_text, :location_url, :location_text, :template, :loc_status, :stf_status)
+        params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin)
     end
 
 

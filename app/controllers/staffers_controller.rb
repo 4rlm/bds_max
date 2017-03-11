@@ -26,17 +26,13 @@ def index
     @staffer_count = Staffer.count
     @selected_staffer_count = @selected_data.count
 
+    # CSV #
     respond_to do |format|
         format.html
         format.csv { render text: @selected_data.to_csv }
     end
 
-    # Original !!!
-    # @paginate_staffers = @staffers.filter(filtering_params(params))
-
-    #---------  Adam's Trial 1 w/ Filters- Starts
     @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
-    #---------  Adam's Trial 1 - Ends -------
 
     batch_status
 end
