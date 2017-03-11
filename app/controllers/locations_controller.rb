@@ -1,4 +1,8 @@
 class LocationsController < ApplicationController
+    before_action :intermediate_and_up, only: [:index, :show, :search]
+    before_action :advanced_and_up, only: [:edit, :update]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :turbo_matcher_btn, :location_power_btn, :geo_places_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_starter_btn, :merge_data, :flag_data]
+
     before_action :set_location, only: [:show, :edit, :update, :destroy]
     before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_places_starter_btn, :location_power_btn, :turbo_matcher_btn]
 
@@ -84,7 +88,6 @@ class LocationsController < ApplicationController
 
 
     def search
-
     end
 
     # Testing iFrame
