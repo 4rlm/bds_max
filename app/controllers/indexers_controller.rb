@@ -132,9 +132,11 @@ class IndexersController < ApplicationController
         # @service.db_data_trimmer
         # @service.acct_pin_gen
         # @service.pin_acct_counter
-        @service.junk_cleaner
+        # @service.junk_cleaner
 
         # @service.redirect_url_migrator
+
+        @service.whois
 
 
         redirect_to indexers_path

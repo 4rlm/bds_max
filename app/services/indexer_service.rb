@@ -1000,7 +1000,7 @@ class IndexerService
     end
 
     def junk_cleaner
-        junk = %w(advertising, feast, burger, weather, guide, motorcycle, atvs, accessories, manufacturer, coupon, agency, digital, media, credit, medical, communication, diner, dinner, food, cuisine, hotel, architect, journal, superstition, glass, sentinel, staffing, temporary, employment, robert half, harley-davidson, breaking, entertainment, traffic, boat, rvs, campers, atvs, sea-doo, ski-doo, trailer, equipment, racing, attorney, accident, personal injury, divorce, criminal, lawyer, watercraft, animal, powersport, scooter, estate, news, business, education, classified, directory, job, apt, home, house, apartment, video, streaming, trouble, restaurant, market, opinion, satire, drunk, eyewitness, haul, motorhomes, funeral, property, management, contractor, event, youth, tool, vacation, resort, medicine, health, casa, hear, grill, fitness, health, し, 大, ま, institute, economic, aviation, insurance)
+        junk = %w(advertising, feast, burger, weather, guide, motorcycle, atvs, accessories, manufacturer, coupon, agency, digital, media, credit, medical, communication, diner, dinner, food, cuisine, hotel, architect, journal, superstition, glass, sentinel, staffing, temporary, employment, robert half, harley-davidson, breaking, entertainment, traffic, boat, rvs, campers, atvs, sea-doo, ski-doo, trailer, equipment, racing, attorney, accident, personal injury, divorce, criminal, lawyer, watercraft, animal, powersport, scooter, estate, news, business, education, classified, directory, job, apt, house, apartment, video, streaming, trouble, restaurant, market, opinion, satire, drunk, eyewitness, haul, motorhomes, funeral, property, management, contractor, event, youth, tool, vacation, resort, medicine, health, casa, hear, grill, fitness, health, し, 大, ま, institute, economic, aviation, insurance)
 
         indexers = Indexer.where(indexer_status: "Meta Result").where.not(acct_name: nil)
         counter = 0
@@ -1016,6 +1016,12 @@ class IndexerService
                 end
             end
         end
+    end
+
+
+    def whois
+        puts "\n\n\n===== HI!! \n\n\n"
+
     end
 
 
