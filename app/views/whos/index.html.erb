@@ -28,8 +28,7 @@
                   <th>Server2</th>
                   <th>Registrar URL</th>
                   <th>Registrar</th>
-                  <!-- <th>Tech created on</th>
-                  <th>Tech updated on</th> -->
+
                   <th colspan="2"></th>
               </tr>
           </thead>
@@ -46,8 +45,6 @@
                 <td><%= who.server2 %></td>
                 <td><%= who.registrar_url %></td>
                 <td><%= who.registrar_id %></td>
-                <!-- <td><%#= who.tech_created_on %></td> -->
-                <!-- <td><%#= who.tech_updated_on %></td> -->
 
                 <td><%= link_to 'Edit', edit_who_path(who) %></td>
                 <td><%= link_to 'Destroy', who, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -67,8 +64,6 @@
               <th>City</th>
               <th>Zip</th>
               <th>State</th>
-              <!-- <th>country</th> -->
-              <!-- <th>country code</th> -->
               <th>Phone</th>
               <th>Fax</th>
               <th>Email</th>
@@ -84,8 +79,6 @@
                 <td><%= who.tech_city %></td>
                 <td><%= who.tech_zip %></td>
                 <td><%= who.tech_state %></td>
-                <!-- <td><%#= who.tech_country %></td> -->
-                <!-- <td><%#= who.tech_country_code %></td> -->
                 <td><%= who.tech_phone %></td>
                 <td><%= who.tech_fax %></td>
                 <td><%= who.tech_email %></td>
@@ -104,8 +97,6 @@
               <th>City</th>
               <th>Zip</th>
               <th>State</th>
-              <!-- <th>country</th> -->
-              <!-- <th>country code</th> -->
               <th>Phone</th>
               <th>Fax</th>
               <th>Email</th>
@@ -125,14 +116,10 @@
               <td><%= who.registrant_city %></td>
               <td><%= who.registrant_zip %></td>
               <td><%= who.registrant_state %></td>
-              <!-- <td><%= who.registrant_country %></td> -->
-              <!-- <td><%= who.registrant_country_code %></td> -->
               <td><%= who.registrant_phone %></td>
               <td><%= who.registrant_fax %></td>
               <td><%= who.registrant_email %></td>
               <td><%= who.registrant_url %></td>
-              <!-- <td><%#= who.registrant_created_on %></td> -->
-              <!-- <td><%#= who.registrant_updated_on %></td> -->
           </tr>
       <!-- </tbody> -->
 
@@ -147,14 +134,10 @@
               <th>City</th>
               <th>Zip</th>
               <th>State</th>
-              <!-- <th>country</th> -->
-              <!-- <th>country code</th> -->
               <th>Phone</th>
               <th>Fax</th>
               <th>Email</th>
               <th>URL</th>
-              <!-- <th>created on</th> -->
-              <!-- <th>updated on</th> -->
           </tr>
       <!-- </thead> -->
 
@@ -168,14 +151,11 @@
               <td><%= who.admin_city %></td>
               <td><%= who.admin_zip %></td>
               <td><%= who.admin_state %></td>
-              <!-- <td><%= who.admin_country %></td> -->
-              <!-- <td><%= who.admin_country_code %></td> -->
               <td><%= who.admin_phone %></td>
               <td><%= who.admin_fax %></td>
               <td><%= who.admin_email %></td>
               <td><%= who.admin_url %></td>
-              <!-- <td><%#= who.admin_created_on %></td> -->
-              <!-- <td><%#= who.admin_updated_on %></td> -->
+
           </tr>
       <!-- </tbody> -->
   </table>

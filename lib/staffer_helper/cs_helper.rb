@@ -54,11 +54,11 @@ class CsHelper # Contact Scraper Helper Method
                 fullname:       staff_hash[:full_name],
                 domain:         indexer.clean_url
             ) do |staffer|
-                staffer.fname          = staff_hash[:fname],
-                staffer.lname          = staff_hash[:lname],
-                staffer.job_raw        = staff_hash[:job],
-                staffer.email          = staff_hash[:email],
-                staffer.phone          = staff_hash[:phone],
+                staffer.fname          = staff_hash[:fname]
+                staffer.lname          = staff_hash[:lname]
+                staffer.job_raw        = staff_hash[:job]
+                staffer.email          = staff_hash[:email]
+                staffer.phone          = staff_hash[:phone]
                 staffer.cont_source    = "Web",
                 staffer.cont_status    = "Scraped",
                 staffer.staffer_status = "Scraped",
