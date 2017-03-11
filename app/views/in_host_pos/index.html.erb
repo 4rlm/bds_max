@@ -25,9 +25,11 @@
             <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
             <th>#</th>
             <th>Terms</th>
-            <th>Franchise</th>
+            <th>Brand</th>
+            <th>Br Count</th>
             <th>Category</th>
-            <th colspan="3"></th>
+            <th>Cat Count</th>
+            <th colspan="2"></th>
         </tr>
     </thead>
 
@@ -41,8 +43,9 @@
             <td><%= num %></td>
             <td><%= in_host_po.term %></td>
             <td><%= in_host_po.consolidated_term %></td>
+            <td><%= in_host_po.brand_count %></td>
             <td><%= in_host_po.category %></td>
-            <td><%= link_to 'Show', in_host_po %></td>
+            <td><%= in_host_po.cat_count %></td>
             <td><%= link_to 'Edit', edit_in_host_po_path(in_host_po) %></td>
             <td><%= link_to 'Destroy', in_host_po, method: :delete %></td>
         </tr>
