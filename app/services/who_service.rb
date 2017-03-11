@@ -10,17 +10,18 @@ class WhoService
 
 
     def who_starter
+        a=0
+        z=2
+        indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(staff_url: nil)[a..z]
 
+        # indexers = Indexer.where(clean_url: "http://www.kendallfordanchorage.com")
 
+        counter=0
+        indexers.each do |indexer|
+            counter+=1
+            puts "\n#{'='*30}\n[#{a}...#{z}]  (#{counter}/#{range})"
 
-        whos = Who.where.not(clean_url: nil).where()
-
-        whos.each do |who|
-
-        url = "http://www.kendallfordanchorage.com"
-
-        indexer_clean_url = Indexer.where(clean_url: url).map(&:clean_url).first
-
+            url = indexer.clean_url
 
             uri = URI(url)
             scheme = uri.scheme
@@ -186,10 +187,13 @@ class WhoService
                 who_status = "WhoIs Result"
                 url_status = "WhoIs Result"
 
+                indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(staff_url: nil)[a..z]
 
-                who.update_attributes(who_status: who_status, url_status: url_status, domain_id: domain_id, ip: ip, server1: server1, server2: server2, registrar_url: registrar_url, registrar_id: registrar_id, registrant_id: registrant_id, registrant_type: registrant_type, registrant_name: registrant_name, registrant_organization: registrant_organization, registrant_address: registrant_address, registrant_city: registrant_city, registrant_zip: registrant_zip, registrant_state: registrant_state, registrant_country: registrant_country, registrant_country_code: registrant_country_code, registrant_phone: registrant_phone, registrant_fax: registrant_fax, registrant_email: registrant_email, registrant_url: registrant_url, registrant_created_on: registrant_created_on, registrant_updated_on: registrant_updated_on, admin_id: admin_id, admin_type: admin_type, admin_name: admin_name, admin_organization: admin_organization, admin_address: admin_address, admin_city: admin_city, admin_zip: admin_zip, admin_state: admin_state, admin_country: admin_country, admin_country_code: admin_country_code, admin_phone: admin_phone, admin_fax: admin_fax, admin_email: admin_email, admin_url: admin_url, admin_created_on: admin_created_on, admin_updated_on: admin_updated_on, tech_id: tech_id, tech_type: tech_type, tech_name: tech_name, tech_organization: tech_organization, tech_address: tech_address, tech_city: tech_city, tech_zip: tech_zip, tech_state: tech_state, tech_country: tech_country, tech_country_code: tech_country_code, tech_phone: tech_phone, tech_fax: tech_fax, tech_email: tech_email, tech_url: tech_url, tech_created_on: tech_created_on, tech_updated_on: tech_updated_on)
+                indexer.update_attributes(indexer_status: who_status, who_status: who_status)
+                
 
-                # indexer_clean_url.update_attributes(indexer_status: "WhoIs Result", whois_sts: "WhoIs Result")
+
+                indexer.update_attributes(who_status: who_status, url_status: url_status, domain_id: domain_id, ip: ip, server1: server1, server2: server2, registrar_url: registrar_url, registrar_id: registrar_id, registrant_id: registrant_id, registrant_type: registrant_type, registrant_name: registrant_name, registrant_organization: registrant_organization, registrant_address: registrant_address, registrant_city: registrant_city, registrant_zip: registrant_zip, registrant_state: registrant_state, registrant_country: registrant_country, registrant_country_code: registrant_country_code, registrant_phone: registrant_phone, registrant_fax: registrant_fax, registrant_email: registrant_email, registrant_url: registrant_url, registrant_created_on: registrant_created_on, registrant_updated_on: registrant_updated_on, admin_id: admin_id, admin_type: admin_type, admin_name: admin_name, admin_organization: admin_organization, admin_address: admin_address, admin_city: admin_city, admin_zip: admin_zip, admin_state: admin_state, admin_country: admin_country, admin_country_code: admin_country_code, admin_phone: admin_phone, admin_fax: admin_fax, admin_email: admin_email, admin_url: admin_url, admin_created_on: admin_created_on, admin_updated_on: admin_updated_on, tech_id: tech_id, tech_type: tech_type, tech_name: tech_name, tech_organization: tech_organization, tech_address: tech_address, tech_city: tech_city, tech_zip: tech_zip, tech_state: tech_state, tech_country: tech_country, tech_country_code: tech_country_code, tech_phone: tech_phone, tech_fax: tech_fax, tech_email: tech_email, tech_url: tech_url, tech_created_on: tech_created_on, tech_updated_on: tech_updated_on)
 
 
 
