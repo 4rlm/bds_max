@@ -1,6 +1,8 @@
 class IndexersController < ApplicationController
+    before_action :intermediate_and_up, only: [:index, :show]
+    before_action :advanced_and_up, only: [:edit, :update]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
     before_action :set_indexer, only: [:show, :edit, :update, :destroy]
-
     before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
 
 
@@ -225,11 +227,5 @@ class IndexersController < ApplicationController
         rows = Indexer.where(id: ids)
         rows.destroy_all
     end
-
-
-
-
-
-
 
 end

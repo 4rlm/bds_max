@@ -1,50 +1,46 @@
 Rails.application.routes.draw do
-  resources :indexer_terms do
-      collection { post :import_csv_data }
-  end
-  get 'indexer_term/import_page' => 'indexer_terms#import_page'
+    resources :indexer_terms do
+        collection { post :import_csv_data }
+    end
+    get 'indexer_term/import_page' => 'indexer_terms#import_page'
 
 
-  resources :indexers do
-      collection {post :import_csv_data}
-    #   get :merge_data, on: :collection
-  end
-  get 'indexer/search' => 'indexers#search'
-  get 'indexer/import_page' => 'indexers#import_page'
-  get 'page_finder_btn' => 'indexers#page_finder_btn'
-  get 'reset_errors_btn' => 'indexers#reset_errors_btn'
-  get 'indexer_power_btn' => 'indexers#indexer_power_btn'
-  get 'template_finder_btn' => 'indexers#template_finder_btn'
-  get 'rooftop_data_getter_btn' => 'indexers#rooftop_data_getter_btn'
-  get 'meta_scraper_btn' => 'indexers#meta_scraper_btn'
+    resources :indexers do
+        collection {post :import_csv_data}
+        #   get :merge_data, on: :collection
+    end
+    get 'indexer/search' => 'indexers#search'
+    get 'indexer/import_page' => 'indexers#import_page'
+    get 'page_finder_btn' => 'indexers#page_finder_btn'
+    get 'reset_errors_btn' => 'indexers#reset_errors_btn'
+    get 'indexer_power_btn' => 'indexers#indexer_power_btn'
+    get 'template_finder_btn' => 'indexers#template_finder_btn'
+    get 'rooftop_data_getter_btn' => 'indexers#rooftop_data_getter_btn'
+    get 'meta_scraper_btn' => 'indexers#meta_scraper_btn'
 
+    devise_for :users
+    resources :geo_places
 
-  devise_for :users
-  resources :geo_places
+    resources :locations do
+        collection {post :import_csv_data}
+        get :merge_data, on: :collection
+        get :flag_data, on: :collection
+    end
+    get 'location/import_page' => 'locations#import_page'
+    get 'location/search' => 'locations#search'
+    get 'geo_places_starter_btn' => 'locations#geo_places_starter_btn'
+    get 'location_power_btn' => 'locations#location_power_btn'
+    get 'turbo_matcher_btn' => 'locations#turbo_matcher_btn'
 
-  resources :locations do
-      collection {post :import_csv_data}
-      get :merge_data, on: :collection
-      get :flag_data, on: :collection
-  end
-  get 'location/import_page' => 'locations#import_page'
-  get 'location/search' => 'locations#search'
-  get 'geo_places_starter_btn' => 'locations#geo_places_starter_btn'
-  get 'location_power_btn' => 'locations#location_power_btn'
-  get 'turbo_matcher_btn' => 'locations#turbo_matcher_btn'
+    resources :dashboards
 
-  get 'location/old_index' => 'locations#old_index'
-
-
-  resources :dashboards
-
-  resources :staffers do
-      collection { post :import_csv_data }
-  end
-  get 'staffer/import_page' => 'staffers#import_page'
-  get 'staffer/search' => 'staffers#search'
-  get 'staffer/acct_contacts' => 'staffers#acct_contacts'
-  get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
+    resources :staffers do
+        collection { post :import_csv_data }
+    end
+    get 'staffer/import_page' => 'staffers#import_page'
+    get 'staffer/search' => 'staffers#search'
+    get 'staffer/acct_contacts' => 'staffers#acct_contacts'
+    get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
 
     resources :cores do
         collection { post :import_core_data }
@@ -148,7 +144,7 @@ Rails.application.routes.draw do
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
     get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
     get 'solitary_migrator' => 'solitaries#solitary_migrator'
-    get 'geo_starter_btn' => 'locations#geo_starter_btn'
+    # get 'geo_starter_btn' => 'locations#geo_starter_btn'
 
     #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
@@ -156,7 +152,7 @@ Rails.application.routes.draw do
     post 'search_result_page_staffer' => 'search#search_result_staffer'
     post 'search_result_page_location' => 'search#search_result_location'
     post 'search_result_page_indexer' => 'search#search_result_indexer'
-
+    post 'search_result_page_indexer' => 'search#search_result_indexer'
 
     # === Google API Route ===
 
