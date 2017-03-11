@@ -18,36 +18,36 @@
         <th colspan="2">CRM Account  <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Name" %></th>
 
         <!-- FULL ADDRESS -->
-        <th> GEO Address  <%= link_to location, :target => "_blank" do %>
-            <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "Coordinates: #{location.coordinates}" %>
-            <% end %></th>
-
-            <!-- FULL ADDRESS -->
-            <% unless location.geo_full_addr == nil %>
-            <th colspan="2">CRM Address
-                <%= link_to location, :target => "_blank" do %>
+        <th>
+            GEO Address
+            <%= link_to location, :target => "_blank" do %>
                 <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "Coordinates: #{location.coordinates}" %>
+            <% end %>
+        </th>
+
+        <!-- FULL ADDRESS -->
+        <% if location.geo_full_addr != nil %>
+            <th colspan="2">
+                CRM Address
+                <%= link_to location, :target => "_blank" do %>
+                    <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "Coordinates: #{location.coordinates}" %>
                 <% end %>
             </th>
-            <% else %>
+        <% else %>
             <%= fa_icon "map lg", class: "fa-white", "data-toggle": "tooltip", "data-placement": "top", title: "No Coordinates!" %>
-            <% end %>
-        </tr>
+        <% end %>
+    </tr>
+</thead>
 
-    </thead>
+<tbody><!-- 2ND ROW: GEO DATA -->
+    <!-- 3rd+ rows start - partial -->
+    <%= render partial: 'table_row', locals: {location: location, num: num} %>
 
+    <% s_ids = get_other_sfdc_ids(location) %>
 
-    <tbody><!-- 2ND ROW: GEO DATA -->
-
-
-        <!-- 3rd+ rows start - partial -->
-        <%= render partial: 'table_row', locals: {location: location, num: num} %>
-
-        <% s_ids = get_other_sfdc_ids(location) %>
-
-        <% s_ids.each do |id| %>
+    <% s_ids.each do |id| %>
         <% if loc = Location.find_by(sfdc_id: id) %>
-        <%= render partial: 'table_row', locals: {location: loc, num: ""} %>
+            <%= render partial: 'table_row', locals: {location: loc, num: ""} %>
         <% end %>
-        <% end %>
-    </tbody>
+    <% end %>
+</tbody>
