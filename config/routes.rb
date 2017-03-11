@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-    resources :indexer_terms do
+    resources :indexer_terms, except: [:show] do
         collection { post :import_csv_data }
     end
     get 'indexer_term/import_page' => 'indexer_terms#import_page'
 
-    resources :indexers do
+    resources :indexers, except: [:show] do
         collection {post :import_csv_data}
         #   get :merge_data, on: :collection
     end
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     get 'rooftop_data_getter_btn' => 'indexers#rooftop_data_getter_btn'
     get 'meta_scraper_btn' => 'indexers#meta_scraper_btn'
 
-    resources :locations do
+    resources :locations, except: [:show] do
         collection {post :import_csv_data}
         get :merge_data, on: :collection
         get :flag_data, on: :collection
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     get 'geo_update_migrate_btn' => 'locations#geo_update_migrate_btn'
     # get 'geo_starter_btn' => 'locations#geo_starter_btn'
 
-    resources :staffers do
+    resources :staffers, except: [:show] do
         collection { post :import_csv_data }
     end
     get 'staffer/import_page' => 'staffers#import_page'
@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
     get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
 
-    resources :cores do
+    resources :cores, except: [:show] do
         collection { post :import_core_data }
     end
     get 'core/import_page' => 'cores#import_page'
@@ -52,12 +52,12 @@ Rails.application.routes.draw do
     # Quick Search Button
     get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
 
-    resources :in_host_pos do
+    resources :in_host_pos, except: [:show] do
         collection { post :import_csv_data }
     end
     get 'in_host_po/import_page' => 'in_host_pos#import_page'
 
-    resources :dashboards
+    resources :dashboards, except: [:show]
 
     devise_for :users
 

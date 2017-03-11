@@ -1,12 +1,9 @@
+<h3 class="section-header">Filter Core Accounts</h3>
+<h4>Total Accounts: <%= number_with_delimiter(@cores_count) %></h4>
+<h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
+
 <%= form_tag "/cores", method: :get, class: 'form-inline'  do %>
-
-    <h3 class="section-header">Filter Core Accounts</h3>
-    <h4>Total Accounts: <%= number_with_delimiter(@cores_count) %></h4>
-    <h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
-
     <div class="theme-layout filter-container">
-
-
         <div class="row filter-row">
             <div class="filter-col col-md-12">
                 <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
@@ -105,9 +102,6 @@
                 </table>
             </div>
         </div>  <!-- row ends -->
-
     </div> <!-- filter-container Ends -->
-
     <%= submit_tag "Search", class: 'wide-button green-button' %>
-
 <% end %>

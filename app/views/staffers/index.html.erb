@@ -1,8 +1,6 @@
 <h1 class="page-header">Contacts</h1>
 <h4 class="text-center">Combined Dealer Contacts from CRM and Dealer Staff Pages</h4>
 
-<%= form_tag "/staffers", method: :get, class: 'form-inline'  do %>
-
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
 
@@ -11,10 +9,7 @@
     <h3 class="section-header">Contact Profiles - List View</h3>
     <p>List view shows more (than detailed view), but will NOT be attached to account detailed view.</p>
 
-    <div class="pull-right">
-        <%= render partial: 'buttons' %>
-    </div> <br>
-
+    <%= render partial: 'buttons' %>
     <%= render partial: 'list_view', locals: { staffers: @staffers } %>
 <% end %>
 
@@ -23,24 +18,6 @@
     <%= render partial: 'detailed_view' %>
 <% end %>
 
-
-<div class="pull-left">
-    <div class="form-group">
-        <div class="submit-button-area">
-            <%= select_tag :selected_status, options_for_select(staffer_status_list), include_blank: '-- Update Status --', class: 'selectpicker' %>
-        </div>
-        <div class="submit-button-area">
-            <%= submit_tag "Submit", class: 'btn btn-success' %>
-        </div>
-    </div>
-</div>
-
-<div class="pull-right">
-    <%= render partial: 'buttons' %>
-</div><br>
+<%= render partial: 'buttons' %>
 <!-- Was end tag here.  Moved to bottom of index, after making list view partial.    -->
 <%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
-
-<!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
-<% end %>
-<!-- Filter Headers Form tag ends -->
