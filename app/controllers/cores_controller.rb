@@ -164,7 +164,7 @@ class CoresController < ApplicationController
         # @core_service.franchise_consolidator
 
         # redirect_to root_path
-        redirect_to search_path
+        redirect_to cores_path
 
     end
 

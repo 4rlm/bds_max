@@ -66,12 +66,12 @@
             <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong><%= current_user.first_name %></strong> <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <% if admin_only %>
-                    <li><%= link_to 'Google Search', search_path %></li>
+                    <!-- <li><%#= link_to 'Google Search', search_path %></li> -->
                     <li><%= link_to 'Admin', admin_index_path %></li>
                     <li role="separator" class="divider"></li>
                     <li><%= link_to 'Dashboards', dashboards_path %></li>
                     <!-- <li><%#= link_to 'Solitary', solitaries_path %></li> -->
-                    <li><%= link_to 'Pending Verification', pending_verifications_path %></li>
+                    <!-- <li><%#= link_to 'Pending Verification', pending_verifications_path %></li> -->
                     <!-- <li><%#= link_to '(C) Blocked URLs', exclude_roots_path %></li> -->
                     <!-- <li><%#= link_to '(C) Blocked Terms', in_host_dels_path %></li> -->
                     <li><%= link_to 'Franchises', in_host_pos_path %></li>
