@@ -1,197 +1,197 @@
 class IndexersController < ApplicationController
-  before_action :set_indexer, only: [:show, :edit, :update, :destroy]
+    before_action :set_indexer, only: [:show, :edit, :update, :destroy]
 
-  before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
+    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
 
 
-  # GET /indexers
-  # GET /indexers.json
-  def index
+    # GET /indexers
+    # GET /indexers.json
+    def index
 
-    @indexers = Indexer.all
+        @indexers = Indexer.all
 
-    ## SET ORDER OF DISPLAYED DATA ##
-    @indexers = @indexers.order(updated_at: :desc)
+        ## SET ORDER OF DISPLAYED DATA ##
+        @indexers = @indexers.order(updated_at: :desc)
 
-    # CSV #
-    indexers_csv = @indexers.order(:clean_url)
-    respond_to do |format|
-        format.html
-        format.csv { render text: indexers_csv.to_csv }
+        # CSV #
+        indexers_csv = @indexers.order(:clean_url)
+        respond_to do |format|
+            format.html
+            format.csv { render text: indexers_csv.to_csv }
+        end
+
+        # @indexers = @indexers.paginate(:page => params[:page], :per_page => 100)
+
+        # WILL_PAGINATE #
+        @indexers = @indexers.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
+
+
+        batch_status
     end
 
-    # @indexers = @indexers.paginate(:page => params[:page], :per_page => 100)
-
-    # WILL_PAGINATE #
-    @indexers = @indexers.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
-
-
-    batch_status
-  end
-
-  # GET /indexers/1
-  # GET /indexers/1.json
-  def show
-  end
-
-  # GET /indexers/new
-  def new
-    @indexer = Indexer.new
-  end
-
-  def import_page
-  end
-
-  def import_csv_data
-      file_name = params[:file]
-      Indexer.import_csv(file_name)
-
-      flash[:notice] = "CSV imported successfully."
-      redirect_to indexers_path
-  end
-
-  def search
-      @indexer_count = Indexer.count
-  end
-
-
-
-  # GET /indexers/1/edit
-  def edit
-  end
-
-
-  # POST /indexers
-  # POST /indexers.json
-  def create
-    @indexer = Indexer.new(indexer_params)
-
-    respond_to do |format|
-      if @indexer.save
-        format.html { redirect_to @indexer, notice: 'Indexer was successfully created.' }
-        format.json { render :show, status: :created, location: @indexer }
-      else
-        format.html { render :new }
-        format.json { render json: @indexer.errors, status: :unprocessable_entity }
-      end
+    # GET /indexers/1
+    # GET /indexers/1.json
+    def show
     end
-  end
 
-  # PATCH/PUT /indexers/1
-  # PATCH/PUT /indexers/1.json
-  def update
-    respond_to do |format|
-      if @indexer.update(indexer_params)
-        format.html { redirect_to @indexer, notice: 'Indexer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @indexer }
-      else
-        format.html { render :edit }
-        format.json { render json: @indexer.errors, status: :unprocessable_entity }
-      end
+    # GET /indexers/new
+    def new
+        @indexer = Indexer.new
     end
-  end
 
-  # DELETE /indexers/1
-  # DELETE /indexers/1.json
-  def destroy
-    @indexer.destroy
-    respond_to do |format|
-      format.html { redirect_to indexers_url, notice: 'Indexer was successfully destroyed.' }
-      format.json { head :no_content }
+    def import_page
     end
-  end
+
+    def import_csv_data
+        file_name = params[:file]
+        Indexer.import_csv(file_name)
+
+        flash[:notice] = "CSV imported successfully."
+        redirect_to indexers_path
+    end
+
+    def search
+        @indexer_count = Indexer.count
+    end
+
+
+
+    # GET /indexers/1/edit
+    def edit
+    end
+
+
+    # POST /indexers
+    # POST /indexers.json
+    def create
+        @indexer = Indexer.new(indexer_params)
+
+        respond_to do |format|
+            if @indexer.save
+                format.html { redirect_to @indexer, notice: 'Indexer was successfully created.' }
+                format.json { render :show, status: :created, location: @indexer }
+            else
+                format.html { render :new }
+                format.json { render json: @indexer.errors, status: :unprocessable_entity }
+            end
+        end
+    end
+
+    # PATCH/PUT /indexers/1
+    # PATCH/PUT /indexers/1.json
+    def update
+        respond_to do |format|
+            if @indexer.update(indexer_params)
+                format.html { redirect_to @indexer, notice: 'Indexer was successfully updated.' }
+                format.json { render :show, status: :ok, location: @indexer }
+            else
+                format.html { render :edit }
+                format.json { render json: @indexer.errors, status: :unprocessable_entity }
+            end
+        end
+    end
+
+    # DELETE /indexers/1
+    # DELETE /indexers/1.json
+    def destroy
+        @indexer.destroy
+        respond_to do |format|
+            format.html { redirect_to indexers_url, notice: 'Indexer was successfully destroyed.' }
+            format.json { head :no_content }
+        end
+    end
 
 
 
 
-  ### =============== BUTTONS Start ===============
+    ### =============== BUTTONS Start ===============
 
-  def indexer_power_btn
-    # @service.url_arr_extractor
-    # @service.scraped_contacts_sts_checker
-    # @service.count_contacts
-    # @service.dup_url_cleaner
-    # @service.delay.dup_url_cleaner
-    # @service.staff_url_cleaner
-    # @service.pending_verifications_importer
-    # @service.delay.pending_verifications_importer
-    # @service.url_downcase
-    # @service.delay.url_downcase
-    # @service.hyrell_cleaner
-    # @service.template_counter
-    # @service.stafflink_express
-    # @service.core_phone_norm
-    # @service.core_url_redirect
+    def indexer_power_btn
+        # @service.url_arr_extractor
+        # @service.scraped_contacts_sts_checker
+        # @service.count_contacts
+        # @service.dup_url_cleaner
+        # @service.delay.dup_url_cleaner
+        # @service.staff_url_cleaner
+        # @service.pending_verifications_importer
+        # @service.delay.pending_verifications_importer
+        # @service.url_downcase
+        # @service.delay.url_downcase
+        # @service.hyrell_cleaner
+        # @service.template_counter
+        # @service.stafflink_express
+        # @service.core_phone_norm
+        # @service.core_url_redirect
 
-    # @service.url_redirect_checker
-    # @service.delay.url_redirect_checker
+        # @service.url_redirect_checker
+        # @service.delay.url_redirect_checker
 
-    # @service.indexer_duplicate_purger
-    # @service.db_data_trimmer
-    @service.acct_pin_gen
-    # @service.pin_acct_counter
+        # @service.indexer_duplicate_purger
+        # @service.db_data_trimmer
+        @service.acct_pin_gen
+        # @service.pin_acct_counter
 
-    # @service.redirect_url_migrator
-
-
-      redirect_to indexers_path
-  end
+        # @service.redirect_url_migrator
 
 
-  def reset_errors_btn
+        redirect_to indexers_path
+    end
+
+
+    def reset_errors_btn
         # @service.reset_errors
 
-      redirect_to indexers_path
-  end
+        redirect_to indexers_path
+    end
 
 
-  def page_finder_btn
-    # @service.page_finder_starter
-    # @service.delay.page_finder_starter
-    #   @service.url_importer
+    def page_finder_btn
+        # @service.page_finder_starter
+        # @service.delay.page_finder_starter
+        #   @service.url_importer
 
-      redirect_to indexers_path
-  end
+        redirect_to indexers_path
+    end
 
-  def template_finder_btn
-    #   @service.template_finder
-    #   @service.delay.template_finder
-
-
-      redirect_to indexers_path
-  end
+    def template_finder_btn
+        #   @service.template_finder
+        #   @service.delay.template_finder
 
 
-  def rooftop_data_getter_btn
-    #   @service.rooftop_data_getter
-    #   @service.delay.rooftop_data_getter
-
-      redirect_to indexers_path
-  end
-
-  def meta_scraper_btn
-      @service.meta_scraper
-    #   @service.delay.meta_scraper
-
-      redirect_to indexers_path
-  end
+        redirect_to indexers_path
+    end
 
 
+    def rooftop_data_getter_btn
+        #   @service.rooftop_data_getter
+        #   @service.delay.rooftop_data_getter
 
-  ### =============== BUTTONS End ===============
+        redirect_to indexers_path
+    end
+
+    def meta_scraper_btn
+        #   @service.meta_scraper
+        @service.delay.meta_scraper
+
+        redirect_to indexers_path
+    end
 
 
 
+    ### =============== BUTTONS End ===============
 
-  private
+
+
+
+    private
     # Use callbacks to share common setup or constraints between actions.
     def set_indexer
-      @indexer = Indexer.find(params[:id])
+        @indexer = Indexer.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_params
-      params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin)
+        params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin)
     end
 
 
