@@ -164,7 +164,7 @@ class CoresController < ApplicationController
         # @core_service.franchise_consolidator
 
         # redirect_to root_path
-        redirect_to search_path
+        redirect_to cores_path
 
     end
 
@@ -226,7 +226,6 @@ class CoresController < ApplicationController
         IndexerService.new.delay.start_indexer(ids)
         # IndexerService.new.start_indexer(ids)
         flash[:notice] = 'Indexer started!'
-        # redirect_to indexer_staffs_path
         redirect_to cores_path
     end
 

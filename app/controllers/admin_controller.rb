@@ -1,4 +1,6 @@
 class AdminController < ApplicationController
+    before_action :admin_only
+
     def index
         @pending_users =  User.where(role: "pending")
         @basic_users =  User.where(role: "basic")

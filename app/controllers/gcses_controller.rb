@@ -1,4 +1,8 @@
 class GcsesController < ApplicationController
+    # Hide all CRUD actions 2017.03.10
+    # So all CRUD actions are only accessible to admin only for now.
+    before_action :admin_only
+
     before_action :set_gcse, only: [:show, :edit, :update, :destroy]
     before_action :set_gcse_service, only: [:gcse_cleaner_btn, :index, :auto_match_btn]
 

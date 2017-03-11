@@ -1,4 +1,7 @@
 class DashboardsController < ApplicationController
+    before_action :intermediate_and_up, only: [:index, :show]
+    before_action :advanced_and_up, only: [:edit, :update]
+    before_action :admin_only, only: [:new, :create, :destroy]
     before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
 
     # GET /dashboards

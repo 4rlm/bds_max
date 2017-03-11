@@ -1,2 +1,0 @@
-class GeoPlace < ApplicationRecord
-end

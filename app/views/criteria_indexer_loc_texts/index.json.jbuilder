@@ -1,1 +1,0 @@
-json.array! @criteria_indexer_loc_texts, partial: 'criteria_indexer_loc_texts/criteria_indexer_loc_text', as: :criteria_indexer_loc_text

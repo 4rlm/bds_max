@@ -1,4 +1,8 @@
 class SearchController < ApplicationController
+    # Hide all CRUD actions 2017.03.10
+    # So all CRUD actions are only accessible to admin only for now.
+    before_action :admin_only
+
     def index
 
         # == Google API Starts ==Test ! Starts ===
