@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :whos
+  
     resources :indexer_terms do
         collection { post :import_csv_data }
     end
