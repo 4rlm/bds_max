@@ -1,1 +1,0 @@
-json.partial! "criteria_indexer_loc_hrefs/criteria_indexer_loc_href", criteria_indexer_loc_href: @criteria_indexer_loc_href

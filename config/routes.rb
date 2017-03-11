@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     get 'meta_scraper_btn' => 'indexers#meta_scraper_btn'
 
     devise_for :users
-    resources :geo_places
 
     resources :locations do
         collection {post :import_csv_data}
@@ -86,35 +85,15 @@ Rails.application.routes.draw do
     end
     get 'solitary/import_page' => 'solitaries#import_page'
 
-    resources :criteria_indexer_staff_texts do
-        collection { post :import_csv_data }
-    end
-    get 'criteria_indexer_staff_text/import_page' => 'criteria_indexer_staff_texts#import_page'
-
     resources :criteria_indexer_staff_hrefs do
         collection { post :import_csv_data }
     end
     get 'criteria_indexer_staff_href/import_page' => 'criteria_indexer_staff_hrefs#import_page'
 
-    resources :criteria_indexer_loc_hrefs do
-        collection { post :import_csv_data }
-    end
-    get 'criteria_indexer_loc_href/import_page' => 'criteria_indexer_loc_hrefs#import_page'
-
     resources :criteria_indexer_loc_texts do
         collection { post :import_csv_data }
     end
     get 'criteria_indexer_loc_text/import_page' => 'criteria_indexer_loc_texts#import_page'
-
-    resources :indexer_locations do
-        collection { post :import_csv_data }
-    end
-    get 'indexer_location/import_page' => 'indexer_locations#import_page'
-
-    resources :indexer_staffs do
-        collection { post :import_csv_data }
-    end
-    get 'indexer_staff/import_page' => 'indexer_staffs#import_page'
 
     resources :pending_verifications do
         collection { post :import_csv_data }
@@ -133,8 +112,6 @@ Rails.application.routes.draw do
     get 'anything_btn' => 'cores#anything_btn'
     get 'col_splitter_btn' => 'cores#col_splitter_btn'
     get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
-    get 'indexer_staff_cleaner_btn' => 'indexer_staffs#indexer_staff_cleaner_btn'
-    get 'indexer_location_cleaner_btn' => 'indexer_locations#indexer_location_cleaner_btn'
     get 'location_cleaner_btn' => 'locations#location_cleaner_btn'
     get 'geo_update_migrate_btn' => 'locations#geo_update_migrate_btn'
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310195554) do
+ActiveRecord::Schema.define(version: 20170311033841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,12 +88,6 @@ ActiveRecord::Schema.define(version: 20170310195554) do
     t.string   "web_phones",              default: [],              array: true
   end
 
-  create_table "criteria_indexer_loc_hrefs", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "criteria_indexer_loc_texts", force: :cascade do |t|
     t.string   "term"
     t.datetime "created_at", null: false
@@ -101,12 +95,6 @@ ActiveRecord::Schema.define(version: 20170310195554) do
   end
 
   create_table "criteria_indexer_staff_hrefs", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "criteria_indexer_staff_texts", force: :cascade do |t|
     t.string   "term"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -165,29 +153,6 @@ ActiveRecord::Schema.define(version: 20170310195554) do
     t.string   "sfdc_root"
   end
 
-  create_table "geo_places", force: :cascade do |t|
-    t.string   "sfdc_id"
-    t.string   "account"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-    t.string   "latitude"
-    t.string   "longitude"
-    t.string   "phone"
-    t.string   "website"
-    t.string   "map_url"
-    t.string   "img_url"
-    t.string   "hierarchy"
-    t.string   "place_id"
-    t.string   "address_components"
-    t.string   "reference"
-    t.string   "aspects"
-    t.string   "reviews"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-  end
-
   create_table "in_host_dels", force: :cascade do |t|
     t.string   "term"
     t.datetime "created_at", null: false
@@ -214,30 +179,6 @@ ActiveRecord::Schema.define(version: 20170310195554) do
     t.datetime "updated_at",        null: false
     t.string   "consolidated_term"
     t.string   "category"
-  end
-
-  create_table "indexer_locations", force: :cascade do |t|
-    t.string   "indexer_status"
-    t.string   "sfdc_acct"
-    t.string   "domain"
-    t.string   "text"
-    t.string   "href"
-    t.string   "link"
-    t.string   "sfdc_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  create_table "indexer_staffs", force: :cascade do |t|
-    t.string   "indexer_status"
-    t.string   "sfdc_acct"
-    t.string   "domain"
-    t.string   "text"
-    t.string   "href"
-    t.string   "link"
-    t.string   "sfdc_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
   end
 
   create_table "indexer_terms", force: :cascade do |t|

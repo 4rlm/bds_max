@@ -1,1 +1,0 @@
-json.array! @indexer_staffs, partial: 'indexer_staffs/indexer_staff', as: :indexer_staff

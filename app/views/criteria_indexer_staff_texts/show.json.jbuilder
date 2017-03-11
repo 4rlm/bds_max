@@ -1,1 +1,0 @@
-json.partial! "criteria_indexer_staff_texts/criteria_indexer_staff_text", criteria_indexer_staff_text: @criteria_indexer_staff_text

@@ -1,1 +1,0 @@
-json.array! @indexer_locations, partial: 'indexer_locations/indexer_location', as: :indexer_location
