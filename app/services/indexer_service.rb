@@ -30,8 +30,8 @@ class IndexerService
     # RT SCRAPER - STARTS
     ##########################################
     def rooftop_data_getter # RoofTop Scraper
-        a=0
-        z=-1
+        # a=0
+        # z=-1
         # a=200
         # z=400
         # a=400
@@ -41,18 +41,15 @@ class IndexerService
         # a=800
         # z=1000
 
-
         ### Completed: Dealer.com, Dealer Direct, DealerOn, DealerFire, Dealer Inspire, DEALER eProcess
         ## Remember to Scrape:
         ## 1. Templates where staff url: nil
         ## 2. Templates where rt_sts: "TCP Error"
 
-
         ###########################################
         indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "Cobalt")[a..z] #5,273
         # indexers = Indexer.where(rt_sts: nil).where.not(template: nil).where(indexer_status: "Page Result")[a..z] ##3,350
         # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: "TCP Error").where.not(template: nil)[a..z]
-
         # indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "DealerCar Search")[a...z] #840
 
         counter=0
@@ -106,7 +103,7 @@ class IndexerService
 
     def meta_scraper
         a=0
-        z=5
+        z=150
         # a=150
         # z=300
         # a=300
@@ -114,9 +111,8 @@ class IndexerService
         # a=450
         # z=600
 
-
         # indexers = Indexer.where(template: "Unidentified")[a..z] ##1,780
-        indexers = Indexer.where.not(indexer_status: ["Meta Result", "Meta Error"]).where(template: "Unidentified")[a..z] 
+        indexers = Indexer.where.not(indexer_status: ["Meta Result", "Meta Error"]).where(template: "Unidentified")[a..z]
 
         # indexers = Indexer.where(indexer_status: "Meta Error")[a..z] ##1,780
         # indexers.each{|x| x.update_attribute(:indexer_status, "Target Meta")}
