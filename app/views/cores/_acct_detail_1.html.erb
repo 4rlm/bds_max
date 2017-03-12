@@ -1,0 +1,195 @@
+<table class="table table-bordered geo-result-table">
+    <tr>
+        <!-- Checkbox / Num -->
+        <!-- Dealer Website URL -->
+        <th><%= num %></th>
+        <!-- account id / sfdc acct link -->
+        <th>ID</th>
+        <!-- bds_status -->
+        <th>Core</th>
+        <!-- domainer status -->
+        <th>Dom</th>
+        <!-- indexer status -->
+        <th colspan="2">Indexer</th>
+        <!-- staffer status -->
+        <th colspan="2">Staffer</th>
+        <!-- dealer website template -->
+        <th>Temp</th>
+        <!-- geo location status -->
+        <th>Geo</th>
+        <!-- CoPilot Franchise and Type -->
+        <th>CoP</th>
+
+    </tr>
+    <tr>
+        <!-- tier -->
+        <td class="geo w-sm"><span data-toggle="tooltip" data-placement="top" title="Sales Tier"><%= core.sfdc_tier %></span></td>
+
+        <!-- Account Icon, SFDC Link, Merge Status -->
+        <% unless core.sfdc_acct_url == nil %>
+            <td class="geo w-xsm fa-blue">
+                <%= link_to add_http(core.sfdc_acct_url), :target => "_blank" do %>
+                    <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_id}" %>
+                <% end %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-red"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "NO SFDC URL" %></td>
+        <% end %>
+
+        <!-- bds_status -->
+        <% unless core.updated_at == nil %>
+            <td class="geo w-xsm fa-blue">
+                <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.bds_status}: #{core.updated_at.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "diamond lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+            </td>
+        <% end %>
+
+        <!-- domainer status -->
+        <% unless core.domain_status == nil %>
+            <td class="geo w-xsm fa-blue">
+                <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.domain_status}: #{core.domainer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "globe lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+            </td>
+        <% end %>
+
+        <!-- staff indexer status -->
+        <% if core.indexer_date != nil && core.staff_indexer_status == "Matched" %>
+            <td class="geo w-xsm fa-blue">
+                <%= link_to core.staff_link, :target => "_blank" do %>
+                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_text}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                <% end %>
+            </td>
+        <% elsif core.indexer_date != nil && core.staff_indexer_status == "Indexer Result" %>
+            <td class="geo w-xsm fa-green">
+                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.staff_indexer_status == "No Matches" %>
+            <td class="geo w-xsm fa-black">
+                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.staff_indexer_status == "Delete" %>
+            <td class="geo w-xsm fa-red">
+                <%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.staff_indexer_status == "Flag" %>
+            <td class="geo w-xsm fa-red">
+                <%= fa_icon "flag lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.staff_indexer_status == "Queue Indexer" %>
+            <td class="geo w-xsm fa-orange">
+                <%= fa_icon "spinner pulse lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+            </td>
+        <% end %>
+
+        <!-- loc indexer status -->
+        <% if core.indexer_date != nil && core.location_indexer_status == "Matched" %>
+            <td class="geo w-xsm fa-blue">
+                <%= link_to core.location_link, :target => "_blank" do %>
+                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_text}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                <% end %>
+            </td>
+        <% elsif core.indexer_date != nil && core.location_indexer_status == "Indexer Result" %>
+            <td class="geo w-xsm fa-green">
+                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.location_indexer_status == "No Matches" %>
+            <td class="geo w-xsm fa-black">
+                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.location_indexer_status == "Delete" %>
+            <td class="geo w-xsm fa-red">
+                <%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.location_indexer_status == "Flag" %>
+            <td class="geo w-xsm fa-red">
+                <%= fa_icon "flag lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.indexer_date != nil && core.location_indexer_status == "Queue Indexer" %>
+            <td class="geo w-xsm fa-orange">
+                <%= fa_icon "spinner pulse lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_indexer_status}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+            </td>
+        <% end %>
+
+        <!-- crm staffer status -->
+        <% if core.staffer_date != nil && core.staffer_status == "CRM Contacts"%>
+            <td class="geo w-xsm fa-blue">
+                <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
+                    <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                <% end %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No CRM Contacts" %>
+            </td>
+        <% end %>
+
+        <!-- web staffer status -->
+        <% if core.staffer_date != nil && core.staffer_status == "Web Contacts"%>
+            <td class="geo w-xsm fa-blue">
+                <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
+                    <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                <% end %>
+            </td>
+        <% elsif core.staffer_date != nil && core.staffer_status.include?("Error") %>
+            <td class="geo w-xsm fa-red">
+                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_status}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Web Contacts" %>
+            </td>
+        <% end %>
+
+        <!-- dealer website template -->
+        <% if core.sfdc_template != nil && core.staffer_date != nil && (core.sfdc_template.include?("Dealer.com") || core.sfdc_template.include?("Dealer.com") || core.sfdc_template.include?("DealerOn") || core.sfdc_template.include?("Cobalt") || core.sfdc_template.include?("DealerFire") || core.sfdc_template.include?("DealerInspire") )%>
+            <td class="geo w-xsm fa-blue">
+                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.sfdc_template != nil && core.staffer_date != nil && core.sfdc_template.include?("Error") %>
+            <td class="geo w-xsm fa-red">
+                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+            </td>
+        <% end %>
+
+        <!-- geo location status -->
+        <% if core.geo_date != nil && core.geo_status == "Geo Result" %>
+            <td class="geo w-xsm fa-blue">
+                <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}:  #{core.geo_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% elsif core.geo_date != nil && core.geo_status.include?("Error") %>
+            <td class="geo w-xsm fa-red">
+                <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.geo_status}:  #{core.geo_date.strftime("%m/%d/%Y")}" %>
+            </td>
+        <% else %>
+            <td class="geo w-xsm fa-gray">
+                <%= fa_icon "map lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+            </td>
+        <% end %>
+
+        <!-- CoPilot franchise brand type & Franchise Category Icon-->
+        <% if core.sfdc_franch_cons && core.sfdc_franch_cat != nil %>
+            <td class="geo w-xsm fa-blue"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "SDF #{core.sfdc_franch_cat}: #{core.sfdc_franch_cons}" %></td>
+        <% else %>
+            <td class="geo w-xsm fa-gray"><%= fa_icon "car lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Franchise Data" %></td>
+        <% end %>
+
+    </tr>
+</table>
