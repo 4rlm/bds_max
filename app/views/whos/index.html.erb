@@ -6,167 +6,153 @@
 <br>
 <br>
 
-
 <% num = 0 %>
 <% @whos.each do |who| %>
-<% num +=1 %>
+    <% num +=1 %>
+    <div id="core-detail" class="text-nowrap geo-result-table">
+        <div class="row profile-row">
+            <div class="profile-col col-md-12">
+                <table class="table table-bordered indexer-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>WhoIs Status</th>
+                            <th>URL Status</th>
+                            <th>URL</th>
+                            <th>URL ID</th>
+                            <th>IP</th>
+                            <th>Server1</th>
+                            <th>Server2</th>
+                            <th>Registrar URL</th>
+                            <th>Registrar</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </thead>
 
-<div id="core-detail" class="text-nowrap geo-result-table">
+                    <tbody>
+                        <tr>
+                            <td><%= num %></td>
+                            <td><%= who.who_status %></td>
+                            <td><%= who.url_status %></td>
+                            <td><%= who.domain %></td>
+                            <td><%= who.domain_id %></td>
+                            <td><%= who.ip %></td>
+                            <td><%= who.server1 %></td>
+                            <td><%= who.server2 %></td>
+                            <td><%= who.registrar_url %></td>
+                            <td><%= who.registrar_id %></td>
+                            <td><%= link_to 'Edit', edit_who_path(who) %></td>
+                            <td><%= link_to 'Destroy', who, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-<div class="row profile-row">
-    <div class="profile-col col-md-12">
-        <table class="table table-bordered indexer-table">
-          <thead>
-            <tr>
-                <th>#</th>
-                <th>WhoIs Status</th>
-                <th>URL Status</th>
-                  <th>URL</th>
-                  <th>URL ID</th>
-                  <th>IP</th>
-                  <th>Server1</th>
-                  <th>Server2</th>
-                  <th>Registrar URL</th>
-                  <th>Registrar</th>
+                <table class="table table-bordered indexer-table">
+                    <tr> <!-- REGISTRANT INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Registrant</th>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Organization</th>
+                        <th>Address Pin</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Zip</th>
+                        <th>State</th>
+                        <th>Phone</th>
+                        <th>Fax</th>
+                        <th>Email</th>
+                        <th>URL</th>
+                    </tr>
 
-                  <th colspan="2"></th>
-              </tr>
-          </thead>
+                    <tr>
+                        <td><%= who.registrant_id %></td>
+                        <td><%= who.registrant_type %></td>
+                        <td><%= who.registrant_name %></td>
+                        <td><%= who.registrant_organization %></td>
+                        <td><%= who.registrant_pin %></td>
+                        <td><%= who.registrant_address %></td>
+                        <td><%= who.registrant_city %></td>
+                        <td><%= who.registrant_zip %></td>
+                        <td><%= who.registrant_state %></td>
+                        <td><%= who.registrant_phone %></td>
+                        <td><%= who.registrant_fax %></td>
+                        <td><%= who.registrant_email %></td>
+                        <td><%= who.registrant_url %></td>
+                    </tr>
 
-          <tbody>
-          <tr>
-              <td><%= num %></td>
-                 <td><%= who.who_status %></td>
-                 <td><%= who.url_status %></td>
-                <td><%= who.domain %></td>
-                <td><%= who.domain_id %></td>
-                <td><%= who.ip %></td>
-                <td><%= who.server1 %></td>
-                <td><%= who.server2 %></td>
-                <td><%= who.registrar_url %></td>
-                <td><%= who.registrar_id %></td>
+                    <tr> <!-- TECH INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Tech</th>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Organization</th>
+                        <th>Address Pin</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Zip</th>
+                        <th>State</th>
+                        <th>Phone</th>
+                        <th>Fax</th>
+                        <th>Email</th>
+                        <th>URL</th>
+                    </tr>
 
-                <td><%= link_to 'Edit', edit_who_path(who) %></td>
-                <td><%= link_to 'Destroy', who, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-            </tr>
-        </tbody>
-    </table>
+                    <tr>
+                        <td><%= who.tech_id %></td>
+                        <td><%= who.tech_type %></td>
+                        <td><%= who.tech_name %></td>
+                        <td><%= who.tech_organization %></td>
+                        <td><%= who.tech_pin %></td>
+                        <td><%= who.tech_address %></td>
+                        <td><%= who.tech_city %></td>
+                        <td><%= who.tech_zip %></td>
+                        <td><%= who.tech_state %></td>
+                        <td><%= who.tech_phone %></td>
+                        <td><%= who.tech_fax %></td>
+                        <td><%= who.tech_email %></td>
+                        <td><%= who.tech_url %></td>
+                    </tr>
 
-  <table class="table table-bordered indexer-table">
+                    <tr> <!-- ADMIN INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Admin</th>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Organization</th>
+                        <th>Address Pin</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Zip</th>
+                        <th>State</th>
+                        <th>Phone</th>
+                        <th>Fax</th>
+                        <th>Email</th>
+                        <th>URL</th>
+                    </tr>
 
-          <tr>
-              <th rowspan="2" class="th-middle w-sm">Tech</th>
-              <th>ID</th>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Organization</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>Zip</th>
-              <th>State</th>
-              <th>Phone</th>
-              <th>Fax</th>
-              <th>Email</th>
-              <th>URL</th>
-          </tr>
+                    <tr>
+                        <td><%= who.admin_id %></td>
+                        <td><%= who.admin_type %></td>
+                        <td><%= who.admin_name %></td>
+                        <td><%= who.admin_organization %></td>
+                        <td><%= who.admin_pin %></td>
+                        <td><%= who.admin_address %></td>
+                        <td><%= who.admin_city %></td>
+                        <td><%= who.admin_zip %></td>
+                        <td><%= who.admin_state %></td>
+                        <td><%= who.admin_phone %></td>
+                        <td><%= who.admin_fax %></td>
+                        <td><%= who.admin_email %></td>
+                        <td><%= who.admin_url %></td>
 
-            <tr>
-                <td><%= who.tech_id %></td>
-                <td><%= who.tech_type %></td>
-                <td><%= who.tech_name %></td>
-                <td><%= who.tech_organization %></td>
-                <td><%= who.tech_address %></td>
-                <td><%= who.tech_city %></td>
-                <td><%= who.tech_zip %></td>
-                <td><%= who.tech_state %></td>
-                <td><%= who.tech_phone %></td>
-                <td><%= who.tech_fax %></td>
-                <td><%= who.tech_email %></td>
-                <td><%= who.tech_url %></td>
-            </tr>
-
-
-        <!-- <thead> -->
-          <tr>
-              <th rowspan="2" class="th-middle w-sm">Registrant</th>
-              <th>ID</th>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Organization</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>Zip</th>
-              <th>State</th>
-              <th>Phone</th>
-              <th>Fax</th>
-              <th>Email</th>
-              <th>URL</th>
-              <!-- <th>created on</th> -->
-              <!-- <th>updated on</th> -->
-          </tr>
-      <!-- </thead> -->
-
-      <!-- <tbody> -->
-          <tr>
-              <td><%= who.registrant_id %></td>
-              <td><%= who.registrant_type %></td>
-              <td><%= who.registrant_name %></td>
-              <td><%= who.registrant_organization %></td>
-              <td><%= who.registrant_address %></td>
-              <td><%= who.registrant_city %></td>
-              <td><%= who.registrant_zip %></td>
-              <td><%= who.registrant_state %></td>
-              <td><%= who.registrant_phone %></td>
-              <td><%= who.registrant_fax %></td>
-              <td><%= who.registrant_email %></td>
-              <td><%= who.registrant_url %></td>
-          </tr>
-      <!-- </tbody> -->
-
-      <!-- <thead> -->
-          <tr>
-              <th rowspan="2" class="th-middle w-sm">Admin</th>
-              <th>ID</th>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Organization</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>Zip</th>
-              <th>State</th>
-              <th>Phone</th>
-              <th>Fax</th>
-              <th>Email</th>
-              <th>URL</th>
-          </tr>
-      <!-- </thead> -->
-
-      <!-- <tbody> -->
-          <tr>
-              <td><%= who.admin_id %></td>
-              <td><%= who.admin_type %></td>
-              <td><%= who.admin_name %></td>
-              <td><%= who.admin_organization %></td>
-              <td><%= who.admin_address %></td>
-              <td><%= who.admin_city %></td>
-              <td><%= who.admin_zip %></td>
-              <td><%= who.admin_state %></td>
-              <td><%= who.admin_phone %></td>
-              <td><%= who.admin_fax %></td>
-              <td><%= who.admin_email %></td>
-              <td><%= who.admin_url %></td>
-
-          </tr>
-      <!-- </tbody> -->
-  </table>
-
-</div>
-
+                    </tr>
+                </table>
+            </div> <!-- /.profile-col col-md-12 -->
+        </div> <!-- /.row profile-row -->
+    </div> <!-- /#core-detail -->
+    <br>
 <% end %>
 
-    </div>
-</div>
-
-<br>
 
 <%= link_to 'New Who', new_who_path %>
