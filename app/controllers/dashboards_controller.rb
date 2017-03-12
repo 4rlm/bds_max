@@ -111,12 +111,13 @@ class DashboardsController < ApplicationController
         redirect_to dashboards_path
     end
 
-    def delayed_jobs_dash_btn
-        @dashboard_service.delayed_jobs_dash
-        # @dashboard_service.delay.delayed_jobs_dash
-
-        redirect_to dashboards_path
-    end
+    # def delayed_jobs_dash_btn
+    ### PROBLEM.  NOT RUNNING.
+    #     @dashboard_service.delayed_jobs_dash
+    #     # @dashboard_service.delay.delayed_jobs_dash
+    #
+    #     redirect_to dashboards_path
+    # end
 
     def franchise_dash_btn
         @dashboard_service.franchise_dash
