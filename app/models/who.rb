@@ -1,6 +1,6 @@
+require 'csv'
+
 class Who < ApplicationRecord
-
-
     # FILTERABLE #
     include Filterable
 
@@ -44,5 +44,24 @@ class Who < ApplicationRecord
     scope :registrant_pin, -> (registrant_pin) { where("registrant_pin like ?", "%#{registrant_pin}%") }
     scope :tech_pin, -> (tech_pin) { where("tech_pin like ?", "%#{tech_pin}%") }
     scope :admin_pin, -> (admin_pin) { where("admin_pin like ?", "%#{admin_pin}%") }
+
+
+    # CSV#
+      def self.to_csv
+          CSV.generate do |csv|
+              csv << column_names
+              all.each do |x|
+                  csv << x.attributes.values_at(*column_names)
+              end
+          end
+      end
+
+      def self.import_csv(file_name)
+          CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
+              row_hash = row.to_hash
+              Who.create!(row_hash)
+          end
+      end
+
 
 end

@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
-  resources :whos
-  get 'who_starter_btn' => 'whos#who_starter_btn'
-
+      resources :whos do
+          collection { post :import_csv_data }
+      end
+      get 'who_starter_btn' => 'whos#who_starter_btn'
+      get 'who/import_page' => 'whos#import_page'
+      get 'who/search' => 'whos#search'
 
 
     resources :indexer_terms do
         collection { post :import_csv_data }
     end
     get 'indexer_term/import_page' => 'indexer_terms#import_page'
+
 
     resources :indexers do
         collection {post :import_csv_data}

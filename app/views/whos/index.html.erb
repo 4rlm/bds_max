@@ -9,6 +9,25 @@
 <%= render partial: 'filter' %>
 <br>
 
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <% if admin_only %>
+                <%= link_to 'Add Record', new_who_path, class: 'btn btn-primary' %>
+                <%= link_to 'Import CSV', who_import_page_path, class: 'btn btn-primary' %>
+            <% end %>
+            <% if advanced_and_up %>
+                <%= link_to 'Download CSV', whos_path(format: "csv"), class: 'btn btn-primary' %>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<%= link_to 'New Who', new_who_path %>
+
+
+
 <% num = 0 %>
 <% @whos.each do |who| %>
     <% num +=1 %>
@@ -157,7 +176,5 @@
     <br>
 <% end %>
 
-
-<%= link_to 'New Who', new_who_path %>
 
 <%= will_paginate @whos, renderer: BootstrapPagination::Rails  %>
