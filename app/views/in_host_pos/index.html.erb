@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1 class="page-header">Franchise Terms in URLs</h1>
 <h4 class="text-center">Criteria for Identifying, Filtering & Categorizing Franchises in URLs</h4>
 
@@ -7,59 +5,46 @@
 
 <h4>Selected Contacts: <%= number_with_delimiter(@selected_staffer_count) %></h4> -->
 
-
-<div class="pull-right">
-    <%= link_to 'Add Record', new_in_host_po_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', in_host_po_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', in_host_pos_path(format: "csv"), class: 'btn btn-primary' %>
-</div>
-<br>
-<br>
+<%= render partial: 'buttons' %>
+<br><br>
 
 <%= form_tag "/in_host_pos", method: :get, class: 'form-inline'  do %>
 
-<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+    <table class="list-table table table-bordered table-hover text-nowrap table-striped">
 
-    <thead>
-        <tr>
-            <th><%= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th>
-            <th>#</th>
-            <th>Terms</th>
-            <th>Brand</th>
-            <th>Br Count</th>
-            <th>Category</th>
-            <th>Cat Count</th>
-            <th colspan="2"></th>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Terms</th>
+                <th>Brand</th>
+                <th>Br Count</th>
+                <th>Category</th>
+                <th>Cat Count</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
 
-    <tbody>
-        <% num = 0 %>
-        <% @in_host_pos.each do |in_host_po| %>
+        <tbody>
+            <% num = 0 %>
+            <% @in_host_pos.each do |in_host_po| %>
+                <% num +=1 %>
+                <tr>
+                    <td><%= num %></td>
+                    <td><%= in_host_po.term %></td>
+                    <td><%= in_host_po.consolidated_term %></td>
+                    <td><%= in_host_po.brand_count %></td>
+                    <td><%= in_host_po.category %></td>
+                    <td><%= in_host_po.cat_count %></td>
+                    <td><%= link_to 'Edit', edit_in_host_po_path(in_host_po) %></td>
+                    <td><%= link_to 'Destroy', in_host_po, method: :delete %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
 
-        <tr>
-            <td><%= check_box_tag "multi_checks[]",  in_host_po.id %></td>
-            <% num +=1 %>
-            <td><%= num %></td>
-            <td><%= in_host_po.term %></td>
-            <td><%= in_host_po.consolidated_term %></td>
-            <td><%= in_host_po.brand_count %></td>
-            <td><%= in_host_po.category %></td>
-            <td><%= in_host_po.cat_count %></td>
-            <td><%= link_to 'Edit', edit_in_host_po_path(in_host_po) %></td>
-            <td><%= link_to 'Destroy', in_host_po, method: :delete %></td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
-
-<div class="pull-left">
-    <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
-</div>
+    <div class="pull-left">
+        <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
+    </div>
 <% end %>
 
-<div class="pull-right">
-    <%= link_to 'Add Record', new_in_host_po_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', in_host_po_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', in_host_pos_path(format: "csv"), class: 'btn btn-primary' %>
-</div>
+<%= render partial: 'buttons' %>

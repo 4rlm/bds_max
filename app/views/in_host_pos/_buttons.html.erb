@@ -1,0 +1,7 @@
+<div class="pull-right">
+    <% if admin_only %>
+        <%= link_to 'Add Record', new_in_host_po_path, class: 'btn btn-primary' %>
+        <%= link_to 'Import CSV', in_host_po_import_page_path, class: 'btn btn-primary' %>
+        <%= link_to 'Download CSV', in_host_pos_path(format: "csv"), class: 'btn btn-primary' %>
+    <% end %>
+</div>
