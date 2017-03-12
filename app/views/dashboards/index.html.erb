@@ -1,27 +1,71 @@
-<p id="notice"><%= notice %></p>
+<h1 class="page-header">Dashboards</h1>
+<h4 class="text-center">Dashboard Data from each Module</h4>
+<br>
+
+<%= link_to "1. Account ReCalc", cores_dash_btn_path, class: 'btn btn-warning' %>
+<%= link_to "2. Contact ReCalc", staffers_dash_btn_path, class: 'btn btn-warning' %>
+<!-- <%#= link_to "3. Crone Job ReCalc", delayed_jobs_dash_btn_path, class: 'btn btn-warning' %> -->
+<%= link_to "3. Franchise ReCalc", franchise_dash_btn_path, class: 'btn btn-warning' %>
+<%= link_to "4. GeoLocation ReCalc", geo_locations_dash_btn_path, class: 'btn btn-warning' %>
+<%= link_to "5. Indexer ReCalc", indexer_dash_btn_path, class: 'btn btn-warning' %>
+<%= link_to "6. User ReCalc", users_dash_btn_path, class: 'btn btn-warning' %>
+<%= link_to "7. WhoIs ReCalc", whos_dash_btn_path, class: 'btn btn-warning' %>
+<%= link_to "8. !MEGA ReCalc!", dashboard_mega_btn_path, class: 'btn btn-warning' %>
+
+<br><br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <% if admin_only %>
+                <%= link_to 'Add Record', new_dashboard_path, class: 'btn btn-primary' %>
+                <%= link_to 'Import CSV', dashboard_import_page_path, class: 'btn btn-primary' %>
+            <% end %>
+            <% if advanced_and_up %>
+                <%= link_to 'Download CSV', dashboards_path(format: "csv"), class: 'btn btn-primary' %>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+
 
 <%= render partial: 'dashboard' %>
 
-<h1>Dashboards</h1>
+<div class="row profile-row">
+    <div class="profile-col col-md-12">
+        <table class="table table-bordered indexer-table">
+            <thead>
+                <tr>
+                    <th>db_name</th>
+                    <th>db_alias</th>
+                    <th>col_name</th>
+                    <th>col_alias</th>
+                    <th>col_total</th>
+                    <th>item_list</th>
+                    <th>item_list_total</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @dashboards.each do |dashboard| %>
-      <tr>
-        <td><%= link_to 'Show', dashboard %></td>
-        <td><%= link_to 'Edit', edit_dashboard_path(dashboard) %></td>
-        <td><%= link_to 'Destroy', dashboard, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+            <tbody>
+                <% @dashboards.each do |dashboard| %>
+                    <tr>
+                        <td><%= dashboard.db_name %></td>
+                        <td><%= dashboard.db_alias %></td>
+                        <td><%= dashboard.col_name %></td>
+                        <td><%= dashboard.col_alias %></td>
+                        <td><%= dashboard.col_total %></td>
+                        <td><%= dashboard.item_list %></td>
+                        <td><%= dashboard.item_list_total %></td>
+                        <% if admin_only %>
+                            <td><%= link_to 'Edit', edit_dashboard_path(dashboard) %></td>
+                            <td><%= link_to 'Destroy', dashboard, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                        <% end %>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
 <br>
-
-<%= link_to 'New Dashboard', new_dashboard_path %>

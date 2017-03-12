@@ -12,6 +12,10 @@ class WhosController < ApplicationController
     ## SET ORDER OF DISPLAYED DATA ##
     @whos = @whos.order(updated_at: :desc)
 
+    @whos_count = Who.count
+    @selected_whos_count = @whos.count
+
+
     # CSV #
     whos_csv = @whos.order(:domain)
     respond_to do |format|
@@ -21,7 +25,7 @@ class WhosController < ApplicationController
 
 
     # WILL_PAGINATE #
-    @whos = @whos.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 5)
+    @whos = @whos.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 20)
 
   end
 
@@ -101,8 +105,8 @@ class WhosController < ApplicationController
 
   ############ BUTTONS ~ START ##############
   def who_starter_btn
-      @who_service.who_starter
-      # @who_service.delay.who_starter
+    #   @who_service.who_starter
+      @who_service.delay.who_starter
 
       redirect_to whos_path
   end

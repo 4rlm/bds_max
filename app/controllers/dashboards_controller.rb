@@ -1,15 +1,26 @@
 class DashboardsController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show]
     before_action :admin_only, only: [:new, :create, :edit, :update, :destroy]
-    before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
+    # before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
+    # before_action :set_dashboard, only: [:show, :edit, :update, :destroy, :import_page, :import_csv_data]
+    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data]
+    # before_action :set_dashboard, only: [:import_page, :import_csv_data]
 
     # GET /dashboards
     # GET /dashboards.json
     def index
         @dashboards = Dashboard.all
 
-        # Core All
-        @core_all = Core.count
+        # CSV #
+        dashboards_csv = @dashboards.order(:updated_at)
+        respond_to do |format|
+            format.html
+            format.csv { render text: dashboards_csv.to_csv }
+        end
+
+
+        # # Core All
+        # @core_all = Core.count
     end
 
     # GET /dashboards/1
@@ -21,6 +32,18 @@ class DashboardsController < ApplicationController
     def new
         @dashboard = Dashboard.new
     end
+
+    def import_page
+    end
+
+    def import_csv_data
+        file_name = params[:file]
+        Dashboard.import_csv(file_name)
+
+        flash[:notice] = "CSV imported successfully."
+        redirect_to dashboards_path
+    end
+
 
     # GET /dashboards/1/edit
     def edit
@@ -66,6 +89,59 @@ class DashboardsController < ApplicationController
         end
     end
 
+    ############ BUTTONS ~ START ##############
+    def dashboard_mega_btn
+        @service.mega_dash
+        # @service.delay.mega_dash
+        redirect_to dashboards_path
+    end
+
+    def cores_dash_btn
+        @service.dash(Core)
+        @service.list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :staffer_status, :geo_status, :who_status])
+        redirect_to dashboards_path
+    end
+
+    def franchise_dash_btn
+        @service.dash(InHostPo)
+        @service.list_getter(InHostPo, [:consolidated_term, :category])
+        redirect_to dashboards_path
+    end
+
+    def indexer_dash_btn
+        @service.dash(Indexer)
+        @service.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status])
+        redirect_to dashboards_path
+    end
+
+    def geo_locations_dash_btn
+        @service.dash(Location)
+        @service.list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts])
+        redirect_to dashboards_path
+    end
+
+    def staffers_dash_btn
+        @service.dash(Staffer)
+        @service.list_getter(Staffer, [:staffer_status, :cont_status])
+        redirect_to dashboards_path
+    end
+
+    def whos_dash_btn
+        @service.dash(Who)
+        @service.list_getter(Who, [:who_status, :url_status])
+        redirect_to dashboards_path
+    end
+
+    # def delayed_jobs_dash_btn
+    ### PROBLEM.  NOT RUNNING.
+    #     @service.delayed_jobs_dash
+    #     # @service.delay.delayed_jobs_dash
+    #
+    #     redirect_to dashboards_path
+    # end
+    ############ BUTTONS ~ END ##############
+
+
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_dashboard
@@ -77,14 +153,19 @@ class DashboardsController < ApplicationController
         params.fetch(:dashboard, {})
     end
 
-    def get_domainer_query_count
-        counter = 0
-        Core.all.each do |core|
-            if core.domainer_date
-                counter += 1
-            end
-        end
-        counter
+    def set_dashboard_service
+        @service = DashboardService.new
     end
+
+
+    # def get_domainer_query_count
+    #     counter = 0
+    #     Core.all.each do |core|
+    #         if core.domainer_date
+    #             counter += 1
+    #         end
+    #     end
+    #     counter
+    # end
 
 end

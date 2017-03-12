@@ -5,6 +5,10 @@
 <%= link_to "WhoIs Starter", who_starter_btn_path, class: 'btn btn-warning' %>
 <br>
 <br>
+
+<h4>Total WhoIs Accounts: <%= number_with_delimiter(@who_count) %></h4>
+<h4>Selected WhoIs Accounts: <%= number_with_delimiter(@selected_whos_count) %></h4>
+
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
 <br>
@@ -23,9 +27,6 @@
         </div>
     </div>
 </div>
-
-<%= link_to 'New Who', new_who_path %>
-
 
 
 <% num = 0 %>

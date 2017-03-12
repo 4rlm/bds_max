@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312220930) do
+ActiveRecord::Schema.define(version: 20170312224331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,14 +41,12 @@ ActiveRecord::Schema.define(version: 20170312220930) do
     t.string   "staff_text"
     t.string   "location_link"
     t.string   "location_text"
-    t.string   "domain_status"
     t.string   "staffer_status"
     t.string   "sfdc_franchise"
     t.string   "sfdc_franch_cat"
     t.string   "acct_source"
     t.string   "sfdc_franch_cons"
     t.string   "sfdc_template"
-    t.string   "temporary_id"
     t.string   "full_address"
     t.float    "latitude"
     t.float    "longitude"
@@ -58,41 +56,37 @@ ActiveRecord::Schema.define(version: 20170312220930) do
     t.string   "geo_full_address"
     t.string   "geo_acct_name"
     t.string   "crm_phone"
-    t.string   "cop_lat"
-    t.string   "cop_lon"
-    t.string   "cop_coordinates"
-    t.string   "cop_template"
     t.string   "cop_franch"
     t.string   "conf_cat"
     t.string   "sfdc_acct_url"
     t.string   "sfdc_ult_grp_id"
     t.string   "sfdc_group_id"
-    t.string   "geo_street"
-    t.string   "geo_city"
-    t.string   "geo_state"
-    t.string   "geo_zip"
-    t.string   "geo_ph"
-    t.string   "geo_url"
-    t.string   "acct_merge_stat"
-    t.string   "acct_merge_stat_dt"
-    t.string   "cont_merge_stat"
-    t.string   "cont_merge_stat_dt"
     t.string   "img_url"
     t.string   "sfdc_ult_rt"
     t.string   "sfdc_grp_rt"
     t.string   "sfdc_zip"
     t.string   "sfdc_clean_url"
     t.string   "crm_acct_pin"
-    t.string   "web_acct_pin"
     t.string   "crm_phones",              default: [],              array: true
-    t.string   "web_phones",              default: [],              array: true
     t.string   "who_status"
     t.string   "acct_merge_sts"
+    t.string   "acct_match_score"
+    t.string   "org_match_status"
+    t.string   "ph_match_status"
+    t.string   "pin_match_status"
+    t.string   "url_match_status"
   end
 
   create_table "dashboards", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "db_name"
+    t.string   "db_alias"
+    t.string   "col_name"
+    t.string   "col_alias"
+    t.string   "col_total"
+    t.string   "item_list",       default: [],              array: true
+    t.string   "item_list_total"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -120,14 +114,6 @@ ActiveRecord::Schema.define(version: 20170312220930) do
     t.datetime "gcse_timestamp"
     t.integer  "gcse_query_num"
     t.integer  "gcse_result_num"
-    t.string   "sfdc_id"
-    t.string   "sfdc_ult_acct"
-    t.string   "sfdc_acct"
-    t.string   "sfdc_type"
-    t.string   "sfdc_street"
-    t.string   "sfdc_city"
-    t.string   "sfdc_state"
-    t.string   "sfdc_url_o"
     t.string   "domain_status"
     t.string   "domain"
     t.string   "root"
@@ -140,6 +126,14 @@ ActiveRecord::Schema.define(version: 20170312220930) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "root_counter"
+    t.string   "sfdc_id"
+    t.string   "sfdc_ult_acct"
+    t.string   "sfdc_acct"
+    t.string   "sfdc_type"
+    t.string   "sfdc_street"
+    t.string   "sfdc_city"
+    t.string   "sfdc_state"
+    t.string   "sfdc_url_o"
     t.string   "sfdc_root"
   end
 

@@ -23,7 +23,6 @@ class Gcse < ApplicationRecord
             row_hash[:sfdc_type] = Gcse.capitalized(row_hash["sfdc_type"])
             row_hash[:sfdc_street] = Gcse.capitalized(row_hash["sfdc_street"])
             row_hash[:sfdc_city] = Gcse.capitalized(row_hash["sfdc_city"])
-            row_hash[:domain_status] = Gcse.capitalized(row_hash["domain_status"])
 
             # Upcase column
             row_hash[:sfdc_state] = Gcse.upcased(row_hash["sfdc_state"])

@@ -86,7 +86,7 @@ class StafferService
                 end
                 puts "\n\n>>> #{error_msg} <<<\n\n"
 
-                indexer.update_attributes(indexer_status: "CS Error", contact_status: cs_error_code)
+                indexer.update_attribute(:indexer_status, "CS Error")
             end ## rescue ends
 
             sleep(3)

@@ -11,19 +11,24 @@
 <%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
 <br>
 
+
+<h4>Total Indexer Accounts: <%= number_with_delimiter(@indexer_count) %></h4>
+<h4>Selected Indexer Accounts: <%= number_with_delimiter(@selected_indexers_count) %></h4>
+
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
 <%= render partial: 'buttons' %>
 
 <div class="row profile-row">
     <div class="profile-col col-md-12">
-        <table class="table table-bordered indexer-table">
+        <table class="table table-bordered indexer-table no-wrap">
           <thead>
             <tr>
                 <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
                 <th>#</th>
                 <th>Indexer Status</th>
                 <th>Redirect status</th>
+                <th>WhoIs Status</th>
                 <th>Template</th>
                 <th>Staff Status</th>
                 <th>Loc Status</th>
@@ -58,6 +63,10 @@
                   <td><%= indexer.indexer_status %></td>
                   <!-- URL indexer_indicator -->
                     <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>"><%= indexer.redirect_status %></td>
+
+
+                    <!-- who_status -->
+                    <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>"><%= indexer.who_status %></td>
                     <!-- Template -->
                     <td><%= indexer.template %></td>
                     <!-- Staff Status -->

@@ -89,7 +89,6 @@
             <table class="theme-layout-table core-search-table table table-bordered table-hover text-nowrap">
                 <tr>
                     <th class="th-2">Accounts</th>
-                    <th class="th-2">Domainer</th>
                     <th class="th-2">Staff Index</th>
                     <th class="th-2">Location Index</th>
                     <th class="th-2">Contacts</th>
@@ -97,7 +96,9 @@
                 </tr>
                 <tr>
                     <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :domain_status, options_for_select(status_list_search), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                    <!-- DOMAIN STATUS WAS HERE -->
+
                     <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>

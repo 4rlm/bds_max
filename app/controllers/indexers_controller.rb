@@ -15,6 +15,10 @@ class IndexersController < ApplicationController
         ## SET ORDER OF DISPLAYED DATA ##
         @indexers = @indexers.order(updated_at: :desc)
 
+        @indexers_count = Indexer.count
+        @selected_indexers_count = @indexers.count
+
+
         # CSV #
         indexers_csv = @indexers.order(:clean_url)
         respond_to do |format|
@@ -130,7 +134,9 @@ class IndexersController < ApplicationController
 
         # @service.indexer_duplicate_purger
         # @service.db_data_trimmer
-        # @service.acct_pin_gen
+        
+        @service.acct_pin_gen
+
         # @service.pin_acct_counter
         # @service.junk_cleaner
 

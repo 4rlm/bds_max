@@ -28,8 +28,12 @@
     text-align: center;
     border: solid 1px #137fa0;
     font-weight: normal;
-    white-space:nowrap;
+    // white-space:nowrap;
     line-height: normal;
+}
+
+.no-wrap {
+    white-space:nowrap;
 }
 
 .indexer-table th {
