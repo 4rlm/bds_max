@@ -9,6 +9,10 @@ module ApplicationHelper
         end
     end
 
+    def who_status_list
+        ["WhoIs Result", "None"]
+    end
+
 
     def url_redirect_sts_lists
         ["Error", "Same", "Updated", "None"]
