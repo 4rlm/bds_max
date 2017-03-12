@@ -1,0 +1,52 @@
+<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Staffer Status</th>
+            <th>Contact Status</th>
+            <th>Contact Source<br></th>
+            <th>SFDC Account ID</th>
+            <th>Account Name</th>
+            <th>SFDC Contact ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Full Name</th>
+            <th>Job Title</th>
+            <th>Job Description</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Domain</th>
+            <th colspan="2"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% num = 0 %>
+        <% staffers.each do |staffer| %>
+            <% num +=1 %>
+            <tr>
+                <td><%= num %></td>
+                <td><%= staffer.staffer_status %></td>
+                <td><%= staffer.cont_status %></td>
+                <td><%= staffer.cont_source %></td>
+                <td><%= staffer.sfdc_id %></td>
+                <td><%= staffer.acct_name %></td>
+                <td><%= staffer.sfdc_cont_id %></td>
+                <td><%= staffer.fname %></td>
+                <td><%= staffer.lname %></td>
+                <td><%= staffer.fullname %></td>
+                <td><%= staffer.job %></td>
+                <td><%= staffer.job_raw %></td>
+                <td><%= staffer.phone %></td>
+                <td><%= staffer.email %></td>
+                <td><%= staffer.domain %></td>
+                <% if advanced_and_up %>
+                    <td><%= link_to 'Edit', edit_staffer_path(staffer) %></td>
+                <% end %>
+                <% if admin_only %>
+                    <td><%= link_to 'Destroy', staffer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <% end %>
+            </tr>
+        <% end %>
+    </tbody>
+</table>

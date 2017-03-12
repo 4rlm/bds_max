@@ -37,7 +37,7 @@
                 </tr>
                 <tr>
                     <!-- tier -->
-                    <td class="geo w-sm"><%= core.sfdc_tier %></td>
+                    <td class="geo w-sm"><span data-toggle="tooltip" data-placement="top" title="Sales Tier"><%= core.sfdc_tier %></span></td>
 
                     <!-- Account Icon, SFDC Link, Merge Status -->
                     <% unless core.sfdc_acct_url == nil %>

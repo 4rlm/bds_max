@@ -4,103 +4,12 @@
 
 <%= render partial: 'buttons' %>
 
-<table class="list-table table table-bordered table-hover text-nowrap table-striped">
-    <thead>
-        <tr>
-            <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
-            <th>#</th>
-            <th>Staffer Status</th>
-            <th>Contact Status</th>
-            <th>Contact Source<br></th>
-            <th>SFDC Account ID</th>
-            <th>Account Name</th>
-            <th>SFDC Contact ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Full Name</th>
-            <th>Job Title</th>
-            <th>Job Description</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Domain</th>
-
-            <!-- <th>Influence</th> -->
-            <!-- <th>Template</th> -->
-            <!-- <th>Inactive</th> -->
-            <!-- <th>Sales Person</th> -->
-            <!-- <th>Type</th> -->
-            <!-- <th>Franchise</th> -->
-            <!-- <th>Group Name</th> -->
-            <!-- <th>Ultimate Group</th> -->
-            <!-- <th>Street</th> -->
-            <!-- <th>City</th> -->
-            <!-- <th>State</th> -->
-            <!-- <th>Zip</th> -->
-            <!-- <th>Cell Phone</th> -->
-            <!-- <th>Staff Link</th> -->
-            <!-- <th>Staff Text</th> -->
-            <!-- <th>Tier</th> -->
-            <!-- <th>Staffer Date</th> -->
-            <!-- <th>Last Activity</th> -->
-            <!-- <th>Created</th> -->
-            <!-- <th>Updated</th> -->
-
-            <th colspan="3"></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <% num = 0 %>
-        <% @staffers.each do |staffer| %>
-            <% num +=1 %>
-            <tr>
-                <!-- <td><%#= check_box_tag "multi_checks[]", staffer.id %></td> -->
-                <td><%= num %></td>
-                <td><%= staffer.staffer_status %></td>
-                <td><%= staffer.cont_status %></td>
-                <td><%= staffer.cont_source %></td>
-                <td><%= staffer.sfdc_id %></td>
-                <td><%= staffer.acct_name %></td>
-                <td><%= staffer.sfdc_cont_id %></td>
-                <td><%= staffer.fname %></td>
-                <td><%= staffer.lname %></td>
-                <td><%= staffer.fullname %></td>
-                <td><%= staffer.job %></td>
-                <td><%= staffer.job_raw %></td>
-                <td><%= staffer.phone %></td>
-                <td><%= staffer.email %></td>
-                <td><%= staffer.domain %></td>
-
-                <!-- <td><%#= staffer.sfdc_cont_active %></td> -->
-                <!-- <td><%#= staffer.influence %></td> -->
-                <!-- <td><%#= staffer.template %></td> -->
-
-                <!-- <td><%#= staffer.sfdc_sales_person %></td> -->
-                <!-- <td><%#= staffer.sfdc_type %></td> -->
-                <!-- <td><%#= staffer.franchise %></td> -->
-                <!-- <td><%#= staffer.group_name %></td> -->
-                <!-- <td><%#= staffer.ult_group_name %></td> -->
-                <!-- <td><%#= staffer.street %></td> -->
-                <!-- <td><%#= staffer.city %></td> -->
-                <!-- <td><%#= staffer.state %></td> -->
-                <!-- <td><%#= staffer.zip %></td> -->
-                <!-- <td><%#= staffer.cell_phone %></td> -->
-                <!-- <td><%#= staffer.staff_link %></td> -->
-                <!-- <td><%#= staffer.staff_text %></td> -->
-                <!-- <td><%#= staffer.sfdc_tier %></td> -->
-                <!-- <td><%#= staffer.staffer_date %></td> -->
-                <!-- <td><%#= staffer.last_activity_date %></td> -->
-                <!-- <td><%#= staffer.created_date %></td> -->
-                <!-- <td><%#= staffer.updated_date %></td> -->
-
-                <!-- <td><%#= link_to 'Show', staffer %></td> -->
-                <% if advanced_and_up %>
-                    <td><%= link_to 'Edit', edit_staffer_path(staffer) %></td>
-                <% end %>
-                <% if admin_only %>
-                    <td><%= link_to 'Destroy', staffer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                <% end %>
-            </tr>
-        <% end %>
-    </tbody>
-</table>
+<% urls = [] %>
+<% @staffers.each do |staffer| %>
+    <% domain = staffer.domain %>
+    <% if !urls.include?(domain) %>
+        <% urls << domain %>
+        <%= render partial: 'cores/detailed_view', locals: { core: Core.find_by(sfdc_clean_url: domain), num: "" } %>
+        <%= render partial: 'core_staffs', locals: { staffers: Staffer.where(domain: domain) } %>
+    <% end %>
+<% end %>

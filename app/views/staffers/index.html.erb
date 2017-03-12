@@ -19,5 +19,7 @@
 <% end %>
 
 <%= render partial: 'buttons' %>
-<!-- Was end tag here.  Moved to bottom of index, after making list view partial.    -->
-<%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
+
+<div class="text-center">
+    <%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
+</div>
