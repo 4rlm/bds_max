@@ -5,6 +5,9 @@
 <%= link_to "WhoIs Starter", who_starter_btn_path, class: 'btn btn-warning' %>
 <br>
 <br>
+<!-- FILTER PARTIAL -->
+<%= render partial: 'filter' %>
+<br>
 
 <% num = 0 %>
 <% @whos.each do |who| %>
@@ -156,3 +159,5 @@
 
 
 <%= link_to 'New Who', new_who_path %>
+
+<%= will_paginate @whos, renderer: BootstrapPagination::Rails  %>

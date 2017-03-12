@@ -1,0 +1,139 @@
+<h3 class="section-header">WhoIs Filter</h3>
+
+<%= form_tag "/whos", method: :get, class: 'form-inline'  do %>
+    <div class="theme-layout search-container">
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr>
+                        <th class="th-2">WhoIs Status</th>
+                        <th class="th-2">URL Status</th>
+                        <th class="th-2">URL</th>
+                        <th class="th-2">URL ID</th>
+                        <th class="th-2">IP</th>
+                        <th class="th-2">Server1</th>
+                        <th class="th-2">Server2</th>
+                        <th class="th-2">Registrar URL</th>
+                        <th class="th-2">Registrar</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>TD Example</td>
+                        <!-- <td><%#= select_tag :indexer_status, options_for_select(main_indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr> <!-- REGISTRANT INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Registrant</th>
+                        <th class="th-2">Name</th>
+                        <th class="th-2">Organization</th>
+                        <th class="th-2">Address Pin</th>
+                        <th class="th-2">Address</th>
+                        <th class="th-2">City</th>
+                        <th class="th-2">Zip</th>
+                        <th class="th-2">State</th>
+                        <th class="th-2">Phone</th>
+                        <th class="th-2">URL</th>
+                    </tr>
+                    <tr>
+                        <td>TD Example</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                        <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td> -->
+
+                        <!-- <td><%#= select_tag :state, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr> <!-- TECH INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Tech</th>
+                        <th class="th-2">Name</th>
+                        <th class="th-2">Organization</th>
+                        <th class="th-2">Address Pin</th>
+                        <th class="th-2">Address</th>
+                        <th class="th-2">City</th>
+                        <th class="th-2">Zip</th>
+                        <th class="th-2">State</th>
+                        <th class="th-2">Phone</th>
+                        <th class="th-2">URL</th>
+                    </tr>
+                    <tr>
+                        <td>TD Example</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td> -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr> <!-- ADMIN INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Admin</th>
+                        <th class="th-2">Name</th>
+                        <th class="th-2">Organization</th>
+                        <th class="th-2">Address Pin</th>
+                        <th class="th-2">Address</th>
+                        <th class="th-2">City</th>
+                        <th class="th-2">Zip</th>
+                        <th class="th-2">State</th>
+                        <th class="th-2">Phone</th>
+                        <th class="th-2">URL</th>
+                    </tr>
+                    <tr>
+                        <td>TD Example</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td> -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+    </div> <!-- search-container Ends -->
+    <%= submit_tag "Search", class: 'wide-button blue-button' %>
+<% end %>
