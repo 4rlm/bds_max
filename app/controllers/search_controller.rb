@@ -54,19 +54,14 @@ class SearchController < ApplicationController
 
     def search_result_indexer
         set_selected_status_indexer({raw_url: params[:raw_url], redirect_status: params[:redirect_status], clean_url: params[:clean_url], indexer_status: params[:indexer_status], template: params[:template], loc_status: params[:loc_status], stf_status: params[:stf_status], contact_status: params[:contact_status], acct_name: params[:acct_name], rt_sts: params[:rt_sts], cont_sts: params[:cont_sts], full_addr: params[:full_addr], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], phone: params[:phone], acct_pin: params[:acct_pin]})
-
         redirect_to indexers_path
     end
 
 
-
-
-
-
-
-
-
-
+    def search_result_who
+        set_selected_status_who({who_status: params[:who_status], url_status: params[:url_status], domain: params[:domain], ip: params[:ip], server1: params[:server1], server2: params[:server2], registrant_name: params[:registrant_name], registrant_pin: params[:registrant_pin], registrant_organization: params[:registrant_organization], registrant_address: params[:registrant_address], registrant_city: params[:registrant_city], registrant_state: params[:registrant_state], registrant_zip: params[:registrant_zip], registrant_phone: params[:registrant_phone], registrant_url: params[:registrant_url], tech_name: params[:tech_name], tech_pin: params[:tech_pin], tech_organization: params[:tech_organization], tech_address: params[:tech_address], tech_city: params[:tech_city], tech_state: params[:tech_state], tech_zip: params[:tech_zip], tech_phone: params[:tech_phone], tech_url: params[:tech_url], admin_name: params[:admin_name], admin_pin: params[:admin_pin], admin_organization: params[:admin_organization], admin_address: params[:admin_address], admin_city: params[:admin_city], admin_state: params[:admin_state], admin_zip: params[:admin_zip], admin_phone: params[:admin_phone], admin_url: params[:admin_url]})
+        redirect_to whos_path
+    end
 
 
     # == Google API Testing Search Methods - Starts ===

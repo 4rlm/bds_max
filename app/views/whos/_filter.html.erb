@@ -1,0 +1,125 @@
+<h3 class="section-header">WhoIs Filter</h3>
+
+<%= form_tag "/whos", method: :get, class: 'form-inline'  do %>
+    <div class="theme-layout search-container">
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr>
+                        <th class="th-2">WhoIs Status</th>
+                        <th class="th-2">URL Status</th>
+                        <th class="th-2">URL</th>
+                        <th class="th-2">IP</th>
+                        <th class="th-2">Server1</th>
+                        <th class="th-2">Server2</th>
+                    </tr>
+                    <tr>
+                        <td><%= select_tag :who_status, options_for_select(who_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                        <td><%= select_tag :url_status, options_for_select(who_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :ip } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :server1 } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :server2 } %></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr> <!-- REGISTRANT INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Registrant</th>
+                        <th class="th-2">Name</th>
+                        <th class="th-2">Organization</th>
+                        <th class="th-2">Address Pin</th>
+                        <th class="th-2">Address</th>
+                        <th class="th-2">City</th>
+                        <th class="th-2">State</th>
+                        <th class="th-2">Zip</th>
+                        <th class="th-2">Phone</th>
+                        <th class="th-2">URL</th>
+                    </tr>
+                    <tr>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_name } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_pin } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_organization } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_address } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_city } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_state } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_zip } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_phone } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :registrant_url } %></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr> <!-- TECH INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Tech</th>
+                        <th class="th-2">Name</th>
+                        <th class="th-2">Organization</th>
+                        <th class="th-2">Address Pin</th>
+                        <th class="th-2">Address</th>
+                        <th class="th-2">City</th>
+                        <th class="th-2">State</th>
+                        <th class="th-2">Zip</th>
+                        <th class="th-2">Phone</th>
+                        <th class="th-2">URL</th>
+                    </tr>
+                    <tr>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_name } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_pin } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_organization } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_address } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_city } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_state } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_zip } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_phone } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :tech_url } %></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row filter-row">
+            <div class="filter-col col-md-12">
+                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+                    <tr> <!-- ADMIN INFO -->
+                        <th rowspan="2" class="th-middle w-sm">Admin</th>
+                        <th class="th-2">Name</th>
+                        <th class="th-2">Organization</th>
+                        <th class="th-2">Address Pin</th>
+                        <th class="th-2">Address</th>
+                        <th class="th-2">City</th>
+                        <th class="th-2">State</th>
+                        <th class="th-2">Zip</th>
+                        <th class="th-2">Phone</th>
+                        <th class="th-2">URL</th>
+                    </tr>
+                    <tr>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_name } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_pin } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_organization } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_address } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_city } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_state } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_zip } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_phone } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :admin_url } %></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+    </div> <!-- search-container Ends -->
+    <%= submit_tag "Search", class: 'wide-button blue-button' %>
+<% end %>

@@ -59,9 +59,9 @@ class CsHelper # Contact Scraper Helper Method
                 staffer.job_raw        = staff_hash[:job]
                 staffer.email          = staff_hash[:email]
                 staffer.phone          = staff_hash[:phone]
-                staffer.cont_source    = "Web",
-                staffer.cont_status    = "Scraped",
-                staffer.staffer_status = "Scraped",
+                staffer.cont_source    = "Web"
+                staffer.cont_status    = "Scraped"
+                staffer.staffer_status = "Scraped"
                 staffer.template       = indexer.template
             end
 

@@ -7,11 +7,12 @@ class WhoService
     require 'nokogiri'
     require 'uri'
     require 'socket'
+    require 'indexer_helper/rts/rts_manager'
 
 
     def who_starter
-        a=3
-        z=4
+        a=40
+        z=45
         range = z-a
 
         indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(staff_url: nil)[a..z]
@@ -37,10 +38,10 @@ class WhoService
             r = Whois.whois(host)
             if r.available?
                 url_validation = "Invalid URL"
-                add_csv_whois([url, scheme, host, url_validation])
             else
                 url_validation = "Valid URL"
                 p = r.parser
+                # rts_manager = RtsManager.new
 
                 ## Registrant Contact Variables
                 if r.registrant_contacts.present?
@@ -53,8 +54,14 @@ class WhoService
                     registrant_city = r.registrant_contacts[0].city
                     registrant_zip = r.registrant_contacts[0].zip
                     registrant_state = r.registrant_contacts[0].state
-                    registrant_phone = r.registrant_contacts[0].phone
-                    registrant_fax = r.registrant_contacts[0].fax
+
+                    registrant_phone1 = r.registrant_contacts[0].phone
+                    puts registrant_phone1
+                    registrant_phone = phone_formatter(registrant_phone1)
+                    registrant_fax1 = r.registrant_contacts[0].fax
+                    puts registrant_fax1
+                    registrant_fax = phone_formatter(registrant_fax1)
+
                     registrant_email = r.registrant_contacts[0].email
                     registrant_url = r.registrant_contacts[0].url
 
@@ -86,8 +93,14 @@ class WhoService
                     admin_city = r.admin_contacts[0].city
                     admin_zip = r.admin_contacts[0].zip
                     admin_state = r.admin_contacts[0].state
-                    admin_phone = r.admin_contacts[0].phone
-                    admin_fax = r.admin_contacts[0].fax
+
+                    admin_phone1 = r.admin_contacts[0].phone
+                    puts admin_phone1
+                    admin_phone = phone_formatter(admin_phone1)
+                    admin_fax2 = r.admin_contacts[0].fax
+                    admin_fax2
+                    admin_fax = phone_formatter(admin_fax2)
+
                     admin_email = r.admin_contacts[0].email
                     admin_url = r.admin_contacts[0].url
                     admin_created_on = r.admin_contacts[0].created_on
@@ -121,8 +134,14 @@ class WhoService
                     tech_city = r.technical_contacts[0].city
                     tech_zip = r.technical_contacts[0].zip
                     tech_state = r.technical_contacts[0].state
-                    tech_phone = r.technical_contacts[0].phone
-                    tech_fax = r.technical_contacts[0].fax
+
+                    tech_phone1 = r.technical_contacts[0].phone
+                    puts tech_phone1
+                    tech_phone = phone_formatter(tech_phone1)
+                    tech_fax1 = r.technical_contacts[0].fax
+                    puts tech_fax1
+                    tech_fax = phone_formatter(tech_fax1)
+
                     tech_email = r.technical_contacts[0].email
                     tech_url = r.technical_contacts[0].url
 
@@ -142,10 +161,10 @@ class WhoService
                     puts ""
                 end # Ends Technical Contacts
 
-
                 ## Tech Data Variables
                 tech_data_info = "Tech Data Info:>"
-                domain = p.domain
+                # domain = p.domain
+                domain = url
                 domain_id = r.domain_id
                 ip = IPSocket::getaddress(host_www)
                 server1 = r.nameservers[0]
@@ -166,6 +185,16 @@ class WhoService
                 who_status = "WhoIs Result"
                 url_status = "WhoIs Result"
 
+                registrant_pin = acct_pin_gen(registrant_address, registrant_zip)
+                admin_pin = acct_pin_gen(admin_address, admin_zip)
+                tech_pin = acct_pin_gen(tech_address, tech_zip)
+
+                puts "\n\n\n============================="
+                puts "registrant_pin: #{registrant_pin}"
+                puts "admin_pin: #{admin_pin}"
+                puts "tech_pin: #{tech_pin}"
+                puts "\n\n\n============================="
+
                 Who.find_or_create_by(
                     domain: indexer.clean_url
                 ) do |who|
@@ -178,6 +207,7 @@ class WhoService
                     who.server2 = server2
                     who.registrar_url = registrar_url
                     who.registrar_id = registrar_id
+
                     who.registrant_id = registrant_id
                     who.registrant_type = registrant_type
                     who.registrant_name = registrant_name
@@ -190,6 +220,7 @@ class WhoService
                     who.registrant_fax = registrant_fax
                     who.registrant_email = registrant_email
                     who.registrant_url = registrant_url
+
                     who.admin_id = admin_id
                     who.admin_type = admin_type
                     who.admin_name = admin_name
@@ -202,6 +233,7 @@ class WhoService
                     who.admin_fax = admin_fax
                     who.admin_email = admin_email
                     who.admin_url = admin_url
+
                     who.tech_id = tech_id
                     who.tech_type = tech_type
                     who.tech_name = tech_name
@@ -214,18 +246,13 @@ class WhoService
                     who.tech_fax = tech_fax
                     who.tech_email = tech_email
                     who.tech_url = tech_url
+
+                    who.registrant_pin = registrant_pin
+                    who.tech_pin = tech_pin
+                    who.admin_pin = admin_pin                
                 end
 
-                # indexer.update_attributes(indexer_status: who_status, who_status: who_status)
-
-                # puts "---------- (G) Timeout Extender --------------------------"
-                # w = Whois::Client.new(:timeout => 10)
-                # w.timeout # => 10
-                # w.timeout = 5
-                # w.timeout # => 5
-                # w.lookup(url)
-                # end
-                # puts "----------------------------------------------------------------------"
+                indexer.update_attributes(indexer_status: who_status, who_status: who_status)
 
             end # End of if r.available?
 
@@ -242,6 +269,35 @@ class WhoService
         end
 
     end
+
+
+    def acct_pin_gen(street, zip)
+        if street && zip
+            street_parts = street.split(" ")
+            street_num = street_parts[0]
+            street_num = street_num.tr('^0-9', '')
+            new_zip = zip.strip
+            new_zip = zip[0..4]
+            acct_pin = "z#{new_zip}-s#{street_num}"
+        end
+    end
+
+
+    # FORMATS PHONE AS: (000) 000-0000
+    def phone_formatter(phone)
+        regex = Regexp.new("[A-Z]+[a-z]+")
+        if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
+            phone_stripped = phone.gsub(/[^0-9]/, "")
+            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
+
+            final_phone = !(phone_step2 && phone_step2.length < 10) ? "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : phone
+        else
+            final_phone = nil
+        end
+        final_phone
+    end
+
+
 
 
 end # WhoService class Ends ---
