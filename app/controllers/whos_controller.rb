@@ -12,8 +12,8 @@ class WhosController < ApplicationController
     ## SET ORDER OF DISPLAYED DATA ##
     @whos = @whos.order(updated_at: :desc)
 
-    # @whos_count = Who.count
-    # @selected_whos_count = @whos.count
+    @whos_count = Who.count
+    @selected_whos_count = @whos.count
 
 
     # CSV #

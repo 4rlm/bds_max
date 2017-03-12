@@ -11,6 +11,10 @@
 <%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
 <br>
 
+
+<h4>Total Indexer Accounts: <%= number_with_delimiter(@indexer_count) %></h4>
+<h4>Selected Indexer Accounts: <%= number_with_delimiter(@selected_indexers_count) %></h4>
+
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
 <%= render partial: 'buttons' %>
