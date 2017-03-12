@@ -72,6 +72,15 @@ Rails.application.routes.draw do
     get 'dashboard/import_page' => 'dashboards#import_page'
     get 'dashboard_starter_btn' => 'dashboards#dashboard_starter_btn'
 
+    get 'cores_dash_btn' => 'dashboards#cores_dash_btn'
+    get 'delayed_jobs_dash_btn' => 'dashboards#delayed_jobs_dash_btn'
+    get 'franchise_dash_btn' => 'dashboards#franchise_dash_btn'
+    get 'indexer_dash_btn' => 'dashboards#indexer_dash_btn'
+    get 'geo_locations_dash_btn' => 'dashboards#geo_locations_dash_btn'
+    get 'staffers_dash_btn' => 'dashboards#staffers_dash_btn'
+    get 'users_dash_btn' => 'dashboards#users_dash_btn'
+    get 'whos_dash_btn' => 'dashboards#whos_dash_btn'
+
 
     devise_for :users
 
