@@ -39,7 +39,7 @@ function checkAll(check_all) {
 // ========== Core JS Buttons ==========
 var cores = new Array();
 
-function changeCoreStatus(el) {
+function changeStatusCore(el) {
     var tr = el.parentNode;
     var stat = el.getElementsByClassName('stat-btn')[0];
     var core_id = $(el).data("id");
@@ -56,6 +56,14 @@ function changeCoreStatus(el) {
     }
 }
 
+function mergeDataCore() {
+    console.log("mergeData Clicked", cores);
+    // $.ajax({
+    //     url: "/cores/merge_data",
+    //     data: {cores: cores},
+    //     success: function() { location.reload(); }
+    // });
+}
 
 // ========== Location JS Buttons ==========
 var selects = new Object();

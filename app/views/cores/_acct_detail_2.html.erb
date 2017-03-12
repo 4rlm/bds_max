@@ -75,7 +75,7 @@
     <!-- Updated/Confirmed Account Details (name, address, url, franchise, etc.) -->
     <tr>
         <% if advanced_and_up %>
-            <td class="geo w-xsm" data-id="<%= core.id %>" onClick="changeCoreStatus(this);">
+            <td class="geo w-xsm" data-id="<%= core.id %>" onClick="changeStatusCore(this);">
                 <%= fa_icon "check lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Select" %>
             </td>
         <% else %>
