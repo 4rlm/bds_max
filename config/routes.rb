@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     get 'who/import_page' => 'whos#import_page'
     get 'who/search' => 'whos#search'
 
-
     resources :indexer_terms do
         collection { post :import_csv_data }
     end
@@ -67,7 +66,12 @@ Rails.application.routes.draw do
     end
     get 'in_host_po/import_page' => 'in_host_pos#import_page'
 
-    resources :dashboards
+    resources :dashboards do
+        collection { post :import_csv_data }
+    end
+    get 'dashboard/import_page' => 'dashboards#import_page'
+    get 'dashboard_starter_btn' => 'dashboards#dashboard_starter_btn'
+
 
     devise_for :users
 

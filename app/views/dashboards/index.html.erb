@@ -1,8 +1,29 @@
-<p id="notice"><%= notice %></p>
+<h1 class="page-header">Dashboards</h1>
+<h4 class="text-center">Dashboard Data from each Module</h4>
+<br>
+
+<%= link_to "Re-Calculate", dashboard_starter_btn_path, class: 'btn btn-warning' %>
+<br>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <% if admin_only %>
+                <%= link_to 'Add Record', new_dashboard_path, class: 'btn btn-primary' %>
+                <%= link_to 'Import CSV', dashboard_import_page_path, class: 'btn btn-primary' %>
+            <% end %>
+            <% if advanced_and_up %>
+                <%= link_to 'Download CSV', dashboards_path(format: "csv"), class: 'btn btn-primary' %>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+
 
 <%= render partial: 'dashboard' %>
 
-<h1>Dashboards</h1>
 
 <table>
   <thead>
