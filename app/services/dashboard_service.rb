@@ -22,30 +22,30 @@ class DashboardService
 
     def dash(model)
         cols = model.column_names
-        cols.delete("id")
         cols.delete("created_at")
         cols.delete("updated_at")
 
-        puts "#{'='*30} Total count #{'='*30}"
+        puts "#{'='*30} #{model.to_s} #{'='*30}"
         cols.each do |col|
-            num = model.all.map(&col.to_sym).count
-            puts "#{col}: #{num}"
-        end
-        puts "#{'='*30} Unique count #{'='*30}"
-        cols.each do |col|
-            num = model.all.map(&col.to_sym).uniq.count
-            puts "#{col}: #{num}"
+            records = model.all.map(&col.to_sym)
+            total = records.count
+            uniqs = records.uniq.count
+            dash = Dashboard.find_by(db_name: model.to_s, col_name: col)
+
+            puts "[#{col}] total: #{total}, uniqs: #{uniqs}"
+            dash.update_attributes(col_total: total, item_list_total: uniqs)
         end
     end
 
-    def item_list(model, attrs) # item_list(Staffer, [:staffer_status, :cont_status])
-        list_hash = {}
+    def list_getter(model, cols) # list_getter(Staffer, [:staffer_status, :cont_status])
         puts "#{'='*30} Item List #{'='*30}"
-        attrs.each do |att|
-            list_hash[att] = model.all.map(&att).uniq
-            puts "#{att}: #{list_hash[att]}"
+        cols.each do |col|
+            list = model.all.map(&col).uniq
+            dash = Dashboard.find_by(db_name: model.to_s, col_name: col)
+
+            puts "#{col}: #{list.inspect}"
+            dash.update_attributes(item_list: list)
         end
-        list_hash
     end
 
 end # DashboardService class Ends ---

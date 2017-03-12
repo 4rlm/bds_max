@@ -98,37 +98,37 @@ class DashboardsController < ApplicationController
 
     def cores_dash_btn
         @service.dash(Core)
-        @service.item_list(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :domain_status, :staffer_status, :geo_status, :who_status])
+        @service.list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :domain_status, :staffer_status, :geo_status, :who_status])
         redirect_to dashboards_path
     end
 
     def franchise_dash_btn
         @service.dash(InHostPo)
-        @service.item_list(InHostPo, [:consolidated_term, :category])
+        @service.list_getter(InHostPo, [:consolidated_term, :category])
         redirect_to dashboards_path
     end
 
     def indexer_dash_btn
         @service.dash(Indexer)
-        @service.item_list(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status])
+        @service.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status])
         redirect_to dashboards_path
     end
 
     def geo_locations_dash_btn
         @service.dash(Location)
-        @service.item_list(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts])
+        @service.list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts])
         redirect_to dashboards_path
     end
 
     def staffers_dash_btn
         @service.dash(Staffer)
-        @service.item_list(Staffer, [:staffer_status, :cont_status])
+        @service.list_getter(Staffer, [:staffer_status, :cont_status])
         redirect_to dashboards_path
     end
 
     def whos_dash_btn
         @service.dash(Who)
-        @service.item_list(Who, [:who_status, :url_status])
+        @service.list_getter(Who, [:who_status, :url_status])
         redirect_to dashboards_path
     end
 
