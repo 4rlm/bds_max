@@ -98,7 +98,7 @@ class DashboardsController < ApplicationController
 
     def cores_dash_btn
         @service.dash(Core)
-        @service.list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :domain_status, :staffer_status, :geo_status, :who_status])
+        @service.list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :staffer_status, :geo_status, :who_status])
         redirect_to dashboards_path
     end
 

@@ -2,7 +2,7 @@ class DashboardService
 
     def mega_dash
         dash(Core)
-        list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :domain_status, :staffer_status, :geo_status, :who_status])
+        list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :staffer_status, :geo_status, :who_status])
         puts "\n\n#{'-'*50}\n\n"
         dash(InHostPo)
         list_getter(InHostPo, [:consolidated_term, :category])

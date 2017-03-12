@@ -429,7 +429,6 @@ class IndexerService
 
     end
 
-
     def count_contacts
         indexers = Indexer.where.not(clean_url: nil).where(contacts_count: nil)
         counter=0

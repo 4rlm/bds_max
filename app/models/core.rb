@@ -13,7 +13,6 @@ class Core < ApplicationRecord
     scope :sfdc_state, -> (sfdc_state) { where sfdc_state: sfdc_state }
     scope :staff_indexer_status, -> (staff_indexer_status) { where staff_indexer_status: staff_indexer_status }
     scope :location_indexer_status, -> (location_indexer_status) { where location_indexer_status: location_indexer_status }
-    scope :domain_status, -> (domain_status) { where domain_status: domain_status }
     scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
     scope :sfdc_franch_cat, -> (sfdc_franch_cat) { where sfdc_franch_cat: sfdc_franch_cat }
     scope :acct_source, -> (acct_source) { where acct_source: acct_source }

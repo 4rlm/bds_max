@@ -267,7 +267,6 @@ class CoreService
             sfdc_street: street,
             sfdc_city: city,
             sfdc_state: state,
-            domain_status: "Dom Result",
             sfdc_url_o: url_o,
             sfdc_root: sfdc_root,
             root: root,
@@ -453,7 +452,7 @@ class CoreService
 
         # cores = Core.where(acct_source: "CRM")
         # cores.each do |core|
-        #     core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_indexer_status: nil, location_indexer_status: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, domain_status: nil, staffer_status: nil, sfdc_template: nil)
+        #     core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_indexer_status: nil, location_indexer_status: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, staffer_status: nil, sfdc_template: nil)
         # end
 
     end
