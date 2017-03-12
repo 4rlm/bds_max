@@ -70,7 +70,7 @@ Rails.application.routes.draw do
         collection { post :import_csv_data }
     end
     get 'dashboard/import_page' => 'dashboards#import_page'
-    get 'dashboard_starter_btn' => 'dashboards#dashboard_starter_btn'
+    get 'dashboard_mega_btn' => 'dashboards#dashboard_mega_btn'
 
     get 'cores_dash_btn' => 'dashboards#cores_dash_btn'
     get 'delayed_jobs_dash_btn' => 'dashboards#delayed_jobs_dash_btn'

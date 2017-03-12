@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312074035) do
+ActiveRecord::Schema.define(version: 20170312184416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,16 +91,15 @@ ActiveRecord::Schema.define(version: 20170312074035) do
   end
 
   create_table "dashboards", force: :cascade do |t|
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "db_internal"
-    t.string   "db_public"
-    t.string   "db_count"
-    t.string   "column_internal"
-    t.string   "column_public"
-    t.string   "column_item_count"
-    t.string   "column_uniq_items",      default: [],              array: true
-    t.string   "column_uniq_item_count"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "db_name"
+    t.string   "db_alias"
+    t.string   "col_name"
+    t.string   "col_alias"
+    t.string   "col_total"
+    t.string   "item_list",       default: [],              array: true
+    t.string   "item_list_total"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

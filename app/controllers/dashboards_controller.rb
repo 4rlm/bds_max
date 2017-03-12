@@ -3,7 +3,7 @@ class DashboardsController < ApplicationController
     before_action :admin_only, only: [:new, :create, :edit, :update, :destroy]
     # before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
     # before_action :set_dashboard, only: [:show, :edit, :update, :destroy, :import_page, :import_csv_data]
-    before_action :set_dashboard_service, only: [:dashboard_starter_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data]
+    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data]
     # before_action :set_dashboard, only: [:import_page, :import_csv_data]
 
     # GET /dashboards
@@ -90,82 +90,55 @@ class DashboardsController < ApplicationController
     end
 
     ############ BUTTONS ~ START ##############
-    def dashboard_starter_btn
-        @dashboard_service.dash_starter
-        # @dashboard_service.delay.dash_starter
-
+    def dashboard_mega_btn
+        @service.mega_dash
+        # @service.delay.mega_dash
         redirect_to dashboards_path
     end
 
     def cores_dash_btn
-        @dashboard_service.cores_dash
-        # @dashboard_service.delay.cores_dash
+        @service.dash(Core)
+        @service.item_list(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :domain_status, :staffer_status, :geo_status, :who_status])
+        redirect_to dashboards_path
+    end
 
+    def franchise_dash_btn
+        @service.dash(InHostPo)
+        @service.item_list(InHostPo, [:consolidated_term, :category])
+        redirect_to dashboards_path
+    end
+
+    def indexer_dash_btn
+        @service.dash(Indexer)
+        @service.item_list(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status])
+        redirect_to dashboards_path
+    end
+
+    def geo_locations_dash_btn
+        @service.dash(Location)
+        @service.item_list(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts])
+        redirect_to dashboards_path
+    end
+
+    def staffers_dash_btn
+        @service.dash(Staffer)
+        @service.item_list(Staffer, [:staffer_status, :cont_status])
         redirect_to dashboards_path
     end
 
     def whos_dash_btn
-        @dashboard_service.whos_dash
-        # @dashboard_service.delay.whos_dash
-
+        @service.dash(Who)
+        @service.item_list(Who, [:who_status, :url_status])
         redirect_to dashboards_path
     end
 
     # def delayed_jobs_dash_btn
     ### PROBLEM.  NOT RUNNING.
-    #     @dashboard_service.delayed_jobs_dash
-    #     # @dashboard_service.delay.delayed_jobs_dash
+    #     @service.delayed_jobs_dash
+    #     # @service.delay.delayed_jobs_dash
     #
     #     redirect_to dashboards_path
     # end
-
-    def franchise_dash_btn
-        @dashboard_service.franchise_dash
-        # @dashboard_service.delay.franchise_dash
-
-        redirect_to dashboards_path
-    end
-
-    def indexer_dash_btn
-        @dashboard_service.indexer_dash
-        # @dashboard_service.delay.indexer_dash
-
-        redirect_to dashboards_path
-    end
-
-    def geo_locations_dash_btn
-        @dashboard_service.geo_locations_dash
-        # @dashboard_service.delay.geo_locations_dash
-
-        redirect_to dashboards_path
-    end
-
-    def staffers_dash_btn
-        # @dashboard_service.staffers_dash
-        # @dashboard_service.delay.staffers_dash
-        @dashboard_service.dash(Staffer)
-        @dashboard_service.item_list(Staffer, [:staffer_status, :cont_status])
-        redirect_to dashboards_path
-    end
-
-    def users_dash_btn
-        @dashboard_service.users_dash
-        # @dashboard_service.delay.users_dash
-
-        redirect_to dashboards_path
-    end
-
-    def whos_dash_btn
-        # @dashboard_service.whos_dash
-        # @dashboard_service.delay.whos_dash
-
-        @dashboard_service.dash(Who)
-        @dashboard_service.item_list(Who, [:who_status, :url_status])
-
-        redirect_to dashboards_path
-    end
-
-
     ############ BUTTONS ~ END ##############
 
 
@@ -181,7 +154,7 @@ class DashboardsController < ApplicationController
     end
 
     def set_dashboard_service
-        @dashboard_service = DashboardService.new
+        @service = DashboardService.new
     end
 
 
