@@ -1,0 +1,46 @@
+<table class="table table-bordered geo-result-table"> <!-- account details -->
+
+    <!-- TESTING: MOVING GROUP INFO TO BOTTOM ROW. -->
+
+    <tr>
+        <!-- type -->
+        <th class="geo w-xsm"><%= fa_icon "tags lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account Type" %></th>
+        <!-- type -->
+        <td><%= core.sfdc_type %></td>
+
+        <!-- sales_person -->
+        <th class="geo w-xsm"><%= fa_icon "user-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Salesperson" %></th>
+        <!-- sales_person -->
+        <td><%= core.sfdc_sales_person %></td>
+
+        <!-- group name -->
+        <% if core.sfdc_group %>
+            <td class="geo w-xsm fa-blue"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "Group Name" %></td>
+        <% else %>
+            <td class="geo w-xsm fa-gray"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Group Name" %></td>
+        <% end %>
+        <!-- group name -->
+        <% if core.sfdc_group %>
+            <td class="geo w-xsm"><%= core.sfdc_grp_rt %></td>
+            <td><%= link_to core.sfdc_group, core, target: "_blank" %></td>
+        <% else %>
+            <td>No Group</td>
+        <% end %>
+
+        <!-- Ultimate Group: core.sfdc_ult_grp -->
+        <% if core.sfdc_ult_grp %>
+            <td class="geo w-xsm fa-blue"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Ultimate Group Account" %></td>
+        <% else %>
+            <td class="geo w-xsm fa-gray"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Ultimate Group Account" %></td>
+        <% end %>
+
+        <!-- ultimate group name -->
+        <% if core.sfdc_ult_grp %>
+            <!-- ultimate group rt -->
+            <td class="geo w-xsm"><%= core.sfdc_ult_rt %></td>
+            <td><%= link_to core.sfdc_ult_grp, core, target: "_blank" %></td>
+        <% else %>
+            <td>No Ultimate Group</td>
+        <% end %>
+    </tr>
+</table>

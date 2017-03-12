@@ -1,9 +1,3 @@
-<h3 class="section-header">Account List View</h3>
-
-<h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
-
-<%= render partial: 'buttons' %>
-
 <table class="list-table table table-bordered table-hover text-nowrap table-striped">
     <thead>
         <tr>
@@ -55,7 +49,7 @@
                 <td><%= core.sfdc_sales_person %></td>
                 <td><%= core.sfdc_id %></td>
                 <td class='details-btn' >
-                    <%= link_to core do %>
+                    <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
                         <span class="glyphicon glyphicon-folder-open"></span>
                     <% end %>
                 </td>

@@ -36,6 +36,54 @@ function checkAll(check_all) {
     }
 }
 
+// ========== Core JS Buttons ==========
+var cores = new Array();
+
+function changeStatusCore(el) {
+    var tr = el.parentNode;
+    var stat = el.getElementsByClassName('stat-btn')[0];
+    var core_id = $(el).data("id");
+
+    if (stat.className.includes('fa-green')) {
+        tr.className = ""
+        stat.className = "fa fa-check fa-lg stat-btn fa-clear"
+        var index = cores.indexOf(core_id);
+        cores.splice(index, 1);
+    } else {
+        tr.className = "bd-yellow"
+        stat.className = "fa fa-check fa-lg stat-btn fa-green"
+        cores.push(core_id);
+    }
+}
+
+function mergeDataCore() {
+    console.log("mergeData Clicked", cores);
+    $.ajax({
+        url: "/cores/merge_data",
+        data: {cores: cores},
+        success: function() { location.reload(); }
+    });
+}
+
+function flagDataCore() {
+    console.log("flagData Clicked", cores);
+    $.ajax({
+        url: "/cores/flag_data",
+        data: {cores: cores},
+        success: function() { location.reload(); }
+    });
+}
+
+function dropDataCore() {
+    console.log("dropData Clicked", cores);
+    $.ajax({
+        url: "/cores/drop_data",
+        data: {cores: cores},
+        success: function() { location.reload(); }
+    });
+}
+
+// ========== Location JS Buttons ==========
 var selects = new Object();
 var rows = new Array();
 

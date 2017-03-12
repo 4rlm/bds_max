@@ -6,23 +6,20 @@
 
 <!-- ACCOUNTS - LIST VIEW PARTIAL -->
 <% if @view_mode == "list" %>
+    <h3 class="section-header">Account List View</h3>
+    <%= render partial: 'buttons', locals: { mode: @view_mode } %>
     <%= render partial: 'list_view' %>
 <% end %>
 
 <!-- ACCOUNTS - DETAILED VIEW PARTIAL -->
 <% if @view_mode == "detail" %>
     <h3 class="section-header">Detailed Account View</h3>
-    <%= render partial: 'buttons' %>
-    <h4>Selected Accounts: <%= number_with_delimiter(@selected_core_count) %></h4>
-
-    <% num = 0 %>
-    <% @cores.each do |core| %>
-        <% num +=1 %>
-        <%= render partial: 'detailed_view', locals: { core: core, num: num } %>
-    <% end %>
+    <%= render partial: 'buttons', locals: { mode: @view_mode } %>
+    <%= render partial: 'detailed_view' %>
 <% end %>
 
-<div class="pull-right">
-    <%= render partial: 'buttons' %>
-</div><br>
-<%= will_paginate @cores, renderer: BootstrapPagination::Rails  %>
+<%= render partial: 'buttons', locals: { mode: @view_mode } %>
+
+<div class="text-center">
+    <%= will_paginate @cores, renderer: BootstrapPagination::Rails %>
+</div>

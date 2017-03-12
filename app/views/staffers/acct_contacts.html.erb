@@ -1,3 +1,5 @@
-<%= render partial: 'cores/detailed_view', locals: { core: @core, num: 1 } %>
+<h2 class="text-center">Contacts of <%= @core.sfdc_acct %></h2><br>
+
+<%= render partial: 'cores/acct_profile', locals: { core: @core, num: 1 } %>
 <br>
 <%= render partial: 'list_view', locals: { staffers: @staffers } %>

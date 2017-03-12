@@ -1,17 +1,16 @@
 Rails.application.routes.draw do
-      resources :whos do
-          collection { post :import_csv_data }
-      end
-      get 'who_starter_btn' => 'whos#who_starter_btn'
-      get 'who/import_page' => 'whos#import_page'
-      get 'who/search' => 'whos#search'
+    resources :whos do
+        collection { post :import_csv_data }
+    end
+    get 'who_starter_btn' => 'whos#who_starter_btn'
+    get 'who/import_page' => 'whos#import_page'
+    get 'who/search' => 'whos#search'
 
 
     resources :indexer_terms do
         collection { post :import_csv_data }
     end
     get 'indexer_term/import_page' => 'indexer_terms#import_page'
-
 
     resources :indexers do
         collection {post :import_csv_data}
@@ -51,6 +50,9 @@ Rails.application.routes.draw do
 
     resources :cores do
         collection { post :import_core_data }
+        get :merge_data, on: :collection
+        get :flag_data, on: :collection
+        get :drop_data, on: :collection
     end
     get 'core/import_page' => 'cores#import_page'
     get 'core/search' => 'cores#search'
@@ -58,8 +60,7 @@ Rails.application.routes.draw do
     # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
     get 'anything_btn' => 'cores#anything_btn'
     get 'col_splitter_btn' => 'cores#col_splitter_btn'
-    # Quick Search Button
-    get 'quick_core_view_queue' => 'cores#quick_core_view_queue'
+    get 'quick_core_view_queue' => 'cores#quick_core_view_queue' # Quick Search Button
 
     resources :in_host_pos do
         collection { post :import_csv_data }
