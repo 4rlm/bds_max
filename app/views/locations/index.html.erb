@@ -4,76 +4,32 @@
 <h5 class="text-center">Click any Address to View Map and List of Local Area.</h5>
 
 <h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
-
 <h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
 
-<%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
-<%= link_to "location_power_btn", location_power_btn_path, class: 'btn btn-warning' %>
-
-<%= link_to "turbo_matcher_btn", turbo_matcher_btn_path, class: 'btn btn-warning' %>
-
-
-<!-- FILTER PARTIAL -->
+<%= render partial: 'power_buttons' %>
 <%= render partial: 'filter' %>
-
-<!-- ## FILTER - STARTS## -->
-
-<!-- <td><%#= select_tag :sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
-
-
-<!-- ## FILTER - ENDS## -->
-
-<div class="pull-left">
-    <span class="btn btn-success" onClick="mergeData();">Merge Data</span>
-    <span class="btn btn-danger" onClick="flagData();">Flag Data</span>
-</div>
-
-<div class="pull-right">
-    <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
-</div> <br>
+<%= render partial: 'buttons' %>
 
 <div class="geo-container">
-
     <div class="row profile-row">
         <div class="profile-col col-md-12">
-
             <table class="table table-bordered geo-result-table">
-
-            <% coords = [] %>
-            <% num = 0 %>
-            <% @locations.each do |location| %>
-
-                <% unless coords.include?(location.coordinates) %>
-                <% coords << location.coordinates %>
-                    <% num +=1 %>
-                    <%= render partial: 'table_group', locals: { num: num, location: location } %>
+                <% coords = [] %>
+                <% num = 0 %>
+                <% @locations.each do |location| %>
+                    <% unless coords.include?(location.coordinates) %>
+                        <% coords << location.coordinates %>
+                        <% num +=1 %>
+                        <%= render partial: 'table_group', locals: { num: num, location: location } %>
+                    <% end %>
                 <% end %>
-
-            <% end %>
             </table>
-
-
-
         </div>
     </div>
-
 </div>
 
-<div class="pull-left">
-    <span class="btn btn-success" onClick="mergeData();">Merge Data</span>
-    <span class="btn btn-danger" onClick="flagData();">Flag Data</span>
-</div>
-
-<div class="pull-right">
-    <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
-    <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
-    <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
-</div>
-
+<%= render partial: 'buttons' %>
 <%= will_paginate @locations, renderer: BootstrapPagination::Rails  %>
-<br>
 
 
 <div class="modal fade" id="myModal">

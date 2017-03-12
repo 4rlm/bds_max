@@ -36,14 +36,11 @@
                     <li><%= link_to 'View', locations_path %></li>
                 </ul>
             </li>
-        <% end %>
 
-
-        <!-- WHOIS -->
-        <% if admin_only %>
             <li><%= link_to 'WhoIs Directory', whos_path %></li>
+            <li><%= link_to 'Dashboards', dashboards_path %></li>
+            
         <% end %>
-
 
 
         <!-- <%# if admin_only %> -->
@@ -67,7 +64,6 @@
                     <!-- <li><%#= link_to 'Google Search', search_path %></li> -->
                     <li><%= link_to 'Admin', admin_index_path %></li>
                     <li role="separator" class="divider"></li>
-                    <li><%= link_to 'Dashboards', dashboards_path %></li>
                     <!-- <li><%#= link_to 'Solitary', solitaries_path %></li> -->
                     <!-- <li><%#= link_to 'Pending Verification', pending_verifications_path %></li> -->
                     <!-- <li><%#= link_to '(C) Blocked URLs', exclude_roots_path %></li> -->
