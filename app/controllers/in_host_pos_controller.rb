@@ -1,7 +1,5 @@
 class InHostPosController < ApplicationController
-    before_action :intermediate_and_up, only: [:index, :show]
-    before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data]
+    before_action :admin_only
     before_action :set_in_host_po, only: [:show, :edit, :update, :destroy]
 
     # GET /in_host_pos

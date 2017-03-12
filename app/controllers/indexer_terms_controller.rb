@@ -1,7 +1,5 @@
 class IndexerTermsController < ApplicationController
-    before_action :intermediate_and_up, only: [:index, :show]
-    before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data]
+    before_action :admin_only
     before_action :set_indexer_term, only: [:show, :edit, :update, :destroy]
 
     # GET /indexer_terms
@@ -27,8 +25,6 @@ class IndexerTermsController < ApplicationController
         @indexer_term = IndexerTerm.new
     end
 
-
-
     # Go to the CSV importing page
     def import_page
     end
@@ -41,9 +37,6 @@ class IndexerTermsController < ApplicationController
         redirect_to indexer_terms_path
 
     end
-
-
-
 
     # GET /indexer_terms/1/edit
     def edit
