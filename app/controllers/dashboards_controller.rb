@@ -141,9 +141,10 @@ class DashboardsController < ApplicationController
     end
 
     def staffers_dash_btn
-        @dashboard_service.staffers_dash
+        # @dashboard_service.staffers_dash
         # @dashboard_service.delay.staffers_dash
-
+        @dashboard_service.dash(Staffer)
+        @dashboard_service.item_list(Staffer, [:staffer_status, :cont_status])
         redirect_to dashboards_path
     end
 
@@ -155,8 +156,11 @@ class DashboardsController < ApplicationController
     end
 
     def whos_dash_btn
-        @dashboard_service.whos_dash
+        # @dashboard_service.whos_dash
         # @dashboard_service.delay.whos_dash
+
+        @dashboard_service.dash(Who)
+        @dashboard_service.item_list(Who, [:who_status, :url_status])
 
         redirect_to dashboards_path
     end

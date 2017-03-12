@@ -46,7 +46,7 @@ class DashboardService
         who_status_uniq_count = Core.all.map(&:who_status).uniq.count
         who_status_list = Core.all.map(&:who_status).uniq
 
-        puts "\n\n============ (Core (UNIQ) Status Counts) ============\n"
+        puts "\n\n\n============ (Core (UNIQ) Status Counts) ============\n"
         puts "bds_status_uniq_count: #{bds_status_uniq_count}"
         puts "bds_status_list: #{bds_status_list}\n\n"
         puts "staff_indexer_status_uniq_count: #{staff_indexer_status_uniq_count}"
@@ -191,7 +191,7 @@ class DashboardService
         geo_status_total = Core.all.map(&:geo_status).count
         who_status_total = Core.all.map(&:who_status).count
 
-        puts "\n\n============ (Core [Totals] Status Counts) ============\n"
+        puts "\n\n\n============ (Core [Totals] Status Counts) ============\n"
         puts "cores_total: #{cores_total}"
         puts "bds_status_total: #{bds_status_total}\n\n"
         puts "acct_merge_stat_total: #{acct_merge_stat_total}"
@@ -349,13 +349,11 @@ class DashboardService
         job_raw_uniq_count = Staffer.all.map(&:job_raw).uniq.count
         phone_uniq_count = Staffer.all.map(&:phone).uniq.count
 
-        puts "\n\n============ (Staffers (UNIQ) Counts) ============\n"
+        puts "\n\n\n============ (Staffers (UNIQ) Counts) ============\n"
         puts "staffers_total: #{staffers_total}"
         puts "staffer_status_uniq_count: #{staffer_status_uniq_count}"
-
         puts "staffer_status_list: #{staffer_status_list}"
         puts "cont_status_list: #{cont_status_list}"
-
         puts "cont_status_uniq_count: #{cont_status_uniq_count}"
         puts "job_uniq_count: #{job_uniq_count}"
         puts "job_raw_uniq_count: #{job_raw_uniq_count}"
@@ -375,13 +373,11 @@ class DashboardService
         puts "fullname_uniq_count: #{fullname_uniq_count}"
         puts "phone_uniq_count: #{phone_uniq_count}"
 
-
         ##########################################
         ### === TOTALS (not uniq)! === ###
 
         staffer_status_total = Staffer.all.map(&:staffer_status).count
         cont_status_total = Staffer.all.map(&:cont_status).count
-
         cont_source_total = Staffer.all.map(&:cont_source).count
         acct_pin_total = Staffer.all.map(&:acct_pin).count
         cont_pin_total = Staffer.all.map(&:cont_pin).count
@@ -400,7 +396,7 @@ class DashboardService
         job_raw_total = Staffer.all.map(&:job_raw).count
         phone_total = Staffer.all.map(&:phone).count
 
-        puts "\n\n============ (Staffers [Totals] Counts) ============\n"
+        puts "\n\n\n============ (Staffers [Totals] Counts) ============\n"
         puts "staffers_total: #{staffers_total}"
         puts "staffer_status_total: #{staffer_status_total}"
         puts "cont_status_total: #{cont_status_total}"
@@ -827,7 +823,6 @@ class DashboardService
         loc_status_uniq_count = Indexer.all.map(&:loc_status).uniq.count
         stf_status_uniq_count = Indexer.all.map(&:stf_status).uniq.count
         contact_status_uniq_count = Indexer.all.map(&:contact_status).uniq.count
-
         raw_url_uniq_count = Indexer.all.map(&:raw_url).uniq.count
         clean_url_uniq_count = Indexer.all.map(&:clean_url).uniq.count
         staff_url_uniq_count = Indexer.all.map(&:staff_url).uniq.count
@@ -877,7 +872,6 @@ class DashboardService
         puts "acct_pin_uniq_count: #{acct_pin_uniq_count}"
         puts "raw_street_uniq_count: #{raw_street_uniq_count}"
 
-
         ##########################################
         ### === TOTALS (not uniq)! === ###
         redirect_status_total = Indexer.all.map(&:redirect_status).count
@@ -888,7 +882,6 @@ class DashboardService
         loc_status_total = Indexer.all.map(&:loc_status).count
         stf_status_total = Indexer.all.map(&:stf_status).count
         contact_status_total = Indexer.all.map(&:contact_status).count
-
         raw_url_total = Indexer.all.map(&:raw_url).count
         clean_url_total = Indexer.all.map(&:clean_url).count
         staff_url_total = Indexer.all.map(&:staff_url).count
@@ -1211,11 +1204,32 @@ class DashboardService
     end
 
 
+    def dash(model)
+        cols = model.column_names
+        cols.delete("id")
+        cols.delete("created_at")
+        cols.delete("updated_at")
 
+        puts "#{'='*30} Total count #{'='*30}"
+        cols.each do |col|
+            num = model.all.map(&col.to_sym).count
+            puts "#{col}: #{num}"
+        end
+        puts "#{'='*30} Unique count #{'='*30}"
+        cols.each do |col|
+            num = model.all.map(&col.to_sym).uniq.count
+            puts "#{col}: #{num}"
+        end
+    end
 
-
-
-
-
+    def item_list(model, attrs) # item_list(Staffer, [:staffer_status, :cont_status])
+        list_hash = {}
+        puts "#{'='*30} Item List #{'='*30}"
+        attrs.each do |att|
+            list_hash[att] = model.all.map(&att).uniq
+            puts "#{att}: #{list_hash[att]}"
+        end
+        list_hash
+    end
 
 end # DashboardService class Ends ---

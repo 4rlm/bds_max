@@ -33,25 +33,41 @@
 
 <%= render partial: 'dashboard' %>
 
+<div class="row profile-row">
+    <div class="profile-col col-md-12">
+        <table class="table table-bordered indexer-table">
+            <thead>
+                <tr>
+                    <th>db_internal</th>
+                    <th>db_public</th>
+                    <th>db_count</th>
+                    <th>column_internal</th>
+                    <th>column_public</th>
+                    <th>column_item_count</th>
+                    <th>column_uniq_items</th>
+                    <th>column_uniq_item_count</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @dashboards.each do |dashboard| %>
-      <tr>
-        <td><%= link_to 'Show', dashboard %></td>
-        <td><%= link_to 'Edit', edit_dashboard_path(dashboard) %></td>
-        <td><%= link_to 'Destroy', dashboard, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+            <tbody>
+                <% @dashboards.each do |dashboard| %>
+                <tr>
+                    <td><%=dashboard.db_internal %></td>
+                    <td><%=dashboard.db_public %></td>
+                    <td><%=dashboard.db_count %></td>
+                    <td><%=dashboard.column_internal %></td>
+                    <td><%=dashboard.column_public %></td>
+                    <td><%=dashboard.column_item_count %></td>
+                    <td><%=dashboard.column_uniq_items %></td>
+                    <td><%=dashboard.column_uniq_item_count %></td>
+                    <td><%= link_to 'Edit', edit_dashboard_path(dashboard) %></td>
+                    <td><%= link_to 'Destroy', dashboard, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <br>
-
-<%= link_to 'New Dashboard', new_dashboard_path %>
