@@ -91,7 +91,7 @@ class IndexerService
             rescue
                 rt_error_code = Helper.new.err_code_finder($!.message)
                 puts "\n\n>>> #{rt_error_code} <<<\n\n"
-                indexer.update_attributes(indexer_status: "RT Error", rt_sts: rt_error_code)
+                indexer.update_attribute(:indexer_status, "RT Error")
             end ## rescue ends
 
             sleep(3)
@@ -138,7 +138,7 @@ class IndexerService
             rescue
                 rt_error_code = Helper.new.err_code_finder($!.message)
                 puts "\n\n>>> #{rt_error_code} <<<\n\n"
-                indexer.update_attributes(indexer_status: "Meta Error", rt_sts: rt_error_code)
+                indexer.update_attribute(:indexer_status, "Meta Error")
             end
             sleep(2)
         end
