@@ -55,7 +55,7 @@
                 <td><%= core.sfdc_sales_person %></td>
                 <td><%= core.sfdc_id %></td>
                 <td class='details-btn' >
-                    <%= link_to core do %>
+                    <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
                         <span class="glyphicon glyphicon-folder-open"></span>
                     <% end %>
                 </td>
