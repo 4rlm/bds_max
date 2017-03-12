@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312003002) do
+ActiveRecord::Schema.define(version: 20170312220930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20170312003002) do
     t.string   "crm_phones",              default: [],              array: true
     t.string   "web_phones",              default: [],              array: true
     t.string   "who_status"
+    t.string   "acct_merge_sts"
   end
 
   create_table "dashboards", force: :cascade do |t|

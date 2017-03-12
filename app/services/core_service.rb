@@ -4,6 +4,40 @@ require 'uri'
 require 'date'
 
 class CoreService
+    # ===== JS Buttons (Index in Detail View)
+    def merge_data_starter(ids)
+        puts "\n\nmerge_data ids: #{ids.inspect}\n\n"
+        if ids.any?
+            cores = Core.where(id: ids)
+
+            cores.each do |core|
+                core.update_attributes(acct_merge_sts: "Merge")
+            end
+        end
+    end
+
+    def flag_data_starter(ids)
+        puts "\n\nflag_data ids: #{ids.inspect}\n\n"
+        if ids.any?
+            cores = Core.where(id: ids)
+
+            cores.each do |core|
+                core.update_attributes(acct_merge_sts: "Flag")
+            end
+        end
+    end
+
+    def drop_data_starter(ids)
+        puts "\n\ndrop_data ids: #{ids.inspect}\n\n"
+        if ids.any?
+            cores = Core.where(id: ids)
+
+            cores.each do |core|
+                core.update_attributes(acct_merge_sts: "Drop")
+            end
+        end
+    end
+
 
     # == Core Method starts here.===================|*|
     def scrape_listing(ids)  # search

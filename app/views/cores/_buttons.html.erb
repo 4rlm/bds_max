@@ -2,8 +2,9 @@
     <div class="col-md-12">
         <div class="pull-left">
             <% if mode == "detail" && advanced_and_up %>
-                <span class="btn btn-success" onClick="mergeDataCore();">Merge Data</span>
-                <!-- <span class="btn btn-danger" onClick="flagDataCore();">Flag Data</span> -->
+                <span class="btn btn-success" onClick="mergeDataCore();"><i class="fa fa-plus" aria-hidden="true"></i> Merge Data</span>
+                <span class="btn btn-warning" onClick="flagDataCore();"><i class="fa fa-flag" aria-hidden="true"></i> Flag Data</span>
+                <span class="btn btn-danger" onClick="dropDataCore();"><i class="fa fa-minus" aria-hidden="true"></i> Drop Data</span>
             <% end %>
         </div>
         <div class="pull-right">

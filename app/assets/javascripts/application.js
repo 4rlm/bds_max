@@ -58,11 +58,29 @@ function changeStatusCore(el) {
 
 function mergeDataCore() {
     console.log("mergeData Clicked", cores);
-    // $.ajax({
-    //     url: "/cores/merge_data",
-    //     data: {cores: cores},
-    //     success: function() { location.reload(); }
-    // });
+    $.ajax({
+        url: "/cores/merge_data",
+        data: {cores: cores},
+        success: function() { location.reload(); }
+    });
+}
+
+function flagDataCore() {
+    console.log("flagData Clicked", cores);
+    $.ajax({
+        url: "/cores/flag_data",
+        data: {cores: cores},
+        success: function() { location.reload(); }
+    });
+}
+
+function dropDataCore() {
+    console.log("dropData Clicked", cores);
+    $.ajax({
+        url: "/cores/drop_data",
+        data: {cores: cores},
+        success: function() { location.reload(); }
+    });
 }
 
 // ========== Location JS Buttons ==========

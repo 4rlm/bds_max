@@ -1,9 +1,9 @@
 class CoresController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show, :search, :quick_core_view_queue]
-    before_action :advanced_and_up, only: [:edit, :update]
+    before_action :advanced_and_up, only: [:edit, :update, :merge_data, :flag_data, :drop_data]
     before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_core_data, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
     before_action :set_core, only: [:show, :edit, :update, :destroy]
-    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
+    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn, :merge_data, :flag_data, :drop_data]
 
     # GET /cores
     # GET /cores.json
@@ -114,7 +114,7 @@ class CoresController < ApplicationController
     end
 
     def core_comp_cleaner_btn
-        @core_service.core_comp_cleaner_btn
+        @service.core_comp_cleaner_btn
         flash[:notice] = "Core(Comparison) cleaned successfully."
         redirect_to cores_path
     end
@@ -128,40 +128,40 @@ class CoresController < ApplicationController
     def anything_btn
         # previously called franchiser_btn
         # !! CAUTION !!
-        # @core_service.core_data_dumper
-        # @core_service.delay.core_full_address_cleaner
-        # @core_service.core_full_address_cleaner
-        # @core_service.core_acct_name_cleaner
+        # @service.core_data_dumper
+        # @service.delay.core_full_address_cleaner
+        # @service.core_full_address_cleaner
+        # @service.core_acct_name_cleaner
 
-        # @core_service.phone_formatter
+        # @service.phone_formatter
 
-        # @core_service.geo_missing_street_num
+        # @service.geo_missing_street_num
 
-        # @core_service.image_mover
+        # @service.image_mover
 
-        # @core_service.hybrid_address_matcher
+        # @service.hybrid_address_matcher
 
-        # @core_service.account_matcher
+        # @service.account_matcher
 
-        # @core_service.core_staffer_domain_cleaner
-        @core_service.delay.core_staffer_domain_cleaner
+        # @service.core_staffer_domain_cleaner
+        @service.delay.core_staffer_domain_cleaner
 
 
 
-        # @core_service.period_remover
+        # @service.period_remover
 
 
         ### Above are Dangerous!  Use w/ Care!  ###
         #############################
 
-        # @core_service.core_root_formatter
+        # @service.core_root_formatter
 
-        # @core_service.delay.franchise_resetter
-        # @core_service.franchise_resetter
-        # @core_service.delay.franchise_termer
-        # @core_service.franchise_termer
-        # @core_service.delay.franchise_consolidator
-        # @core_service.franchise_consolidator
+        # @service.delay.franchise_resetter
+        # @service.franchise_resetter
+        # @service.delay.franchise_termer
+        # @service.franchise_termer
+        # @service.delay.franchise_consolidator
+        # @service.franchise_consolidator
 
         # redirect_to root_path
         redirect_to cores_path
@@ -169,8 +169,23 @@ class CoresController < ApplicationController
     end
 
     def col_splitter_btn
-        @core_service.col_splitter
+        @service.col_splitter
         redirect_to root_path
+    end
+
+    def merge_data
+        @service.merge_data_starter(params[:cores])
+        flash[:notice] = "Merging Data Done!"
+    end
+
+    def flag_data
+        @service.flag_data_starter(params[:cores])
+        flash[:notice] = "Flagging Data Done!"
+    end
+
+    def drop_data
+        @service.drop_data_starter(params[:cores])
+        flash[:notice] = "Dropping Data Done!"
     end
 
 
@@ -181,7 +196,7 @@ class CoresController < ApplicationController
     end
 
     def set_core_service
-        @core_service = CoreService.new
+        @service = CoreService.new
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -215,8 +230,8 @@ class CoresController < ApplicationController
     end
 
     def start_domainer(ids)
-        @core_service.delay.scrape_listing(ids)
-        # @core_service.scrape_listing(ids)
+        @service.delay.scrape_listing(ids)
+        # @service.scrape_listing(ids)
         flash[:notice] = 'Domainer started!'
         # redirect_to gcses_path
         redirect_to cores_path
