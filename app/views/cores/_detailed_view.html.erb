@@ -4,24 +4,7 @@
 <% num = 0 %>
 <% @cores.each do |core| %>
     <% num +=1 %>
-    <div id="core-detail" class="text-nowrap geo-result-table">
-        <div class="row">
-            <div class="col-md-10"> <!-- Status Icons -->
-                <%= render partial: 'cores/acct_detail_1', locals: { num: num, core: core } %>
-                <%= render partial: 'cores/acct_detail_2', locals: { core: core } %>
-                <%= render partial: 'cores/acct_detail_3', locals: { core: core } %>
-            </div>
-            <div class="col-md-2">
-                <% if core.img_url %>
-                    <td>
-                        <%= link_to "https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=#{core.sfdc_acct}", target: "_blank"  do %>
-                            <%= image_tag(core.img_url, :class=>'geo-img', alt: core.geo_acct_name) %>
-                        <% end %>
-                    </td>
-                <% end %>
-            </div>
-        </div>
-    </div><br> <!-- Account Profile Ends -->
+    <%= render partial: 'acct_profile', locals: { core: core, num: num } %>
 <% end %>
 
 <!-- ### MODAL TEMPLATE!! - DO NOT DELETE   ### -->

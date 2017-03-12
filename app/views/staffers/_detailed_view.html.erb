@@ -9,7 +9,7 @@
     <% domain = staffer.domain %>
     <% if !urls.include?(domain) %>
         <% urls << domain %>
-        <%= render partial: 'cores/detailed_view', locals: { core: Core.find_by(sfdc_clean_url: domain), num: "" } %>
+        <%= render partial: 'cores/acct_profile', locals: { core: Core.find_by(sfdc_clean_url: domain), num: "" } %>
         <%= render partial: 'core_staffs', locals: { staffers: Staffer.where(domain: domain) } %>
     <% end %>
 <% end %>
