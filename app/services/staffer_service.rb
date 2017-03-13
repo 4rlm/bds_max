@@ -93,4 +93,25 @@ class StafferService
         end ## .each loop ends
 
     end
+
+    # When first name is "["Jack", "McCarthy", "Business Manage.....", it cleans to "Jack".
+    def fname_cleaner
+        urls = Indexer.where(template: "Dealer.com").map(&:clean_url).uniq
+        staffers = Staffer.where(domain: urls)
+
+        staffers.each do |staffer|
+            fname = staffer.fname
+            lname = staffer.lname
+            fullname = staffer.fullname
+
+            if fname && lname && fullname
+                merged_name = fname + " " + lname
+
+                if fullname != merged_name
+                    puts "\n\nOLD First Name: #{fname}\nNEW First Name: #{fullname.split(" ")[0]}\n\n"
+                    staffer.update_attributes(fname: fullname.split(" ")[0])
+                end
+            end
+        end
+    end
 end

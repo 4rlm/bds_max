@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     get 'staffer/acct_contacts' => 'staffers#acct_contacts'
     get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
     get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
+    get 'temporary_btn' => 'staffers#temporary_btn'
 
     resources :cores do
         collection { post :import_core_data }
