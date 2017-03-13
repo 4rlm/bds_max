@@ -13,17 +13,17 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        # a=0
-        # z=125
+        a=0
+        z=2
         # a=125
         # z=250
         # a=250
         # z=375
-        a=375
+        # a=375
         # z=400
         # a=400
         # z=1300
-        z=-1
+        # z=-1
 
         # First, make Indexer.all.each {|indexer| indexer.update_attribute(:contact_status, nil) }
         indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com")
