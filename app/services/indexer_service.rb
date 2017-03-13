@@ -845,10 +845,26 @@ class IndexerService
     end
 
     def acct_pin_gen
-        indexers = Indexer.where.not(street: nil).where.not(zip: nil).where(acct_pin: nil)
-        indexers.each do |indexer|
-            street = indexer.street
-            zip = indexer.zip
+        # indexers = Indexer.where.not(street: nil).where.not(zip: nil).where(acct_pin: nil)
+        # indexers.each do |indexer|
+        #     street = indexer.street
+        #     zip = indexer.zip
+        #     street_parts = street.split(" ")
+        #     street_num = street_parts[0]
+        #     street_num = street_num.tr('^0-9', '')
+        #     new_zip = zip.strip
+        #     new_zip = zip[0..4]
+        #     acct_pin = "z#{new_zip}-s#{street_num}"
+        #     puts "zip: #{zip}"
+        #     puts "street: #{street}"
+        #     puts "acct_pin: #{acct_pin}\n#{"-"*30}\n\n"
+        #     indexer.update_attribute(:acct_pin, acct_pin)
+        # end
+
+        cores = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil).where(crm_acct_pin: nil)[0..20]
+        cores.each do |core|
+            street = core.sfdc_street
+            zip = core.sfdc_zip
             street_parts = street.split(" ")
             street_num = street_parts[0]
             street_num = street_num.tr('^0-9', '')
@@ -858,7 +874,7 @@ class IndexerService
             puts "zip: #{zip}"
             puts "street: #{street}"
             puts "acct_pin: #{acct_pin}\n#{"-"*30}\n\n"
-            indexer.update_attribute(:acct_pin, acct_pin)
+            # core.update_attribute(:crm_acct_pin, acct_pin)
         end
     end
 
@@ -984,6 +1000,7 @@ class IndexerService
             end
         end
     end
+
 
 
 

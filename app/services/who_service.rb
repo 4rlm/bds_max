@@ -11,7 +11,7 @@ class WhoService
 
 
     def who_starter
-        a=0
+        a=10000
         z=-1
         range = z-a
 
@@ -37,6 +37,7 @@ class WhoService
                 r = Whois.whois(host)
                 if r.available?
                     url_validation = "Invalid URL"
+                    indexer.update_attributes(indexer_status: "Invalid URL", who_status: "Invalid URL")
                 else
                     url_validation = "Valid URL"
                     p = r.parser
@@ -81,85 +82,6 @@ class WhoService
                     end # Ends Registrant Contacts
 
 
-                    ## Admin Contact Variables
-                    if r.admin_contacts.present?
-                        admin_contact_info = "Admin Contact Info:>"
-                        admin_id = r.admin_contacts[0].id
-                        admin_type =r.admin_contacts[0].type
-                        admin_name = r.admin_contacts[0].name
-                        admin_organization = r.admin_contacts[0].organization
-                        admin_address = r.admin_contacts[0].address
-                        admin_city = r.admin_contacts[0].city
-                        admin_zip = r.admin_contacts[0].zip
-                        admin_state = r.admin_contacts[0].state
-
-                        admin_phone1 = r.admin_contacts[0].phone
-                        puts admin_phone1
-                        admin_phone = phone_formatter(admin_phone1)
-                        admin_fax2 = r.admin_contacts[0].fax
-                        admin_fax2
-                        admin_fax = phone_formatter(admin_fax2)
-
-                        admin_email = r.admin_contacts[0].email
-                        admin_url = r.admin_contacts[0].url
-                        admin_created_on = r.admin_contacts[0].created_on
-
-                        puts "------------- #{admin_contact_info} -------------"
-                        puts "ID: #{admin_id}"
-                        puts "Type: #{admin_type}"
-                        puts "Name: #{admin_name}"
-                        puts "Organization: #{admin_organization}"
-                        puts "Address: #{admin_address}"
-                        puts "City: #{admin_city}"
-                        puts "Zip: #{admin_zip}"
-                        puts "State: #{admin_state}"
-                        puts "Phone: #{admin_phone}"
-                        puts "Fax: #{admin_fax}"
-                        puts "Email: #{admin_email}"
-                        puts "URL: #{admin_url}"
-                        puts "Created: #{admin_created_on}"
-                        puts ""
-                    end # Ends Admin Contacts
-
-
-                    ## Tech Contact Variables
-                    if r.technical_contacts.present?
-                        tech_contact_info = "Tech Contact Info:>"
-                        tech_id = r.technical_contacts[0].id
-                        tech_type =r.technical_contacts[0].type
-                        tech_name = r.technical_contacts[0].name
-                        tech_organization = r.technical_contacts[0].organization
-                        tech_address = r.technical_contacts[0].address
-                        tech_city = r.technical_contacts[0].city
-                        tech_zip = r.technical_contacts[0].zip
-                        tech_state = r.technical_contacts[0].state
-
-                        tech_phone1 = r.technical_contacts[0].phone
-                        puts tech_phone1
-                        tech_phone = phone_formatter(tech_phone1)
-                        tech_fax1 = r.technical_contacts[0].fax
-                        puts tech_fax1
-                        tech_fax = phone_formatter(tech_fax1)
-
-                        tech_email = r.technical_contacts[0].email
-                        tech_url = r.technical_contacts[0].url
-
-                        puts "------------- #{tech_contact_info} -------------"
-                        puts "ID: #{tech_id}"
-                        puts "Type: #{tech_type}"
-                        puts "Name: #{tech_name}"
-                        puts "Organization: #{tech_organization}"
-                        puts "Address: #{tech_address}"
-                        puts "City: #{tech_city}"
-                        puts "Zip: #{tech_zip}"
-                        puts "State: #{tech_state}"
-                        puts "Phone: #{tech_phone}"
-                        puts "Fax: #{tech_fax}"
-                        puts "Email: #{tech_email}"
-                        puts "URL: #{tech_url}"
-                        puts ""
-                    end # Ends Technical Contacts
-
                     ## Tech Data Variables
                     tech_data_info = "Tech Data Info:>"
                     # domain = p.domain
@@ -184,16 +106,14 @@ class WhoService
                     who_status = "WhoIs Result"
                     url_status = "WhoIs Result"
 
-                    registrant_pin = acct_pin_gen(registrant_address, registrant_zip)
-                    admin_pin = acct_pin_gen(admin_address, admin_zip)
-                    tech_pin = acct_pin_gen(tech_address, tech_zip)
+                    who_addr_pin = acct_pin_gen(registrant_address, registrant_zip)
 
                     puts "\n\n\n============================="
-                    puts "registrant_pin: #{registrant_pin}"
-                    puts "admin_pin: #{admin_pin}"
-                    puts "tech_pin: #{tech_pin}"
+                    puts "who_addr_pin: #{who_addr_pin}"
                     puts "\n\n\n============================="
 
+                    puts "\n\nBOOLEAN  who: #{Who.where(domain: indexer.clean_url).map(&:id)}\n\n"
+                    # binding.pry
                     Who.find_or_create_by(
                         domain: indexer.clean_url
                     ) do |who|
@@ -206,9 +126,7 @@ class WhoService
                         who.server2 = server2
                         who.registrar_url = registrar_url
                         who.registrar_id = registrar_id
-
-                        who.registrant_id = registrant_id
-                        who.registrant_type = registrant_type
+                        who.who_addr_pin = who_addr_pin
                         who.registrant_name = registrant_name
                         who.registrant_organization = registrant_organization
                         who.registrant_address = registrant_address
@@ -219,36 +137,6 @@ class WhoService
                         who.registrant_fax = registrant_fax
                         who.registrant_email = registrant_email
                         who.registrant_url = registrant_url
-
-                        who.admin_id = admin_id
-                        who.admin_type = admin_type
-                        who.admin_name = admin_name
-                        who.admin_organization = admin_organization
-                        who.admin_address = admin_address
-                        who.admin_city = admin_city
-                        who.admin_zip = admin_zip
-                        who.admin_state = admin_state
-                        who.admin_phone = admin_phone
-                        who.admin_fax = admin_fax
-                        who.admin_email = admin_email
-                        who.admin_url = admin_url
-
-                        who.tech_id = tech_id
-                        who.tech_type = tech_type
-                        who.tech_name = tech_name
-                        who.tech_organization = tech_organization
-                        who.tech_address = tech_address
-                        who.tech_city = tech_city
-                        who.tech_zip = tech_zip
-                        who.tech_state = tech_state
-                        who.tech_phone = tech_phone
-                        who.tech_fax = tech_fax
-                        who.tech_email = tech_email
-                        who.tech_url = tech_url
-
-                        who.registrant_pin = registrant_pin
-                        who.tech_pin = tech_pin
-                        who.admin_pin = admin_pin
                     end
 
                     indexer.update_attributes(indexer_status: who_status, who_status: url_validation)
@@ -266,12 +154,9 @@ class WhoService
                 sleep(delay_time)
             rescue
                 indexer.update_attributes(indexer_status: "WhoIs Error", who_status: "WhoIs Error")
-            end
-
-
-        end
-
-    end
+            end # end begin
+        end # end indexers iteration
+    end # end who_starter
 
 
     def acct_pin_gen(street, zip)

@@ -72,13 +72,10 @@
 
                 <table class="table table-bordered indexer-table">
                     <tr> <!-- REGISTRANT INFO -->
-                        <th rowspan="2" class="th-middle w-sm">Registrant</th>
-                        <th>ID</th>
-                        <th>Type</th>
                         <th>Name</th>
                         <th>Organization</th>
-                        <th>Address Pin</th>
                         <th>Address</th>
+                        <th>Address Pin</th>
                         <th>City</th>
                         <th>Zip</th>
                         <th>State</th>
@@ -89,11 +86,9 @@
                     </tr>
 
                     <tr>
-                        <td><%= who.registrant_id %></td>
-                        <td><%= who.registrant_type %></td>
                         <td><%= who.registrant_name %></td>
                         <td><%= who.registrant_organization %></td>
-                        <td><%= who.registrant_pin %></td>
+                        <td><%= who.who_addr_pin %></td>
                         <td><%= who.registrant_address %></td>
                         <td><%= who.registrant_city %></td>
                         <td><%= who.registrant_zip %></td>
@@ -104,72 +99,6 @@
                         <td><%= who.registrant_url %></td>
                     </tr>
 
-                    <tr> <!-- TECH INFO -->
-                        <th rowspan="2" class="th-middle w-sm">Tech</th>
-                        <th>ID</th>
-                        <th>Type</th>
-                        <th>Name</th>
-                        <th>Organization</th>
-                        <th>Address Pin</th>
-                        <th>Address</th>
-                        <th>City</th>
-                        <th>Zip</th>
-                        <th>State</th>
-                        <th>Phone</th>
-                        <th>Fax</th>
-                        <th>Email</th>
-                        <th>URL</th>
-                    </tr>
-
-                    <tr>
-                        <td><%= who.tech_id %></td>
-                        <td><%= who.tech_type %></td>
-                        <td><%= who.tech_name %></td>
-                        <td><%= who.tech_organization %></td>
-                        <td><%= who.tech_pin %></td>
-                        <td><%= who.tech_address %></td>
-                        <td><%= who.tech_city %></td>
-                        <td><%= who.tech_zip %></td>
-                        <td><%= who.tech_state %></td>
-                        <td><%= who.tech_phone %></td>
-                        <td><%= who.tech_fax %></td>
-                        <td><%= who.tech_email %></td>
-                        <td><%= who.tech_url %></td>
-                    </tr>
-
-                    <tr> <!-- ADMIN INFO -->
-                        <th rowspan="2" class="th-middle w-sm">Admin</th>
-                        <th>ID</th>
-                        <th>Type</th>
-                        <th>Name</th>
-                        <th>Organization</th>
-                        <th>Address Pin</th>
-                        <th>Address</th>
-                        <th>City</th>
-                        <th>Zip</th>
-                        <th>State</th>
-                        <th>Phone</th>
-                        <th>Fax</th>
-                        <th>Email</th>
-                        <th>URL</th>
-                    </tr>
-
-                    <tr>
-                        <td><%= who.admin_id %></td>
-                        <td><%= who.admin_type %></td>
-                        <td><%= who.admin_name %></td>
-                        <td><%= who.admin_organization %></td>
-                        <td><%= who.admin_pin %></td>
-                        <td><%= who.admin_address %></td>
-                        <td><%= who.admin_city %></td>
-                        <td><%= who.admin_zip %></td>
-                        <td><%= who.admin_state %></td>
-                        <td><%= who.admin_phone %></td>
-                        <td><%= who.admin_fax %></td>
-                        <td><%= who.admin_email %></td>
-                        <td><%= who.admin_url %></td>
-
-                    </tr>
                 </table>
             </div> <!-- /.profile-col col-md-12 -->
         </div> <!-- /.row profile-row -->

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313035103) do
+ActiveRecord::Schema.define(version: 20170313033238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,12 +68,12 @@ ActiveRecord::Schema.define(version: 20170313035103) do
     t.string   "crm_acct_pin"
     t.string   "crm_phones",              default: [],              array: true
     t.string   "who_status"
-    t.string   "acct_merge_sts"
     t.string   "acct_match_score"
     t.string   "org_match_status"
     t.string   "ph_match_status"
     t.string   "pin_match_status"
     t.string   "url_match_status"
+    t.string   "acct_merge_sts"
   end
 
   create_table "dashboards", force: :cascade do |t|
@@ -303,8 +303,6 @@ ActiveRecord::Schema.define(version: 20170313035103) do
     t.string   "server2"
     t.string   "registrar_url"
     t.string   "registrar_id"
-    t.string   "registrant_id"
-    t.string   "registrant_type"
     t.string   "registrant_name"
     t.string   "registrant_organization"
     t.string   "registrant_address"
@@ -315,37 +313,11 @@ ActiveRecord::Schema.define(version: 20170313035103) do
     t.string   "registrant_fax"
     t.string   "registrant_email"
     t.string   "registrant_url"
-    t.string   "admin_id"
-    t.string   "admin_type"
-    t.string   "admin_name"
-    t.string   "admin_organization"
-    t.string   "admin_address"
-    t.string   "admin_city"
-    t.string   "admin_zip"
-    t.string   "admin_state"
-    t.string   "admin_phone"
-    t.string   "admin_fax"
-    t.string   "admin_email"
-    t.string   "admin_url"
-    t.string   "tech_id"
-    t.string   "tech_type"
-    t.string   "tech_name"
-    t.string   "tech_organization"
-    t.string   "tech_address"
-    t.string   "tech_city"
-    t.string   "tech_zip"
-    t.string   "tech_state"
-    t.string   "tech_phone"
-    t.string   "tech_fax"
-    t.string   "tech_email"
-    t.string   "tech_url"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.string   "who_status"
     t.string   "url_status"
-    t.string   "registrant_pin"
-    t.string   "tech_pin"
-    t.string   "admin_pin"
+    t.string   "who_addr_pin"
   end
 
 end
