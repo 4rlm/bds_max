@@ -40,7 +40,7 @@ module ApplicationHelper
 
 
     def sfdc_type_list
-        ["Web", "Solitary", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
+        ["Web", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
     end
 
     def core_status_list
@@ -48,11 +48,11 @@ module ApplicationHelper
     end
 
     def sfdc_sales_person_list
-        ["Web", "Solitary", "Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
+        ["Web", "Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
     end
 
     def status_list
-        ['Dom Result', 'Imported', 'Auto-Match', 'No Auto-Matches', 'Matched', 'No Matches', 'Pending Verification', 'Solitary', 'Junk', 'Destroy']
+        ['Dom Result', 'Imported', 'Auto-Match', 'No Auto-Matches', 'Matched', 'No Matches', 'Junk', 'Destroy']
     end
 
     def status_list_search

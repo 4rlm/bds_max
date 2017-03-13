@@ -1,1 +1,0 @@
-json.array! @solitaries, partial: 'solitaries/solitary', as: :solitary

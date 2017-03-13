@@ -397,38 +397,6 @@ class IndexerService
         end
     end
 
-
-    def pending_verifications_importer
-        pens = PendingVerification.all
-        counter=0
-        target_counter=0
-
-        puts "\n\n======================================\n\n"
-
-        pens.each do |pen|
-            pen_url = pen.domain
-
-            pen_url[-1] == "/" ? pen_url = pen_url[0...-1] : pen_url
-
-            counter+=1
-            raw_url = Indexer.exists?(raw_url: pen_url)
-            clean_url = Indexer.exists?(clean_url: pen_url)
-
-            if raw_url || clean_url
-                puts "#{counter}/X) #{pen_url}"
-            else
-                target_counter+=1
-                puts "#{counter}/#{target_counter})     IMPORTING: #{pen_url}"
-
-                Indexer.create(raw_url: pen_url, indexer_status: "SFDC URL", stf_status: "SFDC URL", loc_status: "SFDC URL", template: "SFDC URL")
-            end
-
-        end
-
-        puts "\n\n======================================\n\n"
-
-    end
-
     def count_contacts
         indexers = Indexer.where.not(clean_url: nil).where(contacts_count: nil)
         counter=0

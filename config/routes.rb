@@ -99,43 +99,13 @@ Rails.application.routes.draw do
     root 'welcome#index'
 
 
-
     # Hide all CRUD actions 2017.03.10 ==================================
 
     # # === Google API Route ===
     # get '/search' => 'search#index'
 
-    #==== Criteria CSV Imports =========
-    # resources :exclude_roots do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'exclude_root/import_page' => 'exclude_roots#import_page'
-
-    # resources :in_host_dels do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'in_host_del/import_page' => 'in_host_dels#import_page'
-
-    # resources :in_text_dels do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'in_text_del/import_page' => 'in_text_dels#import_page'
-
     # resources :in_text_pos do
     #     collection { post :import_csv_data }
     # end
     # get 'in_text_po/import_page' => 'in_text_pos#import_page'
-
-    # resources :solitaries do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'solitary/import_page' => 'solitaries#import_page'
-    # get 'solitary_cleaner_btn' => 'solitaries#solitary_cleaner_btn'
-    # get 'solitary_migrator' => 'solitaries#solitary_migrator'
-
-    # resources :pending_verifications do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'pending_verification/import_page' => 'pending_verifications#import_page'
-    #==== Criteria CSV Imports Ends=========
 end

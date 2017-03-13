@@ -119,8 +119,6 @@ class IndexersController < ApplicationController
         # @service.dup_url_cleaner
         # @service.delay.dup_url_cleaner
         # @service.staff_url_cleaner
-        # @service.pending_verifications_importer
-        # @service.delay.pending_verifications_importer
         # @service.url_downcase
         # @service.delay.url_downcase
         # @service.hyrell_cleaner
@@ -134,7 +132,7 @@ class IndexersController < ApplicationController
 
         # @service.indexer_duplicate_purger
         # @service.db_data_trimmer
-        
+
         @service.acct_pin_gen
 
         # @service.pin_acct_counter

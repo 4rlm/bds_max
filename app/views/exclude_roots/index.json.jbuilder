@@ -1,1 +1,0 @@
-json.array! @exclude_roots, partial: 'exclude_roots/exclude_root', as: :exclude_root
