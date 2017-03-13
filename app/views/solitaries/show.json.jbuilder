@@ -1,1 +1,0 @@
-json.partial! "solitaries/solitary", solitary: @solitary

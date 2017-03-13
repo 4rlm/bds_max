@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     get 'staffer/acct_contacts' => 'staffers#acct_contacts'
     get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
     get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
+    get 'temporary_btn' => 'staffers#temporary_btn'
 
     resources :cores do
         collection { post :import_core_data }
@@ -59,7 +60,6 @@ Rails.application.routes.draw do
     # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
     get 'anything_btn' => 'cores#anything_btn'
     get 'col_splitter_btn' => 'cores#col_splitter_btn'
-    get 'quick_core_view_queue' => 'cores#quick_core_view_queue' # Quick Search Button
 
     resources :in_host_pos do
         collection { post :import_csv_data }
@@ -89,7 +89,6 @@ Rails.application.routes.draw do
 
     # #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
-    post 'search_result_page_gcse' => 'search#search_result_gcse'
     post 'search_result_page_staffer' => 'search#search_result_staffer'
     post 'search_result_page_location' => 'search#search_result_location'
     post 'search_result_page_indexer' => 'search#search_result_indexer'
@@ -101,56 +100,13 @@ Rails.application.routes.draw do
     root 'welcome#index'
 
 
-
     # Hide all CRUD actions 2017.03.10 ==================================
 
     # # === Google API Route ===
     # get '/search' => 'search#index'
 
-    # resources :gcses do
-    #     collection { post :import }
-    #     collection { post :batch_status }
-    # end
-    # get 'gcse/import_page' => 'gcses#import_page'
-    # get 'gcse/search' => 'gcses#search'
-    # get 'gcse_cleaner_btn' => 'gcses#gcse_cleaner_btn'
-    # get 'auto_match_btn' => 'gcses#auto_match_btn'
-    # get 'quick_dom_dom_res_2' => 'gcses#quick_dom_dom_res_2'
-    # get 'quick_dom_no_auto_match_2' => 'gcses#quick_dom_no_auto_match_2'
-    # get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
-
-
-    #==== Criteria CSV Imports =========
-    # resources :exclude_roots do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'exclude_root/import_page' => 'exclude_roots#import_page'
-
-    # resources :in_host_dels do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'in_host_del/import_page' => 'in_host_dels#import_page'
-
-    # resources :in_text_dels do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'in_text_del/import_page' => 'in_text_dels#import_page'
-
     # resources :in_text_pos do
     #     collection { post :import_csv_data }
     # end
     # get 'in_text_po/import_page' => 'in_text_pos#import_page'
-
-    # resources :solitaries do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'solitary/import_page' => 'solitaries#import_page'
-    # get 'solitary_cleaner_btn' => 'solitaries#solitary_cleaner_btn'
-    # get 'solitary_migrator' => 'solitaries#solitary_migrator'
-
-    # resources :pending_verifications do
-    #     collection { post :import_csv_data }
-    # end
-    # get 'pending_verification/import_page' => 'pending_verifications#import_page'
-    #==== Criteria CSV Imports Ends=========
 end

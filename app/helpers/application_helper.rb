@@ -19,7 +19,7 @@ module ApplicationHelper
     end
 
     def indexer_status_list
-        ["TCP Error", "403 Error", "410 Error", "500 Error", 'Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
+        # ["TCP Error", "403 Error", "410 Error", "500 Error", 'Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
     end
 
     def main_indexer_status_list
@@ -40,19 +40,19 @@ module ApplicationHelper
 
 
     def sfdc_type_list
-        ["Web", "Solitary", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
+        ["Web", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
     end
 
     def core_status_list
-        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
+        ['Imported', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
     end
 
     def sfdc_sales_person_list
-        ["Web", "Solitary", "Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
+        ["Web", "Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
     end
 
     def status_list
-        ['Dom Result', 'Imported', 'Auto-Match', 'No Auto-Matches', 'Matched', 'No Matches', 'Pending Verification', 'Solitary', 'Junk', 'Destroy']
+        ['Dom Result', 'Imported', 'Auto-Match', 'No Auto-Matches', 'Matched', 'No Matches', 'Junk', 'Destroy']
     end
 
     def status_list_search
@@ -64,7 +64,7 @@ module ApplicationHelper
     end
 
     def bds_status_list
-        ['Imported', 'Queue Domainer', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
+        ['Imported', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
     end
 
     def sfdc_tier_list

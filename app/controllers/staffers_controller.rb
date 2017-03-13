@@ -1,9 +1,9 @@
 class StaffersController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show, :search, :acct_contacts]
     before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn]
     before_action :set_staffer, only: [:show, :edit, :update, :destroy]
-    before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn]
+    before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn]
 
     # GET /staffers
     # GET /staffers.json
@@ -138,6 +138,16 @@ class StaffersController < ApplicationController
     end
 
 
+    # ========== Temporary/Power Button ==========
+
+    def temporary_btn
+        @staffer_service.fname_cleaner
+        # @staffer_service.delay.fname_cleaner
+
+        redirect_to indexers_path
+    end
+
+
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_staffer
@@ -152,8 +162,6 @@ class StaffersController < ApplicationController
     def filtering_params(params)
         params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
     end
-
-
 
     def batch_status
         ids = params[:multi_checks]

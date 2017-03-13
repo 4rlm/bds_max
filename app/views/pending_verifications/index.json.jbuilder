@@ -1,1 +1,0 @@
-json.array! @pending_verifications, partial: 'pending_verifications/pending_verification', as: :pending_verification

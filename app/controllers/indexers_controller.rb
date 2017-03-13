@@ -18,6 +18,9 @@ class IndexersController < ApplicationController
         @indexers_count = Indexer.count
         @selected_indexers_count = @indexers.count
 
+        # Get dropdown option list from Dashboard
+        @stf_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "stf_status").item_list
+        @loc_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "loc_status").item_list
 
         # CSV #
         indexers_csv = @indexers.order(:clean_url)
@@ -58,6 +61,8 @@ class IndexersController < ApplicationController
 
     def search
         @indexer_count = Indexer.count
+        @stf_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "stf_status").item_list
+        @loc_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "loc_status").item_list
     end
 
 
@@ -119,8 +124,6 @@ class IndexersController < ApplicationController
         # @service.dup_url_cleaner
         # @service.delay.dup_url_cleaner
         # @service.staff_url_cleaner
-        # @service.pending_verifications_importer
-        # @service.delay.pending_verifications_importer
         # @service.url_downcase
         # @service.delay.url_downcase
         # @service.hyrell_cleaner
@@ -134,7 +137,7 @@ class IndexersController < ApplicationController
 
         # @service.indexer_duplicate_purger
         # @service.db_data_trimmer
-        
+
         @service.acct_pin_gen
 
         # @service.pin_acct_counter

@@ -25,8 +25,9 @@ class StafferService
         # z=1300
         z=-1
 
-
-        indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 504
+        # First, make Indexer.all.each {|indexer| indexer.update_attribute(:contact_status, nil) }
+        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com")
+        # indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 504
 
         # indexers = Indexer.where.not(template: "Dealer.com").where.not(template: nil).where.not(staff_url: nil).where(indexer_status: "CS Error")
         # indexers.each{|x|x.update_attribute(:indexer_status, "Retry")}
@@ -59,7 +60,7 @@ class StafferService
                 when "DealerOn"
                     DealeronCs.new.contact_scraper(html, url, indexer)
                 when "DealerCar Search"
-                    dealercar_search_cs(html, url, indexer)
+                    # dealercar_search_cs(html, url, indexer)
                 when "Dealer Direct"
                     DealerDirectCs.new.contact_scraper(html, url, indexer)
                 when "Dealer Inspire"
@@ -92,5 +93,26 @@ class StafferService
             sleep(3)
         end ## .each loop ends
 
+    end
+
+    # When first name is "["Jack", "McCarthy", "Business Manage.....", it cleans to "Jack".
+    def fname_cleaner
+        urls = Indexer.where(template: "Dealer.com").map(&:clean_url).uniq
+        staffers = Staffer.where(domain: urls)
+
+        staffers.each do |staffer|
+            fname = staffer.fname
+            lname = staffer.lname
+            fullname = staffer.fullname
+
+            if fname && lname && fullname
+                merged_name = fname + " " + lname
+
+                if fullname != merged_name
+                    puts "\n\nOLD First Name: #{fname}\nNEW First Name: #{fullname.split(" ")[0]}\n\n"
+                    staffer.update_attributes(fname: fullname.split(" ")[0])
+                end
+            end
+        end
     end
 end

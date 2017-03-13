@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312224331) do
+ActiveRecord::Schema.define(version: 20170313035103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20170312224331) do
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.datetime "core_date"
-    t.datetime "domainer_date"
     t.datetime "indexer_date"
     t.datetime "staffer_date"
     t.string   "staff_indexer_status"
@@ -104,45 +103,6 @@ ActiveRecord::Schema.define(version: 20170312224331) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
-  create_table "exclude_roots", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "gcses", force: :cascade do |t|
-    t.datetime "gcse_timestamp"
-    t.integer  "gcse_query_num"
-    t.integer  "gcse_result_num"
-    t.string   "domain_status"
-    t.string   "domain"
-    t.string   "root"
-    t.string   "suffix"
-    t.string   "in_host_pos"
-    t.string   "exclude_root"
-    t.string   "text"
-    t.string   "in_text_pos"
-    t.string   "in_text_del"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "root_counter"
-    t.string   "sfdc_id"
-    t.string   "sfdc_ult_acct"
-    t.string   "sfdc_acct"
-    t.string   "sfdc_type"
-    t.string   "sfdc_street"
-    t.string   "sfdc_city"
-    t.string   "sfdc_state"
-    t.string   "sfdc_url_o"
-    t.string   "sfdc_root"
-  end
-
-  create_table "in_host_dels", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "in_host_pos", force: :cascade do |t|
     t.string   "term"
     t.datetime "created_at",        null: false
@@ -151,12 +111,6 @@ ActiveRecord::Schema.define(version: 20170312224331) do
     t.string   "category"
     t.string   "brand_count"
     t.string   "cat_count"
-  end
-
-  create_table "in_text_dels", force: :cascade do |t|
-    t.string   "term"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "in_text_pos", force: :cascade do |t|
@@ -282,20 +236,6 @@ ActiveRecord::Schema.define(version: 20170312224331) do
     t.string   "geo_acct_pin"
   end
 
-  create_table "pending_verifications", force: :cascade do |t|
-    t.string   "root"
-    t.string   "domain"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "solitaries", force: :cascade do |t|
-    t.string   "solitary_root"
-    t.string   "solitary_url"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
   create_table "staffers", force: :cascade do |t|
     t.string   "staffer_status"
     t.string   "cont_status"
@@ -324,6 +264,7 @@ ActiveRecord::Schema.define(version: 20170312224331) do
     t.string   "full_address"
     t.string   "acct_pin"
     t.string   "cont_pin"
+    t.string   "template"
   end
 
   create_table "users", force: :cascade do |t|

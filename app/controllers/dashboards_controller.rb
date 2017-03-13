@@ -157,15 +157,4 @@ class DashboardsController < ApplicationController
         @service = DashboardService.new
     end
 
-
-    # def get_domainer_query_count
-    #     counter = 0
-    #     Core.all.each do |core|
-    #         if core.domainer_date
-    #             counter += 1
-    #         end
-    #     end
-    #     counter
-    # end
-
 end

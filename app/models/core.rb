@@ -33,7 +33,6 @@ class Core < ApplicationRecord
     scope :created_at, -> (created_at) { where("created_at like ?", "%#{created_at}%") }
     scope :updated_at, -> (updated_at) { where("updated_at like ?", "%#{updated_at}%") }
     scope :core_date, -> (core_date) { where("core_date like ?", "%#{core_date}%") }
-    scope :domainer_date, -> (domainer_date) { where("domainer_date like ?", "%#{domainer_date}%") }
     scope :indexer_date, -> (indexer_date) { where("indexer_date like ?", "%#{indexer_date}%") }
     scope :staffer_date, -> (staffer_date) { where("staffer_date like ?", "%#{staffer_date}%") }
     scope :full_address, -> (full_address) { where("full_address like ?", "%#{full_address}%") }

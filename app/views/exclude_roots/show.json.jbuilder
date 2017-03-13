@@ -1,1 +1,0 @@
-json.partial! "exclude_roots/exclude_root", exclude_root: @exclude_root
