@@ -2,22 +2,14 @@
 <h4 class="text-center">Links Directory (Main URLs and Redirects, Staff Pages, Location Pages) </h4>
 <br>
 
-<%= link_to "1. Template Finder", template_finder_btn_path, class: 'btn btn-warning' %>
-<%= link_to "2. Page Finder", page_finder_btn_path, class: 'btn btn-warning' %>
-<%= link_to "3. Account Scraper", rooftop_data_getter_btn_path, class: 'btn btn-warning' %>
-<%= link_to "4. Contact Scraper", cs_data_getter_btn_path, class: 'btn btn-warning' %>
-<%= link_to "5. Meta Scraper", meta_scraper_btn_path, class: 'btn btn-warning' %>
-<%= link_to "Error Resetter", reset_errors_btn_path, class: 'btn btn-warning' %>
-<%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
-<br>
-
-
-<h4>Total Indexer Accounts: <%= number_with_delimiter(@indexer_count) %></h4>
-<h4>Selected Indexer Accounts: <%= number_with_delimiter(@selected_indexers_count) %></h4>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
+<h4>Total Indexer Accounts: <%= number_with_delimiter(@indexer_count) %></h4>
+<h4>Selected Indexer Accounts: <%= number_with_delimiter(@selected_indexers_count) %></h4>
+
 <%= render partial: 'buttons' %>
+<br>
 
 <div class="row profile-row">
     <div class="profile-col col-md-12">
@@ -27,26 +19,27 @@
                 <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
                 <th>#</th>
                 <th>Indexer Status</th>
-                <th>Redirect status</th>
-                <th>WhoIs Status</th>
-                <th>Template</th>
-                <th>Staff Status</th>
-                <th>Loc Status</th>
-                <th>RT Status</th>
-                <th>Contact Status</th>
-                <th>Account Name</th>
+                <th>(1. RD) Status</th>
+                <th>(2. WH) WhoIs Status</th>
+                <th>(3. TF) Template</th>
+                <th>(4a. PF) Staff Status</th>
+                <th>(4a. PF) Staff Link</th>
+                <th>(4b. PF) Loc Page</th>
+                <th>(4b. PF) Loc Link</th>
 
-                <th>Full Address</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zip</th>
-                <th>Phone</th>
+                <th>(5. RT-MS) Status</th>
+                <th>(6. CS) Status</th>
+                <th>(5. RT) Account Name</th>
 
-                <th>Staff text</th>
-                <th>Location text</th>
-              <th>Clean url</th>
-              <th>Raw url</th>
+                <th>(5. RT) Full Address</th>
+                <th>(5. RT) Street</th>
+                <th>(5. RT) City</th>
+                <th>(5. RT) State</th>
+                <th>(5. RT) Zip</th>
+                <th>(5. RT) Phone</th>
+
+              <th>(1a. RD) Clean url</th>
+              <th>(1a. RD) Raw url</th>
               <th>Crm id arr</th>
               <th colspan="1"></th>
             </tr>
@@ -71,18 +64,39 @@
                     <td><%= indexer.template %></td>
                     <!-- Staff Status -->
                     <td class="<%= match_sts_ind(indexer.stf_status) %>"><%= indexer.stf_status %></td>
-                    <!-- Loc Status -->
-                    <td class="<%= match_sts_ind(indexer.loc_status) %>"><%= indexer.loc_status %></td>
-                  <!-- RT Status -->
-                  <td><%= indexer.rt_sts %></td>
+
+                    <!-- Staff Text / URL -->
+                    <td class="<%= match_sts_ind(indexer.stf_status) %>">
+                        <%= link_to indexer.staff_url, :target => "_blank", class: 'tooltips', title: "#{indexer.staff_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                        <%= indexer.staff_text %>
+                        <% end %>
+                    </td>
+
+                  <!-- Loc Text / URL -->
+                  <td class="<%= match_sts_ind(indexer.loc_status) %>">
+                      <%= link_to indexer.location_url, :target => "_blank", class: 'tooltips', title: "#{indexer.location_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                          <%= indexer.location_text %>
+                      <% end %>
+                  </td>
+
+                  <!-- Loc Status -->
+                  <td class="<%= match_sts_ind(indexer.loc_status) %>"><%= indexer.loc_status %></td>
+                <!-- RT Status -->
+                <td><%= indexer.rt_sts %></td>
+
+
                   <td>
-                      <%# if Staffer.where(domain: indexer.clean_url).count > 0 %>
-                      <%= indexer.contacts_count %>
-                          <%#= link_to indexer.contact_status, staffers_path(url: indexer.clean_url), target: "_blank" %>
-                          <%#= link_to "hey", "/staffers?url=https%3A%2F%2F#{indexer.clean_url}", target: "_blank" %>
-                      <%# else %>
-                          <!-- NO Same URL -->
-                      <%# end %>
+                      <% staffers_total = indexer.contacts_count %>
+                      <% if staffers_total > 0 %>
+                          <%= staffers_total %>
+                          <% if core = Core.find_by(sfdc_clean_url: indexer.clean_url) %>
+                              <%= link_to staffer_acct_contacts_path(core: core), target: "_blank" do %>
+                                  <%= indexer.contact_status ? indexer.contact_status : "CRM" %>
+                              <% end %>
+                          <% else %>
+                              Core Not Found
+                          <% end %>
+                      <% end %>
                   </td>
 
                   <td><%= indexer.acct_name %></td>
@@ -93,18 +107,6 @@
                   <td><%= indexer.zip %></td>
                   <td><%= indexer.phone %></td>
 
-                  <!-- Staff Text / URL -->
-                  <td class="<%= match_sts_ind(indexer.stf_status) %>">
-                      <%= link_to indexer.staff_url, :target => "_blank", class: 'tooltips', title: "#{indexer.staff_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
-                      <%= indexer.staff_text %>
-                      <% end %>
-                  </td>
-                  <!-- Loc Text / URL -->
-                  <td class="<%= match_sts_ind(indexer.loc_status) %>">
-                      <%= link_to indexer.location_url, :target => "_blank", class: 'tooltips', title: "#{indexer.location_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
-                          <%= indexer.location_text %>
-                      <% end %>
-                  </td>
                 <!-- Clean URL -->
                 <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>">
                     <%= link_to indexer.clean_url, :target => "_blank" do %>

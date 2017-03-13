@@ -7,107 +7,70 @@ class PageFinder
         # a=200
         # z=300
         a=0
-        z=3
+        z=-1
 
         # els = Indexer.where(template: "DealerFire").where(indexer_status: "Goose")[a...z]
         # els = Indexer.where(template: "Cobalt").where(indexer_status: "Goose")[a...z]
         # els = Indexer.where(template: "Cobalt").where(indexer_status: "TCP Error")[a...z]
         # els = Indexer.where(template: "Dealer Inspire").where(indexer_status: "Goose")[a...z]
-        # els = Indexer.where(template: "Dealer Inspire").where(indexer_status: "Goose").where(clean_url: "http://www.haronjaguar.com")
-
-        els = Indexer.where(template: "Dealer Inspire").where(clean_url: "http://www.haronjaguar.com")
+        els = Indexer.where(indexer_status: "Goose")[a...z]  ##1,031
 
 
+
+
+        # els = Indexer.where(template: "Dealer Inspire").where(clean_url: "http://www.haronjaguar.com")
 
         # indexers = Indexer.where(template: "Dealer Inspire").where(stf_status: "Valid Link")
         # indexers.each{|x| x.update_attribute(:indexer_status, "Page Result")}
 
         puts "count: #{els.count}\n\n\n"
 
-        puts "\n\n>>>>>>>> -2"
-
-
         agent = Mechanize.new
         agent.follow_meta_refresh = true
 
         counter=0
         els.each do |el|
-            puts "\n\n>>>>>>>> -1"
-
             @indexer = el
 
             counter+=1
             puts "\n\n#{'='*40}\n\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n#{"-"*40}\n#{el.clean_url}\n\n"
 
             redirect_status = el.redirect_status
-            puts "\n\n>>>>>>>> 0"
-
             if redirect_status == "Same" || redirect_status == "Updated"
-
-                puts "\n\n>>>>>>>> 1"
-
-
                 begin
                     @url = el.clean_url
-
-                    puts "\n\n>>>>>>>> 2"
-
-
                     begin
                         page = agent.get(@url)
                     rescue Mechanize::ResponseCodeError => e
-                        puts "\n\n>>>>>>>> 3"
-
                         redirect_url = HTTParty.get(@url).request.last_uri.to_s
                         page = agent.get(redirect_url)
                     end
-
-                    puts "\n\n>>>>>>>> 4"
-
-
                     page_finder(page, "staff")
                     page_finder(page, "location")
-                # rescue
-                #     puts "\n\n>>>>>>>> 5"
-                #
-                #     error_msg = "Error: #{$!.message}"
-                #     status = nil
-                #     indexer_status = nil
-                #     found = false
-                #
-                #     # binding.pry
-                #
-                #     indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: error_msg)
-                #     indexer_terms.each do |term|
-                #         if error_msg.include?(term.criteria_term)
-                #             puts "\n\n>>>>>>>> 6"
-                #
-                #             status = term.response_term
-                #             found = true
-                #         else
-                #             puts "\n\n>>>>>>>> 7"
-                #
-                #             status = error_msg
-                #         end
-                #
-                #         puts "\n\n>>>>>>>> 8"
-                #
-                #
-                #         indexer_status = status == "TCP Error" ? status : "PF Error"
-                #         break if found
-                #         puts "\n\n>>>>>>>> 9"
-                #
-                #     end # indexer_terms iteration ends
-                #
-                #     puts "\n\n>>>>>>>> 10"
-                #
-                #
-                #     indexer_status = "PF Error" unless found
-                #     # el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
-                #     el.update_attributes(indexer_status: indexer_status, stf_status: status, loc_status: status)
+                rescue
+                    error_msg = "Error: #{$!.message}"
+                    status = nil
+                    indexer_status = nil
+                    found = false
 
+                    indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: error_msg)
+                    indexer_terms.each do |term|
+                        if error_msg.include?(term.criteria_term)
+
+                            status = term.response_term
+                            found = true
+                        else
+                            status = error_msg
+                        end
+
+                        indexer_status = status == "TCP Error" ? status : "PF Error"
+                        break if found
+                    end # indexer_terms iteration ends
+
+                    indexer_status = "PF Error" unless found
+                    el.update_attributes(indexer_status: indexer_status, stf_status: status, staff_url: error_msg, loc_status: status, location_url: error_msg)
+                    el.update_attributes(indexer_status: indexer_status, stf_status: status, loc_status: status)
                 end # rescue ends
-                puts "\n\n>>>>>>>> 11"
 
                 sleep(1)
             end
@@ -115,40 +78,26 @@ class PageFinder
     end # Ends start_indexer(ids)
 
     def page_finder(page, mode)
-        puts "\n\n>>>>>>>> 12"
-
         list = text_href_list(mode)
-
         text_list = list[:text_list]
         for text in text_list
-            puts "\n\n>>>>>>>> 13"
-
             pages = page.links.select {|link| link.text.downcase.include?(text.downcase)}
             if pages.any?
-                puts "\n\n>>>>>>>> 14"
-
                 url_split_joiner(pages.first, mode)
                 break
             end
         end
 
         if pages.empty? || pages.nil?
-            puts "\n\n>>>>>>>> 15"
-
             href_list = list[:href_list]
             href_list.delete(/MeetOurDepartments/) # /MeetOurDepartments/ is the last href to search.
             for href in href_list
-                puts "\n\n>>>>>>>> 16"
-
                 if pages = page.link_with(:href => href)
                     url_split_joiner(pages, mode)
                     break
                 end
             end
-
             if !pages
-                puts "\n\n>>>>>>>> 17"
-
                 # if pages = page.link_with(:href => /MeetOurDepartments/)
                 #     url_split_joiner(pages, mode)
                     add_indexer_row_with("PF None", "PF None", nil, nil, mode)
@@ -172,10 +121,10 @@ class PageFinder
 
         if mode == "location"
             printer(mode, status, text, link)
-            @indexer.update_attributes(indexer_status: "PF Result", loc_status: status, location_url: link, location_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: status, loc_status: status, location_url: link, location_text: text) if @indexer != nil
         elsif mode == "staff"
             printer(mode, status, text, link)
-            @indexer.update_attributes(indexer_status: "PF Result", stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
+            @indexer.update_attributes(indexer_status: status, stf_status: status, staff_url: link, staff_text: text) if @indexer != nil
         end
     end
 

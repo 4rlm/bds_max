@@ -107,9 +107,9 @@ class CsHelper # Contact Scraper Helper Method
         puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
 
         if count > 0
-            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "Staffer Result")
+            indexer.update_attributes(phones: phones, contact_status: "CS Result", indexer_status: "CS Result")
         else
-            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "No Contacts")
+            indexer.update_attributes(phones: phones, contact_status: "CS None", indexer_status: "CS None")
         end
     end
 

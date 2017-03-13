@@ -14,8 +14,8 @@ require 'indexer_helper/rts/rts_manager'
 class StafferService
     def cs_data_getter
         a=0
-        z=2
-        # a=125
+        z=300
+        # a=300
         # z=250
         # a=250
         # z=375
@@ -25,8 +25,12 @@ class StafferService
         # z=1300
         # z=-1
 
+        # ERRORS:
+        # http://www.paquins.com/dealership/staff.htm
+        # http://www.savageautogroup.com/dealership/staff.htm
+
         # First, make Indexer.all.each {|indexer| indexer.update_attribute(:contact_status, nil) }
-        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com")
+        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com")[a..z]
         # indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 504
 
         # indexers = Indexer.where.not(template: "Dealer.com").where.not(template: nil).where.not(staff_url: nil).where(indexer_status: "CS Error")
@@ -73,21 +77,19 @@ class StafferService
 
             rescue
                 error = $!.message
-                error_msg = "RT Error: #{error}"
+                error_msg = "CS Error: #{error}"
                 if error_msg.include?("connection refused")
                     cs_error_code = "Connection Error"
                 elsif error_msg.include?("undefined method")
                     cs_error_code = "Method Error"
-                elsif error_msg.include?("404 => Net::HTTPNotFound")
+                elsif error_msg.include?("404 (Net::HTTPNotFound)")
                     cs_error_code = "404 Error"
                 elsif error_msg.include?("TCP connection")
                     cs_error_code = "TCP Error"
                 else
-                    cs_error_code = error_msg
+                    cs_error_code = "CS Error"
                 end
-                puts "\n\n>>> #{error_msg} <<<\n\n"
-
-                indexer.update_attribute(:indexer_status, "CS Error")
+                indexer.update_attributes(indexer_status: cs_error_code, contact_status: cs_error_code)
             end ## rescue ends
 
             sleep(3)

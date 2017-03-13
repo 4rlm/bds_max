@@ -11,7 +11,7 @@ class WhoService
 
 
     def who_starter
-        a=10000
+        a=0
         z=-1
         range = z-a
 
@@ -36,10 +36,10 @@ class WhoService
                 #Start Whois Section
                 r = Whois.whois(host)
                 if r.available?
-                    url_validation = "Invalid URL"
-                    indexer.update_attributes(indexer_status: "Invalid URL", who_status: "Invalid URL")
+                    url_validation = "WH Invalid URL"
+                    indexer.update_attributes(indexer_status: url_validation, who_status: url_validation)
                 else
-                    url_validation = "Valid URL"
+                    url_validation = "WH Result"
                     p = r.parser
                     # rts_manager = RtsManager.new
 
@@ -103,8 +103,8 @@ class WhoService
                     puts "Registrar URL: #{registrar_id}"
                     puts ""
 
-                    who_status = "WhoIs Result"
-                    url_status = "WhoIs Result"
+                    # who_status = "WhoIs Result"
+                    # url_status = "WhoIs Result"
 
                     who_addr_pin = acct_pin_gen(registrant_address, registrant_zip)
 
@@ -117,7 +117,7 @@ class WhoService
                     Who.find_or_create_by(
                         domain: indexer.clean_url
                     ) do |who|
-                        who.who_status = who_status
+                        # who.who_status = who_status
                         who.url_status = url_validation
                         who.domain = domain
                         who.domain_id = domain_id
@@ -139,7 +139,7 @@ class WhoService
                         who.registrant_url = registrant_url
                     end
 
-                    indexer.update_attributes(indexer_status: who_status, who_status: url_validation)
+                    indexer.update_attributes(indexer_status: url_validation, who_status: url_validation)
 
                 end # End of if r.available?
 
@@ -153,7 +153,7 @@ class WhoService
                 delay_time = rand(30)
                 sleep(delay_time)
             rescue
-                indexer.update_attributes(indexer_status: "WhoIs Error", who_status: "WhoIs Error")
+                indexer.update_attributes(indexer_status: "WH Error", who_status: "WH Error")
             end # end begin
         end # end indexers iteration
     end # end who_starter
