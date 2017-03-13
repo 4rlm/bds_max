@@ -59,7 +59,6 @@ Rails.application.routes.draw do
     # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
     get 'anything_btn' => 'cores#anything_btn'
     get 'col_splitter_btn' => 'cores#col_splitter_btn'
-    get 'quick_core_view_queue' => 'cores#quick_core_view_queue' # Quick Search Button
 
     resources :in_host_pos do
         collection { post :import_csv_data }
@@ -89,7 +88,6 @@ Rails.application.routes.draw do
 
     # #==== Search Pages Start=========
     post 'search_result_page_core' => 'search#search_result_core'
-    post 'search_result_page_gcse' => 'search#search_result_gcse'
     post 'search_result_page_staffer' => 'search#search_result_staffer'
     post 'search_result_page_location' => 'search#search_result_location'
     post 'search_result_page_indexer' => 'search#search_result_indexer'
@@ -106,19 +104,6 @@ Rails.application.routes.draw do
 
     # # === Google API Route ===
     # get '/search' => 'search#index'
-
-    # resources :gcses do
-    #     collection { post :import }
-    #     collection { post :batch_status }
-    # end
-    # get 'gcse/import_page' => 'gcses#import_page'
-    # get 'gcse/search' => 'gcses#search'
-    # get 'gcse_cleaner_btn' => 'gcses#gcse_cleaner_btn'
-    # get 'auto_match_btn' => 'gcses#auto_match_btn'
-    # get 'quick_dom_dom_res_2' => 'gcses#quick_dom_dom_res_2'
-    # get 'quick_dom_no_auto_match_2' => 'gcses#quick_dom_no_auto_match_2'
-    # get 'gcse_unique_rooter' => 'gcses#gcse_unique_rooter'
-
 
     #==== Criteria CSV Imports =========
     # resources :exclude_roots do
