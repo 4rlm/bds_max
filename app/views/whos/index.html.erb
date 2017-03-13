@@ -72,12 +72,10 @@
 
                 <table class="table table-bordered indexer-table">
                     <tr> <!-- REGISTRANT INFO -->
-                        <th>ID</th>
-                        <th>Type</th>
                         <th>Name</th>
                         <th>Organization</th>
-                        <th>Address Pin</th>
                         <th>Address</th>
+                        <th>Address Pin</th>
                         <th>City</th>
                         <th>Zip</th>
                         <th>State</th>
@@ -88,11 +86,9 @@
                     </tr>
 
                     <tr>
-                        <td><%= who.registrant_id %></td>
-                        <td><%= who.registrant_type %></td>
                         <td><%= who.registrant_name %></td>
                         <td><%= who.registrant_organization %></td>
-                        <td><%= who.registrant_pin %></td>
+                        <td><%= who.who_addr_pin %></td>
                         <td><%= who.registrant_address %></td>
                         <td><%= who.registrant_city %></td>
                         <td><%= who.registrant_zip %></td>

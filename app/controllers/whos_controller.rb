@@ -124,11 +124,13 @@ class WhosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def who_params
-      params.require(:who).permit(:domain, :domain_id, :ip, :server1, :server2, :registrar_url, :registrar_id, :registrant_id, :registrant_type, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_zip, :registrant_state, :registrant_phone, :registrant_fax, :registrant_email, :registrant_url, :admin_id, :admin_type, :admin_name, :admin_organization, :admin_address, :admin_city, :admin_zip, :admin_state, :admin_phone, :admin_fax, :admin_email, :admin_url, :tech_id, :tech_type, :tech_name, :tech_organization, :tech_address, :tech_city, :tech_zip, :tech_state, :tech_phone, :tech_fax, :tech_email, :tech_url, :who_status, :url_status, :registrant_pin, :tech_pin, :admin_pin)
+
+      params.require(:who).permit(:domain, :domain_id, :ip, :server1, :server2, :registrar_url, :registrar_id, :registrant_id, :registrant_type, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_zip, :registrant_state, :registrant_phone, :registrant_fax, :registrant_email, :registrant_url, :who_addr_pin)
     end
 
     def filtering_params(params)
-        params.slice(:who_status, :url_status, :domain, :ip, :server1, :server2, :registrant_name, :registrant_pin, :registrant_organization, :registrant_address, :registrant_city, :registrant_state, :registrant_zip, :registrant_phone, :registrant_url, :tech_name, :tech_pin, :tech_organization, :tech_address, :tech_city, :tech_state, :tech_zip, :tech_phone, :tech_url, :admin_name, :admin_pin, :admin_organization, :admin_address, :admin_city, :admin_state, :admin_zip, :admin_phone, :admin_url)
+
+        params.slice(:who_status, :url_status, :domain, :ip, :server1, :server2, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_state, :registrant_zip, :registrant_phone, :registrant_url, :who_addr_pin)
     end
 
 
