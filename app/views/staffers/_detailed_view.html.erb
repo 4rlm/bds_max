@@ -9,7 +9,13 @@
     <% domain = staffer.domain %>
     <% if !urls.include?(domain) %>
         <% urls << domain %>
-        <%= render partial: 'cores/acct_profile', locals: { core: Core.find_by(sfdc_clean_url: domain), num: "" } %>
+        <% if core = Core.find_by(sfdc_clean_url: domain) %>
+            <%= render partial: 'cores/acct_profile', locals: { core: core, num: "" } %>
+        <% else %>
+            <div id="core-detail" class="text-nowrap geo-result-table bg-blue">
+                <p class="lead auto-margin">Account Not Existed</p>
+            </div><br>
+        <% end %>
         <%= render partial: 'core_staffs', locals: { staffers: Staffer.where(domain: domain) } %>
     <% end %>
 <% end %>
