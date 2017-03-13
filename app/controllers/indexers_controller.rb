@@ -157,7 +157,7 @@ class IndexersController < ApplicationController
 
 
     def page_finder_btn
-        # @service.page_finder_starter
+        @service.page_finder_starter
         # @service.delay.page_finder_starter
         #   @service.url_importer
 
