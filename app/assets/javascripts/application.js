@@ -50,7 +50,7 @@ function changeStatusCore(el) {
         var index = cores.indexOf(core_id);
         cores.splice(index, 1);
     } else {
-        tr.className = "bd-yellow"
+        tr.className = "bg-yellow"
         stat.className = "fa fa-check fa-lg stat-btn fa-green"
         cores.push(core_id);
     }
