@@ -19,7 +19,7 @@ module ApplicationHelper
     end
 
     def indexer_status_list
-        ["TCP Error", "403 Error", "410 Error", "500 Error", 'Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
+        # ["TCP Error", "403 Error", "410 Error", "500 Error", 'Error', 'Indexer Result', 'Matched', 'No Matches', 'Queue Indexer', 'Delete']
     end
 
     def main_indexer_status_list
