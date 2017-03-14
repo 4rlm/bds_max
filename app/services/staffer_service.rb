@@ -26,8 +26,12 @@ class StafferService
         z=-1
 
 
-        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com")[a..z]
-        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Cobalt")[a..z]
+        # indexers = Indexer.where(contact_status: "TCP Error").where.not(staff_url: nil)[a..z] # 875
+
+
+        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Cobalt")[a..z] # 1,859
+
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com") Phase 2 - Done!
 
 
         # First, make Indexer.all.each {|indexer| indexer.update_attribute(:contact_status, nil) }
