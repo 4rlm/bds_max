@@ -14,6 +14,8 @@ class Indexer < ApplicationRecord
     scope :contact_status, -> (contact_status) { where contact_status: contact_status }
     scope :rt_sts, -> (rt_sts) { where rt_sts: rt_sts }
     scope :cont_sts, -> (cont_sts) { where cont_sts: cont_sts }
+    scope :geo_status, -> (geo_status) { where geo_status: geo_status }
+
 
     # == Key Word Search ==
     scope :raw_url, -> (raw_url) { where("raw_url like ?", "%#{raw_url}%") }

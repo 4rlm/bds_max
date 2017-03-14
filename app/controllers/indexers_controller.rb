@@ -202,12 +202,12 @@ class IndexersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_params
-        params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin)
+        params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin, :geo_status)
     end
 
 
     def filtering_params(params)
-        params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin)
+        params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin, :geo_status)
     end
 
 

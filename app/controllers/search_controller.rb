@@ -48,7 +48,7 @@ class SearchController < ApplicationController
 
 
     def search_result_indexer
-        set_selected_status_indexer({raw_url: params[:raw_url], redirect_status: params[:redirect_status], clean_url: params[:clean_url], indexer_status: params[:indexer_status], template: params[:template], loc_status: params[:loc_status], stf_status: params[:stf_status], contact_status: params[:contact_status], acct_name: params[:acct_name], rt_sts: params[:rt_sts], cont_sts: params[:cont_sts], full_addr: params[:full_addr], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], phone: params[:phone], acct_pin: params[:acct_pin]})
+        set_selected_status_indexer({raw_url: params[:raw_url], redirect_status: params[:redirect_status], clean_url: params[:clean_url], indexer_status: params[:indexer_status], template: params[:template], loc_status: params[:loc_status], stf_status: params[:stf_status], contact_status: params[:contact_status], acct_name: params[:acct_name], rt_sts: params[:rt_sts], cont_sts: params[:cont_sts], full_addr: params[:full_addr], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], phone: params[:phone], acct_pin: params[:acct_pin], geo_status: params[:geo_status]})
         redirect_to indexers_path
     end
 
