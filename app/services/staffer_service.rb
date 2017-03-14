@@ -13,7 +13,7 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        a=0
+        # a=0
         # z=300
         # a=300
         # z=250
@@ -22,7 +22,7 @@ class StafferService
         # a=375
         # z=500
         # a=500
-        z=-1
+        # z=-1
 
 
         indexers = Indexer.where(contact_status: "TCP Error").where.not(staff_url: nil)[a..z] # 2,034

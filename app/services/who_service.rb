@@ -15,7 +15,8 @@ class WhoService
         z=-1
         range = z-a
 
-        indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(staff_url: nil)[a..z]
+        indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(indexer_status: "Archived")[a..z]
+
 
         counter=0
         indexers.each do |indexer|
