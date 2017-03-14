@@ -9,13 +9,13 @@
     <% domain = staffer.domain %>
     <% if !urls.include?(domain) %>
         <% urls << domain %>
-        <% if core = Core.find_by(sfdc_clean_url: domain) %>
+        <% if core = grap_right_core(staffer) %>
             <%= render partial: 'cores/acct_profile', locals: { core: core, num: "" } %>
         <% else %>
             <div id="core-detail" class="text-nowrap geo-result-table bg-blue">
-                <p class="lead auto-margin">Account Not Existed</p>
+                <p class="lead auto-margin">Account Not Merged Yet</p>
             </div><br>
         <% end %>
-        <%= render partial: 'core_staffs', locals: { staffers: Staffer.where(domain: domain) } %>
+        <%= render partial: 'core_staffs', locals: { staffers: grap_right_staffers(staffer) } %>
     <% end %>
 <% end %>

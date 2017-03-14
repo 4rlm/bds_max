@@ -1,41 +1,23 @@
 module CoresHelper
-
-    # def blank_remover(array)
-    #     for i in 0...array.length
-    #         if array[i] == ""
-    #             array[i] = nil
-    #         end
-    #     end
-    #     array.uniq
-    # end
-
-
-    # def core_status_list
-    #     ['Imported', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
-    # end
-    #
-    # def sfdc_sales_person_list
-    #     ["Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer", "Solitary"]
-    # end
-    #
-    # def bds_status_list
-    #     ['Imported', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
-    # end
-    #
-    # def sfdc_tier_list
-    #     ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
-    # end
-    #
-    # def comparison_list
-    #     [["Different", "different"], ["Same", "same"]]
-    # end
-    #
-    # def staffer_status_list
-    #     ["Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', "Scraped", 'Verified', 'Destroy', "Matched"]
-    # end
-    #
-    # def whois_status_list
-    #     ["Ready", "Queued", "No Matches", "Matched"]
-    # end
-
+    def acct_merge_sts_indicator(core)
+        sts = core.acct_merge_sts
+        if sts == "Merge"
+            html = <<-HTML
+                <td class='bg-green'>#{fa_icon 'plus', class: 'fa-white'}</td>
+            HTML
+        elsif sts == "Flag"
+            html = <<-HTML
+                <td class='bg-orange'>#{fa_icon 'flag', class: 'fa-white'}</td>
+            HTML
+        elsif sts == "Drop"
+            html = <<-HTML
+                <td class='bg-red'>#{fa_icon 'minus', class: 'fa-white'}</td>
+            HTML
+        else
+            html = <<-HTML
+                <td><span></span></td>
+            HTML
+        end
+        html.html_safe
+    end
 end
