@@ -1,0 +1,77 @@
+<section id="chart">
+    <div class="row chart-box">
+        <div class="col-md-6 graph">
+            <h3 class="text-center">Accounts</h3>
+            <%= bar_chart @core, colors: ["#137fa0", "#43c8f1"] %>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th>col_name</th>
+                            <th>col_total</th>
+                            <th>item_list_total</th>
+                        </tr>
+                        <% @core_cols[0...@core_cols.length/2].each do |col| %>
+                            <tr>
+                                <td><%= col %></td>
+                                <% totals = grap_totals("Core", col) %>
+                                <td><%= totals[0] %></td>
+                                <td><%= totals[1] %></td>
+                            </tr>
+                        <% end %>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th>col_name</th>
+                            <th>col_total</th>
+                            <th>item_list_total</th>
+                        </tr>
+                        <% @core_cols[@core_cols.length/2..-1].each do |col| %>
+                            <tr>
+                                <td><%= col %></td>
+                                <% totals = grap_totals("Core", col) %>
+                                <td><%= totals[0] %></td>
+                                <td><%= totals[1] %></td>
+                            </tr>
+                        <% end %>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 chart-box">
+            <h3>Contacts</h3>
+            <%= bar_chart @staffer, colors: ["#137fa0", "#43c8f1"] %>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 chart-box">
+            <h3>Indexers</h3>
+            <%= bar_chart @indexer, colors: ["#137fa0", "#43c8f1"] %>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 chart-box">
+            <h3>WhoIs Directory</h3>
+            <%= bar_chart @who, colors: ["#137fa0", "#43c8f1"] %>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 chart-box">
+            <h3>GeoLocation</h3>
+            <%= bar_chart @location, colors: ["#137fa0", "#43c8f1"] %>
+        </div>
+    </div>
+</section>
+
+
+

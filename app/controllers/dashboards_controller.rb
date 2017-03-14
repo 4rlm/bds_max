@@ -1,9 +1,9 @@
 class DashboardsController < ApplicationController
-    before_action :intermediate_and_up, only: [:index, :show]
-    before_action :admin_only, only: [:new, :create, :edit, :update, :destroy]
+    before_action :intermediate_and_up, only: [:index, :show, :summarize_data]
+    before_action :admin_only, only: [:new, :create, :edit, :update, :destroy, :dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data]
     # before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
     # before_action :set_dashboard, only: [:show, :edit, :update, :destroy, :import_page, :import_csv_data]
-    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data]
+    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :summarize_data]
     # before_action :set_dashboard, only: [:import_page, :import_csv_data]
 
     # GET /dashboards
@@ -87,6 +87,16 @@ class DashboardsController < ApplicationController
             format.html { redirect_to dashboards_url, notice: 'Dashboard was successfully destroyed.' }
             format.json { head :no_content }
         end
+    end
+
+    def summarize_data
+        @core = @service.render_summarize_data("Core", ["sfdc_acct_url", "sfdc_clean_url", "sfdc_ult_grp_id"])
+        @core_cols = Dashboard.where(db_name: "Core").map(&:col_name)
+
+        @staffer = @service.render_summarize_data("Staffer", ["sfdc_id", "sfdc_cont_id", "domain", "acct_name"])
+        @indexer = @service.render_summarize_data("Indexer", ["acct_name", "zip", "acct_pin"])
+        @who = @service.render_summarize_data("Who", ["domain", "registrar_url", "registrant_name", "admin_organization"])
+        @location = @service.render_summarize_data("Location", ["acct_name", "sfdc_id", "url", "crm_url_redirect"])
     end
 
     ############ BUTTONS ~ START ##############

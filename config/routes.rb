@@ -71,7 +71,6 @@ Rails.application.routes.draw do
     end
     get 'dashboard/import_page' => 'dashboards#import_page'
     get 'dashboard_mega_btn' => 'dashboards#dashboard_mega_btn'
-
     get 'cores_dash_btn' => 'dashboards#cores_dash_btn'
     get 'delayed_jobs_dash_btn' => 'dashboards#delayed_jobs_dash_btn'
     get 'franchise_dash_btn' => 'dashboards#franchise_dash_btn'
@@ -80,6 +79,7 @@ Rails.application.routes.draw do
     get 'staffers_dash_btn' => 'dashboards#staffers_dash_btn'
     get 'users_dash_btn' => 'dashboards#users_dash_btn'
     get 'whos_dash_btn' => 'dashboards#whos_dash_btn'
+    get 'summarize_data' => 'dashboards#summarize_data'
 
 
     devise_for :users
