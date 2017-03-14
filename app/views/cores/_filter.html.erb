@@ -64,7 +64,6 @@
                     <tr>
                         <th class="th-2">URL Status</th>
                         <th class="th-2">Website</th>
-                        <th class="th-2">Root</th>
                         <th class="th-2">Franchise:</th>
                         <th class="th-2">Store Type:</th>
                         <th class="th-2">Template</th>
@@ -74,7 +73,7 @@
                         <td><%= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "----", class: 'form-control' %></td>
                         <td><%= select_tag :sfdc_franch_cons, options_for_select(franch_cons_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :sfdc_franch_cat, options_for_select(franch_cat_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :sfdc_template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     </tr>
                 </table>
             </div>
@@ -84,18 +83,24 @@
             <div class="col-md-12">
                 <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                     <tr>
-                        <th class="th-2">Accounts</th>
-                        <th class="th-2">Staff Index</th>
-                        <th class="th-2">Location Index</th>
-                        <th class="th-2">Contacts</th>
-                        <th class="th-2">GeoCoder</th>
+                        <th class="th-2">Account Status</th>
+                        <th class="th-2">Contact Status</th>
+                        <th class="th-2">Merge Status</th>
+                        <th class="th-2">Match Score</th>
+                        <th class="th-2">Name Match</th>
+                        <th class="th-2">Pin Match</th>
+                        <th class="th-2">URL Match</th>
+                        <th class="th-2">Phone Match</th>
                     </tr>
                     <tr>
                         <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :staff_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :location_indexer_status, options_for_select(indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :staffer_status, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :geo_status, options_for_select(location_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :staffer_sts, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :acct_merge_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :match_score, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :acct_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :pin_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :url_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :ph_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     </tr>
                 </table>
             </div>

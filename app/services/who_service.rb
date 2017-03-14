@@ -150,7 +150,7 @@ class WhoService
                 puts "====== Completed Whois Search ======"
                 puts ""
 
-                delay_time = rand(10)
+                delay_time = rand(5)
                 sleep(delay_time)
             rescue
                 indexer.update_attributes(indexer_status: "WH Error", who_status: "WH Error")

@@ -44,7 +44,7 @@ class CoresController < ApplicationController
         @staffer_status_opts = Dashboard.find_by(db_name: "Core", col_name: "staffer_status").item_list
         @url_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "url_match_status").item_list
         @who_status_opts = Dashboard.find_by(db_name: "Core", col_name: "who_status").item_list
-                
+
 
         cores_csv = @selected_data.order(:sfdc_id)
         respond_to do |format|
@@ -211,11 +211,11 @@ class CoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def core_params
-        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :indexer_date, :staffer_date, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staff_link, :staff_text, :location_link, :location_text, :staffer_status, :sfdc_franchise, :sfdc_franch_cat, :acct_source, :full_address, :latitude, :longitude, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :geo_address, :geo_acct, :sfdc_clean_url, :crm_acct_pin, :web_acct_pin, :crm_phones, :web_phones)
+        params.require(:core).permit(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :indexer_date, :staffer_date, :staff_pf_sts, :loc_pf_sts, :staff_link, :staff_text, :location_link, :location_text, :staffer_sts, :sfdc_franchise, :sfdc_franch_cat, :sfdc_franch_cons, :template, :full_address, :latitude, :longitude, :geo_date, :coordinates, :geo_sts, :cop_franch, :conf_cat, :sfdc_acct_url, :sfdc_ult_grp_id, :sfdc_group_id, :img_url, :sfdc_ult_rt, :sfdc_grp_rt, :sfdc_zip, :sfdc_clean_url, :crm_acct_pin, :crm_phones, :who_sts, :match_score, :acct_match_sts, :ph_match_sts, :pin_match_sts, :url_match_sts, :acct_merge_sts, :alt_acct_pin, :alt_acct, :alt_street, :alt_city, :alt_state, :alt_zip, :alt_ph, :alt_url, :alt_source, :alt_address, :alt_template, :redirect_sts)
     end
 
     def filtering_params(params)
-        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_ult_rt, :sfdc_group, :sfdc_grp_rt, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :sfdc_ph, :sfdc_url, :created_at, :updated_at, :core_date, :indexer_date, :staffer_date, :staff_indexer_status, :location_indexer_status, :inventory_indexer_status, :staff_link, :staff_text, :location_link, :location_text, :staffer_status, :sfdc_franchise, :sfdc_franch_cat, :acct_source, :full_address, :latitude, :longitude, :geo_status, :geo_date, :coordinates, :sfdc_franch_cons, :sfdc_template, :geo_address, :geo_acct, :sfdc_clean_url, :crm_acct_pin, :web_acct_pin, :crm_phones, :web_phones)
+        params.slice(:bds_status, :sfdc_id, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :sfdc_ult_grp, :sfdc_group, :sfdc_acct, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_ph, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_franchise, :sfdc_franch_cat, :sfdc_franch_cons, :template, :full_address, :coordinates, :geo_sts, :cop_franch, :conf_cat, :sfdc_zip, :sfdc_clean_url, :crm_acct_pin, :crm_phones, :who_sts, :match_score, :acct_match_sts, :ph_match_sts, :pin_match_sts, :url_match_sts, :acct_merge_sts, :redirect_sts)
     end
 
     def batch_status

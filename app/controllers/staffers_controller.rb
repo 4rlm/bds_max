@@ -37,7 +37,7 @@ class StaffersController < ApplicationController
         @sfdc_tier_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_tier").item_list
         @sfdc_type_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_type").item_list
         @staffer_status_opts = Dashboard.find_by(db_name: "Staffer", col_name: "staffer_status").item_list
-        
+
 
         # CSV #
         respond_to do |format|

@@ -9,7 +9,7 @@
             <% if core.img_url %>
                 <td>
                     <%= link_to "https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=#{core.sfdc_acct}", target: "_blank"  do %>
-                        <%= image_tag(core.img_url, :class=>'geo-img', alt: core.geo_acct_name) %>
+                        <%= image_tag(core.img_url, :class=>'geo-img', alt: core.alt_acct) %>
                     <% end %>
                 </td>
             <% end %>

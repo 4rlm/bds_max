@@ -29,10 +29,10 @@
                 <!-- <td><%#= check_box_tag "status_checks[]",  core.id %></td> -->
                 <td><%= num %></td>
                 <td><%= core.bds_status %></td>
-                <td><%= core.staff_indexer_status %></td>
-                <td><%= core.location_indexer_status %></td>
-                <td><%= core.staffer_status %></td>
-                <td><%= core.geo_status %></td>
+                <td><%= core.staff_pf_sts %></td>
+                <td><%= core.loc_pf_sts %></td>
+                <td><%= core.staffer_sts %></td>
+                <td><%= core.geo_sts %></td>
                 <td><%= core.coordinates %></td>
                 <% if core.staff_text && core.staff_text != "(none)"%>
                     <td class="yes"><%= link_to core.staff_text, core.staff_link, :target => "_blank" %></td>
