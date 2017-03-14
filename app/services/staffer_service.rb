@@ -14,7 +14,7 @@ require 'indexer_helper/rts/rts_manager'
 class StafferService
     def cs_data_getter
         a=0
-        z=300
+        # z=300
         # a=300
         # z=250
         # a=250
@@ -23,23 +23,15 @@ class StafferService
         # z=400
         # a=400
         # z=1300
-        # z=-1
+        z=-1
 
-        # ERRORS:
-        # http://www.paquins.com/dealership/staff.htm
-        # http://www.savageautogroup.com/dealership/staff.htm
+
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com")[a..z]
+        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Cobalt")[a..z]
+
 
         # First, make Indexer.all.each {|indexer| indexer.update_attribute(:contact_status, nil) }
-        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com")[a..z]
         # indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 504
-
-        # indexers = Indexer.where.not(template: "Dealer.com").where.not(template: nil).where.not(staff_url: nil).where(indexer_status: "CS Error")
-        # indexers.each{|x|x.update_attribute(:indexer_status, "Retry")}
-
-        # Ford Direct (Change from Dealer.com)
-        # http://www.nyeford.net/dealership/staff.htm
-        # http://www.murphyfordonline.com/dealership/staff.htm
-        # http://www.gbwestbend.com/dealership/staff.htm
 
 
         counter=0

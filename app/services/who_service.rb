@@ -117,7 +117,7 @@ class WhoService
                     Who.find_or_create_by(
                         domain: indexer.clean_url
                     ) do |who|
-                        # who.who_status = who_status
+                        who.who_status = url_validation
                         who.url_status = url_validation
                         who.domain = domain
                         who.domain_id = domain_id
@@ -150,7 +150,7 @@ class WhoService
                 puts "====== Completed Whois Search ======"
                 puts ""
 
-                delay_time = rand(30)
+                delay_time = rand(10)
                 sleep(delay_time)
             rescue
                 indexer.update_attributes(indexer_status: "WH Error", who_status: "WH Error")

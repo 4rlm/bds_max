@@ -137,7 +137,7 @@ class IndexerService
             rescue
                 rt_error_code = Helper.new.err_code_finder($!.message)
                 puts "\n\n>>> #{rt_error_code} <<<\n\n"
-                indexer.update_attribute(:indexer_status, "Meta Error")
+                indexer.update_attribute(:indexer_status, "MS Error")
             end
             sleep(2)
         end
@@ -555,7 +555,7 @@ class IndexerService
                         puts staffer_template
                         puts
 
-                        indexer.update_attributes(contact_status: "Scraped", template: staffer_template)
+                        indexer.update_attributes(contact_status: "CS Result", template: staffer_template)
                     end
                 end
             end
@@ -999,7 +999,6 @@ class IndexerService
             end
         end
     end
-
 
 
 

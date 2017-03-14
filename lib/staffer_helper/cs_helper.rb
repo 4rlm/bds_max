@@ -60,8 +60,8 @@ class CsHelper # Contact Scraper Helper Method
                 staffer.email          = staff_hash[:email]
                 staffer.phone          = staff_hash[:phone]
                 staffer.cont_source    = "Web"
-                staffer.cont_status    = "Scraped"
-                staffer.staffer_status = "Scraped"
+                staffer.cont_status    = "CS Result"
+                staffer.staffer_status = "CS Result"
                 staffer.template       = indexer.template
             end
 
