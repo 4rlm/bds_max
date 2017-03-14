@@ -60,8 +60,8 @@ class CsHelper # Contact Scraper Helper Method
                 staffer.email          = staff_hash[:email]
                 staffer.phone          = staff_hash[:phone]
                 staffer.cont_source    = "Web"
-                staffer.cont_status    = "Scraped"
-                staffer.staffer_status = "Scraped"
+                staffer.cont_status    = "CS Result"
+                staffer.staffer_status = "CS Result"
                 staffer.template       = indexer.template
             end
 
@@ -107,9 +107,9 @@ class CsHelper # Contact Scraper Helper Method
         puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
 
         if count > 0
-            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "Staffer Result")
+            indexer.update_attributes(phones: phones, contact_status: "CS Result", indexer_status: "CS Result")
         else
-            indexer.update_attributes(phones: phones, contact_status: "Staffer Result", indexer_status: "No Contacts")
+            indexer.update_attributes(phones: phones, contact_status: "CS None", indexer_status: "CS None")
         end
     end
 

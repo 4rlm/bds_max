@@ -131,8 +131,8 @@ class StaffersController < ApplicationController
 
 
     def cs_data_getter_btn
-        @staffer_service.cs_data_getter
-        # @staffer_service.delay.cs_data_getter
+        # @staffer_service.cs_data_getter
+        @staffer_service.delay.cs_data_getter
 
         redirect_to indexers_path
     end
@@ -141,7 +141,7 @@ class StaffersController < ApplicationController
     # ========== Temporary/Power Button ==========
 
     def temporary_btn
-        @staffer_service.fname_cleaner
+        # @staffer_service.fname_cleaner
         # @staffer_service.delay.fname_cleaner
 
         redirect_to indexers_path

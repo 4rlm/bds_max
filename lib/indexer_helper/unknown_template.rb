@@ -30,7 +30,7 @@ class UnknownTemplate
     end
 
     def update_indexer(result, indexer)
-        indexer.update_attributes(indexer_status: "Meta Result", acct_name: result[:title], rt_sts: "Meta Result", raw_street: result[:street_city_raw], full_addr: "Meta Result", street: "Meta Result", city: "Meta Result", state: result[:state], zip: result[:zip], phone: result[:phones][0], phones: result[:phones])
+        indexer.update_attributes(indexer_status: "MS Result", acct_name: result[:title], rt_sts: "MS Result", raw_street: result[:street_city_raw], full_addr: "MS Result", street: "MS Result", city: "MS Result", state: result[:state], zip: result[:zip], phone: result[:phones][0], phones: result[:phones])
     end
 
     def printer(result)
@@ -41,4 +41,3 @@ end
 # # Below Regex needs more logic. Not used yet.
 # street = street_city_raw.match(/[\w.]+/).to_s # Grab only character and '.' except \t,\n,\r
 # city = street_city_raw.split(street)[-1].match(/[\w.]+/).to_s
-

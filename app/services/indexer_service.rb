@@ -90,7 +90,6 @@ class IndexerService
 
             rescue
                 rt_error_code = Helper.new.err_code_finder($!.message)
-                puts "\n\n>>> #{rt_error_code} <<<\n\n"
                 indexer.update_attribute(:indexer_status, "RT Error")
             end ## rescue ends
 
@@ -138,7 +137,7 @@ class IndexerService
             rescue
                 rt_error_code = Helper.new.err_code_finder($!.message)
                 puts "\n\n>>> #{rt_error_code} <<<\n\n"
-                indexer.update_attribute(:indexer_status, "Meta Error")
+                indexer.update_attribute(:indexer_status, "MS Error")
             end
             sleep(2)
         end
@@ -150,14 +149,14 @@ class IndexerService
     ##########################################
 
     def template_finder
-        a=0
+        # a=0
         # z=50
         # a=50
         # z=100
         # a=100
         # z=150
         # a=150
-        z=-1
+        # z=-1
 
         # indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 2,211
         # indexers = Indexer.where(clean_url: "http://www.howellnissan.com") ## 2,400
@@ -233,8 +232,8 @@ class IndexerService
         # indexers = Indexer.where(redirect_status: nil).where(stf_status: "SFDC URL").where(indexer_status: "SFDC URL").where.not("raw_url LIKE '%www%'")[a...z]
         # Indexer.where.not("redirect_status LIKE '%Error%'")
 
-        a=0
-        z=-1
+        # a=0
+        # z=-1
 
         indexers = Indexer.where(indexer_status: "COP URL").where(clean_url: nil)[a...z]  ##17,033
 
@@ -556,7 +555,7 @@ class IndexerService
                         puts staffer_template
                         puts
 
-                        indexer.update_attributes(contact_status: "Scraped", template: staffer_template)
+                        indexer.update_attributes(contact_status: "CS Result", template: staffer_template)
                     end
                 end
             end
@@ -1000,7 +999,6 @@ class IndexerService
             end
         end
     end
-
 
 
 

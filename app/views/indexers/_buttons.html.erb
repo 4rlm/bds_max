@@ -1,7 +1,18 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="pull-right">
+        <div class="pull-left">
             <% if admin_only %>
+
+                <h5>Create Button [(1. URL) Redirector]</h5>
+                <h5>Create Button [(7. GL) GeoLocations]</h5>
+                <%= link_to "(2. WH) WhoIs Search", who_starter_btn_path, class: 'btn btn-warning' %>
+                <%= link_to "(3. TF) Template Finder", template_finder_btn_path, class: 'btn btn-warning' %>
+                <%= link_to "(4. PF) Page Finder", page_finder_btn_path, class: 'btn btn-warning' %>
+                <%= link_to "(5a. RT) Account Scraper", rooftop_data_getter_btn_path, class: 'btn btn-warning' %>
+                <%= link_to "(5b. MS) Meta Scraper", meta_scraper_btn_path, class: 'btn btn-warning' %>
+                <%= link_to "(6. CS) Contact Scraper", cs_data_getter_btn_path, class: 'btn btn-warning' %>
+                <%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
+
                 <%= link_to 'Add Record', new_indexer_path, class: 'btn btn-primary' %>
                 <%= link_to 'Import CSV', indexer_import_page_path, class: 'btn btn-primary' %>
             <% end %>
