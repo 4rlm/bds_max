@@ -1,9 +1,9 @@
 class DashboardsController < ApplicationController
-    before_action :intermediate_and_up, only: [:index, :show]
-    before_action :admin_only, only: [:new, :create, :edit, :update, :destroy]
+    before_action :intermediate_and_up, only: [:index, :show, :summarize_data]
+    before_action :admin_only, only: [:new, :create, :edit, :update, :destroy, :dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data]
     # before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
     # before_action :set_dashboard, only: [:show, :edit, :update, :destroy, :import_page, :import_csv_data]
-    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data]
+    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :summarize_data]
     # before_action :set_dashboard, only: [:import_page, :import_csv_data]
 
     # GET /dashboards
@@ -89,6 +89,19 @@ class DashboardsController < ApplicationController
         end
     end
 
+    def summarize_data
+        @core_data = @service.render_summarize_data("Core", ["sfdc_acct_url", "sfdc_clean_url", "sfdc_ult_grp_id"])
+        @core_cols = grap_col_names("Core")
+        @staffer_data = @service.render_summarize_data("Staffer", ["sfdc_id", "sfdc_cont_id", "domain", "acct_name"])
+        @staffer_cols = grap_col_names("Staffer")
+        @indexer_data = @service.render_summarize_data("Indexer", ["acct_name", "zip", "acct_pin"])
+        @indexer_cols = grap_col_names("Indexer")
+        @who_data = @service.render_summarize_data("Who", ["domain", "registrar_url", "registrant_name", "admin_organization"])
+        @who_cols = grap_col_names("Who")
+        @location_data = @service.render_summarize_data("Location", ["acct_name", "sfdc_id", "url", "crm_url_redirect"])
+        @location_cols = grap_col_names("Location")
+    end
+
     ############ BUTTONS ~ START ##############
     def dashboard_mega_btn
         @service.mega_dash
@@ -155,6 +168,10 @@ class DashboardsController < ApplicationController
 
     def set_dashboard_service
         @service = DashboardService.new
+    end
+
+    def grap_col_names(db_name)
+        Dashboard.where(db_name: db_name).map(&:col_name)
     end
 
 end

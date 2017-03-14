@@ -48,4 +48,26 @@ class DashboardService
         end
     end
 
+    def render_summarize_data(db_name, cols)
+        result = [
+            {
+                name: "col_total",
+                data: []
+            },{
+                name: "item_list_total",
+                data: []
+            }
+        ]
+
+        cols.each do |col|
+            dash = Dashboard.find_by(db_name: db_name, col_name: col)
+            if dash
+                result[0][:data] << [col, dash.col_total]
+                result[1][:data] << [col, dash.item_list_total]
+            end
+        end
+
+        result # return: an array
+    end
+
 end # DashboardService class Ends ---
