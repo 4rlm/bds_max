@@ -22,6 +22,17 @@ class IndexersController < ApplicationController
         @stf_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "stf_status").item_list
         @loc_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "loc_status").item_list
 
+        @contact_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "contact_status").item_list
+        @geo_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "geo_status").item_list
+        @indexer_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "indexer_status").item_list
+        @redirect_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "redirect_status").item_list
+        @rt_sts_opts = Dashboard.find_by(db_name: "Indexer", col_name: "rt_sts").item_list
+        @who_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "who_status").item_list
+        @cont_sts_opts = Dashboard.find_by(db_name: "Indexer", col_name: "cont_sts").item_list
+        @template_opts = Dashboard.find_by(db_name: "Indexer", col_name: "template").item_list
+
+
+
         # CSV #
         indexers_csv = @indexers.order(:clean_url)
         respond_to do |format|

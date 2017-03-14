@@ -12,10 +12,11 @@ class WhoService
 
     def who_starter
         a=0
-        z=0
+        z=-1
         range = z-a
 
-        indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(staff_url: nil)[a..z]
+        indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(indexer_status: "Archived")[a..z]
+
 
         counter=0
         indexers.each do |indexer|
@@ -150,7 +151,7 @@ class WhoService
                 puts "====== Completed Whois Search ======"
                 puts ""
 
-                delay_time = rand(10)
+                delay_time = rand(5)
                 sleep(delay_time)
             rescue
                 indexer.update_attributes(indexer_status: "WH Error", who_status: "WH Error")

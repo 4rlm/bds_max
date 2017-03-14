@@ -5,45 +5,43 @@ class Core < ApplicationRecord
 
     # == Multi-Select Search ==
     scope :bds_status, -> (bds_status) { where bds_status: bds_status }
-    scope :sfdc_tier, -> (sfdc_tier) { where sfdc_tier: sfdc_tier }
-    scope :sfdc_sales_person, -> (sfdc_sales_person) { where sfdc_sales_person: sfdc_sales_person }
-    scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type }
-    scope :sfdc_ult_rt, -> (sfdc_ult_rt) { where sfdc_ult_rt: sfdc_ult_rt }
-    scope :sfdc_grp_rt, -> (sfdc_grp_rt) { where sfdc_grp_rt: sfdc_grp_rt }
-    scope :sfdc_state, -> (sfdc_state) { where sfdc_state: sfdc_state }
-    scope :staff_indexer_status, -> (staff_indexer_status) { where staff_indexer_status: staff_indexer_status }
-    scope :location_indexer_status, -> (location_indexer_status) { where location_indexer_status: location_indexer_status }
-    scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
-    scope :sfdc_franch_cat, -> (sfdc_franch_cat) { where sfdc_franch_cat: sfdc_franch_cat }
-    scope :acct_source, -> (acct_source) { where acct_source: acct_source }
-    scope :geo_status, -> (geo_status) { where geo_status: geo_status }
-    scope :sfdc_franch_cons, -> (sfdc_franch_cons) { where sfdc_franch_cons: sfdc_franch_cons }
-    scope :sfdc_template, -> (sfdc_template) { where sfdc_template: sfdc_template }
+    scope :sfdc_tier, -> (sfdc_tier) { where sfdc_tier: sfdc_tier}
+    scope :sfdc_sales_person, -> (sfdc_sales_person) { where sfdc_sales_person: sfdc_sales_person}
+    scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type}
+    scope :sfdc_state, -> (sfdc_state) { where sfdc_state: sfdc_state}
+    scope :staff_pf_sts, -> (staff_pf_sts) { where staff_pf_sts: staff_pf_sts}
+    scope :loc_pf_sts, -> (loc_pf_sts) { where loc_pf_sts: loc_pf_sts}
+    scope :staffer_sts, -> (staffer_sts) { where staffer_sts: staffer_sts}
+    scope :sfdc_franchise, -> (sfdc_franchise) { where sfdc_franchise: sfdc_franchise}
+    scope :sfdc_franch_cat, -> (sfdc_franch_cat) { where sfdc_franch_cat: sfdc_franch_cat}
+    scope :sfdc_franch_cons, -> (sfdc_franch_cons) { where sfdc_franch_cons: sfdc_franch_cons}
+    scope :template, -> (template) { where template: template}
+    scope :geo_sts, -> (geo_sts) { where geo_sts: geo_sts}
+    scope :conf_cat, -> (conf_cat) { where conf_cat: conf_cat}
+    scope :cop_franch, -> (cop_franch) { where cop_franch: cop_franch}
+    scope :who_sts, -> (who_sts) { where who_sts: who_sts}
+    scope :match_score, -> (match_score) { where match_score: match_score}
+    scope :acct_match_sts, -> (acct_match_sts) { where acct_match_sts: acct_match_sts}
+    scope :ph_match_sts, -> (ph_match_sts) { where ph_match_sts: ph_match_sts}
+    scope :pin_match_sts, -> (pin_match_sts) { where pin_match_sts: pin_match_sts}
+    scope :url_match_sts, -> (url_match_sts) { where url_match_sts: url_match_sts}
+    scope :acct_merge_sts, -> (acct_merge_sts) { where acct_merge_sts: acct_merge_sts}
+    scope :redirect_sts, -> (redirect_sts) { where redirect_sts: redirect_sts}
 
     # == Key Word Search ==
     scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
-    scope :sfdc_ult_grp, -> (sfdc_ult_grp) { where("sfdc_ult_grp like ?", "%#{sfdc_ult_grp}%") }
-    scope :sfdc_group, -> (sfdc_group) { where("sfdc_group like ?", "%#{sfdc_group}%") }
-    scope :sfdc_acct, -> (sfdc_acct) { where("sfdc_acct like ?", "%#{sfdc_acct}%") }
-    scope :sfdc_street, -> (sfdc_street) { where("sfdc_street like ?", "%#{sfdc_street}%") }
-    scope :sfdc_city, -> (sfdc_city) { where("sfdc_city like ?", "%#{sfdc_city}%") }
-    scope :sfdc_zip, -> (sfdc_zip) { where("sfdc_zip like ?", "%#{sfdc_zip}%") }
-    scope :sfdc_ph, -> (sfdc_ph) { where("sfdc_ph like ?", "%#{sfdc_ph}%") }
-    scope :sfdc_url, -> (sfdc_url) { where("sfdc_url like ?", "%#{sfdc_url}%") }
-    scope :created_at, -> (created_at) { where("created_at like ?", "%#{created_at}%") }
-    scope :updated_at, -> (updated_at) { where("updated_at like ?", "%#{updated_at}%") }
-    scope :core_date, -> (core_date) { where("core_date like ?", "%#{core_date}%") }
-    scope :indexer_date, -> (indexer_date) { where("indexer_date like ?", "%#{indexer_date}%") }
-    scope :staffer_date, -> (staffer_date) { where("staffer_date like ?", "%#{staffer_date}%") }
-    scope :full_address, -> (full_address) { where("full_address like ?", "%#{full_address}%") }
-    scope :geo_date, -> (geo_date) { where("geo_date like ?", "%#{geo_date}%") }
-    scope :coordinates, -> (coordinates) { where("coordinates like ?", "%#{coordinates}%") }
-    scope :geo_address, -> (geo_address) { where("geo_address like ?", "%#{geo_address}%") }
-    scope :geo_acct, -> (geo_acct) { where("geo_acct like ?", "%#{geo_acct}%") }
-    scope :sfdc_clean_url, -> (sfdc_clean_url) { where("sfdc_clean_url like ?", "%#{sfdc_clean_url}%") }
-    scope :crm_acct_pin, -> (crm_acct_pin) { where("crm_acct_pin like ?", "%#{crm_acct_pin}%") }
-    scope :web_acct_pin, -> (web_acct_pin) { where("web_acct_pin like ?", "%#{web_acct_pin}%") }
-
+    scope :sfdc_ult_grp, -> (sfdc_ult_grp) { where("sfdc_ult_grp LIKE ?", "%#{sfdc_ult_grp}%") }
+    scope :sfdc_group, -> (sfdc_group) { where("sfdc_group LIKE ?", "%#{sfdc_group}%") }
+    scope :sfdc_acct, -> (sfdc_acct) { where("sfdc_acct LIKE ?", "%#{sfdc_acct}%") }
+    scope :sfdc_street, -> (sfdc_street) { where("sfdc_street LIKE ?", "%#{sfdc_street}%") }
+    scope :sfdc_city, -> (sfdc_city) { where("sfdc_city LIKE ?", "%#{sfdc_city}%") }
+    scope :sfdc_ph, -> (sfdc_ph) { where("sfdc_ph LIKE ?", "%#{sfdc_ph}%") }
+    scope :full_address, -> (full_address) { where("full_address LIKE ?", "%#{full_address}%") }
+    scope :coordinates, -> (coordinates) { where("coordinates LIKE ?", "%#{coordinates}%") }
+    scope :sfdc_zip, -> (sfdc_zip) { where("sfdc_zip LIKE ?", "%#{sfdc_zip}%") }
+    scope :sfdc_clean_url, -> (sfdc_clean_url) { where("sfdc_clean_url LIKE ?", "%#{sfdc_clean_url}%") }
+    scope :crm_acct_pin, -> (crm_acct_pin) { where("crm_acct_pin LIKE ?", "%#{crm_acct_pin}%") }
+    scope :crm_phones, -> (crm_phones) { where("crm_phones LIKE ?", "%#{crm_phones}%") }
 
 
     def self.to_csv

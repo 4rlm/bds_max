@@ -2,10 +2,10 @@
 
     <!-- Original Account Details (name, address, url, franchise, etc.) -->
     <tr>
-        <td></td>
-        <td></td>
+        <%= acct_merge_sts_indicator(core) %>
+        <td><%= core.match_score %></td>
         <!-- source -->
-        <td class="geo w-xsm"><%= core.acct_source %></td>
+        <td class="geo w-xsm">CRM</td>
 
         <!-- Map Module -->
         <% if core.sfdc_acct %>
@@ -85,7 +85,7 @@
         <%= acct_merge_sts_indicator(core) %>
 
         <!-- source -->
-        <td class="geo w-xsm"><%= core.acct_source %></td>
+        <td class="geo w-xsm"><%= core.alt_source %></td>
 
         <!-- Map Module -->
         <% if core.sfdc_acct %>

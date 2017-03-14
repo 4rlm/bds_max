@@ -29,6 +29,29 @@ class LocationsController < ApplicationController
         @locations_count = Location.count
         @selected_locations_count = @locations.count
 
+
+        # Get dropdown option list from Dashboard
+        @acct_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "acct_sts").item_list
+        @acct_type_opts = Dashboard.find_by(db_name: "Core", col_name: "acct_type").item_list
+        @addr_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "addr_sts").item_list
+        @crm_source_opts = Dashboard.find_by(db_name: "Core", col_name: "crm_source").item_list
+        @crm_state_opts = Dashboard.find_by(db_name: "Core", col_name: "crm_state").item_list
+        @geo_type_opts = Dashboard.find_by(db_name: "Core", col_name: "geo_type").item_list
+        @location_status_opts = Dashboard.find_by(db_name: "Core", col_name: "location_status").item_list
+        @ph_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "ph_sts").item_list
+        @sales_person_opts = Dashboard.find_by(db_name: "Core", col_name: "sales_person").item_list
+        @source_opts = Dashboard.find_by(db_name: "Core", col_name: "source").item_list
+        @state_opts = Dashboard.find_by(db_name: "Core", col_name: "state").item_list
+        @sts_acct_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_acct").item_list
+        @sts_addr_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_addr").item_list
+        @sts_geo_crm_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_geo_crm").item_list
+        @sts_ph_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_ph").item_list
+        @sts_root_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_root").item_list
+        @sts_url_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_url").item_list
+        @tier_opts = Dashboard.find_by(db_name: "Core", col_name: "tier").item_list
+        @url_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "url_sts").item_list
+
+
         # CSV #
         locations_csv = @locations.order(:longitude)
         respond_to do |format|
