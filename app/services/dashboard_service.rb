@@ -48,7 +48,7 @@ class DashboardService
         end
     end
 
-    def render_summarize_data(model_name, cols)
+    def render_summarize_data(db_name, cols)
         result = [
             {
                 name: "col_total",
@@ -60,7 +60,7 @@ class DashboardService
         ]
 
         cols.each do |col|
-            dash = Dashboard.find_by(db_name: model_name, col_name: col)
+            dash = Dashboard.find_by(db_name: db_name, col_name: col)
             if dash
                 result[0][:data] << [col, dash.col_total]
                 result[1][:data] << [col, dash.item_list_total]

@@ -90,13 +90,16 @@ class DashboardsController < ApplicationController
     end
 
     def summarize_data
-        @core = @service.render_summarize_data("Core", ["sfdc_acct_url", "sfdc_clean_url", "sfdc_ult_grp_id"])
-        @core_cols = Dashboard.where(db_name: "Core").map(&:col_name)
-
-        @staffer = @service.render_summarize_data("Staffer", ["sfdc_id", "sfdc_cont_id", "domain", "acct_name"])
-        @indexer = @service.render_summarize_data("Indexer", ["acct_name", "zip", "acct_pin"])
-        @who = @service.render_summarize_data("Who", ["domain", "registrar_url", "registrant_name", "admin_organization"])
-        @location = @service.render_summarize_data("Location", ["acct_name", "sfdc_id", "url", "crm_url_redirect"])
+        @core_data = @service.render_summarize_data("Core", ["sfdc_acct_url", "sfdc_clean_url", "sfdc_ult_grp_id"])
+        @core_cols = grap_col_names("Core")
+        @staffer_data = @service.render_summarize_data("Staffer", ["sfdc_id", "sfdc_cont_id", "domain", "acct_name"])
+        @staffer_cols = grap_col_names("Staffer")
+        @indexer_data = @service.render_summarize_data("Indexer", ["acct_name", "zip", "acct_pin"])
+        @indexer_cols = grap_col_names("Indexer")
+        @who_data = @service.render_summarize_data("Who", ["domain", "registrar_url", "registrant_name", "admin_organization"])
+        @who_cols = grap_col_names("Who")
+        @location_data = @service.render_summarize_data("Location", ["acct_name", "sfdc_id", "url", "crm_url_redirect"])
+        @location_cols = grap_col_names("Location")
     end
 
     ############ BUTTONS ~ START ##############
@@ -165,6 +168,10 @@ class DashboardsController < ApplicationController
 
     def set_dashboard_service
         @service = DashboardService.new
+    end
+
+    def grap_col_names(db_name)
+        Dashboard.where(db_name: db_name).map(&:col_name)
     end
 
 end
