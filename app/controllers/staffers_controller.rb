@@ -29,6 +29,16 @@ class StaffersController < ApplicationController
         @staffer_count = Staffer.count
         @selected_staffer_count = @selected_data.count
 
+
+        # Get dropdown option list from Dashboard
+        @cont_source_opts = Dashboard.find_by(db_name: "Staffer", col_name: "cont_source").item_list
+        @cont_status_opts = Dashboard.find_by(db_name: "Staffer", col_name: "cont_status").item_list
+        @sfdc_sales_person_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_sales_person").item_list
+        @sfdc_tier_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_tier").item_list
+        @sfdc_type_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_type").item_list
+        @staffer_status_opts = Dashboard.find_by(db_name: "Staffer", col_name: "staffer_status").item_list
+        
+
         # CSV #
         respond_to do |format|
             format.html

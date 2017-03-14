@@ -21,17 +21,30 @@ class CoresController < ApplicationController
         end
 
         # @cores = @selected_data.filter(filtering_params(params)).limit(20)
-
         # @cores_limited = @selected_data.limit(20)
-
         @selected_data = @selected_data.order(updated_at: :desc)
-
         @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
-
-
         @cores_count = Core.count
         @selected_core_count = @selected_data.count
 
+        # Get dropdown option list from Dashboard
+        @acct_source_opts = Dashboard.find_by(db_name: "Core", col_name: "acct_source").item_list
+        @bds_status_opts = Dashboard.find_by(db_name: "Core", col_name: "bds_status").item_list
+        @conf_cat_opts = Dashboard.find_by(db_name: "Core", col_name: "conf_cat").item_list
+        @geo_status_opts = Dashboard.find_by(db_name: "Core", col_name: "geo_status").item_list
+        @location_indexer_status_opts = Dashboard.find_by(db_name: "Core", col_name: "location_indexer_status").item_list
+        @org_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "org_match_status").item_list
+        @ph_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "ph_match_status").item_list
+        @pin_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "pin_match_status").item_list
+        @sfdc_franch_cat_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_franch_cat").item_list
+        @sfdc_state_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_state").item_list
+        @sfdc_tier_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_tier").item_list
+        @sfdc_type_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_type").item_list
+        @staff_indexer_status_opts = Dashboard.find_by(db_name: "Core", col_name: "staff_indexer_status").item_list
+        @staffer_status_opts = Dashboard.find_by(db_name: "Core", col_name: "staffer_status").item_list
+        @url_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "url_match_status").item_list
+        @who_status_opts = Dashboard.find_by(db_name: "Core", col_name: "who_status").item_list
+                
 
         cores_csv = @selected_data.order(:sfdc_id)
         respond_to do |format|

@@ -18,7 +18,9 @@
                     <tr>
                         <td><%= select_tag :indexer_status, options_for_select(main_indexer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :redirect_status, options_for_select(url_redirect_sts_lists), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                         <td><%= select_tag :stf_status, options_for_select(@stf_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
                         <td><%= select_tag :loc_status, options_for_select(@loc_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                         <td><%= select_tag :contact_status, options_for_select(indexer_contact_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>

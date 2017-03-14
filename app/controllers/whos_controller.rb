@@ -11,9 +11,13 @@ class WhosController < ApplicationController
 
     ## SET ORDER OF DISPLAYED DATA ##
     @whos = @whos.order(updated_at: :desc)
-
     @whos_count = Who.count
     @selected_whos_count = @whos.count
+
+    # Get dropdown option list from Dashboard
+    @registrant_state_opts = Dashboard.find_by(db_name: "Who", col_name: "registrant_state").item_list
+    @url_status_opts = Dashboard.find_by(db_name: "Who", col_name: "url_status").item_list
+    @who_status_opts = Dashboard.find_by(db_name: "Who", col_name: "who_status").item_list    
 
 
     # CSV #

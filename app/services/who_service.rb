@@ -12,7 +12,7 @@ class WhoService
 
     def who_starter
         a=0
-        z=0
+        z=-1
         range = z-a
 
         indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(staff_url: nil)[a..z]

@@ -13,7 +13,7 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
     def cs_data_getter
-        a=0
+        # a=0
         # z=300
         # a=300
         # z=250
@@ -23,20 +23,18 @@ class StafferService
         # z=400
         # a=400
         # z=1300
-        z=-1
+        # z=-1
 
 
         # indexers = Indexer.where(contact_status: "TCP Error").where.not(staff_url: nil)[a..z] # 875
+        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "DealerOn") # 1,154
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer Direct") # 1,209
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer Inspire") # 657
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "DealerFire") # #747
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "DEALER eProcess") # 547
 
-
-        indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Cobalt")[a..z] # 1,859
-
-        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com") Phase 2 - Done!
-
-
-        # First, make Indexer.all.each {|indexer| indexer.update_attribute(:contact_status, nil) }
-        # indexers = Indexer.where(indexer_status: "Retry")[a..z] ## 504
-
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Cobalt")[a..z] # - Done!
+        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "Dealer.com") # - Done!
 
         counter=0
         range = z-a

@@ -43,7 +43,6 @@
                             <th>Server1</th>
                             <th>Server2</th>
                             <th>Registrar URL</th>
-                            <th>Registrar</th>
                             <th colspan="2"></th>
                         </tr>
                     </thead>
@@ -59,7 +58,6 @@
                             <td><%= who.server1 %></td>
                             <td><%= who.server2 %></td>
                             <td><%= who.registrar_url %></td>
-                            <td><%= who.registrar_id %></td>
                             <td><%= link_to 'Edit', edit_who_path(who) %></td>
                             <td><%= link_to 'Destroy', who, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                         </tr>
@@ -70,8 +68,8 @@
                     <tr> <!-- REGISTRANT INFO -->
                         <th>Name</th>
                         <th>Organization</th>
-                        <th>Address</th>
                         <th>Address Pin</th>
+                        <th>Address</th>
                         <th>City</th>
                         <th>Zip</th>
                         <th>State</th>

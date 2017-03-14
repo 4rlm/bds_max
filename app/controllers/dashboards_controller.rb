@@ -9,10 +9,12 @@ class DashboardsController < ApplicationController
     # GET /dashboards
     # GET /dashboards.json
     def index
-        @dashboards = Dashboard.all
+        @dashboards = Dashboard.all.order(:db_name, :col_name, :col_alias)
+        # @dashboards = Dashboard.all
+
 
         # CSV #
-        dashboards_csv = @dashboards.order(:updated_at)
+        dashboards_csv = @dashboards.order(:db_name)
         respond_to do |format|
             format.html
             format.csv { render text: dashboards_csv.to_csv }
@@ -104,44 +106,44 @@ class DashboardsController < ApplicationController
 
     ############ BUTTONS ~ START ##############
     def dashboard_mega_btn
-        @service.mega_dash
+        @service.delay.mega_dash
         # @service.delay.mega_dash
         redirect_to dashboards_path
     end
 
     def cores_dash_btn
-        @service.dash(Core)
-        @service.list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :staffer_status, :geo_status, :who_status])
+        @service.delay.dash(Core)
+        @service.delay.list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :staffer_status, :geo_status, :who_status])
         redirect_to dashboards_path
     end
 
     def franchise_dash_btn
-        @service.dash(InHostPo)
-        @service.list_getter(InHostPo, [:consolidated_term, :category])
+        @service.delay.dash(InHostPo)
+        @service.delay.list_getter(InHostPo, [:consolidated_term, :category])
         redirect_to dashboards_path
     end
 
     def indexer_dash_btn
-        @service.dash(Indexer)
-        @service.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status])
+        @service.delay.dash(Indexer)
+        @service.delay.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state])
         redirect_to dashboards_path
     end
 
     def geo_locations_dash_btn
-        @service.dash(Location)
-        @service.list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts])
+        @service.delay.dash(Location)
+        @service.delay.list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts])
         redirect_to dashboards_path
     end
 
     def staffers_dash_btn
-        @service.dash(Staffer)
-        @service.list_getter(Staffer, [:staffer_status, :cont_status])
+        @service.delay.dash(Staffer)
+        @service.delay.list_getter(Staffer, [:staffer_status, :cont_status])
         redirect_to dashboards_path
     end
 
     def whos_dash_btn
-        @service.dash(Who)
-        @service.list_getter(Who, [:who_status, :url_status])
+        @service.delay.dash(Who)
+        @service.delay.list_getter(Who, [:who_status, :url_status])
         redirect_to dashboards_path
     end
 
