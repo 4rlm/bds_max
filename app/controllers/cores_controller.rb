@@ -170,16 +170,19 @@ class CoresController < ApplicationController
     def merge_data
         @service.merge_data_starter(params[:cores])
         flash[:notice] = "Merging Data Done!"
+        redirect_to cores_path
     end
 
     def flag_data
         @service.flag_data_starter(params[:cores])
         flash[:notice] = "Flagging Data Done!"
+        redirect_to cores_path
     end
 
     def drop_data
         @service.drop_data_starter(params[:cores])
         flash[:notice] = "Dropping Data Done!"
+        redirect_to cores_path
     end
 
 

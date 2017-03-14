@@ -12,6 +12,7 @@ class CoreService
 
             cores.each do |core|
                 core.update_attributes(acct_merge_sts: "Merge")
+                update_staffers_sfdc_id(core)
             end
         end
     end
@@ -35,6 +36,17 @@ class CoreService
             cores.each do |core|
                 core.update_attributes(acct_merge_sts: "Drop")
             end
+        end
+    end
+
+    def update_staffers_sfdc_id(core)
+        url = core.sfdc_clean_url
+        sfdc_id = core.sfdc_id
+        return if url.nil? || sfdc_id.nil?
+
+        staffers = Staffer.where(domain: url)
+        staffers.each do |staffer|
+            staffer.update_attribute(:sfdc_id, sfdc_id)
         end
     end
 
