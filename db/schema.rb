@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314173820) do
+ActiveRecord::Schema.define(version: 20170314203929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,12 @@ ActiveRecord::Schema.define(version: 20170314173820) do
     t.string   "crm_acct_pin"
     t.string   "crm_phones",        default: [],              array: true
     t.string   "who_sts"
+    t.string   "acct_merge_sts"
     t.string   "match_score"
     t.string   "acct_match_sts"
     t.string   "ph_match_sts"
     t.string   "pin_match_sts"
     t.string   "url_match_sts"
-    t.string   "acct_merge_sts"
     t.string   "alt_acct_pin"
     t.string   "alt_acct"
     t.string   "alt_street"
@@ -84,17 +84,15 @@ ActiveRecord::Schema.define(version: 20170314173820) do
   end
 
   create_table "dashboards", force: :cascade do |t|
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "db_name"
     t.string   "db_alias"
     t.string   "col_name"
     t.string   "col_alias"
-    t.string   "col_total_old"
-    t.string   "item_list",           default: [],              array: true
-    t.string   "item_list_total_old"
-    t.integer  "col_total"
-    t.integer  "item_list_total"
+    t.string   "item_list",       default: [],              array: true
+    t.integer  "col_total",       default: 0
+    t.integer  "item_list_total", default: 0
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -114,14 +112,12 @@ ActiveRecord::Schema.define(version: 20170314173820) do
 
   create_table "in_host_pos", force: :cascade do |t|
     t.string   "term"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "consolidated_term"
     t.string   "category"
-    t.string   "brand_count_old"
-    t.string   "cat_count_old"
-    t.integer  "brand_count"
-    t.integer  "cat_count"
+    t.integer  "brand_count",       default: 0
+    t.integer  "cat_count",         default: 0
   end
 
   create_table "in_text_pos", force: :cascade do |t|
@@ -137,13 +133,11 @@ ActiveRecord::Schema.define(version: 20170314173820) do
     t.string   "sub_category"
     t.string   "criteria_term"
     t.string   "response_term"
-    t.string   "criteria_count_old"
-    t.string   "response_count_old"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "mth_name"
-    t.integer  "criteria_count"
-    t.integer  "response_count"
+    t.integer  "criteria_count", default: 0
+    t.integer  "response_count", default: 0
   end
 
   create_table "indexers", force: :cascade do |t|
@@ -156,13 +150,12 @@ ActiveRecord::Schema.define(version: 20170314173820) do
     t.string   "location_url"
     t.string   "location_text"
     t.string   "template"
-    t.string   "crm_id_arr",         default: [],              array: true
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.string   "crm_id_arr",      default: [],              array: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "loc_status"
     t.string   "stf_status"
     t.string   "contact_status"
-    t.string   "contacts_count_old"
     t.string   "contacts_link"
     t.string   "acct_name"
     t.string   "rt_sts"
@@ -173,12 +166,12 @@ ActiveRecord::Schema.define(version: 20170314173820) do
     t.string   "state"
     t.string   "zip"
     t.string   "phone"
-    t.string   "phones",             default: [],              array: true
+    t.string   "phones",          default: [],              array: true
     t.string   "acct_pin"
     t.string   "raw_street"
     t.string   "who_status"
     t.string   "geo_status"
-    t.integer  "contacts_count"
+    t.integer  "contacts_count",  default: 0
   end
 
   create_table "locations", force: :cascade do |t|

@@ -37,7 +37,7 @@ class SearchController < ApplicationController
     end
 
     def search_result_staffer
-        set_selected_status_staffer({staffer_status: params[:staffer_status], cont_status: params[:cont_status], cont_source: params[:cont_source], sfdc_id: params[:sfdc_id], sfdc_sales_person: params[:sfdc_sales_person], sfdc_type: params[:sfdc_type], sfdc_cont_id: params[:sfdc_cont_id], staffer_date: params[:staffer_date], sfdc_tier: params[:sfdc_tier], domain: params[:domain], acct_name: params[:acct_name], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], fname: params[:fname], fullname: params[:fullname], job: params[:job], job_raw: params[:job_raw], email: params[:email], full_address: params[:full_address], acct_pin: params[:acct_pin], cont_pin: params[:cont_pin], view_mode: params[:view_mode]})
+        set_selected_status_staffer({staffer_sts: params[:staffer_sts], cont_status: params[:cont_status], cont_source: params[:cont_source], sfdc_id: params[:sfdc_id], sfdc_sales_person: params[:sfdc_sales_person], sfdc_type: params[:sfdc_type], sfdc_cont_id: params[:sfdc_cont_id], staffer_date: params[:staffer_date], sfdc_tier: params[:sfdc_tier], domain: params[:domain], acct_name: params[:acct_name], street: params[:street], city: params[:city], state: params[:state], zip: params[:zip], fname: params[:fname], fullname: params[:fullname], job: params[:job], job_raw: params[:job_raw], email: params[:email], full_address: params[:full_address], acct_pin: params[:acct_pin], cont_pin: params[:cont_pin], view_mode: params[:view_mode]})
         redirect_to staffers_path
     end
 

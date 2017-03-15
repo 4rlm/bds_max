@@ -272,7 +272,7 @@ class LocationService
             # end
 
 
-            # Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address, crm_source: core.acct_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates))
+            # Location.create(latitude: spot.lat, longitude: spot.lng, street: street, city: city, coordinates: coordinates, acct_name: core.sfdc_acct, state_code: state, postal_code: zip, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: "GEO", sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, crm_root: core.sfdc_root, address: core.full_address, location_status: status, geo_acct_name: spot.name, phone: detail.formatted_phone_number, map_url: detail.url, hierarchy: "GEO", geo_full_addr: geo_address, crm_source: core.alt_source, url: full_url, geo_root: root, crm_url: core.sfdc_url, crm_franch_term: core.sfdc_franchise, crm_franch_cons: core.sfdc_franch_cons, crm_franch_cat: core.sfdc_franch_cat, crm_phone: core.sfdc_ph, crm_hierarchy: core.hierarchy, geo_type: "Geo Result", coord_id_arr: sfdc_id_finder(coordinates))
 
 
             ## core.update_attributes(bds_status: status, geo_status: status, geo_date: Time.new)
@@ -730,7 +730,7 @@ class LocationService
                 crm_url = location.crm_url
                 crm_phone = location.crm_phone
                 crm_source = location.crm_source
-                core_staffer = core.staffer_status
+                core_staffer = core.staffer_sts
 
                 if crm_source == "Web" && core_staffer == "Web Contacts" && crm_root == geo_root
                     if geo_acct != crm_acct
@@ -1041,7 +1041,7 @@ class LocationService
 
             locations.each do |location|
 
-                cores = Core.where(sfdc_id: location.sfdc_id).where.not(staffer_status: 'Web Contacts').where(acct_source: 'Web')
+                cores = Core.where(sfdc_id: location.sfdc_id).where.not(staffer_sts: 'Web Contacts').where(alt_source: 'Web')
 
                 counter = 0
                 cores.each do |core|
@@ -1066,7 +1066,7 @@ class LocationService
                     crm_url = location.crm_url
                     crm_phone = location.crm_phone
                     crm_source = location.crm_source
-                    core_staffer = core.staffer_status
+                    core_staffer = core.staffer_sts
 
                     # if crm_source == "Web" && core_staffer == "Web Contacts" && crm_root == geo_root
                         # if geo_acct != crm_acct
@@ -1678,7 +1678,7 @@ class LocationService
 
                 cor_sfdc_id = core.sfdc_id
                 cor_acct_name = core.geo_acct_name
-                cor_crm_source = core.acct_source
+                cor_crm_source = core.alt_source
 
                 puts
                 puts "---------------------"
@@ -1850,7 +1850,7 @@ class LocationService
     #             core.update_attributes(bds_status: "Geo Error", geo_status: "Geo Error", geo_date: Time.new)
     #             # return
     #         else
-    #             location = Location.new(address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: core.acct_source, sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, location_status: "Geo Result", url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franch_cons, franch_cat: core.sfdc_franch_cat, hierarchy: core.hierarchy)
+    #             location = Location.new(address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state_code: core.sfdc_state, postal_code: core.sfdc_zip, acct_name: core.sfdc_acct, group_name: core.sfdc_group, ult_group_name: core.sfdc_ult_grp, source: core.alt_source, sfdc_id: core.sfdc_id, tier: core.sfdc_tier, sales_person: core.sfdc_sales_person, acct_type: core.sfdc_type, location_status: "Geo Result", url: core.sfdc_url, root: core.sfdc_root, franchise: core.sfdc_franch_cons, franch_cat: core.sfdc_franch_cat, hierarchy: core.hierarchy)
     #
     #             if location.save
     #                 core.update_attributes(bds_status: 'Geo Result', geo_status: 'Geo Result', geo_date: Time.new, latitude: location.latitude, longitude: location.longitude, coordinates: "#{location.latitude}, #{location.longitude}")

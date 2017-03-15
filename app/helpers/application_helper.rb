@@ -40,7 +40,7 @@ module ApplicationHelper
 
 
     def sfdc_type_list
-        ["Web", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
+        # ["Web", "Canceled", "Current Account", "Current Sub-account", "Distribution Partner", "Do Not Solicit", "Failure To Launch", "Group Division", "Group Name", "Inactive", "Influencer", "Max Digital Demo Store", "Prospect", "Prospect Sub-account", "Vendor"]
     end
 
     def core_status_list
@@ -48,7 +48,7 @@ module ApplicationHelper
     end
 
     def sfdc_sales_person_list
-        ["Web", "Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
+        # ["Web", "Marc Peckler", "Ben Rosen", "Jason Price", "Sarah Thompson", "Justin Hufmeyer"]
     end
 
     def status_list
@@ -60,15 +60,11 @@ module ApplicationHelper
     end
 
     def sfdc_tier_list
-        ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
+        # ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
     end
 
     def bds_status_list
-        ['Imported', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
-    end
-
-    def sfdc_tier_list
-        ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
+        # ['Imported', 'Dom Result', 'Matched', 'No Matches', 'Queue Indexer', 'Indexer Result', 'Queue Staffer', 'Staffer Result', 'Queue Geo', 'Geo Result', 'Geo Outbound', 'Destroy']
     end
 
     def comparison_list
@@ -91,20 +87,20 @@ module ApplicationHelper
 
     ########
 
-    def acct_source_list
-        ["Web", "Solitary", 'CoPilot', 'CRM', 'Dealer']
-    end
+    # def alt_source_list
+    #     # ["Web", "Solitary", 'CoPilot', 'CRM', 'Dealer']
+    # end
 
-    def url_status_list
-        ['Error', 'Valid']
-    end
+    # def url_status_list
+    #     # ['Error', 'Valid']
+    # end
 
     def formatted_date_list(datetime_arr)
         datetime_arr.map {|datetime| datetime.strftime("%m/%d/%Y") if datetime}.uniq
     end
 
-    def staffer_status_list
-        ["CRM Contacts", "Web Contacts", "Imported", "Scraped", "Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', 'Verified', 'Destroy', "Matched"]
+    def staffer_sts_list
+        # ["CRM Contacts", "Web Contacts", "Imported", "Scraped", "Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', 'Verified', 'Destroy', "Matched"]
     end
 
     def franchise_list
@@ -112,15 +108,15 @@ module ApplicationHelper
     end
 
     def franch_cons_list
-        ['Acura', 'Alfa Romeo', 'Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Buick', 'Cadillac', 'Chevrolet', 'Chrysler', 'Dodge', 'Ferrari', 'Fiat', 'Ford', 'GMC', 'Group', 'Honda', 'Hummer', 'Hyundai', 'Infiniti', 'Isuzu', 'Jaguar', 'Jeep', 'Kia', 'Lamborghini', 'Lexus', 'Lincoln', 'Lotus', 'Maserati', 'Mazda', 'Mclaren', 'Mercedes-Benz', 'Mini', 'Mitsubishi', 'Nissan', 'Non-Franchise', 'Porsche', 'Ram', 'Range Rover', 'Rolls-Royce', 'Saab', 'Scion', 'Smart', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo']
+        # ['Acura', 'Alfa Romeo', 'Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Buick', 'Cadillac', 'Chevrolet', 'Chrysler', 'Dodge', 'Ferrari', 'Fiat', 'Ford', 'GMC', 'Group', 'Honda', 'Hummer', 'Hyundai', 'Infiniti', 'Isuzu', 'Jaguar', 'Jeep', 'Kia', 'Lamborghini', 'Lexus', 'Lincoln', 'Lotus', 'Maserati', 'Mazda', 'Mclaren', 'Mercedes-Benz', 'Mini', 'Mitsubishi', 'Nissan', 'Non-Franchise', 'Porsche', 'Ram', 'Range Rover', 'Rolls-Royce', 'Saab', 'Scion', 'Smart', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo']
     end
 
     def franch_cat_list
-        ['Franchise', 'Group', 'Non-Franchise', 'None', 'Other']
+        # ['Franchise', 'Group', 'Non-Franchise', 'None', 'Other']
     end
 
     def template_list
-        ["All Auto Network", "Autofunds", "Autofusion", "AutoJini", "Chapman.co", "Cobalt", "Dealer Direct", "DEALER eProcess", "Dealer Inspire", "Dealer Socket", "Dealer Spike", "Dealer.com", "DealerCar Search", "DealerFire", "DealerOn", "DealerPeak", "DealerTrend", "DLD Websites", "Dominion", "Drive Website", "Driving Force", "Driving Force", "eBizAutos", "FoxDealer", "fusionZone", "fusionZONE", "I/O COM", "Jazel Auto", "Motion Fuze", "Motorwebs", "Pixel Motion", "Remora", "Search Optics", "SERPCOM", "Slip Stream", "VinSolutions"]
+        # ["All Auto Network", "Autofunds", "Autofusion", "AutoJini", "Chapman.co", "Cobalt", "Dealer Direct", "DEALER eProcess", "Dealer Inspire", "Dealer Socket", "Dealer Spike", "Dealer.com", "DealerCar Search", "DealerFire", "DealerOn", "DealerPeak", "DealerTrend", "DLD Websites", "Dominion", "Drive Website", "Driving Force", "Driving Force", "eBizAutos", "FoxDealer", "fusionZone", "fusionZONE", "I/O COM", "Jazel Auto", "Motion Fuze", "Motorwebs", "Pixel Motion", "Remora", "Search Optics", "SERPCOM", "Slip Stream", "VinSolutions"]
     end
 
     def job_title_list
@@ -145,7 +141,7 @@ module ApplicationHelper
 
 
     def state_list
-        ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+        # ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
     end
 
 
@@ -162,7 +158,7 @@ module ApplicationHelper
     end
 
     def holding_list
-        ["Fill In!"]
+        # ["Fill In!"]
     end
 
 

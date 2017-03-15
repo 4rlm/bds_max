@@ -4,7 +4,7 @@
 
 <h4>Total Accounts: <%= number_with_delimiter(@cores_count) %></h4>
 
-<%= form_tag "/search_result_page_core", method: :post  do %>
+<%= form_tag "/search_result_page_core", method: :post do %>
 
 <div class="text-nowrap theme-layout search-container">
 
@@ -23,13 +23,13 @@
                     <th class="th-2">SFDC ID:</th>
                 </tr>
                 <tr>
-                    <td><%= select_tag :acct_source, options_for_select(acct_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :alt_source, options_for_select(@alt_source_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_acct, params[:sfdc_acct], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_group, params[:sfdc_group], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_ult_grp, params[:sfdc_ult_grp], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sfdc_type, options_for_select(@sfdc_type_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sfdc_tier, options_for_select(@sfdc_tier_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sfdc_sales_person, options_for_select(@sfdc_sales_person_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td ><%= text_field_tag :sfdc_id, params[:sfdc_id], placeholder: "----", class: 'form-control' %></td>
                 </tr>
             </table>
@@ -53,7 +53,7 @@
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :full_address } %></td>
                     <td><%= text_field_tag :sfdc_street, params[:sfdc_street], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_city, params[:sfdc_city], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= select_tag :sfdc_state, options_for_select(state_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sfdc_state, options_for_select(@state_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_zip, params[:sfdc_zip], placeholder: "----", class: 'form-control' %></td>
                     <td><%= text_field_tag :sfdc_ph, params[:sfdc_ph], placeholder: "----", class: 'form-control' %></td>
                 </tr>
@@ -72,11 +72,10 @@
                     <th class="th-2">Template</th>
                 </tr>
                 <tr>
-                    <td><%= select_tag :url_status, options_for_select(url_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= text_field_tag :sfdc_url, params[:sfdc_url], placeholder: "----", class: 'form-control' %></td>
-                    <td><%= select_tag :sfdc_franch_cons, options_for_select(franch_cons_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :sfdc_franch_cat, options_for_select(franch_cat_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :template, options_for_select(template_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sfdc_franch_cons, options_for_select(@franch_cons_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sfdc_franch_cat, options_for_select(@franch_cat_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :template, options_for_select(@template_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                 </tr>
             </table>
         </div>
@@ -96,14 +95,14 @@
                     <th class="th-2">Phone Match</th>
                 </tr>
                 <tr>
-                    <td><%= select_tag :bds_status, options_for_select(bds_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :staffer_sts, options_for_select(staffer_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :acct_merge_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :match_score, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :acct_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :pin_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :url_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :ph_match_sts, options_for_select(holding_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :bds_status, options_for_select(@bds_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :staffer_sts, options_for_select(@staffer_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :acct_merge_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :match_score, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :acct_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :pin_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :url_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :ph_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                 </tr>
             </table>
         </div>

@@ -69,7 +69,7 @@
                     <th class="th-2">Sales Tier</th>
                 </tr>
                 <tr>
-                    <td><%= select_tag :crm_source, options_for_select(acct_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :crm_source, options_for_select(alt_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></td>
