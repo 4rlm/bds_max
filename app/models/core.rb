@@ -78,7 +78,7 @@ class Core < ApplicationRecord
             # # ========= Ends CSV column formatting =========
 
             if core = Core.find_by(sfdc_id: row_hash["sfdc_id"])
-                core.update_attributes(bds_status: "Re-Imported", sfdc_acct: row_hash["sfdc_acct"], sfdc_sales_person: row_hash["sfdc_sales_person"], sfdc_acct_url: row_hash["sfdc_acct_url"], sfdc_type: row_hash["sfdc_type"], sfdc_ult_grp: row_hash["sfdc_ult_grp"], sfdc_ult_grp_id: row_hash["sfdc_ult_grp_id"], sfdc_group: row_hash["sfdc_group"], sfdc_group_id: row_hash["sfdc_group_id"])
+                core.update_attributes(bds_status: "Re-Imported", sfdc_acct: row_hash["sfdc_acct"], sfdc_sales_person: row_hash["sfdc_sales_person"], sfdc_acct_url: row_hash["sfdc_acct_url"], sfdc_type: row_hash["sfdc_type"], sfdc_ult_grp: row_hash["sfdc_ult_grp"], sfdc_ult_grp_id: row_hash["sfdc_ult_grp_id"], sfdc_group: row_hash["sfdc_group"], sfdc_group_id: row_hash["sfdc_group_id"], sfdc_zip: row_hash["sfdc_zip"])
             else
                 Core.create!(row_hash)
             end
