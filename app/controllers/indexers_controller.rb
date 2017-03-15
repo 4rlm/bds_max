@@ -149,7 +149,11 @@ class IndexersController < ApplicationController
         # @service.indexer_duplicate_purger
         # @service.db_data_trimmer
 
-        @service.acct_pin_gen
+        @service.delay.staff_phone_formatter
+
+        # @service.delay.job_title_migrator
+
+        # @service.acct_pin_gen
 
         # @service.pin_acct_counter
         # @service.junk_cleaner

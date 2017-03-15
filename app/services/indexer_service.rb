@@ -1001,5 +1001,61 @@ class IndexerService
     end
 
 
+    def job_title_migrator
+        job_titles = IndexerTerm.where(sub_category: "job_titles").map(&:criteria_term)
+        counter=0
+        job_titles.each do |title|
+            staffs = Staffer.where("job_raw LIKE '%#{title}%'")
+            staffs.each do |staff|
+                job_raw = staff.job_raw
+                counter+=1
+                puts "\n\n================"
+                puts counter
+                puts "job_raw: #{job_raw}"
+                puts "title: #{title}"
+                puts "================\n\n"
+                staff.update_attribute(:job, title)
+            end
+        end
+    end
+
+
+    def staff_phone_formatter
+        staffs = Staffer.where.not(phone: nil)
+        counter=0
+        staffs.each do |staff|
+            raw_phone = staff.phone
+            clean_phone = phone_formatter(raw_phone)
+
+            if !raw_phone.blank? && raw_phone != clean_phone
+                counter+=1
+                puts "\n\n================"
+                puts counter
+                puts "raw_phone: #{raw_phone}"
+                puts "clean_phone: #{clean_phone}"
+                puts "================\n\n"
+                staff.update_attribute(:phone, clean_phone)
+            end
+
+        end
+
+    end
+
+
+    def phone_formatter(phone)
+        regex = Regexp.new("[A-Z]+[a-z]+")
+        if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
+            phone_stripped = phone.gsub(/[^0-9]/, "")
+            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
+
+            final_phone = !(phone_step2 && phone_step2.length < 10) ? "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : phone
+        else
+            final_phone = nil
+        end
+        final_phone
+    end
+
+
+
 
 end # IndexerService class Ends ---
