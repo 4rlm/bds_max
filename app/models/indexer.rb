@@ -1,9 +1,6 @@
-require 'csv'
-
 class Indexer < ApplicationRecord
-
-    # FILTERABLE #
     include Filterable
+    include CSVTool
 
     # == Multi-Select Search ==
     scope :indexer_status, -> (indexer_status) { where indexer_status: indexer_status }
@@ -30,25 +27,5 @@ class Indexer < ApplicationRecord
     scope :zip, -> (zip) { where("zip like ?", "%#{zip}%") }
     scope :phone, -> (phone) { where("phone like ?", "%#{phone}%") }
     scope :acct_pin, -> (acct_pin) { where("acct_pin like ?", "%#{acct_pin}%") }
-
-
-    # CSV#
-      def self.to_csv
-          CSV.generate do |csv|
-              csv << column_names
-              all.each do |x|
-                  csv << x.attributes.values_at(*column_names)
-              end
-          end
-      end
-
-      def self.import_csv(file_name)
-          CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
-              row_hash = row.to_hash
-              Indexer.create!(row_hash)
-          end
-      end
-
-
 
 end
