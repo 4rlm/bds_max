@@ -18,15 +18,15 @@
                     </tr>
                     <tr>
                         <!-- staffer status -->
-                        <td><%= select_tag :staffer_sts, options_for_select(staffer_sts_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :staffer_status, options_for_select(@staffer_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <!-- source -->
-                        <td><%= select_tag :cont_source, options_for_select(contact_source_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :cont_source, options_for_select(@cont_source_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <!-- <th class="th-2">Type:</th> -->
-                        <td><%= select_tag :sfdc_type, options_for_select(sfdc_type_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :sfdc_type, options_for_select(@sfdc_type_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <!-- tier -->
-                        <td><%= select_tag :sfdc_tier, options_for_select(sfdc_tier_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :sfdc_tier, options_for_select(@sfdc_tier_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <!-- <th class="th-2">Sales Person:</th> -->
-                        <td><%= select_tag :sfdc_sales_person, options_for_select(sfdc_sales_person_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :sfdc_sales_person, options_for_select(@sfdc_sales_person_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <!-- acct name -->
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
                         <!-- <th class="th-2">SFDC ID:</th> -->
@@ -75,8 +75,8 @@
                         <th class="th-2">SFDC Contact ID</th>
                     </tr>
                     <tr>
-                        <td><%= select_tag :cont_status, options_for_select(contact_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :job, options_for_select(job_title_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :cont_status, options_for_select(@cont_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :job, options_for_select(@job_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :job_raw } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :fullname } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :fname } %></td>
