@@ -137,7 +137,7 @@ class IndexersController < ApplicationController
 
         # @service.delay.staff_phone_formatter
 
-        # @service.delay.job_title_migrator
+        @service.job_title_migrator
 
         # @service.acct_pin_gen
 
