@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314203929) do
+ActiveRecord::Schema.define(version: 20170315024353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,12 @@ ActiveRecord::Schema.define(version: 20170314203929) do
     t.string   "crm_acct_pin"
     t.string   "crm_phones",        default: [],              array: true
     t.string   "who_sts"
-    t.string   "acct_merge_sts"
     t.string   "match_score"
     t.string   "acct_match_sts"
     t.string   "ph_match_sts"
     t.string   "pin_match_sts"
     t.string   "url_match_sts"
+    t.string   "acct_merge_sts"
     t.string   "alt_acct_pin"
     t.string   "alt_acct"
     t.string   "alt_street"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20170314203929) do
     t.string   "who_status"
     t.string   "geo_status"
     t.integer  "contacts_count",  default: 0
+    t.string   "archived"
   end
 
   create_table "locations", force: :cascade do |t|
