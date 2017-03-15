@@ -2,7 +2,7 @@ class DashboardService
 
     def mega_dash
         dash(Core)
-        list_getter(Core, [:bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :geo_status, :who_status, :sfdc_tier, :sfdc_sales_person, :sfdc_type, :alt_source, :url_match_status, :acct_merge_sts])
+        list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :staffer_sts, :acct_merge_sts])
         puts "\n\n#{'-'*50}\n\n"
         dash(InHostPo)
         list_getter(InHostPo, [:consolidated_term, :category])
@@ -28,6 +28,7 @@ class DashboardService
         puts "#{'='*30} #{model.to_s} #{'='*30}"
         cols.each do |col|
             records = model.all.map(&col.to_sym)
+            records.delete_if {|el| el.blank?}
             total = records.count
             uniqs = records.uniq.count
             dash = Dashboard.find_by(db_name: model.to_s, col_name: col)

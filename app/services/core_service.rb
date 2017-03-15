@@ -215,7 +215,7 @@ class CoreService
 
         # cores = Core.where(alt_source: "CRM")
         # cores.each do |core|
-        #     core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_pf_sts: nil, loc_pf_sts: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, staffer_sts: nil, sfdc_template: nil)
+        #     core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_pf_sts: nil, loc_pf_sts: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, staffer_sts: nil, template: nil)
         # end
 
     end
@@ -485,45 +485,6 @@ class CoreService
             end
         end
     end
-
-
-    def phone_formatter
-        # Formats phone numbers as: (123) 456-7899
-        # cores = Core.where.not(sfdc_ph: nil)[0..10]
-
-        # locations = Location.where.not(crm_phone: nil)
-        # counter = 0
-        # locations.each do |location|
-        #     phone = location.crm_phone
-        #
-        #     if phone == "N/A" || phone == "0"
-        #         phone3 = nil
-        #     else
-        #         phone_stripped = phone.gsub(/[^0-9]/, "")
-        #
-        #         if phone_stripped[0] == "1"
-        #             phone2 = phone_stripped[1..-1]
-        #         else
-        #             phone2 = phone_stripped
-        #         end
-        #
-        #         unless phone2.length < 10
-        #             phone3 = "(#{phone2[0..2]}) #{(phone2[3..5])}-#{(phone2[6..9])}"
-        #         end
-        #     end
-        #
-        #     if phone != phone3
-        #         counter +=1
-        #         puts "---------------"
-        #         puts counter
-        #         puts "O: #{phone}"
-        #         puts "N: #{phone3}"
-        #         location.update_attribute(:crm_phone, phone3)
-        #     end
-        #
-        # end
-    end
-
 
     def acct_name_formatter
         ## Removes all non alpha-numberic characters
