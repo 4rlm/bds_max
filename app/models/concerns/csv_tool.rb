@@ -13,17 +13,17 @@ module CSVTool
         end
 
         # ===== Import CSV =====
-        def import_csv(file_name, model, sts_col)
+        def import_csv(file_name, model, sts_col=nil)
             cols =  model.column_names
             CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
                 valid_hash = validate_hash(cols, row.to_hash)
 
                 if obj = model.find_by(id: valid_hash["id"])
                     valid_hash.delete("id")
-                    valid_hash[sts_col] = "Re-Imported"
+                    valid_hash[sts_col] = "Re-Imported" if sts_col
                     obj.update_attributes(valid_hash)
                 else
-                    valid_hash[sts_col] = "Imported"
+                    valid_hash[sts_col] = "Imported" if sts_col
                     model.create!(valid_hash)
                 end
             end
@@ -58,19 +58,19 @@ end
 
 # # ========= CSV column formatting =========
 # Capitalize columns
-# row_hash[:bds_status] = Core.capitalized(row_hash["bds_status"])
-# row_hash[:sfdc_tier] = Core.capitalized(row_hash["sfdc_tier"])
-# row_hash[:sfdc_sales_person] = Core.capitalized(row_hash["sfdc_sales_person"])
-# row_hash[:sfdc_type] = Core.capitalized(row_hash["sfdc_type"])
-# row_hash[:sfdc_ult_grp] = Core.capitalized(row_hash["sfdc_ult_grp"])
-# row_hash[:sfdc_group] = Core.capitalized(row_hash["sfdc_group"])
-# row_hash[:sfdc_acct] = Core.capitalized(row_hash["sfdc_acct"])
-# row_hash[:sfdc_street] = Core.capitalized(row_hash["sfdc_street"])
-# row_hash[:sfdc_city] = Core.capitalized(row_hash["sfdc_city"])
+# row_hash[:bds_status] = capitalized(row_hash["bds_status"])
+# row_hash[:sfdc_tier] = capitalized(row_hash["sfdc_tier"])
+# row_hash[:sfdc_sales_person] = capitalized(row_hash["sfdc_sales_person"])
+# row_hash[:sfdc_type] = capitalized(row_hash["sfdc_type"])
+# row_hash[:sfdc_ult_grp] = capitalized(row_hash["sfdc_ult_grp"])
+# row_hash[:sfdc_group] = capitalized(row_hash["sfdc_group"])
+# row_hash[:sfdc_acct] = capitalized(row_hash["sfdc_acct"])
+# row_hash[:sfdc_street] = capitalized(row_hash["sfdc_street"])
+# row_hash[:sfdc_city] = capitalized(row_hash["sfdc_city"])
 #
 # Upcase column
-# row_hash[:sfdc_state] = Core.upcased(row_hash["sfdc_state"])
+# row_hash[:sfdc_state] = upcased(row_hash["sfdc_state"])
 #
 # Downcase columns
-# row_hash[:sfdc_url] = Core.downcased(row_hash["sfdc_url"])
+# row_hash[:sfdc_url] = downcased(row_hash["sfdc_url"])
 # # ========= Ends CSV column formatting =========

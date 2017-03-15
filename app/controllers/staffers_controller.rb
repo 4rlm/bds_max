@@ -57,7 +57,7 @@ class StaffersController < ApplicationController
 
     def import_csv_data
         file_name = params[:file]
-        Staffer.import_csv(file_name)
+        Staffer.import_csv(file_name, Staffer, "staffer_status")
 
         flash[:notice] = "CSV imported successfully."
         redirect_to staffers_path

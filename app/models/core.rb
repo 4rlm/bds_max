@@ -1,5 +1,3 @@
-require 'csv'
-
 class Core < ApplicationRecord
     include Filterable
     include CSVTool
