@@ -125,7 +125,7 @@ class DashboardsController < ApplicationController
 
     def indexer_dash_btn
         @service.delay.dash(Indexer)
-        @service.delay.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state])
+        @service.delay.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state, :template, :state])
         redirect_to dashboards_path
     end
 

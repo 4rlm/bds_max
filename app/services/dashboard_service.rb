@@ -8,7 +8,7 @@ class DashboardService
         list_getter(InHostPo, [:consolidated_term, :category])
         puts "\n\n#{'-'*50}\n\n"
         dash(Indexer)
-        list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :template, :geo_status])
+        list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state, :template, :state])
         puts "\n\n#{'-'*50}\n\n"
         dash(Location)
         list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts, :source])

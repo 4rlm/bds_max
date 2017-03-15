@@ -4,6 +4,7 @@ class IndexersController < ApplicationController
     before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
     before_action :set_indexer, only: [:show, :edit, :update, :destroy]
     before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
+    before_action :set_option_list, only: [:index, :search]
 
 
     # GET /indexers
@@ -17,21 +18,6 @@ class IndexersController < ApplicationController
 
         @indexers_count = Indexer.count
         @selected_indexers_count = @indexers.count
-
-        # Get dropdown option list from Dashboard
-        @stf_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "stf_status").item_list
-        @loc_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "loc_status").item_list
-
-        @contact_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "contact_status").item_list
-        @geo_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "geo_status").item_list
-        @indexer_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "indexer_status").item_list
-        @redirect_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "redirect_status").item_list
-        @rt_sts_opts = Dashboard.find_by(db_name: "Indexer", col_name: "rt_sts").item_list
-        @who_status_opts = Dashboard.find_by(db_name: "Indexer", col_name: "who_status").item_list
-        @cont_sts_opts = Dashboard.find_by(db_name: "Indexer", col_name: "cont_sts").item_list
-        @template_opts = Dashboard.find_by(db_name: "Indexer", col_name: "template").item_list
-
-
 
         # CSV #
         indexers_csv = @indexers.order(:clean_url)
@@ -250,6 +236,23 @@ class IndexersController < ApplicationController
     def destroy_rows(ids)
         rows = Indexer.where(id: ids)
         rows.destroy_all
+    end
+
+    # Get dropdown option list from Dashboard
+    def set_option_list
+        @indexer_status_opts = grap_item_list("indexer_status")
+        @redirect_status_opts = grap_item_list("redirect_status")
+        @stf_status_opts = grap_item_list("stf_status")
+        @loc_status_opts = grap_item_list("loc_status")
+        @contact_status_opts = grap_item_list("contact_status")
+        @rt_sts_opts = grap_item_list("rt_sts")
+        @cont_sts_opts = grap_item_list("cont_sts")
+        @template_opts = grap_item_list("template")
+        @state_opts = grap_item_list("state")
+    end
+
+    def grap_item_list(col_name)
+        Dashboard.find_by(db_name: "Indexer", col_name: col_name).item_list
     end
 
 end
