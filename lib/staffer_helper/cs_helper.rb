@@ -35,7 +35,7 @@ class CsHelper # Contact Scraper Helper Method
 
             # Clean rest
             staff_hash[:job] = staff_hash[:job].strip if staff_hash[:job]
-            staff_hash[:phone] = staff_hash[:phone].strip if staff_hash[:phone]
+            staff_hash[:phone] = @rts_manager.phone_formatter(staff_hash[:phone].strip) if staff_hash[:phone]
 
             # Cleaning code goes here.
             ## 1) phone number has "EXT" kind of string.

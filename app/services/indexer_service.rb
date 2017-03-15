@@ -687,7 +687,7 @@ class IndexerService
             alert = ""
             sfdc_ph = core.sfdc_ph
             puts "sfdc_ph: #{sfdc_ph}"
-            norm_ph = phone_formatter(sfdc_ph)
+            norm_ph = RtsManager.new.phone_formatter(sfdc_ph)
             if norm_ph != sfdc_ph
                 alert = "Alert!"
                 core.update_attribute(:sfdc_ph, norm_ph)
@@ -1023,13 +1023,12 @@ class IndexerService
         end
     end
 
-
     def staff_phone_formatter
         staffs = Staffer.where.not(phone: nil)
         counter=0
         staffs.each do |staff|
             raw_phone = staff.phone
-            clean_phone = phone_formatter(raw_phone)
+            clean_phone = RtsManager.new.phone_formatter(raw_phone)
 
             if !raw_phone.blank? && raw_phone != clean_phone
                 counter+=1
@@ -1040,23 +1039,7 @@ class IndexerService
                 puts "================\n\n"
                 staff.update_attribute(:phone, clean_phone)
             end
-
         end
-
-    end
-
-
-    def phone_formatter(phone)
-        regex = Regexp.new("[A-Z]+[a-z]+")
-        if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
-            phone_stripped = phone.gsub(/[^0-9]/, "")
-            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
-
-            final_phone = !(phone_step2 && phone_step2.length < 10) ? "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : phone
-        else
-            final_phone = nil
-        end
-        final_phone
     end
 
     def indexer_to_core
@@ -1065,14 +1048,6 @@ class IndexerService
         Core.where(sfdc_clean_url: nil).count ## 11,478
         Core.where(sfdc_url: nil).count ## 10,194
         Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
-
-
-
-
-
     end
-
-
-
 
 end # IndexerService class Ends ---
