@@ -1,21 +1,24 @@
-<table class="list-table table table-bordered table-hover text-nowrap table-striped">
+<!-- <table class="list-table table table-bordered table-hover text-nowrap table-striped"> -->
+<table class="table table-bordered indexer-table no-wrap">
+
     <thead>
         <tr>
             <th>#</th>
-            <th>Staffer Status</th>
-            <th>Contact Status</th>
-            <th>Contact Source<br></th>
-            <th>SFDC Account ID</th>
+            <th>Stage</th>
+            <th>Status</th>
+            <th>Source</th>
+            <th>ID</th>
+            <th>ID</th>
+            <th>URL</th>
+            <th>URL</th>
             <th>Account Name</th>
-            <th>SFDC Contact ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Full Name</th>
-            <th>Job Title</th>
-            <th>Job Description</th>
-            <th>Phone</th>
+            <th>Title</th>
+            <th>Description</th>
             <th>Email</th>
-            <th>Domain</th>
+            <th>Phone</th>
             <th colspan="2"></th>
         </tr>
     </thead>
@@ -29,17 +32,71 @@
                 <td><%= staffer.staffer_status %></td>
                 <td><%= staffer.cont_status %></td>
                 <td><%= staffer.cont_source %></td>
-                <td><%= staffer.sfdc_id %></td>
+
+                <!-- Account ID -->
+                <% unless staffer.sfdc_id == nil %>
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{staffer.sfdc_id}" %>
+                    </td>
+                <% else %>
+                    <td class="geo w-xsm fa-gray"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account ID" %></td>
+                <% end %>
+
+
+                <!-- Contact ID -->
+                <% unless staffer.sfdc_cont_id == nil %>
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "user lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{staffer.sfdc_cont_id}" %>
+                    </td>
+                <% else %>
+                    <td class="geo w-xsm fa-gray"><%= fa_icon "user lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Contact ID" %></td>
+                <% end %>
+
+
+            <!-- Dealer Website Module -->
+            <% if staffer.domain != nil %>
+                <td class="geo w-xsm fa-blue">
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(staffer.domain) %>">
+                <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
+                </td>
+            <% else %>
+                <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+            <% end %>
+
+
+            <!-- Dealer Website External Link -->
+            <% unless staffer.domain == nil %>
+                <td class="geo w-xsm fa-blue">
+                    <%= link_to add_http(staffer.domain), :target => "_blank" do %>
+                        <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{staffer.domain}" %>
+                    <% end %>
+                </td>
+            <% else %>
+                <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+            <% end %>
+
                 <td><%= staffer.acct_name %></td>
-                <td><%= staffer.sfdc_cont_id %></td>
+
                 <td><%= staffer.fname %></td>
                 <td><%= staffer.lname %></td>
                 <td><%= staffer.fullname %></td>
                 <td><%= staffer.job %></td>
                 <td><%= staffer.job_raw %></td>
-                <td><%= staffer.phone %></td>
+
                 <td><%= staffer.email %></td>
-                <td><%= staffer.domain %></td>
+
+                <!-- phone -->
+                <% unless staffer.phone == nil %>
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{staffer.phone}" %>
+                    </td>
+                <% else %>
+                    <td class="geo w-xsm fa-gray">
+                        <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
+                    </td>
+                <% end %>
+
+
                 <% if advanced_and_up %>
                     <td><%= link_to 'Edit', edit_staffer_path(staffer) %></td>
                 <% end %>
@@ -50,3 +107,18 @@
         <% end %>
     </tbody>
 </table>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

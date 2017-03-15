@@ -24,7 +24,7 @@ class CoresController < ApplicationController
         # @cores = @selected_data.filter(filtering_params(params)).limit(20)
         # @cores_limited = @selected_data.limit(20)
         @selected_data = @selected_data.order(updated_at: :desc)
-        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
+        @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 20)
         @cores_count = Core.count
         @selected_core_count = @selected_data.count
 
