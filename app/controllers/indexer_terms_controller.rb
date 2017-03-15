@@ -31,7 +31,7 @@ class IndexerTermsController < ApplicationController
 
     def import_csv_data
         file_name = params[:file]
-        IndexerTerm.import_csv(file_name)
+        IndexerTerm.import_csv(file_name, IndexerTerm)
 
         flash[:notice] = "CSV imported successfully."
         redirect_to indexer_terms_path

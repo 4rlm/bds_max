@@ -40,7 +40,7 @@ class DashboardsController < ApplicationController
 
     def import_csv_data
         file_name = params[:file]
-        Dashboard.import_csv(file_name)
+        Dashboard.import_csv(file_name, Dashboard)
 
         flash[:notice] = "CSV imported successfully."
         redirect_to dashboards_path
