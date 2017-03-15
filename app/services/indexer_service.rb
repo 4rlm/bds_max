@@ -1055,6 +1055,18 @@ class IndexerService
         final_phone
     end
 
+    def indexer_to_core
+        indexers = Indexer.where.not(clean_url: nil).where.not(archived: "Archived")
+
+        Core.where(sfdc_clean_url: nil).count ## 11,478
+        Core.where(sfdc_url: nil).count ## 10,194
+        # Core.where()
+
+
+
+
+    end
+
 
 
 
