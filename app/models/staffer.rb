@@ -4,7 +4,7 @@ class Staffer < ApplicationRecord
     include Filterable
 
         # == Multi-Select Search ==
-        scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
+        scope :staffer_sts, -> (staffer_sts) { where staffer_sts: staffer_sts }
         scope :sfdc_sales_person, -> (sfdc_sales_person) { where sfdc_sales_person: sfdc_sales_person }
         scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type }
         scope :sfdc_tier, -> (sfdc_tier) { where sfdc_tier: sfdc_tier }

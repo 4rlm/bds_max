@@ -237,7 +237,7 @@ class IndexersController < ApplicationController
             flash[:notice] = "Successfully updated"
 
             # core = Core.find_by(sfdc_id: indexer.sfdc_id)
-            # core.update_attribute(:location_indexer_status, status)
+            # core.update_attribute(:loc_pf_sts, status)
         end
 
         destroy_rows(ids) if status == "Destroy"

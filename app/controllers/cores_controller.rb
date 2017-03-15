@@ -4,6 +4,7 @@ class CoresController < ApplicationController
     before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_core_data, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
     before_action :set_core, only: [:show, :edit, :update, :destroy]
     before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn, :merge_data, :flag_data, :drop_data]
+    before_action :set_option_list, only: [:index, :search]
 
     # GET /cores
     # GET /cores.json
@@ -26,25 +27,6 @@ class CoresController < ApplicationController
         @cores = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
         @cores_count = Core.count
         @selected_core_count = @selected_data.count
-
-        # Get dropdown option list from Dashboard
-        @acct_source_opts = Dashboard.find_by(db_name: "Core", col_name: "acct_source").item_list
-        @bds_status_opts = Dashboard.find_by(db_name: "Core", col_name: "bds_status").item_list
-        @conf_cat_opts = Dashboard.find_by(db_name: "Core", col_name: "conf_cat").item_list
-        @geo_status_opts = Dashboard.find_by(db_name: "Core", col_name: "geo_status").item_list
-        @location_indexer_status_opts = Dashboard.find_by(db_name: "Core", col_name: "location_indexer_status").item_list
-        @org_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "org_match_status").item_list
-        @ph_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "ph_match_status").item_list
-        @pin_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "pin_match_status").item_list
-        @sfdc_franch_cat_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_franch_cat").item_list
-        @sfdc_state_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_state").item_list
-        @sfdc_tier_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_tier").item_list
-        @sfdc_type_opts = Dashboard.find_by(db_name: "Core", col_name: "sfdc_type").item_list
-        @staff_indexer_status_opts = Dashboard.find_by(db_name: "Core", col_name: "staff_indexer_status").item_list
-        @staffer_status_opts = Dashboard.find_by(db_name: "Core", col_name: "staffer_status").item_list
-        @url_match_status_opts = Dashboard.find_by(db_name: "Core", col_name: "url_match_status").item_list
-        @who_status_opts = Dashboard.find_by(db_name: "Core", col_name: "who_status").item_list
-
 
         cores_csv = @selected_data.order(:sfdc_id)
         respond_to do |format|
@@ -260,4 +242,24 @@ class CoresController < ApplicationController
         flash[:notice] = 'Geo started!'
         redirect_to cores_path
     end
+
+    # Get dropdown option list from Dashboard
+    def set_option_list
+        @alt_source_opts = grap_item_list("alt_source")
+        @sfdc_type_opts = grap_item_list("sfdc_type")
+        @sfdc_tier_opts = grap_item_list("sfdc_tier")
+        @sfdc_sales_person_opts = grap_item_list("sfdc_sales_person")
+        @state_opts = grap_item_list("sfdc_state")
+        @franch_cons_opts = grap_item_list("sfdc_franch_cons")
+        @franch_cat_opts = grap_item_list("sfdc_franch_cat")
+        @template_opts = grap_item_list("template")
+        @bds_status_opts = grap_item_list("bds_status")
+        @staffer_sts_opts = grap_item_list("staffer_sts")
+        @holding_opts = grap_item_list("acct_merge_sts")
+    end
+
+    def grap_item_list(col_name)
+        Dashboard.find_by(db_name: "Core", col_name: col_name).item_list
+    end
+
 end

@@ -113,7 +113,7 @@ class DashboardsController < ApplicationController
 
     def cores_dash_btn
         @service.delay.dash(Core)
-        @service.delay.list_getter(Core, [:bds_status, :staff_indexer_status, :location_indexer_status, :staffer_status, :geo_status, :who_status])
+        @service.delay.list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :staffer_sts, :acct_merge_sts])
         redirect_to dashboards_path
     end
 
@@ -137,7 +137,7 @@ class DashboardsController < ApplicationController
 
     def staffers_dash_btn
         @service.delay.dash(Staffer)
-        @service.delay.list_getter(Staffer, [:staffer_status, :cont_status])
+        @service.delay.list_getter(Staffer, [:staffer_sts, :cont_status])
         redirect_to dashboards_path
     end
 

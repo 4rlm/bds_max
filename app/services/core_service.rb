@@ -79,7 +79,7 @@ class CoreService
             sfdc_cores.each do |core|
                 puts "--------------------------------"
                 puts "URL: #{core.sfdc_url}"
-                puts "Source: #{core.acct_source}"
+                puts "Source: #{core.alt_source}"
                 puts "Current Franchise: #{core.sfdc_franchise}"
                 counter_brand +=1
                 franchises = []
@@ -117,7 +117,7 @@ class CoreService
 
     def franchise_consolidator
         # cores = Core.where.not(sfdc_franchise: nil)[0..100]
-        cores = Core.where(acct_source: "Cop")
+        cores = Core.where(alt_source: "Cop")
         counter_consolidator = 1
         cores.each do |core|
 
@@ -213,9 +213,9 @@ class CoreService
     def core_data_dumper
         ### CAUTION !!! DUMPS DATA !!! ###
 
-        # cores = Core.where(acct_source: "CRM")
+        # cores = Core.where(alt_source: "CRM")
         # cores.each do |core|
-        #     core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_indexer_status: nil, location_indexer_status: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, staffer_status: nil, sfdc_template: nil)
+        #     core.update_attributes(indexer_date: nil, staffer_date: nil, whois_date: nil, staff_pf_sts: nil, loc_pf_sts: nil, inventory_indexer_status: nil, staff_link: nil, staff_text: nil, location_link: nil, location_text: nil, staffer_sts: nil, sfdc_template: nil)
         # end
 
     end
