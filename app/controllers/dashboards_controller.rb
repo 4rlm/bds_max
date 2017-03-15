@@ -131,7 +131,7 @@ class DashboardsController < ApplicationController
 
     def geo_locations_dash_btn
         @service.delay.dash(Location)
-        @service.delay.list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts])
+        @service.delay.list_getter(Location, [:location_status, :sts_duplicate, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :crm_url_redirect, :geo_url_redirect, :crm_source, :tier, :sales_person, :acct_type, :url_sts, :acct_sts, :addr_sts, :ph_sts])
         redirect_to dashboards_path
     end
 

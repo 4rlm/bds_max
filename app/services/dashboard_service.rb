@@ -11,7 +11,7 @@ class DashboardService
         list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state, :template, :state])
         puts "\n\n#{'-'*50}\n\n"
         dash(Location)
-        list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts, :source])
+        list_getter(Location, [:location_status, :sts_duplicate, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :crm_url_redirect, :geo_url_redirect, :crm_source, :tier, :sales_person, :acct_type, :url_sts, :acct_sts, :addr_sts, :ph_sts])
         puts "\n\n#{'-'*50}\n\n"
         dash(Staffer)
         list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job])
