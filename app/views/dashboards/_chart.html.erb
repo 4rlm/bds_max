@@ -14,10 +14,10 @@
                     </tr>
                     <% cols[0...cols.length/2].each do |col| %>
                         <tr>
-                            <td><%= col %></td>
-                            <% totals = grap_totals(db_name, col) %>
-                            <td><%= totals[0] %></td>
-                            <td><%= totals[1] %></td>
+                            <% datas = grap_data(db_name, col) %>
+                            <td><%= datas[:col_alias] %></td>
+                            <td><%= datas[:col_total] %></td>
+                            <td><%= datas[:item_list_total] %></td>
                         </tr>
                     <% end %>
                 </table>
@@ -31,10 +31,10 @@
                     </tr>
                     <% cols[cols.length/2..-1].each do |col| %>
                         <tr>
-                            <td><%= col %></td>
-                            <% totals = grap_totals(db_name, col) %>
-                            <td><%= totals[0] %></td>
-                            <td><%= totals[1] %></td>
+                            <% datas = grap_data(db_name, col) %>
+                            <td><%= datas[:col_alias] %></td>
+                            <td><%= datas[:col_total] %></td>
+                            <td><%= datas[:item_list_total] %></td>
                         </tr>
                     <% end %>
                 </table>

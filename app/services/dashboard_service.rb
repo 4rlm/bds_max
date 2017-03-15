@@ -62,8 +62,8 @@ class DashboardService
         cols.each do |col|
             dash = Dashboard.find_by(db_name: db_name, col_name: col)
             if dash
-                result[0][:data] << [col, dash.col_total]
-                result[1][:data] << [col, dash.item_list_total]
+                result[0][:data] << [dash.col_alias, dash.col_total]
+                result[1][:data] << [dash.col_alias, dash.item_list_total]
             end
         end
 
