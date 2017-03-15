@@ -19,6 +19,8 @@
                 <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
                 <th>#</th>
                 <th>Indexer Status</th>
+                <th>Addr Pin IDs</th>
+                <th>Clean URL IDs</th>
                 <th>(1. RD) Status</th>
                 <th>(2. WH) WhoIs Status</th>
                 <th>(3. TF) Template</th>
@@ -26,19 +28,17 @@
                 <th>(4a. PF) Staff Link</th>
                 <th>(4b. PF) Loc Page</th>
                 <th>(4b. PF) Loc Link</th>
-
                 <th>(5. RT-MS) Status</th>
                 <th>(6. CS) Status</th>
                 <th>(7. GL) Status</th>
                 <th>(5. RT) Account Name</th>
-
+                <th>Addr Pin</th>
                 <th>(5. RT) Full Address</th>
                 <th>(5. RT) Street</th>
                 <th>(5. RT) City</th>
                 <th>(5. RT) State</th>
                 <th>(5. RT) Zip</th>
                 <th>(5. RT) Phone</th>
-
               <th>(1a. RD) Clean url</th>
               <th>(1a. RD) Raw url</th>
               <th>Crm id arr</th>
@@ -55,6 +55,10 @@
                   <% num +=1 %>
                   <td><%= num %></td>
                   <td><%= indexer.indexer_status %></td>
+
+                  <td><%= indexer.acct_pin_crm_ids %></td>
+                  <td><%= indexer.clean_url_crm_ids %></td>
+
                   <!-- URL indexer_indicator -->
                     <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>"><%= indexer.redirect_status %></td>
 
@@ -84,10 +88,11 @@
                   <td class="<%= match_sts_ind(indexer.loc_status) %>"><%= indexer.loc_status %></td>
                 <!-- RT Status -->
                 <td><%= indexer.rt_sts %></td>
-                
+
                 <td><%= indexer.contact_status %></td>
                 <td><%= indexer.geo_status %></td>
                   <td><%= indexer.acct_name %></td>
+                  <td><%= indexer.acct_pin %></td>
                   <td><%= indexer.full_addr %></td>
                   <td><%= indexer.street %></td>
                   <td><%= indexer.city %></td>

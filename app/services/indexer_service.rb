@@ -853,43 +853,58 @@ class IndexerService
         new_str
     end
 
-    def acct_pin_gen
-        # indexers = Indexer.where.not(street: nil).where.not(zip: nil).where(acct_pin: nil)
-        # indexers.each do |indexer|
-        #     street = indexer.street
-        #     zip = indexer.zip
-        #     street_parts = street.split(" ")
-        #     street_num = street_parts[0]
-        #     street_num = street_num.tr('^0-9', '')
-        #     new_zip = zip.strip
-        #     new_zip = zip[0..4]
-        #     acct_pin = "z#{new_zip}-s#{street_num}"
-        #     puts "zip: #{zip}"
-        #     puts "street: #{street}"
-        #     puts "acct_pin: #{acct_pin}\n#{"-"*30}\n\n"
-        #     indexer.update_attribute(:acct_pin, acct_pin)
-        # end
 
-        Core.where.not(sfdc_street: nil).count ##33,157
-        Core.where.not(sfdc_zip: nil).count  ## 0 (all are nil!)
-        Core.where(crm_acct_pin: nil).count
 
-        # cores = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil).where(crm_acct_pin: nil)[0..20]
-        cores.each do |core|
-            street = core.sfdc_street
-            zip = core.sfdc_zip
-            street_parts = street.split(" ")
-            street_num = street_parts[0]
-            street_num = street_num.tr('^0-9', '')
-            new_zip = zip.strip
-            new_zip = zip[0..4]
-            acct_pin = "z#{new_zip}-s#{street_num}"
+    def acct_pin_gen_starter
+        # inputs = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil)
+        inputs = Location.where.not(street: nil).where.not(postal_code: nil)
+        # inputs = Who.where.not(registrant_address: nil).where.not(registrant_zip: nil)
+
+        inputs.each do |input|
+            street = input.street
+            zip = input.postal_code
+            acct_pin = acct_pin_gen(street, zip)
+            puts "\n\nstreet: #{street}"
             puts "zip: #{zip}"
-            puts "street: #{street}"
-            puts "acct_pin: #{acct_pin}\n#{"-"*30}\n\n"
-            # core.update_attribute(:crm_acct_pin, acct_pin)
+            puts "Acct Pin: #{acct_pin}\n#{"-"*40}"
+            input.update_attribute(:geo_acct_pin, acct_pin)
         end
     end
+
+
+    def acct_pin_gen(street, zip)
+        street_check = street.tr('^0-9', '')
+        zip_check = zip.tr('^0-9', '')
+        if (!street_check.blank? && !zip_check.blank?) && (zip_check != "0" && street_check != "0")
+            if street.include?("DomainsByProxy")
+                street_cuts = street.split(",")
+                street = street_cuts[1]
+            end
+
+            if !street.blank?
+                street_down = street.downcase
+                if street_down.include?("box")
+                    street_num = street_down
+                else
+                    street_parts = street.split(" ")
+                    street_num = street_parts[0]
+                end
+
+                street_num = street_num.tr('^0-9', '')
+                new_zip = zip.strip
+                new_zip = zip[0..4]
+                if !new_zip.blank? && !street_num.blank?
+                    acct_pin = "z#{new_zip}-s#{street_num}"
+                end
+            end
+        else
+            acct_pin = nil
+        end
+        acct_pin
+    end
+
+
+
 
     def pin_acct_counter
         # acct_pin_count = Indexer.select([:acct_pin]).group(:acct_pin).having("count(*) > 1").map.count
@@ -923,6 +938,7 @@ class IndexerService
         # end
 
     end
+
 
     def redirect_url_migrator
 
@@ -1053,11 +1069,39 @@ class IndexerService
     end
 
     def indexer_to_core
-        indexers = Indexer.where.not(clean_url: nil).where.not(archived: "Archived")
+        # indexers = Indexer.where.not(clean_url: nil).where.not(archived: "Archived")
+        # Core.where(sfdc_clean_url: nil).count ## 11,478
+        # Core.where(sfdc_url: nil).count ## 10,194
+        # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
 
-        Core.where(sfdc_clean_url: nil).count ## 11,478
-        Core.where(sfdc_url: nil).count ## 10,194
-        Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
+        cores = Core.where.not(clean_url: nil)
+
+
     end
+
+
+    # def m_zip_remover
+    #     ## One time use for removing "m" in core zips being imported.
+    #     cores = Core.where.not(sfdc_zip: nil)
+    #     cores.each do |core|
+    #         sfdc_zip = core.sfdc_zip
+    #         if sfdc_zip[0] == "m"
+    #             new_zip = sfdc_zip[1..-1]
+    #             puts "\n\nm is in ..."
+    #             puts "sfdc_zip: #{sfdc_zip}"
+    #
+    #             if new_zip.length  > 4
+    #                 zip = new_zip
+    #             else
+    #                 zip = nil
+    #             end
+    #
+    #             puts "zip: #{zip}\n\n"
+    #             core.update_attribute(:sfdc_zip, zip)
+    #         else
+    #             puts "nope! #{sfdc_zip}"
+    #         end
+    #     end
+    # end
 
 end # IndexerService class Ends ---
