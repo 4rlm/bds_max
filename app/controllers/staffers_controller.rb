@@ -4,6 +4,7 @@ class StaffersController < ApplicationController
     before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn]
     before_action :set_staffer, only: [:show, :edit, :update, :destroy]
     before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn]
+    before_action :set_option_list, only: [:index, :search]
 
     # GET /staffers
     # GET /staffers.json
@@ -28,16 +29,6 @@ class StaffersController < ApplicationController
         end
         @staffer_count = Staffer.count
         @selected_staffer_count = @selected_data.count
-
-
-        # Get dropdown option list from Dashboard
-        @cont_source_opts = Dashboard.find_by(db_name: "Staffer", col_name: "cont_source").item_list
-        @cont_status_opts = Dashboard.find_by(db_name: "Staffer", col_name: "cont_status").item_list
-        @sfdc_sales_person_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_sales_person").item_list
-        @sfdc_tier_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_tier").item_list
-        @sfdc_type_opts = Dashboard.find_by(db_name: "Staffer", col_name: "sfdc_type").item_list
-        @staffer_sts_opts = Dashboard.find_by(db_name: "Staffer", col_name: "staffer_sts").item_list
-
 
         # CSV #
         respond_to do |format|
@@ -197,6 +188,21 @@ class StaffersController < ApplicationController
 
     def set_staffer_service
         @staffer_service = StafferService.new
+    end
+
+    # Get dropdown option list from Dashboard
+    def set_option_list
+        @staffer_status_opts = grap_item_list("staffer_status")
+        @cont_source_opts = grap_item_list("cont_source")
+        @sfdc_type_opts = grap_item_list("sfdc_type")
+        @sfdc_tier_opts = grap_item_list("sfdc_tier")
+        @sfdc_sales_person_opts = grap_item_list("sfdc_sales_person")
+        @cont_status_opts = grap_item_list("cont_status")
+        @job_opts = grap_item_list("job")
+    end
+
+    def grap_item_list(col_name)
+        Dashboard.find_by(db_name: "Core", col_name: col_name).item_list
     end
 
 end
