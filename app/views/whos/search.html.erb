@@ -22,10 +22,8 @@
                         <th class="th-2">Server2</th>
                     </tr>
                     <tr>
-                        <td><%= select_tag :who_status, options_for_select(who_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
-                        <td><%= select_tag :url_status, options_for_select(who_status_list), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-
+                        <td><%= select_tag :who_status, options_for_select(@who_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                        <td><%= select_tag :url_status, options_for_select(@url_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :ip } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :server1 } %></td>
