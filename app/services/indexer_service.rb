@@ -860,7 +860,11 @@ class IndexerService
         #     indexer.update_attribute(:acct_pin, acct_pin)
         # end
 
-        cores = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil).where(crm_acct_pin: nil)[0..20]
+        Core.where.not(sfdc_street: nil).count ##33,157
+        Core.where.not(sfdc_zip: nil).count  ## 0 (all are nil!)
+        Core.where(crm_acct_pin: nil).count
+
+        # cores = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil).where(crm_acct_pin: nil)[0..20]
         cores.each do |core|
             street = core.sfdc_street
             zip = core.sfdc_zip
@@ -1060,7 +1064,8 @@ class IndexerService
 
         Core.where(sfdc_clean_url: nil).count ## 11,478
         Core.where(sfdc_url: nil).count ## 10,194
-        # Core.where()
+        Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
+
 
 
 
