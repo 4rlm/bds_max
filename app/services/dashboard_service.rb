@@ -2,16 +2,16 @@ class DashboardService
 
     def mega_dash
         dash(Core)
-        list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :staffer_sts, :acct_merge_sts])
+        list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts])
         puts "\n\n#{'-'*50}\n\n"
         dash(InHostPo)
         list_getter(InHostPo, [:consolidated_term, :category])
         puts "\n\n#{'-'*50}\n\n"
         dash(Indexer)
-        list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :template, :geo_status])
+        list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state, :template, :state])
         puts "\n\n#{'-'*50}\n\n"
         dash(Location)
-        list_getter(Location, [:location_status, :sts_geo_crm, :sts_url, :sts_acct, :sts_addr, :sts_ph, :sts_duplicate, :url_sts, :acct_sts, :addr_sts, :ph_sts, :source])
+        list_getter(Location, [:location_status, :sts_duplicate, :sts_geo_crm, :sts_url, :sts_root, :sts_acct, :sts_addr, :sts_ph, :crm_url_redirect, :geo_url_redirect, :crm_source, :tier, :sales_person, :acct_type, :url_sts, :acct_sts, :addr_sts, :ph_sts])
         puts "\n\n#{'-'*50}\n\n"
         dash(Staffer)
         list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job])
@@ -38,7 +38,7 @@ class DashboardService
         end
     end
 
-    def list_getter(model, cols) # list_getter(Staffer, [:staffer_sts, :cont_status])
+    def list_getter(model, cols) # list_getter(Staffer, [:staffer_status, :cont_status])
         puts "#{'='*30} Item List #{'='*30}"
         cols.each do |col|
             list = model.all.map(&col).uniq

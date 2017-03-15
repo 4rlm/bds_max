@@ -1,7 +1,7 @@
 class WhosController < ApplicationController
   before_action :set_who, only: [:show, :edit, :update, :destroy]
   before_action :set_who_service, only: [:who_starter_btn, :import_page, :import_csv_data]
-
+  before_action :set_option_list, only: [:index, :search]
 
   # GET /whos
   # GET /whos.json
@@ -13,12 +13,6 @@ class WhosController < ApplicationController
     @whos = @whos.order(updated_at: :desc)
     @whos_count = Who.count
     @selected_whos_count = @whos.count
-
-    # Get dropdown option list from Dashboard
-    @registrant_state_opts = Dashboard.find_by(db_name: "Who", col_name: "registrant_state").item_list
-    @url_status_opts = Dashboard.find_by(db_name: "Who", col_name: "url_status").item_list
-    @who_status_opts = Dashboard.find_by(db_name: "Who", col_name: "who_status").item_list    
-
 
     # CSV #
     whos_csv = @whos.order(:domain)
@@ -137,12 +131,18 @@ class WhosController < ApplicationController
         params.slice(:who_status, :url_status, :domain, :ip, :server1, :server2, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_state, :registrant_zip, :registrant_phone, :registrant_url, :who_addr_pin)
     end
 
-
-
     def set_who_service
         @who_service = WhoService.new
     end
 
+    # Get dropdown option list from Dashboard
+    def set_option_list
+        @who_status_opts = grap_item_list("who_status")
+        @url_status_opts = grap_item_list("url_status")        
+    end
 
+    def grap_item_list(col_name)
+        Dashboard.find_by(db_name: "Who", col_name: col_name).item_list
+    end
 
 end

@@ -5,6 +5,7 @@ class LocationsController < ApplicationController
 
     before_action :set_location, only: [:show, :edit, :update, :destroy]
     before_action :set_location_service, only: [:geo_starter_btn, :location_cleaner_btn, :geo_update_migrate_btn, :geo_places_starter_btn, :location_power_btn, :turbo_matcher_btn]
+    before_action :set_option_list, only: [:index, :search]
 
     # GET /locations
     # GET /locations.json
@@ -28,29 +29,6 @@ class LocationsController < ApplicationController
 
         @locations_count = Location.count
         @selected_locations_count = @locations.count
-
-
-        # Get dropdown option list from Dashboard
-        @acct_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "acct_sts").item_list
-        @acct_type_opts = Dashboard.find_by(db_name: "Core", col_name: "acct_type").item_list
-        @addr_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "addr_sts").item_list
-        @crm_source_opts = Dashboard.find_by(db_name: "Core", col_name: "crm_source").item_list
-        @crm_state_opts = Dashboard.find_by(db_name: "Core", col_name: "crm_state").item_list
-        @geo_type_opts = Dashboard.find_by(db_name: "Core", col_name: "geo_type").item_list
-        @location_status_opts = Dashboard.find_by(db_name: "Core", col_name: "location_status").item_list
-        @ph_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "ph_sts").item_list
-        @sales_person_opts = Dashboard.find_by(db_name: "Core", col_name: "sales_person").item_list
-        @source_opts = Dashboard.find_by(db_name: "Core", col_name: "source").item_list
-        @state_opts = Dashboard.find_by(db_name: "Core", col_name: "state").item_list
-        @sts_acct_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_acct").item_list
-        @sts_addr_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_addr").item_list
-        @sts_geo_crm_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_geo_crm").item_list
-        @sts_ph_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_ph").item_list
-        @sts_root_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_root").item_list
-        @sts_url_opts = Dashboard.find_by(db_name: "Core", col_name: "sts_url").item_list
-        @tier_opts = Dashboard.find_by(db_name: "Core", col_name: "tier").item_list
-        @url_sts_opts = Dashboard.find_by(db_name: "Core", col_name: "url_sts").item_list
-
 
         # CSV #
         locations_csv = @locations.order(:longitude)
@@ -401,6 +379,28 @@ class LocationsController < ApplicationController
             result[key.to_sym] = (result[key.to_sym] + value).uniq
         end
         result
+    end
+
+    # Get dropdown option list from Dashboard
+    def set_option_list
+        @location_status_opts = grap_item_list("location_status")
+        @sts_duplicate_opts = grap_item_list("sts_duplicate")
+        @sts_geo_crm_opts = grap_item_list("sts_geo_crm")
+        @sts_url_opts = grap_item_list("sts_url")
+        @sts_root_opts = grap_item_list("sts_root")
+        @sts_acct_opts = grap_item_list("sts_acct")
+        @sts_addr_opts = grap_item_list("sts_addr")
+        @sts_ph_opts = grap_item_list("sts_ph")
+        @crm_url_redirect_opts = grap_item_list("crm_url_redirect")
+        @geo_url_redirect_opts = grap_item_list("geo_url_redirect")
+        @crm_source_opts = grap_item_list("crm_source")
+        @tier_opts = grap_item_list("tier")
+        @sales_person_opts = grap_item_list("sales_person")
+        @acct_type_opts = grap_item_list("acct_type")
+    end
+
+    def grap_item_list(col_name)
+        Dashboard.find_by(db_name: "Location", col_name: col_name).item_list
     end
 
 end
