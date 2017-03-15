@@ -99,9 +99,9 @@ module ApplicationHelper
         datetime_arr.map {|datetime| datetime.strftime("%m/%d/%Y") if datetime}.uniq
     end
 
-    def staffer_sts_list
-        # ["CRM Contacts", "Web Contacts", "Imported", "Scraped", "Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', 'Verified', 'Destroy', "Matched"]
-    end
+    # def staffer_sts_list
+    #     # ["CRM Contacts", "Web Contacts", "Imported", "Scraped", "Ready", "Search Error", "Temp Error", "Queued", "No Matches", 'Try Again', 'Verified', 'Destroy', "Matched"]
+    # end
 
     def franchise_list
         ['Acura', 'Alfa', 'Aston', 'Audi', 'Auto', 'Autogroup', 'Automall', 'Automotive', 'Autoplex', 'Autos', 'Autosales', 'Bentley', 'Benz', 'Bmw', 'Bugatti', 'Buick', 'Cadillac', 'Cars', 'Cdjr', 'Chev', 'Chevrolet', 'Chevy', 'Chrysler', 'Cjd', 'Corvette', 'Daewoo', 'Dealer', 'Dodge', 'Ferrari', 'Fiat', 'Ford', 'Gm', 'Gmc', 'Group', 'Highline', 'Honda', 'Hummer', 'Hyundai', 'Imports', 'Infiniti', 'Isuzu', 'Jaguar', 'Jeep', 'Kia', 'Lamborghini', 'Lexus', 'Lincoln', 'Lotus', 'Maserati', 'Mazda', 'Mb', 'Mclaren', 'Mercedes', 'Mercury', 'Mini', 'Mitsubishi', 'Motor', 'Motors', 'Nissan', 'Oldsmobile', 'Plymouth', 'Pontiac', 'Porsche', 'Ram', 'Range', 'Rolls', 'Rover', 'Royce', 'Saab', 'Saturn', 'Scion', 'Smart', 'Subaru', 'Superstore', 'Suzuki', 'Toyota', 'Trucks', 'Usedcars', 'Volkswagen', 'Volvo', 'Vw']

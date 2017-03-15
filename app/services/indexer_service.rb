@@ -538,7 +538,7 @@ class IndexerService
             contacts.each do |contact|
 
                 unless contact_status
-                    staffer_sts = contact.staffer_sts
+                    staffer_status = contact.staffer_status
                     cont_status = contact.cont_status
                     staff_link = contact.staff_link
                     domain = contact.domain
@@ -548,7 +548,7 @@ class IndexerService
                         counter+=1
                         puts
                         puts "------------------ #{counter} ------------------"
-                        puts staffer_sts
+                        puts staffer_status
                         puts cont_status
                         puts staff_link
                         puts domain

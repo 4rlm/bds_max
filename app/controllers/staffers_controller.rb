@@ -157,11 +157,11 @@ class StaffersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def staffer_params
-        params.require(:staffer).permit(:staffer_sts, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
+        params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
     end
 
     def filtering_params(params)
-        params.slice(:staffer_sts, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
+        params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
     end
 
     def batch_status
@@ -170,12 +170,12 @@ class StaffersController < ApplicationController
         status = params[:selected_status]
         for id in ids
             staff = Staffer.find(id)
-            staff.update_attribute(:staffer_sts, status)
+            staff.update_attribute(:staffer_status, status)
             flash[:notice] = "Successfully updated"
 
             # *** Uncomment after Core Migration new staffer columns
             # core = Core.find_by(sfdc_id: staffer.sfdc_id)
-            # core.update_attribute(:staffer_sts, status)
+            # core.update_attribute(:staffer_status, status)
         end
 
         destroy_rows(ids) if status == "Destroy"
@@ -202,7 +202,7 @@ class StaffersController < ApplicationController
     end
 
     def grap_item_list(col_name)
-        Dashboard.find_by(db_name: "Core", col_name: col_name).item_list
+        Dashboard.find_by(db_name: "Staffer", col_name: col_name).item_list
     end
 
 end

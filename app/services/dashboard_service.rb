@@ -2,7 +2,7 @@ class DashboardService
 
     def mega_dash
         dash(Core)
-        list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :staffer_sts, :acct_merge_sts])
+        list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts])
         puts "\n\n#{'-'*50}\n\n"
         dash(InHostPo)
         list_getter(InHostPo, [:consolidated_term, :category])
@@ -38,7 +38,7 @@ class DashboardService
         end
     end
 
-    def list_getter(model, cols) # list_getter(Staffer, [:staffer_sts, :cont_status])
+    def list_getter(model, cols) # list_getter(Staffer, [:staffer_status, :cont_status])
         puts "#{'='*30} Item List #{'='*30}"
         cols.each do |col|
             list = model.all.map(&col).uniq
