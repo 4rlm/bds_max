@@ -10,24 +10,18 @@
                         <th class="th-2">Duplicate Status</th>
                         <th class="th-2">Match Status</th>
                         <th class="th-2">URL Status</th>
-                        <th class="th-2">Root Status</th>
                         <th class="th-2">Name Status</th>
                         <th class="th-2">Address Status</th>
                         <th class="th-2">Phone Status</th>
-                        <th class="th-2">CRM Redirect Status</th>
-                        <th class="th-2">GEO Redirect Status</th>
                     </tr>
                     <tr>
                         <td><%= select_tag :location_status, options_for_select(@location_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :sts_duplicate, options_for_select(@sts_duplicate_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :sts_geo_crm, options_for_select(@sts_geo_crm_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :sts_url, options_for_select(@sts_url_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :sts_root, options_for_select(@sts_root_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :sts_acct, options_for_select(@sts_acct_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :sts_addr, options_for_select(@sts_addr_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= select_tag :sts_ph, options_for_select(@sts_ph_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :crm_url_redirect, options_for_select(@crm_url_redirect_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :geo_url_redirect, options_for_select(@geo_url_redirect_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     </tr>
                 </table>
             </div>

@@ -63,12 +63,12 @@ ActiveRecord::Schema.define(version: 20170315024353) do
     t.string   "crm_acct_pin"
     t.string   "crm_phones",        default: [],              array: true
     t.string   "who_sts"
+    t.string   "acct_merge_sts"
     t.string   "match_score"
     t.string   "acct_match_sts"
     t.string   "ph_match_sts"
     t.string   "pin_match_sts"
     t.string   "url_match_sts"
-    t.string   "acct_merge_sts"
     t.string   "alt_acct_pin"
     t.string   "alt_acct"
     t.string   "alt_street"
