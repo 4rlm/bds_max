@@ -14,6 +14,8 @@
 <div class="row profile-row">
     <div class="profile-col col-md-12">
         <table class="table table-bordered indexer-table no-wrap">
+        <!-- <table class="table table-bordered indexer-table"> -->
+
           <thead>
             <tr>
                 <!-- <th><%#= check_box_tag 'check_all', 'check_all', false, onClick: 'checkAll(this);' %></th> -->
@@ -21,6 +23,10 @@
                 <th>Indexer Status</th>
                 <th>Addr Pin IDs</th>
                 <th>Clean URL IDs</th>
+                <th>CRM Acct IDs</th>
+                <th>CRM Ph IDs</th>
+
+                <th>Phones</th>
                 <th>(1. RD) Status</th>
                 <th>(2. WH) WhoIs Status</th>
                 <th>(3. TF) Template</th>
@@ -58,6 +64,11 @@
 
                   <td><%= indexer.acct_pin_crm_ids %></td>
                   <td><%= indexer.clean_url_crm_ids %></td>
+                  <td><%= indexer.crm_acct_ids %></td>
+                  <td><%= indexer.crm_ph_ids %></td>
+                  
+                  <td><%= indexer.phones %></td>
+
 
                   <!-- URL indexer_indicator -->
                     <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>"><%= indexer.redirect_status %></td>

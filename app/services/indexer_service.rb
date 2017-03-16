@@ -1097,8 +1097,11 @@ class IndexerService
         # Core.where(sfdc_clean_url: nil).count ## 11,478
         # Core.where(sfdc_url: nil).count ## 10,194
         # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
-        url_arr_mover
-        pin_arr_mover
+        # url_arr_mover
+        # pin_arr_mover
+        # acct_arr_mover
+        # ph_arr_mover
+        ph_arr_mover
     end
 
     # ADDS CORE ID TO INDEXER URL ARRAY
@@ -1147,8 +1150,8 @@ class IndexerService
                 puts "\n\n#{"="*50}\n#{counter}"
                 puts "IDs: #{pin_ids}"
                 puts "CRM ID: #{sfdc_id}"
-                puts "CRM URL: #{crm_acct_pin}"
-                puts "Web URL: #{acct_pin}"
+                puts "CRM Pin: #{sfdc_pin}"
+                puts "Web Pin: #{acct_pin}"
 
                 pin_ids << sfdc_id
                 puts "IDs: #{pin_ids}"
@@ -1157,5 +1160,73 @@ class IndexerService
             end
         end
     end
+
+    # ADDS CORE ID TO INDEXER ACCT ARRAY
+    def acct_arr_mover
+        cores = Core.where.not(sfdc_acct: nil)
+        counter=0
+        cores.each do |core|
+            sfdc_acct = core.sfdc_acct
+            sfdc_id = core.sfdc_id
+
+            indexers = Indexer.where(archive: false).where(acct_name: sfdc_acct)
+            indexers.each do |indexer|
+                acct_name = indexer.acct_name
+                crm_acct_ids = indexer.crm_acct_ids
+
+                counter+=1
+                puts "\n\n#{"="*50}\n#{counter}"
+                puts "IDs: #{crm_acct_ids}"
+                puts "CRM ID: #{sfdc_id}"
+                puts "CRM Acct: #{sfdc_acct}"
+                puts "Web Acct: #{acct_name}"
+
+                crm_acct_ids << sfdc_id
+                puts "IDs: #{crm_acct_ids}"
+
+                indexer.update_attribute(:crm_acct_ids, crm_acct_ids)
+            end
+        end
+    end
+
+    # ADDS CORE ID TO INDEXER PH ARRAY
+    def ph_arr_mover
+        cores = Core.where.not(sfdc_ph: nil)[0...200]
+        counter=0
+        cores.each do |core|
+            sfdc_ph = core.sfdc_ph
+            sfdc_id = core.sfdc_id
+
+            indexers = Indexer.where(archive: false).where(phone: sfdc_ph)
+            indexers.each do |indexer|
+                phone = indexer.phone
+                crm_ph_ids = indexer.crm_ph_ids
+
+                counter+=1
+                puts "\n\n#{"="*50}\n#{counter}"
+                puts "IDs: #{crm_ph_ids}"
+                puts "CRM ID: #{sfdc_id}"
+                puts "CRM Ph: #{sfdc_ph}"
+                puts "Web Ph: #{phone}"
+
+                crm_ph_ids << sfdc_id
+                puts "IDs: #{crm_ph_ids}"
+
+                # indexer.update_attribute(:crm_ph_ids, crm_ph_ids)
+            end
+        end
+
+
+
+
+
+
+
+
+
+    end
+
+
+
 
 end # IndexerService class Ends ---
