@@ -1068,18 +1068,6 @@ class IndexerService
         end
     end
 
-    def indexer_to_core
-        # indexers = Indexer.where.not(clean_url: nil).where.not(archived: "Archived")
-        # Core.where(sfdc_clean_url: nil).count ## 11,478
-        # Core.where(sfdc_url: nil).count ## 10,194
-        # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
-
-        cores = Core.where.not(clean_url: nil)
-
-
-    end
-
-
     # def m_zip_remover
     #     ## One time use for removing "m" in core zips being imported.
     #     cores = Core.where.not(sfdc_zip: nil)
@@ -1103,5 +1091,74 @@ class IndexerService
     #         end
     #     end
     # end
+
+
+    def indexer_to_core
+        # indexers = Indexer.where.not(clean_url: nil).where.not(archived: "Archived")
+        # Core.where(sfdc_clean_url: nil).count ## 11,478
+        # Core.where(sfdc_url: nil).count ## 10,194
+        # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
+
+        ### PART 1: ADDS CORE ID TO INDEXER URL ARRAY
+        cores = Core.where.not(sfdc_clean_url: nil)[1000..1400]
+        counter=0
+        cores.each do |core|
+            sfdc_clean_url = core.sfdc_clean_url
+            sfdc_id = core.sfdc_id
+
+            unless sfdc_clean_url == "http://" || sfdc_clean_url == "https://"
+                indexers = Indexer.where.not(archived: "Archived").where(clean_url: sfdc_clean_url)
+                indexers.each do |indexer|
+                    web_url = indexer.clean_url
+                    url_ids = indexer.clean_url_crm_ids
+
+                    counter+=1
+                    puts "\n\n#{"="*50}\n#{counter}"
+                    puts "IDs: #{url_ids}"
+                    puts "CRM ID: #{sfdc_id}"
+                    puts "CRM URL: #{sfdc_clean_url}"
+                    puts "Web URL: #{web_url}"
+
+                    url_ids << sfdc_id
+                    puts "IDs: #{url_ids}"
+
+                    # indexer.update_attribute(:clean_url_crm_ids, url_ids)
+                end
+            end
+        end
+
+        # indexers = Indexer.all
+        # indexers.each{|x|x.update_attribute(:clean_url_crm_ids, [])}
+
+
+        ### PART 1: ADDS CORE ID TO INDEXER PIN ARRAY
+        # cores = Core.where.not(crm_acct_pin: nil)[0..100]
+        # counter=0
+        # cores.each do |core|
+        #     sfdc_pin = core.crm_acct_pin
+        #     sfdc_id = core.sfdc_id
+        #
+        #     indexers = Indexer.where.not(archived: "Archived").where(acct_pin: crm_acct_pin)
+        #     indexers.each do |indexer|
+        #         acct_pin = indexer.acct_pin
+        #         pin_ids = indexer.acct_pin_crm_ids
+        #
+        #         counter+=1
+        #         puts "\n\n#{"="*50}\n#{counter}"
+        #         puts "IDs: #{pin_ids}"
+        #         puts "CRM ID: #{sfdc_id}"
+        #         puts "CRM URL: #{crm_acct_pin}"
+        #         puts "Web URL: #{acct_pin}"
+        #
+        #         pin_ids << sfdc_id
+        #         puts "IDs: #{pin_ids}"
+        #
+        #         # indexer.update_attribute(:acct_pin_crm_ids, pin_ids)
+        #
+        #     end
+        # end
+
+
+    end
 
 end # IndexerService class Ends ---

@@ -139,7 +139,9 @@ class IndexersController < ApplicationController
 
         # @service.job_title_migrator
 
-        @service.acct_pin_gen_starter
+        # @service.acct_pin_gen_starter
+        
+        @service.indexer_to_core
 
 
 
