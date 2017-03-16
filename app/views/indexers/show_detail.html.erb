@@ -1,0 +1,6 @@
+<h2 class="text-center"><%= @core.sfdc_acct %></h2>
+<% num = 0 %>
+<% @indexers.each do |indexer| %>
+    <% num +=1 %>
+    <%= render partial: 'indexer_detail', locals: {indexer: indexer, num: num} %>
+<% end %>

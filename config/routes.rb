@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     get 'template_finder_btn' => 'indexers#template_finder_btn'
     get 'rooftop_data_getter_btn' => 'indexers#rooftop_data_getter_btn'
     get 'meta_scraper_btn' => 'indexers#meta_scraper_btn'
+    get 'indexer/show_detail' => 'indexers#show_detail'
 
     resources :locations do
         collection {post :import_csv_data}
