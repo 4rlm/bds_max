@@ -20,6 +20,16 @@ require 'indexer_helper/helper' # All helper methods for indexer_service
 
 class IndexerService
 
+    def phones_arr_cleaner
+        rts_manager = RtsManager.new
+        indexers = Indexer.all
+
+        indexers.each do |indexer|
+            new_phones = rts_manager.clean_phones_arr(indexer.phones)
+            indexer.update_attribute(:phones, new_phones)
+        end
+    end
+
     # Delay Job has a problem to run PageFinder's instance directly from indexer controller (PageFinder.new.delay.indexer_starter)
     def page_finder_starter
         PageFinder.new.indexer_starter

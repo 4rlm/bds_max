@@ -135,7 +135,7 @@ class IndexersController < ApplicationController
         # @service.indexer_duplicate_purger
         # @service.db_data_trimmer
 
-        @service.delay.staff_phone_formatter
+        # @service.delay.staff_phone_formatter
 
         # @service.delay.job_title_migrator
 
@@ -145,6 +145,8 @@ class IndexersController < ApplicationController
         # @service.junk_cleaner
 
         # @service.redirect_url_migrator
+
+        @service.phones_arr_cleaner
 
         redirect_to indexers_path
     end
