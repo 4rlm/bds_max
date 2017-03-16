@@ -115,6 +115,7 @@ class CoresController < ApplicationController
     end
 
     def anything_btn
+
         # previously called franchiser_btn
         # !! CAUTION !!
         # @service.core_data_dumper
@@ -133,9 +134,7 @@ class CoresController < ApplicationController
         # @service.account_matcher
 
         # @service.core_staffer_domain_cleaner
-        @service.delay.core_staffer_domain_cleaner
-
-
+        # @service.delay.core_staffer_domain_cleaner
 
         # @service.period_remover
 

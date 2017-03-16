@@ -88,84 +88,97 @@
 
             <table class="table table-bordered indexer-table">
                 <tr> <!-- REGISTRANT INFO -->
-                    <th>Clean URL</th>
-                    <th>Raw URL</th>
-                    <th>Clean URL IDs</th>
-                </tr>
 
-                <tr>
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "Clean URL" %>
+                    </td>
+
                   <!-- Clean URL -->
                   <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>">
                       <%= link_to indexer.clean_url, :target => "_blank" do %>
                           <%= indexer.clean_url %>
                       <% end %>
                   </td>
+
+
+
+                  <td class="geo w-xsm fa-blue">
+                      <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "Raw URL" %>
+                  </td>
+
+
+
                   <!-- Raw URL -->
                   <td class="<%= indexer_indicator(indexer.raw_url, indexer.clean_url) %>">
                       <%= link_to indexer.raw_url, :target => "_blank" do %>
                           <%= indexer.raw_url %>
                       <% end %>
                   </td>
-                  <td><%= indexer.clean_url_crm_ids %></td>
+
+
+                  <td class="geo w-xsm fa-blue">
+                      <%= fa_icon "id-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Clean URL IDs" %>
+                  </td>
+
+                  <td class="geo w-lg"><%= indexer.clean_url_crm_ids %></td>
                 </tr>
 
             </table>
             <table class="table table-bordered indexer-table">
                 <tr>
-                    <th>Account Name</th>
-                    <th>CRM Acct IDs</th>
-                </tr>
-                <tr>
+                    <th class="geo w-sm">Account Name</th>
                     <td><%= indexer.acct_name %></td>
-                    <td><%= indexer.crm_acct_ids %></td>
+
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "id-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Account IDs" %>
+                    </td>
+
+                    <td class="geo w-lg"><%= indexer.crm_acct_ids %></td>
                 </tr>
             </table>
 
 
             <table class="table table-bordered indexer-table">
                 <tr> <!-- REGISTRANT INFO -->
-                    <th>Full Address</th>
-                    <th>Addr Pin</th>
-                    <th>Addr Pin IDs</th>
-                </tr>
-
-                <tr>
+                    <th class="geo w-sm">Full Address</th>
                     <td><%= indexer.full_addr %></td>
-                      <td><%= indexer.acct_pin %></td>
-                      <td><%= indexer.acct_pin_crm_ids %></td>
-                </tr>
+                    <th class="geo w-sm">Addr Pin</th>
+                    <td><%= indexer.acct_pin %></td>
 
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "id-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Pin Address IDs" %>
+                    </td>
+
+                    <td class="geo w-lg"><%= indexer.acct_pin_crm_ids %></td>
+                </tr>
             </table>
 
 
             <table class="table table-bordered indexer-table">
-                <tr> <!-- REGISTRANT INFO -->
-
-                    <th>Phone</th>
-                    <th>Phones</th>
-                    <th>CRM Ph IDs</th>
-                </tr>
-
                 <tr>
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Phone" %>
+                    </td>
+
                     <td><%= indexer.phone %></td>
-                    <td><%= indexer.phones %></td>
-                    <td><%= indexer.crm_ph_ids %></td>
-                </tr>
 
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "id-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "Phone IDs" %>
+                    </td>
+
+                    <td class="geo w-lg"><%= indexer.crm_ph_ids %></td>
+                </tr>
             </table>
 
             <table class="table table-bordered indexer-table">
                 <tr> <!-- REGISTRANT INFO -->
-                    <th>100% Match</th>
-                    <th>75% Match</th>
-                    <th>50% Match</th>
-                    <th>25% Match</th>
-                </tr>
-
-                <tr>
+                    <th class="geo w-sm">100% Match</th>
                     <td><%= indexer.score100 %></td>
+                    <th class="geo w-sm">75% Match</th>
                     <td><%= indexer.score75 %></td>
+                    <th class="geo w-sm">50% Match</th>
                     <td><%= indexer.score50 %></td>
+                    <th class="geo w-sm">25% Match</th>
                     <td><%= indexer.score25 %></td>
                 </tr>
 

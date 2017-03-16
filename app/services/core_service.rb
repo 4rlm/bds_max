@@ -4,6 +4,7 @@ require 'uri'
 require 'date'
 
 class CoreService
+    
     # ===== JS Buttons (Index in Detail View)
     def merge_data_starter(ids)
         puts "\n\nmerge_data ids: #{ids.inspect}\n\n"

@@ -35,6 +35,7 @@ class IndexerService
                 when 3 then scores[:score75] << uniq_id
                 when 2 then scores[:score50] << uniq_id
                 when 1 then scores[:score25] << uniq_id
+                    puts uniq_id
                 end
             end
 
@@ -1119,11 +1120,12 @@ class IndexerService
         # Core.where(sfdc_clean_url: nil).count ## 11,478
         # Core.where(sfdc_url: nil).count ## 10,194
         # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
-        # url_arr_mover
+
+        url_arr_mover
         # pin_arr_mover
         # acct_arr_mover
         # ph_arr_mover
-        ph_arr_mover
+        # ph_arr_mover
     end
 
     # ADDS CORE ID TO INDEXER URL ARRAY
@@ -1147,9 +1149,11 @@ class IndexerService
                     puts "Web URL: #{web_url}"
 
                     url_ids << sfdc_id
+                    final_array = url_ids.uniq.sort
                     puts "IDs: #{url_ids}"
+                    puts "Final: #{final_array}"
 
-                    indexer.update_attribute(:clean_url_crm_ids, url_ids)
+                    indexer.update_attribute(:clean_url_crm_ids, final_array)
                 end
             end
         end
@@ -1176,9 +1180,11 @@ class IndexerService
                 puts "Web Pin: #{acct_pin}"
 
                 pin_ids << sfdc_id
+                final_array = pin_ids.uniq.sort
                 puts "IDs: #{pin_ids}"
+                puts "Final: #{final_array}"
 
-                indexer.update_attribute(:acct_pin_crm_ids, pin_ids)
+                indexer.update_attribute(:acct_pin_crm_ids, final_array)
             end
         end
     end
@@ -1206,10 +1212,47 @@ class IndexerService
                 crm_acct_ids << sfdc_id
                 puts "IDs: #{crm_acct_ids}"
 
-                indexer.update_attribute(:crm_acct_ids, crm_acct_ids)
+                crm_acct_ids << sfdc_id
+                final_array = crm_acct_ids.uniq.sort
+                puts "IDs: #{crm_acct_ids}"
+                puts "Final: #{final_array}"
+
+                indexer.update_attribute(:crm_acct_ids, final_array)
             end
         end
     end
+
+
+    # ADDS CORE ID TO INDEXER PH ARRAY
+    def ph_arr_mover_express
+        cores = Core.where.not(sfdc_ph: nil)
+        counter=0
+        cores.each do |core|
+            sfdc_ph = core.sfdc_ph
+            sfdc_id = core.sfdc_id
+
+            indexers = Indexer.where(archive: false).where(phone: sfdc_ph)
+            indexers.each do |indexer|
+                phone = indexer.phone
+                crm_ph_ids = indexer.crm_ph_ids
+
+                counter+=1
+                puts "\n\n#{"="*50}\n#{counter}"
+                puts "IDs: #{crm_ph_ids}"
+                puts "CRM ID: #{sfdc_id}"
+                puts "CRM Ph: #{sfdc_ph}"
+                puts "Web Ph: #{phone}"
+
+                crm_ph_ids << sfdc_id
+                final_array = crm_ph_ids.uniq.sort
+                puts "IDs: #{crm_ph_ids}"
+                puts "Final: #{final_array}"
+
+                indexer.update_attribute(:crm_ph_ids, final_array)
+            end
+        end
+    end
+
 
     # ADDS CORE ID TO INDEXER PH ARRAY
     def ph_arr_mover
@@ -1233,13 +1276,59 @@ class IndexerService
                     puts "Web Ph: #{phones}"
 
                     crm_ph_ids << sfdc_id
+                    final_array = crm_ph_ids.uniq.sort
                     puts "IDs: #{crm_ph_ids}"
+                    puts "Final: #{final_array}"
 
-                    indexer.update_attribute(:crm_ph_ids, crm_ph_ids)
+
+                    indexer.update_attribute(:crm_ph_ids, final_array)
                 end
             end
         end
     end
+
+
+
+    # ===== Move indexer info to core
+    def indexer_mover
+        indexers = Indexer.where(archive: false)
+
+        indexers.each do |indexer|
+            matches = indexer.score100[0...1]
+
+            matches.each do |sfdc_id|
+                core = Core.find_by(sfdc_id: sfdc_id)
+                core.update_attributes(
+                    staff_pf_sts: indexer.stf_status,
+                    loc_pf_sts: indexer.loc_status,
+                    staff_link: indexer.staff_url,
+                    staff_text: indexer.staff_text,
+                    location_link: indexer.location_url,
+                    location_text: indexer.location_text,
+                    staffer_sts: indexer.stf_status,
+                    template: indexer.template,
+                    who_sts: indexer.who_status,
+                    match_score: "100%",
+                    acct_match_sts: "Same",
+                    ph_match_sts: "Same",
+                    pin_match_sts: "Same",
+                    url_match_sts: "Same",
+                    alt_acct_pin: indexer.acct_pin,
+                    alt_acct: indexer.acct_name,
+                    alt_street: indexer.street,
+                    alt_city: indexer.city,
+                    alt_state: indexer.state,
+                    alt_zip: indexer.zip,
+                    alt_ph: indexer.phone,
+                    alt_url: indexer.clean_url,
+                    alt_source: "Web",
+                    alt_address: indexer.full_addr,
+                    alt_template: indexer.template
+                )
+            end
+        end
+    end
+
 
 
 
