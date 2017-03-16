@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316021848) do
+ActiveRecord::Schema.define(version: 20170316022816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,7 +172,6 @@ ActiveRecord::Schema.define(version: 20170316021848) do
     t.string   "who_status"
     t.string   "geo_status"
     t.integer  "contacts_count",    default: 0
-    t.string   "archived"
     t.string   "clean_url_crm_ids", default: [],                 array: true
     t.string   "acct_pin_crm_ids",  default: [],                 array: true
     t.boolean  "archive",           default: false
