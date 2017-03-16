@@ -142,9 +142,6 @@ class IndexersController < ApplicationController
         # @service.acct_pin_gen_starter
 
         # @service.delay.indexer_to_core
-        @service.indexer_to_core
-
-
 
         # @service.m_zip_remover
 
@@ -156,6 +153,7 @@ class IndexersController < ApplicationController
         # @service.delay.phones_arr_cleaner
         # @service.phones_arr_cleaner
 
+        @service.calculate_score
 
         redirect_to indexers_path
     end

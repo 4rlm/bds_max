@@ -20,6 +20,28 @@ require 'indexer_helper/helper' # All helper methods for indexer_service
 
 class IndexerService
 
+    def calculate_score
+        indexers = Indexer.where(archive: false)
+
+        indexers.each do |indexer|
+            scores =  {score100: [], score75: [], score50: [], score25: []}
+            ids = indexer.clean_url_crm_ids + indexer.crm_acct_ids + indexer.acct_pin_crm_ids + indexer.crm_ph_ids
+            uniqs = ids.uniq
+
+            uniqs.each do |uniq_id|
+                num = ids.select {|id| uniq_id == id}.length
+                case num
+                when 4 then scores[:score100] << uniq_id
+                when 3 then scores[:score75] << uniq_id
+                when 2 then scores[:score50] << uniq_id
+                when 1 then scores[:score25] << uniq_id
+                end
+            end
+
+            indexer.update_attributes(scores)
+        end
+    end
+
     def phones_arr_cleaner
         rts_manager = RtsManager.new
         indexers = Indexer.all
@@ -1191,7 +1213,7 @@ class IndexerService
 
     # ADDS CORE ID TO INDEXER PH ARRAY
     def ph_arr_mover
-        cores = Core.where.not(sfdc_ph: nil)[0...200]
+        cores = Core.where.not(sfdc_ph: nil)
         counter=0
         cores.each do |core|
             sfdc_ph = core.sfdc_ph
@@ -1213,7 +1235,7 @@ class IndexerService
                     crm_ph_ids << sfdc_id
                     puts "IDs: #{crm_ph_ids}"
 
-                    # indexer.update_attribute(:crm_ph_ids, crm_ph_ids)
+                    indexer.update_attribute(:crm_ph_ids, crm_ph_ids)
                 end
             end
         end
