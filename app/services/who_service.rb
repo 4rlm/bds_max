@@ -14,7 +14,7 @@ class WhoService
         z=-1
         range = z-a
 
-        indexers = Indexer.where.not(clean_url: nil).where(who_status: nil).where.not(indexer_status: "Archived")[a..z]
+        indexers = Indexer.where.not(clean_url: nil).where(who_status: "WH Error").where.not(indexer_status: "Archived")[a..z]
 
 
         counter=0
@@ -36,7 +36,7 @@ class WhoService
                 #Start Whois Section
                 r = Whois.whois(host)
                 if r.available?
-                    url_validation = "WH Invalid URL"
+                    url_validation = "WH Invalid URL2"
                     indexer.update_attributes(indexer_status: url_validation, who_status: url_validation)
                 else
                     url_validation = "WH Result"
@@ -154,7 +154,7 @@ class WhoService
                 delay_time = rand(5)
                 sleep(delay_time)
             rescue
-                indexer.update_attributes(indexer_status: "WH Error", who_status: "WH Error")
+                indexer.update_attributes(indexer_status: "WH Error2", who_status: "WH Error2")
             end # end begin
         end # end indexers iteration
     end # end who_starter

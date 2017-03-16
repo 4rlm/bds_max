@@ -37,24 +37,24 @@
             <div class="filter-col col-md-12">
                 <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                     <tr>
+                        <th class="th-2">Phone</th>
+                        <th class="th-2">Addr Pin</th>
                         <th class="th-2">Account Name</th>
                         <th class="th-2">Full Address</th>
                         <th class="th-2">Street</th>
                         <th class="th-2">City</th>
                         <th class="th-2">State</th>
                         <th class="th-2">Zip</th>
-                        <th class="th-2">Phone</th>
-                        <th class="th-2">Acct Pin</th>
                     </tr>
                     <tr>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :phone } %></td>
+                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_pin } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :full_addr } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :street } %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :city } %></td>
                         <td><%= select_tag :state, options_for_select(@state_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                         <td><%= render partial: 'layouts/text_field_tag', locals: { col: :zip } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :phone } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_pin } %></td>
                     </tr>
                 </table>
             </div>

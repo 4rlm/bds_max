@@ -36,7 +36,7 @@ class StaffersController < ApplicationController
             format.csv { render text: @selected_data.to_csv }
         end
 
-        @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 100)
+        @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 10)
 
         batch_status
     end

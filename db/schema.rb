@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315024353) do
+ActiveRecord::Schema.define(version: 20170316040710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,12 @@ ActiveRecord::Schema.define(version: 20170315024353) do
     t.string   "crm_acct_pin"
     t.string   "crm_phones",        default: [],              array: true
     t.string   "who_sts"
-    t.string   "acct_merge_sts"
     t.string   "match_score"
     t.string   "acct_match_sts"
     t.string   "ph_match_sts"
     t.string   "pin_match_sts"
     t.string   "url_match_sts"
+    t.string   "acct_merge_sts"
     t.string   "alt_acct_pin"
     t.string   "alt_acct"
     t.string   "alt_street"
@@ -150,9 +150,9 @@ ActiveRecord::Schema.define(version: 20170315024353) do
     t.string   "location_url"
     t.string   "location_text"
     t.string   "template"
-    t.string   "crm_id_arr",      default: [],              array: true
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "crm_id_arr",        default: [],                 array: true
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "loc_status"
     t.string   "stf_status"
     t.string   "contact_status"
@@ -166,13 +166,21 @@ ActiveRecord::Schema.define(version: 20170315024353) do
     t.string   "state"
     t.string   "zip"
     t.string   "phone"
-    t.string   "phones",          default: [],              array: true
+    t.string   "phones",            default: [],                 array: true
     t.string   "acct_pin"
     t.string   "raw_street"
     t.string   "who_status"
     t.string   "geo_status"
-    t.integer  "contacts_count",  default: 0
-    t.string   "archived"
+    t.integer  "contacts_count",    default: 0
+    t.string   "clean_url_crm_ids", default: [],                 array: true
+    t.string   "acct_pin_crm_ids",  default: [],                 array: true
+    t.boolean  "archive",           default: false
+    t.string   "crm_acct_ids",      default: [],                 array: true
+    t.string   "crm_ph_ids",        default: [],                 array: true
+    t.string   "score100",          default: [],                 array: true
+    t.string   "score75",           default: [],                 array: true
+    t.string   "score50",           default: [],                 array: true
+    t.string   "score25",           default: [],                 array: true
   end
 
   create_table "locations", force: :cascade do |t|

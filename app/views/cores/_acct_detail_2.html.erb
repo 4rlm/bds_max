@@ -44,6 +44,10 @@
         <!-- SFDC Acct Name -->
         <td><%= core.sfdc_acct %></td>
 
+        <!-- CRM Addr Pin -->
+        <td><%= core.crm_acct_pin %></td>
+
+
         <!-- SFDC core.full_address -->
         <% if core.full_address %>
             <td><%= link_to core.full_address, core, target: "_blank" %></td>
@@ -123,6 +127,11 @@
 
         <!-- SFDC Acct Name -->
         <td><%= core.sfdc_acct %></td>
+
+
+        <!-- Alt Addr Pin -->
+        <td><%= core.alt_acct_pin %></td>
+
 
         <!-- SFDC core.full_address -->
         <% if core.full_address %>
