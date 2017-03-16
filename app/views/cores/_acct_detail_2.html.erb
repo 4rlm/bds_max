@@ -126,7 +126,7 @@
         <% end %>
 
         <!-- SFDC Acct Name -->
-        <td><%= core.sfdc_acct %></td>
+        <td><%= link_to core.sfdc_acct, indexer_show_detail_path(core: core), target: '_blank' %></td>
 
 
         <!-- Alt Addr Pin -->

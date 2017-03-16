@@ -109,6 +109,11 @@ class IndexersController < ApplicationController
         end
     end
 
+    def show_detail
+        @core = Core.find(params[:core])
+        @indexers = Indexer.where(clean_url: @core.sfdc_clean_url)
+    end
+
 
 
 
