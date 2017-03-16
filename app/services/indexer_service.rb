@@ -1100,18 +1100,17 @@ class IndexerService
         # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
 
         ### PART 1: ADDS CORE ID TO INDEXER URL ARRAY
-        cores = Core.where.not(sfdc_clean_url: nil)[1000..1400]
+        cores = Core.where.not(sfdc_clean_url: nil)
         counter=0
         cores.each do |core|
             sfdc_clean_url = core.sfdc_clean_url
             sfdc_id = core.sfdc_id
 
-            unless sfdc_clean_url == "http://" || sfdc_clean_url == "https://"
-                indexers = Indexer.where.not(archived: "Archived").where(clean_url: sfdc_clean_url)
+            if sfdc_clean_url != "http://" && sfdc_clean_url != "https://"
+                indexers = Indexer.where.not(archive: true).where(clean_url: sfdc_clean_url)
                 indexers.each do |indexer|
                     web_url = indexer.clean_url
                     url_ids = indexer.clean_url_crm_ids
-
                     counter+=1
                     puts "\n\n#{"="*50}\n#{counter}"
                     puts "IDs: #{url_ids}"
@@ -1122,7 +1121,7 @@ class IndexerService
                     url_ids << sfdc_id
                     puts "IDs: #{url_ids}"
 
-                    # indexer.update_attribute(:clean_url_crm_ids, url_ids)
+                    indexer.update_attribute(:clean_url_crm_ids, url_ids)
                 end
             end
         end

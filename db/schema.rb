@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315155447) do
+ActiveRecord::Schema.define(version: 20170316021848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,9 +150,9 @@ ActiveRecord::Schema.define(version: 20170315155447) do
     t.string   "location_url"
     t.string   "location_text"
     t.string   "template"
-    t.string   "crm_id_arr",        default: [],              array: true
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "crm_id_arr",        default: [],                 array: true
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "loc_status"
     t.string   "stf_status"
     t.string   "contact_status"
@@ -166,15 +166,16 @@ ActiveRecord::Schema.define(version: 20170315155447) do
     t.string   "state"
     t.string   "zip"
     t.string   "phone"
-    t.string   "phones",            default: [],              array: true
+    t.string   "phones",            default: [],                 array: true
     t.string   "acct_pin"
     t.string   "raw_street"
     t.string   "who_status"
     t.string   "geo_status"
     t.integer  "contacts_count",    default: 0
     t.string   "archived"
-    t.string   "clean_url_crm_ids", default: [],              array: true
-    t.string   "acct_pin_crm_ids",  default: [],              array: true
+    t.string   "clean_url_crm_ids", default: [],                 array: true
+    t.string   "acct_pin_crm_ids",  default: [],                 array: true
+    t.boolean  "archive",           default: false
   end
 
   create_table "locations", force: :cascade do |t|
