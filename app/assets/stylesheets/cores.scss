@@ -2,6 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$main-gray: #d2d1d1;
+$main-blue: #4285F4;
+
 //
 //
 // // CORE ACCOUNT-PROFILE STARTS
@@ -131,7 +134,7 @@
 // // NEW CORE ACCOUNT FILTER ENDS
 
 #core-detail {
-    border: solid 3px #4285f4;
+    border: solid 1px $main-gray;
     border-radius: 6px;
 
     table {
