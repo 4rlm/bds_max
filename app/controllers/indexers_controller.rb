@@ -141,7 +141,8 @@ class IndexersController < ApplicationController
 
         # @service.acct_pin_gen_starter
 
-        @service.delay.indexer_to_core
+        # @service.delay.indexer_to_core
+        @service.indexer_to_core
 
 
 
@@ -152,7 +153,9 @@ class IndexersController < ApplicationController
 
         # @service.redirect_url_migrator
 
-        @service.phones_arr_cleaner
+        # @service.delay.phones_arr_cleaner
+        # @service.phones_arr_cleaner
+
 
         redirect_to indexers_path
     end

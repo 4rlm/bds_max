@@ -106,6 +106,7 @@ class RtsManager # Update database with the result of RoofTop Scraper
     def clean_phones_arr(phones)
         return phones if phones.empty?
         new_phones = phones.map {|phone| phone_formatter(phone)}
+        new_phones.delete_if {|x| x.blank?}
         new_phones.uniq.sort
     end
 end

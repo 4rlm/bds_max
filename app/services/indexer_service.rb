@@ -1197,35 +1197,27 @@ class IndexerService
             sfdc_ph = core.sfdc_ph
             sfdc_id = core.sfdc_id
 
-            indexers = Indexer.where(archive: false).where(phone: sfdc_ph)
+            indexers = Indexer.where(archive: false).where.not(phones: [])
             indexers.each do |indexer|
-                phone = indexer.phone
-                crm_ph_ids = indexer.crm_ph_ids
+                phones = indexer.phones
+                if phones.include?(sfdc_ph)
+                    crm_ph_ids = indexer.crm_ph_ids
 
-                counter+=1
-                puts "\n\n#{"="*50}\n#{counter}"
-                puts "IDs: #{crm_ph_ids}"
-                puts "CRM ID: #{sfdc_id}"
-                puts "CRM Ph: #{sfdc_ph}"
-                puts "Web Ph: #{phone}"
+                    counter+=1
+                    puts "\n\n#{"="*50}\n#{counter}"
+                    puts "IDs: #{crm_ph_ids}"
+                    puts "CRM ID: #{sfdc_id}"
+                    puts "CRM Ph: #{sfdc_ph}"
+                    puts "Web Ph: #{phones}"
 
-                crm_ph_ids << sfdc_id
-                puts "IDs: #{crm_ph_ids}"
+                    crm_ph_ids << sfdc_id
+                    puts "IDs: #{crm_ph_ids}"
 
-                # indexer.update_attribute(:crm_ph_ids, crm_ph_ids)
+                    # indexer.update_attribute(:crm_ph_ids, crm_ph_ids)
+                end
             end
         end
-
-
-
-
-
-
-
-
-
     end
-
 
 
 
