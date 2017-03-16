@@ -1,14 +1,31 @@
-<h3>Pending</h3>
-<%= render partial: 'table', locals: { users: @pending_users } %>
+<div class="row bordered">
+    <div class="col-md-12">
+        <h3>Pending</h3>
+        <%= render partial: 'table', locals: { users: @pending_users } %>
 
-<h3>Basic</h3>
-<%= render partial: 'table', locals: { users: @basic_users } %>
+        <h3>Basic</h3>
+        <%= render partial: 'table', locals: { users: @basic_users } %>
 
-<h3>Intermediate</h3>
-<%= render partial: 'table', locals: { users: @intermediate_users } %>
+        <h3>Intermediate</h3>
+        <%= render partial: 'table', locals: { users: @intermediate_users } %>
 
-<h3>Advanced</h3>
-<%= render partial: 'table', locals: { users: @advanced_users } %>
+        <h3>Advanced</h3>
+        <%= render partial: 'table', locals: { users: @advanced_users } %>
 
-<h3>Admin</h3>
-<%= render partial: 'table', locals: { users: @admin_users } %>
+        <h3>Admin</h3>
+        <%= render partial: 'table', locals: { users: @admin_users } %>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <span class="btn btn-info" data-level="pending" onClick="changeUserLevel(this);">Update to Pending</span>
+            <span class="btn btn-primary" data-level="basic" onClick="changeUserLevel(this);">Update to Basic</span>
+            <span class="btn btn-success" data-level="intermediate" onClick="changeUserLevel(this);">Update to Intermediate</span>
+            <span class="btn btn-warning" data-level="advanced" onClick="changeUserLevel(this);">Update to Advanced</span>
+            <span class="btn btn-danger" data-level="admin" onClick="changeUserLevel(this);">Update to Admin</span>
+        </div>
+    </div>
+</div>
+

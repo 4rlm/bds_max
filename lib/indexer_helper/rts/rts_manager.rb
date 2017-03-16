@@ -46,15 +46,13 @@ class RtsManager # Update database with the result of RoofTop Scraper
 
     def results_processor(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
         phone = phone_formatter(phone) if phone
+        phones = clean_phones_arr(rts_phones)
 
-        # Clean the Data before updating database
-        clean = record_cleaner(org, street, city, state, zip)
-        org, street, city, state, zip = clean[:org], clean[:street], clean[:city], clean[:state], clean[:zip]
+        if org || street || city || state || zip || phone || full_addr
 
-        if org || street || city || state || zip || phone || full_addr || rts_phones
-            printer(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
+            printer(org, street, city, state, zip, phone, phones, full_addr, url, indexer)
 
-            indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone, phones: rts_phones)
+            indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone, phones: phones)
         else
             puts "url: #{url} \n\nRT No-Result - Check Template Version!\n\n#{'='*30}\n\n"
             indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
@@ -75,14 +73,6 @@ class RtsManager # Update database with the result of RoofTop Scraper
             final_phone = nil
         end
         final_phone
-    end
-
-    def record_cleaner(org, street, city, state, zip)
-        # puts "#{"="*15} DIRTY DATA #{"="*15}\norg: #{org.inspect}\nstreet: #{street.inspect}\ncity: #{city.inspect}\nstate: #{state.inspect}\nzip: #{zip.inspect}\n#{"-"*40}"
-
-        # Cleaning code goes here.
-
-        {org: org, street: street, city: city, state: state, zip: zip}
     end
 
     def printer(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
@@ -110,6 +100,12 @@ class RtsManager # Update database with the result of RoofTop Scraper
         data_2 = raw_data_2.scan(reg)
 
         phones = data_1.uniq + data_2.uniq
-        phones.uniq
+        phones.uniq.sort
+    end
+
+    def clean_phones_arr(phones)
+        return phones if phones.empty?
+        new_phones = phones.map {|phone| phone_formatter(phone)}
+        new_phones.uniq.sort
     end
 end

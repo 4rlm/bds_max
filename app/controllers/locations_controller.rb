@@ -81,7 +81,7 @@ class LocationsController < ApplicationController
 
     def import_csv_data
         file_name = params[:file]
-        Location.import_csv(file_name)
+        Location.import_csv(file_name, Location, "location_status")
 
         flash[:notice] = "CSV imported successfully."
         redirect_to locations_path
@@ -384,7 +384,6 @@ class LocationsController < ApplicationController
     # Get dropdown option list from Dashboard
     def set_option_list
         @location_status_opts = grap_item_list("location_status")
-        @sts_duplicate_opts = grap_item_list("sts_duplicate")
         @sts_geo_crm_opts = grap_item_list("sts_geo_crm")
         @sts_url_opts = grap_item_list("sts_url")
         @sts_acct_opts = grap_item_list("sts_acct")

@@ -54,7 +54,7 @@ class CoresController < ApplicationController
 
     def import_core_data
         file_name = params[:file]
-        Core.import_csv(file_name)
+        Core.import_csv(file_name, Core, "bds_status")
 
         flash[:notice] = "CSV imported successfully."
         redirect_to cores_path

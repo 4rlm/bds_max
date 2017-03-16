@@ -39,7 +39,7 @@ class InHostPosController < ApplicationController
 
     def import_csv_data
         file_name = params[:file]
-        InHostPo.import_csv(file_name)
+        InHostPo.import_csv(file_name, InHostPo)
 
         flash[:notice] = "CSV imported successfully."
         redirect_to in_host_pos_path

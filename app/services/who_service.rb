@@ -1,15 +1,14 @@
+require 'rubygems'
+require 'whois'
+require 'csv'
+require 'mechanize'
+require 'open-uri'
+require 'nokogiri'
+require 'uri'
+require 'socket'
+require 'indexer_helper/rts/rts_manager'
+
 class WhoService
-    require 'rubygems'
-    require 'whois'
-    require 'csv'
-    require 'mechanize'
-    require 'open-uri'
-    require 'nokogiri'
-    require 'uri'
-    require 'socket'
-    require 'indexer_helper/rts/rts_manager'
-
-
     def who_starter
         a=0
         z=-1
@@ -46,6 +45,7 @@ class WhoService
 
                     ## Registrant Contact Variables
                     if r.registrant_contacts.present?
+                        @rts_manager = RtsManager.new
                         registrant_contact_info = "Registrant Contact Info:>"
                         registrant_id = r.registrant_contacts[0].id
                         registrant_type =r.registrant_contacts[0].type
@@ -58,10 +58,10 @@ class WhoService
 
                         registrant_phone1 = r.registrant_contacts[0].phone
                         puts registrant_phone1
-                        registrant_phone = phone_formatter(registrant_phone1)
+                        registrant_phone = @rts_manager.phone_formatter(registrant_phone1)
                         registrant_fax1 = r.registrant_contacts[0].fax
                         puts registrant_fax1
-                        registrant_fax = phone_formatter(registrant_fax1)
+                        registrant_fax = @rts_manager.phone_formatter(registrant_fax1)
 
                         registrant_email = r.registrant_contacts[0].email
                         registrant_url = r.registrant_contacts[0].url
@@ -170,23 +170,4 @@ class WhoService
             acct_pin = "z#{new_zip}-s#{street_num}"
         end
     end
-
-
-    # FORMATS PHONE AS: (000) 000-0000
-    def phone_formatter(phone)
-        regex = Regexp.new("[A-Z]+[a-z]+")
-        if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
-            phone_stripped = phone.gsub(/[^0-9]/, "")
-            (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
-
-            final_phone = !(phone_step2 && phone_step2.length < 10) ? "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : phone
-        else
-            final_phone = nil
-        end
-        final_phone
-    end
-
-
-
-
 end # WhoService class Ends ---

@@ -35,7 +35,7 @@ class CsHelper # Contact Scraper Helper Method
 
             # Clean rest
             staff_hash[:job] = staff_hash[:job].strip if staff_hash[:job]
-            staff_hash[:phone] = staff_hash[:phone].strip if staff_hash[:phone]
+            staff_hash[:phone] = @rts_manager.phone_formatter(staff_hash[:phone].strip) if staff_hash[:phone]
 
             # Cleaning code goes here.
             ## 1) phone number has "EXT" kind of string.
@@ -106,10 +106,12 @@ class CsHelper # Contact Scraper Helper Method
         indexer_phones.concat(phones)
         puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
 
+        new_phones = @rts_manager.clean_phones_arr(indexer_phones)
+
         if count > 0
-            indexer.update_attributes(phones: phones, contact_status: "CS Result", indexer_status: "CS Result")
+            indexer.update_attributes(phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result")
         else
-            indexer.update_attributes(phones: phones, contact_status: "CS None", indexer_status: "CS None")
+            indexer.update_attributes(contact_status: "CS None", indexer_status: "CS None")
         end
     end
 
