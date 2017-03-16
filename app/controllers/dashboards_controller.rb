@@ -113,7 +113,7 @@ class DashboardsController < ApplicationController
 
     def cores_dash_btn
         @service.delay.dash(Core)
-        @service.delay.list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts])
+        @service.delay.list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts, :acct_match_sts, :alt_state, :match_score, :ph_match_sts, :pin_match_sts, :redirect_sts, :url_match_sts, :who_sts, :alt_template])
         redirect_to dashboards_path
     end
 
@@ -125,7 +125,7 @@ class DashboardsController < ApplicationController
 
     def indexer_dash_btn
         @service.delay.dash(Indexer)
-        @service.delay.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state, :template, :state])
+        @service.delay.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :template, :state])
         redirect_to dashboards_path
     end
 

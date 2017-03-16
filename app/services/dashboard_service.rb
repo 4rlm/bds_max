@@ -2,13 +2,13 @@ class DashboardService
 
     def mega_dash
         dash(Core)
-        list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts])
+        list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts, :acct_match_sts, :alt_state, :match_score, :ph_match_sts, :pin_match_sts, :redirect_sts, :url_match_sts, :who_sts, :alt_template])
         puts "\n\n#{'-'*50}\n\n"
         dash(InHostPo)
         list_getter(InHostPo, [:consolidated_term, :category])
         puts "\n\n#{'-'*50}\n\n"
         dash(Indexer)
-        list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :sfdc_state, :template, :state])
+        list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :template, :state])
         puts "\n\n#{'-'*50}\n\n"
         dash(Location)
         list_getter(Location, [:location_status, :sts_duplicate, :sts_geo_crm, :sts_url, :sts_acct, :sts_addr, :sts_ph, :crm_source, :tier, :sales_person, :acct_type, :url_sts, :acct_sts, :addr_sts, :ph_sts])
