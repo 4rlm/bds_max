@@ -24,6 +24,22 @@
 // }
 
 
+.str-cont {
+    border: 1px solid gray;
+    border-radius: 5px;
+    // padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.inner-col {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+
 $main-gray: #d2d1d1;
 $main-blue: #4285F4;
 $main-text: #333;

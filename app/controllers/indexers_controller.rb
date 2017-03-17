@@ -3,7 +3,7 @@ class IndexersController < ApplicationController
     before_action :advanced_and_up, only: [:edit, :update]
     before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
     before_action :set_indexer, only: [:show, :edit, :update, :destroy]
-    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
+    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn]
     before_action :set_option_list, only: [:index, :search]
 
 
@@ -134,9 +134,6 @@ class IndexersController < ApplicationController
         # @service.core_phone_norm
         # @service.core_url_redirect
 
-        # @service.url_redirect_checker
-        # @service.delay.url_redirect_checker
-
         # @service.indexer_duplicate_purger
         # @service.db_data_trimmer
 
@@ -167,6 +164,12 @@ class IndexersController < ApplicationController
         redirect_to indexers_path
     end
 
+    def url_redirect_checker_btn
+        #  @service.url_redirect_checker
+        @service.delay.url_redirect_checker
+    end
+
+
 
     def reset_errors_btn
         # @service.reset_errors
@@ -186,8 +189,6 @@ class IndexersController < ApplicationController
     def template_finder_btn
         #   @service.template_finder
         #   @service.delay.template_finder
-
-
         redirect_to indexers_path
     end
 
