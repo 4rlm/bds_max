@@ -642,15 +642,19 @@ th.indicator {
     text-align: center;
     border: solid 1px #137fa0;
     font-weight: normal;
-    white-space:nowrap;
     line-height: normal;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
 .geo-result-table th {
     // background-image:linear-gradient(#32bde7, #1bb5e4);
-    background: $main-gray;
-    color: $main-text;
+    // background: $main-gray;
+    // color: $main-text;
+
 }
 
 
