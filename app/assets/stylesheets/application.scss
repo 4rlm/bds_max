@@ -27,12 +27,19 @@
     width: 60%;
     margin: 0;
     padding: 0;
+    margin-bottom: -3px;
 }
 
 .modal-background {
     background: white;
     border-radius: 5px;
-    width: 120%;
+    width: 900px;
+}
+
+.modal-dialog{
+    background: white;
+    border-radius: 5px;
+    width: 900px;
 }
 
 // .modal-body {
