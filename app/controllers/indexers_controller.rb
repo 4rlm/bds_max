@@ -159,7 +159,10 @@ class IndexersController < ApplicationController
 
         # @service.delay.calculate_score
 
-        @service.indexer_mover
+        # @service.indexer_mover
+
+        @service.delay.count_staff
+        # @service.count_staff
 
         redirect_to indexers_path
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318140036) do
+ActiveRecord::Schema.define(version: 20170318212813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 20170318140036) do
     t.string   "cop_type"
     t.string   "cop_franchises",    default: [],                 array: true
     t.string   "flagged_note"
+    t.integer  "staff_count",       default: 0
   end
 
   create_table "locations", force: :cascade do |t|

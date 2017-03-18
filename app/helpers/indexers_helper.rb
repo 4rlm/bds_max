@@ -38,7 +38,7 @@ module IndexersHelper
         end
 
         count = <<-HTML
-            <span class="badge" data-toggle="tooltip" data-placement="top" title="staff #">#{Staffer.where(domain: clean_url).count}</span>
+            <span class="badge" data-toggle="tooltip" data-placement="top" title="staff #">#{indexer.staff_count}</span>
         HTML
         (link + " " + count).html_safe
     end

@@ -20,6 +20,15 @@ require 'indexer_helper/helper' # All helper methods for indexer_service
 
 class IndexerService
 
+    def count_staff
+        indexers = Indexer.where(archive: false)
+
+        indexers.each do |indexer|
+            num = Staffer.where(domain: indexer.clean_url).where(cont_source: "Web").count
+            indexer.update_attribute(:staff_count, num)
+        end
+    end
+
     def calculate_score
         indexers = Indexer.where(archive: false)
 

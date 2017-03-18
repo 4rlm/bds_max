@@ -109,7 +109,7 @@ class CsHelper # Contact Scraper Helper Method
         new_phones = @rts_manager.clean_phones_arr(indexer_phones)
 
         if count > 0
-            indexer.update_attributes(phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result")
+            indexer.update_attributes(phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result", staff_count: count)
         else
             indexer.update_attributes(contact_status: "CS None", indexer_status: "CS None")
         end
