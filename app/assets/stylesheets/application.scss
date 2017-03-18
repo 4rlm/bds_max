@@ -18,10 +18,79 @@
  *= require font-awesome
  */
 
-// .geo-map-container {
-//     position: fixed;
-//     margin-bottom: 900px;
+
+
+// NEW SEARCH AND FILTER CSS
+.new-search-container{
+    border: solid 3px #d9d9d9;
+    border-radius: 6px;
+    box-shadow: 5px 5px 5px gray;
+    font-size: 90%;
+    color: #333;
+}
+
+.col-md-2.new-search-left-col {
+    padding-right: 0px;
+}
+
+.col-md-10.new-search-right-col {
+    padding-left: 0;
+}
+
+table.new-search-table {
+    padding: 0;
+    margin: 0;
+    line-height: normal;
+    text-align: center;
+}
+
+.new-search-table th{
+    background-image:linear-gradient(#f2f2f2, #ddd);
+}
+
+.new-search-table th, .new-search-table td{
+    text-align: center;
+    max-width: 107px;
+}
+
+
+// new-wide search button
+.new-wide-button {
+    width: 100%;
+    padding: 7px;
+    margin: 5px 0 10px 0;
+    box-shadow: 5px 5px 5px gray;
+    font-size: 100%;
+    font-weight: bold;
+    color: #333;
+    border-radius: 5px;
+    border: solid 2px #d9d9d9;
+    background-image:linear-gradient(#f2f2f2, #ddd);
+}
+
+.new-wide-button:hover {
+    background-image:linear-gradient(#ddd, #f2f2f2);
+}
+
+
+.button-style {
+    color: #333;
+    border-radius: 5px;
+    background-image:linear-gradient(#f2f2f2, #ddd);
+    // box-shadow: 5px 5px 5px gray;
+}
+
+// .button-style:hover {
+//     background-image:linear-gradient(#ddd, #f2f2f2);
 // }
+
+
+
+
+
+
+
+// ################
 
 .pageHeading {
     width: 60%;
