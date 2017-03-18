@@ -22,10 +22,12 @@ class IndexerService
 
     def count_staff
         indexers = Indexer.where(archive: false)
-
+        num = 0
         indexers.each do |indexer|
-            num = Staffer.where(domain: indexer.clean_url).where(cont_source: "Web").count
-            indexer.update_attribute(:staff_count, num)
+            num += 1
+            count = Staffer.where(domain: indexer.clean_url).where(cont_source: "Web").count
+            puts ">>>>> #{num}"
+            indexer.update_attribute(:staff_count, count)
         end
     end
 

@@ -29,13 +29,9 @@ module IndexersHelper
         core = Core.find_by(sfdc_clean_url: clean_url)
         link_name = indexer.contact_status ? indexer.contact_status : "No contact_status"
 
-        if core
-            link = <<-HTML
-                #{link_to link_name, staffer_acct_contacts_path(core: core), :target => "_blank"}
-            HTML
-        else
-            link = ""
-        end
+        link = <<-HTML
+            #{link_to link_name, staffer_acct_contacts_path(core: core, indexer: indexer), :target => "_blank"}
+        HTML
 
         count = <<-HTML
             <span class="badge" data-toggle="tooltip" data-placement="top" title="staff #">#{indexer.staff_count}</span>
