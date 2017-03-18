@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="pull-left">
+        <div class="pull-right">
             <% if admin_only %>
-                <%= link_to 'Add Record', new_indexer_path, class: 'btn btn-primary' %>
-                <%= link_to 'Import CSV', indexer_import_page_path, class: 'btn btn-primary' %>
+            <%= link_to 'Add Record', new_indexer_path, class: 'btn btn-primary btn-xs' %>
+            <%= link_to 'Import CSV', indexer_import_page_path, class: 'btn btn-primary btn-xs' %>
             <% end %>
             <% if advanced_and_up %>
-                <%= link_to 'Download CSV', indexers_path(format: "csv"), class: 'btn btn-primary' %>
+            <%= link_to 'Download CSV', indexers_path(format: "csv"), class: 'btn btn-primary btn-xs' %>
             <% end %>
         </div>
     </div>

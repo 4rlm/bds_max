@@ -1,14 +1,11 @@
-<h1 class="page-header">Domainer</h1>
-<h4 class="text-center">Detailed Data associated with each dealer URL </h4>
-
-<h4>Total Indexer Accounts: <%= number_with_delimiter(@indexer_count) %></h4>
-<h4>Selected Indexer Accounts: <%= number_with_delimiter(@selected_indexers_count) %></h4>
+<!-- MODAL PARTIAL -->
+<%= render partial: 'modal' %>
 
 <%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>
-    <div class="theme-layout search-container">
-        <div class="row filter-row">
-            <div class="filter-col col-md-12">
-                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+<div class="theme-layout search-container">
+    <div class="row filter-row">
+        <div class="filter-col col-md-12">
+            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
                     <tr>
                         <th class="th-2">Indexer Status</th>
                         <th class="th-2">Redirect Status</th>
@@ -81,5 +78,7 @@
             </div>
         </div>
     </div> <!-- search-container Ends -->
-    <%= submit_tag "Search", class: 'wide-button blue-button' %>
+    <%= submit_tag "Search Scraper Results", class: 'wide-button blue-button' %>
 <% end %>
+
+<h4>Total Scraped URLs: <%= number_with_delimiter(@indexer_count) %></h4>

@@ -1,56 +1,23 @@
-<h1 class="page-header">Scraper</h1>
 
-<div class="jumbotron">
-  <div class="container">
-      <h3 class="text-center">Detailed Data Associated with Dealer URLs</h3>
-    <h4 class="text-center">Back-End Processes.  No human interaction. Here for reference only!
-        <div class="row">
-            <div class="col-md-3">
-                <ul class="text-left text-nowrap">Phase 1:
-                    <li>1. URL Formatter</li>
-                    <li>2. URL Verifier</li>
-                    <li>3. URL Registration Data</li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <ul class="text-left text-nowrap">Phase 2:
-                    <li>4. Index Dealer Template</li>
-                    <li>5. Index Staff Page</li>
-                    <li>6. Index Locations Page</li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <ul class="text-left text-nowrap">Phase 3:
-                    <li>7. Scrape Raw Data</li>
-                    <li>8. Filter & Clean Data</li>
-                    <li>9. SFDC Data Comparisons</li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <ul class="text-left text-nowrap">Phase 3:
-                    <li>7. Compare data ro SFDC DB</li>
-                    <li>8. Scored - Routed - Approved in Accounts</li>
-                    <li>9. Migrated to SFDC</li>
-                </ul>
-            </div>
-
-
-
-        </div>
-
-  </div>
-</div>
-
-<br>
-
+<!-- MODAL PARTIAL -->
+<%= render partial: 'modal' %>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
-<h4>Total Indexer Accounts: <%= number_with_delimiter(@indexer_count) %></h4>
-<h4>Selected Indexer Accounts: <%= number_with_delimiter(@selected_indexers_count) %></h4>
 
-<%= render partial: 'buttons' %>
-<br>
+<!-- <div class="row button-div pull-right no-wrap"> -->
+<div class="row">
+    <div class="col-md-offset-3 col-md-3 text-right">
+    </div>
+
+    <div class="col-md-2 text-right">
+        <h4 class="inlined">Selected: <%= number_with_delimiter(@selected_indexers_count) %> | <%= number_with_delimiter(@indexer_count) %></h4>
+    </div>
+
+    <div class="col-md-4">
+        <%= render partial: 'buttons' %>
+    </div>
+</div>
 
 <% num = 0 %>
 <% @indexers.each do |indexer| %>
@@ -61,12 +28,11 @@
 <% num +=1 %>
 
 <!-- <div id="core-detail" class="text-nowrap geo-result-table"> -->
-<div id="core-detail" class="geo-result-table ">
+<div id="core-detail" class="geo-result-table">
 <!-- <div id="core-detail"> -->
 
 
-
-    <div class="row profile-row">
+    <div class="row">
         <div class="profile-col col-md-12">
 
             <table class="table table-bordered indexer-table no-wrap">
@@ -197,22 +163,24 @@
                 <table class="table table-bordered indexer-table">
                     <tr>
                         <td class="geo w-xsm fa-blue">
-                            <%= fa_icon "info-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Same Clean URL SFDC IDs" %>
+                            <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Clean URL">URL IDs:</span>
                         </td>
+
                         <td class="geo w-lg "><%= indexer.clean_url_crm_ids %></td>
                      </tr>
 
                      <tr>
                          <td class="geo w-xsm fa-blue">
-                             <%= fa_icon "info-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Same Account Name SFDC IDs" %>
+                             <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Account Name">Name IDs:</span>
                          </td>
+
                          <td class="geo w-lg"><%= indexer.crm_acct_ids %></td>
                      </tr>
 
                  <tr>
 
                      <td class="geo w-xsm fa-blue">
-                         <%= fa_icon "info-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Same Address SFDC IDs" %>
+                          <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Address Pin">Pin IDs:</span>
                      </td>
 
                      <td class="geo w-lg"><%= indexer.acct_pin_crm_ids %></td>
@@ -220,7 +188,7 @@
 
                  <tr>
                      <td class="geo w-xsm fa-blue">
-                         <%= fa_icon "info-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Same Phone SFDC IDs" %>
+                       <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Phone">Phone IDs:</span>
                      </td>
                      <td class="geo w-lg"><%= indexer.crm_ph_ids %></td>
                  </tr>
