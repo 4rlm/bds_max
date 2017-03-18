@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318134720) do
+ActiveRecord::Schema.define(version: 20170318140036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20170318134720) do
     t.string   "alt_address"
     t.string   "alt_template"
     t.string   "redirect_sts"
+    t.string   "flagged_note"
+    t.string   "bug_note"
   end
 
   create_table "dashboards", force: :cascade do |t|
@@ -184,10 +186,11 @@ ActiveRecord::Schema.define(version: 20170318134720) do
     t.string   "rejected_ids",      default: [],                 array: true
     t.string   "flagged_ids",       default: [],                 array: true
     t.string   "dropped_ids",       default: [],                 array: true
-    t.string   "reported"
-    t.string   "report_note"
+    t.string   "bug"
+    t.string   "bug_note"
     t.string   "cop_type"
     t.string   "cop_franchises",    default: [],                 array: true
+    t.string   "flagged_note"
   end
 
   create_table "locations", force: :cascade do |t|

@@ -222,12 +222,12 @@ class IndexersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def indexer_params
-        params.require(:indexer).permit(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin, :geo_status)
+        params.require(:indexer).permit( raw_url, :redirect_status, :clean_url, :indexer_status, :staff_url, :staff_text, :location_url, :location_text, :template, :crm_id_arr, :loc_status, :stf_status, :contact_status, :contacts_link, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :phones, :acct_pin, :raw_street, :who_status, :geo_status, :contacts_count, :clean_url_crm_ids, :acct_pin_crm_id, :archive, :crm_acct_ids, :crm_ph_ids, :score100, :score75, :score50, :score25, :rejected_ids, :flagged_ids, :dropped_ids, :bug, :bug_note, :cop_type, :cop_franchises, :flagged_note)
     end
 
 
     def filtering_params(params)
-        params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :street, :city, :state, :zip, :phone, :acct_pin, :geo_status)
+        params.slice(:raw_url, :redirect_status, :clean_url, :indexer_status, :template, :loc_status, :stf_status, :contact_status, :acct_name, :rt_sts, :cont_sts, :full_addr, :phone, :acct_pin, :who_status, :geo_status, :score100, :score75, :score50, :score25, :bug, :cop_type)
     end
 
 
