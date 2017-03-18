@@ -53,3 +53,24 @@
 .indexer-table.w-xxsm {
     max-width: 15px;
 }
+
+.modal-table td{
+    text-align: left;
+}
+
+.modal-table th {
+    background: yellow;
+    color: blue;
+}
+
+.modal-table tr:hover {
+    background: #ffffb3;
+}
+
+.button-div{
+    margin-bottom: 0px;
+}
+
+.inlined {
+    display: inline-block;
+}

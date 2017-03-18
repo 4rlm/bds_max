@@ -1,15 +1,23 @@
-<h1 class="page-header">Indexer</h1>
-<h4 class="text-center">Links Directory (Main URLs and Redirects, Staff Pages, Location Pages) </h4>
-<br>
 
+<!-- MODAL PARTIAL -->
+<%= render partial: 'modal' %>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
-<h4>Total Indexer Accounts: <%= number_with_delimiter(@indexer_count) %></h4>
-<h4>Selected Indexer Accounts: <%= number_with_delimiter(@selected_indexers_count) %></h4>
 
-<%= render partial: 'buttons' %>
-<br>
+<!-- <div class="row button-div pull-right no-wrap"> -->
+<div class="row">
+    <div class="col-md-offset-3 col-md-3 text-right">
+    </div>
+
+    <div class="col-md-2 text-right">
+        <h4 class="inlined">Selected: <%= number_with_delimiter(@selected_indexers_count) %> | <%= number_with_delimiter(@indexer_count) %></h4>
+    </div>
+
+    <div class="col-md-4">
+        <%= render partial: 'buttons' %>
+    </div>
+</div>
 
 <% num = 0 %>
 <% @indexers.each do |indexer| %>

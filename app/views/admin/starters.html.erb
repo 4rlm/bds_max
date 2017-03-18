@@ -1,0 +1,225 @@
+<h1 class="page-header">System Starters</h1>
+<h4 class="text-center">Starts Methods to Scrape and Migrate Data </h4>
+<br>
+
+<%= link_to "Power Button", indexer_power_btn_path, class: 'btn btn-warning' %>
+
+
+<div class="container-fluid">
+
+    <div class="row str-cont">
+        <h3>Accounts</h3>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary' %>
+                    <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
+                    <%= link_to 'Add Record', new_core_path, class: 'btn btn-primary' %>
+                </div>
+            </div>
+        </div>
+
+        <div class="inner-col">
+            <td>Inner Col Here</td>
+        </div>
+
+    </div>
+
+    <div class="row str-cont">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Contacts</h3>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <%= link_to 'Import CSV', staffer_import_page_path, class: 'btn btn-primary' %>
+                            <%= link_to 'Download CSV', staffers_path(format: "csv"), class: 'btn btn-primary' %>
+                            <%= link_to 'Add Record', new_staffer_path, class: 'btn btn-primary' %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-col">
+                    <td>Inner Col Here</td>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row str-cont">
+        <h3>Domainer</h3>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <%= link_to 'Add Domain', new_indexer_path, class: 'btn btn-primary' %>
+                    <%= link_to 'Domainer CSV Import', indexer_import_page_path, class: 'btn btn-primary' %>
+                    <%= link_to 'Domainer CSV Download', indexers_path(format: "csv"), class: 'btn btn-primary' %>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <!-- Redirector -->
+            <div class="col-md-6 str-col">
+                <div class="inner-col">
+                    <h4>URL Redirect</h4>
+                    <%= link_to "Queue URL Redirect", url_redirect_checker_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+
+            <!-- Whois -->
+            <div class="col-md-6 str-col">
+                <div class="inner-col">
+                    <h4>WhoIs Directory</h4>
+                    <%= link_to "Queue WhoIs Search", who_starter_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 str-col">
+                <div class="inner-col">
+                    <h4>Template Finder</h4>
+                    <%= link_to "Queue Template Finder", template_finder_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+
+            <!-- Page Finder -->
+            <div class="col-md-6 str-col">
+                <div class="inner-col">
+                    <h4>Page Finder</h4>
+                    <%= link_to "Queue Page Finder", page_finder_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Rooftop Scraper -->
+            <div class="col-md-6 str-col">
+                <div class="inner-col">
+                    <h4>Rooftop Scraper</h4>
+                    <%= link_to "Queue Rooftop Scraper", rooftop_data_getter_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+
+            <!-- Meta Scraper -->
+            <div class="col-md-6">
+                <div class="inner-col">
+                    <h4>Meta Scraper</h4>
+                    <%= link_to "Queue Meta Scraper", meta_scraper_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <!-- Staff Scraper -->
+            <div class="col-md-6">
+                <div class="inner-col">
+                    <h4>Staff Scraper</h4>
+                    <%= link_to "Staff Scraper", cs_data_getter_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- GEOLOCATIONS -->
+    <div class="row str-cont">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>GeoLocations</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
+                            <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
+                            <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-col">
+                    <%= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "Geo Auto-Matcher", turbo_matcher_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "Geo Power Button", location_power_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- DASHBOARDS -->
+    <div class="row str-cont">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Dashboards</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <%= link_to 'Import CSV', dashboard_import_page_path, class: 'btn btn-primary' %>
+                            <%= link_to 'Download CSV', dashboards_path(format: "csv"), class: 'btn btn-primary' %>
+                            <%= link_to 'Add Record', new_dashboard_path, class: 'btn btn-primary' %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-col">
+                    <%= link_to "1. Account ReCalc", cores_dash_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "2. Contact ReCalc", staffers_dash_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "3. Franchise ReCalc", franchise_dash_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "4. GeoLocation ReCalc", geo_locations_dash_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "5. Indexer ReCalc", indexer_dash_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "6. WhoIs ReCalc", whos_dash_btn_path, class: 'btn btn-warning' %>
+                    <%= link_to "7. !MEGA ReCalc!", dashboard_mega_btn_path, class: 'btn btn-warning' %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FRANCHISES -->
+    <div class="row str-cont">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Franchises</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <%= link_to 'Import CSV', in_host_po_import_page_path, class: 'btn btn-primary' %>
+                            <%= link_to 'Download CSV', in_host_pos_path(format: "csv"), class: 'btn btn-primary' %>
+                            <%= link_to 'Add Record', new_in_host_po_path, class: 'btn btn-primary' %>
+                        </div>
+                        <div class="inner-col">
+                            <td>Inner Col Here</td>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INDEXER CRITERIA -->
+    <div class="row str-cont">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Indexer Criteria</h4>
+                <div class="inner-col">
+                    <%= link_to 'Add Record', new_indexer_term_path, class: 'btn btn-primary' %>
+                    <%= link_to 'Import CSV', indexer_term_import_page_path, class: 'btn btn-primary' %>
+                    <%= link_to 'Download CSV', indexer_terms_path(format: "csv"), class: 'btn btn-primary' %>
+                </div>
+
+                <div class="inner-col">
+                    <td>Inner Col Here</td>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
