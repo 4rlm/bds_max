@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317075634) do
+ActiveRecord::Schema.define(version: 20170318134720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,12 @@ ActiveRecord::Schema.define(version: 20170317075634) do
     t.string   "score50",           default: [],                 array: true
     t.string   "score25",           default: [],                 array: true
     t.string   "rejected_ids",      default: [],                 array: true
+    t.string   "flagged_ids",       default: [],                 array: true
+    t.string   "dropped_ids",       default: [],                 array: true
+    t.string   "reported"
+    t.string   "report_note"
+    t.string   "cop_type"
+    t.string   "cop_franchises",    default: [],                 array: true
   end
 
   create_table "locations", force: :cascade do |t|
