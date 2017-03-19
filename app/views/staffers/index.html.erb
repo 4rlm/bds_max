@@ -1,7 +1,5 @@
-
-
-<h1 class="page-header">Contacts</h1>
-<h4 class="text-center">Combined Dealer Contacts from CRM and Dealer Staff Pages</h4>
+<!-- MODAL PARTIAL -->
+<%= render partial: 'modal' %>
 
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
@@ -9,7 +7,6 @@
 <!-- CONTACTS - LIST VIEW PARTIAL -->
 <% if @view_mode == "list" %>
     <h3 class="section-header">Contact Profiles - List View</h3>
-    <p>List view shows more (than detailed view), but will NOT be attached to account detailed view.</p>
 
     <%= render partial: 'buttons' %>
     <%= render partial: 'list_view', locals: { staffers: @staffers } %>

@@ -1,17 +1,14 @@
-<h1 class="page-header">Contacts</h1>
-<h4 class="text-center">Combined Dealer Contacts from CRM and Dealer Staff Pages</h4>
+<!-- MODAL PARTIAL -->
+<%= render partial: 'modal' %>
 
-<h3 class="section-header">Search Contacts</h3>
-
-<h4>Total Contacts: <%= number_with_delimiter(@staffer_count) %></h4>
 
 <%= form_tag "/search_result_page_staffer", method: :post  do %>
 
 
-<div class="text-nowrap theme-layout search-container">
+<div class="new-search-container">
     <div class="row filter-row">
-        <div class="filter-col col-md-12">
-            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+        <div class="col-md-12 new-search-left-col">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th class="th-2">Staffer Status</th>
                     <th class="th-2">Source</th>
@@ -46,23 +43,15 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th class="th-2">Website</th>
                     <th class="th-2">Full Address</th>
-                    <th class="th-2">Street</th>
-                    <th class="th-2">City</th>
-                    <th class="th-2">State</th>
-                    <th class="th-2">Zip</th>
                     <th class="th-2">Phone</th>
                 </tr>
                 <tr>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :domain } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :full_address } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :street } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :city } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :state } %></td>
-                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :zip } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :phone } %></td>
                 </tr>
             </table>
@@ -71,7 +60,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th class="th-2">Contact Status</th>
                     <th class="th-2">Job Title</th>
@@ -81,7 +70,6 @@
                     <th class="th-2">Last Name</th>
                     <th class="th-2">Email</th>
                     <th class="th-2">SFDC Contact ID</th>
-                    <th class="th-2">Staff Pin</th>
                 </tr>
                 <tr>
                     <td><%= select_tag :cont_status, options_for_select(@cont_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
@@ -92,8 +80,6 @@
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :lname } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :email } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_id } %></td>
-                    <!-- Acct Pin -->
-                    <td><%= text_field_tag :cont_pin, params[:cont_pin], placeholder: "----", class: 'form-control' %></td>
                 </tr>
             </table>
         </div>
@@ -103,12 +89,23 @@
 
 
 
-<div class="radio">
-    <label><%= radio_button_tag 'view_mode', 'list', true %> List View</label>
-</div>
-<div class="radio">
-    <label><%= radio_button_tag 'view_mode', 'detail' %> Detail View</label>
+
+<div class="row">
+    <div class="col-md-1">
+        <div class="radio">
+            <label><%= radio_button_tag 'view_mode', 'list', true %> List View</label>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="radio">
+            <label><%= radio_button_tag 'view_mode', 'detail' %> Detail View</label>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <%= submit_tag "Search", class: 'new-wide-button' %>
+    </div>
+    <div class="col-md-2">
+        <h4>Total Contacts: <%= number_with_delimiter(@staffer_count) %></h4>
 </div>
 
-<%= submit_tag "Search", class: 'wide-button blue-button' %>
 <% end %>
