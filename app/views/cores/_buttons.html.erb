@@ -2,18 +2,18 @@
     <div class="col-md-12">
         <div class="pull-left">
             <% if mode == "detail" && advanced_and_up %>
-                <span class="btn btn-success" onClick="mergeDataCore();"><i class="fa fa-plus" aria-hidden="true"></i> Merge Data</span>
-                <span class="btn btn-warning" onClick="flagDataCore();"><i class="fa fa-flag" aria-hidden="true"></i> Flag Data</span>
-                <span class="btn btn-danger" onClick="dropDataCore();"><i class="fa fa-minus" aria-hidden="true"></i> Drop Data</span>
+                <span class="btn btn-success btn btn-primary btn-xs" onClick="mergeDataCore();"><i class="fa fa-plus fa-green" aria-hidden="true"></i> Merge Data</span>
+                <span class="btn btn-warning btn btn-primary btn-xs" onClick="flagDataCore();"><i class="fa fa-flag" aria-hidden="true"></i> Flag Data</span>
+                <span class="btn btn-danger btn btn-primary btn-xs" onClick="dropDataCore();"><i class="fa fa-minus fa-red" aria-hidden="true"></i> Drop Data</span>
             <% end %>
         </div>
         <div class="pull-right">
             <% if admin_only %>
-                <%= link_to 'Add Record', new_core_path, class: 'btn btn-primary' %>
-                <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary' %>
+                <%= link_to 'Add Record', new_core_path, class: 'btn btn-primary btn btn-primary btn-xs' %>
+                <%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary btn btn-primary btn-xs' %>
             <% end %>
             <% if advanced_and_up %>
-                <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary' %>
+                <%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary btn btn-primary btn-xs' %>
             <% end %>
         </div>
     </div>

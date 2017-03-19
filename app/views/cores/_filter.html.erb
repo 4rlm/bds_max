@@ -84,20 +84,26 @@
         </div>
     </div>  <!-- row ends -->
 
-
 </div> <!-- search-container Ends -->
 
 <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-3 scr-btn-1 text-center">
     </div>
-    <div class="col-md-1">
-    </div>
+
     <div class="col-md-6">
         <%= submit_tag "Search", class: 'new-wide-button' %>
     </div>
-    <div class="col-md-3">
-        <h4>Total: <%= number_with_delimiter(@cores_count) %></h4>
+
+    <div class="col-md-3 text-center">
+        <h5>Total: <%= number_with_delimiter(@cores_count) %></h5>
     </div>
+
 </div>
+
+
+
+
+
+
 
 <% end %>
