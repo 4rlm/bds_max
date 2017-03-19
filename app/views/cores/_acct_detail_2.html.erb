@@ -3,9 +3,31 @@
     <!-- Original Account Details (name, address, url, franchise, etc.) -->
     <tr>
         <%= acct_merge_sts_indicator(core) %>
-        <td><%= core.match_score %></td>
+
+        <td class="geo w-xsm"><%= core.match_score %></td>
+
         <!-- source -->
         <td class="geo w-xsm">CRM</td>
+
+        <td><%= link_to core.sfdc_clean_url, :target => "_blank", class: 'tooltips', title: "Raw URL: #{core.sfdc_url}\nClean URL: #{core.sfdc_clean_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
+            <%= core.sfdc_clean_url %>
+            <% end %>
+        </td>
+
+        <!-- SFDC Acct Name -->
+        <td ><%= core.sfdc_acct %></td>
+
+
+        <!-- CRM Addr Pin -->
+        <td class="geo w-md"><%= core.crm_acct_pin %></td>
+
+
+        <!-- SFDC core.full_address -->
+        <% if core.full_address %>
+            <td><%= link_to core.full_address, core, target: "_blank" %></td>
+        <% else %>
+            <td>No Address</td>
+        <% end %>
 
         <!-- Map Module -->
         <% if core.sfdc_acct %>
@@ -18,42 +40,6 @@
             </td>
         <% end %>
 
-        <!-- Dealer Website Module -->
-        <% if core.sfdc_acct != nil && core.sfdc_url != nil %>
-            <td class="geo w-xsm fa-blue">
-            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
-            <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
-            </td>
-        <% elsif core.sfdc_acct != nil && core.sfdc_url == nil %>
-            <td class="geo w-xsm fa-gray"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
-        <% else %>
-            <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
-        <% end %>
-
-        <!-- Dealer Website External Link -->
-        <% unless core.sfdc_url == nil %>
-            <td class="geo w-xsm fa-blue">
-                <%= link_to add_http(core.sfdc_url), :target => "_blank" do %>
-                    <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_url}" %>
-                <% end %>
-            </td>
-        <% else %>
-            <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
-        <% end %>
-
-        <!-- SFDC Acct Name -->
-        <td><%= core.sfdc_acct %></td>
-
-        <!-- CRM Addr Pin -->
-        <td><%= core.crm_acct_pin %></td>
-
-
-        <!-- SFDC core.full_address -->
-        <% if core.full_address %>
-            <td><%= link_to core.full_address, core, target: "_blank" %></td>
-        <% else %>
-            <td>No Address</td>
-        <% end %>
 
         <!-- phone -->
         <% unless core.sfdc_ph == nil %>
@@ -78,6 +64,8 @@
 
     <!-- Updated/Confirmed Account Details (name, address, url, franchise, etc.) -->
     <tr>
+        <%= acct_merge_sts_indicator(core) %>
+
         <% if advanced_and_up %>
             <td class="geo w-xsm" data-id="<%= core.id %>" onClick="changeStatusCore(this);">
                 <%= fa_icon "check lg", class: "stat-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "Select" %>
@@ -86,15 +74,38 @@
             <td></td>
         <% end %>
 
-        <%= acct_merge_sts_indicator(core) %>
+        <td class="geo w-md"><%= link_to "Scraped", indexer_show_detail_path(core: core), target: '_blank' %></td>
 
-        <!-- source -->
-        <td class="geo w-xsm"><%= core.alt_source %></td>
+
+        <td>
+            <% if core.alt_url %>
+                <%= link_to core.alt_url, :target => "_blank", class: 'tooltips', title: "Scraped Clean URL: #{core.alt_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                <%= core.alt_url %>
+                <% end %>
+            <% end %>
+        </td>
+
+
+
+        <!-- SFDC Acct Name -->
+        <td><%= core.alt_acct %></td>
+
+        <!-- Alt Addr Pin -->
+        <td class="geo w-md"><%= core.alt_acct_pin %></td>
+
+
+        <!-- SFDC core.alt_address -->
+        <% if core.alt_address %>
+            <td><%= link_to core.alt_address, core, target: "_blank" %></td>
+        <% else %>
+            <td>No Address</td>
+        <% end %>
+
 
         <!-- Map Module -->
-        <% if core.sfdc_acct %>
+        <% if core.alt_address %>
             <td class="geo w-xsm fa-blue">
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.coordinates}" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.alt_address}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.alt_address}" %></span>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
@@ -102,43 +113,6 @@
             </td>
         <% end %>
 
-        <!-- Dealer Website Module -->
-        <% if core.sfdc_acct != nil && core.sfdc_url != nil %>
-            <td class="geo w-xsm fa-blue">
-            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(core.sfdc_url) %>">
-            <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
-            </td>
-        <% elsif core.sfdc_acct != nil && core.sfdc_url == nil %>
-            <td class="geo w-xsm fa-gray"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
-        <% else %>
-            <td class="geo w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
-        <% end %>
-
-        <!-- Dealer Website External Link -->
-        <% unless core.sfdc_url == nil %>
-            <td class="geo w-xsm fa-blue">
-                <%= link_to add_http(core.sfdc_url), :target => "_blank" do %>
-                    <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_url}" %>
-                <% end %>
-            </td>
-        <% else %>
-            <td class="geo w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL - Permanently Closed?" %></td>
-        <% end %>
-
-        <!-- SFDC Acct Name -->
-        <td><%= link_to core.sfdc_acct, indexer_show_detail_path(core: core), target: '_blank' %></td>
-
-
-        <!-- Alt Addr Pin -->
-        <td><%= core.alt_acct_pin %></td>
-
-
-        <!-- SFDC core.full_address -->
-        <% if core.full_address %>
-            <td><%= link_to core.full_address, core, target: "_blank" %></td>
-        <% else %>
-            <td>No Address</td>
-        <% end %>
 
         <!-- phone -->
         <% unless core.sfdc_ph == nil %>

@@ -897,7 +897,7 @@ th.indicator {
 }
 
 .geo-result-table th, .geo-result-table td {
-    font-size: 80%;
+    font-size: 90%;
     padding-left: 0;
     padding-right: 0;
     margin-left: 0;
@@ -989,10 +989,18 @@ th.indicator {
     background-color: #ccffcc;
 }
 
+.geo .match-green {
+    background-color: #ccffcc;
+}
+
 
 .geo.w-xxsm, .geo.w-xsm, .geo.w-sm {
     padding-left: 0;
     padding-right: 0;
+}
+
+.geo.w-md {
+    width: 110px;
 }
 
 .geo.w-sm {

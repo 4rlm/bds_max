@@ -97,9 +97,15 @@
 
 </div>
 
-<%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
-
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+        <%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
+    </div>
+    <div class="col-md-2">
+        <h4>Scraped URLs: <%= number_with_delimiter(@indexer_count) %></h4>
+    </div>
+</div>
 
 <% end %>
-
-<h4>Total Scraped URLs: <%= number_with_delimiter(@indexer_count) %></h4>
