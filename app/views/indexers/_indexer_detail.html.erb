@@ -1,7 +1,11 @@
-<div id="core-detail" class="geo-result-table">
+<!-- <div id="core-detail" class="geo-result-table"> -->
+<div class="scraper-profile-container scraper-profile">
+
     <div class="row">
-        <div class="profile-col col-md-12">
-            <table class="table table-bordered indexer-table no-wrap">
+        <div class="col-md-12">
+
+            <table class="table table-bordered no-wrap">
+
                 <thead>
                     <tr>
                         <th><%= num %></th>
@@ -63,67 +67,60 @@
                 </tbody>
             </table>
 
+            <table class="table table-bordered no-wrap">
+                <tr>
+                    <th class="scraper-w-xsm">Scraped</th>
+
+                    <td><%= link_to indexer.clean_url, :target => "_blank", class: 'tooltips', title: "Raw URL: #{indexer.raw_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                        <%= indexer.clean_url %>
+                        <% end %>
+                    </td>
+
+                    <td><span data-toggle="tooltip" data-placement="top" title="Scraped Rooftop Name"><%= indexer.acct_name %></span></td>
+
+                    <td><span data-toggle="tooltip" data-placement="top" title="Scraped Address"><%= indexer.full_addr %></span></td>
+
+                    <td class="scraper-w-sm"><span data-toggle="tooltip" data-placement="top" title="Scraped Address Pin"><%= indexer.acct_pin %></span></td>
+
+                    <td class="geo w-xsm fa-blue">
+                        <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Phone: #{indexer.phone}" %>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-bordered no-wrap">
+                <tr>
+                    <th class="scraper-w-xsm">Match Score</th>
+                    <td class="geo w-sm">100%</td>
+                    <td><%= link_core_staffers(indexer.score100) %></td>
+                    <td class="geo w-sm">75%</td>
+                    <td><%= link_core_staffers(indexer.score75) %></td>
+                    <td class="geo w-sm">50%</td>
+                    <td colspan="3"><%= link_core_staffers(indexer.score50) %></td>
+                    <td class="geo w-sm">25%</td>
+                    <td colspan="3"><%= link_core_staffers(indexer.score25) %></td>
+
+                </tr>
+            </table>
+
+
             <div class="row">
                  <!-- left section  -->
-                 <div class="col-md-6">
-                    <table class="table table-bordered indexer-table">
-                        <tr>
-                            <td class="geo w-xsm fa-blue">
-                                <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "Clean URL" %>
-                            </td>
+                 <div class="col-md-6 new-scraper-left-col">
+                    <table class="table table-bordered no-wrap">
 
-                          <!-- Clean URL -->
-                          <td><%= indexer.clean_url %></td>
-                          <td class="geo w-xsm fa-blue">
-                              <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "Raw URL" %>
-                          </td>
-                          <!-- Raw URL -->
-                          <td><%= indexer.raw_url %></td>
-
-                        <tr>
-                            <td class="geo w-xsm fa-blue">
-                                <%= fa_icon "info-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Account Name" %>
-                            </td>
-                            <td><%= indexer.acct_name %></td>
-
-
-                            <td class="geo w-xsm fa-blue">
-                                <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Phone" %>
-                            </td>
-
-                            <td><%= indexer.phone %></td>
-
+                        <tr class="scraper-section-top scraper-section-right scraper-section-left">
                         </tr>
-                    <!-- </table> -->
-
-                    <!-- <table class="table table-bordered indexer-table"> -->
-                        <tr>
-                            <td class="geo w-xsm fa-blue">
-                                <%= fa_icon "info-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Mailing Address" %>
-                            </td>
-                            <td><%= indexer.full_addr %></td>
-                            <td class="geo w-xsm fa-blue">
-                                <%= fa_icon "info-circle lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Address Pin" %>
-                            </td>
-                            <td><%= indexer.acct_pin %></td>
+                        <tr class="scraper-section-right scraper-section-left">
                         </tr>
-
-                        <tr>
-                            <th class="geo w-sm">100%</th>
-                            <td><%= link_core_staffers(indexer.score100) %></td>
-                            <th class="geo w-sm">75%</th>
-                            <td><%= link_core_staffers(indexer.score75) %></td>
-                        </tr>
-                        <tr>
-                            <th class="geo w-sm">50%</th>
-                            <td colspan="3"><%= link_core_staffers(indexer.score50) %></td>
+                        <tr class="scraper-section-right scraper-section-left scraper-section-bottom">
                         </tr>
                     </table>
                 </div>
 
                 <!-- right section -->
-                <div class="col-md-6">
-                        <table class="table table-bordered indexer-table">
+                <div class="col-md-6 new-scraper-right-col ">
+                    <table class="table table-bordered no-wrap">
                             <tr>
                                 <td class="geo w-xsm fa-blue">
                                     <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Clean URL">URL IDs:</span>
@@ -155,10 +152,10 @@
                              </td>
                              <td class="geo w-lg"><%= indexer.crm_ph_ids %></td>
                          </tr>
-                         <tr>
+                         <!-- <tr>
                              <th class="geo w-sm">25%</th>
-                             <td><%= link_core_staffers(indexer.score25) %></td>
-                         </tr>
+                             <td><%#= link_core_staffers(indexer.score25) %></td>
+                         </tr> -->
                          </table>
                 </div>
             </div>

@@ -18,6 +18,10 @@
  *= require font-awesome
  */
 
+ $main-gray: #d2d1d1;
+ $main-blue: #4285F4;
+
+
 
 
 // NEW SEARCH AND FILTER CSS
@@ -83,6 +87,113 @@ table.new-search-table {
 // .button-style:hover {
 //     background-image:linear-gradient(#ddd, #f2f2f2);
 // }
+
+
+
+
+// ################
+// NEW INDEXER/SCRAPER PROFILE LAYOUT
+
+
+.scraper-profile {
+    box-shadow: 5px 5px 5px gray;
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    padding: 7px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    border-radius: 5px;
+    color: #333;
+    // border: solid 1px #d9d9d9;
+    border: solid 3px #d9d9d9;
+    border-radius: 6px;
+
+    table {
+        margin-bottom: 0;
+        box-shadow: none;
+    }
+}
+
+.col-md-6.new-scraper-left-col {
+    padding-right: 0px;
+}
+
+.col-md-6.new-scraper-right-col {
+    padding-left: 0;
+}
+
+.scraper-section-top {
+    border-top: solid 3px #d9d9d9;
+}
+
+.scraper-section-right {
+    border-right: solid 3px #d9d9d9;
+}
+
+.scraper-section-bottom {
+    border-bottom: solid 3px #d9d9d9;
+}
+
+.scraper-section-left {
+    border-left: solid 3px #d9d9d9;
+}
+
+
+
+
+.scraper-profile tr:hover {
+    background: #ffffb3;
+}
+
+.scraper-profile th, .scraper-profile td {
+    font-size: 90%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-left: 0;
+    text-align: center;
+    border: solid 1px #137fa0;
+    font-weight: normal;
+    line-height: normal;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.scraper-profile th {
+    background-image:linear-gradient(#f2f2f2, #ddd);
+    // background: #4285F4;
+}
+
+
+.scraper-profile .w-sm {
+    // min-width: 30px;
+    width: 70px;
+}
+
+
+.scraper-w-sm {
+    width: 120px;
+}
+
+
+.scraper-w-xsm {
+    width: 90px;
+}
+
+.scraper-tiny {
+    width: 120px;
+}
+
+
+
+
+
+
 
 
 
