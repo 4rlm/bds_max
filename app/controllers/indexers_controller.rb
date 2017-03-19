@@ -13,6 +13,20 @@ class IndexersController < ApplicationController
 
         @indexers = Indexer.all
 
+        if params[:score100_check] == "true"
+            @indexers = @indexers.where.not("score100 = '{}'")
+        end
+        if params[:score75_check] == "true"
+            @indexers = @indexers.where.not("score75 = '{}'")
+        end
+        if params[:score50_check] == "true"
+            @indexers = @indexers.where.not("score50 = '{}'")
+        end
+        if params[:score25_check] == "true"
+            @indexers = @indexers.where.not("score25 = '{}'")
+        end
+
+
         ## SET ORDER OF DISPLAYED DATA ##
         @indexers = @indexers.order(updated_at: :desc)
 
