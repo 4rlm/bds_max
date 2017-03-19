@@ -82,6 +82,7 @@ Rails.application.routes.draw do
     get 'users_dash_btn' => 'dashboards#users_dash_btn'
     get 'whos_dash_btn' => 'dashboards#whos_dash_btn'
     get 'summarize_data' => 'dashboards#summarize_data'
+    get 'dashboard/power_btn' => 'dashboards#power_btn'
 
 
     devise_for :users

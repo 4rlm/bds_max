@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318212813) do
+ActiveRecord::Schema.define(version: 20170318230748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,12 @@ ActiveRecord::Schema.define(version: 20170318212813) do
     t.string   "crm_acct_pin"
     t.string   "crm_phones",        default: [],              array: true
     t.string   "who_sts"
+    t.string   "acct_merge_sts"
     t.string   "match_score"
     t.string   "acct_match_sts"
     t.string   "ph_match_sts"
     t.string   "pin_match_sts"
     t.string   "url_match_sts"
-    t.string   "acct_merge_sts"
     t.string   "alt_acct_pin"
     t.string   "alt_acct"
     t.string   "alt_street"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170318212813) do
     t.string   "item_list",       default: [],              array: true
     t.integer  "col_total",       default: 0
     t.integer  "item_list_total", default: 0
+    t.json     "obj_list",        default: {}
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

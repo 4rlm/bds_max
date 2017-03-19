@@ -16,6 +16,8 @@
                 <%= link_to "6. WhoIs ReCalc", whos_dash_btn_path, class: 'btn btn-warning' %>
                 <%= link_to "7. !MEGA ReCalc!", dashboard_mega_btn_path, class: 'btn btn-warning' %>
 
+                <%= link_to "Power Button", dashboard_power_btn_path, class: 'btn btn-danger' %>
+
                 <%= link_to 'Add Record', new_dashboard_path, class: 'btn btn-primary' %>
                 <%= link_to 'Import CSV', dashboard_import_page_path, class: 'btn btn-primary' %>
             <% end %>
@@ -39,6 +41,7 @@
                     <th>col_alias</th>
                     <th>col_total</th>
                     <th>item_list_total</th>
+                    <th>obj_list</th>
                     <th>item_list</th>
                     <th colspan="2"></th>
                 </tr>
@@ -53,6 +56,7 @@
                         <td><%= dashboard.col_alias %></td>
                         <td><%= dashboard.col_total %></td>
                         <td><%= dashboard.item_list_total %></td>
+                        <td><%= dashboard.obj_list %></td>
                         <td><%= dashboard.item_list %></td>
                         <% if admin_only %>
                             <td><%= link_to 'Edit', edit_dashboard_path(dashboard) %></td>

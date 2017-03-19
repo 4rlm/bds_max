@@ -41,10 +41,19 @@ class DashboardService
     def list_getter(model, cols) # list_getter(Staffer, [:staffer_status, :cont_status])
         puts "#{'='*30} Item List #{'='*30}"
         cols.each do |col|
-            list = model.all.map(&col).uniq
-            dash = Dashboard.find_by(db_name: model.to_s, col_name: col)
-            puts "#{col}: #{list.inspect}"
-            dash.update_attributes(item_list: list) if dash
+            item_list = model.all.map(&col).uniq
+
+            if item_list.any?
+                list_hash = {}
+                item_list.each do |val|
+                    list_hash[val] = model.where("#{col}": val).count
+                end
+                
+                dash = Dashboard.find_by(db_name: model.to_s, col_name: col)
+                puts "#{col}: #{item_list.inspect}"
+                dash.update_attributes(item_list: item_list, obj_list: list_hash) if dash
+            end
+
         end
     end
 
@@ -68,6 +77,25 @@ class DashboardService
         end
 
         result # return: an array
+    end
+
+    # This method is used "one time" when populating hash column with item_list.
+    def item_list_to_hash
+        dashboards = Dashboard.all
+
+        dashboards.each do |dashboard|
+            model = Object.const_get(dashboard.db_name)
+            col_name = dashboard.col_name
+            item_list = dashboard.item_list
+
+            if item_list.any?
+                list = {}
+                item_list.each do |val|
+                    list[val] = model.where("#{col_name}": val).count
+                end
+                dashboard.update_attribute(:obj_list, list)
+            end
+        end
     end
 
 end # DashboardService class Ends ---
