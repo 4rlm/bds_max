@@ -95,7 +95,7 @@ table.new-search-table {
 // NEW INDEXER/SCRAPER PROFILE LAYOUT
 
 
-.scraper-profile {
+.scr-prof {
     box-shadow: 5px 5px 5px gray;
     max-width: 100%;
     padding-right: 0;
@@ -143,11 +143,11 @@ table.new-search-table {
 
 
 
-.scraper-profile tr:hover {
+.scr-prof tr:hover {
     background: #ffffb3;
 }
 
-.scraper-profile th, .scraper-profile td {
+.scr-prof th, .scr-prof td {
     font-size: 90%;
     padding-left: 0;
     padding-right: 0;
@@ -164,13 +164,18 @@ table.new-search-table {
 }
 
 
-.scraper-profile th {
+.scr-prof th {
     background-image:linear-gradient(#f2f2f2, #ddd);
     // background: #4285F4;
 }
 
+.scr-w-md {
+    // min-width: 30px;
+    min-width: 120px;
+}
 
-.scraper-profile .w-sm {
+
+.scr-prof .w-sm {
     // min-width: 30px;
     width: 70px;
 }
@@ -181,12 +186,40 @@ table.new-search-table {
 }
 
 
-.scraper-w-xsm {
+.scr-w-xsm {
     width: 90px;
 }
 
-.scraper-tiny {
-    width: 120px;
+.scr-tiny.scr-bold {
+    width: 40px;
+}
+
+
+.scr-w-xsm.scr-bold {
+    font-weight: bold;
+}
+
+.scr-bold td{
+    font-weight: bold;
+}
+
+
+
+.scr-score-badge {
+    background-image:linear-gradient(#f2f2f2, #ddd);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.scr-score-badge a:link, a:visited {
+    text-decoration: none;
+    display: inline-block;
+
+}
+
+.scr-score-badge:hover {
+    background-image:linear-gradient(#ddd, #f2f2f2);
 }
 
 

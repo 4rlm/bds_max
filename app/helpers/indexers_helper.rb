@@ -17,7 +17,7 @@ module IndexersHelper
         sfdc_ids.each do |sfdc_id|
             core = Core.find_by(sfdc_id: sfdc_id)
             html = <<-HTML
-                #{link_to sfdc_id, staffer_acct_contacts_path(core: core), :target => "_blank"}
+                #{link_to sfdc_id, staffer_acct_contacts_path(core: core), :target => "_blank", class: 'scr-score-badge'}
             HTML
             htmls << html
         end
