@@ -8,7 +8,10 @@
 
                 <thead>
                     <tr>
-                        <th><%= num %></th>
+                        <!-- <th><%#= num %></th> -->
+                        <th class="scraper-w-xsm">
+                            <span data-toggle="tooltip" data-placement="top" title="Scraping Process. Starts with Verifying URL & Ends with Scraping Contacts.">Process</span>
+                        </th>
                         <th>Scraping Status</th>
 
                         <th>Redirect Status</th>
@@ -90,74 +93,56 @@
 
             <table class="table table-bordered no-wrap">
                 <tr>
-                    <th class="scraper-w-xsm">Match Score</th>
+                    <th class="scraper-w-xsm">
+                        <span data-toggle="tooltip" data-placement="top" title="Match Score: ex. 100% = SFDC IDs with 4/4 Matching Criteria">Score</span>
+                    </th>
                     <td class="geo w-sm">100%</td>
                     <td><%= link_core_staffers(indexer.score100) %></td>
+
                     <td class="geo w-sm">75%</td>
                     <td><%= link_core_staffers(indexer.score75) %></td>
+
                     <td class="geo w-sm">50%</td>
                     <td colspan="3"><%= link_core_staffers(indexer.score50) %></td>
+
                     <td class="geo w-sm">25%</td>
                     <td colspan="3"><%= link_core_staffers(indexer.score25) %></td>
-
                 </tr>
             </table>
 
+            <table class="table table-bordered no-wrap">
+                <tr>
+                    <th class="scraper-w-xsm">
+                        <span data-toggle="tooltip" data-placement="top" title="SFDC IDs with Same Clean URL">URL IDs</span>
+                    </th>
+                    <td class="geo w-lg "><%= indexer.clean_url_crm_ids %></td>
 
-            <div class="row">
-                 <!-- left section  -->
-                 <div class="col-md-6 new-scraper-left-col">
-                    <table class="table table-bordered no-wrap">
+                    <th class="scraper-w-xsm">
+                         <span data-toggle="tooltip" data-placement="top" title="SFDC IDs with Same Address Pin">Pin IDs</span>
+                    </th>
+                    <td class="geo w-lg"><%= indexer.acct_pin_crm_ids %></td>
 
-                        <tr class="scraper-section-top scraper-section-right scraper-section-left">
-                        </tr>
-                        <tr class="scraper-section-right scraper-section-left">
-                        </tr>
-                        <tr class="scraper-section-right scraper-section-left scraper-section-bottom">
-                        </tr>
-                    </table>
-                </div>
+                </tr>
 
-                <!-- right section -->
-                <div class="col-md-6 new-scraper-right-col ">
-                    <table class="table table-bordered no-wrap">
-                            <tr>
-                                <td class="geo w-xsm fa-blue">
-                                    <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Clean URL">URL IDs:</span>
-                                </td>
+                <tr>
+                    <th class="scraper-w-xsm">
+                        <span data-toggle="tooltip" data-placement="top" title="SFDC IDs with Same Account Name">Name IDs</span>
+                    </th>
+                    <td class="geo w-lg"><%= indexer.crm_acct_ids %></td>
 
-                                <td class="geo w-lg "><%= indexer.clean_url_crm_ids %></td>
-                             </tr>
+                    <th class="scraper-w-xsm">
+                      <span data-toggle="tooltip" data-placement="top" title="SFDC IDs with Same Phone">Phone IDs</span>
+                  </th>
+                    <td class="geo w-lg"><%= indexer.crm_ph_ids %></td>
 
-                             <tr>
-                                 <td class="geo w-xsm fa-blue">
-                                     <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Account Name">Name IDs:</span>
-                                 </td>
+                </tr>
 
-                                 <td class="geo w-lg"><%= indexer.crm_acct_ids %></td>
-                             </tr>
+            </table>
 
-                         <tr>
 
-                             <td class="geo w-xsm fa-blue">
-                                  <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Address Pin">Pin IDs:</span>
-                             </td>
 
-                             <td class="geo w-lg"><%= indexer.acct_pin_crm_ids %></td>
-                         </tr>
 
-                         <tr>
-                             <td class="geo w-xsm fa-blue">
-                               <span data-toggle="tooltip" data-placement="top" title="SFDC IDs: Same Phone">Phone IDs:</span>
-                             </td>
-                             <td class="geo w-lg"><%= indexer.crm_ph_ids %></td>
-                         </tr>
-                         <!-- <tr>
-                             <th class="geo w-sm">25%</th>
-                             <td><%#= link_core_staffers(indexer.score25) %></td>
-                         </tr> -->
-                         </table>
-                </div>
+
             </div>
 
 
