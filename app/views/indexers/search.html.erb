@@ -6,30 +6,32 @@
 <div class="new-search-container">
 
     <div class="row">
-        <div class="col-md-2 new-search-left-col">
+
+        <div class="col-md-1 new-search-left-col">
+            <!-- <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap"> -->
             <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th colspan="2">Match Status</th>
                 </tr>
-                <tr class="scr-bold">
+                <tr>
                     <td>100%</td>
                     <td><%= check_box_tag 'score100_check', "true" %></td>
-                <tr class="scr-bold">
+                <tr>
                     <td>75%</td>
                     <td><%= check_box_tag 'score75_check', "true" %></td>
                 </tr>
-                <tr class="scr-bold">
+                <tr>
                     <td>50%</td>
                     <td><%= check_box_tag 'score50_check', "true" %></td>
                 </tr>
-                <tr class="scr-bold">
+                <tr>
                     <td>25%</td>
                     <td><%= check_box_tag 'score25_check', "true" %></td>
                 </tr>
             </table>
         </div>
 
-        <div class="col-md-10 new-search-right-col">
+        <div class="col-md-11 new-search-right-col">
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered table-hover text-nowrap new-search-table">
@@ -98,13 +100,13 @@
 </div>
 
 <div class="row">
-    <div class="col-md-2">
-    </div>
-    <div class="col-md-8">
-        <%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
-    </div>
-    <div class="col-md-2">
-        <h4>Scraped URLs: <%= number_with_delimiter(@indexer_count) %></h4>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
+        </div>
+        <div class="col-md-3">
+            <h4 class="text-center">Total: <%= number_with_delimiter(@indexer_count) %></h4>
+        </div>
     </div>
 </div>
 

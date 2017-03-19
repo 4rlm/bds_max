@@ -1,10 +1,4 @@
-<h3 class="section-header">Filter Contacts</h3>
-<h4>Total Contacts: <%= number_with_delimiter(@staffer_count) %></h4>
-<h4>Selected Contacts: <%= number_with_delimiter(@selected_staffer_count) %></h4>
-
 <%= form_tag "/staffers", method: :get, class: 'form-inline'  do %>
-
-
 
 <div class="new-search-container">
     <div class="row filter-row">
@@ -89,24 +83,20 @@
 </div> <!-- staffer-filter-container Ends -->
 
 
-
-
 <div class="row">
-    <div class="col-md-1">
-        <div class="radio">
-            <label><%= radio_button_tag 'view_mode', 'list', true %> List View</label>
-        </div>
+    <div class="col-md-3 scr-btn-1 text-center">
+        <%= link_to 'Add Record', new_staffer_path, class: 'btn btn-primary btn-xs' %>
+        <%= link_to 'Import CSV', staffer_import_page_path, class: 'btn btn-primary btn-xs' %>
+        <%= link_to 'Download CSV', staffers_path(format: "csv"), class: 'btn btn-primary btn-xs' %>
     </div>
-    <div class="col-md-1">
-        <div class="radio">
-            <label><%= radio_button_tag 'view_mode', 'detail' %> Detail View</label>
-        </div>
+
+    <div class="col-md-6">
+        <%= submit_tag "Filter Contacts", class: 'new-wide-button' %>
     </div>
-    <div class="col-md-8">
-        <%= submit_tag "Search", class: 'new-wide-button' %>
+    <div class="col-md-3 text-center">
+        <h5>Total Contacts: <%= number_with_delimiter(@staffer_count) %></h5>
     </div>
-    <div class="col-md-2">
-        <h4>Total Contacts: <%= number_with_delimiter(@staffer_count) %></h4>
 </div>
+
 
 <% end %>
