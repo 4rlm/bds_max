@@ -88,20 +88,21 @@
 </div> <!-- search-container Ends -->
 
 <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-1 col-md-offset-1 text-center">
         <div class="radio">
-            <label><%= radio_button_tag 'view_mode', 'list', true %> List View</label>
+            <label><%= radio_button_tag 'view_mode', 'list' %> List</label>
         </div>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-1 text-center">
         <div class="radio">
-            <label><%= radio_button_tag 'view_mode', 'detail' %> Detail View</label>
+            <label><%= radio_button_tag 'view_mode', 'detail', true %> Detail</label>
         </div>
     </div>
-    <div class="col-md-8">
+
+    <div class="col-md-6">
         <%= submit_tag "Search", class: 'new-wide-button' %>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <h4>Total Accounts: <%= number_with_delimiter(@cores_count) %></h4>
     </div>
 </div>

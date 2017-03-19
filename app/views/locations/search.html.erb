@@ -1,34 +1,14 @@
-<h1 class="page-header">Geolocation Search</h1>
-<h4 class="text-center">GeoLocated Account Locations</h4>
-<h4 class="text-center">Used to find duplicates and see which stores are nearest.</h4>
-
-
-<h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
-
-<h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
-
-<%#= link_to "Geo Places Starter", geo_places_starter_btn_path, class: 'btn btn-warning' %>
-<%#= link_to "location_power_btn", location_power_btn_path, class: 'btn btn-warning' %>
-
-<%#= link_to "turbo_matcher_btn", turbo_matcher_btn_path, class: 'btn btn-warning' %>
-
-
-
-<!-- Search Section -->
-<h3 class="section-header">Geo Search</h3>
-
-
-
-<%#= form_tag "/locations", method: :get, class: 'form-inline'  do %>
+<!-- MODAL PARTIAL -->
+<%= render partial: 'modal' %>
 
 <%= form_tag "/search_result_page_location", method: :post  do %>
 
 
-<div class="theme-layout search-container">
+<div class="new-search-container">
 
-    <div class="row filter-row">
-        <div class="filter-col col-md-12">
-            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th class="th-2">GEO Status</th>
                     <th class="th-2">Match Status</th>
@@ -46,12 +26,13 @@
                     <td><%= select_tag :sts_ph, options_for_select(@sts_ph_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                 </tr>
             </table>
+
         </div>
     </div>
 
-    <div class="row filter-row">
-        <div class="filter-col col-md-12">
-            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th class="th-2">Source</th>
                     <th class="th-2">SFDC ID:</th>
@@ -74,7 +55,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th class="th-2">Sales Person:</th>
                     <th class="th-2">Type:</th>
@@ -97,14 +78,14 @@
 
 </div> <!-- filter-container Ends -->
 
-<%= submit_tag "Search", class: 'wide-button blue-button' %>
 
-<!-- IMPORTANT END TO FORM - EVERYTHING MUST BE IN HERE. -->
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <%= submit_tag "Search Geo Results", class: 'new-wide-button' %>
+    </div>
+    <div class="col-md-3">
+        <h5>Total: <%= number_with_delimiter(@locations_count) %></h5>
+    </div>
+</div>
+
 <% end %>
-<!-- # Filter Headers Form tag ends -->
-
-
-
-
-
-<!-- ## FILTER - ENDS## -->

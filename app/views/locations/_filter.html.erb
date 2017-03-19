@@ -1,75 +1,95 @@
-<h3 class="section-header">Geo Filter</h3>
-
 <%= form_tag "/locations", method: :get, class: 'form-inline'  do %>
-    <div class="theme-layout filter-container">
-        <div class="row filter-row">
-            <div class="filter-col col-md-12">
-                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
-                    <tr>
-                        <th class="th-2">GEO Status</th>
-                        <th class="th-2">Match Status</th>
-                        <th class="th-2">URL Status</th>
-                        <th class="th-2">Name Status</th>
-                        <th class="th-2">Address Status</th>
-                        <th class="th-2">Phone Status</th>
-                    </tr>
-                    <tr>
-                        <td><%= select_tag :location_status, options_for_select(@location_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :sts_geo_crm, options_for_select(@sts_geo_crm_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :sts_url, options_for_select(@sts_url_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :sts_acct, options_for_select(@sts_acct_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :sts_addr, options_for_select(@sts_addr_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :sts_ph, options_for_select(@sts_ph_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
 
-        <div class="row filter-row">
-            <div class="filter-col col-md-12">
-                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
-                    <tr>
-                        <th class="th-2">Source</th>
-                        <th class="th-2">SFDC ID:</th>
-                        <th class="th-2">Account</th>
-                        <th class="th-2">Group Name</th>
-                        <th class="th-2">Ultimate Group Name</th>
-                        <th class="th-2">Sales Tier</th>
-                    </tr>
-                    <tr>
-                        <td><%= select_tag :crm_source, options_for_select(@crm_source_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :ult_group_name } %></td>
-                        <td><%= select_tag :tier, options_for_select(@tier_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+<div class="new-search-container">
 
-        <div class="row">
-            <div class="col-md-12">
-                <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap">
-                    <tr>
-                        <th class="th-2">Sales Person:</th>
-                        <th class="th-2">Type:</th>
-                        <th class="th-2">Website</th>
-                        <th class="th-2">Root</th>
-                        <th class="th-2">Full Address</th>
-                        <th class="th-2">Coords</th>
-                    </tr>
-                    <tr>
-                        <td><%= select_tag :sales_person, options_for_select(@sales_person_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= select_tag :acct_type, options_for_select(@acct_type_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :url } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :root } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :address } %></td>
-                        <td><%= render partial: 'layouts/text_field_tag', locals: { col: :coordinates } %></td>
-                    </tr>
-                </table>
-            </div>
-        </div>  <!-- row ends -->
-    </div> <!-- filter-container Ends -->
-    <%= submit_tag "Search", class: 'wide-button green-button' %>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
+                <tr>
+                    <th class="th-2">GEO Status</th>
+                    <th class="th-2">Match Status</th>
+                    <th class="th-2">URL Status</th>
+                    <th class="th-2">Name Status</th>
+                    <th class="th-2">Address Status</th>
+                    <th class="th-2">Phone Status</th>
+                </tr>
+                <tr>
+                    <td><%= select_tag :location_status, options_for_select(@location_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_geo_crm, options_for_select(@sts_geo_crm_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_url, options_for_select(@sts_url_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_acct, options_for_select(@sts_acct_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_addr, options_for_select(@sts_addr_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :sts_ph, options_for_select(@sts_ph_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
+                <tr>
+                    <th class="th-2">Source</th>
+                    <th class="th-2">SFDC ID:</th>
+                    <th class="th-2">Account</th>
+                    <th class="th-2">Group Name</th>
+                    <th class="th-2">Ultimate Group Name</th>
+                    <th class="th-2">Sales Tier</th>
+                </tr>
+                <tr>
+                    <td><%= select_tag :crm_source, options_for_select(@crm_source_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td class="w-md"><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_id } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :group_name } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :ult_group_name } %></td>
+                    <td><%= select_tag :tier, options_for_select(@tier_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover text-nowrap new-search-table">
+                <tr>
+                    <th class="th-2">Sales Person:</th>
+                    <th class="th-2">Type:</th>
+                    <th class="th-2">Website</th>
+                    <th class="th-2">Root</th>
+                    <th class="th-2">Full Address</th>
+                    <th class="th-2">Coords</th>
+                </tr>
+                <tr>
+                    <td><%= select_tag :sales_person, options_for_select(@sales_person_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :acct_type, options_for_select(@acct_type_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :url } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :root } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :address } %></td>
+                    <td><%= render partial: 'layouts/text_field_tag', locals: { col: :coordinates } %></td>
+                </tr>
+            </table>
+        </div>
+    </div>  <!-- row ends -->
+
+</div> <!-- filter-container Ends -->
+
+
+<div class="row">
+    <div class="col-md-3 text-center">
+        <%#= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
+        <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary btn-xs' %>
+        <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary btn-xs' %>
+    </div>
+
+    <div class="col-md-6">
+        <%= submit_tag "Search Geo Results", class: 'new-wide-button' %>
+    </div>
+
+    <div class="col-md-3">
+        <h5>Selected: <%= number_with_delimiter(@selected_locations_count) %></h5>
+    </div>
+
+</div>
+
 <% end %>
