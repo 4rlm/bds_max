@@ -74,52 +74,49 @@
 
 
 
-        <!-- crm staffer status -->
-        <% if core.staffer_sts == "CRM Contacts"%>
+        <!-- Trial for CRM Contacts Link and Count -->
+        <% if core.web_staff_count > 0  %>
             <td class="geo w-xsm fa-blue">
                 <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
-                    <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_sts}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
-                <% end %>
+                    <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Contacts: #{core.web_staff_count}" %>
+                <% end %> <%= core.web_staff_count %>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No CRM Contacts" %>
+                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Scraped Contacts Linked" %>
             </td>
         <% end %>
 
 
-
-        <!-- web staffer status -->
-        <% if core.staffer_date != nil && core.staffer_sts == "Web Contacts"%>
+        <!-- Trial for Web Contacts Link and Count -->
+        <% if core.web_staff_count > 0  %>
             <td class="geo w-xsm fa-blue">
                 <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
-                    <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_sts}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
-                <% end %>
-            </td>
-        <% elsif core.staffer_date != nil && core.staffer_sts.include?("Error") %>
-            <td class="geo w-xsm fa-red">
-                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_sts}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                    <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Contacts: #{core.web_staff_count}" %>
+                <% end %> <%= core.web_staff_count %>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Web Contacts" %>
+                <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Scraped Contacts Linked" %>
             </td>
         <% end %>
 
-        <!-- dealer website template -->
-        <% if core.template != nil && core.staffer_date != nil && (core.template.include?("Dealer.com") || core.template.include?("Dealer.com") || core.template.include?("DealerOn") || core.template.include?("Cobalt") || core.template.include?("DealerFire") || core.template.include?("DealerInspire") )%>
+
+        <!-- Trial for Template  -->
+        <% if core.alt_template %>
             <td class="geo w-xsm fa-blue">
-                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Template: #{core.alt_template}" %>
             </td>
-        <% elsif core.template != nil && core.staffer_date != nil && core.template.include?("Error") %>
-            <td class="geo w-xsm fa-red">
-                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.template}:  #{core.staffer_date.strftime("%m/%d/%Y")}" %>
+        <% elsif core.template %>
+            <td class="geo w-xsm fa-blue">
+                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Template: #{core.template}" %>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                <%= fa_icon "file-text lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Template Linked" %>
             </td>
         <% end %>
+
 
         <!-- geo location status -->
         <% if core.geo_date != nil && core.geo_sts == "Geo Result" %>
@@ -145,3 +142,19 @@
 
     </tr>
 </table>
+
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

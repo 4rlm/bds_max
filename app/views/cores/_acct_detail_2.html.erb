@@ -73,7 +73,13 @@
             <td></td>
         <% end %>
 
-        <td class="geo w-md"><%= link_to "Scraped", indexer_show_detail_path(core: core), target: '_blank' %></td>
+
+        <!-- Merge this with Below Modal -->
+            <td class="geo w-md"><%= link_to "Scraped", indexer_show_detail_path(core: core), target: '_blank' %></td>
+
+
+        <!-- Trial for Scraped Data Modal -->
+            <td><span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= indexer_show_detail_path(core: core) %>">Scraped</span></td>
 
 
         <td>
@@ -85,30 +91,44 @@
         </td>
 
 
-
-        <!-- SFDC Acct Name -->
-        <td><%= core.alt_acct %></td>
+        <% if core.alt_acct %>
+            <td>
+                <%= link_to core.alt_acct, :target => "_blank", class: 'tooltips', title: "Scraped Account: #{core.alt_acct}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                <%= core.alt_acct %>
+                <% end %>
+            </td>
+        <% else %>
+            <td>Account Name Not Scraped</td>
+        <% end %>
 
         <!-- Alt Addr Pin -->
-        <td class="geo w-md"><%= core.alt_acct_pin %></td>
+        <% if core.alt_acct_pin %>
+            <td>
+                <%= link_to core.alt_acct_pin, :target => "_blank", class: 'tooltips', title: "Scraped Address Pin: #{core.alt_acct_pin}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                <%= core.alt_acct_pin %>
+                <% end %>
+            </td>
+        <% else %>
+            <td>No Pin</td>
+        <% end %>
 
 
         <!-- SFDC core.alt_address -->
         <% if core.alt_address %>
             <td><%= link_to core.alt_address, core, target: "_blank" %></td>
         <% else %>
-            <td>No Address</td>
+            <td>Address Not Scraped</td>
         <% end %>
 
 
         <!-- Map Module -->
         <% if core.alt_address %>
             <td class="geo w-xsm fa-blue">
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.alt_address}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.alt_address}" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.alt_address}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Address: #{core.alt_address}" %></span>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account" %>
+                <%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Scraped Address Linked" %>
             </td>
         <% end %>
 
@@ -116,11 +136,11 @@
         <!-- phone -->
         <% unless core.sfdc_ph == nil %>
             <td class="geo w-xsm fa-blue">
-                <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_ph}" %>
+                <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Phone: #{core.sfdc_ph}" %>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Phone" %>
+                <%= fa_icon "phone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Scraped Phone Linked" %>
             </td>
         <% end %>
 

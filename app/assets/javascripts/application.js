@@ -195,15 +195,15 @@ function changeHierarchy(el) {
 ( function($) {
     function iframeModalOpen(){
         $('.modalButton').on('click', function(e) {
-            console.log(this);
+            // console.log(this);
             var src = $(this).attr('data-src');
 
-            $("#myModal iframe").attr({
+            $("#previewModal iframe").attr({
                 'src': src
             });
         });
 
-        $('#myModal').on('hidden.bs.modal', function(){
+        $('#previewModal').on('hidden.bs.modal', function(){
             $(this).find('iframe').html("");
             $(this).find('iframe').attr("src", "");
         });

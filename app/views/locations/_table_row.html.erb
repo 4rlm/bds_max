@@ -21,7 +21,7 @@
     <!-- GEO URL LIGTHBOX MODAL  -->
     <% if location.url %>
         <td class="<%= geo_indicator(location.crm_url, location.url) %>">
-            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(location.url) %>">
+            <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= add_http(location.url) %>">
             <%= fa_icon "clone lg" %></span>
         </td>
     <% else %>
@@ -53,7 +53,7 @@
     <!-- CRM URL LIGTHBOX MODAL  -->
     <% if location.crm_url %>
         <td class="<%= geo_indicator(location.crm_url, location.url) %>">
-            <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(location.crm_url) %>">
+            <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= add_http(location.crm_url) %>">
             <%= fa_icon "clone lg" %></span>
         </td>
     <% else %>
@@ -74,7 +74,7 @@
 
     <!-- GEO ACCOUNT NAME w/ MODAL LIGHTBOX-->
     <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %>">
-        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= location.geo_acct_name %></span>
+        <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= location.geo_acct_name %></span>
     </td>
 
 
@@ -89,7 +89,7 @@
 
     <!-- CRM ACCOUNT NAME w/ MODAL LIGHTBOX-->
     <td class="<%= geo_indicator(location.acct_name, location.geo_acct_name) %>">
-        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.acct_name}" %>"><%= location.acct_name %></span>
+        <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.acct_name}" %>"><%= location.acct_name %></span>
     </td>
 
 
