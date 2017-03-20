@@ -56,7 +56,7 @@
             <!-- <td><%#= @location.hierarchy %></td> -->
             <% if @location.coordinates %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
             </td>
             <% else %>
             <td></td>
@@ -64,7 +64,7 @@
 
             <% unless @location.url == nil %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>">
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= @location.url %>">
                 <%= fa_icon "clone lg" %></span>
             </td>
             <% else %>
@@ -135,7 +135,7 @@
 
                     <% unless location.crm_url == nil %>
                     <td>
-                        <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.crm_url %>">
+                        <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= location.crm_url %>">
                         <%= fa_icon "clone lg" %></span></span>
                     </td>
                     <% else %>
@@ -232,7 +232,7 @@
             <!-- <td><%#= @location.hierarchy %></td> -->
             <% if @location.coordinates %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
             </td>
             <% else %>
             <td></td>
@@ -240,7 +240,7 @@
 
             <% unless @location.url == nil %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>">
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= @location.url %>">
                 <%= fa_icon "clone lg" %></span>
             </td>
             <% else %>
@@ -302,7 +302,7 @@
 
             <% unless location.crm_url == nil %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.crm_url %>">
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= location.crm_url %>">
                 <%= fa_icon "clone lg" %></span></span>
             </td>
             <% else %>
@@ -389,7 +389,7 @@
             <!-- <td><%#= @location.hierarchy %></td> -->
             <% if @location.coordinates %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{@location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
             </td>
             <% else %>
             <td></td>
@@ -397,7 +397,7 @@
 
             <% unless @location.url == nil %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= @location.url %>">
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= @location.url %>">
                 <%= fa_icon "clone lg" %></span>
             </td>
             <% else %>
@@ -434,7 +434,7 @@
 
             <% if location.coordinates %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{location.geo_acct_name}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map" %></span>
             </td>
             <% else %>
             <td></td>
@@ -442,7 +442,7 @@
 
             <% unless location.url == nil %>
             <td>
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= location.url %>">
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= location.url %>">
                 <%= fa_icon "clone lg" %></span></span>
             </td>
             <% else %>
@@ -481,7 +481,7 @@
 <!-- ################################ -->
 
 <!-- #### MODAL TEMPLATE!!  ######## -->
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="previewModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">

@@ -1316,6 +1316,23 @@ class IndexerService
 
 
     # ===== Move indexer info to core
+
+    def indexer_mover_str()
+        indexers = Indexer.where(archive: false)
+        indexers.each do |indexer|
+            m100s = indexer.score100[0...1]
+            m75s = indexer.score75[0...1]
+            m50s = indexer.score50[0...1]
+            m25s = indexer.score25[0...1]
+
+            
+
+
+
+        indexer_mover()
+    end
+
+
     def indexer_mover
         indexers = Indexer.where(archive: false)
 

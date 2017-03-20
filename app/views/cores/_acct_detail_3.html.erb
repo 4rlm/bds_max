@@ -11,34 +11,35 @@
         <!-- sales_person -->
         <td><%= core.sfdc_sales_person %></td>
 
-        <!-- group name -->
-        <% if core.sfdc_group %>
+
+        <!-- Group Icon - Cube-->
             <td class="geo w-xsm fa-blue"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "Group Name" %></td>
-        <% else %>
-            <td class="geo w-xsm fa-gray"><%= fa_icon "cubes lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Group Name" %></td>
-        <% end %>
-        <!-- group name -->
+
+        <!-- Group Name w/ LINK-->
         <% if core.sfdc_group %>
-            <td class="geo w-xsm"><%= core.sfdc_grp_rt %></td>
-            <td><%= link_to core.sfdc_group, core, target: "_blank" %></td>
+            <td>
+                <%= link_to core.sfdc_acct_url, :target => "_blank", class: 'tooltips', title: "Group ID / Link: #{core.sfdc_group_id}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                <%= core.sfdc_group %>
+                <% end %>
+            </td>
         <% else %>
-            <td>No Group</td>
+            <td>No Group Account</td>
         <% end %>
 
-        <!-- Ultimate Group: core.sfdc_ult_grp -->
-        <% if core.sfdc_ult_grp %>
-            <td class="geo w-xsm fa-blue"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Ultimate Group Account" %></td>
-        <% else %>
-            <td class="geo w-xsm fa-gray"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Ultimate Group Account" %></td>
-        <% end %>
 
-        <!-- ultimate group name -->
+        <!-- Ultimate Group Icon - Cube-->
+        <td class="geo w-xsm fa-blue"><%= fa_icon "cube lg", "data-toggle": "tooltip", "data-placement": "top", title: "Ultimate Group Account" %></td>
+
+        <!-- Ultimate Group Name w/ LINK-->
         <% if core.sfdc_ult_grp %>
-            <!-- ultimate group rt -->
-            <td class="geo w-xsm"><%= core.sfdc_ult_rt %></td>
-            <td><%= link_to core.sfdc_ult_grp, core, target: "_blank" %></td>
+            <td>
+                <%= link_to core.sfdc_acct_url, :target => "_blank", class: 'tooltips', title: "Ultimate Group ID / Link: #{core.sfdc_ult_grp_id}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                <%= core.sfdc_ult_grp %>
+                <% end %>
+            </td>
         <% else %>
             <td>No Ultimate Group</td>
         <% end %>
+
     </tr>
 </table>
