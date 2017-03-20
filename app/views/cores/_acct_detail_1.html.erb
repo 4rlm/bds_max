@@ -9,7 +9,7 @@
         <!-- bds_status -->
         <th>Core</th>
         <!-- indexer status -->
-        <th colspan="2">Indexer</th>
+        <th colspan="2">Page Finder</th>
         <!-- staffer status -->
         <th colspan="2">Staffer</th>
         <!-- dealer website template -->
@@ -46,74 +46,36 @@
             </td>
         <% end %>
 
-        <!-- staff indexer status -->
-        <% if core.indexer_date != nil && core.staff_pf_sts == "Matched" %>
+
+        <% if core.staff_link %>
             <td class="geo w-xsm fa-blue">
                 <%= link_to core.staff_link, :target => "_blank" do %>
-                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_text}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_text}" %>
                 <% end %>
-            </td>
-        <% elsif core.indexer_date != nil && core.staff_pf_sts == "Indexer Result" %>
-            <td class="geo w-xsm fa-green">
-                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.staff_pf_sts == "No Matches" %>
-            <td class="geo w-xsm fa-black">
-                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.staff_pf_sts == "Delete" %>
-            <td class="geo w-xsm fa-red">
-                <%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.staff_pf_sts == "Flag" %>
-            <td class="geo w-xsm fa-red">
-                <%= fa_icon "flag lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.staff_pf_sts == "Queue Indexer" %>
-            <td class="geo w-xsm fa-orange">
-                <%= fa_icon "spinner pulse lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staff_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                <%= fa_icon "users lg", "data-toggle": "tooltip", "data-placement": "top", title: "Staff Page Not Found. Check Scraper Module." %>
             </td>
         <% end %>
 
-        <!-- loc indexer status -->
-        <% if core.indexer_date != nil && core.loc_pf_sts == "Matched" %>
+
+        <% if core.location_link %>
             <td class="geo w-xsm fa-blue">
                 <%= link_to core.location_link, :target => "_blank" do %>
-                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_text}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
+                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.location_text}" %>
                 <% end %>
-            </td>
-        <% elsif core.indexer_date != nil && core.loc_pf_sts == "Indexer Result" %>
-            <td class="geo w-xsm fa-green">
-                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.loc_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.loc_pf_sts == "No Matches" %>
-            <td class="geo w-xsm fa-black">
-                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.loc_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.loc_pf_sts == "Delete" %>
-            <td class="geo w-xsm fa-red">
-                <%= fa_icon "warning lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.loc_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.loc_pf_sts == "Flag" %>
-            <td class="geo w-xsm fa-red">
-                <%= fa_icon "flag lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.loc_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
-            </td>
-        <% elsif core.indexer_date != nil && core.loc_pf_sts == "Queue Indexer" %>
-            <td class="geo w-xsm fa-orange">
-                <%= fa_icon "spinner pulse lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.loc_pf_sts}: #{core.indexer_date.strftime("%m/%d/%Y")}" %>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Status" %>
+                <%= fa_icon "sitemap lg", "data-toggle": "tooltip", "data-placement": "top", title: "Locations Page Not Found. Check Scraper Module." %>
             </td>
         <% end %>
 
+
+
         <!-- crm staffer status -->
-        <% if core.staffer_date != nil && core.staffer_sts == "CRM Contacts"%>
+        <% if core.staffer_sts == "CRM Contacts"%>
             <td class="geo w-xsm fa-blue">
                 <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
                     <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.staffer_sts}: #{core.staffer_date.strftime("%m/%d/%Y")}" %>
@@ -124,6 +86,8 @@
                 <%= fa_icon "user-plus lg", "data-toggle": "tooltip", "data-placement": "top", title: "No CRM Contacts" %>
             </td>
         <% end %>
+
+
 
         <!-- web staffer status -->
         <% if core.staffer_date != nil && core.staffer_sts == "Web Contacts"%>

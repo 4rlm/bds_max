@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170319152210) do
+ActiveRecord::Schema.define(version: 20170319231059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(version: 20170319152210) do
     t.string   "redirect_sts"
     t.string   "flagged_note"
     t.string   "bug_note"
+    t.integer  "crm_staff_count",   default: 0
+    t.integer  "web_staff_count",   default: 0
   end
 
   create_table "dashboards", force: :cascade do |t|
@@ -191,8 +193,9 @@ ActiveRecord::Schema.define(version: 20170319152210) do
     t.string   "cop_type"
     t.string   "cop_franchises",    default: [],                 array: true
     t.string   "flagged_note"
-    t.integer  "staff_count",       default: 0
+    t.integer  "web_staff_count",   default: 0
     t.string   "merged_ids",        default: [],                 array: true
+    t.integer  "crm_staff_count",   default: 0
   end
 
   create_table "locations", force: :cascade do |t|
