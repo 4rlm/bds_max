@@ -22,8 +22,6 @@
  $main-blue: #4285F4;
 
 
-
-
 // NEW SEARCH AND FILTER CSS
 .new-search-container{
     border: solid 3px #d9d9d9;
@@ -33,11 +31,11 @@
     color: #333;
 }
 
-.col-md-2.new-search-left-col {
+.col-md-1.new-search-left-col {
     padding-right: 0px;
 }
 
-.col-md-10.new-search-right-col {
+.col-md-11.new-search-right-col {
     padding-left: 0;
 }
 
@@ -76,6 +74,29 @@ table.new-search-table {
     background-image:linear-gradient(#ddd, #f2f2f2);
 }
 
+.inlined {
+    display: inline-block;
+}
+
+.btn.btn-primary {
+    // background-image:linear-gradient(#6ea3f7, #4285F4);
+    background-image:linear-gradient(#f2f2f2, #ddd);
+    color: #333;
+    border: #d9d9d9;
+    box-shadow: 2px 2px 2px gray;
+}
+
+.btn.btn-primary:hover {
+    // background-image:linear-gradient(#4285F4, #6ea3f7);
+    background-image:linear-gradient(#ddd, #f2f2f2);
+    color: #333;
+}
+
+.scr-btn-1{
+    margin-top: 7px;
+}
+
+
 
 .button-style {
     color: #333;
@@ -95,7 +116,7 @@ table.new-search-table {
 // NEW INDEXER/SCRAPER PROFILE LAYOUT
 
 
-.scraper-profile {
+.scr-prof {
     box-shadow: 5px 5px 5px gray;
     max-width: 100%;
     padding-right: 0;
@@ -143,11 +164,11 @@ table.new-search-table {
 
 
 
-.scraper-profile tr:hover {
+.scr-prof tr:hover {
     background: #ffffb3;
 }
 
-.scraper-profile th, .scraper-profile td {
+.scr-prof th, .scr-prof td {
     font-size: 90%;
     padding-left: 0;
     padding-right: 0;
@@ -164,29 +185,83 @@ table.new-search-table {
 }
 
 
-.scraper-profile th {
-    background-image:linear-gradient(#f2f2f2, #ddd);
+.scr-prof th {
+    background-image:linear-gradient(#f2f2f2, #e6e6e6);
     // background: #4285F4;
 }
 
+.scr-w-med {
+    width: 120px;
+}
 
-.scraper-profile .w-sm {
+.scr-w-lg {
+    width: 290px;
+}
+
+
+.scr-w-md {
+    // min-width: 30px;
+    min-width: 20px;
+}
+
+
+.scr-prof .w-sm {
     // min-width: 30px;
     width: 70px;
 }
 
 
 .scraper-w-sm {
-    width: 120px;
+    width: 128px;
 }
 
 
-.scraper-w-xsm {
-    width: 90px;
+.scr-w-xsm {
+    width: 69px;
 }
 
-.scraper-tiny {
-    width: 120px;
+.scr-tiny {
+    width: 40px;
+}
+
+
+.scr-w-xsm.scr-bold {
+    font-weight: bold;
+}
+
+.scr-bold td{
+    font-weight: bold;
+}
+
+
+
+.scr-score-badge {
+    background-image:linear-gradient(#f2f2f2, #ddd);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.scr-score-badge a:link, a:visited {
+    text-decoration: none;
+    display: inline-block;
+
+}
+
+.scr-score-badge:hover {
+    background-image:linear-gradient(#ddd, #f2f2f2);
+}
+
+.staffer-w-sm {
+    width: 40px;
+}
+
+.staffer-w-xsm {
+    width: 30px;
+}
+
+.staffer-w-md {
+    width: 200px;
 }
 
 
@@ -864,7 +939,7 @@ th.indicator {
 }
 
 .geo-result-table th, .geo-result-table td {
-    font-size: 80%;
+    font-size: 90%;
     padding-left: 0;
     padding-right: 0;
     margin-left: 0;
@@ -956,10 +1031,18 @@ th.indicator {
     background-color: #ccffcc;
 }
 
+.geo .match-green {
+    background-color: #ccffcc;
+}
+
 
 .geo.w-xxsm, .geo.w-xsm, .geo.w-sm {
     padding-left: 0;
     padding-right: 0;
+}
+
+.geo.w-md {
+    width: 110px;
 }
 
 .geo.w-sm {

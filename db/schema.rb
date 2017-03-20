@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318230748) do
+ActiveRecord::Schema.define(version: 20170319231059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,12 @@ ActiveRecord::Schema.define(version: 20170318230748) do
     t.string   "crm_acct_pin"
     t.string   "crm_phones",        default: [],              array: true
     t.string   "who_sts"
-    t.string   "acct_merge_sts"
     t.string   "match_score"
     t.string   "acct_match_sts"
     t.string   "ph_match_sts"
     t.string   "pin_match_sts"
     t.string   "url_match_sts"
+    t.string   "acct_merge_sts"
     t.string   "alt_acct_pin"
     t.string   "alt_acct"
     t.string   "alt_street"
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(version: 20170318230748) do
     t.string   "redirect_sts"
     t.string   "flagged_note"
     t.string   "bug_note"
+    t.integer  "crm_staff_count",   default: 0
+    t.integer  "web_staff_count",   default: 0
   end
 
   create_table "dashboards", force: :cascade do |t|
@@ -184,7 +186,6 @@ ActiveRecord::Schema.define(version: 20170318230748) do
     t.string   "score75",           default: [],                 array: true
     t.string   "score50",           default: [],                 array: true
     t.string   "score25",           default: [],                 array: true
-    t.string   "rejected_ids",      default: [],                 array: true
     t.string   "flagged_ids",       default: [],                 array: true
     t.string   "dropped_ids",       default: [],                 array: true
     t.string   "bug"
@@ -192,7 +193,9 @@ ActiveRecord::Schema.define(version: 20170318230748) do
     t.string   "cop_type"
     t.string   "cop_franchises",    default: [],                 array: true
     t.string   "flagged_note"
-    t.integer  "staff_count",       default: 0
+    t.integer  "web_staff_count",   default: 0
+    t.string   "merged_ids",        default: [],                 array: true
+    t.integer  "crm_staff_count",   default: 0
   end
 
   create_table "locations", force: :cascade do |t|

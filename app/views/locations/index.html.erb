@@ -1,19 +1,22 @@
-<h1 class="page-header">Geolocations</h1>
-<h4 class="text-center">GeoLocated Account Locations</h4>
-<h4 class="text-center">Used to find duplicates and see which stores are nearest.</h4>
-<h5 class="text-center">Click any Address to View Map and List of Local Area.</h5>
+<!-- MODAL PARTIAL -->
+<%= render partial: 'modal' %>
 
-<h4>Total GPS Accounts: <%= number_with_delimiter(@locations_count) %></h4>
-<h4>Selected GPS Accounts: <%= number_with_delimiter(@selected_locations_count) %></h4>
-
-<%= render partial: 'power_buttons' %>
+<!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
-<%= render partial: 'buttons' %>
+
+
+<span class="btn btn-success btn-xs" onClick="mergeData();">Merge Data</span>
+<span class="btn btn-danger btn-xs" onClick="flagData();">Flag Data</span>
 
 <div class="geo-container">
     <div class="row profile-row">
         <div class="profile-col col-md-12">
+
             <table class="table table-bordered geo-result-table">
+
+        <!-- <div class="scr-prof"> -->
+            <!-- <table class="table table-bordered no-wrap"> -->
+
                 <% coords = [] %>
                 <% num = 0 %>
                 <% @locations.each do |location| %>

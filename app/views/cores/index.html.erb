@@ -1,19 +1,14 @@
-<h1 class="page-header">Accounts</h1>
-<h4 class="text-center">Accounts from All Sources</h4>
-
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
 
 <!-- ACCOUNTS - LIST VIEW PARTIAL -->
 <% if @view_mode == "list" %>
-    <h3 class="section-header">Account List View</h3>
     <%= render partial: 'buttons', locals: { mode: @view_mode } %>
     <%= render partial: 'list_view' %>
 <% end %>
 
 <!-- ACCOUNTS - DETAILED VIEW PARTIAL -->
 <% if @view_mode == "detail" %>
-    <h3 class="section-header">Detailed Account View</h3>
     <%= render partial: 'buttons', locals: { mode: @view_mode } %>
     <%= render partial: 'detailed_view' %>
 <% end %>

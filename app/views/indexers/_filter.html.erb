@@ -1,8 +1,8 @@
 <%= form_tag "/indexers", method: :get, class: 'form-inline'  do %>
 <div class="new-search-container">
     <div class="row">
-        <div class="col-md-2 new-search-left-col">
-            <!-- <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap"> -->
+
+        <div class="col-md-1 new-search-left-col">
             <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th colspan="2">Match Status</th>
@@ -25,7 +25,7 @@
             </table>
         </div>
 
-        <div class="col-md-10 new-search-right-col">
+        <div class="col-md-11 new-search-right-col">
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered table-hover text-nowrap new-search-table">
@@ -93,5 +93,22 @@
 
 </div>
 
-<%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
+
+<div class="row">
+        <div class="col-md-3 scr-btn-1 text-center">
+            <%= link_to 'Add Record', new_indexer_path, class: 'btn btn-primary btn-xs' %>
+            <%= link_to 'Import CSV', indexer_import_page_path, class: 'btn btn-primary btn-xs' %>
+            <%= link_to 'Download CSV', indexers_path(format: "csv"), class: 'btn btn-primary btn-xs' %>
+        </div>
+
+        <div class="col-md-6">
+            <%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
+        </div>
+
+        <div class="col-md-3 text-center">
+            <h5 class="inlined">Selected: <%= number_with_delimiter(@selected_indexers_count) %> | <%= number_with_delimiter(@indexer_count) %></h5>
+        </div>
+
+</div>
+
 <% end %>

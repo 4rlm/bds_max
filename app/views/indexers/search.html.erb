@@ -6,9 +6,9 @@
 <div class="new-search-container">
 
     <div class="row">
-        <div class="col-md-2 new-search-left-col">
-            <!-- <table class="theme-layout-table filter-table table table-bordered table-hover text-nowrap"> -->
+        <div class="col-md-1 new-search-left-col">
             <table class="table table-bordered table-hover text-nowrap new-search-table">
+
                 <tr>
                     <th colspan="2">Match Status</th>
                 </tr>
@@ -30,7 +30,7 @@
             </table>
         </div>
 
-        <div class="col-md-10 new-search-right-col">
+        <div class="col-md-11 new-search-right-col">
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered table-hover text-nowrap new-search-table">
@@ -98,9 +98,15 @@
 
 </div>
 
-<%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
-
+<div class="row">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <%= submit_tag "Search Scraper Results", class: 'new-wide-button' %>
+        </div>
+        <div class="col-md-3">
+            <h4 class="text-center">Total: <%= number_with_delimiter(@indexer_count) %></h4>
+        </div>
+    </div>
+</div>
 
 <% end %>
-
-<h4>Total Scraped URLs: <%= number_with_delimiter(@indexer_count) %></h4>
