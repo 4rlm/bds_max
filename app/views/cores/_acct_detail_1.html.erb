@@ -3,7 +3,7 @@
     <tr>
         <!-- Checkbox / Num -->
         <!-- Dealer Website URL -->
-        <th><%= num %></th>
+        <th class="geo w-sm"><%= num %></th>
         <!-- account id / sfdc acct link -->
         <th>ID</th>
         <!-- bds_status -->
@@ -22,13 +22,13 @@
     </tr>
     <tr>
         <!-- tier -->
-        <td class="geo w-sm"><span data-toggle="tooltip" data-placement="top" title="Sales Tier"><%= core.sfdc_tier %></span></td>
+        <td><span data-toggle="tooltip" data-placement="top" title="Sales Tier"><%= core.sfdc_tier %></span></td>
 
         <!-- Account Icon, SFDC Link, Merge Status -->
         <% unless core.sfdc_acct_url == nil %>
             <td class="geo w-xsm fa-blue">
                 <%= link_to add_http(core.sfdc_acct_url), :target => "_blank" do %>
-                    <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{core.sfdc_id}" %>
+                    <%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "SFDC Account ID / Link: #{core.sfdc_id}" %>
                 <% end %>
             </td>
         <% else %>
