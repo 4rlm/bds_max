@@ -28,7 +28,11 @@ class IndexerService
             if phones.any?
                 num += 1
                 invalid = Regexp.new("[0-9]{5,}")
-                result = phones.reject { |x| invalid.match(x) }
+                valid_phones = phones.reject { |x| invalid.match(x) }
+
+                reg = Regexp.new("[(]?[0-9]{3}[ ]?[)-.]?[ ]?[0-9]{3}[ ]?[-. ][ ]?[0-9]{4}")
+                result = valid_phones.select { |x| reg.match(x) }
+
                 indexer.update_attribute(:phones, result)
             end
         end
@@ -1324,8 +1328,7 @@ class IndexerService
             m75s = indexer.score75[0...1]
             m50s = indexer.score50[0...1]
             m25s = indexer.score25[0...1]
-
-            
+        end
 
 
 

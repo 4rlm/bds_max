@@ -156,8 +156,8 @@ class DashboardsController < ApplicationController
     # end
 
     def power_btn
-        # @service.delay.item_list_to_hash
-        @service.item_list_to_hash
+        @service.delay.item_list_to_hash
+        # @service.item_list_to_hash
         redirect_to dashboards_path
     end
 
