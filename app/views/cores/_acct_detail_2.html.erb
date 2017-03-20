@@ -74,12 +74,52 @@
         <% end %>
 
 
+
+
+
         <!-- Merge this with Below Modal -->
             <td class="geo w-md"><%= link_to "Scraped", indexer_show_detail_path(core: core), target: '_blank' %></td>
 
 
         <!-- Trial for Scraped Data Modal -->
-            <td><span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= indexer_show_detail_path(core: core) %>">Scraped</span></td>
+            <td><span class="modalButton" data-toggle="modal" data-target="#scrapedModal" data-src="http://localhost:3000<%= indexer_show_detail_path(core: core) %>">Scraped</span></td>
+
+
+            <!-- <td><span class="modalButton" data-toggle="modal" data-target="#scrapedModal" data-src="http://www.mylovelypups.com">Test</span></td> -->
+
+
+
+
+        <!-- <td><iframe src="http://www.grossinger.com" width="900" height="400" align="right"></td> -->
+
+
+
+
+        <!-- This modal is only for the "Scraped Data" -->
+        <div class="modal fade" id="scrapedModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="close-button">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" frameborder="2"></iframe>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+
 
 
         <td>

@@ -1,6 +1,6 @@
 <% num = 0 %>
 <% @indexers.each do |indexer| %>
-    <h2 class="text-center">Scraped Data for: <%= indexer.clean_url %></h2>
+    <!-- <h4 class="">Scraped Data for: <%#= indexer.clean_url %></h4> -->
     <% num +=1 %>
     <%= render partial: 'indexer_detail', locals: {indexer: indexer, num: num} %>
 <% end %>

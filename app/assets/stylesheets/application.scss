@@ -22,6 +22,57 @@
  $main-blue: #4285F4;
 
 
+ // #scrapedModal {
+ //    .modal-dialog {
+ //        width: 1200px;
+ //        height: 300px;
+ //    }
+ //    .modal-content {
+ //    }
+ // }
+
+ #scrapedModal {
+
+    .modal-dialog {
+        width: 100%;
+        // height: 255px;
+        height: 38%;
+        overflow: hidden;
+        align: center;
+        text-align: center;
+
+        // overflow: scroll;
+        // padding-top: -50px;
+        vertical-align: bottom;
+        // display: block;
+        // vertical-align: baseline;
+        // align: bottom;
+        // transform: scale(1.03);
+        // transform-origin: top left;
+
+        margin-left: 2%;
+        margin-top: -.9%;
+
+    }
+
+
+    iframe {
+        // margin-top: -80px;
+        margin-top: -4%;
+        margin-left: -3.2%;
+        text-align: center;
+        width: 100%;
+        // position: absolute;
+        // vertical-align: bottom;
+        //
+    }
+
+
+ }
+
+
+
+
 // NEW SEARCH AND FILTER CSS
 .new-search-container{
     border: solid 3px #d9d9d9;

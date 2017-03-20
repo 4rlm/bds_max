@@ -214,6 +214,28 @@ function changeHierarchy(el) {
     });
 } ) ( jQuery );
 
+( function($) {
+    function iframeModalOpen(){
+        $('.modalButton').on('click', function(e) {
+            // console.log(this);
+            var src = $(this).attr('data-src');
+
+            $("#scrapedModal iframe").attr({
+                'src': src
+            });
+        });
+
+        $('#scrapedModal').on('hidden.bs.modal', function(){
+            $(this).find('iframe').html("");
+            $(this).find('iframe').attr("src", "");
+        });
+    }
+
+    $(document).ready(function(){
+        iframeModalOpen();
+    });
+} ) ( jQuery );
+
 
 // ========== Admin's user level changer buttons ==========
 var users = new Array();
