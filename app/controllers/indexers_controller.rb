@@ -175,8 +175,14 @@ class IndexersController < ApplicationController
 
         # @service.indexer_mover
 
-        @service.delay.count_staff
+        # @service.delay.count_staff
         # @service.count_staff
+
+        # @service.delay.count_staff
+        # @service.count_staff
+
+        # @service.delay.remove_invalid_phones
+        @service.remove_invalid_phones
 
         redirect_to indexers_path
     end
@@ -211,7 +217,7 @@ class IndexersController < ApplicationController
 
 
     def rooftop_data_getter_btn
-        #   @service.rooftop_data_getter
+          @service.rooftop_data_getter
         #   @service.delay.rooftop_data_getter
 
         redirect_to indexers_path

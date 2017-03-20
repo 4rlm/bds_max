@@ -106,12 +106,14 @@ class CsHelper # Contact Scraper Helper Method
         indexer_phones.concat(phones)
         puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
 
-        new_phones = @rts_manager.clean_phones_arr(indexer_phones)
+        crm_count = crm_staff_counter(indexer.clean_url)
 
         if count > 0
-            indexer.update_attributes(phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result", staff_count: count)
+            new_phones = @rts_manager.clean_phones_arr(indexer_phones)
+
+            indexer.update_attributes(phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result", web_staff_count: count, crm_staff_count: crm_count)
         else
-            indexer.update_attributes(contact_status: "CS None", indexer_status: "CS None")
+            indexer.update_attributes(contact_status: "CS None", indexer_status: "CS None", crm_staff_count: crm_count)
         end
     end
 
@@ -153,6 +155,10 @@ class CsHelper # Contact Scraper Helper Method
             return true if str.include?(neg)
         end
         return false
+    end
+
+    def crm_staff_counter(clean_url)
+        Staffer.where(domain: clean_url).where(cont_source: "CRM").count
     end
 
     # In case, template scraper wants to use this way.

@@ -20,14 +20,29 @@ require 'indexer_helper/helper' # All helper methods for indexer_service
 
 class IndexerService
 
+    def remove_invalid_phones
+        indexers = Indexer.where(archive: false)
+        num = 0
+        indexers.each do |indexer|
+            phones = indexer.phones
+            if phones.any?
+                num += 1
+                invalid = Regexp.new("[0-9]{5,}")
+                result = phones.reject { |x| invalid.match(x) }
+                indexer.update_attribute(:phones, result)
+            end
+        end
+    end
+
     def count_staff
         indexers = Indexer.where(archive: false)
         num = 0
         indexers.each do |indexer|
             num += 1
-            count = Staffer.where(domain: indexer.clean_url).where(cont_source: "Web").count
+            web_count = Staffer.where(domain: indexer.clean_url).where(cont_source: "Web").count
+            crm_count = Staffer.where(domain: indexer.clean_url).where(cont_source: "CRM").count
             puts ">>>>> #{num}"
-            indexer.update_attribute(:staff_count, count)
+            indexer.update_attributes(web_staff_count: web_count, crm_staff_count: crm_count)
         end
     end
 

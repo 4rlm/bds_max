@@ -34,7 +34,7 @@ module IndexersHelper
         HTML
 
         count = <<-HTML
-            <span class="badge" data-toggle="tooltip" data-placement="top" title="staff #">#{indexer.staff_count}</span>
+            <span class="badge" data-toggle="tooltip" data-placement="top" title="staff #">#{indexer.web_staff_count}</span>
         HTML
         (link + " " + count).html_safe
     end

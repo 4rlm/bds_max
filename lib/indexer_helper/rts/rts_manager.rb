@@ -95,12 +95,15 @@ class RtsManager # Update database with the result of RoofTop Scraper
         raw_data_2 = html.at_css('body').text
 
         reg = Regexp.new("[(]?[0-9]{3}[ ]?[)-.]?[ ]?[0-9]{3}[ ]?[-. ][ ]?[0-9]{4}")
+        invalid = Regexp.new("[0-9]{5,}")
 
         data_1 = raw_data_1.scan(reg)
         data_2 = raw_data_2.scan(reg)
 
-        phones = data_1.uniq + data_2.uniq
-        phones.uniq.sort
+        sub_phones = data_1.uniq + data_2.uniq
+        phones = sub_phones.uniq.sort
+        result = phones.reject { |x| invalid.match(x) }
+        return result
     end
 
     def clean_phones_arr(phones)
