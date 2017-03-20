@@ -31,7 +31,7 @@
         <!-- Map Module -->
         <% if core.sfdc_acct %>
             <td class="geo w-xsm fa-blue">
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.coordinates}" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.sfdc_acct}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Map LightBox  #{core.coordinates}" %></span>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
@@ -79,7 +79,7 @@
 
 
         <!-- Trial for Scraped Data Modal -->
-            <td><span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= indexer_show_detail_path(core: core) %>">Scraped</span></td>
+            <td><span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="<%= indexer_show_detail_path(core: core) %>">Scraped</span></td>
 
 
         <td>
@@ -124,7 +124,7 @@
         <!-- Map Module -->
         <% if core.alt_address %>
             <td class="geo w-xsm fa-blue">
-                <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.alt_address}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Address: #{core.alt_address}" %></span>
+                <span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.alt_address}" %>"><%= fa_icon "map-marker lg", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Address: #{core.alt_address}" %></span>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
