@@ -30,7 +30,7 @@ module IndexersHelper
         link_name = indexer.contact_status ? indexer.contact_status : "No contact_status"
 
         link = <<-HTML
-            #{link_to link_name, staffer_acct_contacts_path(core: core, indexer: indexer), :target => "_blank"}
+            #{link_to link_name, staffer_acct_contacts_path(indexer: indexer), :target => "_blank"}
         HTML
 
         count = <<-HTML

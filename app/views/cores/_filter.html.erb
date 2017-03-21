@@ -10,7 +10,7 @@
             <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
                     <th class="th-2">Account Merge Status</th>
-                    <th class="th-2">Contact Merge Status</th>
+                    <!-- <th class="th-2">Contact Merge Status</th> -->
                     <th class="th-2">Match Score</th>
                     <th class="th-2">Name Match</th>
                     <th class="th-2">Pin Match</th>
@@ -18,13 +18,13 @@
                     <th class="th-2">Phone Match</th>
                 </tr>
                 <tr>
-                    <td><%= select_tag :acct_merge_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :staffer_sts, options_for_select(@staffer_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :match_score, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :acct_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :pin_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :url_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
-                    <td><%= select_tag :ph_match_sts, options_for_select(@holding_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :acct_merge_sts, options_for_select(@acct_merge_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <!-- <td><%#= select_tag :staffer_sts, options_for_select(@staffer_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
+                    <td><%= select_tag :match_score, options_for_select(@match_score_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :acct_match_sts, options_for_select(@acct_match_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :pin_match_sts, options_for_select(@pin_match_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :url_match_sts, options_for_select(@url_match_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <td><%= select_tag :ph_match_sts, options_for_select(@ph_match_sts_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                 </tr>
             </table>
         </div>

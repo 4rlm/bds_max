@@ -291,12 +291,13 @@ class IndexersController < ApplicationController
     def set_option_list
         @indexer_status_opts = grap_item_list("indexer_status")
         @redirect_status_opts = grap_item_list("redirect_status")
+        @who_status_opts = grap_item_list("who_status")
+        @template_opts = grap_item_list("template")
+        @rt_sts_opts = grap_item_list("rt_sts")
         @stf_status_opts = grap_item_list("stf_status")
         @loc_status_opts = grap_item_list("loc_status")
         @contact_status_opts = grap_item_list("contact_status")
-        @rt_sts_opts = grap_item_list("rt_sts")
         @cont_sts_opts = grap_item_list("cont_sts")
-        @template_opts = grap_item_list("template")
         @state_opts = grap_item_list("state")
     end
 

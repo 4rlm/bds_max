@@ -38,15 +38,13 @@
                             <th>PF Staff Status</th>
                             <th>PF Location Status</th>
                             <th>Contact Status</th>
-                            <th>COP Status</th>
+                            <!-- <th>COP Status</th> -->
                         </tr>
                         <tr>
                             <td><%= select_tag :indexer_status, options_for_select(@indexer_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                             <td><%= select_tag :redirect_status, options_for_select(@redirect_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
-                            <!-- WhoIs -->
-                            <!-- TEMPORARILY LINKING TO REDIRECT STATUS -->
-                            <td><%= select_tag :who_status, options_for_select(@redirect_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                            <td><%= select_tag :who_status, options_for_select(@who_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
                             <td><%= select_tag :template, options_for_select(@template_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
 
@@ -59,7 +57,7 @@
 
                             <!-- CoPilot -->
                             <!-- TEMPORARILY LINKING TO REDIRECT STATUS -->
-                            <td><%= select_tag :cop_type, options_for_select(@contact_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                            <!-- <td><%#= select_tag :cop_type, options_for_select(@contact_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
                         </tr>
                     </table>
                 </div>
