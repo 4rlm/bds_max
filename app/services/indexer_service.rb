@@ -906,21 +906,45 @@ class IndexerService
         new_str
     end
 
+    def acct_pin_gen_helper
+        cores = Core.where.not(full_address: nil).where(sfdc_zip: nil)
+        cores.each do |core|
+            full_address = core.full_address
+
+            puts "\n\n#{"-"*40}\n"
+
+            if full_address.blank?
+                puts "Blank"
+                p full_address
+                # core.update_attribute(:full_address, nil)
+            else
+                address_parts = full_address.split(",")
+                last_part = address_parts[-1]
+                if !last_part.blank? && last_part.length == 5
+                    new_zip = last_part
+                    puts "Address: #{full_address}"
+                    puts "new_zip: #{new_zip}"
+                    # core.update_attribute(:sfdc_zip, new_zip)
+                end
+            end
+        end
+    end
+
 
 
     def acct_pin_gen_starter
-        # inputs = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil)
-        inputs = Location.where.not(street: nil).where.not(postal_code: nil)
+        inputs = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil).where(crm_acct_pin: nil)[0..100]
+        # inputs = Location.where.not(street: nil).where.not(postal_code: nil)
         # inputs = Who.where.not(registrant_address: nil).where.not(registrant_zip: nil)
 
         inputs.each do |input|
-            street = input.street
-            zip = input.postal_code
+            street = input.sfdc_street
+            zip = input.sfdc_zip
             acct_pin = acct_pin_gen(street, zip)
             puts "\n\nstreet: #{street}"
             puts "zip: #{zip}"
             puts "Acct Pin: #{acct_pin}\n#{"-"*40}"
-            input.update_attribute(:geo_acct_pin, acct_pin)
+            input.update_attribute(:crm_acct_pin, acct_pin)
         end
     end
 
@@ -1321,19 +1345,19 @@ class IndexerService
 
     # ===== Move indexer info to core
     def indexer_mover
-        p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")[10...20]
-        by_score(p1_indexers, :clean_url_crm_ids)
-
-        p2_indexers =  Indexer.where(archive: false).where.not("crm_acct_ids = '{}'")
-        by_score(p2_indexers, :crm_acct_ids)
-
-        p3_indexers =  Indexer.where(archive: false).where.not("crm_ph_ids = '{}'")
-        by_score(p3_indexers, :crm_ph_ids)
-
-        p4_indexers =  Indexer.where(archive: false).where.not("acct_pin_crm_ids = '{}'")
-        by_score(p4_indexers, :acct_pin_crm_ids)
-
-        p5_indexers =  Indexer.where(archive: false).where("clean_url_crm_ids = '{}'").where("crm_acct_ids = '{}'").where("crm_ph_ids = '{}'").where("acct_pin_crm_ids = '{}'")
+        # p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")[10...20]
+        # by_score(p1_indexers, :clean_url_crm_ids)
+        #
+        # p2_indexers =  Indexer.where(archive: false).where.not("crm_acct_ids = '{}'")
+        # by_score(p2_indexers, :crm_acct_ids)
+        #
+        # p3_indexers =  Indexer.where(archive: false).where.not("crm_ph_ids = '{}'")
+        # by_score(p3_indexers, :crm_ph_ids)
+        #
+        # p4_indexers =  Indexer.where(archive: false).where.not("acct_pin_crm_ids = '{}'")
+        # by_score(p4_indexers, :acct_pin_crm_ids)
+        #
+        # p5_indexers =  Indexer.where(archive: false).where("clean_url_crm_ids = '{}'").where("crm_acct_ids = '{}'").where("crm_ph_ids = '{}'").where("acct_pin_crm_ids = '{}'")
         by_score(p5_indexers, :id, false)
     end
 

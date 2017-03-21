@@ -155,8 +155,6 @@ class IndexersController < ApplicationController
 
         # @service.job_title_migrator
 
-        # @service.acct_pin_gen_starter
-
         # @service.indexer_to_core
 
         # @service.m_zip_remover
@@ -184,8 +182,12 @@ class IndexersController < ApplicationController
         # @service.delay.remove_invalid_phones
         # @service.remove_invalid_phones
 
+        # @service.acct_pin_gen_starter
+        @service.acct_pin_gen_helper
+
         # @service.delay.indexer_mover
-        @service.indexer_mover
+        # @service.indexer_mover
+
 
         redirect_to indexers_path
     end
