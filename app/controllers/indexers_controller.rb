@@ -155,7 +155,6 @@ class IndexersController < ApplicationController
 
         # @service.job_title_migrator
 
-        # @service.indexer_to_core
 
         # @service.m_zip_remover
 
@@ -169,7 +168,6 @@ class IndexersController < ApplicationController
 
         # @service.delay.ph_arr_mover_express
 
-        # @service.delay.calculate_score
 
         # @service.indexer_mover
 
@@ -183,9 +181,13 @@ class IndexersController < ApplicationController
         # @service.remove_invalid_phones
 
         # @service.acct_pin_gen_starter
-        @service.acct_pin_gen_helper
+        # @service.acct_pin_gen_helper
 
-        # @service.delay.indexer_mover
+
+
+        # @service.indexer_to_core
+        # @service.delay.calculate_score
+        @service.delay.indexer_mover
         # @service.indexer_mover
 
 

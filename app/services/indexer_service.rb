@@ -906,6 +906,7 @@ class IndexerService
         new_str
     end
 
+
     def acct_pin_gen_helper
         cores = Core.where.not(full_address: nil).where(sfdc_zip: nil)
         cores.each do |core|
@@ -916,24 +917,36 @@ class IndexerService
             if full_address.blank?
                 puts "Blank"
                 p full_address
-                # core.update_attribute(:full_address, nil)
+                core.update_attribute(:full_address, nil)
             else
                 address_parts = full_address.split(",")
-                last_part = address_parts[-1]
-                if !last_part.blank? && last_part.length == 5
-                    new_zip = last_part
-                    puts "Address: #{full_address}"
-                    puts "new_zip: #{new_zip}"
-                    # core.update_attribute(:sfdc_zip, new_zip)
+                last_part = address_parts[-1].gsub(/[^0-9]/, "")
+
+                if !last_part.blank?
+                    if last_part.length == 5
+                        new_zip = last_part
+                        puts "Address: #{full_address}"
+                        puts "new_zip: #{new_zip}"
+                        core.update_attribute(:sfdc_zip, new_zip)
+                    elsif last_part.length == 4
+                        new_zip = "0"+last_part
+                        new_full = address_parts[0...-1].join(",")
+                        new_full_addr = "#{new_full}, #{new_zip}"
+                        puts "new_full_addr: #{new_full_addr}"
+                        puts "new_zip: #{new_zip}"
+                        core.update_attributes(full_address: new_full_addr, sfdc_zip: new_zip)
+                    end
+
                 end
             end
         end
+
     end
 
 
 
     def acct_pin_gen_starter
-        inputs = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil).where(crm_acct_pin: nil)[0..100]
+        inputs = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil)
         # inputs = Location.where.not(street: nil).where.not(postal_code: nil)
         # inputs = Who.where.not(registrant_address: nil).where.not(registrant_zip: nil)
 
@@ -1175,8 +1188,8 @@ class IndexerService
         # Core.where(sfdc_url: nil).count ## 10,194
         # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
 
-        url_arr_mover
-        # pin_arr_mover
+        # url_arr_mover
+        pin_arr_mover
         # acct_arr_mover
         # ph_arr_mover
         # ph_arr_mover
@@ -1345,19 +1358,19 @@ class IndexerService
 
     # ===== Move indexer info to core
     def indexer_mover
-        # p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")[10...20]
-        # by_score(p1_indexers, :clean_url_crm_ids)
-        #
-        # p2_indexers =  Indexer.where(archive: false).where.not("crm_acct_ids = '{}'")
-        # by_score(p2_indexers, :crm_acct_ids)
-        #
-        # p3_indexers =  Indexer.where(archive: false).where.not("crm_ph_ids = '{}'")
-        # by_score(p3_indexers, :crm_ph_ids)
-        #
-        # p4_indexers =  Indexer.where(archive: false).where.not("acct_pin_crm_ids = '{}'")
-        # by_score(p4_indexers, :acct_pin_crm_ids)
-        #
-        # p5_indexers =  Indexer.where(archive: false).where("clean_url_crm_ids = '{}'").where("crm_acct_ids = '{}'").where("crm_ph_ids = '{}'").where("acct_pin_crm_ids = '{}'")
+        p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")
+        by_score(p1_indexers, :clean_url_crm_ids)
+
+        p2_indexers =  Indexer.where(archive: false).where.not("crm_acct_ids = '{}'")
+        by_score(p2_indexers, :crm_acct_ids)
+
+        p3_indexers =  Indexer.where(archive: false).where.not("crm_ph_ids = '{}'")
+        by_score(p3_indexers, :crm_ph_ids)
+
+        p4_indexers =  Indexer.where(archive: false).where.not("acct_pin_crm_ids = '{}'")
+        by_score(p4_indexers, :acct_pin_crm_ids)
+
+        p5_indexers =  Indexer.where(archive: false).where("clean_url_crm_ids = '{}'").where("crm_acct_ids = '{}'").where("crm_ph_ids = '{}'").where("acct_pin_crm_ids = '{}'")
         by_score(p5_indexers, :id, false)
     end
 
