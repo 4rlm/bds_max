@@ -2,34 +2,6 @@
 <h4 class="text-center">Dashboard Data from each Module</h4>
 <br>
 
-<br><br>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="pull-left">
-            <% if admin_only %>
-                <%= link_to "1. Account ReCalc", cores_dash_btn_path, class: 'btn btn-warning' %>
-                <%= link_to "2. Contact ReCalc", staffers_dash_btn_path, class: 'btn btn-warning' %>
-                <%= link_to "3. Franchise ReCalc", franchise_dash_btn_path, class: 'btn btn-warning' %>
-                <%= link_to "4. GeoLocation ReCalc", geo_locations_dash_btn_path, class: 'btn btn-warning' %>
-                <%= link_to "5. Indexer ReCalc", indexer_dash_btn_path, class: 'btn btn-warning' %>
-                <%= link_to "6. WhoIs ReCalc", whos_dash_btn_path, class: 'btn btn-warning' %>
-                <%= link_to "7. !MEGA ReCalc!", dashboard_mega_btn_path, class: 'btn btn-warning' %>
-
-                <%= link_to "Power Button", dashboard_power_btn_path, class: 'btn btn-danger' %>
-
-                <%= link_to 'Add Record', new_dashboard_path, class: 'btn btn-primary' %>
-                <%= link_to 'Import CSV', dashboard_import_page_path, class: 'btn btn-primary' %>
-            <% end %>
-            <% if advanced_and_up %>
-                <%= link_to 'Download CSV', dashboards_path(format: "csv"), class: 'btn btn-primary' %>
-            <% end %>
-        </div>
-    </div>
-</div>
-<br>
-
-
 <div class="row profile-row">
     <div class="profile-col col-md-12">
         <table class="table table-bordered indexer-table">

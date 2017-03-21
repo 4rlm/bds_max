@@ -77,9 +77,9 @@
 
 <div class="row">
     <div class="col-md-3 text-center">
-        <%#= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
-        <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary btn-xs' %>
-        <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary btn-xs' %>
+        <% if advanced_and_up %>
+            <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary btn-xs' %>
+        <% end %>
     </div>
 
     <div class="col-md-6">
