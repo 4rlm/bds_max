@@ -182,7 +182,10 @@ class IndexersController < ApplicationController
         # @service.count_staff
 
         # @service.delay.remove_invalid_phones
-        @service.remove_invalid_phones
+        # @service.remove_invalid_phones
+
+        # @service.delay.indexer_mover
+        @service.indexer_mover
 
         redirect_to indexers_path
     end
