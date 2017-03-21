@@ -116,7 +116,7 @@ class StaffersController < ApplicationController
     def acct_contacts
         if core_id = params[:core]
             @core = Core.find(core_id)
-            @staffers = Staffer.where(domain: @core.sfdc_clean_url)
+            @staffers = Staffer.where(sfdc_id: @core.sfdc_id)
         else
             indexer = Indexer.find(params[:indexer])
             @staffers = Staffer.where(domain: indexer.clean_url)
