@@ -8,9 +8,8 @@
 <%= render partial: 'buttons' %>
 <br><br>
 
-<%= form_tag "/in_host_pos", method: :get, class: 'form-inline'  do %>
-
-    <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+<div class="scr-prof-net scr-prof">
+    <table class="table table-bordered no-wrap">
 
         <thead>
             <tr>
@@ -41,10 +40,7 @@
             <% end %>
         </tbody>
     </table>
+</div>
 
-    <div class="pull-left">
-        <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
-    </div>
-<% end %>
 
 <%= render partial: 'buttons' %>

@@ -5,3 +5,19 @@
 .bordered {
     border: 1px solid #ddd;
 }
+
+.level-heading {
+    width: 110px;
+    font-weight: bold !important;
+    font-size: 100% !important;
+}
+
+.manage-btn {
+    width: 50px;
+}
+
+.level-change-btns {
+    .btn {
+        margin-right: 5px;
+    }
+}

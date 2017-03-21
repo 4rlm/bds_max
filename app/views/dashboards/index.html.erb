@@ -2,7 +2,16 @@
 <h4 class="text-center">Dashboard Data from each Module</h4>
 <br>
 
-<div class="row profile-row">
+<div class="row">
+    <div class="col-md-12">
+        <% if advanced_and_up %>
+            <%= link_to 'Download CSV', dashboards_path(format: "csv"), class: 'btn btn-primary btn-xs pull-right' %>
+        <% end %>
+    </div>
+</div><br>
+
+
+<div id="dashboard" class="row profile-row">
     <div class="profile-col col-md-12">
         <table class="table table-bordered indexer-table">
             <thead>
