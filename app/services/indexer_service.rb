@@ -1409,10 +1409,15 @@ class IndexerService
         clean_url_crm_ids.select { |sfdc_id| score_ids.include?(sfdc_id) }
     end
 
+    def grab_none_rejects(dropped_ids, ids)
+        ids.reject { |sfdc_id| dropped_ids.include?(sfdc_id) }
+    end
+
     #  Helper method for `by_score`
     def update_core(indexer, ids, score, status)
         return if ids.empty?
-        cores = Core.where(sfdc_id: ids).where(acct_merge_sts: [nil, "Drop", "Ready"])
+        good_ids = grab_none_rejects(indexer.dropped_ids, ids)
+        cores = Core.where(sfdc_id: good_ids).where(acct_merge_sts: [nil, "Drop", "Ready"])
 
         cores.each do |core|
             if compare_score(core.match_score, score)
