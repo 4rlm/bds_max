@@ -1,10 +1,8 @@
 class DashboardsController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show, :summarize_data]
     before_action :admin_only, only: [:new, :create, :edit, :update, :destroy, :dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :power_btn]
-    # before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
-    # before_action :set_dashboard, only: [:show, :edit, :update, :destroy, :import_page, :import_csv_data]
+    before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
     before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :summarize_data, :power_btn]
-    # before_action :set_dashboard, only: [:import_page, :import_csv_data]
 
     # GET /dashboards
     # GET /dashboards.json
@@ -172,7 +170,7 @@ class DashboardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dashboard_params
-        params.fetch(:dashboard, {})
+        params.require(:dashboard).permit(:db_name, :db_alias, :col_name, :col_alias)
     end
 
     def set_dashboard_service

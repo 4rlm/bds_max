@@ -43,7 +43,7 @@
                     <th>item_list_total</th>
                     <th>obj_list</th>
                     <th>item_list</th>
-                    <!-- <th colspan="2"></th> -->
+                    <th colspan="2"></th>
                 </tr>
             </thead>
 
@@ -58,10 +58,10 @@
                         <td><%= dashboard.item_list_total %></td>
                         <td><%= dashboard.obj_list %></td>
                         <td><%= dashboard.item_list %></td>
-                        <%# if admin_only %>
-                            <!-- <td><%#= link_to 'Edit', edit_dashboard_path(dashboard) %></td>
-                            <td><%#= link_to 'Destroy', dashboard, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
-                        <%# end %>
+                        <% if admin_only %>
+                            <td><%= link_to 'Edit', edit_dashboard_path(dashboard) %></td>
+                            <td><%= link_to 'Destroy', dashboard, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                        <% end %>
                     </tr>
                 <% end %>
             </tbody>
