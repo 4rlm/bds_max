@@ -4,7 +4,7 @@ require 'uri'
 require 'date'
 
 class CoreService
-    
+
     # ===== JS Buttons (Index in Detail View)
     def merge_data_starter(ids)
         puts "\n\nmerge_data ids: #{ids.inspect}\n\n"
@@ -14,6 +14,7 @@ class CoreService
             cores.each do |core|
                 core.update_attributes(acct_merge_sts: "Merge")
                 update_staffers_sfdc_id(core)
+                send_core_id_to_indexer(core, :merged_ids)
             end
         end
     end
@@ -25,6 +26,7 @@ class CoreService
 
             cores.each do |core|
                 core.update_attributes(acct_merge_sts: "Flag")
+                send_core_id_to_indexer(core, :flagged_ids)
             end
         end
     end
@@ -36,19 +38,29 @@ class CoreService
 
             cores.each do |core|
                 core.update_attributes(acct_merge_sts: "Drop")
+                send_core_id_to_indexer(core, :dropped_ids)
             end
         end
     end
 
+    # Helper method for `merge_data_starter`
     def update_staffers_sfdc_id(core)
         url = core.sfdc_clean_url
         sfdc_id = core.sfdc_id
         return if url.nil? || sfdc_id.nil?
 
-        staffers = Staffer.where(domain: url)
+        staffers = Staffer.where(domain: url).where(cont_source: "Web")
         staffers.each do |staffer|
             staffer.update_attribute(:sfdc_id, sfdc_id)
         end
+    end
+
+    # Helper method for above 3 `data_starter`s.
+    def send_core_id_to_indexer(core, indexer_col)
+        indexer = Indexer.find_by(clean_url: core.alt_url)
+        ids = indexer.send(indexer_col)
+        ids << core.sfdc_id
+        indexer.update_attribute(indexer_col, ids)
     end
 
 

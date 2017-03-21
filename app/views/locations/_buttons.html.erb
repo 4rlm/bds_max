@@ -6,10 +6,6 @@
 </div>
 
 <div class="pull-right">
-    <% if admin_only %>
-        <%= link_to 'Add Record', new_location_path, class: 'btn btn-primary' %>
-        <%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary' %>
-    <% end %>
     <% if advanced_and_up %>
         <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary' %>
     <% end %>

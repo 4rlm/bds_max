@@ -62,7 +62,7 @@
         <div class="col-md-12">
             <table class="table table-bordered table-hover text-nowrap new-search-table">
                 <tr>
-                    <th class="th-2">Contact Status</th>
+                    <!-- <th class="th-2">Contact Status</th> -->
                     <th class="th-2">Job Title</th>
                     <th class="th-2">Job Description</th>
                     <th class="th-2">Full Name</th>
@@ -72,7 +72,7 @@
                     <th class="th-2">SFDC Contact ID</th>
                 </tr>
                 <tr>
-                    <td><%= select_tag :cont_status, options_for_select(@cont_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+                    <!-- <td><%#= select_tag :cont_status, options_for_select(@cont_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
                     <td><%= select_tag :job, options_for_select(@job_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :job_raw } %></td>
                     <td><%= render partial: 'layouts/text_field_tag', locals: { col: :fullname } %></td>

@@ -28,7 +28,11 @@ class IndexerService
             if phones.any?
                 num += 1
                 invalid = Regexp.new("[0-9]{5,}")
-                result = phones.reject { |x| invalid.match(x) }
+                valid_phones = phones.reject { |x| invalid.match(x) }
+
+                reg = Regexp.new("[(]?[0-9]{3}[ ]?[)-.]?[ ]?[0-9]{3}[ ]?[-. ][ ]?[0-9]{4}")
+                result = valid_phones.select { |x| reg.match(x) }
+
                 indexer.update_attribute(:phones, result)
             end
         end
@@ -903,20 +907,57 @@ class IndexerService
     end
 
 
+    def acct_pin_gen_helper
+        cores = Core.where.not(full_address: nil).where(sfdc_zip: nil)
+        cores.each do |core|
+            full_address = core.full_address
+
+            puts "\n\n#{"-"*40}\n"
+
+            if full_address.blank?
+                puts "Blank"
+                p full_address
+                core.update_attribute(:full_address, nil)
+            else
+                address_parts = full_address.split(",")
+                last_part = address_parts[-1].gsub(/[^0-9]/, "")
+
+                if !last_part.blank?
+                    if last_part.length == 5
+                        new_zip = last_part
+                        puts "Address: #{full_address}"
+                        puts "new_zip: #{new_zip}"
+                        core.update_attribute(:sfdc_zip, new_zip)
+                    elsif last_part.length == 4
+                        new_zip = "0"+last_part
+                        new_full = address_parts[0...-1].join(",")
+                        new_full_addr = "#{new_full}, #{new_zip}"
+                        puts "new_full_addr: #{new_full_addr}"
+                        puts "new_zip: #{new_zip}"
+                        core.update_attributes(full_address: new_full_addr, sfdc_zip: new_zip)
+                    end
+
+                end
+            end
+        end
+
+    end
+
+
 
     def acct_pin_gen_starter
-        # inputs = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil)
-        inputs = Location.where.not(street: nil).where.not(postal_code: nil)
+        inputs = Core.where.not(sfdc_street: nil).where.not(sfdc_zip: nil)
+        # inputs = Location.where.not(street: nil).where.not(postal_code: nil)
         # inputs = Who.where.not(registrant_address: nil).where.not(registrant_zip: nil)
 
         inputs.each do |input|
-            street = input.street
-            zip = input.postal_code
+            street = input.sfdc_street
+            zip = input.sfdc_zip
             acct_pin = acct_pin_gen(street, zip)
             puts "\n\nstreet: #{street}"
             puts "zip: #{zip}"
             puts "Acct Pin: #{acct_pin}\n#{"-"*40}"
-            input.update_attribute(:geo_acct_pin, acct_pin)
+            input.update_attribute(:crm_acct_pin, acct_pin)
         end
     end
 
@@ -1147,8 +1188,8 @@ class IndexerService
         # Core.where(sfdc_url: nil).count ## 10,194
         # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
 
-        url_arr_mover
-        # pin_arr_mover
+        # url_arr_mover
+        pin_arr_mover
         # acct_arr_mover
         # ph_arr_mover
         # ph_arr_mover
@@ -1316,32 +1357,71 @@ class IndexerService
 
 
     # ===== Move indexer info to core
+    def indexer_mover
+        p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")
+        by_score(p1_indexers, :clean_url_crm_ids)
 
-    def indexer_mover_str()
-        indexers = Indexer.where(archive: false)
-        indexers.each do |indexer|
-            m100s = indexer.score100[0...1]
-            m75s = indexer.score75[0...1]
-            m50s = indexer.score50[0...1]
-            m25s = indexer.score25[0...1]
+        p2_indexers =  Indexer.where(archive: false).where.not("crm_acct_ids = '{}'")
+        by_score(p2_indexers, :crm_acct_ids)
 
-            
+        p3_indexers =  Indexer.where(archive: false).where.not("crm_ph_ids = '{}'")
+        by_score(p3_indexers, :crm_ph_ids)
 
+        p4_indexers =  Indexer.where(archive: false).where.not("acct_pin_crm_ids = '{}'")
+        by_score(p4_indexers, :acct_pin_crm_ids)
 
-
-        indexer_mover()
+        p5_indexers =  Indexer.where(archive: false).where("clean_url_crm_ids = '{}'").where("crm_acct_ids = '{}'").where("crm_ph_ids = '{}'").where("acct_pin_crm_ids = '{}'")
+        by_score(p5_indexers, :id, false)
     end
 
-
-    def indexer_mover
-        indexers = Indexer.where(archive: false)
-
+    def by_score(indexers, col, priority=true)
         indexers.each do |indexer|
-            matches = indexer.score100[0...1]
+            s100 = indexer.score100
+            s75 = indexer.score75
+            s50 = indexer.score50
+            s25 = indexer.score25
 
-            matches.each do |sfdc_id|
-                core = Core.find_by(sfdc_id: sfdc_id)
-                core.update_attributes(
+            if s100.any?
+                good_ids = priority ? grab_good_ids(indexer.send(col), s100) : s100
+                update_core(indexer, good_ids, "100%", "Ready")
+            end
+
+            if s75.any?
+                good_ids = priority ? grab_good_ids(indexer.send(col), s75) : s75
+                update_core(indexer, good_ids, "75%", "Ready")
+            end
+
+            if s50.any?
+                good_ids = priority ? grab_good_ids(indexer.send(col), s50) : s50
+                update_core(indexer, good_ids, "50%", "Ready")
+            end
+
+            if s25.any?
+                good_ids = priority ? grab_good_ids(indexer.send(col), s25) : s25
+                update_core(indexer, good_ids, "25%", "Ready")
+            end
+
+        end
+    end # End by_score
+
+    # Helper method for 'by_score'
+    def grab_good_ids(clean_url_crm_ids, score_ids)
+        clean_url_crm_ids.select { |sfdc_id| score_ids.include?(sfdc_id) }
+    end
+
+    def grab_none_rejects(dropped_ids, ids)
+        ids.reject { |sfdc_id| dropped_ids.include?(sfdc_id) }
+    end
+
+    #  Helper method for `by_score`
+    def update_core(indexer, ids, score, status)
+        return if ids.empty?
+        good_ids = grab_none_rejects(indexer.dropped_ids, ids)
+        cores = Core.where(sfdc_id: good_ids).where(acct_merge_sts: [nil, "Drop", "Ready"])
+
+        cores.each do |core|
+            if compare_score(core.match_score, score)
+                new_values = {
                     staff_pf_sts: indexer.stf_status,
                     loc_pf_sts: indexer.loc_status,
                     staff_link: indexer.staff_url,
@@ -1351,11 +1431,11 @@ class IndexerService
                     staffer_sts: indexer.stf_status,
                     template: indexer.template,
                     who_sts: indexer.who_status,
-                    match_score: "100%",
-                    acct_match_sts: "Same",
-                    ph_match_sts: "Same",
-                    pin_match_sts: "Same",
-                    url_match_sts: "Same",
+                    match_score: score,
+                    acct_match_sts: score,
+                    ph_match_sts: compare_core_indexer(core.sfdc_ph, indexer.phone),
+                    pin_match_sts: compare_core_indexer(core.crm_acct_pin, indexer.acct_pin),
+                    url_match_sts: compare_core_indexer(core.sfdc_clean_url, indexer.clean_url),
                     alt_acct_pin: indexer.acct_pin,
                     alt_acct: indexer.acct_name,
                     alt_street: indexer.street,
@@ -1366,13 +1446,24 @@ class IndexerService
                     alt_url: indexer.clean_url,
                     alt_source: "Web",
                     alt_address: indexer.full_addr,
-                    alt_template: indexer.template
-                )
+                    alt_template: indexer.template,
+                    acct_merge_sts: status
+                }
+
+                puts "\n\n#{'='*15}\n#{new_values.inspect}\n#{'='*15}\n\n"
+                core.update_attributes(new_values)
             end
         end
     end
 
+    #  Helper method for `update_core`
+    def compare_core_indexer(core_col, indexer_col)
+        core_col == indexer_col ? "Same" : "Different"
+    end
 
-
+    #  Helper method for `update_core`
+    def compare_score(core_score, new_score)
+        core_score.to_i < new_score.to_i # true: okay to update, false: do not update
+    end
 
 end # IndexerService class Ends ---

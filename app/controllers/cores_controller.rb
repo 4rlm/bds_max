@@ -254,7 +254,12 @@ class CoresController < ApplicationController
         @template_opts = grap_item_list("template")
         @bds_status_opts = grap_item_list("bds_status")
         @staffer_sts_opts = grap_item_list("staffer_sts")
-        @holding_opts = grap_item_list("acct_merge_sts")
+        @acct_merge_sts_opts = grap_item_list("acct_merge_sts")
+        @match_score_opts = grap_item_list("match_score")
+        @acct_match_sts_opts = grap_item_list("acct_match_sts")
+        @pin_match_sts_opts = grap_item_list("pin_match_sts")
+        @url_match_sts_opts = grap_item_list("url_match_sts")
+        @ph_match_sts_opts = grap_item_list("ph_match_sts")
     end
 
     def grap_item_list(col_name)

@@ -155,9 +155,6 @@ class IndexersController < ApplicationController
 
         # @service.job_title_migrator
 
-        # @service.acct_pin_gen_starter
-
-        # @service.indexer_to_core
 
         # @service.m_zip_remover
 
@@ -171,7 +168,6 @@ class IndexersController < ApplicationController
 
         # @service.delay.ph_arr_mover_express
 
-        # @service.delay.calculate_score
 
         # @service.indexer_mover
 
@@ -182,7 +178,18 @@ class IndexersController < ApplicationController
         # @service.count_staff
 
         # @service.delay.remove_invalid_phones
-        @service.remove_invalid_phones
+        # @service.remove_invalid_phones
+
+        # @service.acct_pin_gen_starter
+        # @service.acct_pin_gen_helper
+
+
+
+        # @service.indexer_to_core
+        # @service.delay.calculate_score
+        @service.delay.indexer_mover
+        # @service.indexer_mover
+
 
         redirect_to indexers_path
     end
@@ -284,12 +291,13 @@ class IndexersController < ApplicationController
     def set_option_list
         @indexer_status_opts = grap_item_list("indexer_status")
         @redirect_status_opts = grap_item_list("redirect_status")
+        @who_status_opts = grap_item_list("who_status")
+        @template_opts = grap_item_list("template")
+        @rt_sts_opts = grap_item_list("rt_sts")
         @stf_status_opts = grap_item_list("stf_status")
         @loc_status_opts = grap_item_list("loc_status")
         @contact_status_opts = grap_item_list("contact_status")
-        @rt_sts_opts = grap_item_list("rt_sts")
         @cont_sts_opts = grap_item_list("cont_sts")
-        @template_opts = grap_item_list("template")
         @state_opts = grap_item_list("state")
     end
 
