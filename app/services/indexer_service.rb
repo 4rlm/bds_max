@@ -1432,7 +1432,7 @@ class IndexerService
                     template: indexer.template,
                     who_sts: indexer.who_status,
                     match_score: score,
-                    acct_match_sts: score,
+                    acct_match_sts: compare_core_indexer(core.sfdc_acct, indexer.acct_name),
                     ph_match_sts: compare_core_indexer(core.sfdc_ph, indexer.phone),
                     pin_match_sts: compare_core_indexer(core.crm_acct_pin, indexer.acct_pin),
                     url_match_sts: compare_core_indexer(core.sfdc_clean_url, indexer.clean_url),
@@ -1447,7 +1447,9 @@ class IndexerService
                     alt_source: "Web",
                     alt_address: indexer.full_addr,
                     alt_template: indexer.template,
-                    acct_merge_sts: status
+                    acct_merge_sts: status,
+                    web_staff_count: indexer.web_staff_count,
+                    crm_staff_count: indexer.crm_staff_count
                 }
 
                 puts "\n\n#{'='*15}\n#{new_values.inspect}\n#{'='*15}\n\n"
