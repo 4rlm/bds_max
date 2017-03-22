@@ -52,12 +52,19 @@ class IndexerService
 
 
     def phones_arr_cleaner
+        puts "#{"="*30}\n\nIndexer: phones_arr_cleaner\n\n"
         rts_manager = RtsManager.new
-        indexers = Indexer.all
+        indexers = Indexer.where.not("phones = '{}'")
 
         indexers.each do |indexer|
-            new_phones = rts_manager.clean_phones_arr(indexer.phones)
-            indexer.update_attribute(:phones, new_phones)
+            old_phones = indexer.phones
+            new_phones = rts_manager.clean_phones_arr(old_phones)
+
+            if old_phones != new_phones
+                puts "#{"-"*30}\nOLD Phones: #{old_phones}"
+                puts "NEW Phones: #{new_phones}"
+                indexer.update_attribute(:phones, new_phones)
+            end
         end
     end
 
@@ -1135,6 +1142,48 @@ class IndexerService
             end
         end
     end
+
+    def phone_formatter_finalizer_caller
+        ## Checks all phones in entire db to ensure proper formatting, before running finalizers.
+        # indexers = Indexer.where.not(phone: nil) # phones
+        # locations = Location.where.not(phone: nil) # crm_phone
+        # staffers = Staffer.where.not(phone: nil)
+        # whos = Who.where.not(registrant_phone: nil)
+
+        core_phone_formatter(Core, :sfdc_ph)
+        core_phone_formatter(Core, :alt_ph)
+        core_phone_formatter(Indexer, :phone)
+        core_phone_formatter(Location, :phone)
+        core_phone_formatter(Location, :crm_phone)
+        core_phone_formatter(Staffer, :phone)
+        core_phone_formatter(Who, :registrant_phone)
+        phones_arr_cleaner # Clean Indexer's phones
+    end
+
+
+    def core_phone_formatter(model, col)
+        puts "#{"="*30}\n\n#{model.to_s}: core_phone_formatter\n\n"
+        objs = model.where.not("#{col}": nil)
+        rts_manager = RtsManager.new
+
+        objs.each do |obj|
+            phone = obj.send(col)
+            reg = Regexp.new("[(]?[0-9]{3}[ ]?[)-.]?[ ]?[0-9]{3}[ ]?[-. ][ ]?[0-9]{4}")
+            if phone.first == "0" || phone.include?("(0") || !reg.match(phone)
+                puts "\nINVALID Phone: #{phone.inspect} updated as nil\n#{"-"*30}"
+                obj.update_attribute(col, nil)
+            else
+                new_phone = rts_manager.phone_formatter(phone)
+
+                if phone != new_phone
+                    puts "\nO Phone: #{phone.inspect}"
+                    puts "N Phone: #{new_phone.inspect}\n#{"-"*30}"
+                    obj.update_attribute(col, new_phone)
+                end
+            end
+         end
+    end
+
 
     # def m_zip_remover
     #     ## One time use for removing "m" in core zips being imported.

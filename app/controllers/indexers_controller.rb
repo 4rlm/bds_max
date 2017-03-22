@@ -1,9 +1,9 @@
 class IndexersController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show]
     before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn]
     before_action :set_indexer, only: [:show, :edit, :update, :destroy]
-    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn]
+    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn]
     before_action :set_option_list, only: [:index, :search]
 
 
@@ -132,6 +132,7 @@ class IndexersController < ApplicationController
 
 
     ### =============== BUTTONS Start ===============
+
     def finalizer_btn
         # Step 1: ID Sorters (4 methods)
         @service.delay.url_arr_mover
@@ -169,6 +170,12 @@ class IndexersController < ApplicationController
         redirect_to indexers_path
     end
 
+    def phone_formatter_finalizer_btn
+        # @service.delay.phone_formatter_finalizer_caller
+        @service.phone_formatter_finalizer_caller
+        redirect_to indexers_path
+    end
+
     def indexer_power_btn
         # @service.url_arr_extractor
         # @service.scraped_contacts_sts_checker
@@ -181,13 +188,11 @@ class IndexersController < ApplicationController
         # @service.hyrell_cleaner
         # @service.template_counter
         # @service.stafflink_express
-        # @service.core_phone_norm
         # @service.core_url_redirect
 
         # @service.indexer_duplicate_purger
         # @service.db_data_trimmer
 
-        # @service.delay.staff_phone_formatter
 
         # @service.job_title_migrator
 
@@ -198,8 +203,6 @@ class IndexersController < ApplicationController
 
         # @service.redirect_url_migrator
 
-        # @service.delay.phones_arr_cleaner
-        # @service.phones_arr_cleaner
 
         # @service.delay.ph_arr_mover_express
 
@@ -209,7 +212,10 @@ class IndexersController < ApplicationController
         # @service.delay.count_staff
         # @service.count_staff
 
-        # @service.delay.remove_invalid_phones
+        # PHONE FORMATTER METHODS
+        # @service.core_phone_norm
+        # @service.staff_phone_formatter
+        # @service.phones_arr_cleaner
         # @service.remove_invalid_phones
 
         # @service.acct_pin_gen_starter

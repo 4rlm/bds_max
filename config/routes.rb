@@ -30,8 +30,7 @@ Rails.application.routes.draw do
     get 'scraper_migrator_btn' => 'indexers#scraper_migrator_btn'
     get 'id_sorter_btn' => 'indexers#id_sorter_btn'
     get 'finalizer_btn' => 'indexers#finalizer_btn'
-    # get '' => 'indexers#'
-    # get '' => 'indexers#'
+    get 'phone_formatter_finalizer_btn' => 'indexers#phone_formatter_finalizer_btn'
 
     resources :locations do
         collection {post :import_csv_data}
