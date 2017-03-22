@@ -139,6 +139,14 @@ class LocationsController < ApplicationController
     def turbo_matcher_btn
         # @service.turbo_matcher
         # @service.delay.turbo_matcher
+        redirect_to locations_path
+    end
+
+
+    def location_power_btn
+        # @service.street_cleaner
+        # @service.white_space_cleaner
+
         # @service.delay.web_acct_name_cleaner
         # @service.www_inserter
         # @service.url_redirect_checker
@@ -159,14 +167,10 @@ class LocationsController < ApplicationController
 
         # @service.delay.phone_updater
 
-
-
         # @service.unmatched_url
 
         # @service.sts_duplicate_nil
         # @service.delay.missing_address
-
-
 
         # @service.db_check
 
@@ -178,35 +182,20 @@ class LocationsController < ApplicationController
         # @service.sts_duplicate_destroyer
 
         # @service.dup_finder
-        @service.delay.dup_finder
+        # @service.delay.dup_finder
 
         # @service.delay.crm_source_web_matcher
 
-
         # @service.mix_match_addr_acct
 
-
         # @service.delay.non_matched_url_finder
-
-
 
         # @service.sample_dup_finder
         # @service.delay.sample_dup_finder
 
         # @service.delay.url_dup_finder
 
-
         # @service.hybrid_address_matcher
-
-
-
-        redirect_to locations_path
-    end
-
-
-    def location_power_btn
-        # @service.street_cleaner
-        # @service.white_space_cleaner
 
         redirect_to locations_path
     end

@@ -178,7 +178,6 @@ class IndexersController < ApplicationController
 
         # @service.job_title_migrator
 
-
         # @service.m_zip_remover
 
         # @service.pin_acct_counter
@@ -191,9 +190,6 @@ class IndexersController < ApplicationController
 
         # @service.delay.ph_arr_mover_express
 
-
-        # @service.scraper_migrator
-
         # @service.delay.count_staff
         # @service.count_staff
 
@@ -205,14 +201,6 @@ class IndexersController < ApplicationController
 
         # @service.acct_pin_gen_starter
         # @service.acct_pin_gen_helper
-
-
-
-        # @service.id_sorter
-        # @service.delay.score_calculator
-        @service.delay.scraper_migrator
-        # @service.scraper_migrator
-
 
         redirect_to indexers_path
     end

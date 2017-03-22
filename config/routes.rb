@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'who_starter_btn' => 'whos#who_starter_btn'
     get 'who/import_page' => 'whos#import_page'
     get 'who/search' => 'whos#search'
+    get 'who_power_btn' => 'whos#who_power_btn'
 
     resources :indexer_terms do
         collection { post :import_csv_data }
@@ -54,7 +55,7 @@ Rails.application.routes.draw do
     get 'staffer/acct_contacts' => 'staffers#acct_contacts'
     get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
     get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
-    get 'temporary_btn' => 'staffers#temporary_btn'
+    get 'staffer_power_btn' => 'staffers#staffer_power_btn'
     get 'crm_staff_counter_btn' => 'staffers#crm_staff_counter_btn'
 
     resources :cores do
@@ -67,7 +68,7 @@ Rails.application.routes.draw do
     get 'core/search' => 'cores#search'
     # # Clean Data Buttons
     # get 'core_comp_cleaner_btn' => 'cores#core_comp_cleaner_btn'
-    get 'anything_btn' => 'cores#anything_btn'
+    get 'core_power_btn' => 'cores#core_power_btn'
     get 'col_splitter_btn' => 'cores#col_splitter_btn'
 
     resources :in_host_pos do
@@ -89,8 +90,8 @@ Rails.application.routes.draw do
     get 'users_dash_btn' => 'dashboards#users_dash_btn'
     get 'whos_dash_btn' => 'dashboards#whos_dash_btn'
     get 'summarize_data' => 'dashboards#summarize_data'
-    get 'dashboard/power_btn' => 'dashboards#power_btn'
-
+    get 'dashboard_power_btn' => 'dashboards#dashboard_power_btn'
+    
 
     devise_for :users
 

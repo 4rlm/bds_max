@@ -1,9 +1,9 @@
 class CoresController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show, :search]
     before_action :advanced_and_up, only: [:edit, :update, :merge_data, :flag_data, :drop_data]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_core_data, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_core_data, :core_comp_cleaner_btn, :core_power_btn, :col_splitter_btn]
     before_action :set_core, only: [:show, :edit, :update, :destroy]
-    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :anything_btn, :col_splitter_btn, :merge_data, :flag_data, :drop_data]
+    before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :core_power_btn, :col_splitter_btn, :merge_data, :flag_data, :drop_data]
     before_action :set_option_list, only: [:index, :search]
 
     # GET /cores
@@ -114,7 +114,7 @@ class CoresController < ApplicationController
         redirect_to cores_path
     end
 
-    def anything_btn
+    def core_power_btn
 
         # previously called franchiser_btn
         # !! CAUTION !!
@@ -153,7 +153,6 @@ class CoresController < ApplicationController
 
         # redirect_to root_path
         redirect_to cores_path
-
     end
 
     def col_splitter_btn
