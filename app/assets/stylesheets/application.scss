@@ -154,6 +154,17 @@ table.new-search-table {
     }
 }
 
+.btn.btn-orange {
+    background-image:linear-gradient(#fffcf8, #ffd599);
+    color: #333;
+    border: #d9d9d9;
+    box-shadow: 2px 2px 2px gray;
+    &:hover, &:focus {
+        background-image:linear-gradient(#ffd599, #fffcf8);
+        color: #333;
+    }
+}
+
 
 .scr-btn-1{
     margin-top: 7px;
