@@ -22,16 +22,26 @@ class DashboardService
 
     def dash(model)
         cols = model.column_names
+        model_name = model.to_s
+        existings = Dashboard.where(db_name: model_name).map(&:col_name)
+
+        old_cols_remover(cols, model_name, existings)
+        new_cols_creater(cols, model_name, existings)
+        col_counter(model, cols, model_name)
+    end
+
+    # Helper method for `dash`
+    def col_counter(model, cols, model_name)
         cols.delete("created_at")
         cols.delete("updated_at")
 
-        puts "#{'='*30} #{model.to_s} #{'='*30}"
+        puts "#{'='*30} #{model_name} #{'='*30}"
         cols.each do |col|
             records = model.all.map(&col.to_sym)
             records.delete_if {|el| el.blank?}
             total = records.count
             uniqs = records.uniq.count
-            dash = Dashboard.find_by(db_name: model.to_s, col_name: col)
+            dash = Dashboard.find_by(db_name: model_name, col_name: col)
 
             puts "[#{col}] total: #{total}, uniqs: #{uniqs}"
             dash.update_attributes(col_total: total, item_list_total: uniqs) if dash
@@ -48,7 +58,7 @@ class DashboardService
                 item_list.each do |val|
                     list_hash[val] = model.where("#{col}": val).count
                 end
-                
+
                 dash = Dashboard.find_by(db_name: model.to_s, col_name: col)
                 puts "#{col}: #{item_list.inspect}"
                 dash.update_attributes(item_list: item_list, obj_list: list_hash) if dash
@@ -95,6 +105,31 @@ class DashboardService
                 end
                 dashboard.update_attribute(:obj_list, list)
             end
+        end
+    end
+
+    def new_cols_creater(cols, model_name, existings)
+        cols.delete("id")
+        cols.delete("created_at")
+        cols.delete("updated_at")
+        model_alias = Dashboard.find_by(db_name: model_name).db_alias
+
+        new_cols = cols.reject { |col| existings.include?(col) }
+
+        new_cols.each do |col|
+            values = {db_name: model_name, db_alias: model_alias, col_name: col, col_alias: col}
+            p values
+            Dashboard.create(values)
+        end
+    end
+
+    def old_cols_remover(cols, model_name, existings)
+        to_delete = existings.reject { |col| cols.include?(col) }
+
+        to_delete.each do |col|
+            dashboard = Dashboard.find_by(db_name: model_name, col_name: col)
+            p dashboard
+            dashboard.destroy
         end
     end
 
