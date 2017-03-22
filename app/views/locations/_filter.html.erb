@@ -76,13 +76,7 @@
 
 
 <div class="row">
-    <div class="col-md-3 text-center">
-        <% if advanced_and_up %>
-            <%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary btn-xs' %>
-        <% end %>
-    </div>
-
-    <div class="col-md-6">
+    <div class="col-md-6 col-md-offset-3">
         <%= submit_tag "Search Geo Results", class: 'new-wide-button' %>
     </div>
 

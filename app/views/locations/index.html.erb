@@ -4,15 +4,14 @@
 <!-- FILTER PARTIAL -->
 <%= render partial: 'filter' %>
 
+<%= render partial: 'buttons' %>
 
-<span class="btn btn-success btn-xs" onClick="mergeData();">Merge Data</span>
-<span class="btn btn-danger btn-xs" onClick="flagData();">Flag Data</span>
-
-<div class="geo-container">
+<div class="scr-prof-net scr-prof">
     <div class="row profile-row">
         <div class="profile-col col-md-12">
 
-            <table class="table table-bordered geo-result-table">
+            <table class="table table-bordered no-wrap">
+            <!-- <table class="table table-bordered geo-result-table"> -->
 
         <!-- <div class="scr-prof"> -->
             <!-- <table class="table table-bordered no-wrap"> -->
@@ -29,10 +28,12 @@
             </table>
         </div>
     </div>
-</div>
+</div><br>
 
 <%= render partial: 'buttons' %>
-<%= will_paginate @locations, renderer: BootstrapPagination::Rails  %>
+<div class="text-center">
+    <%= will_paginate @locations, renderer: BootstrapPagination::Rails  %>
+</div>
 
 
 
