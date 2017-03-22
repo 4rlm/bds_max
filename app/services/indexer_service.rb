@@ -50,34 +50,6 @@ class IndexerService
         end
     end
 
-    def finalizer
-        id_sorter
-        score_calculator
-        scraper_migrator
-    end
-
-    def score_calculator
-        indexers = Indexer.where(archive: false)
-
-        indexers.each do |indexer|
-            scores =  {score100: [], score75: [], score50: [], score25: []}
-            ids = indexer.clean_url_crm_ids + indexer.crm_acct_ids + indexer.acct_pin_crm_ids + indexer.crm_ph_ids
-            uniqs = ids.uniq
-
-            uniqs.each do |uniq_id|
-                num = ids.select {|id| uniq_id == id}.length
-                case num
-                when 4 then scores[:score100] << uniq_id
-                when 3 then scores[:score75] << uniq_id
-                when 2 then scores[:score50] << uniq_id
-                when 1 then scores[:score25] << uniq_id
-                    puts uniq_id
-                end
-            end
-
-            indexer.update_attributes(scores)
-        end
-    end
 
     def phones_arr_cleaner
         rts_manager = RtsManager.new
@@ -1189,15 +1161,11 @@ class IndexerService
     # end
 
 
-    def id_sorter
-        url_arr_mover
-        pin_arr_mover
-        acct_arr_mover
-        ph_arr_mover
-    end
 
     # ADDS CORE ID TO INDEXER URL ARRAY
     def url_arr_mover
+        puts "\n\n#{"="*40}STARTING ID SORTER METHOD 1: URL ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped URL as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
+
         cores = Core.where.not(sfdc_clean_url: nil)
         counter=0
         cores.each do |core|
@@ -1229,6 +1197,7 @@ class IndexerService
 
     # ADDS CORE ID TO INDEXER PIN ARRAY
     def pin_arr_mover
+        puts "\n\n#{"="*40}STARTING ID SORTER METHOD 2: ADDRESS PIN ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped Address Pin as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
         cores = Core.where.not(crm_acct_pin: nil)
         counter=0
         cores.each do |core|
@@ -1259,6 +1228,8 @@ class IndexerService
 
     # ADDS CORE ID TO INDEXER ACCT ARRAY
     def acct_arr_mover
+        puts "\n\n#{"="*40}STARTING ID SORTER METHOD 3: ACCOUNT ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped Account Name as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
+
         cores = Core.where.not(sfdc_acct: nil)
         counter=0
         cores.each do |core|
@@ -1293,6 +1264,8 @@ class IndexerService
 
     # ADDS CORE ID TO INDEXER PH ARRAY
     def ph_arr_mover_express
+        puts "\n\n#{"="*40}STARTING ID SORTER METHOD 4: PHONE ARRAY MOVER (EXPRESS)\nChecks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
+
         cores = Core.where.not(sfdc_ph: nil)
         counter=0
         cores.each do |core|
@@ -1323,42 +1296,71 @@ class IndexerService
 
 
     # ADDS CORE ID TO INDEXER PH ARRAY
-    def ph_arr_mover
-        cores = Core.where.not(sfdc_ph: nil)
-        counter=0
-        cores.each do |core|
-            sfdc_ph = core.sfdc_ph
-            sfdc_id = core.sfdc_id
+    # def ph_arr_mover
+    #     ## TAKES TOO LONG!  USE EXPRESS VERSION ABOVE INSTEAD.
+    #     puts "\n\n#{"="*40}STARTING ID SORTER METHOD 4: PHONE ARRAY MOVER (*EXTENDED VERSION)\nChecks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
+    #
+    #     cores = Core.where.not(sfdc_ph: nil)
+    #     counter=0
+    #     cores.each do |core|
+    #         sfdc_ph = core.sfdc_ph
+    #         sfdc_id = core.sfdc_id
+    #
+    #         indexers = Indexer.where(archive: false).where.not(phones: [])
+    #         indexers.each do |indexer|
+    #             phones = indexer.phones
+    #             if phones.include?(sfdc_ph)
+    #                 crm_ph_ids = indexer.crm_ph_ids
+    #
+    #                 counter+=1
+    #                 puts "\n\n#{"="*50}\n#{counter}"
+    #                 puts "IDs: #{crm_ph_ids}"
+    #                 puts "CRM ID: #{sfdc_id}"
+    #                 puts "CRM Ph: #{sfdc_ph}"
+    #                 puts "Web Ph: #{phones}"
+    #
+    #                 crm_ph_ids << sfdc_id
+    #                 final_array = crm_ph_ids.uniq.sort
+    #                 puts "IDs: #{crm_ph_ids}"
+    #                 puts "Final: #{final_array}"
+    #
+    #
+    #                 indexer.update_attribute(:crm_ph_ids, final_array)
+    #             end
+    #         end
+    #     end
+    # end
 
-            indexers = Indexer.where(archive: false).where.not(phones: [])
-            indexers.each do |indexer|
-                phones = indexer.phones
-                if phones.include?(sfdc_ph)
-                    crm_ph_ids = indexer.crm_ph_ids
 
-                    counter+=1
-                    puts "\n\n#{"="*50}\n#{counter}"
-                    puts "IDs: #{crm_ph_ids}"
-                    puts "CRM ID: #{sfdc_id}"
-                    puts "CRM Ph: #{sfdc_ph}"
-                    puts "Web Ph: #{phones}"
+    def score_calculator
+         puts "\n\n#{"="*40}STARTING INDEXER SCORE CALCULATOR: Core SFDC ID in each Scraped Record gets scored based on how many matching fields of 4 (url, address pin, phone, org name) and each SFDC ID gets a Matching Score (25%, 50%, 75%, 100%) .\n\n"
+        indexers = Indexer.where(archive: false)
 
-                    crm_ph_ids << sfdc_id
-                    final_array = crm_ph_ids.uniq.sort
-                    puts "IDs: #{crm_ph_ids}"
-                    puts "Final: #{final_array}"
+        indexers.each do |indexer|
+            scores =  {score100: [], score75: [], score50: [], score25: []}
+            ids = indexer.clean_url_crm_ids + indexer.crm_acct_ids + indexer.acct_pin_crm_ids + indexer.crm_ph_ids
+            uniqs = ids.uniq
 
-
-                    indexer.update_attribute(:crm_ph_ids, final_array)
+            uniqs.each do |uniq_id|
+                num = ids.select {|id| uniq_id == id}.length
+                case num
+                when 4 then scores[:score100] << uniq_id
+                when 3 then scores[:score75] << uniq_id
+                when 2 then scores[:score50] << uniq_id
+                when 1 then scores[:score25] << uniq_id
+                    puts uniq_id
                 end
             end
+
+            indexer.update_attributes(scores)
         end
     end
 
 
-
     # ===== Move indexer info to core
     def scraper_migrator
+        puts "\n\n#{"="*40}STARTING INDEXER SCRAPER MIGRATOR: Migrates final sorted and scored Indexer Data to Core account based on Match Score and ranked by hierarchy. If two indexers have same match score, the priority goes to those with the order of matching url, then account name, then phone, then address pin.\n\n"
+
         p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")
         by_score(p1_indexers, :clean_url_crm_ids)
 

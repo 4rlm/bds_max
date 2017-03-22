@@ -133,8 +133,18 @@ class IndexersController < ApplicationController
 
     ### =============== BUTTONS Start ===============
     def finalizer_btn
-        # @service.finalizer
-        @service.delay.finalizer
+        # Step 1: ID Sorters (4 methods)
+        @service.delay.url_arr_mover
+        @service.delay.pin_arr_mover
+        @service.delay.acct_arr_mover
+        @service.delay.ph_arr_mover_express
+
+        # Step 2: Score Calculator (1 method)
+        @service.delay.score_calculator
+
+        # Step 3: Scraper Migrator (1 method)
+        @service.delay.scraper_migrator
+
         redirect_to indexers_path
     end
 
@@ -151,8 +161,11 @@ class IndexersController < ApplicationController
     end
 
     def id_sorter_btn
-        # @service.id_sorter
-        @service.delay.id_sorter
+        # Step 1: ID Sorters (4 methods)
+        @service.delay.url_arr_mover
+        @service.delay.pin_arr_mover
+        @service.delay.acct_arr_mover
+        @service.delay.ph_arr_mover_express
         redirect_to indexers_path
     end
 

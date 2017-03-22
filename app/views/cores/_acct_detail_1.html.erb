@@ -78,12 +78,12 @@
         <% if core.crm_staff_count > 0  %>
             <td class="geo w-xsm fa-blue">
                 <%= link_to staffer_acct_contacts_path(core: core), :target => "_blank" do %>
-                    <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Contacts: #{core.crm_staff_count}" %>
+                    <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "CRM Contacts: #{core.crm_staff_count}" %>
                 <% end %> <%= core.crm_staff_count %>
             </td>
         <% else %>
             <td class="geo w-xsm fa-gray">
-                <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No Scraped Contacts Linked" %>
+                <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No CRM Contacts Linked" %>
             </td>
         <% end %>
 
