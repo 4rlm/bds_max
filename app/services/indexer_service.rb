@@ -1449,8 +1449,7 @@ class IndexerService
                     alt_address: indexer.full_addr,
                     alt_template: indexer.template,
                     acct_merge_sts: status,
-                    web_staff_count: indexer.web_staff_count,
-                    crm_staff_count: indexer.crm_staff_count
+                    web_staff_count: indexer.web_staff_count
                 }
 
                 puts "\n\n#{'='*15}\n#{new_values.inspect}\n#{'='*15}\n\n"

@@ -31,7 +31,6 @@ Rails.application.routes.draw do
     get 'finalizer_btn' => 'indexers#finalizer_btn'
     # get '' => 'indexers#'
     # get '' => 'indexers#'
-    # get '' => 'indexers#'
 
     resources :locations do
         collection {post :import_csv_data}
@@ -56,6 +55,7 @@ Rails.application.routes.draw do
     get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
     get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
     get 'temporary_btn' => 'staffers#temporary_btn'
+    get 'crm_staff_counter_btn' => 'staffers#crm_staff_counter_btn'
 
     resources :cores do
         collection { post :import_core_data }

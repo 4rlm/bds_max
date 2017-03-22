@@ -1,9 +1,9 @@
 class StaffersController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show, :search, :acct_contacts]
     before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn, :crm_staff_counter_btn]
     before_action :set_staffer, only: [:show, :edit, :update, :destroy]
-    before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn]
+    before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :temporary_btn, :crm_staff_counter_btn]
     before_action :set_option_list, only: [:index, :search]
 
     # GET /staffers
@@ -121,6 +121,12 @@ class StaffersController < ApplicationController
             indexer = Indexer.find(params[:indexer])
             @staffers = Staffer.where(domain: indexer.clean_url)
         end
+    end
+
+    def crm_staff_counter_btn
+        # @staffer_service.crm_staff_counter
+        @staffer_service.delay.crm_staff_counter
+        redirect_to cores_path
     end
 
 
