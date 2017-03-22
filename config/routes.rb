@@ -91,7 +91,7 @@ Rails.application.routes.draw do
     get 'whos_dash_btn' => 'dashboards#whos_dash_btn'
     get 'summarize_data' => 'dashboards#summarize_data'
     get 'dashboard_power_btn' => 'dashboards#dashboard_power_btn'
-    
+
 
     devise_for :users
 
@@ -110,6 +110,7 @@ Rails.application.routes.draw do
     get 'admin/starters'
     get 'admin/change_user_level' => 'admin#change_user_level'
     get 'admin/delete_user' => 'admin#delete_user'
+    get 'admin/developer' => 'admin#developer'
 
     root 'welcome#index'
 

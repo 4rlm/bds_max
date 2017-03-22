@@ -1,7 +1,5 @@
 class AdminController < ApplicationController
     before_action :admin_only
-    before_action :admin_only, only: [:starters]
-
 
     def index
         @pending_users =  User.where(role: "pending")
@@ -14,7 +12,8 @@ class AdminController < ApplicationController
     def starters
     end
 
-
+    def developer
+    end
 
     def change_user_level
         ids = params[:users]
