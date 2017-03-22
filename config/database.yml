@@ -46,3 +46,8 @@ development:
 test:
   <<: *default
   database: bdsage_test
+
+
+production:
+  <<: *default
+  database: sagedf_max

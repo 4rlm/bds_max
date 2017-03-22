@@ -171,8 +171,8 @@ class IndexersController < ApplicationController
     end
 
     def phone_formatter_finalizer_btn
-        # @service.delay.phone_formatter_finalizer_caller
-        @service.phone_formatter_finalizer_caller
+        @service.delay.phone_formatter_finalizer_caller
+        # @service.phone_formatter_finalizer_caller
         redirect_to indexers_path
     end
 
