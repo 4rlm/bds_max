@@ -1,78 +1,168 @@
-<div class="row text-center pageHeading">
-    <div class="col-md-6">
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
         <h1>System Starters</h1>
-    </div>
-</div>
 
-<div id="admin-starter" class="scr-prof-net scr-prof">
-    <table class="table table-bordered no-wrap">
-        <thead>
-            <tr>
-                <th>Module</th>
-                <th>Download CSV</th>
-                <th>Import CSV</th>
-                <th>Add Record</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Accounts</td>
-                <td><%= link_to 'Download CSV', cores_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', core_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_core_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <tr>
-                <td>Contacts</td>
-                <td><%= link_to 'Download CSV', staffers_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', staffer_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_staffer_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <tr>
-                <td>Scraper</td>
-                <td><%= link_to 'Download CSV', indexers_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', indexer_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_indexer_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <tr>
-                <td>WhoIs</td>
-                <td><%= link_to 'Download CSV', whos_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', who_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_who_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <tr>
-                <td>GeoLocations</td>
-                <td><%= link_to 'Download CSV', locations_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', location_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_location_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <tr>
-                <td>Dashboards</td>
-                <td><%= link_to 'Download CSV', dashboards_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', dashboard_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_dashboard_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <tr><th>Admin</th><th></th><th></th><th></th></tr>
-            <tr>
-                <td>Franchises List</td>
-                <td><%= link_to 'Download CSV', in_host_pos_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', in_host_po_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_in_host_po_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <tr>
-                <td>Scraper Criteria</td>
-                <td><%= link_to 'Download CSV', indexer_terms_path(format: "csv"), class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Import CSV', indexer_term_import_page_path, class: 'btn btn-primary btn-xs' %></td>
-                <td><%= link_to 'Add Record', new_indexer_term_path, class: 'btn btn-primary btn-xs' %></td>
-            </tr>
-            <!--
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr> -->
-        </tbody>
-    </table>
-</div><br>
+        <div id="admin-starter" class="scr-prof-net scr-prof">
+            <table class="table table-bordered no-wrap">
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Download CSV</th>
+                        <th>Import CSV</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Accounts</td>
+                        <td>
+                            <%= link_to cores_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to core_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Contacts</td>
+                        <td>
+                            <%= link_to staffers_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to staffer_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Scraper</td>
+                        <td>
+                            <%= link_to indexers_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to indexer_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>WhoIs</td>
+                        <td>
+                            <%= link_to whos_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to who_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GeoLocations</td>
+                        <td>
+                            <%= link_to locations_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to location_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dashboards</td>
+                        <td>
+                            <%= link_to dashboards_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to dashboard_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr><th>Admin</th><th></th><th></th></tr>
+                    <tr>
+                        <td>Franchises List</td>
+                        <td>
+                            <%= link_to in_host_pos_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to in_host_po_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Scraper Criteria</td>
+                        <td>
+                            <%= link_to indexer_terms_path(format: "csv"), class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-download" aria-hidden="true"></i> Download CSV
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to indexer_term_import_page_path, class: 'btn btn-primary btn-xs' do %>
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> Import CSV
+                            <% end %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><br>
+        <!-- Power buttons -->
+        <div id="admin-starter" class="scr-prof-net scr-prof">
+            <table class="table table-bordered no-wrap">
+                <tr><th colspan="2">Finalizers</th></tr>
+                <tr>
+                    <td>1. Description...</td>
+                    <td>
+                        <%= link_to id_sorter_btn_path, class: 'btn btn-primary btn-xs btn-width' do %>
+                            <i class="fa fa-circle-o-notch" aria-hidden="true"></i> Id Sorter
+                        <% end %>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>2. Description...</td>
+                    <td>
+                        <%= link_to score_calculator_btn_path, class: 'btn btn-primary btn-xs btn-width' do %>
+                            <i class="fa fa-circle-o-notch" aria-hidden="true"></i> Score Calculator
+                        <% end %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3. Description...</td>
+                    <td>
+                        <%= link_to scraper_migrator_btn_path, class: 'btn btn-primary btn-xs btn-width' do %>
+                            <i class="fa fa-circle-o-notch" aria-hidden="true"></i> Scraper Migrator
+                        <% end %>
+                    </td>
+                </tr>
+            </table><br>
+            <table class="table table-bordered no-wrap">
+                <tr>
+                    <td>Description...</td>
+                    <td>
+                        <%= link_to finalizer_btn_path, class: 'btn btn-xs btn-width btn-green' do %>
+                            <i class="fa fa-circle-o-notch" aria-hidden="true"></i> Finalizer
+                        <% end %>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div> <br><br><!-- /.row -->
+
 
 <%#= render partial: 'power_buttons' %>

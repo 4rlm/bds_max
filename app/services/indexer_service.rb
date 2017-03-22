@@ -50,7 +50,13 @@ class IndexerService
         end
     end
 
-    def calculate_score
+    def finalizer
+        id_sorter
+        score_calculator
+        scraper_migrator
+    end
+
+    def score_calculator
         indexers = Indexer.where(archive: false)
 
         indexers.each do |indexer|
@@ -1183,16 +1189,11 @@ class IndexerService
     # end
 
 
-    def indexer_to_core
-        # Core.where(sfdc_clean_url: nil).count ## 11,478
-        # Core.where(sfdc_url: nil).count ## 10,194
-        # Core.where.not(crm_acct_pin: nil).count ## 0 (all nil)
-
-        # url_arr_mover
+    def id_sorter
+        url_arr_mover
         pin_arr_mover
-        # acct_arr_mover
-        # ph_arr_mover
-        # ph_arr_mover
+        acct_arr_mover
+        ph_arr_mover
     end
 
     # ADDS CORE ID TO INDEXER URL ARRAY
@@ -1357,7 +1358,7 @@ class IndexerService
 
 
     # ===== Move indexer info to core
-    def indexer_mover
+    def scraper_migrator
         p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")
         by_score(p1_indexers, :clean_url_crm_ids)
 

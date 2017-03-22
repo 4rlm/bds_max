@@ -25,6 +25,13 @@ Rails.application.routes.draw do
     get 'meta_scraper_btn' => 'indexers#meta_scraper_btn'
     get 'indexer/show_detail' => 'indexers#show_detail'
     get 'url_redirect_checker_btn' => 'indexers#url_redirect_checker_btn'
+    get 'score_calculator_btn' => 'indexers#score_calculator_btn'
+    get 'scraper_migrator_btn' => 'indexers#scraper_migrator_btn'
+    get 'id_sorter_btn' => 'indexers#id_sorter_btn'
+    get 'finalizer_btn' => 'indexers#finalizer_btn'
+    # get '' => 'indexers#'
+    # get '' => 'indexers#'
+    # get '' => 'indexers#'
 
     resources :locations do
         collection {post :import_csv_data}

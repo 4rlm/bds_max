@@ -143,6 +143,18 @@ table.new-search-table {
     color: #333;
 }
 
+.btn.btn-green {
+    background-image:linear-gradient(#f5ffff, #c8eac8);
+    color: #333;
+    border: #d9d9d9;
+    box-shadow: 2px 2px 2px gray;
+    &:hover, &:focus {
+        background-image:linear-gradient(#c8eac8, #f5ffff);
+        color: #333;
+    }
+}
+
+
 .scr-btn-1{
     margin-top: 7px;
 }

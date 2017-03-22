@@ -1,9 +1,9 @@
 class IndexersController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show]
     before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn]
     before_action :set_indexer, only: [:show, :edit, :update, :destroy]
-    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn]
+    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn]
     before_action :set_option_list, only: [:index, :search]
 
 
@@ -132,6 +132,29 @@ class IndexersController < ApplicationController
 
 
     ### =============== BUTTONS Start ===============
+    def finalizer_btn
+        # @service.finalizer
+        @service.delay.finalizer
+        redirect_to indexers_path
+    end
+
+    def score_calculator_btn
+        # @service.score_calculator
+        @service.delay.score_calculator
+        redirect_to indexers_path
+    end
+
+    def scraper_migrator_btn
+        # @service.scraper_migrator
+        @service.delay.scraper_migrator
+        redirect_to indexers_path
+    end
+
+    def id_sorter_btn
+        # @service.id_sorter
+        @service.delay.id_sorter
+        redirect_to indexers_path
+    end
 
     def indexer_power_btn
         # @service.url_arr_extractor
@@ -169,7 +192,7 @@ class IndexersController < ApplicationController
         # @service.delay.ph_arr_mover_express
 
 
-        # @service.indexer_mover
+        # @service.scraper_migrator
 
         # @service.delay.count_staff
         # @service.count_staff
@@ -185,10 +208,10 @@ class IndexersController < ApplicationController
 
 
 
-        # @service.indexer_to_core
-        # @service.delay.calculate_score
-        @service.delay.indexer_mover
-        # @service.indexer_mover
+        # @service.id_sorter
+        # @service.delay.score_calculator
+        @service.delay.scraper_migrator
+        # @service.scraper_migrator
 
 
         redirect_to indexers_path
