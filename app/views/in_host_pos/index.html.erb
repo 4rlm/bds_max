@@ -1,16 +1,16 @@
-<h1 class="page-header">Franchise Terms in URLs</h1>
-<h4 class="text-center">Criteria for Identifying, Filtering & Categorizing Franchises in URLs</h4>
+<div class="row text-center pageHeading">
+    <div class="col-md-3">
+        <h1>Franchise List</h1>
+    </div>
+    <div class="col-md-2">
+        <div class="modal-btn">
+            <%= render partial: 'buttons' %>
+        </div>
+    </div>
+</div>
 
-<!-- <h4>Total Contacts: <%= number_with_delimiter(@staffer_count) %></h4>
-
-<h4>Selected Contacts: <%= number_with_delimiter(@selected_staffer_count) %></h4> -->
-
-<%= render partial: 'buttons' %>
-<br><br>
-
-<%= form_tag "/in_host_pos", method: :get, class: 'form-inline'  do %>
-
-    <table class="list-table table table-bordered table-hover text-nowrap table-striped">
+<div class="scr-prof-net scr-prof">
+    <table class="table table-bordered no-wrap">
 
         <thead>
             <tr>
@@ -41,10 +41,7 @@
             <% end %>
         </tbody>
     </table>
+</div>
 
-    <div class="pull-left">
-        <%= submit_tag "Delete Checked", class: 'btn btn-danger' %>
-    </div>
-<% end %>
 
 <%= render partial: 'buttons' %>

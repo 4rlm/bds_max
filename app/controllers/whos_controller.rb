@@ -1,10 +1,10 @@
 class WhosController < ApplicationController
   before_action :intermediate_and_up, only: [:index, :show, :search]
   before_action :advanced_and_up, only: [:edit, :update]
-  before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :who_starter_btn]
+  before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :who_starter_btn, :who_power_btn]
 
   before_action :set_who, only: [:show, :edit, :update, :destroy]
-  before_action :set_who_service, only: [:who_starter_btn, :import_page, :import_csv_data]
+  before_action :set_who_service, only: [:who_starter_btn, :import_page, :import_csv_data, :who_power_btn]
   before_action :set_option_list, only: [:index, :search]
 
   # GET /whos
@@ -109,8 +109,13 @@ class WhosController < ApplicationController
   def who_starter_btn
     #   @who_service.who_starter
       @who_service.delay.who_starter
-
       redirect_to whos_path
+  end
+
+  def who_power_btn
+    # @who_service..xxxx
+    # @who_service.delay.xxxx
+    redirect_to whos_path
   end
 
   ############ BUTTONS ~ END ##############

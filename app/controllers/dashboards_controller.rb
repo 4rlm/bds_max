@@ -1,8 +1,8 @@
 class DashboardsController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show, :summarize_data]
-    before_action :admin_only, only: [:new, :create, :edit, :update, :destroy, :dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :power_btn]
+    before_action :admin_only, only: [:new, :create, :edit, :update, :destroy, :dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :dashboard_power_btn]
     before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
-    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :summarize_data, :power_btn]
+    before_action :set_dashboard_service, only: [:dashboard_mega_btn, :cores_dash_btn, :whos_dash_btn, :delayed_jobs_dash_btn, :franchise_dash_btn, :indexer_dash_btn, :geo_locations_dash_btn, :staffers_dash_btn, :users_dash_btn, :whos_dash_btn, :import_page, :import_csv_data, :summarize_data, :dashboard_power_btn]
 
     # GET /dashboards
     # GET /dashboards.json
@@ -104,8 +104,8 @@ class DashboardsController < ApplicationController
 
     ############ BUTTONS ~ START ##############
     def dashboard_mega_btn
+        # @service.mega_dash
         @service.delay.mega_dash
-        # @service.delay.mega_dash
         redirect_to dashboards_path
     end
 
@@ -153,9 +153,22 @@ class DashboardsController < ApplicationController
     #     redirect_to dashboards_path
     # end
 
-    def power_btn
-        @service.delay.item_list_to_hash
+    def dashboard_power_btn
+        # @service.delay.item_list_to_hash
         # @service.item_list_to_hash
+        # @service.delay.new_cols_creater
+        # @service.new_cols_creater(Core)
+        # @service.new_cols_creater(Indexer)
+        # @service.new_cols_creater(Location)
+        # @service.new_cols_creater(Staffer)
+        # @service.new_cols_creater(Who)
+        # @service.new_cols_creater(InHostPo)
+        # @service.old_cols_remover(Core)
+        # @service.old_cols_remover(Indexer)
+        # @service.old_cols_remover(Location)
+        # @service.old_cols_remover(Staffer)
+        # @service.old_cols_remover(Who)
+        # @service.old_cols_remover(InHostPo)
         redirect_to dashboards_path
     end
 

@@ -120,17 +120,17 @@
 
                 <tr><!-- 3RD ROW: CRM DATA -->
                     <!-- ###  HIERARCHY JS ### -->
-                    <% if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
-                        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td>
-                    <% elsif location.crm_hierarchy == "Parent" %>
-                        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td>
-                    <% elsif location.crm_hierarchy == "Child" %>
-                        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td>
-                    <% elsif location.crm_hierarchy == "Flag" %>
-                        <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td>
-                    <% else %>
-                        <td class="geo w-xsm"><%= fa_icon "circle-thin lg", class: "fa-clear"  %></td>
-                    <% end %>
+                    <%# if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
+                        <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td> -->
+                    <%# elsif location.crm_hierarchy == "Parent" %>
+                        <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td> -->
+                    <%# elsif location.crm_hierarchy == "Child" %>
+                        <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td> -->
+                    <%# elsif location.crm_hierarchy == "Flag" %>
+                        <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td> -->
+                    <%# else %>
+                        <!-- <td class="geo w-xsm"><%#= fa_icon "circle-thin lg", class: "fa-clear"  %></td> -->
+                    <%# end %>
                     <!-- ############ -->
 
                     <% unless location.crm_url == nil %>
@@ -287,17 +287,17 @@
             <td><%= location.distance.round(2) %></td>
 
             <!-- ###  HIERARCHY JS ### -->
-            <% if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td>
-            <% elsif location.crm_hierarchy == "Parent" %>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td>
-            <% elsif location.crm_hierarchy == "Child" %>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td>
-            <% elsif location.crm_hierarchy == "Flag" %>
-                <td class="geo w-xsm" onClick="changeHierarchy(this);"><%= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td>
-            <% else %>
-                <td class="geo w-xsm"><%= fa_icon "circle-thin lg", class: "fa-clear"  %></td>
-            <% end %>
+            <%# if location.crm_hierarchy == "None" || location.crm_hierarchy == "Other"%>
+                <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "dot-circle-o lg", class: "hier-btn fa-clear", "data-toggle": "tooltip", "data-placement": "top", title: "None" %></td> -->
+            <%# elsif location.crm_hierarchy == "Parent" %>
+                <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "arrow-circle-up lg", class: "hier-btn fa-blue", "data-toggle": "tooltip", "data-placement": "top", title: "Parent" %></td> -->
+            <%# elsif location.crm_hierarchy == "Child" %>
+                <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "arrow-circle-down lg", class: "hier-btn fa-green", "data-toggle": "tooltip", "data-placement": "top", title: "Child" %></td> -->
+            <%# elsif location.crm_hierarchy == "Flag" %>
+                <!-- <td class="geo w-xsm" onClick="changeHierarchy(this);"><%#= fa_icon "exclamation-circle lg", class: "hier-btn fa-red", "data-toggle": "tooltip", "data-placement": "top", title: "Alert" %></td> -->
+            <%# else %>
+                <!-- <td class="geo w-xsm"><%#= fa_icon "circle-thin lg", class: "fa-clear"  %></td> -->
+            <%# end %>
             <!-- ############ -->
 
             <% unless location.crm_url == nil %>

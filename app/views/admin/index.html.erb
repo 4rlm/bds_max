@@ -1,31 +1,28 @@
-<div class="row bordered">
+<div class="row text-center pageHeading">
+    <div class="col-md-3">
+        <h1>Admin</h1>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-12">
-        <h3>Pending</h3>
-        <%= render partial: 'table', locals: { users: @pending_users } %>
-
-        <h3>Basic</h3>
-        <%= render partial: 'table', locals: { users: @basic_users } %>
-
-        <h3>Intermediate</h3>
-        <%= render partial: 'table', locals: { users: @intermediate_users } %>
-
-        <h3>Advanced</h3>
-        <%= render partial: 'table', locals: { users: @advanced_users } %>
-
-        <h3>Admin</h3>
-        <%= render partial: 'table', locals: { users: @admin_users } %>
+        <%= render partial: 'table', locals: { users: @pending_users, header: "Pending" } %>
+        <%= render partial: 'table', locals: { users: @basic_users, header: "Basic" } %>
+        <%= render partial: 'table', locals: { users: @intermediate_users, header: "Intermediate" } %>
+        <%= render partial: 'table', locals: { users: @advanced_users, header: "Advanced" } %>
+        <%= render partial: 'table', locals: { users: @admin_users, header: "Admin" } %>
     </div>
 </div>
 <br>
 <div class="row">
     <div class="col-md-12">
-        <div class="pull-right">
-            <span class="btn btn-info" data-level="pending" onClick="changeUserLevel(this);">Update to Pending</span>
-            <span class="btn btn-primary" data-level="basic" onClick="changeUserLevel(this);">Update to Basic</span>
-            <span class="btn btn-success" data-level="intermediate" onClick="changeUserLevel(this);">Update to Intermediate</span>
-            <span class="btn btn-warning" data-level="advanced" onClick="changeUserLevel(this);">Update to Advanced</span>
-            <span class="btn btn-danger" data-level="admin" onClick="changeUserLevel(this);">Update to Admin</span>
+        <div class="pull-left scr-prof level-change-btns">
+            <h4 class="inlined">Update </h4>
+            <span class="btn btn-primary btn-xs" data-level="pending" onClick="changeUserLevel(this);">Pending</span>
+            <span class="btn btn-primary btn-xs" data-level="basic" onClick="changeUserLevel(this);">Basic</span>
+            <span class="btn btn-primary btn-xs" data-level="intermediate" onClick="changeUserLevel(this);">Intermediate</span>
+            <span class="btn btn-primary btn-xs" data-level="advanced" onClick="changeUserLevel(this);">Advanced</span>
+            <span class="btn btn-primary btn-xs" data-level="admin" onClick="changeUserLevel(this);">Admin</span>
         </div>
     </div>
 </div>
-

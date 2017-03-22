@@ -12,6 +12,19 @@ require 'staffer_helper/dealer_com_cs'
 require 'indexer_helper/rts/rts_manager'
 
 class StafferService
+    
+    def crm_staff_counter
+        cores = Core.all
+
+        num = 0
+        cores.each do |core|
+            num += 1
+            staff_count = Staffer.where(sfdc_id: core.sfdc_id).count
+            puts ">>>>>>num:  #{num}, staff_count: #{staff_count}"
+            core.update_attribute(:crm_staff_count, staff_count)
+        end
+    end
+
     def cs_data_getter
         a=0
         # z=200
