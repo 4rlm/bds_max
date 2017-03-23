@@ -187,6 +187,7 @@ class IndexersController < ApplicationController
     end
 
     def indexer_power_btn
+        @service.geo_to_indexer
         # @service.url_arr_extractor
         # @service.scraped_contacts_sts_checker
         # @service.count_contacts

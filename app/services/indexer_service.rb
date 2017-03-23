@@ -1519,4 +1519,57 @@ class IndexerService
         core_score.to_i < new_score.to_i # true: okay to update, false: do not update
     end
 
+    def geo_to_indexer
+        ## About: Send Geo Data to Indexer when Indexer contains some nil values.
+        # indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(acct_name: [nil, "", " ", ]) # 10,000
+
+        indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(rt_sts: "MS Result") # 7,486
+
+        # indexers = Indexer.where(indexer_status: "Geo Result", geo_status: "Geo Result")
+
+        counter = 0
+        indexers.each do |indexer|
+            ind_url = indexer.clean_url
+            ind_acct = indexer.acct_name
+            ind_phone = indexer.phone
+            ind_pin = indexer.acct_pin
+            ind_addr = indexer.full_addr
+
+            geos = Location.where(url: ind_url)
+            geos.each do |geo|
+                geo_url = geo.url
+                geo_acct = geo.geo_acct_name
+                geo_phone = geo.phone
+                geo_pin = geo.geo_acct_pin
+                geo_addr = geo.geo_full_addr
+
+                geo_street = geo.street
+                geo_city = geo.city
+                geo_state_code = geo.state_code
+                geo_postal_code = geo.postal_code
+
+                counter+=1
+                puts "\n\n#{counter}#{"-"*30}"
+                puts "ind_url: #{ind_url}"
+                puts "ind_acct: #{ind_acct}"
+                puts "ind_phone: #{ind_phone}"
+                puts "ind_pin: #{ind_pin}"
+                puts "ind_addr: #{ind_addr}\n\n"
+
+                puts "geo_url: #{geo_url}"
+                puts "geo_acct: #{geo_acct}"
+                puts "geo_phone: #{geo_phone}"
+                puts "geo_pin: #{geo_pin}"
+                puts "geo_addr: #{geo_addr}\n\n"
+
+                puts "geo_street: #{geo_street}"
+                puts "geo_city: #{geo_city}"
+                puts "geo_state_code: #{geo_state_code}"
+                puts "geo_postal_code: #{geo_postal_code}"
+
+                indexer.update_attributes(indexer_status: "Geo Result", geo_status: "Geo Result", acct_name: geo_acct, phone: geo_phone, acct_pin: geo_pin, full_addr: geo_addr, street: geo_street, city: geo_city, state: geo_state_code, zip: geo_postal_code)
+            end
+        end
+    end
+
 end # IndexerService class Ends ---

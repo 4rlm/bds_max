@@ -10,29 +10,60 @@
                 <thead>
                     <tr>
                         <!-- <th><%#= num %></th> -->
-                        <th class="scr-w-xsm scr-bold">
+                        <th class="scr-w-xsm">
                             <span data-toggle="tooltip" data-placement="top" title="Scraping Process. Starts with Verifying URL & Ends with Scraping Contacts">Process</span>
                         </th>
-                        <th>Scraping Status</th>
 
-                        <th>Redirect Status</th>
-                        <th>WhoIs Status</th>
-                        <th>Template</th>
-                        <th>PF Staff</th>
-                        <th>PF Staff</th>
+                        <!-- Indexer Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "diamond lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Scraper Status" %>
+                        </th>
 
-                        <th>PF Location</th>
-                        <th>PF Location</th>
+                        <!-- URL Redirect Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "location-arrow lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "URL Redirect Status" %>
+                        </th>
 
-                        <th>RT-MS</th>
-                        <th>CS</th>
-                        <th>Geo</th>
+                        <!-- WhoIs Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "address-book lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "WhoIs URL Registration Status" %>
+                        </th>
+
+                        <!-- Template Finder Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "file-text lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Template Provider" %>
+                        </th>
+
+                        <!-- Staff PF Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "users lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Staff Page Link" %>
+                        </th>
+
+                        <!-- Location PF Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "sitemap lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Group Locations Page Link" %>
+                        </th>
+
+                        <!-- RT Scraper Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "building lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "RooftTop Scraper Status" %>
+                        </th>
+
+                        <!-- Staffer Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Staff Scraper Status" %>
+                        </th>
+
+                        <!-- GeoLocation Status Icon -->
+                        <th class="fa-md-gray scr-w-med-min">
+                            <%= fa_icon "map lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "GeoLocation Status" %>
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr>
-                        <th class="scr-w-xsm scr-bold">
+                        <th class="scr-w-xsm">
                             <span data-toggle="tooltip" data-placement="top" title="Usually 3 stages of scraping process: XX Result, XX None, XX Error">Stage</span>
                         </th>
 
@@ -45,38 +76,59 @@
                           <!-- Template -->
                           <td><%= indexer.template %></td>
 
-                          <!-- Staff Text / URL -->
-                          <td class="<%= match_sts_ind(indexer.stf_status) %>">
-                              <%= link_to indexer.staff_url, :target => "_blank", class: 'tooltips', title: "#{indexer.staff_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
-                              <%= indexer.staff_text %>
-                              <% end %>
-                          </td>
 
-                          <!-- Staff Status -->
-                          <td class="<%= match_sts_ind(indexer.stf_status) %>"><%= indexer.stf_status %></td>
-
-                        <!-- Loc Text / URL -->
-                        <td class="<%= match_sts_ind(indexer.loc_status) %>">
-                            <%= link_to indexer.location_url, :target => "_blank", class: 'tooltips', title: "#{indexer.location_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
-                                <%= indexer.location_text %>
+                        <!-- Staff Text / Link / Status -->
+                        <td>
+                            <% if indexer.staff_text %>
+                                <%= link_to indexer.staff_url, :target => "_blank", class: 'tooltips', title: "#{indexer.staff_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                                <%= indexer.staff_text %>
+                                <% end %>
+                            <% else %>
+                                <%= indexer.stf_status %>
                             <% end %>
                         </td>
 
-                      <!-- Loc Status -->
-                      <td class="<%= match_sts_ind(indexer.loc_status) %>"><%= indexer.loc_status %></td>
+                        <!-- Location Text / Link / Status -->
+                        <td>
+                            <% if indexer.location_text %>
+                                <%= link_to indexer.location_url, :target => "_blank", class: 'tooltips', title: "#{indexer.location_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
+                                <%= indexer.location_text %>
+                                <% end %>
+                            <% else %>
+                                <%= indexer.loc_status %>
+                            <% end %>
+                        </td>
 
-                    <!-- RT Status -->
-                    <td><%= indexer.rt_sts %></td>
-                    <td><%= link_core_staffers_with_url(indexer) %></td>
-                    <td><%= indexer.geo_status %></td>
+                        <!-- RT Status -->
+                        <td><%= indexer.rt_sts %></td>
+
+                        <!-- Staffer Status / Staff Count -->
+                        <!-- <td><%#= link_core_staffers_with_url(indexer) %></td> -->
+
+                        <!-- Trial for Web Contacts Link and Count -->
+                        <% if indexer.web_staff_count > 0  %>
+                            <td class="fa-blue scr-w-xsm">
+                                <%= link_to staffer_acct_contacts_path(indexer: indexer), :target => "_blank" do %>
+                                    <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Scraped Contacts: #{indexer.web_staff_count}" %>
+                                <% end %> <%= indexer.web_staff_count %>
+                            </td>
+                        <% else %>
+                            <td class="fa-gray scr-w-xsm">
+                                <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "#{indexer.contact_status}" %>
+                            </td>
+                        <% end %>
+
+
+
+                        <td><%= indexer.geo_status %></td>
 
                     </tr>
                 </tbody>
             </table>
 
             <table class="table table-bordered no-wrap">
-                <tr class="scr-bold">
-                    <th class="scr-w-xsm scr-bold">
+                <tr class="">
+                    <th class="scr-w-xsm">
                         <span data-toggle="tooltip" data-placement="top" title="RT Scraper results via Clean URL ">Scraped</span>
                     </th>
 
@@ -99,7 +151,7 @@
 
             <table class="table table-bordered no-wrap">
                 <tr>
-                    <th class="scr-w-xsm scr-bold">
+                    <th class="scr-w-xsm">
                         <span data-toggle="tooltip" data-placement="top" title="Match Score: ex. 100% = SFDC IDs with 4/4 Matching Criteria">Score</span>
                     </th>
                     <th class="scr-tiny">100%</th>
@@ -118,7 +170,7 @@
 
             <table class="table table-bordered no-wrap">
             <tr>
-                <th class="scr-w-xsm scr-bold">
+                <th class="scr-w-xsm">
                     <span data-toggle="tooltip" data-placement="top" title="Final Approval Status via Account Section: Merge, Flag, Drop">Final</span>
                 </th>
 
