@@ -19,9 +19,10 @@ module CSVTool
                 valid_hash = validate_hash(cols, row.to_hash)
 
                 if obj = model.find_by(id: valid_hash["id"])
-                    valid_hash.delete("id")
-                    valid_hash[sts_col] = "Re-Imported" if sts_col
+                    # valid_hash[sts_col] = "Re-Imported" if sts_col
+                    model.record_timestamps = false
                     obj.update_attributes(valid_hash)
+                    model.record_timestamps = true
                 else
                     valid_hash[sts_col] = "Imported" if sts_col
                     model.create!(valid_hash)
