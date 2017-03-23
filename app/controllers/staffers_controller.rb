@@ -124,8 +124,8 @@ class StaffersController < ApplicationController
     end
 
     def crm_staff_counter_btn
-        # @staffer_service.crm_staff_counter
-        @staffer_service.delay.crm_staff_counter
+        @staffer_service.crm_staff_counter
+        # @staffer_service.delay.crm_staff_counter
         redirect_to cores_path
     end
 
@@ -142,8 +142,8 @@ class StaffersController < ApplicationController
 
 
     def cs_data_getter_btn
-        # @staffer_service.cs_data_getter
-        @staffer_service.delay.cs_data_getter
+        @staffer_service.cs_data_getter
+        # @staffer_service.delay.cs_data_getter
 
         redirect_to indexers_path
     end

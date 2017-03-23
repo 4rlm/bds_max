@@ -218,15 +218,15 @@ class CoresController < ApplicationController
     end
 
     def start_indexer(ids)
-        IndexerService.new.delay.start_indexer(ids)
-        # IndexerService.new.start_indexer(ids)
+        # IndexerService.new.delay.start_indexer(ids)
+        IndexerService.new.start_indexer(ids)
         flash[:notice] = 'Indexer started!'
         redirect_to cores_path
     end
 
     def start_staffer(ids)
-        StafferService.new.delay.start_staffer(ids)
-        # StafferService.new.start_staffer(ids)
+        # StafferService.new.delay.start_staffer(ids)
+        StafferService.new.start_staffer(ids)
 
         flash[:notice] = 'Staffer started!'
         # redirect_to staffers_path
@@ -235,7 +235,8 @@ class CoresController < ApplicationController
 
     def geo_starter(ids)  ## From 'Queue Geo' Batch Select
 
-        LocationService.new.delay.geo_starter(ids)
+        # LocationService.new.delay.geo_starter(ids)
+        LocationService.new.geo_starter(ids)
 
         flash[:notice] = 'Geo started!'
         redirect_to cores_path

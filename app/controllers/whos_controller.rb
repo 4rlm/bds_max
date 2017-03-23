@@ -107,8 +107,8 @@ class WhosController < ApplicationController
 
   ############ BUTTONS ~ START ##############
   def who_starter_btn
-    #   @who_service.who_starter
-      @who_service.delay.who_starter
+      @who_service.who_starter
+    #   @who_service.delay.who_starter
       redirect_to whos_path
   end
 
