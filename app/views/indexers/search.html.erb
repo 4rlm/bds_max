@@ -8,7 +8,6 @@
     <div class="row">
         <div class="col-md-1 new-search-left-col">
             <table class="table table-bordered table-hover text-nowrap new-search-table">
-
                 <tr>
                     <th colspan="2">Match Status</th>
                 </tr>
@@ -35,14 +34,45 @@
                 <div class="col-md-12">
                     <table class="table table-bordered table-hover text-nowrap new-search-table">
                         <tr>
-                            <th>Scraper Status</th>
-                            <th>Redirect Status</th>
-                            <th>WhoIs Status</th>
-                            <th>Template</th>
-                            <th>RT Status</th>
-                            <th>PF Staff Status</th>
-                            <th>PF Location Status</th>
-                            <th>Contact Status</th>
+                            <!-- Scraper Status -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "diamond lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Recent Scraper Status" %>
+                            </th>
+
+                            <!-- Redirect Status -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "location-arrow lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "URL Redirect Status" %>
+                            </th>
+
+                            <!-- WhoIs Status -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "address-book lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "WhoIs Status" %>
+                            </th>
+
+                            <!-- Template Status -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "file-text lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Template Status" %>
+                            </th>
+
+                            <!-- RT Status -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "building lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "RoofTop Scraper Status" %>
+                            </th>
+
+                            <!-- PF Staff -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "users lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Staff Page Status" %>
+                            </th>
+
+                            <!-- PF Locations -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "sitemap lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Locations Page Status" %>
+                            </th>
+
+                            <!-- Contact Status -->
+                            <th class="fa-md-gray">
+                                <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Contact Scraper Status" %>
+                            </th>
                             <!-- <th>COP Status</th> -->
                         </tr>
                         <tr>
@@ -74,18 +104,18 @@
                         <tr>
                             <th class="th">Account Name</th>
                             <th class="th">Address</th>
-                            <th class="th">Addr Pin</th>
+                            <!-- <th class="th">Addr Pin</th> -->
                             <th class="th">Phone</th>
                             <th class="th">Clean url</th>
-                            <th class="th">Raw url</th>
+                            <!-- <th class="th">Raw url</th> -->
                         </tr>
                         <tr>
                             <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_name } %></td>
                             <td><%= render partial: 'layouts/text_field_tag', locals: { col: :full_addr } %></td>
                             <td><%= render partial: 'layouts/text_field_tag', locals: { col: :phone } %></td>
-                            <td><%= render partial: 'layouts/text_field_tag', locals: { col: :acct_pin } %></td>
+                            <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :acct_pin } %></td> -->
                             <td><%= render partial: 'layouts/text_field_tag', locals: { col: :clean_url } %></td>
-                            <td><%= render partial: 'layouts/text_field_tag', locals: { col: :raw_url } %></td>
+                            <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :raw_url } %></td> -->
                         </tr>
                     </table>
                 </div>

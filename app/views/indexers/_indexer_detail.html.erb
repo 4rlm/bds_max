@@ -25,7 +25,7 @@
                             <%= fa_icon "diamond lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "#{indexer.indexer_status}: #{indexer.updated_at.strftime("%m/%d/%Y")}" %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "diamond lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No Scraper Status" %>
                         </th>
                     <% end %>
@@ -45,7 +45,7 @@
                             <%= fa_icon "location-arrow lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "URL Redirect: #{indexer.redirect_status}" %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "location-arrow lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No URL Redirect Status" %>
                         </th>
                     <% end %>
@@ -65,7 +65,7 @@
                             <%= fa_icon "address-book lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "WhoIs: #{indexer.who_status}" %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "address-book lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No WhoIs Status" %>
                         </th>
                     <% end %>
@@ -84,7 +84,7 @@
                               <%= fa_icon "file-text lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Dealer Template: #{indexer.template}" %>
                           </th>
                       <% else %>
-                          <th class="fa-gray scr-w-med-min">
+                          <th class="fa-md-gray scr-w-med-min">
                               <%= fa_icon "file-text lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No Dealer Template Status" %>
                           </th>
                       <% end %>
@@ -105,7 +105,7 @@
                             <% end %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "users lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No Dealer Staff Page" %>
                         </th>
                     <% end %>
@@ -127,7 +127,7 @@
                             <% end %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "sitemap lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No Dealer Locations Page" %>
                         </th>
                     <% end %>
@@ -147,7 +147,7 @@
                             <%= fa_icon "building lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Rooftop Scraper: #{indexer.rt_sts}" %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "building lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No Rooftop Scraper Status" %>
                         </th>
                     <% end %>
@@ -176,7 +176,7 @@
                             <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "Contact Scraper: #{indexer.contact_status}" %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "user-plus lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No Dealer Staff Status" %>
                         </th>
                     <% end %>
@@ -196,7 +196,7 @@
                             <%= fa_icon "map lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "GeoLocation: #{indexer.geo_status}" %>
                         </th>
                     <% else %>
-                        <th class="fa-gray scr-w-med-min">
+                        <th class="fa-md-gray scr-w-med-min">
                             <%= fa_icon "map lg shadow", "data-toggle": "tooltip", "data-placement": "top", title: "No GeoLocation Status" %>
                         </th>
                     <% end %>
@@ -220,7 +220,7 @@
 
                     <td><span data-toggle="tooltip" data-placement="top" title="Scraped Address"><%= indexer.full_addr %></span></td>
 
-                    <td class="scraper-w-sm"><span data-toggle="tooltip" data-placement="top" title="Scraped Address Pin"><%= indexer.acct_pin %></span></td>
+                    <!-- <td class="scraper-w-sm"><span data-toggle="tooltip" data-placement="top" title="Scraped Address Pin"><%#= indexer.acct_pin %></span></td> -->
 
                     <td class="scraper-w-sm"><span data-toggle="tooltip" data-placement="top" title="Scraped Phone"><%= indexer.phone %></span></td>
 

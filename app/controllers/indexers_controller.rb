@@ -142,6 +142,7 @@ class IndexersController < ApplicationController
         @service.url_arr_mover
         @service.pin_arr_mover
         @service.acct_arr_mover
+        @service.acct_squeezer_caller
         @service.ph_arr_mover_express
 
         # Step 2: Score Calculator (1 method)

@@ -35,16 +35,16 @@
         </td>
 
         <!-- CRM Addr Pin -->
-        <td class="geo w-md <%= indicate_match(core.pin_match_sts) %>">
-            <% if crm_acct_pin = core.crm_acct_pin %>
-                <span data-toggle="tooltip" data-placement="top" title="SFDC Pin (Zip + Street #)"><%= crm_acct_pin %></span>
-            <% else %>
-                <span data-toggle="tooltip" data-placement="top" title="No SFDC Address Pin">No Pin</span>
-            <% end %>
-        </td>
+        <!-- <td class="geo w-md <%#= indicate_match(core.pin_match_sts) %>"> -->
+            <%# if crm_acct_pin = core.crm_acct_pin %>
+                <!-- <span data-toggle="tooltip" data-placement="top" title="SFDC Pin (Zip + Street #)"><%#= crm_acct_pin %></span> -->
+            <%# else %>
+                <!-- <span data-toggle="tooltip" data-placement="top" title="No SFDC Address Pin">No Pin</span> -->
+            <%# end %>
+        <!-- </td> -->
 
         <% if core.full_address %>
-            <td><span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.full_address},#{core.sfdc_acct}" %>"><span data-toggle="tooltip" data-placement="top" title="Map: SFDC Address & Name"><%= core.full_address %></span></span></td>
+            <td class="<%= indicate_match(core.pin_match_sts) %>"><span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.full_address},#{core.sfdc_acct}" %>"><span data-toggle="tooltip" data-placement="top" title="Map: SFDC Address & Name"><%= core.full_address %></span></span></td>
         <% else %>
             <td><span data-toggle="tooltip" data-placement="top" title="No SFDC Address">No Address</span></td>
         <% end %>
@@ -102,16 +102,16 @@
         </td>
 
         <!-- Alt Addr Pin -->
-        <td class="geo w-md <%= indicate_match(core.pin_match_sts) %>">
-            <% if alt_acct_pin = core.alt_acct_pin %>
-                <span data-toggle="tooltip" data-placement="top" title="Scraped Pin (Zip + Street #)"><%= alt_acct_pin %></span>
-            <% else %>
-                <span data-toggle="tooltip" data-placement="top" title="No Scraped Address Pin">No Pin</span>
-            <% end %>
-        </td>
+        <!-- <td class="geo w-md <%= indicate_match(core.pin_match_sts) %>"> -->
+            <%# if alt_acct_pin = core.alt_acct_pin %>
+                <!-- <span data-toggle="tooltip" data-placement="top" title="Scraped Pin (Zip + Street #)"><%#= alt_acct_pin %></span> -->
+            <%# else %>
+                <!-- <span data-toggle="tooltip" data-placement="top" title="No Scraped Address Pin">No Pin</span> -->
+            <%# end %>
+        <!-- </td> -->
 
         <% if core.alt_address %>
-            <td><span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.alt_address}, #{core.alt_acct}" %>"><span data-toggle="tooltip" data-placement="top" title="Map: Scraped Address & Name"><%= core.alt_address %></span></span></td>
+            <td class="<%= indicate_match(core.pin_match_sts) %>"><span class="modalButton" data-toggle="modal" data-target="#previewModal" data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCMINjz6qATKxuxTc6tWNzyVehLybEYouY&zoom=17&q=<%= "#{core.alt_address}, #{core.alt_acct}" %>"><span data-toggle="tooltip" data-placement="top" title="Map: Scraped Address & Name"><%= core.alt_address %></span></span></td>
         <% else %>
             <td><span data-toggle="tooltip" data-placement="top" title="No Address Scraped">No Address</span></td>
         <% end %>
