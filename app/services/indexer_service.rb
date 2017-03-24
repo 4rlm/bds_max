@@ -1540,7 +1540,8 @@ class IndexerService
                     template: indexer.template,
                     who_sts: indexer.who_status,
                     match_score: score,
-                    acct_match_sts: compare_core_indexer(core.sfdc_acct, indexer.acct_name),
+                    # acct_match_sts: compare_core_indexer(core.sfdc_acct, indexer.acct_name),
+                    acct_match_sts: compare_acct_downcase(core.sfdc_acct, indexer.acct_name),
                     ph_match_sts: compare_core_indexer(core.sfdc_ph, indexer.phone),
                     pin_match_sts: compare_core_indexer(core.crm_acct_pin, indexer.acct_pin),
                     url_match_sts: compare_core_indexer(core.sfdc_clean_url, indexer.clean_url),
@@ -1569,6 +1570,30 @@ class IndexerService
     def compare_core_indexer(core_col, indexer_col)
         core_col == indexer_col ? "Same" : "Different"
     end
+
+    def compare_acct_downcase_tester
+        # One-Time Use
+        cores = Core.where.not(alt_acct: nil)[0..1000]
+        cores.each do |core|
+            core_acct = core.sfdc_acct
+            core_alt = core.alt_acct
+            acct_match_sts = compare_acct_downcase(core_acct, core_alt)
+            if core_acct != core_alt && acct_match_sts == "Same"
+                puts "\n\n\ncore_acct: #{core_acct}"
+                puts "core_alt: #{core_alt}"
+                puts "acct_match_sts: #{acct_match_sts}\n\n\n"
+            else
+                puts "..."
+            end
+        end
+    end
+
+    def compare_acct_downcase(core_col, indexer_col)
+        core_col_result = acct_squeezer(core_col)
+        indexer_col_result = acct_squeezer(indexer_col)
+        core_col_result == indexer_col_result ? "Same" : "Different"
+    end
+
 
     #  Helper method for `update_core`
     def compare_score(core_score, new_score)
@@ -1703,6 +1728,7 @@ class IndexerService
             end
         end
     end
+
 
 
 end # IndexerService class Ends ---

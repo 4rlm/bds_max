@@ -138,6 +138,7 @@ class IndexersController < ApplicationController
         # @service.delay.url_arr_mover
         # @service.delay.pin_arr_mover
         # @service.delay.acct_arr_mover
+        # @service.delay.acct_squeezer_caller
         # @service.delay.ph_arr_mover_express
         @service.url_arr_mover
         @service.pin_arr_mover
@@ -193,12 +194,12 @@ class IndexersController < ApplicationController
     end
 
     def address_formatter_btn
-        @service.delay.address_formatter
+        @service.address_formatter
         redirect_to indexers_path
     end
 
     def phone_migrator_btn
-        @service.delay.phone_migrator
+        @service.phone_migrator
         redirect_to indexers_path
     end
 
@@ -249,7 +250,10 @@ class IndexersController < ApplicationController
         # @service.acct_pin_gen_starter
         # @service.acct_pin_gen_helper
         # @service.acct_squeezer_caller
-        @service.delay.acct_squeezer_caller
+        # @service.delay.acct_squeezer_caller
+        # @service.delay.compare_acct_downcase_tester
+
+        @service.scraper_migrator
 
 
         redirect_to indexers_path
