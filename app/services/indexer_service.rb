@@ -1311,6 +1311,62 @@ class IndexerService
     end
 
 
+    def acct_squeezer_caller
+        cores = Core.where.not(sfdc_acct: nil)[0..1000]
+        cores.each do |core|
+            sfdc_url = core.sfdc_clean_url
+            sfdc_pin = core.crm_acct_pin
+            sfdc_phone = core.sfdc_ph
+            core_acct = core.sfdc_acct
+            # core_sqz = acct_squeezer(core_acct)
+
+            # indexers = Indexer.where(archive: false).where.not(acct_name: nil).where.not(acct_name: core_acct).where(clean_url: sfdc_url)
+            g1_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(phone: sfdc_phone)
+            g2_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(acct_pin: sfdc_pin)
+            g3_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(clean_url: sfdc_url)
+            acct_squeezer_processor(g3_indexers, core_acct)
+            acct_squeezer_processor(g1_indexers, core_acct)
+            acct_squeezer_processor(g2_indexers, core_acct)
+
+        end
+    end
+
+    def acct_squeezer_processor(indexers, core_acct)
+        core_acct
+        core_sqz = acct_squeezer(core_acct)
+
+        counter=0
+        indexers.each do |indexer|
+            indexer_phone = indexer.phone
+            indexer_pin = indexer.acct_pin
+            indexer_url = indexer.clean_url
+
+            indexer_acct = indexer.acct_name
+            indexer_sqz = acct_squeezer(indexer_acct)
+
+            if (core_sqz && indexer_sqz) && core_sqz == indexer_sqz
+                counter+=1
+                puts counter
+                puts "\n\ncore_acct: #{core_acct}"
+                puts "indexer_acct: #{indexer_acct}"
+                puts "core_sqz: #{core_sqz}"
+                puts "indexer_sqz: #{indexer_sqz}\n\n"
+            end
+
+        end
+    end
+
+
+    def acct_squeezer(org)
+        squeezed_org = org.downcase
+        squeezed_org = squeezed_org.gsub(/[^A-Za-z]/, "")
+        squeezed_org.strip!
+        squeezed_org
+    end
+
+
+
+
     # ADDS CORE ID TO INDEXER PH ARRAY
     def ph_arr_mover_express
         puts "\n\n#{"="*40}STARTING ID SORTER METHOD 4: PHONE ARRAY MOVER (EXPRESS)\nChecks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
@@ -1519,13 +1575,17 @@ class IndexerService
         core_score.to_i < new_score.to_i # true: okay to update, false: do not update
     end
 
-    def geo_to_indexer
-        ## About: Send Geo Data to Indexer when Indexer contains some nil values.
-        # indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(acct_name: [nil, "", " ", ]) # 10,000
+    def geo_to_indexer_caller
+        p1_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(acct_name: [nil, "", " ", ]) # 10,000
+        geo_to_indexer(p1_indexers)
+        p2_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(rt_sts: "MS Result") # 7,486
+        geo_to_indexer(p2_indexers)
+        # p3_indexers = Indexer.where(indexer_status: "Geo Result", geo_status: "Geo Result")
+        # geo_to_indexer(p3_indexers)  ## Use to re-write mistakes above.
+    end
 
-        indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(rt_sts: "MS Result") # 7,486
-
-        # indexers = Indexer.where(indexer_status: "Geo Result", geo_status: "Geo Result")
+    def geo_to_indexer(indexers)
+        ## Migrates account url, acct, phone, pin, addr, street, city, state, zip from geo to indexer IF indexer rts results are Meta or if account name is nil, based on same clean_url.
 
         counter = 0
         indexers.each do |indexer|
@@ -1570,6 +1630,79 @@ class IndexerService
                 indexer.update_attributes(indexer_status: "Geo Result", geo_status: "Geo Result", acct_name: geo_acct, phone: geo_phone, acct_pin: geo_pin, full_addr: geo_addr, street: geo_street, city: geo_city, state: geo_state_code, zip: geo_postal_code)
             end
         end
+
     end
+
+
+    def address_formatter
+        ## Migrates full_addr, street, city, state, zip from geo to indexer IF clean_url and acct pin same.
+        indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Result").where.not(acct_pin: nil) # 18,983
+
+        counter = 0
+        indexers.each do |indexer|
+            ind_url = indexer.clean_url
+            ind_pin = indexer.acct_pin
+            ind_addr = indexer.full_addr
+
+            geos = Location.where(geo_acct_pin: ind_pin)
+            geos.each do |geo|
+                geo_url = geo.url
+                geo_pin = geo.geo_acct_pin
+                geo_addr = geo.geo_full_addr
+                geo_street = geo.street
+                geo_city = geo.city
+                geo_state_code = geo.state_code
+                geo_postal_code = geo.postal_code
+
+                counter+=1
+                puts "\n\n#{counter}#{"-"*30}"
+                puts "ind_url: #{ind_url}"
+                puts "geo_url: #{geo_url}"
+                puts "ind_pin: #{ind_pin}"
+                puts "geo_pin: #{geo_pin}\n\n"
+                puts "ind_addr: #{ind_addr}"
+                puts "geo_addr: #{geo_addr}\n\n"
+
+                puts "geo_street: #{geo_street}"
+                puts "geo_city: #{geo_city}"
+                puts "geo_state_code: #{geo_state_code}"
+                puts "geo_postal_code: #{geo_postal_code}\n\n"
+
+                indexer.update_attributes(indexer_status: "Geo Formatted", geo_status: "Geo Formatted", full_addr: geo_addr, street: geo_street, city: geo_city, state: geo_state_code, zip: geo_postal_code)
+            end
+        end
+    end
+
+
+    def phone_migrator
+        ## About: Migrates geo phone to Indexer if indexer phone is nil, and indexer and geo share same clean_url.
+        indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Phone").where(phone: nil) # 11,862
+
+        counter = 0
+        indexers.each do |indexer|
+            ind_url = indexer.clean_url
+            ind_phone = indexer.phone
+            ind_pin = indexer.acct_pin
+
+            geos = Location.where(url: ind_url)
+            geos.each do |geo|
+                geo_url = geo.url
+                geo_phone = geo.phone
+                geo_pin = geo.geo_acct_pin
+
+                counter+=1
+                puts "\n\n#{counter}#{"-"*30}"
+                puts "ind_url: #{ind_url}"
+                puts "geo_url: #{geo_url}"
+                puts "ind_pin: #{ind_pin}"
+                puts "geo_pin: #{geo_pin}\n\n"
+                puts "ind_phone: #{ind_phone}"
+                puts "geo_phone: #{geo_phone}\n\n"
+
+                indexer.update_attributes(indexer_status: "Geo Phone", geo_status: "Geo Phone", phone: geo_phone)
+            end
+        end
+    end
+
 
 end # IndexerService class Ends ---

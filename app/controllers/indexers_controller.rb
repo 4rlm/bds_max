@@ -1,9 +1,9 @@
 class IndexersController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show]
     before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn, :geo_to_indexer_btn, :address_formatter_btn, :phone_migrator_btn]
     before_action :set_indexer, only: [:show, :edit, :update, :destroy]
-    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn]
+    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn, :geo_to_indexer_btn, :address_formatter_btn, :phone_migrator_btn]
     before_action :set_option_list, only: [:index, :search]
 
 
@@ -186,8 +186,24 @@ class IndexersController < ApplicationController
         redirect_to indexers_path
     end
 
+    def geo_to_indexer_btn
+        @service.geo_to_indexer_caller
+        redirect_to indexers_path
+    end
+
+    def address_formatter_btn
+        @service.delay.address_formatter
+        redirect_to indexers_path
+    end
+
+    def phone_migrator_btn
+        @service.delay.phone_migrator
+        redirect_to indexers_path
+    end
+
+
     def indexer_power_btn
-        @service.geo_to_indexer
+        # @service.geo_to_indexer
         # @service.url_arr_extractor
         # @service.scraped_contacts_sts_checker
         # @service.count_contacts
@@ -231,6 +247,9 @@ class IndexersController < ApplicationController
 
         # @service.acct_pin_gen_starter
         # @service.acct_pin_gen_helper
+        # @service.acct_squeezer_caller
+        @service.delay.acct_squeezer_caller
+
 
         redirect_to indexers_path
     end
