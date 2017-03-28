@@ -125,7 +125,7 @@ class IndexersController < ApplicationController
 
     def show_detail
         @core = Core.find(params[:core])
-        @indexers = Indexer.where(clean_url: @core.sfdc_clean_url).where(archive: false)
+        @indexers = Indexer.where(clean_url: @core.alt_url).where(archive: false)
     end
 
 

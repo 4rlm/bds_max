@@ -74,6 +74,9 @@
         <td class="geo w-xsm"><span class="modalButton" data-toggle="modal" data-target="#scrapedModal" data-src="http://bds-max.herokuapp.com/<%= indexer_show_detail_path(core: core) %>">Scraped</span></td>
 
 
+        <!-- <td class="geo w-xsm"><span class="modalButton" data-toggle="modal" data-target="#scrapedModal" data-src="http://localhost:3000<%#= indexer_show_detail_path(core: core) %>">Scraped</span></td> -->
+
+
         <td class="<%= indicate_match(core.url_match_sts) %>">
             <% if alt_url = core.alt_url %>
                 <%= link_to alt_url, :target => "_blank", class: 'tooltips', title: "Scraped Clean URL: #{alt_url}", data: { toggle: 'tooltip', placement: 'top'} do %>
