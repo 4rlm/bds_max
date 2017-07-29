@@ -1,9 +1,9 @@
 class IndexersController < ApplicationController
     before_action :intermediate_and_up, only: [:index, :show]
     before_action :advanced_and_up, only: [:edit, :update]
-    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn, :geo_to_indexer_btn, :address_formatter_btn, :phone_migrator_btn]
+    before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :indexer_power_btn, :reset_errors_btn, :page_finder_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :score_calculator_btn, :scraper_migrator_btn, :migrate_address_to_staffers_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn, :geo_to_indexer_btn, :address_formatter_btn, :phone_migrator_btn]
     before_action :set_indexer, only: [:show, :edit, :update, :destroy]
-    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn, :score_calculator_btn, :scraper_migrator_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn, :geo_to_indexer_btn, :address_formatter_btn, :phone_migrator_btn]
+    before_action :set_indexer_service, only: [:page_finder_btn, :reset_errors_btn, :indexer_power_btn, :template_finder_btn, :rooftop_data_getter_btn, :meta_scraper_btn, :url_redirect_checker_btn, :score_calculator_btn, :scraper_migrator_btn, :migrate_address_to_staffers_btn, :id_sorter_btn, :finalizer_btn, :phone_formatter_finalizer_btn, :geo_to_indexer_btn, :address_formatter_btn, :phone_migrator_btn]
     before_action :set_option_list, only: [:index, :search]
 
 
@@ -67,7 +67,7 @@ class IndexersController < ApplicationController
         Indexer.import_csv(file_name, Indexer, "indexer_status")
 
         flash[:notice] = "CSV imported successfully."
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def search
@@ -153,20 +153,27 @@ class IndexersController < ApplicationController
         # Step 3: Scraper Migrator (1 method)
         # @service.delay.scraper_migrator
         @service.scraper_migrator
+        @service.migrate_address_to_staffers #=> New Button
 
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def score_calculator_btn
         @service.score_calculator
         # @service.delay.score_calculator
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def scraper_migrator_btn
         @service.scraper_migrator
         # @service.delay.scraper_migrator
-        redirect_to indexers_path
+        redirect_to admin_developer_path
+    end
+
+    def migrate_address_to_staffers_btn #=> New Button
+      @service.migrate_address_to_staffers
+      # @service.delay.migrate_address_to_staffers
+      redirect_to admin_developer_path
     end
 
     def id_sorter_btn
@@ -179,28 +186,28 @@ class IndexersController < ApplicationController
         @service.pin_arr_mover
         @service.acct_arr_mover
         @service.ph_arr_mover_express
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def phone_formatter_finalizer_btn
         # @service.delay.phone_formatter_finalizer_caller
         @service.phone_formatter_finalizer_caller
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def geo_to_indexer_btn
         @service.geo_to_indexer_caller
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def address_formatter_btn
         @service.address_formatter
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def phone_migrator_btn
         @service.phone_migrator
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
 
@@ -254,9 +261,10 @@ class IndexersController < ApplicationController
         # @service.delay.compare_acct_downcase_tester
 
         @service.scraper_migrator
+        @service.migrate_address_to_staffers #=> New Button
 
 
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def url_redirect_checker_btn
@@ -269,7 +277,7 @@ class IndexersController < ApplicationController
     def reset_errors_btn
         # @service.reset_errors
 
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
 
@@ -278,13 +286,13 @@ class IndexersController < ApplicationController
         # @service.delay.page_finder_starter
         #   @service.url_importer
 
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def template_finder_btn
         #   @service.template_finder
         #   @service.delay.template_finder
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
 
@@ -292,14 +300,14 @@ class IndexersController < ApplicationController
           @service.rooftop_data_getter
         #   @service.delay.rooftop_data_getter
 
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
     def meta_scraper_btn
           @service.meta_scraper
         # @service.delay.meta_scraper
 
-        redirect_to indexers_path
+        redirect_to admin_developer_path
     end
 
 

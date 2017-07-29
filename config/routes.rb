@@ -28,6 +28,9 @@ Rails.application.routes.draw do
     get 'url_redirect_checker_btn' => 'indexers#url_redirect_checker_btn'
     get 'score_calculator_btn' => 'indexers#score_calculator_btn'
     get 'scraper_migrator_btn' => 'indexers#scraper_migrator_btn'
+
+    get 'migrate_address_to_staffers_btn' => 'indexers#migrate_address_to_staffers_btn'
+
     get 'id_sorter_btn' => 'indexers#id_sorter_btn'
     get 'finalizer_btn' => 'indexers#finalizer_btn'
     get 'phone_formatter_finalizer_btn' => 'indexers#phone_formatter_finalizer_btn'
