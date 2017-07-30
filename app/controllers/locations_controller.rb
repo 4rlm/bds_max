@@ -372,16 +372,18 @@ class LocationsController < ApplicationController
 
     # Get dropdown option list from Dashboard
     def set_option_list
-        @location_status_opts = grap_item_list("location_status")
-        @sts_geo_crm_opts = grap_item_list("sts_geo_crm")
-        @sts_url_opts = grap_item_list("sts_url")
-        @sts_acct_opts = grap_item_list("sts_acct")
-        @sts_addr_opts = grap_item_list("sts_addr")
-        @sts_ph_opts = grap_item_list("sts_ph")
-        @crm_source_opts = grap_item_list("crm_source")
-        @tier_opts = grap_item_list("tier")
-        @sales_person_opts = grap_item_list("sales_person")
-        @acct_type_opts = grap_item_list("acct_type")
+        @location_status_opts = ordered_list(grap_item_list("location_status"))
+        @sts_geo_crm_opts = ordered_list(grap_item_list("sts_geo_crm"))
+        @sts_url_opts = ordered_list(grap_item_list("sts_url"))
+        @sts_acct_opts = ordered_list(grap_item_list("sts_acct"))
+        @sts_addr_opts = ordered_list(grap_item_list("sts_addr"))
+        @sts_ph_opts = ordered_list(grap_item_list("sts_ph"))
+        @crm_source_opts = ordered_list(grap_item_list("crm_source"))
+        @tier_opts = ordered_list(grap_item_list("tier"))
+        @sales_person_opts = ordered_list(grap_item_list("sales_person"))
+        @acct_type_opts = ordered_list(grap_item_list("acct_type"))
+        # @state_opts = ordered_list(grap_item_list("state"))
+        @state_opts = ordered_list(list_of_states)
     end
 
     def grap_item_list(col_name)

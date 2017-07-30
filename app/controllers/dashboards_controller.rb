@@ -143,9 +143,9 @@ class DashboardsController < ApplicationController
 
     def staffers_dash_btn
         # @service.delay.dash(Staffer)
-        # @service.delay.list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job])
+        # @service.delay.list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job, :state])
         @service.dash(Staffer)
-        @service.list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job])
+        @service.list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job, :state])
         redirect_to dashboards_path
     end
 

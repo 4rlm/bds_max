@@ -21,8 +21,8 @@ class WhosController < ApplicationController
     # CSV #
     whos_csv = @whos.order(:domain)
     respond_to do |format|
-        format.html
-        format.csv { render text: whos_csv.to_csv }
+      format.html
+      format.csv { render text: whos_csv.to_csv }
     end
 
 
@@ -46,15 +46,15 @@ class WhosController < ApplicationController
   end
 
   def import_csv_data
-      file_name = params[:file]
-      Who.import_csv(file_name, Who, "who_status")
+    file_name = params[:file]
+    Who.import_csv(file_name, Who, "who_status")
 
-      flash[:notice] = "CSV imported successfully."
-      redirect_to whos_path
+    flash[:notice] = "CSV imported successfully."
+    redirect_to whos_path
   end
 
   def search
-      @who_count = Who.count
+    @who_count = Who.count
   end
 
 
@@ -107,9 +107,9 @@ class WhosController < ApplicationController
 
   ############ BUTTONS ~ START ##############
   def who_starter_btn
-      @who_service.who_starter
+    @who_service.who_starter
     #   @who_service.delay.who_starter
-      redirect_to whos_path
+    redirect_to whos_path
   end
 
   def who_power_btn
@@ -124,34 +124,34 @@ class WhosController < ApplicationController
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_who
-      @who = Who.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_who
+    @who = Who.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def who_params
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def who_params
+    params.require(:who).permit(:domain, :domain_id, :ip, :server1, :server2, :registrar_url, :registrar_id, :registrant_id, :registrant_type, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_zip, :registrant_state, :registrant_phone, :registrant_fax, :registrant_email, :registrant_url, :who_addr_pin)
+  end
 
-      params.require(:who).permit(:domain, :domain_id, :ip, :server1, :server2, :registrar_url, :registrar_id, :registrant_id, :registrant_type, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_zip, :registrant_state, :registrant_phone, :registrant_fax, :registrant_email, :registrant_url, :who_addr_pin)
-    end
+  def filtering_params(params)
+    params.slice(:who_status, :url_status, :domain, :ip, :server1, :server2, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_state, :registrant_zip, :registrant_phone, :registrant_url, :who_addr_pin)
+  end
 
-    def filtering_params(params)
+  def set_who_service
+    @who_service = WhoService.new
+  end
 
-        params.slice(:who_status, :url_status, :domain, :ip, :server1, :server2, :registrant_name, :registrant_organization, :registrant_address, :registrant_city, :registrant_state, :registrant_zip, :registrant_phone, :registrant_url, :who_addr_pin)
-    end
+  # Get dropdown option list from Dashboard
+  def set_option_list
+    @who_status_opts = ordered_list(grap_item_list("who_status"))
+    @url_status_opts = ordered_list(grap_item_list("url_status"))
+    # @state_opts = ordered_list(grap_item_list("state"))
+    @state_opts = ordered_list(list_of_states)
+  end
 
-    def set_who_service
-        @who_service = WhoService.new
-    end
-
-    # Get dropdown option list from Dashboard
-    def set_option_list
-        @who_status_opts = grap_item_list("who_status")
-        @url_status_opts = grap_item_list("url_status")
-    end
-
-    def grap_item_list(col_name)
-        Dashboard.find_by(db_name: "Who", col_name: col_name).item_list
-    end
+  def grap_item_list(col_name)
+    Dashboard.find_by(db_name: "Who", col_name: col_name).item_list
+  end
 
 end
