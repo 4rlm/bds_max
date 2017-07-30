@@ -91,7 +91,6 @@ GEM
       httparty
     google_places (0.21.0)
       httparty
-    hirb (0.7.3)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httparty (0.14.0)
@@ -238,7 +237,6 @@ DEPENDENCIES
   gmaps4rails
   google_custom_search_api
   google_places
-  hirb
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
