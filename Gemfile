@@ -72,3 +72,4 @@ gem 'figaro'
 gem 'curb', '~> 0.9.3'
 gem 'whois', '~> 3.6', '>= 3.6.5'
 gem 'chartkick'
+gem "irbtools"
