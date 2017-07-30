@@ -1,13 +1,15 @@
 module ApplicationHelper
-    def ordered_list(arr)
-        arr.uniq!
-        if arr.include?(nil)
-            arr.delete(nil)
-            arr.sort
-        else
-            arr.sort
-        end
-    end
+    # def ordered_list(arr)
+    #     arr.uniq!
+    #     if arr.include?(nil)
+    #       # nil == "Blank"
+    #       # arr.map{|blank| blank = "blank" }
+    #         arr.delete(nil)
+    #         arr.sort
+    #     else
+    #         arr.sort
+    #     end
+    # end
 
     def formatted_date_list(datetime_arr)
         datetime_arr.map {|datetime| datetime.strftime("%m/%d/%Y") if datetime}.uniq

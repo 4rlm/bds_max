@@ -24,8 +24,10 @@
           <td><%= select_tag :staffer_status, options_for_select(@staffer_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
           <!-- source -->
           <td><%= select_tag :cont_source, options_for_select(@cont_source_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
           <!-- <th class="th-2">Type:</th> -->
           <td><%= select_tag :sfdc_type, options_for_select(@sfdc_type_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
           <!-- tier -->
           <td><%= select_tag :sfdc_tier, options_for_select(@sfdc_tier_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
           <!-- <th class="th-2">Sales Person:</th> -->
@@ -96,18 +98,16 @@
 </div> <!-- staffer-filter-container Ends -->
 
 
-
-
 <div class="row">
 
   <div class="col-md-1 col-md-offset-1 text-center">
     <div class="radio">
-      <label><%= radio_button_tag 'view_mode', 'list' %> List</label>
+      <label><%= radio_button_tag 'view_mode', 'list', true %> List</label>
     </div>
   </div>
   <div class="col-md-1 text-center">
     <div class="radio">
-      <label><%= radio_button_tag 'view_mode', 'detail', true %> Detail</label>
+      <label><%= radio_button_tag 'view_mode', 'detail' %> Detail</label>
     </div>
   </div>
 

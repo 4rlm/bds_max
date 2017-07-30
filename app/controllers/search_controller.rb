@@ -48,7 +48,7 @@ class SearchController < ApplicationController
 
 
     def search_result_indexer
-        set_selected_status_indexer({raw_url: params[:raw_url], redirect_status: params[:redirect_status], clean_url: params[:clean_url], indexer_status: params[:indexer_status], template: params[:template], loc_status: params[:loc_status], stf_status: params[:stf_status], contact_status: params[:contact_status], acct_name: params[:acct_name], rt_sts: params[:rt_sts], cont_sts: params[:cont_sts], full_addr: params[:full_addr], phone: params[:phone], acct_pin: params[:acct_pin], who_status: params[:who_status], geo_status: params[:geo_status], score100: params[:score100], score75: params[:score75], score50: params[:score50], score25: params[:score25], bug: params[:bug], cop_type: params[:cop_type]})
+        set_selected_status_indexer({raw_url: params[:raw_url], redirect_status: params[:redirect_status], clean_url: params[:clean_url], indexer_status: params[:indexer_status], template: params[:template], loc_status: params[:loc_status], stf_status: params[:stf_status], contact_status: params[:contact_status], acct_name: params[:acct_name], rt_sts: params[:rt_sts], cont_sts: params[:cont_sts], state: params[:state], street: params[:street], city: params[:city], zip: params[:zip], full_addr: params[:full_addr], phone: params[:phone], acct_pin: params[:acct_pin], who_status: params[:who_status], geo_status: params[:geo_status], score100: params[:score100], score75: params[:score75], score50: params[:score50], score25: params[:score25], bug: params[:bug], cop_type: params[:cop_type]})
         redirect_to indexers_path
     end
 

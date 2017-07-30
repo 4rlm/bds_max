@@ -12,7 +12,7 @@ require 'staffer_helper/dealer_com_cs'
 require 'indexer_helper/rts/rts_manager'
 
 class StafferService
-    
+
     def crm_staff_counter
         cores = Core.all
 
