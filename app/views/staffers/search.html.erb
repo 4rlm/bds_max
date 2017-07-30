@@ -75,7 +75,7 @@
           <!-- <th class="th-2">Contact Status</th> -->
           <th class="th-2">Job Title</th>
           <th class="th-2">Job Description</th>
-          <th class="th-2">Full Name</th>
+          <!-- <th class="th-2">Full Name</th> -->
           <th class="th-2">First Name</th>
           <th class="th-2">Last Name</th>
           <th class="th-2">Email</th>
@@ -85,7 +85,7 @@
           <!-- <td><%#= select_tag :cont_status, options_for_select(@cont_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td> -->
           <td><%= select_tag :job, options_for_select(@job_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :job_raw } %></td>
-          <td><%= render partial: 'layouts/text_field_tag', locals: { col: :fullname } %></td>
+          <!-- <td><%#= render partial: 'layouts/text_field_tag', locals: { col: :fullname } %></td> -->
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :fname } %></td>
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :lname } %></td>
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :email } %></td>

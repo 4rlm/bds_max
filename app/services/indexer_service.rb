@@ -1734,12 +1734,14 @@ class IndexerService
   # First focusing on scraped contacts, then revise to include crm contacts.
   def migrate_address_to_staffers
     # web_staffers = Staffer.where(cont_source: 'Web', state: nil).where.not(domain: nil)
-    crm_staffers = Staffer.where(cont_source: 'CRM', state: nil).where.not(sfdc_id: nil)[0..0]
+    crm_staffers = Staffer.where(cont_source: 'CRM', state: nil).where.not(sfdc_id: nil)
 
     # web_staffers.each do |staffer|
     #   indexers = Indexer.where(clean_url: staffer.domain)
     #   indexers.each do |indexer|
+
     #     staffer.update_attributes(acct_name: indexer.acct_name, full_address: indexer.full_addr, street: indexer.street, city: indexer.city, state: indexer.state, zip: indexer.zip)
+
     #     puts "\n\n===== Updated Staffer ====="
     #     puts staffer.inspect
     #     puts "===== Updated Staffer =====\n\n"
@@ -1750,16 +1752,10 @@ class IndexerService
       cores = Core.where(sfdc_id: staffer.sfdc_id)
       cores.each do |core|
 
-
-
-        # staffer.update_attributes(acct_name: core.sfdc_acct, full_address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state: core.sfdc_state, zip: core.sfdc_zip)
+        staffer.update_attributes(acct_name: core.sfdc_acct, full_address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state: core.sfdc_state, zip: core.sfdc_zip)
 
         puts "\n\n===== Updated Staffer ====="
         puts staffer.inspect
-
-        # binding.pry
-        puts Staffer
-        puts Core
         puts "===== Updated Staffer =====\n\n"
       end
     end

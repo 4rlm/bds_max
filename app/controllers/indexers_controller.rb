@@ -171,8 +171,8 @@ class IndexersController < ApplicationController
   end
 
   def migrate_address_to_staffers_btn #=> New Button
-    @service.migrate_address_to_staffers
-    # @service.delay.migrate_address_to_staffers
+    # @service.migrate_address_to_staffers
+    @service.delay.migrate_address_to_staffers
     redirect_to admin_developer_path
   end
 
