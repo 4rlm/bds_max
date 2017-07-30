@@ -1730,39 +1730,37 @@ class IndexerService
   end
 
 
-  # Will be button in admin to migrate rt addresses into each contact in staffers.
-  # First focusing on scraped contacts, then revise to include crm contacts.
   def migrate_address_to_staffers
-    # web_staffers = Staffer.where(cont_source: 'Web', state: nil).where.not(domain: nil)
+    migrate_indexers_address_to_staffers
+    migrate_cores_address_to_staffers
+  end
+
+  def migrate_indexers_address_to_staffers
+    web_staffers = Staffer.where(cont_source: 'Web', state: nil).where.not(domain: nil)
+    counter = 0
+    web_staffers.each do |staffer|
+      indexers = Indexer.where(clean_url: staffer.domain)
+      indexers.each do |indexer|
+        staffer.update_attributes(acct_name: indexer.acct_name, full_address: indexer.full_addr, street: indexer.street, city: indexer.city, state: indexer.state, zip: indexer.zip)
+        counter+=1
+        puts "#{counter}) migrate_indexers_address_to_staffers"
+      end
+    end
+    puts "\n\n== JOB COMPLETED: migrate_indexers_address_to_staffers ==\n\n"
+  end
+
+  def migrate_cores_address_to_staffers
     crm_staffers = Staffer.where(cont_source: 'CRM', state: nil).where.not(sfdc_id: nil)
-
-    # web_staffers.each do |staffer|
-    #   indexers = Indexer.where(clean_url: staffer.domain)
-    #   indexers.each do |indexer|
-
-    #     staffer.update_attributes(acct_name: indexer.acct_name, full_address: indexer.full_addr, street: indexer.street, city: indexer.city, state: indexer.state, zip: indexer.zip)
-
-    #     puts "\n\n===== Updated Staffer ====="
-    #     puts staffer.inspect
-    #     puts "===== Updated Staffer =====\n\n"
-    #   end
-    # end
-
+    counter = 0
     crm_staffers.each do |staffer|
       cores = Core.where(sfdc_id: staffer.sfdc_id)
       cores.each do |core|
-
         staffer.update_attributes(acct_name: core.sfdc_acct, full_address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state: core.sfdc_state, zip: core.sfdc_zip)
-
-        puts "\n\n===== Updated Staffer ====="
-        puts staffer.inspect
-        puts "===== Updated Staffer =====\n\n"
+        counter+=1
+        puts "#{counter}) migrate_cores_address_to_staffers"
       end
     end
-
-
+    puts "\n\n== JOB COMPLETED: migrate_cores_address_to_staffers ==\n\n"
   end
-
-
 
 end # IndexerService class Ends ---
