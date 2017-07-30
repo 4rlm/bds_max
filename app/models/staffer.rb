@@ -10,14 +10,13 @@ class Staffer < ApplicationRecord
     scope :cont_status, -> (cont_status) { where cont_status: cont_status }
     scope :cont_source, -> (cont_source) { where cont_source: cont_source }
     scope :job, -> (job) { where job: job }
-
+    scope :state, -> (state) { where state: state }
 
     # == Key Word Search ==
     scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
     scope :acct_name, -> (acct_name) { where("acct_name like ?", "%#{acct_name}%") }
     scope :street, -> (street) { where("street like ?", "%#{street}%") }
     scope :city, -> (city) { where("city like ?", "%#{city}%") }
-    scope :state, -> (state) { where("state like ?", "%#{state}%") }
     scope :zip, -> (zip) { where("zip like ?", "%#{zip}%") }
     scope :sfdc_cont_id, -> (sfdc_cont_id) { where("sfdc_cont_id like ?", "%#{sfdc_cont_id}%") }
     scope :fname, -> (fname) { where("fname like ?", "%#{fname}%") }

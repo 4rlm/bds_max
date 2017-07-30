@@ -1733,49 +1733,54 @@ class IndexerService
   # Will be button in admin to migrate rt addresses into each contact in staffers.
   # First focusing on scraped contacts, then revise to include crm contacts.
   def migrate_address_to_staffers
-    web_staffers = Staffer.where(cont_source: 'Web', state: nil).where.not(domain: nil)[100..101]
+    web_staffers = Staffer.where(cont_source: 'Web', state: nil).where.not(domain: nil)
     # crm_staffers = Staffer.where(cont_source: 'CRM', state: nil).where.not(sfdc_id: nil)
 
     web_staffers.each do |staffer|
-      staffer_domain = staffer.domain
-      staffer_full_address = staffer.full_address
-      staffer_street = staffer.street
-      staffer_city = staffer.city
-      staffer_state = staffer.state
-      staffer_zip = staffer.zip
+      # staffer_acct_name = staffer.acct_name
+      # staffer_domain = staffer.domain
+      # staffer_full_address = staffer.full_address
+      # staffer_street = staffer.street
+      # staffer_city = staffer.city
+      # staffer_state = staffer.state
+      # staffer_zip = staffer.zip
 
-      indexers = Indexer.where(clean_url: staffer_domain)
+      indexers = Indexer.where(clean_url: staffer.domain)
       indexers.each do |indexer|
-        indexer_clean_url = indexer.clean_url
-        indexer_full_addr = indexer.full_addr
-        indexer_street = indexer.street
-        indexer_city = indexer.city
-        indexer_state = indexer.state
-        indexer_zip = indexer.zip
+        # indexer_acct_name = indexer.acct_name
+        # indexer_clean_url = indexer.clean_url
+        # indexer_full_addr = indexer.full_addr
+        # indexer_street = indexer.street
+        # indexer_city = indexer.city
+        # indexer_state = indexer.state
+        # indexer_zip = indexer.zip
 
-        puts "\n\n===== Staffer Data ====="
-        puts staffer.cont_source
-        puts staffer.fullname
-        puts staffer.job_raw
-        puts staffer_domain
-        puts staffer_full_address
-        puts staffer_street
-        puts staffer_city
-        puts staffer_state
-        puts staffer_zip
+        # puts "\n\n===== Staffer Data ====="
+        # puts staffer.cont_source
+        # puts staffer.fullname
+        # puts staffer.job_raw
+        # puts staffer_acct_name
+        # puts staffer_domain
+        # puts staffer_full_address
+        # puts staffer_street
+        # puts staffer_city
+        # puts staffer_state
+        # puts staffer_zip
 
-        puts "\n\n===== Indexer Data ====="
-        puts indexer_clean_url
-        puts indexer_full_addr
-        puts indexer_street
-        puts indexer_city
-        puts indexer_state
-        puts indexer_zip
+        # puts "\n\n===== Indexer Data ====="
+        # puts indexer_acct_name
+        # puts indexer_clean_url
+        # puts indexer_full_addr
+        # puts indexer_street
+        # puts indexer_city
+        # puts indexer_state
+        # puts indexer_zip
 
-        # staffer.update_attributes(full_address: indexer_full_addr, street: indexer_street, city: indexer_city, state: indexer_state, zip: indexer_zip)
+        staffer.update_attributes(acct_name: indexer.acct_name, full_address: indexer.full_addr, street: indexer.street, city: indexer.city, state: indexer.state, zip: indexer.zip)
 
         puts "\n\n===== Updated Staffer ====="
         puts staffer.inspect
+        puts "===== Updated Staffer =====\n\n"
 
       end
     end

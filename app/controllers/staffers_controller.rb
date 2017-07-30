@@ -209,6 +209,8 @@ class StaffersController < ApplicationController
         @sfdc_sales_person_opts = grap_item_list("sfdc_sales_person")
         @cont_status_opts = grap_item_list("cont_status")
         @job_opts = grap_item_list("job")
+        @state_opts = grap_item_list("state")
+
     end
 
     def grap_item_list(col_name)
