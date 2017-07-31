@@ -1736,31 +1736,43 @@ class IndexerService
   end
 
   def migrate_indexers_address_to_staffers
-    web_staffers = Staffer.where(cont_source: 'Web', state: nil).where.not(domain: nil)
-    counter = 0
-    web_staffers.each do |staffer|
-      indexers = Indexer.where(clean_url: staffer.domain)
-      indexers.each do |indexer|
-        staffer.update_attributes(acct_name: indexer.acct_name, full_address: indexer.full_addr, street: indexer.street, city: indexer.city, state: indexer.state, zip: indexer.zip)
-        counter+=1
-        puts "#{counter}) migrate_indexers_address_to_staffers"
-      end
-    end
-    puts "\n\n== JOB COMPLETED: migrate_indexers_address_to_staffers ==\n\n"
+
+    ActiveRecord::Base.connection.execute <<-SQL
+      UPDATE staffers
+      SET acct_name = indexers.acct_name, full_address = indexers.full_addr, street = indexers.street, city = indexers.city, state = indexers.state, zip = indexers.zip
+      FROM indexers
+      WHERE staffers.domain = indexers.clean_url AND staffers.cont_source != 'CRM';
+    SQL
+
+    ##################################
+    # ActiveRecord::Base.connection.execute <<-SQL
+    #   UPDATE staffers
+    #   SET acct_name = NULL, full_address = NULL, street = NULL, city = NULL, state = NULL, zip = NULL
+    #   FROM indexers
+    #   WHERE staffers.domain = indexers.clean_url AND staffers.cont_source != 'CRM';
+    # SQL
+    ##################################
+
   end
 
   def migrate_cores_address_to_staffers
-    crm_staffers = Staffer.where(cont_source: 'CRM', state: nil).where.not(sfdc_id: nil)
-    counter = 0
-    crm_staffers.each do |staffer|
-      cores = Core.where(sfdc_id: staffer.sfdc_id)
-      cores.each do |core|
-        staffer.update_attributes(acct_name: core.sfdc_acct, full_address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state: core.sfdc_state, zip: core.sfdc_zip)
-        counter+=1
-        puts "#{counter}) migrate_cores_address_to_staffers"
-      end
-    end
-    puts "\n\n== JOB COMPLETED: migrate_cores_address_to_staffers ==\n\n"
+
+    ActiveRecord::Base.connection.execute <<-SQL
+      UPDATE staffers
+      SET acct_name = cores.sfdc_acct, full_address = cores.full_address, street = cores.sfdc_street, city = cores.sfdc_city, state = cores.sfdc_state, zip = cores.sfdc_zip
+      FROM cores
+      WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
+    SQL
+
+    ##################################
+    # ActiveRecord::Base.connection.execute <<-SQL
+    #   UPDATE staffers
+    #   SET acct_name = NULL, full_address = NULL, street = NULL, city = NULL, state = NULL, zip = NULL
+    #   FROM cores
+    #   WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
+    # SQL
+    ##################################
+
   end
 
 end # IndexerService class Ends ---
