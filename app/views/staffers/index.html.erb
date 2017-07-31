@@ -6,15 +6,15 @@
 
 <!-- CONTACTS - LIST VIEW PARTIAL -->
 <% if @view_mode == "list" %>
-    <%= render partial: 'list_view', locals: { staffers: @staffers } %>
+<%= render partial: 'list_view', locals: { staffers: @staffers } %>
 <% end %>
 
 <!-- CONTACTS - DETAILED VIEW PARTIAL -->
 <% if @view_mode == "detail" %>
-    <%= render partial: 'detailed_view' %>
+<%= render partial: 'detailed_view' %>
 <% end %>
 
 
 <div class="text-center">
-    <%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
+  <%= will_paginate @paginate_staffers, renderer: BootstrapPagination::Rails  %>
 </div>
