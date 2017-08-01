@@ -5,7 +5,7 @@ class StaffersController < ApplicationController
   before_action :set_staffer, only: [:show, :edit, :update, :destroy]
   before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :staffer_power_btn, :crm_staff_counter_btn]
   before_action :set_option_list, only: [:index, :search]
-
+  
   # GET /staffers
   # GET /staffers.json
 

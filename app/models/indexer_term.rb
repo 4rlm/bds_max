@@ -1,3 +1,3 @@
 class IndexerTerm < ApplicationRecord
-    include CSVTool
+  include CSVTool
 end

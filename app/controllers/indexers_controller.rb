@@ -261,7 +261,7 @@ class IndexersController < ApplicationController
     # @service.delay.compare_acct_downcase_tester
 
     # @service.scraper_migrator
-    
+
     redirect_to admin_developer_path
   end
 

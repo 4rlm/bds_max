@@ -7,7 +7,7 @@ module StaffersHelper
       Core.find_by(sfdc_clean_url: staffer.domain)
     end
   end
-  
+
   def grap_right_staffers(staffer)
     src = staffer.cont_source
     if src == "CRM"

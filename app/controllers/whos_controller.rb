@@ -6,7 +6,7 @@ class WhosController < ApplicationController
   before_action :set_who, only: [:show, :edit, :update, :destroy]
   before_action :set_who_service, only: [:who_starter_btn, :import_page, :import_csv_data, :who_power_btn]
   before_action :set_option_list, only: [:index, :search]
-
+  
   # GET /whos
   # GET /whos.json
   def index

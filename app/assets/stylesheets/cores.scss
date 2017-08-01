@@ -134,39 +134,39 @@ $main-blue: #4285F4;
 // // NEW CORE ACCOUNT FILTER ENDS
 
 #core-detail {
-    border: solid 1px $main-gray;
-    border-radius: 6px;
+  border: solid 1px $main-gray;
+  border-radius: 6px;
 
-    table {
-        margin-bottom: 0;
-        box-shadow: none;
-    }
+  table {
+    margin-bottom: 0;
+    box-shadow: none;
+  }
 }
 
 .bg-yellow {
-    background-color: darken(#ffffb3, 15%);
+  background-color: darken(#ffffb3, 15%);
 }
 
 .bg-green {
-    background-color: #5cb85c;
+  background-color: #5cb85c;
 }
 
 .bg-orange {
-    background-color: #f0ad4e;
+  background-color: #f0ad4e;
 }
 
 .bg-red {
-    background-color: #c9302c;
+  background-color: #c9302c;
 }
 
 .bg-light-green {
-    background-image:linear-gradient(#f5ffff, #c8eac8);
+  background-image:linear-gradient(#f5ffff, #c8eac8);
 }
 
 .bg-light-red {
-    background-image:linear-gradient(#fefcfc, #f6d5d5);
+  background-image:linear-gradient(#fefcfc, #f6d5d5);
 }
 
 .bg-light-orange {
-    background-image: linear-gradient(#fffcf8, #ffd599);
+  background-image: linear-gradient(#fffcf8, #ffd599);
 }
