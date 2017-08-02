@@ -5,7 +5,7 @@ class StaffersController < ApplicationController
   before_action :set_staffer, only: [:show, :edit, :update, :destroy]
   before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :staffer_power_btn, :crm_staff_counter_btn]
   before_action :set_option_list, only: [:index, :search]
-  
+
   # GET /staffers
   # GET /staffers.json
 
@@ -141,12 +141,23 @@ class StaffersController < ApplicationController
   end
 
 
+  ############## ATTENTION!!! ###############
+  ### NEED TO REFACTOR THIS AFTER TESTING ###
+
+  ### Step 1 of Staffer Scraper - Starts Here
   def cs_data_getter_btn
-    @staffer_service.cs_data_getter
+    ## Need to change name of this method and btn to starter, which calls the starter method which calls the cs_data_getter method in batches, based on template, then cuts into smaller jobs of 25 indexers each (25 urls.)
+
+    # @staffer_service.cs_data_getter
     # @staffer_service.delay.cs_data_getter
 
-    redirect_to indexers_path
+    @staffer_service.cs_starter
+
+    # redirect_to indexers_path
+    redirect_to admin_path
   end
+
+  ##########################################
 
 
   # ========== Temporary/Power Button ==========

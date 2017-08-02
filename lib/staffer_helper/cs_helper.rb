@@ -4,12 +4,12 @@ class CsHelper # Contact Scraper Helper Method
   end
 
   def print_result(indexer, url, hash_array)
-    puts "\ndomain: #{indexer.clean_url.inspect}\ntemplate: #{indexer.template.inspect}\nurl: #{url.inspect}\n\n"
+    # puts "\ndomain: #{indexer.clean_url.inspect}\ntemplate: #{indexer.template.inspect}\nurl: #{url.inspect}\n\n"
     # hash_array.each do |hash|
-    #     hash.each do |key, value|
-    #         puts "#{key}: #{value.inspect}"
-    #     end
-    #     puts "-------------------------------"
+    #   hash.each do |key, value|
+    #     puts "#{key}: #{value.inspect}"
+    #   end
+    #   puts "-------------------------------"
     # end
   end
 
@@ -41,7 +41,18 @@ class CsHelper # Contact Scraper Helper Method
       ## 1) phone number has "EXT" kind of string.
       ## 2) job has \t and \n.
     end
-    create_staffer(indexer, staff_hash_array)
+
+    puts staff_hash_array.to_yaml
+
+
+
+
+
+    #### UNCOMMENT BELOW - JUST TESTING NOW !!!! ###
+    # create_staffer(indexer, staff_hash_array)
+
+
+
   end
 
   def create_staffer(indexer, staff_hash_array)

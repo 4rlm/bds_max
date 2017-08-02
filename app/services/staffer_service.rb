@@ -25,76 +25,64 @@ class StafferService
     end
   end
 
-  def cs_data_getter
-    a=0
-    # z=200
-    # a=200
-    # z=250
-    # a=250
-    # z=375
-    # a=375
-    # z=400
-    # a=400
-    z=-1
+  #### === TESTING CS_STARTER W/ FIND_IN_BATCHES === ####
+  def cs_starter
+    batches_of_indexers = Indexer.where.not(staff_url: nil).find_in_batches(start: 8000, batch_size: 10)
+    batches_of_indexers.each { |batch_of_indexers| batch_of_indexers.each { |indexer| cs_data_getter(indexer) } }
+  end
+  #### === TESTING CS_STARTER W/ FIND_IN_BATCHES === ####
 
+  def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
+    puts "Template: #{indexer.template}, id: #{indexer.id}, Staff URL: #{indexer.staff_url}"
 
-    indexers = Indexer.where(contact_status: "TCP Error").where.not(staff_url: nil)[a..z] # 800
-    # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "DealerFire") # #747
-    # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "DEALER eProcess") # 547
+    template = indexer.template
+    url = indexer.staff_url
 
+    begin
+      @agent = Mechanize.new
+      html = @agent.get(url)
 
-    counter=0
-    range = z-a
-    indexers.each do |indexer|
-      template = indexer.template
-      url = indexer.staff_url
+      case template
+      when "Dealer.com"
+        DealerComCs.new.contact_scraper(html, url, indexer)
+      when "Cobalt"
+        CobaltCs.new.contact_scraper(html, url, indexer)
+      when "DealerOn"
+        DealeronCs.new.contact_scraper(html, url, indexer)
+      when "Dealer Direct"
+        DealerDirectCs.new.contact_scraper(html, url, indexer)
+      when "Dealer Inspire"
+        DealerInspireCs.new.contact_scraper(html, url, indexer)
+      when "DealerFire"
+        DealerfireCs.new.contact_scraper(html, url, indexer)
+      when "DEALER eProcess"
+        DealerEprocessCs.new.contact_scraper(html, url, indexer)
+      # when "DealerCar Search"
+        # dealercar_search_cs(html, url, indexer)
+      end
 
-      counter+=1
-      puts "\n============================\n"
-      puts "[#{a}...#{z}]  (#{counter}/#{range})\nurl: #{url}\nindexer id: #{indexer.id}"
+    rescue
+      error = $!.message
+      error_msg = "CS Error: #{error}"
+      if error_msg.include?("connection refused")
+        cs_error_code = "Connection Error"
+      elsif error_msg.include?("undefined method")
+        cs_error_code = "Method Error"
+      elsif error_msg.include?("404 (Net::HTTPNotFound)")
+        cs_error_code = "404 Error"
+      elsif error_msg.include?("TCP connection")
+        cs_error_code = "TCP Error"
+      else
+        cs_error_code = "CS Error"
+      end
 
-      begin
-        @agent = Mechanize.new
-        html = @agent.get(url)
+      #### UNCOMMENT BELOW - JUST TESTING NOW !!!! ###
 
-        case template
-        when "Dealer.com"
-          DealerComCs.new.contact_scraper(html, url, indexer)
-        when "Cobalt"
-          CobaltCs.new.contact_scraper(html, url, indexer)
-        when "DealerOn"
-          DealeronCs.new.contact_scraper(html, url, indexer)
-        when "DealerCar Search"
-          # dealercar_search_cs(html, url, indexer)
-        when "Dealer Direct"
-          DealerDirectCs.new.contact_scraper(html, url, indexer)
-        when "Dealer Inspire"
-          DealerInspireCs.new.contact_scraper(html, url, indexer)
-        when "DealerFire"
-          DealerfireCs.new.contact_scraper(html, url, indexer)
-        when "DEALER eProcess"
-          DealerEprocessCs.new.contact_scraper(html, url, indexer)
-        end
+      # indexer.update_attributes(indexer_status: cs_error_code, contact_status: cs_error_code)
 
-      rescue
-        error = $!.message
-        error_msg = "CS Error: #{error}"
-        if error_msg.include?("connection refused")
-          cs_error_code = "Connection Error"
-        elsif error_msg.include?("undefined method")
-          cs_error_code = "Method Error"
-        elsif error_msg.include?("404 (Net::HTTPNotFound)")
-          cs_error_code = "404 Error"
-        elsif error_msg.include?("TCP connection")
-          cs_error_code = "TCP Error"
-        else
-          cs_error_code = "CS Error"
-        end
-        indexer.update_attributes(indexer_status: cs_error_code, contact_status: cs_error_code)
-      end ## rescue ends
+    end ## rescue ends
 
-      sleep(3)
-    end ## .each loop ends
+    sleep(3)
 
   end
 
