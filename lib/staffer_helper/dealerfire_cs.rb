@@ -6,7 +6,7 @@ class DealerfireCs
   def contact_scraper(html, url, indexer)
     staffs = html.xpath("//div[@class='staffs-list']/div[@itemprop='employees']")
     staff_hash_array = []
-    
+
     staffs.each do |staff|
       staff_hash = {}
       # Get name, job, phone
@@ -36,7 +36,7 @@ class DealerfireCs
       staff_hash_array << staff_hash
     end
 
-    @helper.print_result(indexer, url, staff_hash_array)
+    # @helper.print_result(indexer, url, staff_hash_array)
     @helper.prep_create_staffer(indexer, staff_hash_array)
   end
 end

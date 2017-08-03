@@ -5,7 +5,7 @@ class DealeronCs
 
   def contact_scraper(html, url, indexer)
     staff_hash_array = []
-    
+
     if html.css('.staff-row .staff-title')
       staff_count = html.css('.staff-row .staff-title').count
       puts "staff_count: #{staff_count}"
@@ -24,7 +24,7 @@ class DealeronCs
       end
     end
 
-    @helper.print_result(indexer, url, staff_hash_array)
+    # @helper.print_result(indexer, url, staff_hash_array)
     @helper.prep_create_staffer(indexer, staff_hash_array)
   end
 end

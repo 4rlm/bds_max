@@ -3,15 +3,15 @@ class CsHelper # Contact Scraper Helper Method
     @rts_manager = RtsManager.new
   end
 
-  def print_result(indexer, url, hash_array)
-    # puts "\ndomain: #{indexer.clean_url.inspect}\ntemplate: #{indexer.template.inspect}\nurl: #{url.inspect}\n\n"
-    # hash_array.each do |hash|
-    #   hash.each do |key, value|
-    #     puts "#{key}: #{value.inspect}"
-    #   end
-    #   puts "-------------------------------"
-    # end
-  end
+  # def print_result(indexer, url, hash_array)
+  #   puts "\ndomain: #{indexer.clean_url.inspect}\ntemplate: #{indexer.template.inspect}\nurl: #{url.inspect}\n\n"
+  #   hash_array.each do |hash|
+  #     hash.each do |key, value|
+  #       puts "#{key}: #{value.inspect}"
+  #     end
+  #     puts "-------------------------------"
+  #   end
+  # end
 
   def prep_create_staffer(indexer, staff_hash_array)
     staff_hash_array.each do |staff_hash|
@@ -37,21 +37,12 @@ class CsHelper # Contact Scraper Helper Method
       staff_hash[:job] = staff_hash[:job].strip if staff_hash[:job]
       staff_hash[:phone] = @rts_manager.phone_formatter(staff_hash[:phone].strip) if staff_hash[:phone]
 
-      # Cleaning code goes here.
-      ## 1) phone number has "EXT" kind of string.
-      ## 2) job has \t and \n.
     end
 
     puts staff_hash_array.to_yaml
 
-
-
-
-
     #### UNCOMMENT BELOW - JUST TESTING NOW !!!! ###
-    # create_staffer(indexer, staff_hash_array)
-
-
+    create_staffer(indexer, staff_hash_array)
 
   end
 
@@ -59,9 +50,9 @@ class CsHelper # Contact Scraper Helper Method
     puts "\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
     phones = []
     staff_hash_array.each do |staff_hash|
-      printer(staff_hash)
+      # printer(staff_hash)
 
-      Staffer.find_or_create_by(
+    staff = Staffer.find_or_create_by(
       fullname:       staff_hash[:full_name],
       domain:         indexer.clean_url
       ) do |staffer|
@@ -75,6 +66,8 @@ class CsHelper # Contact Scraper Helper Method
         staffer.staffer_status = "CS Result"
         staffer.template       = indexer.template
       end
+
+    staff.update_attributes(scrape_date: DateTime.now)
 
       ph = staff_hash[:phone]
       phones << ph if ph && !ph.blank? && !phones.include?(ph)
@@ -104,12 +97,12 @@ class CsHelper # Contact Scraper Helper Method
     info
   end
 
-  def printer(staff_hash)
-    staff_hash.each do |key, val|
-      puts "#{key}: #{val.nil? ? "nil" : val.inspect}"
-    end
-    puts '-'*30
-  end
+  # def printer(staff_hash)
+  #   staff_hash.each do |key, val|
+  #     puts "#{key}: #{val.nil? ? "nil" : val.inspect}"
+  #   end
+  #   puts '-'*30
+  # end
 
   def update_indexer_attrs(indexer, phones, count)
     indexer_phones = indexer.phones
@@ -120,7 +113,7 @@ class CsHelper # Contact Scraper Helper Method
     if count > 0
       new_phones = @rts_manager.clean_phones_arr(indexer_phones)
 
-      indexer.update_attributes(phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result", web_staff_count: count)
+      indexer.update_attributes(scrape_date: DateTime.now, phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result", web_staff_count: count)
     else
       indexer.update_attributes(contact_status: "CS None", indexer_status: "CS None", crm_staff_count: crm_count)
     end

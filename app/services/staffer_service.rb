@@ -25,12 +25,36 @@ class StafferService
     end
   end
 
-  #### === TESTING CS_STARTER W/ FIND_IN_BATCHES === ####
+  ### !! REPLACE SCRAPE DATE WITH THIS IN QUERY AFTER ALL HAVE DATES. ###
+  # Indexer.where.not('scrape_date <= ?', Date.today - 1.week).count
+  # Staffer.where.not('updated_at <= ?', Date.today - 1.day).count
+  # indexer_status: cs_error_code
+
   def cs_starter
-    batches_of_indexers = Indexer.where.not(staff_url: nil).find_in_batches(start: 8000, batch_size: 10)
-    batches_of_indexers.each { |batch_of_indexers| batch_of_indexers.each { |indexer| cs_data_getter(indexer) } }
+    start_at_id_num = 0
+    batch_size = 3
+
+    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
+    batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
+
+    batch_iterator(batched_by_scrape_date)
+    batch_iterator(batched_by_tcp_error)
   end
-  #### === TESTING CS_STARTER W/ FIND_IN_BATCHES === ####
+
+  def batch_iterator(batch_of_batches)
+    batch_of_batches.each do |batch|
+      batch.each do |batch_item|
+        cs_data_getter(batch_item)
+      end
+    end
+  end
+
+
+  def script_restarter(cs_error_code) #=> RESTARTS SCRIPT for TCP Connection Error
+    puts "\n\n#{cs_error_code}\n=== ERROR: RESTARTING SCRIPT ===\n\n"
+    pid = Process.pid
+    Process.kill(1, pid)
+  end
 
   def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
     puts "Template: #{indexer.template}, id: #{indexer.id}, Staff URL: #{indexer.staff_url}"
@@ -41,6 +65,8 @@ class StafferService
     begin
       @agent = Mechanize.new
       html = @agent.get(url)
+
+      indexer.update_attributes(scrape_date: DateTime.now) if html
 
       case template
       when "Dealer.com"
@@ -72,17 +98,14 @@ class StafferService
         cs_error_code = "404 Error"
       elsif error_msg.include?("TCP connection")
         cs_error_code = "TCP Error"
+        script_restarter(cs_error_code) #=> RESTARTS SCRIPT
       else
         cs_error_code = "CS Error"
       end
 
-      #### UNCOMMENT BELOW - JUST TESTING NOW !!!! ###
-
-      # indexer.update_attributes(indexer_status: cs_error_code, contact_status: cs_error_code)
+      indexer.update_attributes(scrape_date: DateTime.now, indexer_status: cs_error_code, contact_status: cs_error_code)
 
     end ## rescue ends
-
-    sleep(3)
 
   end
 
