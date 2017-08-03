@@ -1,7 +1,7 @@
 class Staffer < ApplicationRecord
   include Filterable
   include CSVTool
-  
+
   # == Multi-Select Search ==
   scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
   scope :sfdc_sales_person, -> (sfdc_sales_person) { where sfdc_sales_person: sfdc_sales_person }

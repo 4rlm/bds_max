@@ -1,3 +1,3 @@
 class Dashboard < ApplicationRecord
-    include CSVTool
+  include CSVTool
 end

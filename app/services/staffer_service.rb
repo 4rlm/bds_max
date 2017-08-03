@@ -13,109 +13,122 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
 
-    def crm_staff_counter
-        cores = Core.all
+  def crm_staff_counter
+    cores = Core.all
 
-        num = 0
-        cores.each do |core|
-            num += 1
-            staff_count = Staffer.where(sfdc_id: core.sfdc_id).count
-            puts ">>>>>>num:  #{num}, staff_count: #{staff_count}"
-            core.update_attribute(:crm_staff_count, staff_count)
+    num = 0
+    cores.each do |core|
+      num += 1
+      staff_count = Staffer.where(sfdc_id: core.sfdc_id).count
+      puts ">>>>>>num:  #{num}, staff_count: #{staff_count}"
+      core.update_attribute(:crm_staff_count, staff_count)
+    end
+  end
+
+  ### !! REPLACE SCRAPE DATE WITH THIS IN QUERY AFTER ALL HAVE DATES. ###
+  # Indexer.where.not('scrape_date <= ?', Date.today - 1.week).count
+  # Staffer.where.not('updated_at <= ?', Date.today - 1.day).count
+  # indexer_status: cs_error_code
+
+  def cs_starter
+    start_at_id_num = 0
+    batch_size = 10
+
+    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
+    batch_iterator(batched_by_scrape_date)
+
+    batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
+    batch_iterator(batched_by_tcp_error)
+  end
+
+  def batch_iterator(batch_of_batches)
+    batch_of_batches.each do |batch|
+      batch.each do |batch_item|
+        cs_data_getter(batch_item)
+      end
+    end
+  end
+
+
+  def script_restarter(cs_error_code) #=> RESTARTS SCRIPT for TCP Connection Error
+    puts "\n\n#{cs_error_code}\n=== ERROR: RESTARTING SCRIPT ===\n\n"
+    pid = Process.pid
+    Process.kill(1, pid)
+  end
+
+  def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
+    puts "\n\nTemplate: #{indexer.template}, id: #{indexer.id}, Staff URL: #{indexer.staff_url}\n\n"
+
+    template = indexer.template
+    url = indexer.staff_url
+
+    begin
+      @agent = Mechanize.new
+      html = @agent.get(url)
+
+      indexer.update_attributes(scrape_date: DateTime.now) if html
+
+      case template
+      when "Dealer.com"
+        DealerComCs.new.contact_scraper(html, url, indexer)
+      when "Cobalt"
+        CobaltCs.new.contact_scraper(html, url, indexer)
+      when "DealerOn"
+        DealeronCs.new.contact_scraper(html, url, indexer)
+      when "Dealer Direct"
+        DealerDirectCs.new.contact_scraper(html, url, indexer)
+      when "Dealer Inspire"
+        DealerInspireCs.new.contact_scraper(html, url, indexer)
+      when "DealerFire"
+        DealerfireCs.new.contact_scraper(html, url, indexer)
+      when "DEALER eProcess"
+        DealerEprocessCs.new.contact_scraper(html, url, indexer)
+      else
+        StandardScraperCs.new.contact_scraper(html, url, indexer)
+      # when "DealerCar Search"
+        # dealercar_search_cs(html, url, indexer)
+      end
+
+    rescue
+      error = $!.message
+      error_msg = "CS Error: #{error}"
+      if error_msg.include?("connection refused")
+        cs_error_code = "Connection Error"
+      elsif error_msg.include?("undefined method")
+        cs_error_code = "Method Error"
+      elsif error_msg.include?("404 (Net::HTTPNotFound)")
+        cs_error_code = "404 Error"
+      elsif error_msg.include?("TCP connection")
+        cs_error_code = "TCP Error"
+        script_restarter(cs_error_code) #=> RESTARTS SCRIPT
+      else
+        cs_error_code = "CS Error"
+      end
+
+      indexer.update_attributes(scrape_date: DateTime.now, indexer_status: cs_error_code, contact_status: cs_error_code)
+
+    end ## rescue ends
+
+  end
+
+  # When first name is "["Jack", "McCarthy", "Business Manage.....", it cleans to "Jack".
+  def fname_cleaner
+    urls = Indexer.where(template: "Dealer.com").map(&:clean_url).uniq
+    staffers = Staffer.where(domain: urls)
+
+    staffers.each do |staffer|
+      fname = staffer.fname
+      lname = staffer.lname
+      fullname = staffer.fullname
+
+      if fname && lname && fullname
+        merged_name = fname + " " + lname
+
+        if fullname != merged_name
+          puts "\n\nOLD First Name: #{fname}\nNEW First Name: #{fullname.split(" ")[0]}\n\n"
+          staffer.update_attributes(fname: fullname.split(" ")[0])
         end
+      end
     end
-
-    def cs_data_getter
-        a=0
-        # z=200
-        # a=200
-        # z=250
-        # a=250
-        # z=375
-        # a=375
-        # z=400
-        # a=400
-        z=-1
-
-
-        indexers = Indexer.where(contact_status: "TCP Error").where.not(staff_url: nil)[a..z] # 800
-        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "DealerFire") # #747
-        # indexers = Indexer.where(contact_status: nil).where.not(staff_url: nil).where(template: "DEALER eProcess") # 547
-
-
-        counter=0
-        range = z-a
-        indexers.each do |indexer|
-            template = indexer.template
-            url = indexer.staff_url
-
-            counter+=1
-            puts "\n============================\n"
-            puts "[#{a}...#{z}]  (#{counter}/#{range})\nurl: #{url}\nindexer id: #{indexer.id}"
-
-            begin
-                @agent = Mechanize.new
-                html = @agent.get(url)
-
-                case template
-                when "Dealer.com"
-                    DealerComCs.new.contact_scraper(html, url, indexer)
-                when "Cobalt"
-                    CobaltCs.new.contact_scraper(html, url, indexer)
-                when "DealerOn"
-                    DealeronCs.new.contact_scraper(html, url, indexer)
-                when "DealerCar Search"
-                    # dealercar_search_cs(html, url, indexer)
-                when "Dealer Direct"
-                    DealerDirectCs.new.contact_scraper(html, url, indexer)
-                when "Dealer Inspire"
-                    DealerInspireCs.new.contact_scraper(html, url, indexer)
-                when "DealerFire"
-                    DealerfireCs.new.contact_scraper(html, url, indexer)
-                when "DEALER eProcess"
-                    DealerEprocessCs.new.contact_scraper(html, url, indexer)
-                end
-
-            rescue
-                error = $!.message
-                error_msg = "CS Error: #{error}"
-                if error_msg.include?("connection refused")
-                    cs_error_code = "Connection Error"
-                elsif error_msg.include?("undefined method")
-                    cs_error_code = "Method Error"
-                elsif error_msg.include?("404 (Net::HTTPNotFound)")
-                    cs_error_code = "404 Error"
-                elsif error_msg.include?("TCP connection")
-                    cs_error_code = "TCP Error"
-                else
-                    cs_error_code = "CS Error"
-                end
-                indexer.update_attributes(indexer_status: cs_error_code, contact_status: cs_error_code)
-            end ## rescue ends
-
-            sleep(3)
-        end ## .each loop ends
-
-    end
-
-    # When first name is "["Jack", "McCarthy", "Business Manage.....", it cleans to "Jack".
-    def fname_cleaner
-        urls = Indexer.where(template: "Dealer.com").map(&:clean_url).uniq
-        staffers = Staffer.where(domain: urls)
-
-        staffers.each do |staffer|
-            fname = staffer.fname
-            lname = staffer.lname
-            fullname = staffer.fullname
-
-            if fname && lname && fullname
-                merged_name = fname + " " + lname
-
-                if fullname != merged_name
-                    puts "\n\nOLD First Name: #{fname}\nNEW First Name: #{fullname.split(" ")[0]}\n\n"
-                    staffer.update_attributes(fname: fullname.split(" ")[0])
-                end
-            end
-        end
-    end
+  end
 end

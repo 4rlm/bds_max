@@ -7,7 +7,7 @@ class Who < ApplicationRecord
   scope :url_status, -> (url_status) { where url_status: url_status }
   scope :registrant_state, -> (registrant_state) { where registrant_state: registrant_state }
 
-
+  
   # == Key Word Search ==
   scope :domain, -> (domain) { where("domain like ?", "%#{domain}%") }
   scope :domain_id, -> (domain_id) { where("domain_id like ?", "%#{domain_id}%") }

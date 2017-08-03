@@ -8,11 +8,11 @@
 
 <% num = 0 %>
 <% @indexers.each do |indexer| %>
-    <% num +=1 %>
-    <%= render partial: 'indexer_detail', locals: {indexer: indexer, num: num} %>
+<% num +=1 %>
+<%= render partial: 'indexer_detail', locals: {indexer: indexer, num: num} %>
 <% end %>
 
 
 <div class="text-center">
-    <%= will_paginate @indexers, renderer: BootstrapPagination::Rails  %>
+  <%= will_paginate @indexers, renderer: BootstrapPagination::Rails  %>
 </div>

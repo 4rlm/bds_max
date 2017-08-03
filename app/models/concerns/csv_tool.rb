@@ -1,59 +1,59 @@
 module CSVTool
-    extend ActiveSupport::Concern
+  extend ActiveSupport::Concern
 
-    module ClassMethods
-        # ===== Export CSV =====
-        def to_csv
-            CSV.generate do |csv|
-                csv << column_names
-                all.each do |obj|
-                    csv << obj.attributes.values_at(*column_names)
-                end
-            end
+  module ClassMethods
+    # ===== Export CSV =====
+    def to_csv
+      CSV.generate do |csv|
+        csv << column_names
+        all.each do |obj|
+          csv << obj.attributes.values_at(*column_names)
         end
-
-        # ===== Import CSV =====
-        def import_csv(file_name, model, sts_col=nil)
-            cols =  model.column_names
-            CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
-                valid_hash = validate_hash(cols, row.to_hash)
-
-                if obj = model.find_by(id: valid_hash["id"])
-                    # valid_hash[sts_col] = "Re-Imported" if sts_col
-                    model.record_timestamps = false
-                    obj.update_attributes(valid_hash)
-                    model.record_timestamps = true
-                else
-                    valid_hash[sts_col] = "Imported" if sts_col
-                    model.create!(valid_hash)
-                end
-            end
-        end
-
-        def validate_hash(cols, hash)
-            keys = hash.keys
-            keys.each do |key|
-                if !cols.include?(key)
-                    hash.delete(key)
-                end
-            end
-            hash
-        end
-
-        # # ========= CSV column formatting =========
-        # def capitalized(str)
-        #     str.split.map(&:capitalize)*" " unless str.nil?
-        # end
-        #
-        # def upcased(str)
-        #     str.upcase unless str.nil?
-        # end
-        #
-        # def downcased(str)
-        #     str.downcase unless str.nil?
-        # end
-        # # ========= Ends CSV column formatting =========
+      end
     end
+
+    # ===== Import CSV =====
+    def import_csv(file_name, model, sts_col=nil)
+      cols =  model.column_names
+      CSV.foreach(file_name.path, headers: true, skip_blanks: true) do |row|
+        valid_hash = validate_hash(cols, row.to_hash)
+
+        if obj = model.find_by(id: valid_hash["id"])
+          # valid_hash[sts_col] = "Re-Imported" if sts_col
+          model.record_timestamps = false
+          obj.update_attributes(valid_hash)
+          model.record_timestamps = true
+        else
+          valid_hash[sts_col] = "Imported" if sts_col
+          model.create!(valid_hash)
+        end
+      end
+    end
+
+    def validate_hash(cols, hash)
+      keys = hash.keys
+      keys.each do |key|
+        if !cols.include?(key)
+          hash.delete(key)
+        end
+      end
+      hash
+    end
+
+    # # ========= CSV column formatting =========
+    # def capitalized(str)
+    #     str.split.map(&:capitalize)*" " unless str.nil?
+    # end
+    #
+    # def upcased(str)
+    #     str.upcase unless str.nil?
+    # end
+    #
+    # def downcased(str)
+    #     str.downcase unless str.nil?
+    # end
+    # # ========= Ends CSV column formatting =========
+  end
 end
 
 

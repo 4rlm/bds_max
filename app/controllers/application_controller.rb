@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   def set_selected_status_core(choice_hash)
     $core_choice_hash = choice_hash
   end
-
+  
   def get_selected_status_core
     $core_choice_hash
   end

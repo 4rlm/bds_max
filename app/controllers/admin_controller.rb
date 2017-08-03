@@ -8,7 +8,7 @@ class AdminController < ApplicationController
     @advanced_users =  User.where(role: "advanced")
     @admin_users =  User.where(role: "admin")
   end
-
+  
   def starters
   end
 

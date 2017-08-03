@@ -260,9 +260,7 @@ class IndexersController < ApplicationController
     # @service.delay.acct_squeezer_caller
     # @service.delay.compare_acct_downcase_tester
 
-    @service.scraper_migrator
-    @service.delay.migrate_address_to_staffers #=> New Button
-
+    # @service.scraper_migrator
 
     redirect_to admin_developer_path
   end

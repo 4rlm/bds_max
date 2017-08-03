@@ -141,12 +141,23 @@ class StaffersController < ApplicationController
   end
 
 
+  ############## ATTENTION!!! ###############
+  ### NEED TO REFACTOR THIS AFTER TESTING ###
+
+  ### Step 1 of Staffer Scraper - Starts Here
   def cs_data_getter_btn
-    @staffer_service.cs_data_getter
+    ## Need to change name of this method and btn to starter, which calls the starter method which calls the cs_data_getter method in batches, based on template, then cuts into smaller jobs of 25 indexers each (25 urls.)
+
+    # @staffer_service.cs_data_getter
     # @staffer_service.delay.cs_data_getter
 
+    @staffer_service.cs_starter
+
     redirect_to indexers_path
+    # redirect_to admin_path
   end
+
+  ##########################################
 
 
   # ========== Temporary/Power Button ==========
