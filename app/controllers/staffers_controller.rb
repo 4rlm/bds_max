@@ -153,8 +153,8 @@ class StaffersController < ApplicationController
 
     @staffer_service.cs_starter
 
-    # redirect_to indexers_path
-    redirect_to admin_path
+    redirect_to indexers_path
+    # redirect_to admin_path
   end
 
   ##########################################

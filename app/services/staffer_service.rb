@@ -32,12 +32,12 @@ class StafferService
 
   def cs_starter
     start_at_id_num = 0
-    batch_size = 3
+    batch_size = 10
 
     batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
-    batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
-
     batch_iterator(batched_by_scrape_date)
+
+    batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
     batch_iterator(batched_by_tcp_error)
   end
 
@@ -57,7 +57,7 @@ class StafferService
   end
 
   def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
-    puts "Template: #{indexer.template}, id: #{indexer.id}, Staff URL: #{indexer.staff_url}"
+    puts "\n\nTemplate: #{indexer.template}, id: #{indexer.id}, Staff URL: #{indexer.staff_url}\n\n"
 
     template = indexer.template
     url = indexer.staff_url
@@ -83,6 +83,8 @@ class StafferService
         DealerfireCs.new.contact_scraper(html, url, indexer)
       when "DEALER eProcess"
         DealerEprocessCs.new.contact_scraper(html, url, indexer)
+      else
+        StandardScraperCs.new.contact_scraper(html, url, indexer)
       # when "DealerCar Search"
         # dealercar_search_cs(html, url, indexer)
       end

@@ -39,7 +39,7 @@ class CsHelper # Contact Scraper Helper Method
 
     end
 
-    puts staff_hash_array.to_yaml
+    # puts staff_hash_array.to_yaml
 
     #### UNCOMMENT BELOW - JUST TESTING NOW !!!! ###
     create_staffer(indexer, staff_hash_array)
@@ -47,7 +47,7 @@ class CsHelper # Contact Scraper Helper Method
   end
 
   def create_staffer(indexer, staff_hash_array)
-    puts "\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
+    # puts "\n\n#{"="*15} CLEAN DATA #{"="*15}\n#{staff_hash_array.count} staffs will be saved to Staffer table.\n\n"
     phones = []
     staff_hash_array.each do |staff_hash|
       # printer(staff_hash)
@@ -106,9 +106,9 @@ class CsHelper # Contact Scraper Helper Method
 
   def update_indexer_attrs(indexer, phones, count)
     indexer_phones = indexer.phones
-    puts "\nOLD phones: #{indexer_phones}"
+    # puts "\nOLD phones: #{indexer_phones}"
     indexer_phones.concat(phones)
-    puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
+    # puts "\nNEW phones: #{indexer_phones} \n indexer status will be updated.\n#{'='*30}\n\n"
 
     if count > 0
       new_phones = @rts_manager.clean_phones_arr(indexer_phones)
