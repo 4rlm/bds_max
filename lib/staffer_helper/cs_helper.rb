@@ -67,7 +67,12 @@ class CsHelper # Contact Scraper Helper Method
         staffer.template       = indexer.template
       end
 
-    staff.update_attributes(scrape_date: DateTime.now)
+      # if staff && staff.scrape_date <= "#{Date.today - 1.day}"
+        # if staff && staff.scrape_date <= ?', Date.today - 1.day)
+        # Staffer.where.not('updated_at <= ?', Date.today - 1.day)
+        puts "\n\n==== CS Result ====\n\n"
+        staff.update_attributes(scrape_date: DateTime.now)
+      # end
 
       ph = staff_hash[:phone]
       phones << ph if ph && !ph.blank? && !phones.include?(ph)
@@ -112,7 +117,6 @@ class CsHelper # Contact Scraper Helper Method
 
     if count > 0
       new_phones = @rts_manager.clean_phones_arr(indexer_phones)
-
       indexer.update_attributes(scrape_date: DateTime.now, phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result", web_staff_count: count)
     else
       indexer.update_attributes(contact_status: "CS None", indexer_status: "CS None", crm_staff_count: crm_count)

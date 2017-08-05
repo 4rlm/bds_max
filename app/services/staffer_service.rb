@@ -13,61 +13,85 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
 
-  def crm_staff_counter
-    cores = Core.all
-
-    num = 0
-    cores.each do |core|
-      num += 1
-      staff_count = Staffer.where(sfdc_id: core.sfdc_id).count
-      puts ">>>>>>num:  #{num}, staff_count: #{staff_count}"
-      core.update_attribute(:crm_staff_count, staff_count)
-    end
+  def initialize
+    @start_at_id_num = 0
+    # @tcp_error_count = 0
+    # @url_status = false
   end
-
   ### !! REPLACE SCRAPE DATE WITH THIS IN QUERY AFTER ALL HAVE DATES. ###
   # Indexer.where.not('scrape_date <= ?', Date.today - 1.week).count
   # Staffer.where.not('updated_at <= ?', Date.today - 1.day).count
   # indexer_status: cs_error_code
-
+  ###################################
   def cs_starter
-    start_at_id_num = 0
-    batch_size = 10
+    make_cs_queries
+  end
 
-    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
+  def make_cs_queries
+    batch_size = 1
+
+    # batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: @start_at_id_num, batch_size: batch_size)
+    # batch_iterator(batched_by_tcp_error)
+
+    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: @start_at_id_num, batch_size: batch_size)
     batch_iterator(batched_by_scrape_date)
+  end
 
-    batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
-    batch_iterator(batched_by_tcp_error)
+  def url_exist?(url_string)
+    begin
+      url = URI.parse(url_string)
+      req = Net::HTTP.new(url.host, url.port)
+      req.use_ssl = (url.scheme == 'https')
+      res = req.request_head(url || '/')
+      if res.kind_of?(Net::HTTPRedirection)
+        url_exist?(res['location']) # Go after any redirect and make sure you can access the redirected URL
+      else
+        res.code[0] != "4" #false if http code starts with 4 - error on your side.
+      end
+    rescue
+      # puts $!.message
+      false #false if can't find the server
+    end
   end
 
   def batch_iterator(batch_of_batches)
     batch_of_batches.each do |batch|
-      batch.each do |batch_item|
-        cs_data_getter(batch_item)
+      batch.each do |indexer|
+        if url_exist?(indexer.staff_url)
+          cs_data_getter(indexer)
+        else
+          indexer.update_attributes(scrape_date: DateTime.now, indexer_status: "invalid staff_url", contact_status: "invalid staff_url")
+        end
       end
     end
   end
 
-
-  def script_restarter(cs_error_code) #=> RESTARTS SCRIPT for TCP Connection Error
-    puts "\n\n#{cs_error_code}\n=== ERROR: RESTARTING SCRIPT ===\n\n"
-    pid = Process.pid
-    Process.kill(1, pid)
-  end
-
   def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
     puts "\n\nTemplate: #{indexer.template}, id: #{indexer.id}, Staff URL: #{indexer.staff_url}\n\n"
+    # @start_at_id_num = indexer.id  ##=> NEW FEATURE
 
     template = indexer.template
     url = indexer.staff_url
 
+    # @agent = Mechanize.new
+    # html = @agent.get(url)
+
     begin
       @agent = Mechanize.new
       html = @agent.get(url)
+    rescue
+      puts "ResponseCodeError occurred"
+    end
 
-      indexer.update_attributes(scrape_date: DateTime.now) if html
+    ### CONSIDER TRYING THIS IN THE FUTURE
+    # http = Net::HTTP.new(url)
+    # http.use_ssl = true
+    # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
+
+    indexer.update_attributes(scrape_date: DateTime.now) if html
+
+    begin
       case template
       when "Dealer.com"
         DealerComCs.new.contact_scraper(html, url, indexer)
@@ -85,7 +109,7 @@ class StafferService
         DealerEprocessCs.new.contact_scraper(html, url, indexer)
       else
         StandardScraperCs.new.contact_scraper(html, url, indexer)
-      # when "DealerCar Search"
+        # when "DealerCar Search"
         # dealercar_search_cs(html, url, indexer)
       end
 
@@ -100,15 +124,15 @@ class StafferService
         cs_error_code = "404 Error"
       elsif error_msg.include?("TCP connection")
         cs_error_code = "TCP Error"
-        script_restarter(cs_error_code) #=> RESTARTS SCRIPT
       else
         cs_error_code = "CS Error"
       end
 
+      puts "\n\n==== Error: #{cs_error_code} ====\n\n"
+
       indexer.update_attributes(scrape_date: DateTime.now, indexer_status: cs_error_code, contact_status: cs_error_code)
 
     end ## rescue ends
-
   end
 
   # When first name is "["Jack", "McCarthy", "Business Manage.....", it cleans to "Jack".
@@ -131,4 +155,18 @@ class StafferService
       end
     end
   end
+
+  def crm_staff_counter
+    cores = Core.all
+
+    num = 0
+    cores.each do |core|
+      num += 1
+      staff_count = Staffer.where(sfdc_id: core.sfdc_id).count
+      puts ">>>>>>num:  #{num}, staff_count: #{staff_count}"
+      core.update_attribute(:crm_staff_count, staff_count)
+    end
+  end
+
+
 end

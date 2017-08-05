@@ -92,7 +92,11 @@
           <td class="staffer-w-md"><%= staffer.email %></td>
           <td class="staffer-w-md"><%= staffer.phone %></td>
 
-          <td class="staffer-w-md"><%= staffer.scrape_date.strftime("%m/%d/%y") %></td>
+          <td class="staffer-w-md">
+            <% if staffer.scrape_date %>
+              <%= staffer.scrape_date.strftime("%m/%d/%y") %>
+            <% end %>
+          </td>
 
           <!-- <% if advanced_and_up %>
           <td><%#= link_to 'Edit', edit_staffer_path(staffer) %></td>
