@@ -24,17 +24,71 @@ class StafferService
   # indexer_status: cs_error_code
   ###################################
   def cs_starter
-    make_cs_queries
+    # make_batched_queries
+    make_standard_queries
   end
 
-  def make_cs_queries
-    batch_size = 1
+  def make_standard_queries
+    indexers = Indexer.where("indexer_status = 'invalid staff_url'").where("web_staff_count > 0") #=> 10,582
+    # Indexer.where("indexer_status = 'CS Error'").where("web_staff_count > 0").count #=> 51
+    standard_iterator(indexers)
+  end
 
-    # batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: @start_at_id_num, batch_size: batch_size)
+  def make_batched_queries
+    batch_size = 1
+    start_at_id_num = 0
+
+    # batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
     # batch_iterator(batched_by_tcp_error)
 
-    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: @start_at_id_num, batch_size: batch_size)
+    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
+
     batch_iterator(batched_by_scrape_date)
+  end
+
+  def batch_iterator(batch_of_batches)
+    batch_of_batches.each { |indexers| standard_iterator(indexers) }
+  end
+
+  def standard_iterator(indexers)
+    indexers.each do |indexer|
+      view_indexer_current_db_info(indexer)
+      cs_data_getter(indexer) if validate_url(indexer)
+    end
+  end
+
+  def view_indexer_current_db_info(indexer)
+     puts "\n=== Current DB Info ===\n"
+     puts "indexer_status: #{indexer.indexer_status}"
+     puts "staff_url: #{indexer.template}"
+     puts "staff_url: #{indexer.staff_url}"
+     puts "web_staff_count: #{indexer.web_staff_count}"
+     puts "scrape_date: #{indexer.scrape_date}"
+     puts "#{"="*30}\n\n"
+  end
+
+  def ping_url
+    pingable_urls = %w(
+    http://speedtest.hafslundtelekom.net/
+    http://www.whatsmyip.org/
+    https://fast.com/
+    http://speedtest.xfinity.com/
+    https://www.iplocation.net/
+    https://www.wikipedia.org/
+    https://www.google.com/)
+    pingable_urls.sample
+  end
+
+  def test_internet_connection
+    sample_url = ping_url
+    begin
+      result = true if open(ping_url)
+    rescue
+      result = false
+    end
+
+    puts "Internet Connection: #{result} via #{sample_url} ==="
+    result
   end
 
   def url_exist?(url_string)
@@ -54,27 +108,37 @@ class StafferService
     end
   end
 
-  def batch_iterator(batch_of_batches)
-    batch_of_batches.each do |batch|
-      batch.each do |indexer|
-        if url_exist?(indexer.staff_url)
-          cs_data_getter(indexer)
-        else
-          indexer.update_attributes(scrape_date: DateTime.now, indexer_status: "invalid staff_url", contact_status: "invalid staff_url")
+  def validate_url(indexer)
+    staff_url = indexer.staff_url
+    if url_exist?(staff_url)
+      puts "=== GOOD URL ===\nURL: #{staff_url}"
+    else
+      if test_internet_connection
+        puts "=== BAD URL ===\nURL: #{staff_url}"
+        indexer.update_attributes(scrape_date: DateTime.now, indexer_status: "invalid staff_url", contact_status: "invalid staff_url")
+      else
+        connection = false
+        ping_attempt_count = 1
+
+        while !connection
+          sleep_time = 5 * ping_attempt_count
+          puts "\nNO INTERNET CONNECTION\nCONNECTION TEST ATTEMPTS: #{ping_attempt_count}\nTRY AGAIN IN: #{sleep_time} SECONDS\n#{"="*30}\n\n"
+          sleep(sleep_time)
+          connection = test_internet_connection
+          ping_attempt_count += 1
+          break if connection
         end
+        validate_url(indexer)
       end
     end
+    sleep(0.015)
   end
 
-  def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
-    puts "\n\nTemplate: #{indexer.template}, id: #{indexer.id}, Staff URL: #{indexer.staff_url}\n\n"
-    # @start_at_id_num = indexer.id  ##=> NEW FEATURE
 
+
+  def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
     template = indexer.template
     url = indexer.staff_url
-
-    # @agent = Mechanize.new
-    # html = @agent.get(url)
 
     begin
       @agent = Mechanize.new
@@ -82,14 +146,6 @@ class StafferService
     rescue
       puts "ResponseCodeError occurred"
     end
-
-    ### CONSIDER TRYING THIS IN THE FUTURE
-    # http = Net::HTTP.new(url)
-    # http.use_ssl = true
-    # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-
-    indexer.update_attributes(scrape_date: DateTime.now) if html
 
     begin
       case template
