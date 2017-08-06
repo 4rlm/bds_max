@@ -249,7 +249,7 @@ class StaffersController < ApplicationController
 
   def applied_non_attrs(staffers, non_attrs)
     result = staffers
-    non_attrs.each { |k, v| result = result.send(k, v.first) }
+    non_attrs.each { |k, v| result = result.send(k, v) }
     result
   end
 end

@@ -12,7 +12,7 @@ class Staffer < ApplicationRecord
   scope :job, -> (job) { where job: job }
   scope :state, -> (state) { where state: state }
 
-  scope :email_status, -> (bool) { bool == 'true' ? where.not(email: nil) : where(email: nil) }
+  scope :email_status, -> (bools) { bools.first == 'true' ? where.not(email: nil) : where(email: nil) }
   # scope :created_before, ->(time) { where("created_at < ?", time) }
 
 
