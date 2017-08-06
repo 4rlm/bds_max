@@ -131,13 +131,11 @@ class StaffersController < ApplicationController
     redirect_to cores_path
   end
 
-
   def staffer_sfdc_id_cleaner_btn
     # @staffer_service.staffer_sfdc_id_cleaner
 
     # @staffer_service.staffer_core_updater
     # @staffer_service.delay.staffer_core_updater
-
 
     redirect_to root_path
   end
