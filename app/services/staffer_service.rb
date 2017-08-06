@@ -29,9 +29,10 @@ class StafferService
   end
 
   def make_standard_queries
-    indexers = Indexer.where(indexer_status: 'invalid staff_url', scrape_date: nil).where("web_staff_count > 0") #=> 10,582
+    # indexers = Indexer.where(indexer_status: 'invalid staff_url', scrape_date: nil).where("web_staff_count > 0") #=> 10,582
 
-    # Indexer.where("indexer_status = 'CS Error'").where("web_staff_count > 0").count #=> 51
+    indexers = Indexer.where("indexer_status = 'CS Error'").where("web_staff_count > 0") #=> 1533
+
     standard_iterator(indexers)
   end
 
