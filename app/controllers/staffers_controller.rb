@@ -222,6 +222,7 @@ class StaffersController < ApplicationController
     @job_opts = ordered_list(grap_item_list("job"))
     # @state_opts = ordered_list(grap_item_list("state"))
     @state_opts = ordered_list(list_of_states)
+    @email_status = ordered_list(email_status_list)
   end
 
   def grap_item_list(col_name)

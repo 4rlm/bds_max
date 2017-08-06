@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   def set_selected_status_core(choice_hash)
     $core_choice_hash = choice_hash
   end
-  
+
   def get_selected_status_core
     $core_choice_hash
   end
@@ -46,6 +46,10 @@ class ApplicationController < ActionController::Base
 
   def list_of_states
     ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'GU', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+  end
+
+  def email_status_list
+    ['True', 'False']
   end
 
 

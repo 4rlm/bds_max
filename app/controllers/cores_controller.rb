@@ -5,7 +5,7 @@ class CoresController < ApplicationController
   before_action :set_core, only: [:show, :edit, :update, :destroy]
   before_action :set_core_service, only: [:index, :core_comp_cleaner_btn, :core_power_btn, :col_splitter_btn, :merge_data, :flag_data, :drop_data]
   before_action :set_option_list, only: [:index, :search]
-  
+
   # GET /cores
   # GET /cores.json
   def index
@@ -248,7 +248,7 @@ class CoresController < ApplicationController
     @sfdc_type_opts = ordered_list(grap_item_list("sfdc_type"))
     @sfdc_tier_opts = ordered_list(grap_item_list("sfdc_tier"))
     @sfdc_sales_person_opts = ordered_list(grap_item_list("sfdc_sales_person"))
-    @state_opts = ordered_list(grap_item_list("sfdc_state"))
+    # @state_opts = ordered_list(grap_item_list("sfdc_state"))
     @franch_cons_opts = ordered_list(grap_item_list("sfdc_franch_cons"))
     @franch_cat_opts = ordered_list(grap_item_list("sfdc_franch_cat"))
     @template_opts = ordered_list(grap_item_list("template"))

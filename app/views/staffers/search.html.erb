@@ -79,6 +79,7 @@
           <th class="th-2">First Name</th>
           <th class="th-2">Last Name</th>
           <th class="th-2">Email</th>
+          <th class="th-2">Email Status</th>
           <th class="th-2">SFDC Contact ID</th>
         </tr>
         <tr>
@@ -89,6 +90,7 @@
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :fname } %></td>
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :lname } %></td>
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :email } %></td>
+          <td><%= select_tag :state, options_for_select(@email_status), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
           <td><%= render partial: 'layouts/text_field_tag', locals: { col: :sfdc_cont_id } %></td>
         </tr>
       </table>

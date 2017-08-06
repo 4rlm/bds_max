@@ -29,7 +29,8 @@ class StafferService
   end
 
   def make_standard_queries
-    indexers = Indexer.where("indexer_status = 'invalid staff_url'").where("web_staff_count > 0") #=> 10,582
+    indexers = Indexer.where(indexer_status: 'invalid staff_url', scrape_date: nil).where("web_staff_count > 0") #=> 10,582
+
     # Indexer.where("indexer_status = 'CS Error'").where("web_staff_count > 0").count #=> 51
     standard_iterator(indexers)
   end
@@ -41,7 +42,7 @@ class StafferService
     # batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
     # batch_iterator(batched_by_tcp_error)
 
-    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
+    # batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
 
     batch_iterator(batched_by_scrape_date)
   end
@@ -52,19 +53,18 @@ class StafferService
 
   def standard_iterator(indexers)
     indexers.each do |indexer|
-      view_indexer_current_db_info(indexer)
-      cs_data_getter(indexer) if validate_url(indexer)
+      cs_data_getter(indexer)
     end
   end
 
   def view_indexer_current_db_info(indexer)
-     puts "\n=== Current DB Info ===\n"
-     puts "indexer_status: #{indexer.indexer_status}"
-     puts "staff_url: #{indexer.template}"
-     puts "staff_url: #{indexer.staff_url}"
-     puts "web_staff_count: #{indexer.web_staff_count}"
-     puts "scrape_date: #{indexer.scrape_date}"
-     puts "#{"="*30}\n\n"
+    puts "\n=== Current DB Info ===\n"
+    puts "indexer_status: #{indexer.indexer_status}"
+    puts "staff_url: #{indexer.template}"
+    puts "staff_url: #{indexer.staff_url}"
+    puts "web_staff_count: #{indexer.web_staff_count}"
+    puts "scrape_date: #{indexer.scrape_date}"
+    puts "#{"="*30}\n\n"
   end
 
   def ping_url
@@ -75,6 +75,8 @@ class StafferService
     http://speedtest.xfinity.com/
     https://www.iplocation.net/
     https://www.wikipedia.org/
+    http://www.bandwidthplace.com/
+    http://www.speedinternet.co/
     https://www.google.com/)
     pingable_urls.sample
   end
@@ -108,14 +110,12 @@ class StafferService
     end
   end
 
-  def validate_url(indexer)
-    staff_url = indexer.staff_url
-    if url_exist?(staff_url)
-      puts "=== GOOD URL ===\nURL: #{staff_url}"
+  def validate_url(url_string)
+    if url_exist?(url_string)
+      puts "=== GOOD URL ===\nURL: #{url_string}"
     else
       if test_internet_connection
-        puts "=== BAD URL ===\nURL: #{staff_url}"
-        indexer.update_attributes(scrape_date: DateTime.now, indexer_status: "invalid staff_url", contact_status: "invalid staff_url")
+        puts "=== BAD URL ===\nURL: #{url_string}"
       else
         connection = false
         ping_attempt_count = 1
@@ -128,23 +128,35 @@ class StafferService
           ping_attempt_count += 1
           break if connection
         end
-        validate_url(indexer)
+        validate_url(url_string)
       end
     end
-    sleep(0.015)
+    # sleep(0.015)
   end
 
+  def start_mechanize(url_string)
+    begin
+      @agent = Mechanize.new
+      html = @agent.get(url_string)
+    rescue
+      if validate_url(url_string)
+        start_mechanize(url_string)
+      end
+    end
+  end
 
-
-  def cs_data_getter(indexer) ##=> Gave method parameter to work with cs_starter method.
+  def cs_data_getter(indexer)
+    view_indexer_current_db_info(indexer)
     template = indexer.template
     url = indexer.staff_url
 
-    begin
-      @agent = Mechanize.new
-      html = @agent.get(url)
-    rescue
+    if start_mechanize(url)
+      puts "=== GOOD URL ===\nURL: #{url}"
+      html = start_mechanize(url)
+    else
       puts "ResponseCodeError occurred"
+      indexer.update_attributes(scrape_date: DateTime.now, indexer_status: "invalid staff_url", contact_status: "invalid staff_url")
+      return
     end
 
     begin
@@ -165,8 +177,6 @@ class StafferService
         DealerEprocessCs.new.contact_scraper(html, url, indexer)
       else
         StandardScraperCs.new.contact_scraper(html, url, indexer)
-        # when "DealerCar Search"
-        # dealercar_search_cs(html, url, indexer)
       end
 
     rescue
@@ -190,6 +200,8 @@ class StafferService
 
     end ## rescue ends
   end
+
+  ################################################################
 
   # When first name is "["Jack", "McCarthy", "Business Manage.....", it cleans to "Jack".
   def fname_cleaner
