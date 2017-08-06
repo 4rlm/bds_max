@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
   end
 
   def email_status_list
-    ['True', 'False']
+    [['Has Email Address', true], ['No Email Address', false]]
   end
 
 

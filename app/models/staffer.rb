@@ -12,6 +12,10 @@ class Staffer < ApplicationRecord
   scope :job, -> (job) { where job: job }
   scope :state, -> (state) { where state: state }
 
+  scope :email_status, -> (bools) { bools.first == 'true' ? where.not(email: nil) : where(email: nil) }
+  # scope :created_before, ->(time) { where("created_at < ?", time) }
+
+
   # == Key Word Search ==
   scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }
   scope :acct_name, -> (acct_name) { where("acct_name like ?", "%#{acct_name}%") }
@@ -30,5 +34,7 @@ class Staffer < ApplicationRecord
   scope :domain, -> (domain) { where("domain like ?", "%#{domain}%") }
   scope :acct_pin, -> (acct_pin) { where("acct_pin like ?", "%#{acct_pin}%") }
   scope :cont_pin, -> (cont_pin) { where("cont_pin like ?", "%#{cont_pin}%") }
+
+
 
 end

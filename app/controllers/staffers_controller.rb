@@ -17,7 +17,9 @@ class StaffersController < ApplicationController
       choice_hash.each do |key, value|
         clean_choice_hash[key] = value if !value.nil? && value != "" && key != :view_mode
       end
-      @selected_data = Staffer.where(clean_choice_hash)
+      divided_hash = choice_hash_divider(clean_choice_hash)
+      @selected_data = Staffer.where(divided_hash[:only_attrs])
+      @selected_data = applied_non_attrs(@selected_data, divided_hash[:non_attrs])
     else # choice_hash is nil
       @selected_data = Staffer.all.order(updated_at: :desc)
     end
@@ -178,11 +180,11 @@ class StaffersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def staffer_params
-    params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
+    params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status)
   end
 
   def filtering_params(params)
-    params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin)
+    params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status)
   end
 
   def batch_status
@@ -229,5 +231,25 @@ class StaffersController < ApplicationController
     Dashboard.find_by(db_name: "Staffer", col_name: col_name).item_list
   end
 
+  def choice_hash_divider(clean_choice_hash)
+    only_attrs = {}
+    non_attrs = {}
+    cols = Staffer.column_names
 
+    clean_choice_hash.each do |k, v|
+      if cols.include?(k.to_s)
+        only_attrs[k] = v
+      else
+        non_attrs[k] = v
+      end
+    end
+
+    { only_attrs: only_attrs, non_attrs: non_attrs }
+  end
+
+  def applied_non_attrs(staffers, non_attrs)
+    result = staffers
+    non_attrs.each { |k, v| result = result.send(k, v) }
+    result
+  end
 end
