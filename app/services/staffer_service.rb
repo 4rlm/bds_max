@@ -24,8 +24,8 @@ class StafferService
   # indexer_status: cs_error_code
   ###################################
   def cs_starter
-    # make_batched_queries
-    make_standard_queries
+    make_batched_queries
+    # make_standard_queries
   end
 
   def make_standard_queries
@@ -40,10 +40,7 @@ class StafferService
     batch_size = 1
     start_at_id_num = 0
 
-    # batched_by_tcp_error = Indexer.where.not(staff_url: nil).where(contact_status: 'TCP Error').find_in_batches(start: start_at_id_num, batch_size: batch_size)
-    # batch_iterator(batched_by_tcp_error)
-
-    # batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
+    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
 
     batch_iterator(batched_by_scrape_date)
   end
