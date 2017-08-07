@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'who/import_page' => 'whos#import_page'
   get 'who/search' => 'whos#search'
   get 'who_power_btn' => 'whos#who_power_btn'
-  
+
   resources :indexer_terms do
     collection { post :import_csv_data }
   end
@@ -59,7 +59,7 @@ Rails.application.routes.draw do
   get 'staffer/import_page' => 'staffers#import_page'
   get 'staffer/search' => 'staffers#search'
   get 'staffer/acct_contacts' => 'staffers#acct_contacts'
-  get 'cs_data_getter_btn' => 'staffers#cs_data_getter_btn'
+  get 'cs_starter_btn' => 'staffers#cs_starter_btn'
   get 'staffer_sfdc_id_cleaner_btn' => 'staffers#staffer_sfdc_id_cleaner_btn'
   get 'staffer_power_btn' => 'staffers#staffer_power_btn'
   get 'crm_staff_counter_btn' => 'staffers#crm_staff_counter_btn'

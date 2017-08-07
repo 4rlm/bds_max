@@ -140,39 +140,39 @@ class IndexersController < ApplicationController
     # @service.delay.acct_arr_mover
     # @service.delay.acct_squeezer_caller
     # @service.delay.ph_arr_mover_express
-    @service.url_arr_mover
-    @service.pin_arr_mover
-    @service.acct_arr_mover
-    @service.acct_squeezer_caller
-    @service.ph_arr_mover_express
+    @service.delay.url_arr_mover
+    @service.delay.pin_arr_mover
+    @service.delay.acct_arr_mover
+    @service.delay.acct_squeezer_caller
+    @service.delay.ph_arr_mover_express
 
     # Step 2: Score Calculator (1 method)
     # @service.delay.score_calculator
-    @service.score_calculator
+    @service.delay.score_calculator
 
     # Step 3: Scraper Migrator (1 method)
     # @service.delay.scraper_migrator
-    @service.scraper_migrator
-    @service.migrate_address_to_staffers #=> New Button
+    @service.delay.scraper_migrator
+    @service.delay.migrate_address_to_staffers #=> New Button
 
     redirect_to admin_developer_path
   end
 
   def score_calculator_btn
-    @service.score_calculator
+    @service.delay.score_calculator
     # @service.delay.score_calculator
     redirect_to admin_developer_path
   end
 
   def scraper_migrator_btn
-    @service.scraper_migrator
+    @service.delay.scraper_migrator
     # @service.delay.scraper_migrator
     redirect_to admin_developer_path
   end
 
   def migrate_address_to_staffers_btn #=> New Button
-    @service.migrate_address_to_staffers
-    # @service.delay.migrate_address_to_staffers
+    # @service.migrate_address_to_staffers
+    @service.delay.migrate_address_to_staffers
     redirect_to admin_developer_path
   end
 
@@ -182,31 +182,31 @@ class IndexersController < ApplicationController
     # @service.delay.pin_arr_mover
     # @service.delay.acct_arr_mover
     # @service.delay.ph_arr_mover_express
-    @service.url_arr_mover
-    @service.pin_arr_mover
-    @service.acct_arr_mover
-    @service.ph_arr_mover_express
+    @service.delay.url_arr_mover
+    @service.delay.pin_arr_mover
+    @service.delay.acct_arr_mover
+    @service.delay.ph_arr_mover_express
     redirect_to admin_developer_path
   end
 
   def phone_formatter_finalizer_btn
     # @service.delay.phone_formatter_finalizer_caller
-    @service.phone_formatter_finalizer_caller
+    @service.delay.phone_formatter_finalizer_caller
     redirect_to admin_developer_path
   end
 
   def geo_to_indexer_btn
-    @service.geo_to_indexer_caller
+    @service.delay.geo_to_indexer_caller
     redirect_to admin_developer_path
   end
 
   def address_formatter_btn
-    @service.address_formatter
+    @service.adelay.ddress_formatter
     redirect_to admin_developer_path
   end
 
   def phone_migrator_btn
-    @service.phone_migrator
+    @service.delay.phone_migrator
     redirect_to admin_developer_path
   end
 
@@ -266,7 +266,7 @@ class IndexersController < ApplicationController
   end
 
   def url_redirect_checker_btn
-    @service.url_redirect_checker
+    @service.delay.url_redirect_checker
     # @service.delay.url_redirect_checker
   end
 
@@ -280,7 +280,7 @@ class IndexersController < ApplicationController
 
 
   def page_finder_btn
-    @service.page_finder_starter
+    @service.delay.page_finder_starter
     # @service.delay.page_finder_starter
     #   @service.url_importer
 
@@ -295,14 +295,14 @@ class IndexersController < ApplicationController
 
 
   def rooftop_data_getter_btn
-    @service.rooftop_data_getter
+    @service.delay.rooftop_data_getter
     #   @service.delay.rooftop_data_getter
 
     redirect_to admin_developer_path
   end
 
   def meta_scraper_btn
-    @service.meta_scraper
+    @service.delay.meta_scraper
     # @service.delay.meta_scraper
 
     redirect_to admin_developer_path

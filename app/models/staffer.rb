@@ -16,9 +16,9 @@ class Staffer < ApplicationRecord
 
   ### !! TESTING BELOW !! ###
   # scope :scrape_date, ->(date) { where("scrape_date < ?", date) }
-  scope :scrape_date, -> { where("scrape_date < '08/01/2017'") }
+  # scope :scrape_date, -> { where("scrape_date < '08/01/2017'") }
 
-  scope :created_at, ->(date) { where("created_at < ?", date) }
+  # scope :created_at, ->(date) { where("created_at < ?", date) }
 
 
   # == Key Word Search ==
