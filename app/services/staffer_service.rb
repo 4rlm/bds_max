@@ -23,6 +23,36 @@ class StafferService
   # Staffer.where.not('updated_at <= ?', Date.today - 1.day).count
   # indexer_status: cs_error_code
   ###################################
+
+  def cs_starter_1
+    counter = 1000
+    while counter >= 0
+      puts "11111 on cs_starter_1 & PID: #{Process.pid}"
+      counter -= 1
+      sleep(1)
+    end
+  end
+
+  def cs_starter_2
+    counter = 1000
+    while counter >= 0
+      puts "22222 on cs_starter_2 & PID: #{Process.pid}"
+      counter -= 1
+      sleep(1)
+    end
+  end
+
+  def cs_starter_3
+    counter = 1000
+    while counter >= 0
+      puts "33333 on cs_starter_3 & PID: #{Process.pid}"
+      counter -= 1
+      sleep(1)
+    end
+  end
+
+
+  #########################
   def cs_starter
     make_batched_queries
     # make_standard_queries
