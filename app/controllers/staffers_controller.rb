@@ -1,9 +1,9 @@
 class StaffersController < ApplicationController
   before_action :intermediate_and_up, only: [:index, :show, :search, :acct_contacts]
   before_action :advanced_and_up, only: [:edit, :update]
-  before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :staffer_power_btn, :crm_staff_counter_btn]
+  before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_starter_btn, :staffer_power_btn, :crm_staff_counter_btn]
   before_action :set_staffer, only: [:show, :edit, :update, :destroy]
-  before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_data_getter_btn, :staffer_power_btn, :crm_staff_counter_btn]
+  before_action :set_staffer_service, only: [:staffer_sfdc_id_cleaner_btn, :cs_starter_btn, :staffer_power_btn, :crm_staff_counter_btn]
   before_action :set_option_list, only: [:index, :search]
 
   # GET /staffers
@@ -20,6 +20,7 @@ class StaffersController < ApplicationController
       divided_hash = choice_hash_divider(clean_choice_hash)
       @selected_data = Staffer.where(divided_hash[:only_attrs])
       @selected_data = applied_non_attrs(@selected_data, divided_hash[:non_attrs])
+      # binding.pry
     else # choice_hash is nil
       @selected_data = Staffer.all.order(updated_at: :desc)
     end
@@ -126,7 +127,7 @@ class StaffersController < ApplicationController
   end
 
   def crm_staff_counter_btn
-    @staffer_service.crm_staff_counter
+    @staffer_service.delay.crm_staff_counter
     # @staffer_service.delay.crm_staff_counter
     redirect_to cores_path
   end
@@ -140,25 +141,12 @@ class StaffersController < ApplicationController
     redirect_to root_path
   end
 
-
-  ############## ATTENTION!!! ###############
-  ### NEED TO REFACTOR THIS AFTER TESTING ###
-
   ### Step 1 of Staffer Scraper - Starts Here
-  def cs_data_getter_btn
-    ## Need to change name of this method and btn to starter, which calls the starter method which calls the cs_data_getter method in batches, based on template, then cuts into smaller jobs of 25 indexers each (25 urls.)
-
-    # @staffer_service.cs_data_getter
-    # @staffer_service.delay.cs_data_getter
-
-    @staffer_service.cs_starter
-
-    redirect_to indexers_path
+  def cs_starter_btn
+    @staffer_service.delay.cs_starter
+    redirect_to staffers_path
     # redirect_to admin_path
   end
-
-  ##########################################
-
 
   # ========== Temporary/Power Button ==========
 
@@ -178,11 +166,11 @@ class StaffersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def staffer_params
-    params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status)
+    params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status, :scrape_date)
   end
 
   def filtering_params(params)
-    params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status)
+    params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status, :scrape_date)
   end
 
   def batch_status

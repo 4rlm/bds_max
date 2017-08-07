@@ -29,15 +29,14 @@ class StafferService
   end
 
   def make_standard_queries
+    indexers = Indexer.where.not(staff_url: nil).where(scrape_date: nil)
     # indexers = Indexer.where(indexer_status: 'invalid staff_url', scrape_date: nil).where("web_staff_count > 0") #=> 10,582
-
-    indexers = Indexer.where("indexer_status = 'CS Error'").where("web_staff_count > 0") #=> 1533
-
+    # indexers = Indexer.where("indexer_status = 'CS Error'").where("web_staff_count > 0") #=> 1533
     standard_iterator(indexers)
   end
 
   def make_batched_queries
-    batch_size = 1
+    batch_size = 20
     start_at_id_num = 0
 
     batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)

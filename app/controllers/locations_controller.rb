@@ -202,7 +202,7 @@ class LocationsController < ApplicationController
 
 
   def geo_places_starter_btn
-    @service.geo_places_starter
+    @service.delay.geo_places_starter
     # @service.delay.geo_places_starter
 
     redirect_to locations_path
@@ -222,13 +222,13 @@ class LocationsController < ApplicationController
 
   def location_cleaner_btn
     # @service.delay.location_cleaner_btn
-    @service.location_cleaner_btn
+    @service.delay.location_cleaner_btn
     redirect_to root_path
   end
 
   def geo_update_migrate_btn
     # @service.delay.geo_update_migrate_btn
-    @service.geo_update_migrate_btn
+    @service.delay.geo_update_migrate_btn
 
     redirect_to root_path
   end

@@ -104,56 +104,56 @@ class DashboardsController < ApplicationController
 
   ############ BUTTONS ~ START ##############
   def dashboard_mega_btn
-    @service.mega_dash
-    # @service.delay.mega_dash
+    # @service.mega_dash
+    @service.delay.mega_dash
     redirect_to dashboards_path
   end
 
   def cores_dash_btn
     # @service.delay.dash(Core)
     # @service.delay.list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts, :acct_match_sts, :alt_state, :match_score, :ph_match_sts, :pin_match_sts, :redirect_sts, :url_match_sts, :who_sts, :alt_template])
-    @service.dash(Core)
-    @service.list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts, :acct_match_sts, :alt_state, :match_score, :ph_match_sts, :pin_match_sts, :redirect_sts, :url_match_sts, :who_sts, :alt_template])
+    @service.delay.dash(Core)
+    @service.delay.list_getter(Core, [:alt_source, :bds_status, :staff_pf_sts, :loc_pf_sts, :staffer_sts, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :sfdc_state, :sfdc_franch_cons, :sfdc_franch_cat, :template, :acct_merge_sts, :acct_match_sts, :alt_state, :match_score, :ph_match_sts, :pin_match_sts, :redirect_sts, :url_match_sts, :who_sts, :alt_template])
     redirect_to dashboards_path
   end
 
   def franchise_dash_btn
     # @service.delay.dash(InHostPo)
     # @service.delay.list_getter(InHostPo, [:consolidated_term, :category])
-    @service.dash(InHostPo)
-    @service.list_getter(InHostPo, [:consolidated_term, :category])
+    @service.delay.dash(InHostPo)
+    @service.delay.list_getter(InHostPo, [:consolidated_term, :category])
     redirect_to dashboards_path
   end
 
   def indexer_dash_btn
     # @service.delay.dash(Indexer)
     # @service.delay.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :template, :state])
-    @service.dash(Indexer)
-    @service.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :template, :state])
+    @service.delay.dash(Indexer)
+    @service.delay.list_getter(Indexer, [:redirect_status, :indexer_status, :who_status, :rt_sts, :cont_sts, :loc_status, :stf_status, :contact_status, :template, :state])
     redirect_to dashboards_path
   end
 
   def geo_locations_dash_btn
     # @service.delay.dash(Location)
     # @service.delay.list_getter(Location, [:location_status, :sts_duplicate, :sts_geo_crm, :sts_url, :sts_acct, :sts_addr, :sts_ph, :crm_source, :tier, :sales_person, :acct_type, :url_sts, :acct_sts, :addr_sts, :ph_sts])
-    @service.dash(Location)
-    @service.list_getter(Location, [:location_status, :sts_duplicate, :sts_geo_crm, :sts_url, :sts_acct, :sts_addr, :sts_ph, :crm_source, :tier, :sales_person, :acct_type, :url_sts, :acct_sts, :addr_sts, :ph_sts])
+    @service.delay.dash(Location)
+    @service.delay.list_getter(Location, [:location_status, :sts_duplicate, :sts_geo_crm, :sts_url, :sts_acct, :sts_addr, :sts_ph, :crm_source, :tier, :sales_person, :acct_type, :url_sts, :acct_sts, :addr_sts, :ph_sts])
     redirect_to dashboards_path
   end
 
   def staffers_dash_btn
     # @service.delay.dash(Staffer)
     # @service.delay.list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job, :state])
-    @service.dash(Staffer)
-    @service.list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job, :state])
+    @service.delay.dash(Staffer)
+    @service.delay.list_getter(Staffer, [:staffer_status, :cont_source, :sfdc_type, :sfdc_tier, :sfdc_sales_person, :cont_status, :job, :state])
     redirect_to dashboards_path
   end
 
   def whos_dash_btn
     # @service.delay.dash(Who)
     # @service.delay.list_getter(Who, [:who_status, :url_status])
-    @service.dash(Who)
-    @service.list_getter(Who, [:who_status, :url_status])
+    @service.delay.dash(Who)
+    @service.delay.list_getter(Who, [:who_status, :url_status])
     redirect_to dashboards_path
   end
 

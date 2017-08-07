@@ -13,7 +13,12 @@ class Staffer < ApplicationRecord
   scope :state, -> (state) { where state: state }
 
   scope :email_status, -> (bools) { bools.first == 'true' ? where.not(email: nil) : where(email: nil) }
-  # scope :created_before, ->(time) { where("created_at < ?", time) }
+
+  ### !! TESTING BELOW !! ###
+  # scope :scrape_date, ->(date) { where("scrape_date < ?", date) }
+  # scope :scrape_date, -> { where("scrape_date < '08/01/2017'") }
+
+  # scope :created_at, ->(date) { where("created_at < ?", date) }
 
 
   # == Key Word Search ==
