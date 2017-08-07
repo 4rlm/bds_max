@@ -12,6 +12,9 @@
         <tr>
           <th class="th-2">Staffer Status</th>
           <th class="th-2">Source</th>
+
+          <th class="th-2">created_at</th>
+
           <th class="th-2">Type:</th>
           <th class="th-2">Sales Tier</th>
           <th class="th-2">Sales Person:</th>
@@ -24,6 +27,17 @@
           <td><%= select_tag :staffer_status, options_for_select(@staffer_status_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
           <!-- source -->
           <td><%= select_tag :cont_source, options_for_select(@cont_source_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
+
+
+          <!-- ### !! TESTING BELOW !! ### -->
+          <!-- <td style="width: 200px;"><%#= date_field(:staffer, :scrape_date) %></td> -->
+
+          <!-- <td style="width: 200px;"><%#= date_field(:staffer, :scrape_date) %></td> -->
+
+          <td style="width: 200px;"><%= date_field(:staffer, :created_at, :value => Time.now.strftime('%Y-%m-%d')) %></td>
+
+          <!-- Date.strptime("7/15/2017", '%m/%d/%Y') -->
+
 
           <!-- <th class="th-2">Type:</th> -->
           <td><%= select_tag :sfdc_type, options_for_select(@sfdc_type_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>

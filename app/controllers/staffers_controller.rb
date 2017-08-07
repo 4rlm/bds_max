@@ -20,6 +20,7 @@ class StaffersController < ApplicationController
       divided_hash = choice_hash_divider(clean_choice_hash)
       @selected_data = Staffer.where(divided_hash[:only_attrs])
       @selected_data = applied_non_attrs(@selected_data, divided_hash[:non_attrs])
+      # binding.pry
     else # choice_hash is nil
       @selected_data = Staffer.all.order(updated_at: :desc)
     end
@@ -178,11 +179,11 @@ class StaffersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def staffer_params
-    params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status)
+    params.require(:staffer).permit(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status, :scrape_date)
   end
 
   def filtering_params(params)
-    params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status)
+    params.slice(:staffer_status, :cont_status, :cont_source, :sfdc_id, :sfdc_sales_person, :sfdc_type, :sfdc_cont_id, :staffer_date, :created_at, :updated_at, :sfdc_tier, :domain, :acct_name, :street, :city, :state, :zip, :fname, :lname, :fullname, :job, :job_raw, :phone, :email, :full_address, :acct_pin, :cont_pin, :email_status, :scrape_date)
   end
 
   def batch_status
