@@ -60,6 +60,7 @@ gem 'mechanize'
 # gem 'delayed_job_web'
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.0'
+gem 'foreman', '~> 0.82.0'
 
 gem 'google_custom_search_api'
 gem 'pry'
