@@ -63,7 +63,7 @@ class StafferService
   ##### DELAYED PROCFILE VERSION (4 JOBS) - STARTS ######
   def cs_starter
     queried_ids = Indexer.select(:id).where.not(staff_url: nil).where(scrape_date: nil).pluck(:id).sort
-    nested_ids = queried_ids.in_groups(6)
+    nested_ids = queried_ids.in_groups(5)
 
     nested_ids.each { |ids| nested_iterator(ids) }
   end
