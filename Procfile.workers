@@ -6,6 +6,3 @@ DJ_WORKER_E: bundle exec rake jobs:work
 DJ_WORKER_F: bundle exec rake jobs:work
 DJ_WORKER_G: bundle exec rake jobs:work
 DJ_WORKER_H: bundle exec rake jobs:work
-DJ_WORKER_I: bundle exec rake jobs:work
-DJ_WORKER_J: bundle exec rake jobs:work
-DJ_WORKER_K: bundle exec rake jobs:work
