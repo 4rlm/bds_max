@@ -2,4 +2,3 @@ DJ_WORKER_01: bundle exec rake jobs:work
 DJ_WORKER_02: bundle exec rake jobs:work
 DJ_WORKER_03: bundle exec rake jobs:work
 DJ_WORKER_04: bundle exec rake jobs:work
-DJ_WORKER_05: bundle exec rake jobs:work
