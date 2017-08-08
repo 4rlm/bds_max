@@ -134,24 +134,15 @@ class StaffersController < ApplicationController
 
   def staffer_sfdc_id_cleaner_btn
     # @staffer_service.staffer_sfdc_id_cleaner
-
     # @staffer_service.staffer_core_updater
     # @staffer_service.delay.staffer_core_updater
-
     redirect_to root_path
   end
 
   ### Step 1 of Staffer Scraper - Starts Here
   def cs_starter_btn
-   
-    # @staffer_service.delay.cs_starter
-    
-    @staffer_service.delay.cs_starter_1
-    @staffer_service.delay.cs_starter_2
-    @staffer_service.delay.cs_starter_3
-
+    @staffer_service.delay.cs_starter
     redirect_to staffers_path
-    # redirect_to admin_path
   end
 
   # ========== Temporary/Power Button ==========
@@ -159,7 +150,6 @@ class StaffersController < ApplicationController
   def staffer_power_btn
     # @staffer_service.fname_cleaner
     # @staffer_service.delay.fname_cleaner
-
     redirect_to indexers_path
   end
 
@@ -187,12 +177,10 @@ class StaffersController < ApplicationController
       staff = Staffer.find(id)
       staff.update_attribute(:staffer_status, status)
       flash[:notice] = "Successfully updated"
-
       # *** Uncomment after Core Migration new staffer columns
       # core = Core.find_by(sfdc_id: staffer.sfdc_id)
       # core.update_attribute(:staffer_status, status)
     end
-
     destroy_rows(ids) if status == "Destroy"
   end
 
@@ -235,7 +223,6 @@ class StaffersController < ApplicationController
         non_attrs[k] = v
       end
     end
-
     { only_attrs: only_attrs, non_attrs: non_attrs }
   end
 

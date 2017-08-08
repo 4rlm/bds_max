@@ -13,76 +13,65 @@ require 'indexer_helper/rts/rts_manager'
 
 class StafferService
 
-  def initialize
-    @start_at_id_num = 0
-    # @tcp_error_count = 0
-    # @url_status = false
-  end
+
+  #### ORIGINAL VERSION (NOT DELAYED) - STARTS #####
+  # def initialize
+  #   @start_at_id_num = 0
+  #   # @tcp_error_count = 0
+  #   # @url_status = false
+  # end
+
   ### !! REPLACE SCRAPE DATE WITH THIS IN QUERY AFTER ALL HAVE DATES. ###
   # Indexer.where.not('scrape_date <= ?', Date.today - 1.week).count
   # Staffer.where.not('updated_at <= ?', Date.today - 1.day).count
   # indexer_status: cs_error_code
-  ###################################
-
-  def cs_starter_1
-    counter = 1000
-    while counter >= 0
-      puts "11111 on cs_starter_1 & PID: #{Process.pid}"
-      counter -= 1
-      sleep(1)
-    end
-  end
-
-  def cs_starter_2
-    counter = 1000
-    while counter >= 0
-      puts "22222 on cs_starter_2 & PID: #{Process.pid}"
-      counter -= 1
-      sleep(1)
-    end
-  end
-
-  def cs_starter_3
-    counter = 1000
-    while counter >= 0
-      puts "33333 on cs_starter_3 & PID: #{Process.pid}"
-      counter -= 1
-      sleep(1)
-    end
-  end
-
+  # ###################################
 
   #########################
+  # def cs_starter
+  #   make_batched_queries
+  #   # make_standard_query
+  # end
+
+  # def make_standard_query
+  #   query = Indexer.select(:id).where.not(staff_url: nil).where.not(scrape_date: nil).pluck(:id) #=> 21,749
+  #
+  #   # indexers = Indexer.where.not(staff_url: nil).where(scrape_date: nil)
+  #   # standard_iterator(indexers)
+  # end
+
+
+  # def make_batched_queries
+  #   batch_size = 20
+  #   start_at_id_num = 0
+  #   batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
+  #   batch_iterator(batched_by_scrape_date)
+  # end
+
+  # def batch_iterator(batch_of_batches)
+  #   batch_of_batches.each { |indexers| standard_iterator(indexers) }
+  # end
+
+  # def standard_iterator(indexers)
+  #   indexers.each do |indexer|
+  #     cs_data_getter(indexer)
+  #   end
+  # end
+  ##### ORIGINAL VERSION (NOT DELAYED) - ENDS ######
+
+
+  ##### DELAYED PROCFILE VERSION (4 JOBS) - STARTS ######
   def cs_starter
-    make_batched_queries
-    # make_standard_queries
+    queried_ids = Indexer.select(:id).where.not(staff_url: nil).where(scrape_date: nil).pluck(:id).sort
+    nested_ids = queried_ids.in_groups(4)
+
+    nested_ids.each { |ids| nested_iterator(ids) }
   end
 
-  def make_standard_queries
-    indexers = Indexer.where.not(staff_url: nil).where(scrape_date: nil)
-    # indexers = Indexer.where(indexer_status: 'invalid staff_url', scrape_date: nil).where("web_staff_count > 0") #=> 10,582
-    # indexers = Indexer.where("indexer_status = 'CS Error'").where("web_staff_count > 0") #=> 1533
-    standard_iterator(indexers)
+  def nested_iterator(ids)
+    ids.each { |id| delay.cs_data_getter(id) }
   end
-
-  def make_batched_queries
-    batch_size = 20
-    start_at_id_num = 0
-
-    batched_by_scrape_date = Indexer.where.not(staff_url: nil).where(scrape_date: nil).find_in_batches(start: start_at_id_num, batch_size: batch_size)
-
-    batch_iterator(batched_by_scrape_date)
-  end
-
-  def batch_iterator(batch_of_batches)
-    batch_of_batches.each { |indexers| standard_iterator(indexers) }
-  end
-
-  def standard_iterator(indexers)
-    indexers.each do |indexer|
-      cs_data_getter(indexer)
-    end
-  end
+  ##### DELAYED PROCFILE VERSION (4 JOBS) - ENDS ######
 
   def view_indexer_current_db_info(indexer)
     puts "\n=== Current DB Info ===\n"
@@ -172,7 +161,8 @@ class StafferService
     end
   end
 
-  def cs_data_getter(indexer)
+  def cs_data_getter(id)
+    indexer = Indexer.find(id)
     view_indexer_current_db_info(indexer)
     template = indexer.template
     url = indexer.staff_url
