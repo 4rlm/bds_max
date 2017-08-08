@@ -25,10 +25,11 @@
 #   database: db/production.sqlite3
 
 
-
 default: &default
   adapter: postgresql
-  pool: 5
+  # pool: 10
+  url:  <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 7 %>
   timeout: 5000
   # username: Adam
   # password:
@@ -51,3 +52,10 @@ test:
 production:
   <<: *default
   database: postgresql-animated-81852
+
+
+## Heroku Suggests Changing Connection Pool like this.  ###
+## But I tried it above.  Default is 5, changing to 10. ###
+# production:
+#   url:  <%= ENV["DATABASE_URL"] %>
+#   pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 10 %>

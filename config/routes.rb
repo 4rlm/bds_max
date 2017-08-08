@@ -102,7 +102,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   #==== Delayed_Jobs_Interface Starts=========
-  # match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
 
   # #==== Search Pages Start=========
   post 'search_result_page_core' => 'search#search_result_core'
