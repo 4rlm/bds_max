@@ -22,6 +22,7 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Scraped</th>
+        <th>CREATED</th>
         <!-- <th colspan="2"></th> -->
       </tr>
     </thead>
@@ -96,6 +97,10 @@
             <% if staffer.scrape_date %>
               <%= staffer.scrape_date.strftime("%m/%d/%y") %>
             <% end %>
+          </td>
+
+          <td class="staffer-w-md">
+            <%= staffer.created_at %>
           </td>
 
           <!-- <% if advanced_and_up %>

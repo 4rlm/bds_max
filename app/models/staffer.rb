@@ -17,8 +17,27 @@ class Staffer < ApplicationRecord
   ### !! TESTING BELOW !! ###
   # scope :scrape_date, ->(date) { where("scrape_date < ?", date) }
   # scope :scrape_date, -> { where("scrape_date < '08/01/2017'") }
+  # scope :created_at, -> { where("created_at < '2017-02-01 18:07:52'") }
+  # scope :created_at, -> (created_at) { where("created_at like ?", "%#{created_at}%") }
+  # scope :created_at, -> { where("created_at < '2017-03-13 14:55:55'") }
+  # scope :created_at, -> (created_at = '2017-03-13 14:55:55') { where("created_at like ?", "%#{created_at}%") }
+  # scope :created_at, -> (created_at) { where("created_at < ?", "%#{created_at}%") }
+  # scope :created_at, -> (created_at) { where("created_at < '%#{created_at}%'") }
+  # scope :created_at, -> (created_at) { where("created_at < #{created_at} ") }
+  # scope :created_at, -> (created_at) { where("created_at < '2017-03-13 14:55:55'") }
 
-  # scope :created_at, ->(date) { where("created_at < ?", date) }
+  # scope :created_at, -> (created_at) { where("created_at < '2017-03-13 14:55:55'") }
+  scope :scraped_before, ->(date_time) { where("scrape_date < ?", date_time) }
+
+
+
+
+
+
+# to_datetime
+  # 2017-03-13 14:55:55
+
+  # Date.strptime("7/15/2017", '%m/%d/%Y')
 
 
   # == Key Word Search ==

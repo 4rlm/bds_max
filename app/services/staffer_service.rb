@@ -61,25 +61,48 @@ class StafferService
 
   # Indexer.select(:id).where.not(staff_url: nil).where(scrape_date: nil).count
 
+  #########
+
+
+  # staffers = Staffer.where(cont_source: "Web", scrape_date: nil)
+  # staffers.each {|staffer| staffer.update_attributes(scrape_date: staffer.created_at) }
+
+
+  ########
+
 
   ##### DELAYED PROCFILE VERSION (4 JOBS) - STARTS ######
   def cs_starter
-    queried_ids = Indexer.select(:id).where.not(staff_url: nil).where(scrape_date: nil).pluck(:id).sort
+    queried_ids = Staffer.where(cont_source: "Web", scrape_date: nil)
+
+    # queried_ids = Indexer.select(:id).where.not(staff_url: nil).where(scrape_date: nil).pluck(:id).sort
     nested_ids = queried_ids.in_groups(5)
 
     nested_ids.each do |ids|
       nested_iterator(ids)
-      # delay.nested_iterator(ids)
-      # sleep(2)
     end
   end
 
   def nested_iterator(ids)
     ids.each do |id|
-      # cs_data_getter(id)
-      delay.cs_data_getter(id)
+      # delay.cs_data_getter(id)
+      delay.quick_snatch(id)
     end
   end
+
+  #################
+
+  def quick_snatch(id)
+    staffer = Staffer.find(id)
+    staffer.update_attributes(scrape_date: staffer.created_at)
+  end
+
+
+
+  ################
+
+
+
   ##### DELAYED PROCFILE VERSION (4 JOBS) - ENDS ######
 
   def view_indexer_current_db_info(indexer)
