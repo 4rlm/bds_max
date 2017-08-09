@@ -7,12 +7,12 @@
         <th>#</th>
         <!-- <th>Stage</th> -->
         <!-- <th>Status</th> -->
-        <th>Source</th>
+        <th>SRC</th>
         <th>ID</th>
         <th>ID</th>
-        <th>URL</th>
-        <th>URL</th>
-        <th>State</th>
+        <!-- <th>URL</th> -->
+        <!-- <th>URL</th> -->
+        <th>ST</th>
         <th>Account Name</th>
         <th>Title</th>
         <th>Description</th>
@@ -22,7 +22,6 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Scraped</th>
-        <th>CREATED</th>
         <!-- <th colspan="2"></th> -->
       </tr>
     </thead>
@@ -35,6 +34,7 @@
         <td class="staffer-w-xsm"><%= num %></td>
         <!-- <td><%#= staffer.staffer_status %></td> -->
         <!-- <td><%#= staffer.cont_status %></td> -->
+
         <td class="staffer-w-sm"><%= staffer.cont_source %></td>
 
         <!-- Account ID -->
@@ -46,7 +46,6 @@
         <td class="staffer-w-xsm fa-gray"><%= fa_icon "address-card lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Account ID" %></td>
         <% end %>
 
-
         <!-- Contact ID -->
         <% unless staffer.sfdc_cont_id == nil %>
         <td class="staffer-w-xsm fa-blue">
@@ -56,33 +55,21 @@
         <td class="staffer-w-xsm fa-gray"><%= fa_icon "user lg", "data-toggle": "tooltip", "data-placement": "top", title: "No Contact ID" %></td>
         <% end %>
 
+          <td class="staffer-w-xsm"><%= staffer.state %></td>
 
-        <!-- Dealer Website Module -->
-        <% if staffer.domain != nil %>
-        <td class="staffer-w-xsm fa-blue">
-          <span class="modalButton" data-toggle="modal" data-target="#myModal" data-src="<%= add_http(staffer.domain) %>">
-            <%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "LightBox: Dealer Site" %></span></span>
-          </td>
+          <!-- TESTING STARTS -->
+          <% if staffer.acct_name && staffer.domain %>
+            <td><%= link_to "#{staffer.acct_name}", indexer_show_detail_path(url: staffer.domain), :target => "_blank" %></td>
+          <% elsif staffer.domain %>
+            <td><%= link_to 'Indexer Link', indexer_show_detail_path(url: staffer.domain), :target => "_blank" %></td>
+          <% elsif staffer.acct_name %>
+            <td><%= staffer.acct_name %></td>
           <% else %>
-          <td class="staffer-w-xsm fa-red"><%= fa_icon "clone lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
+            <td>Not Linked</td>
           <% end %>
 
+          <!-- TESTING ENDS -->
 
-          <!-- Dealer Website External Link -->
-          <% unless staffer.domain == nil %>
-          <td class="staffer-w-xsm fa-blue">
-            <%= link_to add_http(staffer.domain), :target => "_blank" do %>
-            <%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "#{staffer.domain}" %>
-            <% end %>
-          </td>
-          <% else %>
-          <td class="staffer-w-xsm fa-red"><%= fa_icon "external-link lg", "data-toggle": "tooltip", "data-placement": "top", title: "No URL" %></td>
-          <% end %>
-
-          <td><%= staffer.state %></td>
-
-
-          <td><%= staffer.acct_name %></td>
           <td><%= staffer.job %></td>
           <td><%= staffer.job_raw %></td>
 
@@ -91,16 +78,12 @@
           <!-- <td><%#= staffer.fullname %></td> -->
 
           <td class="staffer-w-md"><%= staffer.email %></td>
-          <td class="staffer-w-md"><%= staffer.phone %></td>
+          <td class="staffer-w-sm-md"><%= staffer.phone %></td>
 
-          <td class="staffer-w-md">
+          <td class="staffer-w-sm">
             <% if staffer.scrape_date %>
               <%= staffer.scrape_date.strftime("%m/%d/%y") %>
             <% end %>
-          </td>
-
-          <td class="staffer-w-md">
-            <%= staffer.created_at %>
           </td>
 
           <!-- <% if advanced_and_up %>

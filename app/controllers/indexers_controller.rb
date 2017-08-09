@@ -123,9 +123,16 @@ class IndexersController < ApplicationController
     end
   end
 
+  ### Gahee - Links Indexer Show Detail to Contacts AND Cores!!! ###
   def show_detail
-    @core = Core.find(params[:core])
-    @indexers = Indexer.where(clean_url: @core.alt_url).where(archive: false)
+    url = if params[:core]
+      @core = Core.find(params[:core])
+      @core.alt_url
+    elsif params[:url]
+      params[:url]
+    end
+
+    @indexers = Indexer.where(clean_url: url).where(archive: false)
   end
 
 

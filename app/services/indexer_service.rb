@@ -1731,18 +1731,37 @@ class IndexerService
 
 
   def migrate_address_to_staffers
-    migrate_indexers_address_to_staffers
-    migrate_cores_address_to_staffers
+    web_staffers = Staffer.where(cont_source: 'Web', acct_name: nil)
+    web_staffers.each do |staffer|
+      # migrate_indexers_address_to_staffers(staffer)
+      delay.migrate_indexers_address_to_staffers(staffer)
+    end
+
+    crm_staffers = Staffer.where(cont_source: 'CRM', acct_name: nil)
+    crm_staffers.each do |staffer|
+      # migrate_cores_address_to_staffers(staffer)
+      delay.migrate_cores_address_to_staffers(staffer)
+    end
+
   end
 
-  def migrate_indexers_address_to_staffers
+  def migrate_indexers_address_to_staffers(staffer)
+    indexer = Indexer.find_by(clean_url: staffer.domain)
+    staffer.update_attributes(acct_name: indexer.acct_name, full_address: indexer.full_addr, street: indexer.street, city: indexer.city, state: indexer.state, zip: indexer.zip)
+  end
 
-    ActiveRecord::Base.connection.execute <<-SQL
-    UPDATE staffers
-    SET acct_name = indexers.acct_name, full_address = indexers.full_addr, street = indexers.street, city = indexers.city, state = indexers.state, zip = indexers.zip
-    FROM indexers
-    WHERE staffers.domain = indexers.clean_url AND staffers.cont_source != 'CRM';
-    SQL
+  def migrate_cores_address_to_staffers(staffer)
+    core = Core.find_by(sfdc_id: staffer.sfdc_id)
+    staffer.update_attributes(acct_name: core.sfdc_acct, full_address: core.full_address, street: core.sfdc_street, city: core.sfdc_city, state: core.sfdc_state, zip: core.sfdc_zip, domain: core.sfdc_clean_url)
+  end
+
+  # def migrate_indexers_address_to_staffers
+    # ActiveRecord::Base.connection.execute <<-SQL
+    # UPDATE staffers
+    # SET acct_name = indexers.acct_name, full_address = indexers.full_addr, street = indexers.street, city = indexers.city, state = indexers.state, zip = indexers.zip
+    # FROM indexers
+    # WHERE domain = indexers.clean_url;
+    # SQL
 
     ##################################
     # ActiveRecord::Base.connection.execute <<-SQL
@@ -1752,17 +1771,15 @@ class IndexerService
     #   WHERE staffers.domain = indexers.clean_url AND staffers.cont_source != 'CRM';
     # SQL
     ##################################
+  # end
 
-  end
-
-  def migrate_cores_address_to_staffers
-
-    ActiveRecord::Base.connection.execute <<-SQL
-    UPDATE staffers
-    SET acct_name = cores.sfdc_acct, full_address = cores.full_address, street = cores.sfdc_street, city = cores.sfdc_city, state = cores.sfdc_state, zip = cores.sfdc_zip
-    FROM cores
-    WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
-    SQL
+  # def migrate_cores_address_to_staffers
+    # ActiveRecord::Base.connection.execute <<-SQL
+    # UPDATE staffers
+    # SET acct_name = cores.sfdc_acct, full_address = cores.full_address, street = cores.sfdc_street, city = cores.sfdc_city, state = cores.sfdc_state, zip = cores.sfdc_zip
+    # FROM cores
+    # WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
+    # SQL
 
     ##################################
     # ActiveRecord::Base.connection.execute <<-SQL
@@ -1772,7 +1789,6 @@ class IndexerService
     #   WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
     # SQL
     ##################################
-
-  end
+  # end
 
 end # IndexerService class Ends ---

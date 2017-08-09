@@ -13,7 +13,8 @@
           <th class="th-2">Staffer Status</th>
           <th class="th-2">Source</th>
 
-          <th class="th-2">created_at</th>
+          <th class="th-2">Scraped After</th>
+          <th class="th-2">Scraped Before</th>
 
           <th class="th-2">Type:</th>
           <th class="th-2">Sales Tier</th>
@@ -31,21 +32,12 @@
 
           <!-- ### !! TESTING BELOW !! ### -->
           <td style="width: 200px;">
-            <%#= date_field(nil, :created_at) %>
-            <%= date_field(nil, :scraped_before) %>
-
-            <%#= date_select(nil, :created_at) %>
-            <%#= select_date Date.today, prefix: :created_at %>
-            <%#= date_select :staffer, :created_at %>
-            <%#= datetime_select(:created_at, params[:created_at]) %>
-            <%#= date_field(:staffer, :scrape_date) %>
-            <%#= date_field(:staffer, :created_at, :value => Time.now.strftime('%Y-%m-%d')) %>
-            <%#= date_field(:staffer, :created_at, :value => '2017-05-01 18:07:52') %>
-            <%#= text_field_tag :created_at, params[:created_at], :value => '2017-05-01 18:07:52', class: 'form-control' %>
-            <%#= text_field_tag :created_at, params[:created_at], placeholder: "----", class: 'form-control' %>
+            <%= date_field(nil, :scraped_after) %>
           </td>
 
-          <!-- Date.strptime("7/15/2017", '%m/%d/%Y') -->
+          <td style="width: 200px;">
+            <%= date_field(nil, :scraped_before) %>
+          </td>
 
           <!-- <th class="th-2">Type:</th> -->
           <td><%= select_tag :sfdc_type, options_for_select(@sfdc_type_opts), multiple: true, class: 'selectpicker form-control', title: "[]" %></td>
