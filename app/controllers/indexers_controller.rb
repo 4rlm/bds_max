@@ -177,11 +177,12 @@ class IndexersController < ApplicationController
     redirect_to admin_developer_path
   end
 
-  def migrate_address_to_staffers_btn #=> New Button
-    # @service.migrate_address_to_staffers
-    @service.delay.migrate_address_to_staffers
-    redirect_to admin_developer_path
-  end
+  # Moved this to script
+  # def migrate_address_to_staffers_btn #=> New Button
+  #   # @service.migrate_address_to_staffers
+  #   @service.delay.migrate_address_to_staffers
+  #   redirect_to admin_developer_path
+  # end
 
   def id_sorter_btn
     # Step 1: ID Sorters (4 methods)
