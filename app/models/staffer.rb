@@ -3,19 +3,18 @@ class Staffer < ApplicationRecord
   include CSVTool
 
   # == Multi-Select Search ==
+  scope :scraped_after, ->(date_time) { where("scrape_date > ?", date_time) }
+  scope :scraped_before, ->(date_time) { where("scrape_date < ?", date_time) }
+  scope :cont_source, -> (cont_source) { where cont_source: cont_source }
+  scope :state, -> (state) { where state: state }
+  scope :email_status, -> (bools) { bools.first == 'true' ? where.not(email: nil) : where(email: nil) }
+  scope :job, -> (job) { where job: job }
+
   scope :staffer_status, -> (staffer_status) { where staffer_status: staffer_status }
   scope :sfdc_sales_person, -> (sfdc_sales_person) { where sfdc_sales_person: sfdc_sales_person }
   scope :sfdc_type, -> (sfdc_type) { where sfdc_type: sfdc_type }
   scope :sfdc_tier, -> (sfdc_tier) { where sfdc_tier: sfdc_tier }
   scope :cont_status, -> (cont_status) { where cont_status: cont_status }
-  scope :cont_source, -> (cont_source) { where cont_source: cont_source }
-  scope :job, -> (job) { where job: job }
-  scope :state, -> (state) { where state: state }
-  scope :email_status, -> (bools) { bools.first == 'true' ? where.not(email: nil) : where(email: nil) }
-
-  ### !! TESTING BELOW !! ###
-  scope :scraped_before, ->(date_time) { where("scrape_date < ?", date_time) }
-  scope :scraped_after, ->(date_time) { where("scrape_date > ?", date_time) }
 
   # == Key Word Search ==
   scope :sfdc_id, -> (sfdc_id) { where("sfdc_id like ?", "%#{sfdc_id}%") }

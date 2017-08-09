@@ -11,27 +11,27 @@ class StaffersController < ApplicationController
 
   def index
     if choice_hash = get_selected_status_staffer
-      clean_choice_hash = {}
+      @clean_choice_hash = {}
       @view_mode = choice_hash[:view_mode]
 
       choice_hash.each do |key, value|
-        clean_choice_hash[key] = value if !value.nil? && value != "" && key != :view_mode
+        @clean_choice_hash[key] = value if !value.nil? && value != "" && key != :view_mode
       end
-      divided_hash = choice_hash_divider(clean_choice_hash)
+      divided_hash = choice_hash_divider(@clean_choice_hash)
       @selected_data = Staffer.where(divided_hash[:only_attrs])
       @selected_data = applied_non_attrs(@selected_data, divided_hash[:non_attrs])
-      # binding.pry
     else # choice_hash is nil
-      @selected_data = Staffer.all.order(created_at: :desc)
+      @selected_data = Staffer.all
     end
 
     if url = params[:url]
-      @selected_data = @selected_data.where(domain: url).order(created_at: :desc)
-    else
-      @selected_data = @selected_data.order(created_at: :desc)
+      @selected_data = @selected_data.where(domain: url)
     end
+
     @staffer_count = Staffer.count
     @selected_staffer_count = @selected_data.count
+
+    @selected_data = @selected_data.order(:acct_name, :lname, :fname, scrape_date: :desc)
 
     # CSV #
     respond_to do |format|
@@ -39,7 +39,7 @@ class StaffersController < ApplicationController
       format.csv { render text: @selected_data.to_csv }
     end
 
-    @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 40)
+    @staffers = @selected_data.filter(filtering_params(params)).paginate(:page => params[:page], :per_page => 50)
 
     batch_status
   end
