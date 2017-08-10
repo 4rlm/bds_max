@@ -49,13 +49,15 @@ class CsHelper # Contact Scraper Helper Method
         staffer.cont_status    = "CS Result"
         staffer.staffer_status = "CS Result"
         staffer.template       = indexer.template
+        staffer.acct_name      = indexer.acct_name
+        staffer.full_address   = indexer.full_addr
+        staffer.street         = indexer.street
+        staffer.city           = indexer.city
+        staffer.state          = indexer.state
+        staffer.zip            = indexer.zip
       end
 
       staff.update_attributes(scrape_date: DateTime.now) if staff
-      # if staff && staff.scrape_date <= "#{Date.today - 1.day}"
-        # if staff && staff.scrape_date <= ?', Date.today - 1.day)
-        # Staffer.where.not('updated_at <= ?', Date.today - 1.day)
-      # end
 
       ph = staff_hash[:phone]
       phones << ph if ph && !ph.blank? && !phones.include?(ph)

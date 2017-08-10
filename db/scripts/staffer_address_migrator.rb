@@ -1,31 +1,3 @@
-# require 'rubygems'
-
-# Author.all.each do |a|
-#   user = User.new(
-#     :username => a.name.downcase.strip,
-#     :encrypted_password => '',
-#     :email => '',
-#     :avatar_file_name => a.avatar_updated_at,
-#     :avatar_content_type => a.avatar_content_type,
-#     :avatar_file_size => a.avatar_file_size,
-#     :avatar_updated_at => a.avatar_updated_at,
-#     :role_id => "3"
-#   )
-#   user.save!
-# end
-
-## From console run :
-## $ rails runner db/scripts/staffer_address_migrator.rb
-
-
-########################
-
-# def migrate_address_to_staffers_btn #=> New Button
-#   # @service.migrate_address_to_staffers
-#   @service.delay.migrate_address_to_staffers
-#   redirect_to admin_developer_path
-# end
-
 require 'rubygems'
 
 class StafferAddressMigrator
@@ -81,40 +53,47 @@ staffer_address_migrator = StafferAddressMigrator.new
 staffer_address_migrator.start
 ######################
 # $ rails runner db/scripts/staffer_address_migrator.rb
-######################
+# $ heroku run rails runner db/scripts/staffer_address_migrator.rb --app bds-max
+#######################################
 
-  # def migrate_indexers_address_to_staffers
-    # ActiveRecord::Base.connection.execute <<-SQL
-    # UPDATE staffers
-    # SET acct_name = indexers.acct_name, full_address = indexers.full_addr, street = indexers.street, city = indexers.city, state = indexers.state, zip = indexers.zip
-    # FROM indexers
-    # WHERE domain = indexers.clean_url;
-    # SQL
 
-    ##################################
-    # ActiveRecord::Base.connection.execute <<-SQL
-    #   UPDATE staffers
-    #   SET acct_name = NULL, full_address = NULL, street = NULL, city = NULL, state = NULL, zip = NULL
-    #   FROM indexers
-    #   WHERE staffers.domain = indexers.clean_url AND staffers.cont_source != 'CRM';
-    # SQL
-    ##################################
-  # end
 
-  # def migrate_cores_address_to_staffers
-    # ActiveRecord::Base.connection.execute <<-SQL
-    # UPDATE staffers
-    # SET acct_name = cores.sfdc_acct, full_address = cores.full_address, street = cores.sfdc_street, city = cores.sfdc_city, state = cores.sfdc_state, zip = cores.sfdc_zip
-    # FROM cores
-    # WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
-    # SQL
 
-    ##################################
-    # ActiveRecord::Base.connection.execute <<-SQL
-    #   UPDATE staffers
-    #   SET acct_name = NULL, full_address = NULL, street = NULL, city = NULL, state = NULL, zip = NULL
-    #   FROM cores
-    #   WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
-    # SQL
-    ##################################
-  # end
+#######################################
+### OLD SQL METHOD FOR SAME.  WAS WORKING, THEN NOT.  THIS IS POWERFUL AND FAST WHEN WORKING RIGHT. ###
+
+# def migrate_indexers_address_to_staffers
+  # ActiveRecord::Base.connection.execute <<-SQL
+  # UPDATE staffers
+  # SET acct_name = indexers.acct_name, full_address = indexers.full_addr, street = indexers.street, city = indexers.city, state = indexers.state, zip = indexers.zip
+  # FROM indexers
+  # WHERE domain = indexers.clean_url;
+  # SQL
+
+  ##################################
+  # ActiveRecord::Base.connection.execute <<-SQL
+  #   UPDATE staffers
+  #   SET acct_name = NULL, full_address = NULL, street = NULL, city = NULL, state = NULL, zip = NULL
+  #   FROM indexers
+  #   WHERE staffers.domain = indexers.clean_url AND staffers.cont_source != 'CRM';
+  # SQL
+  ##################################
+# end
+
+# def migrate_cores_address_to_staffers
+  # ActiveRecord::Base.connection.execute <<-SQL
+  # UPDATE staffers
+  # SET acct_name = cores.sfdc_acct, full_address = cores.full_address, street = cores.sfdc_street, city = cores.sfdc_city, state = cores.sfdc_state, zip = cores.sfdc_zip
+  # FROM cores
+  # WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
+  # SQL
+
+  ##################################
+  # ActiveRecord::Base.connection.execute <<-SQL
+  #   UPDATE staffers
+  #   SET acct_name = NULL, full_address = NULL, street = NULL, city = NULL, state = NULL, zip = NULL
+  #   FROM cores
+  #   WHERE staffers.sfdc_id = cores.sfdc_id AND staffers.cont_source = 'CRM';
+  # SQL
+  ##################################
+# end
