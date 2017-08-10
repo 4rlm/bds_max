@@ -143,8 +143,8 @@ class StaffersController < ApplicationController
 
   ### Step 1 of Staffer Scraper - Starts Here
   def cs_starter_btn
-    # @staffer_service.delay.cs_starter
-    @staffer_service.cs_starter
+    @staffer_service.delay.cs_starter
+    # @staffer_service.cs_starter
     # redirect_to staffers_path
     redirect_to admin_developer_path
   end
