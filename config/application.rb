@@ -3,6 +3,7 @@ require_relative 'boot'
 require 'csv'
 require 'rails/all'
 require 'pry'
+require 'rainbow'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -14,5 +15,7 @@ module Bigdatasage
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths << File.join(config.root, "lib")
+
+    config.autoload_paths += %W(#{config.root}/controllers/concerns)
   end
 end

@@ -61,6 +61,7 @@ gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.0'
 gem 'delayed_job_web'
 gem 'foreman', '~> 0.82.0'
+gem 'rainbow', '~> 2.2', '>= 2.2.2'
 
 gem 'google_custom_search_api'
 gem 'pry'

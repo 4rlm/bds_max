@@ -1,4 +1,6 @@
 class StaffersController < ApplicationController
+  include InternetConnectionValidator
+
   before_action :intermediate_and_up, only: [:index, :show, :search, :acct_contacts]
   before_action :advanced_and_up, only: [:edit, :update]
   before_action :admin_only, only: [:new, :create, :destroy, :import_page, :import_csv_data, :staffer_sfdc_id_cleaner_btn, :cs_starter_btn, :staffer_power_btn, :crm_staff_counter_btn]
@@ -141,8 +143,10 @@ class StaffersController < ApplicationController
 
   ### Step 1 of Staffer Scraper - Starts Here
   def cs_starter_btn
-    @staffer_service.delay.cs_starter
-    redirect_to staffers_path
+    # @staffer_service.delay.cs_starter
+    @staffer_service.cs_starter
+    # redirect_to staffers_path
+    redirect_to admin_developer_path
   end
 
   # ========== Temporary/Power Button ==========

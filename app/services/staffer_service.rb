@@ -12,134 +12,33 @@ require 'staffer_helper/dealer_com_cs'
 require 'indexer_helper/rts/rts_manager'
 
 class StafferService
-  ### !! REPLACE SCRAPE DATE WITH THIS IN QUERY AFTER ALL HAVE DATES. ###
-  # Indexer.where.not('scrape_date <= ?', Date.today - 1.week).count
-  # Staffer.where.not('updated_at <= ?', Date.today - 1.day).count
-  # indexer_status: cs_error_code
-  # ###################################
+  include InternetConnectionValidator
 
   def cs_starter
-    queried_ids = Indexer.select(:id).where.not(staff_url: nil).where(scrape_date: nil).pluck(:id).sort
-    nested_ids = queried_ids.in_groups(5)
+    ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort.pluck(:id)
 
-    nested_ids.each do |ids|
-      nested_iterator(ids)
-    end
-  end
-
-  def nested_iterator(ids)
-    ids.each do |id|
-      delay.cs_data_getter(id)
-    end
+    ids.each { |id| delay.template_starter(id) }
   end
 
   def view_indexer_current_db_info(indexer)
     puts "\n=== Current DB Info ===\n"
     puts "indexer_status: #{indexer.indexer_status}"
-    puts "staff_url: #{indexer.template}"
+    puts "template: #{indexer.template}"
     puts "staff_url: #{indexer.staff_url}"
     puts "web_staff_count: #{indexer.web_staff_count}"
     puts "scrape_date: #{indexer.scrape_date}"
     puts "#{"="*30}\n\n"
   end
 
-  #### MOVE THIS TO CONCERNS CLASS/MODULE - START ####
-  def ping_url
-    pingable_urls = %w(
-    http://speedtest.hafslundtelekom.net/
-    http://www.whatsmyip.org/
-    https://fast.com/
-    http://speedtest.xfinity.com/
-    https://www.iplocation.net/
-    https://www.wikipedia.org/
-    http://www.bandwidthplace.com/
-    http://www.speedinternet.co/
-    https://www.google.com/)
-    pingable_urls.sample
-  end
-
-  def test_internet_connection
-    sample_url = ping_url
-    begin
-      result = true if open(ping_url)
-    rescue
-      result = false
-    end
-
-    puts "Internet Connection: #{result} via #{sample_url} ==="
-    result
-  end
-
-  def url_exist?(url_string)
-    begin
-      url = URI.parse(url_string)
-      req = Net::HTTP.new(url.host, url.port)
-      req.use_ssl = (url.scheme == 'https')
-      res = req.request_head(url || '/')
-      if res.kind_of?(Net::HTTPRedirection)
-        url_exist?(res['location']) # Go after any redirect and make sure you can access the redirected URL
-      else
-        res.code[0] != "4" #false if http code starts with 4 - error on your side.
-      end
-    rescue
-      # puts $!.message
-      false #false if can't find the server
-    end
-  end
-
-  def validate_url(url_string)
-    if url_exist?(url_string)
-      puts "=== GOOD URL ===\nURL: #{url_string}"
-    else
-      if test_internet_connection
-        puts "=== BAD URL ===\nURL: #{url_string}"
-      else
-        connection = false
-        ping_attempt_count = 1
-
-        while !connection
-          sleep_time = 5 * ping_attempt_count
-          puts "\nNO INTERNET CONNECTION\nCONNECTION TEST ATTEMPTS: #{ping_attempt_count}\nTRY AGAIN IN: #{sleep_time} SECONDS\n#{"="*30}\n\n"
-          sleep(sleep_time)
-          connection = test_internet_connection
-          ping_attempt_count += 1
-          break if connection
-        end
-        validate_url(url_string)
-      end
-    end
-    # sleep(0.015)
-  end
-
-  def start_mechanize(url_string)
-    begin
-      @agent = Mechanize.new
-      html = @agent.get(url_string)
-    rescue
-      if validate_url(url_string)
-        start_mechanize(url_string)
-      end
-    end
-  end
-
-  #### MOVE THIS TO CONCERNS CLASS/MODULE - END ####
-
-  def cs_data_getter(id)
+  def template_starter(id)
     indexer = Indexer.find(id)
     view_indexer_current_db_info(indexer)
-    template = indexer.template
     url = indexer.staff_url
-
-    if start_mechanize(url)
-      puts "=== GOOD URL ===\nURL: #{url}"
-      html = start_mechanize(url)
-    else
-      puts "ResponseCodeError occurred"
-      indexer.update_attributes(scrape_date: DateTime.now, indexer_status: "invalid staff_url", contact_status: "invalid staff_url")
-      return
-    end
+    start_mechanize(url) #=> returns @html
+    html = @html
 
     begin
+      template = indexer.template
       case template
       when "Dealer.com"
         DealerComCs.new.contact_scraper(html, url, indexer)
@@ -160,25 +59,25 @@ class StafferService
       end
 
     rescue
-      error = $!.message
-      error_msg = "CS Error: #{error}"
-      if error_msg.include?("connection refused")
+      error_msg = "CS Error: #{@html_error}"
+      if error_msg.include?("404 => Net::HTTPNotFound")
+        cs_error_code = "404 Error"
+      elsif error_msg.include?("connection refused")
         cs_error_code = "Connection Error"
       elsif error_msg.include?("undefined method")
         cs_error_code = "Method Error"
-      elsif error_msg.include?("404 (Net::HTTPNotFound)")
-        cs_error_code = "404 Error"
       elsif error_msg.include?("TCP connection")
         cs_error_code = "TCP Error"
       else
         cs_error_code = "CS Error"
       end
 
-      puts "\n\n==== Error: #{cs_error_code} ====\n\n"
+      puts "=== #{cs_error_code}: #{url}\n\n"
 
       indexer.update_attributes(scrape_date: DateTime.now, indexer_status: cs_error_code, contact_status: cs_error_code)
 
     end ## rescue ends
+
   end
 
   ################################################################
