@@ -1,9 +1,9 @@
 ## $ rails runner "StafferAddressMigratorJob.perform_later"
 
 class StafferAddressMigratorJob < ApplicationJob
-  self.queue_adapter = :sidekiq
+  # self.queue_adapter = :sidekiq
   # queue_as :critical
-  # self.queue_adapter = :delayed_job
+  self.queue_adapter = :delayed_job
 
   def perform
     puts "\n\n#{"="*40}\nPerforming: StafferAddressMigratorJob ...\n#{"="*40}"
