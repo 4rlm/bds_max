@@ -157,6 +157,10 @@ class StaffersController < ApplicationController
     redirect_to indexers_path
   end
 
+  def run_dj
+    puts "This is a sample of calling dj in command line."
+  end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.

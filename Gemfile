@@ -53,13 +53,19 @@ gem 'font-awesome-rails'
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
 
-
 # ruby "2.3.1"
 
-gem 'mechanize'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.0'
 gem 'delayed_job_web'
+
+
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
+
+gem 'mechanize'
 gem 'foreman', '~> 0.82.0'
 gem 'rainbow', '~> 2.2', '>= 2.2.2'
 
