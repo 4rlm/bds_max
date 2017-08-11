@@ -1,31 +1,31 @@
 source 'https://rubygems.org'
 
+gem 'bundler', '~> 1.15', '>= 1.15.3'
+ruby '2.3.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails'
+gem 'rails', '~> 5.1', '>= 5.1.3'
 # Use sqlite3 as the database for Active Record
-gem 'pg'
+gem 'pg', '~> 0.21.0'
 # Use Puma as the app server
-gem 'puma'
+gem 'puma', '~> 3.9', '>= 3.9.1'
 # Use SCSS for stylesheets
-gem 'sass-rails'
+gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier'
+gem 'uglifier', '~> 3.2'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
+gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '~> 5.0', '>= 5.0.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder'
+gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
-gem 'redis'
+gem 'redis', '~> 3.3', '>= 3.3.3'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
+# gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -36,8 +36,8 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console'
-  gem 'listen'
+  gem 'web-console', '~> 3.5', '>= 3.5.1'
+  gem 'listen', '~> 3.1', '>= 3.1.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
   # gem 'spring-watcher-listen', '~> 2.0.0'
@@ -46,38 +46,31 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'bootstrap-sass'
-gem 'font-awesome-rails'
+gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
+gem 'will_paginate', '~> 3.1', '>= 3.1.6'
+gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.1'
 
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
-
-# ruby '2.4.1'
-
-gem 'delayed_job'
-gem 'delayed_job_active_record'
-gem 'delayed_job_web'
-
-gem 'daemons'
-gem 'sidekiq'
+gem 'delayed_job', '~> 4.1', '>= 4.1.2'
+gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
+gem 'delayed_job_web', '~> 1.2', '>= 1.2.10'
+gem 'daemons', '~> 1.2', '>= 1.2.4'
+gem 'sidekiq', '~> 5.0', '>= 5.0.4'
 gem 'sinatra', require: false
-gem 'slim'
+gem 'slim', '~> 3.0', '>= 3.0.8'
+gem 'connection_pool', '~> 2.2', '>= 2.2.1'
+gem 'mechanize', '~> 2.7', '>= 2.7.5'
+gem 'foreman', '~> 0.84.0'
+gem 'rainbow', '~> 2.2', '>= 2.2.2'
+gem 'pry', '~> 0.10.4'
 
-gem 'connection_pool'
-
-
-gem 'mechanize'
-gem 'foreman'
-gem 'rainbow'
-
-gem 'google_custom_search_api'
-gem 'pry'
-gem 'geocoder'
-gem 'google_places'
-gem 'gmaps4rails'
-gem 'underscore-rails'
-gem 'devise'
-gem 'figaro'
-gem 'curb'
-gem 'whois'
-gem 'chartkick'
+gem 'geocoder', '~> 1.4', '>= 1.4.4'
+gem 'google_custom_search_api', '~> 2.0'
+gem 'google_places', '~> 0.34.2'
+gem 'gmaps4rails', '~> 2.1', '>= 2.1.2'
+gem 'underscore-rails', '~> 1.8', '>= 1.8.3'
+gem 'devise', '~> 4.3'
+gem 'figaro', '~> 1.1', '>= 1.1.1'
+gem 'curb', '~> 0.9.3'
+gem 'whois', '~> 4.0', '>= 4.0.4'
+gem 'chartkick', '~> 2.2', '>= 2.2.4'
