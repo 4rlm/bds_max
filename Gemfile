@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'bundler', '~> 1.15', '>= 1.15.3'
+gem 'bundler', '~> 1.15.3'
 ruby '2.3.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1', '>= 5.1.3'
@@ -23,7 +23,7 @@ gem 'turbolinks', '~> 5.0', '>= 5.0.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 3.3', '>= 3.3.3'
+# gem 'redis', '~> 3.3', '>= 3.3.3'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 # Use Capistrano for deployment
@@ -55,10 +55,10 @@ gem 'delayed_job', '~> 4.1', '>= 4.1.2'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 gem 'delayed_job_web', '~> 1.2', '>= 1.2.10'
 gem 'daemons', '~> 1.2', '>= 1.2.4'
-gem 'sidekiq', '~> 5.0', '>= 5.0.4'
-gem 'sinatra', require: false
-gem 'slim', '~> 3.0', '>= 3.0.8'
-gem 'connection_pool', '~> 2.2', '>= 2.2.1'
+# gem 'sidekiq', '~> 5.0', '>= 5.0.4'
+# gem 'sinatra', require: false
+# gem 'slim', '~> 3.0', '>= 3.0.8'
+# gem 'connection_pool', '~> 2.2', '>= 2.2.1'
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'foreman', '~> 0.84.0'
 gem 'rainbow', '~> 2.2', '>= 2.2.2'
