@@ -27,10 +27,10 @@
 
 default: &default
   adapter: postgresql
-  pool: 15
+  pool: 10
   timeout: 5000
   url:  <%= ENV["DATABASE_URL"] %>
-  pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 15 %>
+  pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 10 %>
   # username: Adam
   # password:
 
