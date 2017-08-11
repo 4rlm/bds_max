@@ -57,13 +57,16 @@ gem 'will_paginate-bootstrap'
 
 gem 'delayed_job'
 gem 'delayed_job_active_record'
-gem 'daemons'
 gem 'delayed_job_web'
 
-
+gem 'daemons'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
+
+gem 'redis'
+gem 'connection_pool'
+
 
 gem 'mechanize'
 gem 'foreman', '~> 0.82.0'

@@ -96,7 +96,6 @@ Rails.application.routes.draw do
   get 'summarize_data' => 'dashboards#summarize_data'
   get 'dashboard_power_btn' => 'dashboards#dashboard_power_btn'
 
-
   devise_for :users
 
   #==== Delayed_Jobs_Interface Starts=========
