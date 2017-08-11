@@ -1,26 +1,26 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
 gem 'redis'
 # Use ActiveModel has_secure_password
@@ -37,7 +37,7 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
-  gem 'listen', '~> 3.0.5'
+  gem 'listen'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
   # gem 'spring-watcher-listen', '~> 2.0.0'
@@ -49,10 +49,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 
-gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
-ruby '2.4.1'
+# ruby '2.4.1'
 
 gem 'delayed_job'
 gem 'delayed_job_active_record'
@@ -67,17 +67,17 @@ gem 'connection_pool'
 
 
 gem 'mechanize'
-gem 'foreman', '~> 0.82.0'
-gem 'rainbow', '~> 2.2', '>= 2.2.2'
+gem 'foreman'
+gem 'rainbow'
 
 gem 'google_custom_search_api'
 gem 'pry'
 gem 'geocoder'
 gem 'google_places'
 gem 'gmaps4rails'
-gem 'underscore-rails', '~> 1.8', '>= 1.8.3'
+gem 'underscore-rails'
 gem 'devise'
 gem 'figaro'
-gem 'curb', '~> 0.9.3'
-gem 'whois', '~> 3.6', '>= 3.6.5'
+gem 'curb'
+gem 'whois'
 gem 'chartkick'
