@@ -53,7 +53,7 @@ gem 'font-awesome-rails'
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
 
-# ruby "2.3.1"
+ruby '2.2.6'
 
 gem 'delayed_job'
 gem 'delayed_job_active_record'
