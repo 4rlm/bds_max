@@ -135,10 +135,42 @@ class IndexersController < ApplicationController
     @indexers = Indexer.where(clean_url: url).where(archive: false)
   end
 
+    ## ===== Main Buttons Start ===== ##
 
+    def rooftop_data_getter_btn
+      @service.delay.rooftop_data_getter
+      #   @service.delay.rooftop_data_getter
 
+      redirect_to admin_developer_path
+    end
 
-  ### =============== BUTTONS Start ===============
+    def meta_scraper_btn
+      @service.delay.meta_scraper
+      # @service.delay.meta_scraper
+
+      redirect_to admin_developer_path
+    end
+
+    def url_redirect_checker_btn
+      @service.delay.url_redirect_checker
+      # @service.delay.url_redirect_checker
+    end
+
+    def page_finder_btn
+      @service.delay.page_finder_starter
+      # @service.delay.page_finder_starter
+      #   @service.url_importer
+
+      redirect_to admin_developer_path
+    end
+
+    def template_finder_btn
+      #   @service.template_finder
+      #   @service.delay.template_finder
+      redirect_to admin_developer_path
+    end
+
+    ## ===== Main Buttons End ===== ##
 
   def finalizer_btn
     # Step 1: ID Sorters (4 methods)
@@ -266,54 +298,12 @@ class IndexersController < ApplicationController
     redirect_to admin_developer_path
   end
 
-  def url_redirect_checker_btn
-    @service.delay.url_redirect_checker
-    # @service.delay.url_redirect_checker
-  end
-
-
-
   def reset_errors_btn
     # @service.reset_errors
-
     redirect_to admin_developer_path
   end
-
-
-  def page_finder_btn
-    @service.delay.page_finder_starter
-    # @service.delay.page_finder_starter
-    #   @service.url_importer
-
-    redirect_to admin_developer_path
-  end
-
-  def template_finder_btn
-    #   @service.template_finder
-    #   @service.delay.template_finder
-    redirect_to admin_developer_path
-  end
-
-
-  def rooftop_data_getter_btn
-    @service.delay.rooftop_data_getter
-    #   @service.delay.rooftop_data_getter
-
-    redirect_to admin_developer_path
-  end
-
-  def meta_scraper_btn
-    @service.delay.meta_scraper
-    # @service.delay.meta_scraper
-
-    redirect_to admin_developer_path
-  end
-
-
 
   ### =============== BUTTONS End ===============
-
-
 
 
   private
