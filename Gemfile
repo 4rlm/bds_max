@@ -56,9 +56,7 @@ gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 gem 'delayed_job_web', '~> 1.2', '>= 1.2.10'
 gem 'daemons', '~> 1.2', '>= 1.2.4'
 # gem 'sidekiq', '~> 5.0', '>= 5.0.4'
-# gem 'sinatra', require: false
-# gem 'slim', '~> 3.0', '>= 3.0.8'
-# gem 'connection_pool', '~> 2.2', '>= 2.2.1'
+gem 'sinatra', require: false
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'foreman', '~> 0.84.0'
 gem 'rainbow', '~> 2.2', '>= 2.2.2'
