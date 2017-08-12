@@ -15,9 +15,10 @@ class StafferService
   include InternetConnectionValidator
 
   def cs_starter
-    queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort.pluck(:id)
+    # Completed this Query
+    # queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort.pluck(:id)
 
-    nested_ids = queried_ids.in_groups(10)
+    nested_ids = queried_ids.in_groups(25)
     nested_ids.each { |ids| delay.nested_iterator(ids) }
   end
 
