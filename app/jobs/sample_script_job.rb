@@ -2,12 +2,20 @@
 # $ rails runner "SampleScriptJob.perform_later"
 # $ heroku run rails runner "SampleScriptJob.perform_later" --app bds-max
 
-class SampleScriptJob < ApplicationJob
-  queue_as :default
+# class SampleScriptJob < ApplicationJob
+class SampleScriptJob < ActiveJob::Base
+  # queue_as :default
   def perform
     puts "\n\n#{"="*40}\nSampleScriptJob - Initialized!"
     SampleScript.new.delay.sample_script_starter
+    # handle_asynchronously :perform, :priority => 0, :run_at => Time.now
   end
+
+
+  # def reschedule_at(current_time, attempts)
+  #   current_time + 5.seconds
+  # end
+
 end
 ############################################
 

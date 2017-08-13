@@ -15,6 +15,8 @@ gem 'uglifier', '~> 3.2'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
+# Use Redis adapter to run Action Cable in production
+gem 'redis', '~> 3.3', '>= 3.3.1'
 # gem 'therubyracer', platforms: :ruby
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
@@ -22,8 +24,6 @@ gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'turbolinks', '~> 5.0', '>= 5.0.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.3', '>= 3.3.3'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 # Use Capistrano for deployment
@@ -55,8 +55,13 @@ gem 'delayed_job', '~> 4.1', '>= 4.1.2'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 gem 'delayed_job_web', '~> 1.2', '>= 1.2.10'
 gem 'daemons', '~> 1.2', '>= 1.2.4'
-# gem 'sidekiq', '~> 5.0', '>= 5.0.4'
+
+gem 'sidekiq'
 gem 'sinatra', require: false
+gem 'slim'
+# gem 'thin', '~> 1.7'
+
+
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'foreman', '~> 0.84.0'
 gem 'rainbow', '~> 2.2', '>= 2.2.2'
