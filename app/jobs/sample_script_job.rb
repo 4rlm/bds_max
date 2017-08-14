@@ -7,7 +7,9 @@ class SampleScriptJob < ActiveJob::Base
   # queue_as :default
   def perform
     puts "\n\n#{"="*40}\nSampleScriptJob - Initialized!"
-    SampleScript.new.delay.sample_script_starter
+    # SampleScript.new.sample_script_starter
+    SampleScript.new.sample_script_starter
+
     # handle_asynchronously :perform, :priority => 0, :run_at => Time.now
   end
 
@@ -26,21 +28,21 @@ class SampleScript
   end
 
   def sample_script_starter
-    queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort[0...4].pluck(:id)
+    queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort[0...50].pluck(:id)
 
-    nested_ids = queried_ids.in_groups(2)
+    nested_ids = queried_ids.in_groups(10)
     nested_ids.each { |ids| delay.nested_iterator(ids) }
     # nested_ids.each { |ids| nested_iterator(ids) }
   end
 
   def nested_iterator(ids)
-    ids.each { |id| template_starter(id) }
-    # ids.each { |id| delay.template_starter(id) }
+    # ids.each { |id| template_starter(id) }
+    ids.each { |id| delay.template_starter(id) }
   end
 
   def template_starter(id)
     indexer = Indexer.find(id)
-    view_indexer_current_db_info(indexer)
+    delay.view_indexer_current_db_info(indexer)
     # url = indexer.staff_url
     # start_mechanize(url) #=> returns @html
     # html = @html

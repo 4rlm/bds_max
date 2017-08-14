@@ -16,7 +16,7 @@ class StafferService
 
   def cs_starter
     # Completed this Query
-    # queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort.pluck(:id)
+    queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort.pluck(:id)
 
     nested_ids = queried_ids.in_groups(25)
     nested_ids.each { |ids| delay.nested_iterator(ids) }
@@ -24,7 +24,6 @@ class StafferService
 
   def nested_iterator(ids)
     ids.each { |id| delay.template_starter(id) }
-    # ids.each { |id| template_starter(id) }
   end
 
   def view_indexer_current_db_info(indexer)

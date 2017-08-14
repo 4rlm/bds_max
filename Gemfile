@@ -15,8 +15,7 @@ gem 'uglifier', '~> 3.2'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 3.3', '>= 3.3.1'
+
 # gem 'therubyracer', platforms: :ruby
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
@@ -41,6 +40,18 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
   # gem 'spring-watcher-listen', '~> 2.0.0'
+
+  ######## Adam's ########
+  gem 'sidekiq'
+  gem 'sinatra', require: false
+  gem 'slim'
+  # gem 'thin', '~> 1.7'
+
+  # Use Redis adapter to run Action Cable in production
+  gem 'redis', '~> 3.3', '>= 3.3.1'
+
+  ## This is attempt to replace daemons for multiple workers.
+  #gem 'delayed_job_worker_pool', '~> 0.2.3'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -51,16 +62,10 @@ gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
 gem 'will_paginate', '~> 3.1', '>= 3.1.6'
 gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.1'
 
-gem 'delayed_job', '~> 4.1', '>= 4.1.2'
+gem 'daemons', '~> 1.2', '>= 1.2.4'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 gem 'delayed_job_web', '~> 1.2', '>= 1.2.10'
-gem 'daemons', '~> 1.2', '>= 1.2.4'
-
-gem 'sidekiq'
-gem 'sinatra', require: false
-gem 'slim'
-# gem 'thin', '~> 1.7'
-
+gem 'delayed_job', '~> 4.1', '>= 4.1.2'
 
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'foreman', '~> 0.84.0'

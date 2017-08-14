@@ -1,8 +1,8 @@
 web:            bundle exec rails server -p $PORT
 worker:         bundle exec foreman start -f Procfile.workers
-puma:           tail -f log/development.log
+# puma:           bundle exec tail -f log/development.log
 
-
+# NUM_WORKERS=4 delayed_job_worker_pool ./config/delayed_job_worker_pool.rb
 # redis:          bundle exec redis-server /usr/local/etc/redis.conf
 # sidekiq:        bundle exec sidekiq -C config/sidekiq.yml
 # worker:         bundle exec sidekiq -q default -c 2
