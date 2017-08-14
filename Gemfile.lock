@@ -292,7 +292,6 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass (~> 3.3, >= 3.3.7)
-  bundler (~> 1.15.3)
   byebug
   chartkick (~> 2.2, >= 2.2.4)
   coffee-rails (~> 4.2, >= 4.2.2)
