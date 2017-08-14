@@ -55,6 +55,8 @@ gem 'curb', '~> 0.9.3'
 gem 'whois', '~> 4.0', '>= 4.0.4'
 gem 'chartkick', '~> 2.2', '>= 2.2.4'
 
+gem 'foreman', '~> 0.84.0'
+
 ## DEVELOPMENT & TEST GEMS BELOW => :development group, :test group
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -72,8 +74,6 @@ group :development do
 
   gem 'rainbow', '~> 2.2', '>= 2.2.2'
   gem 'pry', '~> 0.10.4'
-
-  gem 'foreman', '~> 0.84.0'
 
   gem 'sidekiq'
   gem 'sinatra', require: false
