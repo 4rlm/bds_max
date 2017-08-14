@@ -157,11 +157,6 @@ class StaffersController < ApplicationController
     redirect_to indexers_path
   end
 
-  def run_dj
-    puts "This is a sample of calling dj in command line."
-  end
-
-
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_staffer
@@ -239,4 +234,5 @@ class StaffersController < ApplicationController
     non_attrs.each { |k, v| result = result.send(k, v) }
     result
   end
+  
 end

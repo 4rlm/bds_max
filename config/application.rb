@@ -1,12 +1,14 @@
 require_relative 'boot'
 require 'csv'
 require 'rails/all'
-require 'pry'
-require 'rainbow'
+# require 'pry'
+# require 'rainbow'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
+### ORIGINAL SETTINGS: Require the gems listed in Gemfile, including any gems you've limited to :test, :development, or :production.
+# Bundler.require(*Rails.groups)
+
+### ADAM SETTINGS: ONLY REQUIRE THE PRODUCTION GEMS:
+Bundler.require(:default, Rails.env)
 
 module Bigdatasage
   class Application < Rails::Application
@@ -20,7 +22,7 @@ module Bigdatasage
     ## 8/10/16 Added this for Delayed Job, per blog.
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
-    config.active_job.queue_adapter = :delayed_job
     # config.active_job.queue_adapter = :sidekiq
+    # config.active_job.queue_adapter = :delayed_job
   end
 end
