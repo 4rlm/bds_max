@@ -3,6 +3,10 @@ class VerifyUrl
   include UrlRedirector #=> concerns/url_redirector.rb
   # Call: IndexerService.new.start_url_redirect
 
+  def initialize
+    puts "Welcome!  You've made it!"
+  end
+
   def starter
     puts ">> VerifyUrl..."
     query_regulator
@@ -13,7 +17,7 @@ class VerifyUrl
     ## Currently configured to verify if clean_url still valid, so raw_url is set to clean_url.
     ## Important to SORT!, or else continue logic will fail.
     begin
-      queried_ids = Indexer.select(:id).where.not(indexer_status: "Archived").where(url_redirect_date: nil).sort[0..4].pluck(:id)
+      queried_ids = Indexer.select(:id).where.not(indexer_status: "Archived").where(url_redirect_date: nil).sort[0...20].pluck(:id)
     rescue
       queried_ids = []
     end
@@ -39,14 +43,14 @@ class VerifyUrl
   end
 
   def query_iterator(queried_ids)
-    nested_ids = queried_ids.in_groups(2)
-    # nested_ids.each { |ids| delay.nested_iterator(ids) }
-    nested_ids.each { |ids| nested_iterator(ids) }
+    nested_ids = queried_ids.in_groups(4)
+    nested_ids.each { |ids| delay.nested_iterator(ids) }
+    # nested_ids.each { |ids| nested_iterator(ids) }
   end
 
   def nested_iterator(ids)
-    # ids.each { |id| delay.activate_curl(id) }
-    ids.each { |id| activate_curl(id) }
+    ids.each { |id| delay.activate_curl(id) }
+    # ids.each { |id| activate_curl(id) }
   end
 
   # def view_indexer_current_db_info
@@ -92,8 +96,6 @@ class VerifyUrl
       puts "\n\n===== Last ID: #{id}===== \n\n"
       query_regulator
     end
-
-    sleep(1)
   end
 
 

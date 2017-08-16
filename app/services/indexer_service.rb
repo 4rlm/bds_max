@@ -29,7 +29,7 @@ class IndexerService
   # Call: IndexerService.new.start_url_redirect
   def start_url_redirect
     puts ">> start_url_redirect..."
-    VerifyUrl.new.starter #=> Bridge to UrlRedirector Module.
+    VerifyUrl.new.delay.starter #=> Bridge to UrlRedirector Module.
   end
   ###############################################
 
