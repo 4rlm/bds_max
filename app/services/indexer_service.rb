@@ -19,89 +19,19 @@ require 'indexer_helper/unknown_template' # Unknown template's info scraper
 require 'indexer_helper/helper' # All helper methods for indexer_service
 require 'curb' #=> for url_redirector
 
-require 'servicers/verify_url' # Unknown template's info scraper
+require 'servicers/verify_url' # Bridges UrlRedirector Module to indexer/services.
 
 
 
 class IndexerService
-  # IndexerService.new.url_redirect_starter
-  include UrlRedirector #=> concerns/url_redirector.rb
 
-  # def query_generator
-  #   queried_ids = Indexer.select(:id).where.not(indexer_status: "Archived").where(url_redirect_date: nil)[0...6].sort.pluck(:id)
-  # end
-
-  # IndexerService.new.access_servicers_verify_url
-  def access_servicers_verify_url
-    VerifyUrl.new
+  ###############################################
+  # Call: IndexerService.new.start_url_redirect
+  def start_url_redirect
+    puts ">> start_url_redirect..."
+    VerifyUrl.new.starter #=> Bridge to UrlRedirector Module.
   end
-
-
-  ########################################################
-  def url_redirect_starter
-    ### REPLACE RAW_URL WITH CLEAN URL, BECAUSE THIS IS TO VERIFY CLEAN URL IS STILL VALID. ###
-    queried_ids = Indexer.select(:id).where.not(indexer_status: "Archived").where(url_redirect_date: nil)[0...10].sort.pluck(:id)
-    nested_ids = queried_ids.in_groups(2)
-    # nested_ids.each { |ids| delay.nested_iterator(ids) }
-    nested_ids.each { |ids| nested_iterator(ids) }
-
-    # while not query_empty
-    #   nested_ids = query_generator
-    #   nested_ids = queried_ids.in_groups(3)
-    #   nested_ids.each { |ids| delay.nested_iterator(ids) }
-    #   # nested_ids.each { |ids| nested_iterator(ids) }
-    # end
-  end
-
-  def nested_iterator(ids)
-    # ids.each { |id| delay.activate_curl(id) }
-    ids.each { |id| activate_curl(id) }
-  end
-
-  def view_indexer_current_db_info
-    puts "\n=== Current DB Info ===\n"
-    puts "DB raw_url: #{@raw_url}"
-    puts "DB indexer_status: #{@indexer_status}"
-    puts "DB redirect_status: #{@redirect_status}\n\n"
-  end
-
-  def activate_curl(id)
-    @indexer = Indexer.where(id: id).select(:id, :raw_url, :clean_url, :indexer_status, :redirect_status).first
-    @raw_url = @indexer.clean_url #=> Verifying clean_url still valid. (vs running raw_url)
-    @indexer_status = @indexer.indexer_status
-    @redirect_status = @indexer.redirect_status
-    # view_indexer_current_db_info
-    start_curl
-    db_updater(id)
-  end
-
-  def get_curl_response
-    @indexer_status = "RD Result"
-    if @raw_url != @curl_url
-      @redirect_status = "Updated"
-    else
-      @redirect_status = "Same"
-    end
-  end
-
-  def db_updater(id)
-    get_curl_response if @curl_url
-
-    puts "NEW curl_url: #{@curl_url}"
-    puts "NEW indexer_status: #{@indexer_status}"
-    puts "NEW redirect_status: #{@redirect_status}"
-    puts "#{"="*30}\n\n"
-
-    # indexer.update_attributes(url_redirect_date: DateTime.now, indexer_status: @indexer_status, redirect_status: @redirect_status, clean_url: @curl_url)
-  end
-
-
-
-
-
-
-
-
+  ###############################################
 
 
 
