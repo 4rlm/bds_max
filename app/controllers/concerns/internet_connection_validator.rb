@@ -1,5 +1,7 @@
 #### For example, see: /Users/Adam/Desktop/MaxDigital/bds_max/app/models/concerns/filterable.rb
 
+#RUNNER: IndexerService.new.url_redirect_starter
+#RUNNER: StafferService.new.cs_starter
 module InternetConnectionValidator
   extend ActiveSupport::Concern
 

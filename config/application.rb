@@ -16,8 +16,10 @@ module Bigdatasage
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths << File.join(config.root, "lib")
-
     config.autoload_paths += %W(#{config.root}/controllers/concerns)
+    # config.autoload_paths += %W(#{config.root}/lib/servicers)
+    config.autoload_paths << Rails.root.join('lib/servicers')
+    config.autoload_paths += Dir["#{config.root}/lib/servicers"]
 
     ## 8/10/16 Added this for Delayed Job, per blog.
     # Do not swallow errors in after_commit/after_rollback callbacks.

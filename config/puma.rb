@@ -23,7 +23,7 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # processes).
 
 ### Below was Commented Out by Default. ###
-# workers ENV.fetch("WEB_CONCURRENCY") { 10 }
+# workers ENV.fetch("WEB_CONCURRENCY") { 5 }
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
@@ -42,9 +42,9 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # cannot share connections between processes.
 
 ### Below was Commented Out by Default. ###
-# on_worker_boot do
-#   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-# end
+on_worker_boot do
+  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+end
 
 
 # Allow puma to be restarted by `rails restart` command.

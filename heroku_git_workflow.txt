@@ -4,6 +4,10 @@ $ tail -f log/development.log
 $ rails c #=> StafferService.new.cs_starter
 $ rails c #=> paste query.count
 
+Ex:
+# IndexerService.new.url_redirect_starter
+# StafferService.new.cs_starter
+
 #### Gem Install ###
 Link: http://bundler.io/v1.5/groups.html
 
