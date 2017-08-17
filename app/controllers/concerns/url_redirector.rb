@@ -7,7 +7,9 @@ module UrlRedirector
   extend ActiveSupport::Concern
   include InternetConnectionValidator #=> for validate_url(@raw_url)
 
+  require 'delayed_job'
   require 'curb'
+  
   def start_curl
     puts "Starting curl ...."
 

@@ -54,6 +54,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.active_job.queue_adapter = :delayed_job  ##=> default was :resque (below)
-  config.active_job.queue_adapter = :sidekiq  ##=> default was :resque (below)
+  # config.active_job.queue_adapter = :sidekiq  ##=> default was :resque (below)
 
 end

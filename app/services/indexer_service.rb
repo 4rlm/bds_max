@@ -17,9 +17,8 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 require 'indexer_helper/unknown_template' # Unknown template's info scraper
 require 'indexer_helper/helper' # All helper methods for indexer_service
-require 'curb' #=> for url_redirector
-
 require 'servicers/verify_url' # Bridges UrlRedirector Module to indexer/services.
+require 'curb' #=> for url_redirector
 
 
 
@@ -29,7 +28,8 @@ class IndexerService
   # Call: IndexerService.new.start_url_redirect
   def start_url_redirect
     puts ">> start_url_redirect..."
-    VerifyUrl.new.delay.starter #=> Bridge to UrlRedirector Module.
+    # VerifyUrl.new.delay.starter #=> Bridge to UrlRedirector Module.
+    VerifyUrl.new.starter #=> Bridge to UrlRedirector Module.
   end
   ###############################################
 
