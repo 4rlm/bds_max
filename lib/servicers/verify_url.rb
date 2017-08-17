@@ -50,8 +50,8 @@ class VerifyUrl
 
     @indexer.update_attributes(url_redirect_date: DateTime.now, indexer_status: @indexer_status, redirect_status: @redirect_status, clean_url: @curl_url)
 
-    @indexer = Indexer.where(id: id).select(:id, :raw_url, :clean_url, :indexer_status, :redirect_status).first
-    puts @indexer.inspect
+    # @indexer = Indexer.where(id: id).select(:id, :raw_url, :clean_url, :indexer_status, :redirect_status).first
+    # puts @indexer.inspect
 
     if id == @last_id
       puts "\n\n===== Last ID: #{id}===== \n\n"
