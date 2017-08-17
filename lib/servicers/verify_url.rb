@@ -7,19 +7,19 @@ class VerifyUrl
   # Call: VerifyUrl.new.starter
 
   def starter
-    queried_ids = Indexer.select(:id).where.not(indexer_status: "Archived").where(url_redirect_date: nil).sort.pluck(:id)
+    begin
+      queried_ids = Indexer.select(:id).where.not(indexer_status: "Archived").where(url_redirect_date: nil).sort[0...200].pluck(:id)
 
-    @last_id = queried_ids.last
-    nested_ids = queried_ids.in_groups(25)
-    nested_ids.each { |ids| delay.nested_iterator(ids) }
+      @last_id = queried_ids.last
+      nested_ids = queried_ids.in_groups(4)
+      nested_ids.each { |ids| delay.nested_iterator(ids) }
+    rescue
+      p "\n\n==== Empty Query ====\n\n"
+    end
   end
 
   def nested_iterator(ids)
-    ids.each { |id| delay.sucks(id) }
-  end
-
-  def sucks(id)
-    puts "\n\n== This is sucking ID #{id}. ==\n\n"
+    ids.each { |id| delay.activate_curl(id) }
   end
 
   def activate_curl(id)

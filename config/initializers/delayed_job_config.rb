@@ -24,16 +24,16 @@
 # end
 
 
-# Delayed::Job.all.each do |d|
-#   d.last_error = nil
-#   d.run_at = Time.now
-#   d.failed_at = nil
-#   d.locked_at = nil
-#   d.locked_by = nil
-#   d.attempts = 0
-#   d.failed_at = nil # needed in Rails 5 / delayed_job (4.1.2)
-#   d.save!
-# end
+Delayed::Job.all.each do |d|
+  d.last_error = nil
+  d.run_at = Time.now
+  d.failed_at = nil
+  d.locked_at = nil
+  d.locked_by = nil
+  d.attempts = 0
+  d.failed_at = nil # needed in Rails 5 / delayed_job (4.1.2)
+  d.save!
+end
 
 ###### Not TRIED YET BELOW ######
 
@@ -70,15 +70,15 @@
 
 ####### ORIGINAL SETTINGS BELOW: #######
 # Delayed::Worker.exit_on_complete = false
-# Delayed::Worker.destroy_failed_jobs = true
-# Delayed::Worker.sleep_delay = 5
-# Delayed::Worker.max_attempts = 1 ##=> Important, don't use this!!!
+Delayed::Worker.destroy_failed_jobs = true
+Delayed::Worker.sleep_delay = 15
+Delayed::Worker.max_attempts = 1 ##=> Important, don't use this!!!
 # Delayed::Worker.max_run_time = 5.minutes
 # Delayed::Worker.read_ahead = 1
 # Delayed::Worker.default_queue_name = 'default'
 # Delayed::Worker.delay_jobs = !Rails.env.test?
 # Delayed::Worker.raise_signal_exceptions = :term
-# Delayed::Worker.logger = Logger.new(File.join(Rails.root, 'log', 'delayed_job.log'))
+Delayed::Worker.logger = Logger.new(File.join(Rails.root, 'log', 'delayed_job.log'))
 ####### ORIGINAL SETTINGS ABOVE: #######
 
 # Delayed::Worker.logger = Logger.new(STDOUT)
