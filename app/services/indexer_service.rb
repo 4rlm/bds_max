@@ -64,13 +64,11 @@ class IndexerService
     # indexers.each{|x| x.update_attribute(:template, nil)}
 
 
-    counter=0
     indexers.each do |indexer|
-      url = indexer.clean_url
-      db_template = indexer.template
-      criteria_term = nil
-      template = nil
-      counter+=1
+      # url = indexer.clean_url
+      # db_template = indexer.template
+      # criteria_term = nil
+      # template = nil
 
       begin
         agent = Mechanize.new
@@ -83,28 +81,22 @@ class IndexerService
           if doc.at_css('html').text.include?(criteria_term)
             found = true
             template = indexer_term.response_term
-            puts "\n[#{a}...#{z}]  (#{counter})   Success!\nurl: #{url}\nTerm: #{criteria_term}\nTemp: #{template}\nDB: #{db_template}\n"
             indexer.update_attribute(:template, template) if template
             break
           end
         end
 
         if !found # criteria_term not found
-          puts "\n[#{a}...#{z}]  (#{counter})   Unidentified\nurl\nTerm: #{criteria_term}\nTemp: #{template}\nDB: #{db_template}\n"
           indexer.update_attribute(:template, "Unidentified")
         end
 
       rescue
-        puts
-        puts "[#{a}...#{z}]  (#{counter})   Search Error"
         puts url
         puts "Term: #{criteria_term}"
         puts "Temp: #{template}"
         puts "DB: #{db_template}"
         indexer.update_attribute(:template, "Search Error")
       end
-
-      sleep(2)
 
     end
   end
