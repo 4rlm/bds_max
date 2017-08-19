@@ -26,22 +26,22 @@ class IndexerService
 
   ###############################################
   # Call: IndexerService.new.start_url_redirect
-  # Call: VerifyUrl.new.starter  ##=> Better to call it directly, avoid service.
+  # Call: VerifyUrl.new.starter
   def start_url_redirect
     puts ">> start_url_redirect..."
-    # VerifyUrl.new.delay.starter #=> Bridge to UrlRedirector Module.
-    VerifyUrl.new.starter #=> Bridge to UrlRedirector Module.
+    # VerifyUrl.new.delay.starter
+    VerifyUrl.new.starter
   end
   ###############################################
 
 
   ###############################################
   # Call: IndexerService.new.start_template_finder
-  # Call: TemplateFinder.new.starter  ##=> Better to call it directly, avoid service.
+  # Call: TemplateFinder.new.tf_starter
   def start_template_finder
     puts ">> start_template_finder..."
-    # VerifyUrl.new.delay.starter #=> Bridge to TemplateFinder Module.
-    TemplateFinder.new.starter #=> Bridge to TemplateFinder Module.
+    # TemplateFinder.new.delay.tf_starter
+    TemplateFinder.new.tf_starter
   end
   ###############################################
 

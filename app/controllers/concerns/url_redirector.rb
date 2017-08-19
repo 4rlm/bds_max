@@ -1,15 +1,15 @@
-#### For example, see: /Users/Adam/Desktop/MaxDigital/bds_max/app/models/concerns/filterable.rb
-
+require 'mechanize'
+require 'nokogiri'
+require 'open-uri'
+require 'delayed_job'
+require 'curb'
 
 #RUNNER: IndexerService.new.url_redirect_starter
 #RUNNER: StafferService.new.cs_starter
 module UrlRedirector
   extend ActiveSupport::Concern
-  include InternetConnectionValidator #=> for validate_url(@raw_url)
+  include InternetConnectionValidator
 
-  require 'delayed_job'
-  require 'curb'
-  
   def start_curl
     puts "Starting curl ...."
 
@@ -45,15 +45,15 @@ module UrlRedirector
   def error_parser
     @indexer_status = "RD Error", @curl_url = nil
     if @error_message.include?("SSL connect error")
-      @redirect_status = "SSL Error"
+      @redirect_status = "Error: SSL"
     elsif @error_message.include?("Couldn't resolve host name")
-      @redirect_status = "Host Error"
+      @redirect_status = "Error: Host"
     elsif @error_message.include?("Peer certificate")
-      @redirect_status = "Certificate Error"
+      @redirect_status = "Error: Certificate"
     elsif @error_message.include?("Failure when receiving data")
-      @redirect_status = "Transfer Error"
+      @redirect_status = "Error: Transfer"
     else
-      @redirect_status = "Error"
+      @redirect_status = "Error: Undefined"
     end
   end
 

@@ -1,14 +1,15 @@
 # Bridges UrlRedirector Module to indexer/services.
 require 'delayed_job'
 
-class TemplateFinder
-  include UrlRedirector #=> concerns/url_redirector.rb
-  # Call: IndexerService.new.start_url_redirect
-  # Call: VerifyUrl.new.starter
+# Call: IndexerService.new.start_template_finder
+# Call: TemplateFinder.new.tf_starter
 
-  def starter
+class TemplateFinder
+  include InternetConnectionValidator
+
+  def tf_starter
     begin
-      queried_ids = Indexer.select(:id).where.not(indexer_status: "Archived").where.not(indexer_status: "RD Error")
+      queried_ids = Indexer.select(:id).where("indexer_status != 'Archived'", template_date: nil).where("redirect_status NOT LIKE '%Error%'").sort[0...200].pluck(:id)
 
       @last_id = queried_ids.last
       nested_ids = queried_ids.in_groups(4)
@@ -23,97 +24,55 @@ class TemplateFinder
   end
 
   def template_starter(id)
-    indexer = Indexer.find(id)
+    @indexer = Indexer.where(id: id).select(:id, :indexer_status, :clean_url, :template, :template_date, :template_status).first
+
     # criteria_term = nil
     # template = nil
 
-    url = indexer.clean_url
-    start_mechanize(url) #=> returns @html
+    @url = @indexer.clean_url
+    start_mechanize(@url) #=> returns @html
     html = @html
 
     begin
-      db_template = indexer.template
-
       indexer_terms = IndexerTerm.where(category: "template_finder").where(sub_category: "at_css")
 
       indexer_terms.each do |indexer_term|
         criteria_term = indexer_term.criteria_term
         if html.at_css('html').text.include?(criteria_term)
-          template = indexer_term.response_term
-          # indexer.update_attribute(:template, template) if template
+          @new_template = indexer_term.response_term
+          db_updater(id)
         else
-          template = "Unidentified"
-          # indexer.update_attribute(:template, "Unidentified")
+          @new_template = "Unidentified"
+          db_updater(id)
         end
       end
 
     rescue
-      ## MOVING THESE ERROR TERMS TO THE INTERNET CONNECTION VALIDATOR. ##
-      error_msg = "CS Error: #{@html_error}"
-      if error_msg.include?("404 => Net::HTTPNotFound")
-        cs_error_code = "404 Error"
-      elsif error_msg.include?("connection refused")
-        cs_error_code = "Connection Error"
-      elsif error_msg.include?("undefined method")
-        cs_error_code = "Method Error"
-      elsif error_msg.include?("TCP connection")
-        cs_error_code = "TCP Error"
-      else
-        cs_error_code = "CS Error"
-      end
-
-      template = cs_error_code
-    end
-
-    puts "\n\n== template: '#{template}' ==\n\n"
-
-    indexer.update_attributes(template_date: DateTime.now, indexer_status: "TemplateFinder", template: template)
-
-    if id == @last_id
-      puts "\n\n===== Last ID: #{id}===== \n\n"
-      starter
+      @new_template = @error_code
+      db_updater(id)
     end
 
   end
 
-  # def activate_curl(id)
-  #   @indexer = Indexer.where(id: id).select(:id, :raw_url, :clean_url, :indexer_status, :redirect_status).first
-  #   @raw_url = @indexer.clean_url #=> Verifying clean_url still valid. (vs running raw_url)
-  #   @indexer_status = @indexer.indexer_status
-  #   @redirect_status = @indexer.redirect_status
-  #   start_curl
-  #   db_updater(id)
-  # end
+  def get_result_status
+    @current_template = @indexer.template
+    if @current_template && @current_template == @new_template
+      @template_status = "Same"
+    else
+      @template_status = "Updated"
+    end
+  end
 
+  def db_updater(id)
+    get_result_status
+    puts "\n\n#{"="*30}\ntemplate_status: '#{@template_status}'\nurl: '#{@url}'\ncurrent_template: '#{@current_template}'\nnew_template: '#{@new_template}'\n\n"
 
-  # def get_curl_response
-  #   @indexer_status = "RD Result"
-  #   if @raw_url != @curl_url
-  #     @redirect_status = "Updated"
-  #   else
-  #     @redirect_status = "Same"
-  #   end
-  # end
+    @indexer.update_attributes(indexer_status: "TemplateFinder", template: @new_template, template_date: DateTime.now, template_status: @template_status)
 
-
-  # def db_updater(id)
-  #   puts "DB raw_url: #{@raw_url}"
-  #   get_curl_response if @curl_url
-  #   # puts "NEW curl_url: #{@curl_url}"
-  #   puts "NEW indexer_status: #{@indexer_status}"
-  #   puts "NEW redirect_status: #{@redirect_status}"
-  #   puts "#{"="*30}\n\n"
-  #
-  #   @indexer.update_attributes(url_redirect_date: DateTime.now, indexer_status: @indexer_status, redirect_status: @redirect_status, clean_url: @curl_url)
-  #
-  #   # @indexer = Indexer.where(id: id).select(:id, :raw_url, :clean_url, :indexer_status, :redirect_status).first
-  #   # puts @indexer.inspect
-  #
-  #   if id == @last_id
-  #     puts "\n\n===== Last ID: #{id}===== \n\n"
-  #     starter
-  #   end
-  # end
-
+    if id == @last_id
+      puts "\n\n===== Last ID: #{id}===== \n\n"
+      tf_starter
+    end
+  end
 
 end

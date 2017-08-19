@@ -1,29 +1,88 @@
 require 'mechanize'
 require 'nokogiri'
 require 'open-uri'
+require 'delayed_job'
 require 'staffer_helper/cs_helper'
-require 'staffer_helper/dealer_eprocess_cs'
-require 'staffer_helper/dealerfire_cs'
-require 'staffer_helper/dealer_inspire_cs'
 require 'staffer_helper/cobalt_cs'
-require 'staffer_helper/dealeron_cs'
-require 'staffer_helper/dealer_direct_cs'
 require 'staffer_helper/dealer_com_cs'
+require 'staffer_helper/dealer_direct_cs'
+require 'staffer_helper/dealer_eprocess_cs'
+require 'staffer_helper/dealer_inspire_cs'
+require 'staffer_helper/dealerfire_cs'
+require 'staffer_helper/dealeron_cs'
+require 'staffer_helper/standard_scraper'
 require 'indexer_helper/rts/rts_manager'
 
 class StafferService
   include InternetConnectionValidator
 
   def cs_starter
-    # Completed this Query
-    queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort.pluck(:id)
+    # Call: StafferService.new.cs_starter
+    # begin
+    # queried_ids = Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort[0...200].pluck(:id)
 
-    nested_ids = queried_ids.in_groups(25)
-    nested_ids.each { |ids| delay.nested_iterator(ids) }
+    # start = 0
+    # batch_size = 10
+    # Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(start: start, batch_size: batch_size) do |group|
+    #
+    #   counter = 0
+    #   next if counter == batch_size
+    #   group.each do |row|
+    #     counter += 1
+    #     puts "counter: #{counter} | batch_size: #{batch_size}"
+    #     id_tester(row.id)
+    #   end
+    # end
+
+    batch_size = 10
+    continue = false
+    Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(start: 0, batch_size: batch_size) do |grouped_ids|
+
+      grouped_ids.map!{|obj| obj.id}
+      @last_id = grouped_ids.last
+      puts grouped_ids.inspect
+      puts "@last_id: #{@last_id}"
+      nested_ids = grouped_ids.in_groups(2)
+
+      nested_ids.each { |ids| standard_iterator(ids) }
+      next if continue == true
+
+    end
+
   end
+
+
+  def standard_iterator(ids)
+    ids.each { |id| sampler(id) }
+    # ids.each { |id| delay.template_starter(id) }
+    # ids.each { |id| template_starter(id) }
+  end
+
+  def sampler(id)
+    puts "ID: #{id}"
+    if id == @last_id
+      puts "ID: #{id} | @last_id = #{@last_id}"
+      continue = true
+    else
+      continue = false
+    end
+
+  end
+
+
+
+  # @last_id = queried_ids.last
+  # nested_ids = queried_ids.in_groups(2)
+
+  # nested_ids.each { |ids| delay.nested_iterator(ids) }
+  # nested_ids.each { |ids| nested_iterator(ids) }
+  # rescue
+  # puts "\n\n==== Empty Query ====\n\n"
+  # end
 
   def nested_iterator(ids)
     ids.each { |id| delay.template_starter(id) }
+    # ids.each { |id| template_starter(id) }
   end
 
   def view_indexer_current_db_info(indexer)
@@ -63,28 +122,22 @@ class StafferService
       else
         StandardScraperCs.new.contact_scraper(html, url, indexer)
       end
-
     rescue
-      error_msg = "CS Error: #{@html_error}"
-      if error_msg.include?("404 => Net::HTTPNotFound")
-        cs_error_code = "404 Error"
-      elsif error_msg.include?("connection refused")
-        cs_error_code = "Connection Error"
-      elsif error_msg.include?("undefined method")
-        cs_error_code = "Method Error"
-      elsif error_msg.include?("TCP connection")
-        cs_error_code = "TCP Error"
-      else
-        cs_error_code = "CS Error"
-      end
-
-      puts "=== #{cs_error_code}: #{url}\n\n"
-
-      indexer.update_attributes(scrape_date: DateTime.now, indexer_status: cs_error_code, contact_status: cs_error_code)
-
+      puts "\n\n== CS Error!! ==\n\n"
+      indexer.update_attributes(indexer_status: "ContactScraper", contact_status: @error_code, scrape_date: DateTime.now)
+      # new_query(id)
     end ## rescue ends
 
+    new_query(id)
   end
+
+  def new_query(id)
+    if id == @last_id
+      puts "\n\n===== Last ID: #{id}=====\n===== @last_id: #{@last_id}=====\n\n"
+      delay.cs_starter
+    end
+  end
+
 
   ################################################################
 

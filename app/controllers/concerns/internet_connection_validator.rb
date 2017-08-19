@@ -1,4 +1,7 @@
-#### For example, see: /Users/Adam/Desktop/MaxDigital/bds_max/app/models/concerns/filterable.rb
+require 'mechanize'
+require 'nokogiri'
+require 'open-uri'
+require 'delayed_job'
 
 #RUNNER: IndexerService.new.url_redirect_starter
 #RUNNER: StafferService.new.cs_starter
@@ -12,17 +15,35 @@ module InternetConnectionValidator
     begin
       @agent = Mechanize.new
       @html = @agent.get(url_string)
-      puts "=== GOOD URL ===\nURL: #{url}"
+      puts "=== GOOD URL ===\nURL: #{url_string}"
     rescue
       if validate_url(url_string)
         puts "validating url....."
         start_mechanize(url_string)
       else
         @html = nil
-        @html_error = $!.message
+        # @html_error = $!.message
+        error_parser($!.message, url_string)
       end
     end
   end
+
+  def error_parser(error_response, url_string)
+    if error_response.include?("404 => Net::HTTPNotFound")
+      @error_code = "URL Error: 404"
+    elsif error_response.include?("connection refused")
+      @error_code = "URL Error: Connection"
+    elsif error_response.include?("undefined method")
+      @error_code = "URL Error: Method"
+    elsif error_response.include?("TCP connection")
+      @error_code = "URL Error: TCP"
+    else
+      @error_code = "URL Error: Undefined"
+    end
+    puts "\n\n#{@error_code}: #{url_string}\n\n"
+  end
+
+
 
   def ping_url
     pingable_urls = %w(
