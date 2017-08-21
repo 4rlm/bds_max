@@ -20,8 +20,6 @@ require 'indexer_helper/helper' # All helper methods for indexer_service
 require 'servicers/verify_url' # Bridges UrlRedirector Module to indexer/services.
 require 'curb' #=> for url_redirector
 
-
-
 class IndexerService
 
   ###############################################
@@ -32,8 +30,6 @@ class IndexerService
     # VerifyUrl.new.delay.vu_starter
     VerifyUrl.new.vu_starter
   end
-  ###############################################
-
 
   ###############################################
   # Call: IndexerService.new.start_template_finder
@@ -45,65 +41,6 @@ class IndexerService
   end
   ###############################################
 
-
-  ##########################################
-  # TEMPLATE DETECTOR - STARTS
-  ##########################################
-
-
-  def template_finder
-    # indexers = Indexer.where(indexer_status: "Target").where(template: nil)[a...z] ## 2,211
-    # indexers = Indexer.where(clean_url: "http://www.howellnissan.com") ## 2,400
-
-    # indexers = Indexer.where(template: "SFDC URL").where.not(clean_url: nil)[a...z] #1348
-    # indexers = Indexer.where(template: "Unidentified").where.not(clean_url: nil)[a...z] #8047
-    # indexers = Indexer.where(template: "Search Error").where(stf_status: "Matched")[a..z] #138
-    # indexers = Indexer.where(template: "Dealer Inspire")[a..z]
-
-    # indexers = Indexer.where(indexer_status: "Target").where(template: "Search Error")
-    # indexers.each{|x| x.update_attribute(:template, nil)}
-
-
-    indexers.each do |indexer|
-      # url = indexer.clean_url
-      # db_template = indexer.template
-      # criteria_term = nil
-      # template = nil
-
-      begin
-        agent = Mechanize.new
-        doc = agent.get(url)
-        found = false
-
-        indexer_terms = IndexerTerm.where(category: "template_finder").where(sub_category: "at_css")
-        indexer_terms.each do |indexer_term|
-          criteria_term = indexer_term.criteria_term
-          if doc.at_css('html').text.include?(criteria_term)
-            found = true
-            template = indexer_term.response_term
-            indexer.update_attribute(:template, template) if template
-            break
-          end
-        end
-
-        if !found # criteria_term not found
-          indexer.update_attribute(:template, "Unidentified")
-        end
-
-      rescue
-        puts url
-        puts "Term: #{criteria_term}"
-        puts "Temp: #{template}"
-        puts "DB: #{db_template}"
-        indexer.update_attribute(:template, "Search Error")
-      end
-
-    end
-  end
-
-  ####################
-  # TEMPLATE DETECTOR - Ends
-  ####################
 
 
 
