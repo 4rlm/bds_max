@@ -30,7 +30,6 @@ class StafferService
   end
   ###############################################
 
-
   # When first name is "["Jack", "McCarthy", "Business Manage.....", it cleans to "Jack".
   def fname_cleaner
     urls = Indexer.where(template: "Dealer.com").map(&:clean_url).uniq
