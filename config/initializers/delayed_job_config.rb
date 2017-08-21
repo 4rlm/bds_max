@@ -72,7 +72,7 @@ end
 # Delayed::Worker.exit_on_complete = false
 Delayed::Worker.destroy_failed_jobs = true
 Delayed::Worker.sleep_delay = 15
-Delayed::Worker.max_attempts = 1 ##=> Important, don't use this!!!
+Delayed::Worker.max_attempts = 1
 Delayed::Worker.max_run_time = 3.minutes
 # Delayed::Worker.read_ahead = 1
 # Delayed::Worker.default_queue_name = 'default'

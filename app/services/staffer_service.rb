@@ -17,62 +17,45 @@ require 'objspace'
 
 class StafferService
   include InternetConnectionValidator
-
+  # Call: StafferService.new.cs_starter
 
   def cs_starter
-    # Call: StafferService.new.cs_starter
-    dj_gate
+    ### Move these to initializer after this becomes its own class.
+    @dj_wait_time = 5
+    @dj_count_limit = 0
+    @query_limit = 20
+    generate_query
   end
 
-  def dj_gate
-    # Delayed::Job.where('locked_by is not null') #=> list of current jobs.
+  def get_dj_count
+    Delayed::Job.all.count
+  end
 
-    dj_count = Delayed::Job.all.count
-    puts "\n\n\nDJ Que Count: #{dj_count}\n\n\n"
-
-    if dj_count <= 3
-      puts "\n=== GENERATING QUERY ===\n\n"
-      generate_query
-    else
-      wait_time = 20
-      puts "\n=== DJ BACKLOGGED - WAIT #{wait_time} SEC ===\n\n"
-      sleep(wait_time)
+  def pause_iteration
+    until get_dj_count <= @dj_count_limit
+      puts "\nWaiting on #{get_dj_count} Queued Jobs | Queue Limit: #{@dj_count_limit}"
+      puts "Please wait #{@dj_wait_time} seconds ...\n\n"
+      sleep(@dj_wait_time)
     end
-
-    dj_gate
   end
 
   def generate_query
-    @query_limit = 40
-    # queried_ids = Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).order(:id).limit(@query_limit).pluck(:id)
-
-
-    Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(batch_size: @query_limit) do |batch|
-      batch.map{|obj| obj.id} ## Reformats objects into array of ids.
-
-
-      batch.each do |queried_ids|
-        binding.pry
-        format_query_results(queried_ids)
-      end
+    Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(batch_size: @query_limit) do |batch_of_ids|
+      pause_iteration
+      format_query_results(batch_of_ids)
     end
-
-    format_query_results(queried_ids)
   end
 
-
-  def format_query_results(queried_ids)
-    nested_ids = queried_ids.in_groups(2)
-    puts "nested_ids: #{nested_ids}"
-
-    # nested_ids.each { |ids| delay.standard_iterator(ids) }
-    nested_ids.each { |ids| standard_iterator(ids) }
+  def format_query_results(batch_of_ids)
+    puts "\n=== FORMATTING NEXT BATCH OF IDs ===\n\n"
+    batch_of_ids = (batch_of_ids.map!{|object| object.id}).in_groups(2) #=> Converts objects into ids, then slices into nested arrays.
+    puts "batch_of_ids: #{batch_of_ids}"
+    batch_of_ids.each { |ids| delay.standard_iterator(ids) }
   end
 
   def standard_iterator(ids)
     puts "ids: #{ids}"
-    # ids.each { |id| delay.template_starter(id) }
-    ids.each { |id| template_starter(id) }
+    ids.each { |id| delay.template_starter(id) }
   end
 
   #############################################
