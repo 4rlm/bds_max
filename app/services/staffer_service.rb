@@ -24,6 +24,7 @@ class StafferService
     @dj_wait_time = 5
     @dj_count_limit = 0
     @query_limit = 20
+    @number_of_groups = 2
     generate_query
   end
 
@@ -40,7 +41,15 @@ class StafferService
   end
 
   def generate_query
-    Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(batch_size: @query_limit) do |batch_of_ids|
+    # .where.not(staff_url: nil, contact_status: "CS Result")
+
+    Indexer
+    .select(:id)
+    .where("template NOT LIKE '%Error%'")
+    .where(contact_status: "CS Result")
+    .where('scrape_date <= ?', Date.today - 1.day)
+    .find_in_batches(batch_size: @query_limit) do |batch_of_ids|
+
       pause_iteration
       format_query_results(batch_of_ids)
     end
@@ -48,7 +57,7 @@ class StafferService
 
   def format_query_results(batch_of_ids)
     puts "\n=== FORMATTING NEXT BATCH OF IDs ===\n\n"
-    batch_of_ids = (batch_of_ids.map!{|object| object.id}).in_groups(2) #=> Converts objects into ids, then slices into nested arrays.
+    batch_of_ids = (batch_of_ids.map!{|object| object.id}).in_groups(@number_of_groups) #=> Converts objects into ids, then slices into nested arrays.
     puts "batch_of_ids: #{batch_of_ids}"
     batch_of_ids.each { |ids| delay.standard_iterator(ids) }
   end
