@@ -21,13 +21,16 @@ require 'delayed_job'
 
 class ContactScraper
   include InternetConnectionValidator
+  include ComplexQueryIterator
 
   def initialize
     puts "\n\n== Welcome to the ContactScraper Class! ==\n\n"
-    @dj_wait_time = 5
-    @dj_count_limit = 0
-    @query_limit = 20
-    @number_of_groups = 2
+    @query_limit = 10 #=> Number of rows per batch in raw_query.
+
+    ## Below are Settings for ComplexQueryIterator Module.
+    @dj_wait_time = 3 #=> How often to check dj queue count.
+    @dj_count_limit = 0 #=> Num allowed before releasing next batch.
+    @number_of_groups = 2 #=> Divide query into groups of x.
   end
 
   def cs_starter
@@ -43,51 +46,13 @@ class ContactScraper
     .where(contact_status: "CS Result")
     .where('scrape_date <= ?', Date.today - 1.day)
 
-    iterate_raw_query(raw_query)
+    iterate_raw_query(raw_query) #=> Method is in ComplexQueryIterator.
   end
-
-
-  #### MOVE BELOW TO MODULE ####
-
-
-  def get_dj_count
-    Delayed::Job.all.count
-  end
-
-  def pause_iteration
-    until get_dj_count <= @dj_count_limit
-      puts "\nWaiting on #{get_dj_count} Queued Jobs | Queue Limit: #{@dj_count_limit}"
-      puts "Please wait #{@dj_wait_time} seconds ...\n\n"
-      sleep(@dj_wait_time)
-    end
-  end
-
-  def iterate_raw_query(raw_query)
-    raw_query.find_in_batches(batch_size: @query_limit) do |batch_of_ids|
-      pause_iteration
-      format_query_results(batch_of_ids)
-    end
-  end
-
-  def format_query_results(batch_of_ids)
-    puts "\n=== FORMATTING NEXT BATCH OF IDs ===\n\n"
-    batch_of_ids = (batch_of_ids.map!{|object| object.id}).in_groups(@number_of_groups) #=> Converts objects into ids, then slices into nested arrays.
-    puts "batch_of_ids: #{batch_of_ids}"
-    batch_of_ids.each { |ids| delay.standard_iterator(ids) }
-    # batch_of_ids.each { |ids| standard_iterator(ids) }
-  end
-
-  def standard_iterator(ids)
-    puts "ids: #{ids}"
-    ids.each { |id| delay.template_starter(id) }
-    # ids.each { |id| template_starter(id) }
-  end
-
-
-  #### MOVE ABOVE TO MODULE ####
-
 
   #############################################
+  ## ComplexQueryIterator takes raw_query and creates series of forked iterations based on limits established above in initialize method.  Then it calls 'template_starter(id)' method.  Module serves as bridge for iteration work.
+  #############################################
+
   def view_indexer_current_db_info(indexer)
     puts "\n=== Current DB Info ===\n"
     puts "indexer_status: #{indexer.indexer_status}"
@@ -97,7 +62,6 @@ class ContactScraper
     puts "scrape_date: #{indexer.scrape_date}"
     puts "#{"="*30}\n\n"
   end
-
 
   def template_starter(id)
     indexer = Indexer.find(id)
