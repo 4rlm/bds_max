@@ -29,8 +29,8 @@ class IndexerService
   # Call: VerifyUrl.new.starter
   def start_url_redirect
     puts ">> start_url_redirect..."
-    # VerifyUrl.new.delay.starter
-    VerifyUrl.new.starter
+    # VerifyUrl.new.delay.vu_starter
+    VerifyUrl.new.vu_starter
   end
   ###############################################
 
