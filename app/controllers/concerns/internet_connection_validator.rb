@@ -21,9 +21,9 @@ module InternetConnectionValidator
         puts "validating url....."
         start_mechanize(url_string)
       else
-        @html = nil
-        # @html_error = $!.message
-        error_parser($!.message, url_string)
+        # @html = nil
+        # @html = $!.message
+        @html = error_parser($!.message, url_string)
       end
     end
   end

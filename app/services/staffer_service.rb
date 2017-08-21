@@ -13,78 +13,69 @@ require 'staffer_helper/dealeron_cs'
 require 'staffer_helper/standard_scraper'
 require 'indexer_helper/rts/rts_manager'
 
+require 'objspace'
+
 class StafferService
   include InternetConnectionValidator
 
+
   def cs_starter
     # Call: StafferService.new.cs_starter
-    # begin
-    # queried_ids = Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort[0...200].pluck(:id)
-
-    # start = 0
-    # batch_size = 10
-    # Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(start: start, batch_size: batch_size) do |group|
-    #
-    #   counter = 0
-    #   next if counter == batch_size
-    #   group.each do |row|
-    #     counter += 1
-    #     puts "counter: #{counter} | batch_size: #{batch_size}"
-    #     id_tester(row.id)
-    #   end
-    # end
-
-    batch_size = 10
-    continue = false
-    Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(start: 0, batch_size: batch_size) do |grouped_ids|
-
-      grouped_ids.map!{|obj| obj.id}
-      @last_id = grouped_ids.last
-      puts grouped_ids.inspect
-      puts "@last_id: #{@last_id}"
-      nested_ids = grouped_ids.in_groups(2)
-
-      nested_ids.each { |ids| standard_iterator(ids) }
-      next if continue == true
-
-    end
-
+    dj_gate
   end
 
+  def dj_gate
+    # Delayed::Job.where('locked_by is not null') #=> list of current jobs.
+
+    dj_count = Delayed::Job.all.count
+    puts "\n\n\nDJ Que Count: #{dj_count}\n\n\n"
+
+    if dj_count <= 3
+      puts "\n=== GENERATING QUERY ===\n\n"
+      generate_query
+    else
+      wait_time = 20
+      puts "\n=== DJ BACKLOGGED - WAIT #{wait_time} SEC ===\n\n"
+      sleep(wait_time)
+    end
+
+    dj_gate
+  end
+
+  def generate_query
+    @query_limit = 40
+    # queried_ids = Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).order(:id).limit(@query_limit).pluck(:id)
+
+
+    Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(batch_size: @query_limit) do |batch|
+      batch.map{|obj| obj.id} ## Reformats objects into array of ids.
+
+
+      batch.each do |queried_ids|
+        binding.pry
+        format_query_results(queried_ids)
+      end
+    end
+
+    format_query_results(queried_ids)
+  end
+
+
+  def format_query_results(queried_ids)
+    nested_ids = queried_ids.in_groups(2)
+    puts "nested_ids: #{nested_ids}"
+
+    # nested_ids.each { |ids| delay.standard_iterator(ids) }
+    nested_ids.each { |ids| standard_iterator(ids) }
+  end
 
   def standard_iterator(ids)
-    ids.each { |id| sampler(id) }
+    puts "ids: #{ids}"
     # ids.each { |id| delay.template_starter(id) }
-    # ids.each { |id| template_starter(id) }
+    ids.each { |id| template_starter(id) }
   end
 
-  def sampler(id)
-    puts "ID: #{id}"
-    if id == @last_id
-      puts "ID: #{id} | @last_id = #{@last_id}"
-      continue = true
-    else
-      continue = false
-    end
-
-  end
-
-
-
-  # @last_id = queried_ids.last
-  # nested_ids = queried_ids.in_groups(2)
-
-  # nested_ids.each { |ids| delay.nested_iterator(ids) }
-  # nested_ids.each { |ids| nested_iterator(ids) }
-  # rescue
-  # puts "\n\n==== Empty Query ====\n\n"
-  # end
-
-  def nested_iterator(ids)
-    ids.each { |id| delay.template_starter(id) }
-    # ids.each { |id| template_starter(id) }
-  end
-
+  #############################################
   def view_indexer_current_db_info(indexer)
     puts "\n=== Current DB Info ===\n"
     puts "indexer_status: #{indexer.indexer_status}"
@@ -124,18 +115,9 @@ class StafferService
       end
     rescue
       puts "\n\n== CS Error!! ==\n\n"
+      puts @error_code
       indexer.update_attributes(indexer_status: "ContactScraper", contact_status: @error_code, scrape_date: DateTime.now)
-      # new_query(id)
     end ## rescue ends
-
-    new_query(id)
-  end
-
-  def new_query(id)
-    if id == @last_id
-      puts "\n\n===== Last ID: #{id}=====\n===== @last_id: #{@last_id}=====\n\n"
-      delay.cs_starter
-    end
   end
 
 
