@@ -14,7 +14,6 @@ module ComplexQueryIterator
     Delayed::Job.all.count
   end
 
-
   def pause_iteration
     until get_dj_count <= @dj_count_limit
       puts "\nWaiting on #{get_dj_count} Queued Jobs | Queue Limit: #{@dj_count_limit}"
