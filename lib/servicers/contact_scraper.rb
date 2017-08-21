@@ -34,6 +34,22 @@ class ContactScraper
     generate_query
   end
 
+  def generate_query
+    # .where.not(staff_url: nil, contact_status: "CS Result")
+
+    raw_query = Indexer
+    .select(:id)
+    .where("template NOT LIKE '%Error%'")
+    .where(contact_status: "CS Result")
+    .where('scrape_date <= ?', Date.today - 1.day)
+
+    iterate_raw_query(raw_query)
+  end
+
+
+  #### MOVE BELOW TO MODULE ####
+
+
   def get_dj_count
     Delayed::Job.all.count
   end
@@ -46,16 +62,8 @@ class ContactScraper
     end
   end
 
-  def generate_query
-    # .where.not(staff_url: nil, contact_status: "CS Result")
-
-    Indexer
-    .select(:id)
-    .where("template NOT LIKE '%Error%'")
-    .where(contact_status: "CS Result")
-    .where('scrape_date <= ?', Date.today - 1.day)
-    .find_in_batches(batch_size: @query_limit) do |batch_of_ids|
-
+  def iterate_raw_query(raw_query)
+    raw_query.find_in_batches(batch_size: @query_limit) do |batch_of_ids|
       pause_iteration
       format_query_results(batch_of_ids)
     end
@@ -74,6 +82,10 @@ class ContactScraper
     ids.each { |id| delay.template_starter(id) }
     # ids.each { |id| template_starter(id) }
   end
+
+
+  #### MOVE ABOVE TO MODULE ####
+
 
   #############################################
   def view_indexer_current_db_info(indexer)
@@ -117,7 +129,7 @@ class ContactScraper
     rescue
       puts "\n\n== CS Error!! ==\n\n"
       puts @error_code
-      indexer.update_attributes(indexer_status: "ContactScraper", contact_status: @error_code, scrape_date: DateTime.now)
+      # indexer.update_attributes(indexer_status: "ContactScraper", contact_status: @error_code, scrape_date: DateTime.now)
     end ## rescue ends
   end
 
