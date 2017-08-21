@@ -93,10 +93,11 @@ class CsHelper # Contact Scraper Helper Method
 
     if count > 0
       new_phones = @rts_manager.clean_phones_arr(indexer_phones)
-      indexer.update_attributes(scrape_date: DateTime.now, phones: new_phones, contact_status: "CS Result", indexer_status: "CS Result", web_staff_count: count)
+      indexer.update_attributes(indexer_status: "ContactScraper", contact_status: "CS Result", web_staff_count: count, phones: new_phones, scrape_date: DateTime.now)
     else
-      indexer.update_attributes(scrape_date: DateTime.now, contact_status: "CS None", indexer_status: "CS None", crm_staff_count: crm_count)
+      indexer.update_attributes(indexer_status: "ContactScraper", contact_status: "CS None", scrape_date: DateTime.now)
     end
+
   end
 
   def job_detector(str)

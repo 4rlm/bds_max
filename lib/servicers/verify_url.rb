@@ -1,5 +1,8 @@
-# Bridges UrlRedirector Module to indexer/services.
+require 'mechanize'
+require 'nokogiri'
+require 'open-uri'
 require 'delayed_job'
+require 'curb'
 
 class VerifyUrl
   include UrlRedirector #=> concerns/url_redirector.rb

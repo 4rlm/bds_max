@@ -1,31 +1,64 @@
 require 'mechanize'
 require 'nokogiri'
 require 'open-uri'
+require 'delayed_job'
 require 'staffer_helper/cs_helper'
-require 'staffer_helper/dealer_eprocess_cs'
-require 'staffer_helper/dealerfire_cs'
-require 'staffer_helper/dealer_inspire_cs'
 require 'staffer_helper/cobalt_cs'
-require 'staffer_helper/dealeron_cs'
-require 'staffer_helper/dealer_direct_cs'
 require 'staffer_helper/dealer_com_cs'
+require 'staffer_helper/dealer_direct_cs'
+require 'staffer_helper/dealer_eprocess_cs'
+require 'staffer_helper/dealer_inspire_cs'
+require 'staffer_helper/dealerfire_cs'
+require 'staffer_helper/dealeron_cs'
+require 'staffer_helper/standard_scraper'
 require 'indexer_helper/rts/rts_manager'
+
+require 'objspace'
 
 class StafferService
   include InternetConnectionValidator
+  # Call: StafferService.new.cs_starter
 
   def cs_starter
-    # Completed this Query
-    queried_ids = Indexer.select(:id).where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).sort.pluck(:id)
-
-    nested_ids = queried_ids.in_groups(25)
-    nested_ids.each { |ids| delay.nested_iterator(ids) }
+    ### Move these to initializer after this becomes its own class.
+    @dj_wait_time = 5
+    @dj_count_limit = 0
+    @query_limit = 20
+    generate_query
   end
 
-  def nested_iterator(ids)
+  def get_dj_count
+    Delayed::Job.all.count
+  end
+
+  def pause_iteration
+    until get_dj_count <= @dj_count_limit
+      puts "\nWaiting on #{get_dj_count} Queued Jobs | Queue Limit: #{@dj_count_limit}"
+      puts "Please wait #{@dj_wait_time} seconds ...\n\n"
+      sleep(@dj_wait_time)
+    end
+  end
+
+  def generate_query
+    Indexer.select(:id).where("template NOT LIKE '%Error%'").where.not(staff_url: nil, contact_status: "CS Result").where('scrape_date <= ?', Date.today - 1.day).find_in_batches(batch_size: @query_limit) do |batch_of_ids|
+      pause_iteration
+      format_query_results(batch_of_ids)
+    end
+  end
+
+  def format_query_results(batch_of_ids)
+    puts "\n=== FORMATTING NEXT BATCH OF IDs ===\n\n"
+    batch_of_ids = (batch_of_ids.map!{|object| object.id}).in_groups(2) #=> Converts objects into ids, then slices into nested arrays.
+    puts "batch_of_ids: #{batch_of_ids}"
+    batch_of_ids.each { |ids| delay.standard_iterator(ids) }
+  end
+
+  def standard_iterator(ids)
+    puts "ids: #{ids}"
     ids.each { |id| delay.template_starter(id) }
   end
 
+  #############################################
   def view_indexer_current_db_info(indexer)
     puts "\n=== Current DB Info ===\n"
     puts "indexer_status: #{indexer.indexer_status}"
@@ -63,28 +96,13 @@ class StafferService
       else
         StandardScraperCs.new.contact_scraper(html, url, indexer)
       end
-
     rescue
-      error_msg = "CS Error: #{@html_error}"
-      if error_msg.include?("404 => Net::HTTPNotFound")
-        cs_error_code = "404 Error"
-      elsif error_msg.include?("connection refused")
-        cs_error_code = "Connection Error"
-      elsif error_msg.include?("undefined method")
-        cs_error_code = "Method Error"
-      elsif error_msg.include?("TCP connection")
-        cs_error_code = "TCP Error"
-      else
-        cs_error_code = "CS Error"
-      end
-
-      puts "=== #{cs_error_code}: #{url}\n\n"
-
-      indexer.update_attributes(scrape_date: DateTime.now, indexer_status: cs_error_code, contact_status: cs_error_code)
-
+      puts "\n\n== CS Error!! ==\n\n"
+      puts @error_code
+      indexer.update_attributes(indexer_status: "ContactScraper", contact_status: @error_code, scrape_date: DateTime.now)
     end ## rescue ends
-
   end
+
 
   ################################################################
 

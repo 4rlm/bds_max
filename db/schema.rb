@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815162729) do
+ActiveRecord::Schema.define(version: 20170818160718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,8 @@ ActiveRecord::Schema.define(version: 20170815162729) do
     t.string "merged_ids", default: [], array: true
     t.datetime "scrape_date"
     t.datetime "url_redirect_date"
+    t.datetime "template_date"
+    t.string "template_status"
   end
 
   create_table "locations", id: :serial, force: :cascade do |t|
