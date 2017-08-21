@@ -6,22 +6,40 @@ require 'delayed_job'
 
 class TemplateFinder
   include InternetConnectionValidator
+  include ComplexQueryIterator
+
+  def initialize
+    puts "\n\n== Welcome to the TemplateFinder Class! ==\n\n"
+    @query_limit = 10 #=> Number of rows per batch in raw_query.
+
+    ## Below are Settings for ComplexQueryIterator Module.
+    @dj_wait_time = 3 #=> How often to check dj queue count.
+    @dj_count_limit = 0 #=> Num allowed before releasing next batch.
+    @number_of_groups = 2 #=> Divide query into groups of x.
+  end
 
   def tf_starter
-    begin
-      queried_ids = Indexer.select(:id).where("indexer_status != 'Archived'", template_date: nil).where("redirect_status NOT LIKE '%Error%'").sort[0...200].pluck(:id)
-
-      @last_id = queried_ids.last
-      nested_ids = queried_ids.in_groups(4)
-      nested_ids.each { |ids| delay.nested_iterator(ids) }
-    rescue
-      p "\n\n==== Empty Query ====\n\n"
-    end
+    generate_query
   end
 
-  def nested_iterator(ids)
-    ids.each { |id| delay.template_starter(id) }
+  def generate_query
+    # queried_ids = Indexer
+    # .select(:id)
+    # .where("indexer_status != 'Archived'", template_date: nil)
+    # .where("redirect_status NOT LIKE '%Error%'")
+    # .sort[0...200].pluck(:id)
+
+    raw_query = Indexer
+    .select(:id)
+    .where("indexer_status != 'Archived'", template_date: nil)
+    .where("redirect_status NOT LIKE '%Error%'")
+
+    iterate_raw_query(raw_query) #=> Method is in ComplexQueryIterator.
   end
+
+  #############################################
+  ## ComplexQueryIterator takes raw_query and creates series of forked iterations based on limits established above in initialize method.  Then it calls 'template_starter(id)' method.  Module serves as bridge for iteration work.
+  #############################################
 
   def template_starter(id)
     @indexer = Indexer.where(id: id).select(:id, :indexer_status, :clean_url, :template, :template_date, :template_status).first
