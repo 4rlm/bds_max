@@ -52,55 +52,8 @@ class IndexerService
   ###############################################
 
 
+  ######### Below Moved to: AccountScraper class #########
   ##########################################
-  # RT SCRAPER - STARTS
-  ##########################################
-  def rooftop_data_getter # RoofTop Scraper
-
-    indexers = Indexer.where.not(staff_url: nil).where(rt_sts: nil).where(template: "Cobalt")
-
-    agent = Mechanize.new
-
-    indexers.each do |indexer|
-      template = indexer.template
-      clean_url = indexer.clean_url
-      template == "Cobalt" ? url = "#{clean_url}/HoursAndDirections" : url = clean_url
-      method = IndexerTerm.where(response_term: template).where.not(mth_name: nil).first
-      term = method.mth_name
-
-      begin
-        html = agent.get(url)
-
-        case term
-        when "dealer_com_rts"
-          DealerComRts.new.rooftop_scraper(html, url, indexer)
-        when "cobalt_rts"
-          CobaltRts.new.rooftop_scraper(html, url, indexer)
-        when "dealeron_rts"
-          DealeronRts.new.rooftop_scraper(html, url, indexer)
-        when "dealercar_search_rts"
-          DealercarSearchRts.new.rooftop_scraper(html, url, indexer)
-        when "dealer_direct_rts"
-          DealerDirectRts.new.rooftop_scraper(html, url, indexer)
-        when "dealer_inspire_rts"
-          DealerInspireRts.new.rooftop_scraper(html, url, indexer)
-        when "dealerfire_rts"
-          DealerfireRts.new.rooftop_scraper(html, url, indexer)
-        when "dealer_eprocess_rts"
-          DealerEprocessRts.new.rooftop_scraper(html, url, indexer)
-        end
-
-      rescue
-        rt_error_code = Helper.new.err_code_finder($!.message)
-        indexer.update_attribute(:indexer_status, "RT Error")
-      end ## rescue ends
-
-      sleep(3)
-    end ## .each loop ends
-  end # rooftop_data_getter ends
-
-  ##########################################
-
 
   def meta_scraper
     # a=0

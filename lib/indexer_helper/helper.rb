@@ -1,3 +1,5 @@
+## TIP: Redundant, consider deleting.  already on: /concerns/internet_connection_validator.rb
+
 class Helper
   def err_code_finder(error)
     error_msg = "RT Error: #{error}"

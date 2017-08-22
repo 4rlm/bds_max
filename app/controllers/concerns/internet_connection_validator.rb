@@ -28,6 +28,7 @@ module InternetConnectionValidator
     end
   end
 
+  ## TIP: Consider consolidating: Helper.new.err_code_finder($!.message)
   def error_parser(error_response, url_string)
     if error_response.include?("404 => Net::HTTPNotFound")
       @error_code = "URL Error: 404"
@@ -42,8 +43,6 @@ module InternetConnectionValidator
     end
     puts "\n\n#{@error_code}: #{url_string}\n\n"
   end
-
-
 
   def ping_url
     pingable_urls = %w(

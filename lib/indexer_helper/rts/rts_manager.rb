@@ -8,7 +8,7 @@ class RtsManager # Update database with the result of RoofTop Scraper
     state = nil if state.blank?
     zip = nil if zip.blank?
     phone = nil if phone.blank?
-    
+
     org.strip! if org
     street.strip! if street
     city.strip! if city
@@ -52,10 +52,10 @@ class RtsManager # Update database with the result of RoofTop Scraper
 
       printer(org, street, city, state, zip, phone, phones, full_addr, url, indexer)
 
-      indexer.update_attributes(indexer_status: "RT Result", acct_name: org, rt_sts: "RT Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone, phones: phones)
+      indexer.update_attributes(indexer_status: "AccountScraper", acct_name: org, rt_sts: "AS Result", full_addr: full_addr, street: street, city: city, state: state, zip: zip, phone: phone, phones: phones, account_scrape_date: DateTime.now)
     else
-      puts "url: #{url} \n\nRT No-Result - Check Template Version!\n\n#{'='*30}\n\n"
-      indexer.update_attributes(indexer_status: "RT No-Result", acct_name: org, rt_sts: "RT No-Result")
+      puts "url: #{url} \n\nAccountScraper No-Result - Check Template Version!\n\n#{'='*30}\n\n"
+      indexer.update_attributes(indexer_status: "AccountScraper", acct_name: org, rt_sts: "AS No-Result", account_scrape_date: DateTime.now)
     end
   end
 

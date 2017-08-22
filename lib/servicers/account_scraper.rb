@@ -43,13 +43,14 @@ class AccountScraper
   end
 
   def generate_query
-    # raw_query = Indexer.select(:id).where(archive: false).where.not(clean_url: nil).where.not(template: nil).where("template NOT LIKE '%Error%'").where(account_scrape_date: nil)
+    # raw_query = Indexer.select(:id).where(archive: false).where.not(clean_url: nil).where.not(template: nil).where.not(template: "Unidentified").where("template NOT LIKE '%Error%'").where(account_scrape_date: nil)
 
     raw_query = Indexer
     .select(:id)
     .where(archive: false)
     .where.not(clean_url: nil)
     .where.not(template: nil)
+    .where.not(template: "Unidentified")
     .where("template NOT LIKE '%Error%'")
     .where(account_scrape_date: nil)
 
@@ -64,43 +65,50 @@ class AccountScraper
     puts "\n=== Current DB Info ===\n"
     puts "indexer_status: #{indexer.indexer_status}"
     puts "template: #{indexer.template}"
-    puts "staff_url: #{indexer.staff_url}"
-    puts "web_staff_count: #{indexer.web_staff_count}"
-    puts "scrape_date: #{indexer.scrape_date}"
+    puts "clean_url: #{indexer.clean_url}"
+    puts "account_scrape_date: #{indexer.account_scrape_date}"
     puts "#{"="*30}\n\n"
   end
 
   def template_starter(id)
     indexer = Indexer.find(id)
     view_indexer_current_db_info(indexer)
-    url = indexer.staff_url
+
+    url = indexer.clean_url
     start_mechanize(url) #=> returns @html
     html = @html
 
     begin
       template = indexer.template
-      case template
-      when "Dealer.com"
-        DealerComCs.new.contact_scraper(html, url, indexer)
-      when "Cobalt"
-        CobaltCs.new.contact_scraper(html, url, indexer)
-      when "DealerOn"
-        DealeronCs.new.contact_scraper(html, url, indexer)
-      when "Dealer Direct"
-        DealerDirectCs.new.contact_scraper(html, url, indexer)
-      when "Dealer Inspire"
-        DealerInspireCs.new.contact_scraper(html, url, indexer)
-      when "DealerFire"
-        DealerfireCs.new.contact_scraper(html, url, indexer)
-      when "DEALER eProcess"
-        DealerEprocessCs.new.contact_scraper(html, url, indexer)
-      else
-        StandardScraperCs.new.contact_scraper(html, url, indexer)
+      # template == "Cobalt" ? url = "#{clean_url}/HoursAndDirections" : url = clean_url
+      method = IndexerTerm.where(response_term: template).where.not(mth_name: nil).first
+      term = method.mth_name
+
+      case term
+      when "dealer_com_rts"
+        DealerComRts.new.rooftop_scraper(html, url, indexer)
+      when "cobalt_rts"
+        CobaltRts.new.rooftop_scraper(html, url, indexer)
+      when "dealeron_rts"
+        DealeronRts.new.rooftop_scraper(html, url, indexer)
+      when "dealercar_search_rts"
+        DealercarSearchRts.new.rooftop_scraper(html, url, indexer)
+      when "dealer_direct_rts"
+        DealerDirectRts.new.rooftop_scraper(html, url, indexer)
+      when "dealer_inspire_rts"
+        DealerInspireRts.new.rooftop_scraper(html, url, indexer)
+      when "dealerfire_rts"
+        DealerfireRts.new.rooftop_scraper(html, url, indexer)
+      when "dealer_eprocess_rts"
+        DealerEprocessRts.new.rooftop_scraper(html, url, indexer)
       end
+
     rescue
-      puts "\n\n== CS Error!! ==\n\n"
+      puts "\n\n== Account Scraper Error!! ==\n\n"
       puts @error_code
-      # indexer.update_attributes(indexer_status: "ContactScraper", contact_status: @error_code, scrape_date: DateTime.now)
+
+      # indexer.update_attributes(indexer_status: "AccountScraper", rt_sts: @error_code, account_scrape_date: DateTime.now)
+
     end ## rescue ends
   end
 
