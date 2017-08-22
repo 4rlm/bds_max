@@ -1,30 +1,35 @@
-require 'mechanize'
-require 'nokogiri'
 require 'open-uri'
+require 'mechanize'
+require 'uri'
+require 'nokogiri'
+require 'socket'
+require 'httparty'
 require 'delayed_job'
-require 'staffer_helper/cs_helper'
-require 'staffer_helper/cobalt_cs'
-require 'staffer_helper/dealer_com_cs'
-require 'staffer_helper/dealer_direct_cs'
-require 'staffer_helper/dealer_eprocess_cs'
-require 'staffer_helper/dealer_inspire_cs'
-require 'staffer_helper/dealerfire_cs'
-require 'staffer_helper/dealeron_cs'
-require 'staffer_helper/standard_scraper'
+require 'indexer_helper/rts/dealerfire_rts'
+require 'indexer_helper/rts/cobalt_rts'
+require 'indexer_helper/rts/dealer_inspire_rts'
+require 'indexer_helper/rts/dealeron_rts'
+require 'indexer_helper/rts/dealer_com_rts'
+require 'indexer_helper/rts/dealer_direct_rts'
+require 'indexer_helper/rts/dealer_eprocess_rts'
+require 'indexer_helper/rts/dealercar_search_rts'
+require 'indexer_helper/page_finder'  # Indexer Page Finder
+require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
+require 'indexer_helper/unknown_template' # Unknown template's info scraper
+require 'indexer_helper/helper' # All helper methods for indexer_service
+require 'servicers/verify_url' # Bridges UrlRedirector Module to indexer/services.
+require 'curb' #=> for url_redirector
 
-# Bridges ContactScraper Class to StafferService Class.
-require 'delayed_job'
+# Call: IndexerService.new.start_account_scraper
+# Call: AccountScraper.new.as_starter
 
-# Call: StafferService.new.start_contact_scraper
-# Call: ContactScraper.new.cs_starter
-
-class ContactScraper
+class AccountScraper
   include InternetConnectionValidator
   include ComplexQueryIterator
 
   def initialize
-    puts "\n\n== Welcome to the ContactScraper Class! ==\n\n"
+    puts "\n\n== Welcome to the AccountScraper Class! ==\n\n"
     @query_limit = 10 #=> Number of rows per batch in raw_query.
 
     ## Below are Settings for ComplexQueryIterator Module.
@@ -33,23 +38,20 @@ class ContactScraper
     @number_of_groups = 2 #=> Divide query into groups of x.
   end
 
-  def cs_starter
+  def as_starter
     generate_query
   end
 
   def generate_query
-    # .where.not(staff_url: nil, contact_status: "CS Result")
-
-    # raw_query = Indexer.select(:id).where(archive: false).where.not(staff_url: nil).where.not(template: nil).where("template NOT LIKE '%Error%'").where('scrape_date <= ?', Date.today - 1.day).where(contact_status: "CS Result")
+    # raw_query = Indexer.select(:id).where(archive: false).where.not(clean_url: nil).where.not(template: nil).where("template NOT LIKE '%Error%'").where(account_scrape_date: nil)
 
     raw_query = Indexer
     .select(:id)
     .where(archive: false)
-    .where.not(staff_url: nil)
+    .where.not(clean_url: nil)
     .where.not(template: nil)
     .where("template NOT LIKE '%Error%'")
-    .where('scrape_date <= ?', Date.today - 1.day)
-    .where(contact_status: "CS Result")
+    .where(account_scrape_date: nil)
 
     iterate_raw_query(raw_query) #=> Method is in ComplexQueryIterator.
   end
