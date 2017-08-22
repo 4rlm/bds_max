@@ -1,8 +1,10 @@
+require 'delayed_job' ## Might not need this linked here.
+
 class UnknownTemplate
   def initialize
     @manager = RtsManager.new
   end
-  
+
   def meta_scraper(html, url, indexer)
     all_text = html.at_css('body').text
 
@@ -30,7 +32,7 @@ class UnknownTemplate
   end
 
   def update_indexer(result, indexer)
-    indexer.update_attributes(indexer_status: "MS Result", acct_name: result[:title], rt_sts: "MS Result", raw_street: result[:street_city_raw], full_addr: "MS Result", street: "MS Result", city: "MS Result", state: result[:state], zip: result[:zip], phone: result[:phones][0], phones: result[:phones])
+    indexer.update_attributes(indexer_status: "AccountScraper", rt_sts: "Meta Result", acct_name: result[:title], raw_street: result[:street_city_raw], full_addr: "Meta Result", street: "Meta Result", city: "Meta Result", state: result[:state], zip: result[:zip], phone: result[:phones][0], phones: result[:phones], account_scrape_date: DateTime.now)
   end
 
   def printer(result)
