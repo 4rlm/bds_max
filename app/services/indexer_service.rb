@@ -49,55 +49,22 @@ class IndexerService
     # AccountScraper.new.delay.as_starter
     AccountScraper.new.as_starter
   end
+
+
+  ###############################################
+  # Call: IndexerService.new.start_account_scraper
+  # Call: AccountScraper.new.as_starter
+  def start_page_finder
+    puts ">> start_page_finder..."
+    PageFinderA.new.delay.pf_starter
+    PageFinderA.new.pf_starter
+  end
   ###############################################
 
-
-  ######### Below Moved to: AccountScraper class #########
-  ##########################################
-
-  def meta_scraper
-    # a=0
-    # z=200
-    # a=200
-    # z=400
-    # a=400
-    # z=600
-    # a=600
-    # z=800
-
-    # indexers = Indexer.where(template: "Unidentified")[a..z] ##1,780
-    # indexers = Indexer.where.not(indexer_status: ["Meta Result", "Meta Error"]).where(template: "Unidentified")[a..z]
-
-    indexers = Indexer.where.not(indexer_status: "Archived").where.not(clean_url: nil).where(template: nil)[a..z]
-
-
-    # indexers = Indexer.where(indexer_status: "Meta Error")[a..z] ##1,780
-    # indexers.each{|x| x.update_attribute(:indexer_status, "Target Meta")}
-    # indexers = Indexer.where(indexer_status: "Target Meta")[a..z] ##1,780
-
-    # indexers = Indexer.where.not(indexer_status: "Meta Result").where(template: ["eBizAutos", "fusionZone", "VinSolutions", "fusionZONE", "Dealer Spike", "Pixel Motion", "Dominion", "Search Optics", "Remora", "Chapman.co", "FoxDealer", "Autofusion", "DealerPeak", "Driving Force", "Driving Force", "Jazel Auto", "Dealer Socket", "All Auto Network", "Drive Website", "Motorwebs", "DealerTrend", "Motion Fuze", "Slip Stream", "I/O COM", "Autofunds", "DLD Websites", "AutoJini", "SERPCOM"])
-    # indexers = Indexer.where.not(clean_url: nil).where(template: "eBizAutos")[0..10]
-    # indexers = Indexer.where(indexer_status: "Target Meta").where(template: "eBizAutos")[a..z]
-
-    counter=0
-    range = z-a
-    agent = Mechanize.new
-    indexers.each do |indexer|
-      counter+=1
-      url = indexer.clean_url
-      puts "\n#{"="*40}\n[#{a}..#{z}]  (#{counter}/#{range})\nIndexer ID: #{indexer.id}\nTemplate: #{indexer.template}\nURL: #{url}\nLoading..."
-      begin
-        html = agent.get(url)
-        UnknownTemplate.new.meta_scraper(html, url, indexer)
-      rescue
-        rt_error_code = Helper.new.err_code_finder($!.message)
-        puts "\n\n>>> #{rt_error_code} <<<\n\n"
-        indexer.update_attribute(:indexer_status, "MS Error")
-      end
-      sleep(2)
-    end
-  end
-
+  # Delay Job has a problem to run PageFinder's instance directly from indexer controller (PageFinder.new.delay.indexer_starter)
+  # def page_finder_starter
+  #   PageFinder.new.indexer_starter
+  # end
 
 
 
@@ -148,11 +115,6 @@ class IndexerService
         indexer.update_attribute(:phones, new_phones)
       end
     end
-  end
-
-  # Delay Job has a problem to run PageFinder's instance directly from indexer controller (PageFinder.new.delay.indexer_starter)
-  def page_finder_starter
-    PageFinder.new.indexer_starter
   end
 
   #####################

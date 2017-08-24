@@ -33,14 +33,24 @@ module ComplexQueryIterator
     puts "\n=== FORMATTING NEXT BATCH OF IDs ===\n\n"
     batch_of_ids = (batch_of_ids.map!{|object| object.id}).in_groups(@number_of_groups) #=> Converts objects into ids, then slices into nested arrays.
     puts "batch_of_ids: #{batch_of_ids}"
-    batch_of_ids.each { |ids| delay.standard_iterator(ids) }
-    # batch_of_ids.each { |ids| standard_iterator(ids) }
+    # batch_of_ids.each { |ids| delay.standard_iterator(ids) }
+    batch_of_ids.each { |ids| standard_iterator(ids) }
   end
 
   def standard_iterator(ids)
     puts "ids: #{ids}"
-    ids.each { |id| delay.template_starter(id) }
-    # ids.each { |id| template_starter(id) }
+
+    ids.each do |id|
+      if id.present?
+        template_starter(id)
+        # delay.template_starter(id)
+      else
+        puts "\n === Empty or End of Query Iteration.=== \n\n"
+        # return
+      end
+
+    end
+
   end
 
 

@@ -3,30 +3,56 @@ require 'nokogiri'
 require 'open-uri'
 require 'delayed_job'
 
+require 'timeout'
+
 #RUNNER: IndexerService.new.url_redirect_starter
 #RUNNER: StafferService.new.cs_starter
 module InternetConnectionValidator
   extend ActiveSupport::Concern
 
   def start_mechanize(url_string)
-    # url_string = "http://www.teamhondaon30.com/meet-our-staff"
     puts "Starting mechanize ...."
 
     begin
-      @agent = Mechanize.new
-      @html = @agent.get(url_string)
-      puts "=== GOOD URL ===\nURL: #{url_string}"
+      Timeout::timeout(5) do
+        @agent = Mechanize.new
+        @html = @agent.get(url_string)
+        puts "=== GOOD URL ===\nURL: #{url_string}"
+      end
     rescue
       if validate_url(url_string)
         puts "validating url....."
         start_mechanize(url_string)
       else
-        # @html = nil
-        # @html = $!.message
         @html = error_parser($!.message, url_string)
       end
     end
+
   end
+
+  ################################
+=begin
+### BORROWED FROM OLD PAGE FINDER - TRY TO INTEGRATE ###
+  error_msg = "Error: #{$!.message}"
+  status = nil
+  indexer_status = nil
+  found = false
+
+  indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: error_msg)
+  indexer_terms.each do |term|
+    if error_msg.include?(term.criteria_term)
+
+      status = term.response_term
+      found = true
+    else
+      status = error_msg
+    end
+
+    indexer_status = status == "TCP Error" ? status : "PF Error"
+    break if found
+  end # indexer_terms iteration ends
+=end
+  ################################
 
   ## TIP: Consider consolidating: Helper.new.err_code_finder($!.message)
   def error_parser(error_response, url_string)
@@ -38,6 +64,8 @@ module InternetConnectionValidator
       @error_code = "URL Error: Method"
     elsif error_response.include?("TCP connection")
       @error_code = "URL Error: TCP"
+    elsif error_response.include?("execution expired")
+      @error_code = "URL Error: Runtime"
     else
       @error_code = "URL Error: Undefined"
     end
@@ -65,28 +93,30 @@ module InternetConnectionValidator
     rescue
       result = false
     end
-
     puts "Internet Connection: #{result} via #{sample_url} ==="
     result
   end
 
   def url_exist?(url_string)
+    puts "Checking if URL Exists..."
     begin
-      url = URI.parse(url_string)
-      req = Net::HTTP.new(url.host, url.port)
-      req.use_ssl = (url.scheme == 'https')
-      res = req.request_head(url || '/')
-      if res.kind_of?(Net::HTTPRedirection)
-        url_exist?(res['location']) # Go after any redirect and make sure you can access the redirected URL
-      else
-        res.code[0] != "4" #false if http code starts with 4 - error on your side.
+      Timeout::timeout(15) do
+        url = URI.parse(url_string)
+        req = Net::HTTP.new(url.host, url.port)
+        req.use_ssl = (url.scheme == 'https')
+        res = req.request_head(url || '/')
+        if res.kind_of?(Net::HTTPRedirection)
+          url_exist?(res['location']) # Go after any redirect and make sure you can access the redirected URL
+        else
+          res.code[0] != "4" #false if http code starts with 4 - error on your side.
+        end
       end
+
     rescue
-      # puts $!.message
+      # puts "\n$!.message: #{$!.message}\n\n"
       false #false if can't find the server
     end
   end
-
 
   def validate_url(url_string)
     if url_exist?(url_string)

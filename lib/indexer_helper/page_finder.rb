@@ -33,7 +33,7 @@ class PageFinder
       @indexer = el
 
       counter+=1
-      puts "\n\n#{'='*40}\n\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n#{"-"*40}\n#{el.clean_url}\n\n"
+      # puts "\n\n#{'='*40}\n\n[#{a}...#{z}]  (#{counter}):  #{el.template}\n#{"-"*40}\n#{el.clean_url}\n\n"
 
       redirect_status = el.redirect_status
       if redirect_status == "Same" || redirect_status == "Updated"
@@ -72,11 +72,15 @@ class PageFinder
           el.update_attributes(indexer_status: indexer_status, stf_status: status, loc_status: status)
         end # rescue ends
 
-        sleep(1)
       end
     end # Ends cores Loop
   end # Ends start_indexer(ids)
 
+  #################################################################
+  ## ABOVE SHOULD BE MERGED INTO InternetConnectionValidator. ##
+  ## BELOW SHOULD BE MERGED INTO PageFinderA. ##
+  #################################################################
+  
   def page_finder(page, mode)
     list = text_href_list(mode)
     text_list = list[:text_list]
