@@ -13,7 +13,7 @@ require 'indexer_helper/rts/dealer_com_rts'
 require 'indexer_helper/rts/dealer_direct_rts'
 require 'indexer_helper/rts/dealer_eprocess_rts'
 require 'indexer_helper/rts/dealercar_search_rts'
-require 'indexer_helper/page_finder'  # Indexer Page Finder
+# require 'indexer_helper/page_finder_original'  # ### CAN REMOVE THIS.  HAS BEEN REPLACED.
 require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 require 'indexer_helper/unknown_template' # Unknown template's info scraper
@@ -56,8 +56,8 @@ class IndexerService
   # Call: AccountScraper.new.as_starter
   def start_page_finder
     puts ">> start_page_finder..."
-    PageFinderA.new.delay.pf_starter
-    PageFinderA.new.pf_starter
+    PageFinder.new.delay.pf_starter
+    PageFinder.new.pf_starter
   end
   ###############################################
 

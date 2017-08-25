@@ -13,7 +13,7 @@ require 'indexer_helper/rts/dealer_com_rts'
 require 'indexer_helper/rts/dealer_direct_rts'
 require 'indexer_helper/rts/dealer_eprocess_rts'
 require 'indexer_helper/rts/dealercar_search_rts'
-require 'indexer_helper/page_finder'  # Indexer Page Finder
+# require 'indexer_helper/page_finder_original'  # ### CAN REMOVE THIS.  HAS BEEN REPLACED.
 require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 require 'indexer_helper/unknown_template' # Unknown template's info scraper

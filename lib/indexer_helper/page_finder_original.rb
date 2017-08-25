@@ -1,4 +1,5 @@
-class PageFinder
+## No longer being used.  Can delete after confident new version is working well (PageFinder)
+class PageFinderOriginal
   def indexer_starter
     # a=0
     # z=100
@@ -80,7 +81,7 @@ class PageFinder
   ## ABOVE SHOULD BE MERGED INTO InternetConnectionValidator. ##
   ## BELOW SHOULD BE MERGED INTO PageFinderA. ##
   #################################################################
-  
+
   def page_finder(page, mode)
     list = text_href_list(mode)
     text_list = list[:text_list]
@@ -156,6 +157,7 @@ class PageFinder
     end
 
     text_list = IndexerTerm.where(sub_category: text).where(criteria_term: term).map(&:response_term)
+
     href_list = to_regexp(IndexerTerm.where(sub_category: href).where(criteria_term: term).map(&:response_term))
 
     {text_list: text_list, href_list: href_list}
