@@ -1,3 +1,10 @@
+##### KILL Process Signal List ####
+$ Signal.list
+# Process.kill(9, Process.ppid)
+# Process.kill(9, Process.pid)
+# Process.kill("TERM", ppid)
+# Process.kill("QUIT", Process.pid)
+
 ######### HIGHLIGHTS #########
 $ foreman start
 $ tail -f log/development.log

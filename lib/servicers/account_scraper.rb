@@ -30,6 +30,7 @@ class AccountScraper
 
   def initialize
     puts "\n\n== Welcome to the AccountScraper Class! ==\n\n"
+    @class_pid = Process.pid
     @query_limit = 10 #=> Number of rows per batch in raw_query.
 
     ## Below are Settings for ComplexQueryIterator Module.

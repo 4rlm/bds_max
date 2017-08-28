@@ -23,6 +23,7 @@ module ComplexQueryIterator
   end
 
   def iterate_raw_query(raw_query)
+    @iterate_raw_query_pid = Process.pid
     raw_query.find_in_batches(batch_size: @query_limit) do |batch_of_ids|
       pause_iteration
       format_query_results(batch_of_ids)
@@ -33,6 +34,8 @@ module ComplexQueryIterator
     puts "\n=== FORMATTING NEXT BATCH OF IDs ===\n\n"
     batch_of_ids = (batch_of_ids.map!{|object| object.id}).in_groups(@number_of_groups) #=> Converts objects into ids, then slices into nested arrays.
     puts "batch_of_ids: #{batch_of_ids}"
+    puts "PPID: #{Process.ppid}"
+    puts "PID: #{Process.pid}"
     batch_of_ids.each { |ids| delay.standard_iterator(ids) }
     # batch_of_ids.each { |ids| standard_iterator(ids) }
   end

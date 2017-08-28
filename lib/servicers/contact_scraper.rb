@@ -25,6 +25,7 @@ class ContactScraper
 
   def initialize
     puts "\n\n== Welcome to the ContactScraper Class! ==\n\n"
+    @class_pid = Process.pid
     @query_limit = 10 #=> Number of rows per batch in raw_query.
 
     ## Below are Settings for ComplexQueryIterator Module.
@@ -39,9 +40,6 @@ class ContactScraper
 
   def generate_query
     # .where.not(staff_url: nil, contact_status: "CS Result")
-
-    # raw_query = Indexer.select(:id).where(archive: false).where.not(staff_url: nil).where.not(template: nil).where("template NOT LIKE '%Error%'").where('scrape_date <= ?', Date.today - 1.day).where(contact_status: "CS Result")
-
     raw_query = Indexer
     .select(:id)
     .where(archive: false)
