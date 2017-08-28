@@ -13,7 +13,7 @@ class VerifyUrl
   def initialize
     puts "\n\n== Welcome to the VerifyUrl Class! ==\n\n"
     @class_pid = Process.pid
-    @query_limit = 10 #=> Number of rows per batch in raw_query.
+    @query_limit = 20 #=> Number of rows per batch in raw_query.
 
     ## Below are Settings for ComplexQueryIterator Module.
     @dj_wait_time = 3 #=> How often to check dj queue count.

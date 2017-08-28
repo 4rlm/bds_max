@@ -61,12 +61,6 @@ class IndexerService
   end
   ###############################################
 
-  # Delay Job has a problem to run PageFinder's instance directly from indexer controller (PageFinder.new.delay.indexer_starter)
-  # def page_finder_starter
-  #   PageFinder.new.indexer_starter
-  # end
-
-
 
   ########################################################
   def remove_invalid_phones
