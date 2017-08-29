@@ -4,14 +4,14 @@ require 'open-uri'
 require 'delayed_job'
 require 'curb'
 
-class VerifyUrl
+class UrlVerifier
   include UrlRedirector #=> concerns/url_redirector.rb
   include ComplexQueryIterator
   # Call: IndexerService.new.start_url_redirect
-  # Call: VerifyUrl.new.vu_starter
+  # Call: UrlVerifier.new.vu_starter
 
   def initialize
-    puts "\n\n== Welcome to the VerifyUrl Class! ==\n\n"
+    puts "\n\n== Welcome to the UrlVerifier Class! ==\n\n"
     @class_pid = Process.pid
     @query_limit = 20 #=> Number of rows per batch in raw_query.
 

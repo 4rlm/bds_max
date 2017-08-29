@@ -1,6 +1,7 @@
 require 'mechanize'
 require 'nokogiri'
 require 'open-uri'
+require 'whois'
 require 'delayed_job'
 
 require 'timeout'
@@ -10,9 +11,9 @@ require 'timeout'
 module InternetConnectionValidator
   extend ActiveSupport::Concern
 
+  ############ FOR MECHANIZE ONLY ############
   def start_mechanize(url_string)
     puts "Starting mechanize ...."
-
     begin
       Timeout::timeout(5) do
         @agent = Mechanize.new
@@ -27,33 +28,30 @@ module InternetConnectionValidator
         @html = error_parser($!.message, url_string)
       end
     end
-
   end
 
-  ################################
-=begin
-### BORROWED FROM OLD PAGE FINDER - TRY TO INTEGRATE ###
-  error_msg = "Error: #{$!.message}"
-  status = nil
-  indexer_status = nil
-  found = false
-
-  indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: error_msg)
-  indexer_terms.each do |term|
-    if error_msg.include?(term.criteria_term)
-
-      status = term.response_term
-      found = true
-    else
-      status = error_msg
+  ############ FOR WhoisScraper ONLY ############
+  def access_whois_directory(url_string, uri_host)
+    puts "Accessing WhoIs Directory ...."
+    begin
+      Timeout::timeout(5) do
+        @record = Whois.whois(uri_host) #=> Using Whois Gem.
+        puts "=== GOOD URL ===\nURL: #{url_string}"
+      end
+    rescue
+      if validate_url(url_string)
+        puts "validating url....."
+        access_whois_directory(url_string)
+      else
+        @whois_error = error_parser($!.message, url_string)
+      end
     end
+  end
 
-    indexer_status = status == "TCP Error" ? status : "PF Error"
-    break if found
-  end # indexer_terms iteration ends
-=end
-  ################################
-
+  ######################################################
+  ################## MAIN - UNIVERSAL ##################
+  ######################################################
+  
   ## TIP: Consider consolidating: Helper.new.err_code_finder($!.message)
   def error_parser(error_response, url_string)
     if error_response.include?("404 => Net::HTTPNotFound")
@@ -157,7 +155,35 @@ module InternetConnectionValidator
         validate_url(url_string)
       end
     end
-    # sleep(0.015)
+
   end
 
 end
+
+
+
+
+
+################################
+=begin
+### BORROWED FROM OLD PAGE FINDER - TRY TO INTEGRATE ###
+error_msg = "Error: #{$!.message}"
+status = nil
+indexer_status = nil
+found = false
+
+indexer_terms = IndexerTerm.where(category: "url_redirect").where(sub_category: error_msg)
+indexer_terms.each do |term|
+  if error_msg.include?(term.criteria_term)
+
+    status = term.response_term
+    found = true
+  else
+    status = error_msg
+  end
+
+  indexer_status = status == "TCP Error" ? status : "PF Error"
+  break if found
+end # indexer_terms iteration ends
+=end
+################################

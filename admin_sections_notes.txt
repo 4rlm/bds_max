@@ -1,0 +1,51 @@
+Admin Sections:
+
+### This can be removed.  Not doing 'power buttons anymore.' ###
+1. Power Starter: /admin/_starters_power.html.erb
+  core_power_btn_path
+  staffer_power_btn_path
+  indexer_power_btn_path
+
+
+### Need to relink these, because class names and locations changed. ###
+2. Scraper Starter: /admin/_starters_scraper.html.erb
+  url_redirect_checker_btn_path
+  who_starter_btn_path
+  template_finder_btn_path
+  page_finder_btn_path
+  rooftop_data_getter_btn_path
+  meta_scraper_btn_path
+  cs_starter_btn_path
+
+
+3. Formatter Starters: /admin/_starters_formatter.html.erb
+  crm_staff_counter_btn_path
+  phone_formatter_finalizer_btn_path
+  geo_to_indexer_btn_path
+  address_formatter_btn_path
+  phone_migrator_btn_path
+
+
+4. Finalizer Starters: /admin/_starters_finalizer.html.erb
+  finalizer_btn_path
+  id_sorter_btn_path
+  score_calculator_btn_path
+  scraper_migrator_btn_path
+
+
+5. Dashboard Starters: /admin/_starters_dashboard.html.erb
+  dashboard_mega_btn_path
+  cores_dash_btn_path
+  staffers_dash_btn_path
+  franchise_dash_btn_path
+  geo_locations_dash_btn_path
+  indexer_dash_btn_path
+  whos_dash_btn_path
+
+
+6. Location Starter: /admin/_starters_location.html.erb
+  geo_places_starter_btn_path
+  turbo_matcher_btn_path
+
+
+7. CSV Starters: /admin/_starters_csvs.html.erb

@@ -25,11 +25,11 @@ class IndexerService
 
   ###############################################
   # Call: IndexerService.new.start_url_redirect
-  # Call: VerifyUrl.new.starter
+  # Call: UrlVerifier.new.starter
   def start_url_redirect
     puts ">> start_url_redirect..."
-    # VerifyUrl.new.delay.vu_starter
-    VerifyUrl.new.vu_starter
+    # UrlVerifier.new.delay.vu_starter
+    UrlVerifier.new.vu_starter
   end
 
   ###############################################
@@ -50,7 +50,6 @@ class IndexerService
     AccountScraper.new.as_starter
   end
 
-
   ###############################################
   # Call: IndexerService.new.start_account_scraper
   # Call: AccountScraper.new.as_starter
@@ -60,6 +59,8 @@ class IndexerService
     PageFinder.new.pf_starter
   end
   ###############################################
+
+
 
 
   ########################################################
@@ -523,21 +524,6 @@ class IndexerService
     # Indexer.all.map(&:template).uniq
     # Indexer.all.map(&:clean_url).uniq.count
     # Indexer.where.not(indexer_status: "Archived").count
-  end
-
-
-  def melissa
-    # addr = AddressStandardization::MelissaData.standardize_address(
-    #   :street => "1 Infinite Loop",
-    #   :city => "Cupertino",
-    #   :state => "CA"
-    # )
-
-    # addr.street  #=> "1 INFINITE LOOP"
-    # addr.city    #=> "CUPERTINO"
-    # addr.state   #=> "CA"
-    # addr.zip     #=> "95014-2083"
-    # addr.country #=> "USA"
   end
 
 
