@@ -1,4 +1,5 @@
 class RtsManager # Update database with the result of RoofTop Scraper
+  include PhoneFormatter
 
   # STRIPS AND FORMATS DATA BEFORE SAVING TO DB
   def address_formatter(org, street, city, state, zip, phone, rts_phones, url, indexer)
@@ -61,20 +62,6 @@ class RtsManager # Update database with the result of RoofTop Scraper
 
   # ================== Helper ==================
 
-  # FORMATS PHONE AS: (000) 000-0000
-  def phone_formatter(phone)
-    regex = Regexp.new("[A-Z]+[a-z]+")
-    if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
-      phone_stripped = phone.gsub(/[^0-9]/, "")
-      (phone_stripped && phone_stripped[0] == "1") ? phone_step2 = phone_stripped[1..-1] : phone_step2 = phone_stripped
-
-      final_phone = !(phone_step2 && phone_step2.length < 10) ? "(#{phone_step2[0..2]}) #{(phone_step2[3..5])}-#{(phone_step2[6..9])}" : phone
-    else
-      final_phone = nil
-    end
-    final_phone
-  end
-
   def printer(org, street, city, state, zip, phone, rts_phones, full_addr, url, indexer)
     puts "template: #{indexer.template}\nurl: #{url} \n\nRT Result - Success!\n\n"
 
@@ -106,10 +93,4 @@ class RtsManager # Update database with the result of RoofTop Scraper
     return result
   end
 
-  def clean_phones_arr(phones)
-    return phones if phones.empty?
-    new_phones = phones.map {|phone| phone_formatter(phone)}
-    new_phones.delete_if {|x| x.blank?}
-    new_phones.uniq.sort
-  end
 end

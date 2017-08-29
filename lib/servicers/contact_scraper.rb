@@ -36,6 +36,7 @@ class ContactScraper
 
   def cs_starter
     generate_query
+    FormatterCaller.new.model_phone_formatter_caller #=> Formats all results after scraping all queried results.
   end
 
   def generate_query

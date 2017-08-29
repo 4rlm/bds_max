@@ -18,7 +18,8 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 require 'indexer_helper/unknown_template' # Unknown template's info scraper
 require 'indexer_helper/helper' # All helper methods for indexer_service
-require 'servicers/url_verifier' # Bridges UrlRedirector Module to indexer/services.
+require 'servicers/url_verifier'
+require 'servicers/formatter_caller'
 require 'curb' #=> for url_redirector
 
 class IndexerService
@@ -26,19 +27,48 @@ class IndexerService
   ###############################################
   include PhoneFormatter
   # phone_formatter(phone)
-  ## Call: IndexerService.new.phone_formatter_starter
 
-  def phone_formatter_starter
-    puts "1) #{phone_formatter("512-216-7151")}"
-    puts "2) #{phone_formatter("5122167151")}"
-    puts "3) #{phone_formatter("512.216.7151")}"
-    puts "4) #{phone_formatter("(512) 216-7151")}"
-    puts "5) #{phone_formatter("1-512-216-7151")}"
-    puts "6) #{phone_formatter("+1-512-216-7151")}"
-    puts "7) #{phone_formatter("01-512-216-7151")}"
-    puts "8) #{phone_formatter("12-216-151")}"
-  end
   ###############################################
+  # Call: IndexerService.new.model_phone_formatter_starter
+  # Call: FormatterCaller.new.model_phone_formatter_caller
+  def model_phone_formatter_starter
+    puts ">> model_phone_formatter_starter..."
+    # FormatterCaller.new.delay.model_phone_formatter_caller
+    FormatterCaller.new.model_phone_formatter_caller
+  end
+
+  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
+  ## Call: IndexerService.new.phone_formatter_finalizer_caller
+  # def phone_formatter_finalizer_caller
+  #   ## Checks all phones in entire db to ensure proper formatting, before running finalizers.
+  #   model_phone_formatter(Core, :sfdc_ph)
+  #   model_phone_formatter(Core, :alt_ph)
+  #   model_phone_formatter(Indexer, :phone)
+  #   model_phone_formatter(Location, :phone)
+  #   model_phone_formatter(Location, :crm_phone)
+  #   model_phone_formatter(Staffer, :phone)
+  #   model_phone_formatter(Who, :registrant_phone)
+  #   phones_arr_cleaner # Clean Indexer's phones
+  # end
+
+  # def staff_phone_formatter
+  #   staffs = Staffer.where.not(phone: nil)
+  #   counter=0
+  #   staffs.each do |staff|
+  #     raw_phone = staff.phone
+  #     clean_phone = phone_formatter(raw_phone) #=> via PhoneFormatter
+  #
+  #     if !raw_phone.blank? && raw_phone != clean_phone
+  #       counter+=1
+  #       puts "\n\n================"
+  #       puts counter
+  #       puts "raw_phone: #{raw_phone}"
+  #       puts "clean_phone: #{clean_phone}"
+  #       puts "================\n\n"
+  #       staff.update_attribute(:phone, clean_phone)
+  #     end
+  #   end
+  # end
 
 
   ###############################################
@@ -448,8 +478,6 @@ class IndexerService
 
   end
 
-
-
   def core_phone_norm
     #normalizes phone in core sfdc accounts.
     cores = Core.where.not(sfdc_ph: nil)
@@ -457,7 +485,8 @@ class IndexerService
       alert = ""
       sfdc_ph = core.sfdc_ph
       puts "sfdc_ph: #{sfdc_ph}"
-      norm_ph = RtsManager.new.phone_formatter(sfdc_ph)
+      norm_ph = phone_formatter(sfdc_ph) #=> via PhoneFormatter
+
       if norm_ph != sfdc_ph
         alert = "Alert!"
         core.update_attribute(:sfdc_ph, norm_ph)
@@ -830,86 +859,6 @@ class IndexerService
       end
     end
   end
-
-  def staff_phone_formatter
-    staffs = Staffer.where.not(phone: nil)
-    counter=0
-    staffs.each do |staff|
-      raw_phone = staff.phone
-      clean_phone = RtsManager.new.phone_formatter(raw_phone)
-
-      if !raw_phone.blank? && raw_phone != clean_phone
-        counter+=1
-        puts "\n\n================"
-        puts counter
-        puts "raw_phone: #{raw_phone}"
-        puts "clean_phone: #{clean_phone}"
-        puts "================\n\n"
-        staff.update_attribute(:phone, clean_phone)
-      end
-    end
-  end
-
-  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
-  def phone_formatter_finalizer_caller
-    ## Checks all phones in entire db to ensure proper formatting, before running finalizers.
-    # indexers = Indexer.where.not(phone: nil) # phones
-    # locations = Location.where.not(phone: nil) # crm_phone
-    # staffers = Staffer.where.not(phone: nil)
-    # whos = Who.where.not(registrant_phone: nil)
-
-    core_phone_formatter(Core, :sfdc_ph)
-    core_phone_formatter(Core, :alt_ph)
-    core_phone_formatter(Indexer, :phone)
-    core_phone_formatter(Location, :phone)
-    core_phone_formatter(Location, :crm_phone)
-    core_phone_formatter(Staffer, :phone)
-    core_phone_formatter(Who, :registrant_phone)
-    phones_arr_cleaner # Clean Indexer's phones
-  end
-
-
-  def core_phone_formatter(model, col)
-    puts "#{"="*30}\n\n#{model.to_s}: core_phone_formatter\n\n"
-    objs = model.where.not("#{col}": nil)
-    rts_manager = RtsManager.new
-
-    objs.each do |obj|
-      phone = obj.send(col)
-      reg = Regexp.new("[(]?[0-9]{3}[ ]?[)-.]?[ ]?[0-9]{3}[ ]?[-. ][ ]?[0-9]{4}")
-      if phone.first == "0" || phone.include?("(0") || !reg.match(phone)
-        puts "\nINVALID Phone: #{phone.inspect} updated as nil\n#{"-"*30}"
-        obj.update_attribute(col, nil)
-      else
-        new_phone = rts_manager.phone_formatter(phone)
-
-        if phone != new_phone
-          puts "\nO Phone: #{phone.inspect}"
-          puts "N Phone: #{new_phone.inspect}\n#{"-"*30}"
-          obj.update_attribute(col, new_phone)
-        end
-      end
-    end
-  end
-
-
-  def phones_arr_cleaner
-    puts "#{"="*30}\n\nIndexer: phones_arr_cleaner\n\n"
-    rts_manager = RtsManager.new
-    indexers = Indexer.where.not("phones = '{}'")
-
-    indexers.each do |indexer|
-      old_phones = indexer.phones
-      new_phones = rts_manager.clean_phones_arr(old_phones)
-
-      if old_phones != new_phones
-        puts "#{"-"*30}\nOLD Phones: #{old_phones}"
-        puts "NEW Phones: #{new_phones}"
-        indexer.update_attribute(:phones, new_phones)
-      end
-    end
-  end
-
 
   # def m_zip_remover
   #     ## One time use for removing "m" in core zips being imported.

@@ -112,7 +112,7 @@ class WhoisScraper
     @registrant_state = space_stripper(data[/Registrant State\/Province:(.*)/, 1])
     @registrant_zip = space_stripper(data[/Registrant Postal Code:(.*)/, 1])
     registrant_phone = data[/Registrant Phone: (.*)/, 1]
-    @registrant_phone = phone_formatter(registrant_phone)
+    @registrant_phone = phone_formatter(registrant_phone) #=> via PhoneFormatter
     @registrant_email = space_stripper(data[/Registrant Email:(.*)/, 1])
     # @registrar_id = data[/Registrant Name:(.*)/, 1]
     # @registrant_url = data[/Registrant Name:(.*)/, 1]

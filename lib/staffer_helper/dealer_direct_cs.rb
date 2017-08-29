@@ -1,4 +1,6 @@
 class DealerDirectCs
+  include PhoneFormatter
+  
   def initialize
     @helper = CsHelper.new
     @rts_manager = RtsManager.new
@@ -38,7 +40,7 @@ class DealerDirectCs
           elsif name_bool && !job_bool && !phone_bool
             staff_hash[:full_name] = info
           elsif phone_bool
-            staff_hash[:phone] = @rts_manager.phone_formatter(info)
+            staff_hash[:phone] = phone_formatter(info) #=> via PhoneFormatter
           end
         end
 

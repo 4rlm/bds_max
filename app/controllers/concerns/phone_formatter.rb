@@ -1,10 +1,12 @@
 module PhoneFormatter
   extend ActiveSupport::Concern
 
-  ## Call: IndexerService.new.phone_formatter_starter
-
+  #################################
   ## FORMATS PHONE AS: (000) 000-0000
   ## Assumes phone is legitimate, then formats.  Not designed to detect valid phone number.
+  ## Add this where you want to use it:
+  ## include PhoneFormatter
+  ## phone_formatter(phone)
   def phone_formatter(phone)
     regex = Regexp.new("[A-Z]+[a-z]+")
     if !phone.blank? && (phone != "N/A" || phone != "0") && !regex.match(phone)
@@ -18,42 +20,39 @@ module PhoneFormatter
     final_phone
   end
 
-  ##########
-
+  #################################
+  # Call: IndexerService.new.model_phone_formatter_starter
+  # Call: FormatterCaller.new.model_phone_formatter_caller
   def model_phone_formatter(model, col) #=> Formats phone on model level.
     puts "#{"="*30}\n\n#{model.to_s}: model_phone_formatter\n\n"
     objs = model.where.not("#{col}": nil)
-    # rts_manager = RtsManager.new
 
     objs.each do |obj|
       phone = obj.send(col)
       reg = Regexp.new("[(]?[0-9]{3}[ ]?[)-.]?[ ]?[0-9]{3}[ ]?[-. ][ ]?[0-9]{4}")
       if phone.first == "0" || phone.include?("(0") || !reg.match(phone)
         puts "\nINVALID Phone: #{phone.inspect} updated as nil\n#{"-"*30}"
-        # obj.update_attribute(col, nil)
+        obj.update_attribute(col, nil)
       else
-        # new_phone = rts_manager.phone_formatter(phone)
         new_phone = phone_formatter(phone)
 
         if phone != new_phone
           puts "\nO Phone: #{phone.inspect}"
           puts "N Phone: #{new_phone.inspect}\n#{"-"*30}"
-          # obj.update_attribute(col, new_phone)
+          obj.update_attribute(col, new_phone)
         end
       end
     end
   end
 
-  ##########
-
+  #################################
   def phones_arr_cleaner
     puts "#{"="*30}\n\nIndexer: phones_arr_cleaner\n\n"
-    # rts_manager = RtsManager.new
     indexers = Indexer.where.not("phones = '{}'")
 
     indexers.each do |indexer|
       old_phones = indexer.phones
-      new_phones = rts_manager.clean_phones_arr(old_phones)
+      new_phones = clean_phones_arr(old_phones)
 
       if old_phones != new_phones
         puts "#{"-"*30}\nOLD Phones: #{old_phones}"
@@ -61,6 +60,14 @@ module PhoneFormatter
         indexer.update_attribute(:phones, new_phones)
       end
     end
+  end
+
+  #################################
+  def clean_phones_arr(phones)
+    return phones if phones.empty?
+    new_phones = phones.map {|phone| phone_formatter(phone)} #=> via PhoneFormatter
+    new_phones.delete_if {|x| x.blank?}
+    new_phones.uniq.sort
   end
 
 end

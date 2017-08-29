@@ -18,7 +18,7 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 require 'indexer_helper/unknown_template' # Unknown template's info scraper
 require 'indexer_helper/helper' # All helper methods for indexer_service
-require 'servicers/verify_url' # Bridges UrlRedirector Module to indexer/services.
+require 'servicers/url_verifier' # Bridges UrlRedirector Module to indexer/services.
 require 'curb' #=> for url_redirector
 
 # Call: IndexerService.new.start_page_finder

@@ -36,8 +36,8 @@ module ComplexQueryIterator
     puts "batch_of_ids: #{batch_of_ids}"
     puts "PPID: #{Process.ppid}"
     puts "PID: #{Process.pid}"
-    batch_of_ids.each { |ids| delay.standard_iterator(ids) }
-    # batch_of_ids.each { |ids| standard_iterator(ids) }
+    # batch_of_ids.each { |ids| delay.standard_iterator(ids) }
+    batch_of_ids.each { |ids| standard_iterator(ids) }
   end
 
   def standard_iterator(ids)
@@ -45,8 +45,8 @@ module ComplexQueryIterator
 
     ids.each do |id|
       if id.present?
-        # template_starter(id)
-        delay.template_starter(id)
+        template_starter(id)
+        # delay.template_starter(id)
       else
         puts "\n === Empty or End of Query Iteration.=== \n\n"
         # return

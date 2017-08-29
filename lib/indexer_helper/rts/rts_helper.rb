@@ -1,5 +1,7 @@
 class RtsHelper # RoofTop Scraper Helper Method
+  include PhoneFormatter
   # PARSES OUT THE ADDRESS FROM:  html.at_css('.dealer-info').text when address contains "\n"
+
   def addr_parser(str)
     str.strip!
     parts = str.split("   ")
@@ -124,7 +126,7 @@ class RtsHelper # RoofTop Scraper Helper Method
         result = city_qualifier(el, negs) if option == "city"
         result = state_qualifier(el, negs) if option == "state"
         result = zip_qualifier(el, negs) if option == "zip"
-        result = RtsManager.new.phone_formatter(el) if option == "phone"
+        result = phone_formatter(el) if option == "phone" #=> via PhoneFormatter
         break if result
       end
     end

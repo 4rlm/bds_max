@@ -1,4 +1,7 @@
 class CsHelper # Contact Scraper Helper Method
+  include PhoneFormatter
+  # phone_formatter(phone)
+
   def initialize
     @rts_manager = RtsManager.new
   end
@@ -25,7 +28,7 @@ class CsHelper # Contact Scraper Helper Method
 
       # Clean rest
       staff_hash[:job] = staff_hash[:job].strip if staff_hash[:job]
-      staff_hash[:phone] = @rts_manager.phone_formatter(staff_hash[:phone].strip) if staff_hash[:phone]
+      staff_hash[:phone] = phone_formatter(staff_hash[:phone].strip) if staff_hash[:phone] #=> via PhoneFormatter
 
     end
     create_staffer(indexer, staff_hash_array)
@@ -168,7 +171,7 @@ class CsHelper # Contact Scraper Helper Method
           elsif name_bool && !job_bool && !phone_bool
             staff_hash[:full_name] = info
           elsif phone_bool
-            staff_hash[:phone] = @rts_manager.phone_formatter(info)
+            staff_hash[:phone] = phone_formatter(info) #=> via PhoneFormatter
           end
         end
 
