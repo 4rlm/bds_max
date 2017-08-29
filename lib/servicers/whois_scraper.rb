@@ -15,7 +15,7 @@ class WhoisScraper
   include AddressPinGenerator
 
   def initialize
-    puts "\n\n== Welcome to the WhoIs2 Class! ==\n\n"
+    puts "\n\n== Welcome to the WhoisScraper Class! ==\n\n"
     @class_pid = Process.pid
     @query_limit = 20 #=> Number of rows per batch in raw_query.
 
