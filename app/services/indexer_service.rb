@@ -18,10 +18,28 @@ require 'indexer_helper/rts/rts_helper'
 require 'indexer_helper/rts/rts_manager'
 require 'indexer_helper/unknown_template' # Unknown template's info scraper
 require 'indexer_helper/helper' # All helper methods for indexer_service
-require 'servicers/verify_url' # Bridges UrlRedirector Module to indexer/services.
+require 'servicers/url_verifier' # Bridges UrlRedirector Module to indexer/services.
 require 'curb' #=> for url_redirector
 
 class IndexerService
+
+  ###############################################
+  include PhoneFormatter
+  # phone_formatter(phone)
+  ## Call: IndexerService.new.phone_formatter_starter
+
+  def phone_formatter_starter
+    puts "1) #{phone_formatter("512-216-7151")}"
+    puts "2) #{phone_formatter("5122167151")}"
+    puts "3) #{phone_formatter("512.216.7151")}"
+    puts "4) #{phone_formatter("(512) 216-7151")}"
+    puts "5) #{phone_formatter("1-512-216-7151")}"
+    puts "6) #{phone_formatter("+1-512-216-7151")}"
+    puts "7) #{phone_formatter("01-512-216-7151")}"
+    puts "8) #{phone_formatter("12-216-151")}"
+  end
+  ###############################################
+
 
   ###############################################
   # Call: IndexerService.new.start_url_redirect
@@ -91,24 +109,6 @@ class IndexerService
       crm_count = Staffer.where(domain: indexer.clean_url).where(cont_source: "CRM").count
       puts ">>>>> #{num}"
       indexer.update_attributes(web_staff_count: web_count, crm_staff_count: crm_count)
-    end
-  end
-
-
-  def phones_arr_cleaner
-    puts "#{"="*30}\n\nIndexer: phones_arr_cleaner\n\n"
-    rts_manager = RtsManager.new
-    indexers = Indexer.where.not("phones = '{}'")
-
-    indexers.each do |indexer|
-      old_phones = indexer.phones
-      new_phones = rts_manager.clean_phones_arr(old_phones)
-
-      if old_phones != new_phones
-        puts "#{"-"*30}\nOLD Phones: #{old_phones}"
-        puts "NEW Phones: #{new_phones}"
-        indexer.update_attribute(:phones, new_phones)
-      end
     end
   end
 
@@ -850,6 +850,7 @@ class IndexerService
     end
   end
 
+  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
   def phone_formatter_finalizer_caller
     ## Checks all phones in entire db to ensure proper formatting, before running finalizers.
     # indexers = Indexer.where.not(phone: nil) # phones
@@ -887,6 +888,24 @@ class IndexerService
           puts "N Phone: #{new_phone.inspect}\n#{"-"*30}"
           obj.update_attribute(col, new_phone)
         end
+      end
+    end
+  end
+
+
+  def phones_arr_cleaner
+    puts "#{"="*30}\n\nIndexer: phones_arr_cleaner\n\n"
+    rts_manager = RtsManager.new
+    indexers = Indexer.where.not("phones = '{}'")
+
+    indexers.each do |indexer|
+      old_phones = indexer.phones
+      new_phones = rts_manager.clean_phones_arr(old_phones)
+
+      if old_phones != new_phones
+        puts "#{"-"*30}\nOLD Phones: #{old_phones}"
+        puts "NEW Phones: #{new_phones}"
+        indexer.update_attribute(:phones, new_phones)
       end
     end
   end
@@ -1316,6 +1335,8 @@ class IndexerService
     # geo_to_indexer(p3_indexers)  ## Use to re-write mistakes above.
   end
 
+
+  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
   def geo_to_indexer(indexers)
     ## Migrates account url, acct, phone, pin, addr, street, city, state, zip from geo to indexer IF indexer rts results are Meta or if account name is nil, based on same clean_url.
 
@@ -1365,7 +1386,7 @@ class IndexerService
 
   end
 
-
+  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
   def address_formatter
     ## Migrates full_addr, street, city, state, zip from geo to indexer IF clean_url and acct pin same.
     indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Result").where.not(acct_pin: nil) # 18,983
@@ -1406,6 +1427,7 @@ class IndexerService
   end
 
 
+  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
   def phone_migrator
     ## About: Migrates geo phone to Indexer if indexer phone is nil, and indexer and geo share same clean_url.
     indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Phone").where(phone: nil) # 11,862

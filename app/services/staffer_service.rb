@@ -51,6 +51,7 @@ class StafferService
     end
   end
 
+  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
   def crm_staff_counter
     cores = Core.all
 

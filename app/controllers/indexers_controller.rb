@@ -234,7 +234,7 @@ class IndexersController < ApplicationController
   end
 
   def address_formatter_btn
-    @service.adelay.ddress_formatter
+    @service.delay.address_formatter
     redirect_to admin_developer_path
   end
 

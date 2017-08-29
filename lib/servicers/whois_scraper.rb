@@ -13,6 +13,7 @@ class WhoisScraper
   include InternetConnectionValidator
   include ComplexQueryIterator
   include AddressPinGenerator
+  include PhoneFormatter
 
   def initialize
     puts "\n\n== Welcome to the WhoisScraper Class! ==\n\n"
@@ -72,7 +73,7 @@ class WhoisScraper
 
     @indexer.update_attributes(indexer_status: "WhoisScraper", who_status: @whois_result_status, whois_date: DateTime.now)
 
-    delay_time = rand(20)
+    delay_time = rand(15)
     puts "Delay: #{delay_time}"
     sleep(delay_time)
 
@@ -99,6 +100,7 @@ class WhoisScraper
     end
   end
 
+  ## Call: WhoisScraper.new.wi_starter
   def parse_whois_record
     data = @record.to_s
     @domain_id = space_stripper(data[/Registry Domain ID:(.*)/, 1])
@@ -109,7 +111,8 @@ class WhoisScraper
     @registrant_city = space_stripper(data[/Registrant City:(.*)/, 1])
     @registrant_state = space_stripper(data[/Registrant State\/Province:(.*)/, 1])
     @registrant_zip = space_stripper(data[/Registrant Postal Code:(.*)/, 1])
-    @registrant_phone = space_stripper(data[/Registrant Phone: +1.(.*)/, 1])
+    registrant_phone = data[/Registrant Phone: (.*)/, 1]
+    @registrant_phone = phone_formatter(registrant_phone)
     @registrant_email = space_stripper(data[/Registrant Email:(.*)/, 1])
     # @registrar_id = data[/Registrant Name:(.*)/, 1]
     # @registrant_url = data[/Registrant Name:(.*)/, 1]

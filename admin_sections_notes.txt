@@ -18,12 +18,26 @@ Admin Sections:
   cs_starter_btn_path
 
 
+
+
+
+
+
 3. Formatter Starters: /admin/_starters_formatter.html.erb
-  crm_staff_counter_btn_path
-  phone_formatter_finalizer_btn_path
-  geo_to_indexer_btn_path
-  address_formatter_btn_path
-  phone_migrator_btn_path
+  crm_staff_counter_btn_path => services/staffer_service.rb
+
+  phone_formatter_finalizer_btn_path => services/indexer_service.rb => phone_formatter_finalizer_caller
+
+  address_formatter_btn_path => services/indexer_service.rb => address_formatter
+
+  phone_migrator_btn_path => services/indexer_service.rb => phone_migrator
+
+  geo_to_indexer_btn_path => services/indexer_service.rb => geo_to_indexer
+
+## Notes:
+Create class for each in servicers.
+
+
 
 
 4. Finalizer Starters: /admin/_starters_finalizer.html.erb
