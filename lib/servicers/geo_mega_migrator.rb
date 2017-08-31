@@ -7,7 +7,6 @@ class GeoMegaMigrator
 
   def initialize
     puts "\n\n== Welcome to the GeoMegaMigrator Class! ==\n\n"
-    @criteria = ['Meta Result', 'MS Result', 'Error', '|']
   end
 
   def gm_starter
@@ -15,26 +14,27 @@ class GeoMegaMigrator
 
     counter = 0
     indexers.each do |indexer|
-      @target_row = indexer
       counter+=1
       puts "\n\n#{counter}#{"-"*30}"
 
-      geos = Location.where(url: @target_row.clean_url)
+      geos = Location.where(url: indexer.clean_url)
       geos.each do |geo|
-        @compare_row = geo
-        # counter+=1
-        # puts "\n\n#{counter}#{"-"*30}"
-
-        start_compare_and_update #=> via CompareAndUpdate module
-        # update_db #=> via CompareAndUpdate module
+        configure_compare_and_update(indexer, geo)
       end
     end
 
   end
 
+  def configure_compare_and_update(target_row, compare_row)
+    @criteria = ['Meta Result', 'MS Result', 'Error', '|']
+    @target_row = target_row
+    @compare_row = compare_row
+
+    start_compare_and_update #=> via CompareAndUpdate module
+  end
+
   def setup_fields
     ## compare_fields #=> via CompareAndUpdate module
-    @update_hash = {}
     compare_fields("clean_url", "url")
     compare_fields("acct_name", "geo_acct_name")
     compare_fields("acct_pin", "geo_acct_pin")

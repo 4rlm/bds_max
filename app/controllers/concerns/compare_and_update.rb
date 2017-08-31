@@ -4,6 +4,7 @@ module CompareAndUpdate
 
   ######## See Usage Notes at Bottom ########
   def start_compare_and_update
+    @update_hash = {}
     setup_fields
     update_db
   end
