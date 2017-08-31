@@ -4,6 +4,7 @@ module PhoneFormatter
   #################################
   ## FORMATS PHONE AS: (000) 000-0000
   ## Assumes phone is legitimate, then formats.  Not designed to detect valid phone number.
+
   ## Add this where you want to use it:
   ## include PhoneFormatter
   ## phone_formatter(phone)
@@ -21,8 +22,10 @@ module PhoneFormatter
   end
 
   #################################
-  # Call: IndexerService.new.model_phone_formatter_starter
-  # Call: FormatterCaller.new.model_phone_formatter_caller
+  ## Checks every phone number in table to verify that it meets phone criteria, then calls phone_formatter method to format valid results.  Otherwise replaces invalid phone fields with nil.
+
+  ## Call: IndexerService.new.model_phone_formatter_starter
+  ## Call: FormatterCaller.new.model_phone_formatter_caller
   def model_phone_formatter(model, col) #=> Formats phone on model level.
     puts "#{"="*30}\n\n#{model.to_s}: model_phone_formatter\n\n"
     objs = model.where.not("#{col}": nil)

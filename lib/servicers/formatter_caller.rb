@@ -8,8 +8,8 @@ class FormatterCaller
   include PhoneFormatter
   ## FormatterCaller class runs formatting methods in PhoneFormatter module.  Is intended to be used before running the dashboard finalizers as a final check on proper formatting.
 
-  # Call: IndexerService.new.model_phone_formatter_starter
-  # Call: FormatterCaller.new.model_phone_formatter_caller
+  ## Call: IndexerService.new.model_phone_formatter_starter
+  ## Call: FormatterCaller.new.model_phone_formatter_caller
   def model_phone_formatter_caller
     ## Checks all phones in entire db to ensure proper formatting, before running finalizers.
     model_phone_formatter(Core, :sfdc_ph)

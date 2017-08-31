@@ -41,6 +41,7 @@ class AccountScraper
 
   def as_starter
     generate_query
+    GeoPhoneMigrator.new.gp_starter #=> Grabs geo_locations phone if no phone scraped.
     FormatterCaller.new.model_phone_formatter_caller #=> Formats all results after scraping all queried results.
   end
 

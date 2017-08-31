@@ -38,38 +38,44 @@ class IndexerService
   end
 
   ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
-  ## Call: IndexerService.new.phone_formatter_finalizer_caller
-  # def phone_formatter_finalizer_caller
-  #   ## Checks all phones in entire db to ensure proper formatting, before running finalizers.
-  #   model_phone_formatter(Core, :sfdc_ph)
-  #   model_phone_formatter(Core, :alt_ph)
-  #   model_phone_formatter(Indexer, :phone)
-  #   model_phone_formatter(Location, :phone)
-  #   model_phone_formatter(Location, :crm_phone)
-  #   model_phone_formatter(Staffer, :phone)
-  #   model_phone_formatter(Who, :registrant_phone)
-  #   phones_arr_cleaner # Clean Indexer's phones
-  # end
+  def address_formatter
+    ## Migrates full_addr, street, city, state, zip from geo to indexer IF clean_url and acct pin same.
+    indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Result").where.not(acct_pin: nil) # 18,983
 
-  # def staff_phone_formatter
-  #   staffs = Staffer.where.not(phone: nil)
-  #   counter=0
-  #   staffs.each do |staff|
-  #     raw_phone = staff.phone
-  #     clean_phone = phone_formatter(raw_phone) #=> via PhoneFormatter
-  #
-  #     if !raw_phone.blank? && raw_phone != clean_phone
-  #       counter+=1
-  #       puts "\n\n================"
-  #       puts counter
-  #       puts "raw_phone: #{raw_phone}"
-  #       puts "clean_phone: #{clean_phone}"
-  #       puts "================\n\n"
-  #       staff.update_attribute(:phone, clean_phone)
-  #     end
-  #   end
-  # end
+    counter = 0
+    indexers.each do |indexer|
+      ind_url = indexer.clean_url
+      ind_pin = indexer.acct_pin
+      ind_addr = indexer.full_addr
 
+      geos = Location.where(geo_acct_pin: ind_pin)
+      geos.each do |geo|
+        geo_url = geo.url
+        geo_pin = geo.geo_acct_pin
+        geo_addr = geo.geo_full_addr
+        geo_street = geo.street
+        geo_city = geo.city
+        geo_state_code = geo.state_code
+        geo_postal_code = geo.postal_code
+
+        counter+=1
+        puts "\n\n#{counter}#{"-"*30}"
+        puts "ind_url: #{ind_url}"
+        puts "geo_url: #{geo_url}"
+        puts "ind_pin: #{ind_pin}"
+        puts "geo_pin: #{geo_pin}\n\n"
+        puts "ind_addr: #{ind_addr}"
+        puts "geo_addr: #{geo_addr}\n\n"
+
+        puts "geo_street: #{geo_street}"
+        puts "geo_city: #{geo_city}"
+        puts "geo_state_code: #{geo_state_code}"
+        puts "geo_postal_code: #{geo_postal_code}\n\n"
+
+        indexer.update_attributes(indexer_status: "Geo Formatted", geo_status: "Geo Formatted", full_addr: geo_addr, street: geo_street, city: geo_city, state: geo_state_code, zip: geo_postal_code)
+      end
+    end
+  end
 
   ###############################################
   # Call: IndexerService.new.start_url_redirect
@@ -1275,136 +1281,13 @@ class IndexerService
     core_score.to_i < new_score.to_i # true: okay to update, false: do not update
   end
 
-  def geo_to_indexer_caller
-    p1_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(acct_name: [nil, "", " ", ]) # 10,000
-    geo_to_indexer(p1_indexers)
-    p2_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(rt_sts: "MS Result") # 7,486
-    geo_to_indexer(p2_indexers)
-    # p3_indexers = Indexer.where(indexer_status: "Geo Result", geo_status: "Geo Result")
-    # geo_to_indexer(p3_indexers)  ## Use to re-write mistakes above.
-  end
-
-
-  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
-  def geo_to_indexer(indexers)
-    ## Migrates account url, acct, phone, pin, addr, street, city, state, zip from geo to indexer IF indexer rts results are Meta or if account name is nil, based on same clean_url.
-
-    counter = 0
-    indexers.each do |indexer|
-      ind_url = indexer.clean_url
-      ind_acct = indexer.acct_name
-      ind_phone = indexer.phone
-      ind_pin = indexer.acct_pin
-      ind_addr = indexer.full_addr
-
-      geos = Location.where(url: ind_url)
-      geos.each do |geo|
-        geo_url = geo.url
-        geo_acct = geo.geo_acct_name
-        geo_phone = geo.phone
-        geo_pin = geo.geo_acct_pin
-        geo_addr = geo.geo_full_addr
-
-        geo_street = geo.street
-        geo_city = geo.city
-        geo_state_code = geo.state_code
-        geo_postal_code = geo.postal_code
-
-        counter+=1
-        puts "\n\n#{counter}#{"-"*30}"
-        puts "ind_url: #{ind_url}"
-        puts "ind_acct: #{ind_acct}"
-        puts "ind_phone: #{ind_phone}"
-        puts "ind_pin: #{ind_pin}"
-        puts "ind_addr: #{ind_addr}\n\n"
-
-        puts "geo_url: #{geo_url}"
-        puts "geo_acct: #{geo_acct}"
-        puts "geo_phone: #{geo_phone}"
-        puts "geo_pin: #{geo_pin}"
-        puts "geo_addr: #{geo_addr}\n\n"
-
-        puts "geo_street: #{geo_street}"
-        puts "geo_city: #{geo_city}"
-        puts "geo_state_code: #{geo_state_code}"
-        puts "geo_postal_code: #{geo_postal_code}"
-
-        indexer.update_attributes(indexer_status: "Geo Result", geo_status: "Geo Result", acct_name: geo_acct, phone: geo_phone, acct_pin: geo_pin, full_addr: geo_addr, street: geo_street, city: geo_city, state: geo_state_code, zip: geo_postal_code)
-      end
-    end
-
-  end
-
-  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
-  def address_formatter
-    ## Migrates full_addr, street, city, state, zip from geo to indexer IF clean_url and acct pin same.
-    indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Result").where.not(acct_pin: nil) # 18,983
-
-    counter = 0
-    indexers.each do |indexer|
-      ind_url = indexer.clean_url
-      ind_pin = indexer.acct_pin
-      ind_addr = indexer.full_addr
-
-      geos = Location.where(geo_acct_pin: ind_pin)
-      geos.each do |geo|
-        geo_url = geo.url
-        geo_pin = geo.geo_acct_pin
-        geo_addr = geo.geo_full_addr
-        geo_street = geo.street
-        geo_city = geo.city
-        geo_state_code = geo.state_code
-        geo_postal_code = geo.postal_code
-
-        counter+=1
-        puts "\n\n#{counter}#{"-"*30}"
-        puts "ind_url: #{ind_url}"
-        puts "geo_url: #{geo_url}"
-        puts "ind_pin: #{ind_pin}"
-        puts "geo_pin: #{geo_pin}\n\n"
-        puts "ind_addr: #{ind_addr}"
-        puts "geo_addr: #{geo_addr}\n\n"
-
-        puts "geo_street: #{geo_street}"
-        puts "geo_city: #{geo_city}"
-        puts "geo_state_code: #{geo_state_code}"
-        puts "geo_postal_code: #{geo_postal_code}\n\n"
-
-        indexer.update_attributes(indexer_status: "Geo Formatted", geo_status: "Geo Formatted", full_addr: geo_addr, street: geo_street, city: geo_city, state: geo_state_code, zip: geo_postal_code)
-      end
-    end
-  end
-
-
-  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
-  def phone_migrator
-    ## About: Migrates geo phone to Indexer if indexer phone is nil, and indexer and geo share same clean_url.
-    indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Phone").where(phone: nil) # 11,862
-
-    counter = 0
-    indexers.each do |indexer|
-      ind_url = indexer.clean_url
-      ind_phone = indexer.phone
-      ind_pin = indexer.acct_pin
-
-      geos = Location.where(url: ind_url)
-      geos.each do |geo|
-        geo_url = geo.url
-        geo_phone = geo.phone
-        geo_pin = geo.geo_acct_pin
-
-        counter+=1
-        puts "\n\n#{counter}#{"-"*30}"
-        puts "ind_url: #{ind_url}"
-        puts "geo_url: #{geo_url}"
-        puts "ind_pin: #{ind_pin}"
-        puts "geo_pin: #{geo_pin}\n\n"
-        puts "ind_phone: #{ind_phone}"
-        puts "geo_phone: #{geo_phone}\n\n"
-
-        indexer.update_attributes(indexer_status: "Geo Phone", geo_status: "Geo Phone", phone: geo_phone)
-      end
-    end
-  end
+  # def geo_to_indexer_caller
+  #   p1_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(acct_name: [nil, "", " ", ]) # 10,000
+  #   geo_to_indexer(p1_indexers)
+  #   p2_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(rt_sts: "MS Result") # 7,486
+  #   geo_to_indexer(p2_indexers)
+  #   # p3_indexers = Indexer.where(indexer_status: "Geo Result", geo_status: "Geo Result")
+  #   # geo_to_indexer(p3_indexers)  ## Use to re-write mistakes above.
+  # end
 
 end # IndexerService class Ends ---
