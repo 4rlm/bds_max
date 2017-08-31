@@ -1,12 +1,21 @@
 module CompareAndUpdate
   extend ActiveSupport::Concern
-  ## Paste inside parent class: 'include CompareAndUpdate'
+  ###### Usage & Description at Bottom ######
 
-  ######## See Usage Notes at Bottom ########
   def start_compare_and_update
     @update_hash = {}
-    setup_fields
+    extract_field_sets
     update_db
+  end
+
+  def extract_field_sets
+    @field_sets.each { |item| compare_fields(item[0], item[1]) }
+  end
+
+  def extract_manual_update_sets
+    @manual_update_sets.each do |item|
+      @update_hash[item[0].to_sym] = item[1]
+    end
   end
 
   def compare_fields(target_field, compare_field)
@@ -16,43 +25,48 @@ module CompareAndUpdate
     if (target_attr == nil || @criteria.any? { |rule| target_attr.include?(rule) }) && compare_attr.present? && target_attr != compare_attr
       puts "\n#{target_field}: #{target_attr}"
       puts "#{compare_field}: #{compare_attr}"
-
       @update_hash[target_field.to_sym] = compare_attr
     end
-
   end
 
   def update_db
     if @update_hash.present?
+      extract_manual_update_sets
       puts "@target_row.update_attributes(#{@update_hash})"
       # @target_row.update_attributes(@update_hash)
       binding.pry
     end
-
   end
 
 end
 
 
 
-######## See Usage Notes at Bottom ########
-## For Usage Example, see: lib/servicers/geo_mega_migrator.rb
-## Be sure to use below 2 methods inside the parent class.
+###### Usage & Description ######
+
+## Description: Dynamically compares values from two different tables, then updates the target attribute if it fits criteria.
+
+## Usage: Must copy and paste into parent class:
+  ## 1) 'include CompareAndUpdate'
+  ## 2) Entire method below.
+  ## Example: lib/servicers/geo_mega_migrator.rb
 
 
-# def setup_fields
-#   @update_hash = {}
-#   compare_fields("clean_url", "url")
-#   compare_fields("acct_name", "geo_acct_name")
-#   compare_fields("acct_pin", "geo_acct_pin")
-#   setup_conditional_fields if compare_fields("full_addr", "geo_full_addr")
-# end
-
-
-# def setup_conditional_fields
-#   ### Fields only compared if triggered by change in parent field.
-#   compare_fields("street", "street")
-#   compare_fields("city", "city")
-#   compare_fields("state", "state_code")
-#   compare_fields("zip", "postal_code")
-# end
+  # def configure_compare_and_update(target_row, compare_row) #=> via CompareAndUpdate module
+  #   @criteria = ['Meta Result', 'MS Result', 'Error', '|']
+  #   @target_row = target_row
+  #   @compare_row = compare_row
+  #
+  #   @field_sets = [
+  #     [:clean_url, :url],
+  #     [:acct_name, :geo_acct_name],
+  #     [:acct_pin, :geo_acct_pin],
+  #     [:full_addr, :geo_full_addr],
+  #     [:street, :street],
+  #     [:city, :city],
+  #     [:state, :state_code],
+  #     [:zip, :postal_code]
+  #   ]
+  #
+  #   start_compare_and_update #=> via CompareAndUpdate module
+  # end

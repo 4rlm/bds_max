@@ -10,81 +10,48 @@ class GeoMegaMigrator
   end
 
   def gm_starter
-    indexers = Indexer.where(acct_name: [nil, "", " "]).or(Indexer.where("acct_name LIKE '%|%'")).or(Indexer.where(rt_sts: ["MS Result", "Meta Result"])).where(archive: false).where.not(clean_url: nil)[500..700]
-
-    counter = 0
-    indexers.each do |indexer|
-      counter+=1
-      puts "\n\n#{counter}#{"-"*30}"
-
-      geos = Location.where(url: indexer.clean_url)
-      geos.each do |geo|
-        configure_compare_and_update(indexer, geo)
-      end
-    end
-
+    query_target_rows
   end
 
-  def configure_compare_and_update(target_row, compare_row)
+  def query_target_rows
+    indexers = Indexer
+      .where(acct_name: [nil, "", " "])
+      .or(Indexer.where("acct_name LIKE '%|%'"))
+      .or(Indexer.where(rt_sts: ["MS Result", "Meta Result"]))
+      .where(archive: false)
+      .where.not(clean_url: nil)[0..600]
+
+    indexers.each { |indexer| query_compare_rows(indexer) }
+  end
+
+  def query_compare_rows(indexer)
+    geos = Location.where(url: indexer.clean_url)
+    geos.each { |geo| configure_compare_and_update(indexer, geo) }
+  end
+
+  def configure_compare_and_update(target_row, compare_row) #=> via CompareAndUpdate module
     @criteria = ['Meta Result', 'MS Result', 'Error', '|']
     @target_row = target_row
     @compare_row = compare_row
 
+    @manual_update_sets = [
+      [:indexer_status, 'GeoMegaMigrator'],
+      [:rt_sts, 'GeoMegaMigrator'],
+      [:loc_status, 'GeoMegaMigrator']
+    ]
+
+    @field_sets = [
+      [:clean_url, :url],
+      [:acct_name, :geo_acct_name],
+      [:acct_pin, :geo_acct_pin],
+      [:full_addr, :geo_full_addr],
+      [:street, :street],
+      [:city, :city],
+      [:state, :state_code],
+      [:zip, :postal_code]
+    ]
+
     start_compare_and_update #=> via CompareAndUpdate module
   end
-
-  def setup_fields
-    ## compare_fields #=> via CompareAndUpdate module
-    compare_fields("clean_url", "url")
-    compare_fields("acct_name", "geo_acct_name")
-    compare_fields("acct_pin", "geo_acct_pin")
-    setup_conditional_fields if compare_fields("full_addr", "geo_full_addr")
-  end
-
-  def setup_conditional_fields
-    ### Fields only compared if triggered by change in parent field.
-    ## compare_fields #=> via CompareAndUpdate module
-    compare_fields("street", "street")
-    compare_fields("city", "city")
-    compare_fields("state", "state_code")
-    compare_fields("zip", "postal_code")
-  end
-
-
-
-
-########################################################
-  ### Notes: ####
-  # @update_hash[:acct_name] = 'sample'
-  # @update_hash[:phone] = 'sample'
-  # @target_row.update_attributes(@update_hash)
-
-  ### Works below!!! ###
-  # def printer(target_field, comparing_field)
-  #   id = @target_row.id #=> 8018
-  #   sample = @target_row.send(target_field)
-  #   @update_hash = {}
-  #
-  #   if id == 8018
-  #     target_sym = target_field.to_sym
-  #
-  #     @update_hash[:acct_name] = 'sample'
-  #     @update_hash[:phone] = 'sample'
-  #     # @target_row.update_attributes(@update_hash)
-  #     binding.pry
-  #
-  #   end
-  # end
-
-### Works below!!! ###
-  # def printer(category, input_a, input_b)
-  #   if (input_a == nil || @criteria.any? { |rule| input_a.include?(rule) }) && input_b.present? && input_a != input_b
-  #     puts "#{category}: #{input_a}"
-  #     puts "#{category}: #{input_b}"
-  #     @found_data_difference = true
-  #   else
-  #     puts "False"
-  #   end
-  # end
 
 end
