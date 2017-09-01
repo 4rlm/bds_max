@@ -1,6 +1,8 @@
 module CompareAndUpdate
   extend ActiveSupport::Concern
-  ###### Usage & Description at Bottom ######
+
+  ## Description: Dynamically compares values from two different tables, then updates the target attribute if it fits criteria.
+  ###### Usage at Bottom ######
 
   def start_compare_and_update
     @update_hash = {}
@@ -18,23 +20,36 @@ module CompareAndUpdate
     end
   end
 
+  def filter_criteria(target_attr)
+    rule_status = false
+    if @criteria
+      @criteria.each{ |rule| rule_status = true if target_attr.include?(rule) }
+    end
+    rule_status
+  end
+
   def compare_fields(target_field, compare_field)
     target_attr = @target_row.send(target_field)
     compare_attr = @compare_row.send(compare_field)
 
-    if (target_attr == nil || @criteria.any? { |rule| target_attr.include?(rule) }) && compare_attr.present? && target_attr != compare_attr
-      puts "\n#{target_field}: #{target_attr}"
-      puts "#{compare_field}: #{compare_attr}"
-      @update_hash[target_field.to_sym] = compare_attr
+    if compare_attr.present? && target_attr != compare_attr
+      if target_attr == nil || filter_criteria(target_attr)
+        puts "\n#{target_field}: #{target_attr}\n#{compare_field}: #{compare_attr}"
+        @update_hash[target_field.to_sym] = compare_attr
+      elsif @criteria == nil
+        puts "\n#{target_field}: #{target_attr}\n#{compare_field}: #{compare_attr}"
+        @update_hash[target_field.to_sym] = compare_attr
+      end
     end
+
   end
 
   def update_db
     if @update_hash.present?
       extract_manual_update_sets
-      puts "@target_row.update_attributes(#{@update_hash})"
-      # @target_row.update_attributes(@update_hash)
-      binding.pry
+      # puts "@target_row.update_attributes(#{@update_hash})"
+      @target_row.update_attributes(@update_hash)
+      # binding.pry
     end
   end
 
@@ -42,9 +57,7 @@ end
 
 
 
-###### Usage & Description ######
-
-## Description: Dynamically compares values from two different tables, then updates the target attribute if it fits criteria.
+###### Usage ######
 
 ## Usage: Must copy and paste into parent class:
   ## 1) 'include CompareAndUpdate'

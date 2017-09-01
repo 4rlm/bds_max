@@ -37,6 +37,7 @@ class IndexerService
     FormatterCaller.new.model_phone_formatter_caller
   end
 
+  #### Replaced by AddressFormatter class ####
   ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
   def address_formatter
     ## Migrates full_addr, street, city, state, zip from geo to indexer IF clean_url and acct pin same.
