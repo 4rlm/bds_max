@@ -862,46 +862,18 @@ class IndexerService
 
 
 
-
-
-
-  # ADDS CORE ID TO INDEXER URL ARRAY
-  ## CHANGE NAME TO: UrlSorter
-  def url_arr_mover
-    puts "\n\n#{"="*40}STARTING ID SORTER METHOD 1: URL ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped URL as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
-
-    cores = Core.where.not(sfdc_clean_url: nil)
-    counter=0
-    cores.each do |core|
-      sfdc_clean_url = core.sfdc_clean_url
-      sfdc_id = core.sfdc_id
-
-      if sfdc_clean_url != "http://" && sfdc_clean_url != "https://"
-        indexers = Indexer.where(archive: false).where(clean_url: sfdc_clean_url)
-        indexers.each do |indexer|
-          web_url = indexer.clean_url
-          url_ids = indexer.clean_url_crm_ids
-          counter+=1
-          puts "\n\n#{"="*50}\n#{counter}"
-          puts "IDs: #{url_ids}"
-          puts "CRM ID: #{sfdc_id}"
-          puts "CRM URL: #{sfdc_clean_url}"
-          puts "Web URL: #{web_url}"
-
-          url_ids << sfdc_id
-          final_array = url_ids.uniq.sort
-          puts "IDs: #{url_ids}"
-          puts "Final: #{final_array}"
-
-          indexer.update_attribute(:clean_url_crm_ids, final_array)
-        end
-      end
-    end
-  end
-
+  #############################################
+  ##def url_arr_mover:REPLACED BY: UrlSorter class => servicers/url_sorter.rb  # ADDS CORE ID TO INDEXER URL ARRAY
   #############################################
 
 
+
+
+
+
+
+
+  #############################################
   # ADDS CORE ID TO INDEXER PIN ARRAY
   ## CHANGE NAME TO: AddrPinSorter
   def pin_arr_mover
@@ -933,6 +905,9 @@ class IndexerService
       end
     end
   end
+  #############################################
+
+
 
   #############################################
 

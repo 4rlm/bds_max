@@ -33,7 +33,7 @@ Admin Sections:
 
 4. Finalizer Starters: /admin/_starters_finalizer.html.erb
   finalizer_btn_path => /controllers/indexers_controller.rb => finalizer_btn => /services/indexer_service.rb =>
-  * url_arr_mover
+  > UrlSorter > REPLACED: url_arr_mover
   * pin_arr_mover
   * acct_arr_mover
   * acct_squeezer_caller
@@ -41,10 +41,10 @@ Admin Sections:
 
 
   id_sorter_btn_path => /controllers/indexers_controller.rb =>
-  url_arr_mover ** SAME AS ABOVE! DUPLICATE!
-  pin_arr_mover ** SAME AS ABOVE! DUPLICATE!
-  acct_arr_mover ** SAME AS ABOVE! DUPLICATE!
-  ph_arr_mover_express ** SAME AS ABOVE! DUPLICATE!
+  * url_arr_mover ** SAME AS ABOVE! DUPLICATE!
+  * pin_arr_mover ** SAME AS ABOVE! DUPLICATE!
+  * acct_arr_mover ** SAME AS ABOVE! DUPLICATE!
+  * ph_arr_mover_express ** SAME AS ABOVE! DUPLICATE!
 
   score_calculator_btn_path => services/indexer_service.rb => score_calculator
 
