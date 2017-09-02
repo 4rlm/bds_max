@@ -31,9 +31,9 @@ class AcctNameSorter
   end
 
   def print_and_update(indexer, final_array)
-    puts "\ncrm_acct_ids: #{indexer.crm_acct_ids}"
-    puts "final_array: #{final_array}\n\n"
-    # indexer.update_attribute(:crm_acct_ids, final_array)
+    indexer.update_attribute(:crm_acct_ids, final_array)
+    # puts "\ncrm_acct_ids: #{indexer.crm_acct_ids}"
+    # puts "final_array: #{final_array}\n\n"
   end
 
 end
