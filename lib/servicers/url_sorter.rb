@@ -24,9 +24,9 @@ class UrlSorter
     end
   end
 
-  def heavy_lifter(indexer, sfdc_id)
+  def heavy_lifter(indexer, core_sfdc_id)
     url_ids = indexer.clean_url_crm_ids
-    url_ids << sfdc_id
+    url_ids << core_sfdc_id
     final_array = url_ids.uniq.sort
     print_and_update(indexer, final_array)
   end

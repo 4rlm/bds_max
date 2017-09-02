@@ -877,29 +877,30 @@ class IndexerService
   # ADDS CORE ID TO INDEXER PIN ARRAY
   ## CHANGE NAME TO: AddrPinSorter
   def pin_arr_mover
-    puts "\n\n#{"="*40}STARTING ID SORTER METHOD 2: ADDRESS PIN ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped Address Pin as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
+    # puts "\n\n#{"="*40}STARTING ID SORTER METHOD 2: ADDRESS PIN ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped Address Pin as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
     cores = Core.where.not(crm_acct_pin: nil)
-    counter=0
-    cores.each do |core|
-      sfdc_pin = core.crm_acct_pin
-      sfdc_id = core.sfdc_id
 
-      indexers = Indexer.where(archive: false).where(acct_pin: sfdc_pin)
+    # counter=0
+    cores.each do |core|
+      # sfdc_pin = core.crm_acct_pin
+      # sfdc_id = core.sfdc_id
+
+      # indexers = Indexer.where(archive: false).where(acct_pin: sfdc_pin)
       indexers.each do |indexer|
         acct_pin = indexer.acct_pin
         pin_ids = indexer.acct_pin_crm_ids
 
-        counter+=1
-        puts "\n\n#{"="*50}\n#{counter}"
-        puts "IDs: #{pin_ids}"
-        puts "CRM ID: #{sfdc_id}"
-        puts "CRM Pin: #{sfdc_pin}"
-        puts "Web Pin: #{acct_pin}"
+        # counter+=1
+        # puts "\n\n#{"="*50}\n#{counter}"
+        # puts "IDs: #{pin_ids}"
+        # puts "CRM ID: #{sfdc_id}"
+        # puts "CRM Pin: #{sfdc_pin}"
+        # puts "Web Pin: #{acct_pin}"
 
         pin_ids << sfdc_id
         final_array = pin_ids.uniq.sort
-        puts "IDs: #{pin_ids}"
-        puts "Final: #{final_array}"
+        # puts "IDs: #{pin_ids}"
+        # puts "Final: #{final_array}"
 
         indexer.update_attribute(:acct_pin_crm_ids, final_array)
       end
