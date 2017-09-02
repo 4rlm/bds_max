@@ -20,6 +20,7 @@ class UrlSorter
     sfdc_clean_url = core.sfdc_clean_url
     if sfdc_clean_url != "http://" && sfdc_clean_url != "https://"
       indexers = Indexer.select(:clean_url, :clean_url_crm_ids).where(archive: false).where(clean_url: sfdc_clean_url)
+
       indexers.each { |indexer| heavy_lifter(indexer, core.sfdc_id)}
     end
   end
