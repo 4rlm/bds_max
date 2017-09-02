@@ -37,47 +37,6 @@ class IndexerService
     FormatterCaller.new.model_phone_formatter_caller
   end
 
-  #### Replaced by AddressFormatter class ####
-  ### NEED TO MOVE THIS TO DataFormatter Class or Module. ###
-  def address_formatter
-    ## Migrates full_addr, street, city, state, zip from geo to indexer IF clean_url and acct pin same.
-    indexers = Indexer.where(archive: false).where.not(indexer_status: "Geo Result").where.not(acct_pin: nil) # 18,983
-
-    counter = 0
-    indexers.each do |indexer|
-      ind_url = indexer.clean_url
-      ind_pin = indexer.acct_pin
-      ind_addr = indexer.full_addr
-
-      geos = Location.where(geo_acct_pin: ind_pin)
-      geos.each do |geo|
-        geo_url = geo.url
-        geo_pin = geo.geo_acct_pin
-        geo_addr = geo.geo_full_addr
-        geo_street = geo.street
-        geo_city = geo.city
-        geo_state_code = geo.state_code
-        geo_postal_code = geo.postal_code
-
-        counter+=1
-        puts "\n\n#{counter}#{"-"*30}"
-        puts "ind_url: #{ind_url}"
-        puts "geo_url: #{geo_url}"
-        puts "ind_pin: #{ind_pin}"
-        puts "geo_pin: #{geo_pin}\n\n"
-        puts "ind_addr: #{ind_addr}"
-        puts "geo_addr: #{geo_addr}\n\n"
-
-        puts "geo_street: #{geo_street}"
-        puts "geo_city: #{geo_city}"
-        puts "geo_state_code: #{geo_state_code}"
-        puts "geo_postal_code: #{geo_postal_code}\n\n"
-
-        indexer.update_attributes(indexer_status: "Geo Formatted", geo_status: "Geo Formatted", full_addr: geo_addr, street: geo_street, city: geo_city, state: geo_state_code, zip: geo_postal_code)
-      end
-    end
-  end
-
   ###############################################
   # Call: IndexerService.new.start_url_redirect
   # Call: UrlVerifier.new.starter
@@ -893,7 +852,21 @@ class IndexerService
 
 
 
+
+
+
+
+  #############################################
+      ######### FINALIZERS BEGIN #########
+  #############################################
+
+
+
+
+
+
   # ADDS CORE ID TO INDEXER URL ARRAY
+  ## CHANGE NAME TO: UrlSorter
   def url_arr_mover
     puts "\n\n#{"="*40}STARTING ID SORTER METHOD 1: URL ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped URL as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
 
@@ -926,7 +899,11 @@ class IndexerService
     end
   end
 
+  #############################################
+
+
   # ADDS CORE ID TO INDEXER PIN ARRAY
+  ## CHANGE NAME TO: AddrPinSorter
   def pin_arr_mover
     puts "\n\n#{"="*40}STARTING ID SORTER METHOD 2: ADDRESS PIN ARRAY MOVER\nChecks for SFDC Core IDs with same Scraped Address Pin as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
     cores = Core.where.not(crm_acct_pin: nil)
@@ -957,7 +934,11 @@ class IndexerService
     end
   end
 
+  #############################################
+
+
   # ADDS CORE ID TO INDEXER ACCT ARRAY
+  ## CHANGE NAME TO: AcctNameSorter
   def acct_arr_mover
     puts "\n\n#{"="*40}STARTING ID SORTER METHOD 3a: ACCOUNT ARRAY MOVER-A\nChecks for SFDC Core IDs with same Scraped Account Name as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
 
@@ -987,6 +968,8 @@ class IndexerService
       end
     end
   end
+
+  #############################################
 
 
   def acct_squeezer_caller
@@ -1047,9 +1030,11 @@ class IndexerService
   end
 
 
+  #############################################
 
 
   # ADDS CORE ID TO INDEXER PH ARRAY
+  ## CHANGE NAME TO: PhoneSorter
   def ph_arr_mover_express
     puts "\n\n#{"="*40}STARTING ID SORTER METHOD 4: PHONE ARRAY MOVER (EXPRESS)\nChecks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
 
@@ -1080,6 +1065,20 @@ class IndexerService
       end
     end
   end
+
+
+
+
+
+  #############################################
+      ######### FINALIZERS END #########
+  #############################################
+
+
+
+
+
+
 
 
   # ADDS CORE ID TO INDEXER PH ARRAY
