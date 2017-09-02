@@ -1,9 +1,6 @@
 ## Call: AddrPinIdSorter.new.aps_starter
-
 ## Description: ID SORTER METHOD 2: ADDS CORE ID TO INDEXER PIN ARRAY.  Checks for SFDC Core IDs with same Scraped Address Pin as Indexer and saves ID in array in Indexer/Scrapers.
-
 class AddrPinIdSorter
-
   def initialize
     puts "\n\n== Welcome to the AddrPinIdSorter Class! ==\n\n"
   end
@@ -19,7 +16,6 @@ class AddrPinIdSorter
 
   def query_compare_rows(core)
     indexers = Indexer.select(:acct_pin, :acct_pin_crm_ids).where(archive: false).where(acct_pin: core.crm_acct_pin)
-
     indexers.each { |indexer| heavy_lifter(indexer, core.sfdc_id)}
   end
 
@@ -27,13 +23,7 @@ class AddrPinIdSorter
     pin_ids = indexer.acct_pin_crm_ids
     pin_ids << core_sfdc_id
     final_array = pin_ids.uniq.sort
-    print_and_update(indexer, final_array)
-  end
-
-  def print_and_update(indexer, final_array)
     indexer.update_attribute(:acct_pin_crm_ids, final_array)
-    # puts "\nacct_pin_crm_ids: #{indexer.acct_pin_crm_ids}"
-    # puts "final_array: #{final_array}\n\n"
   end
 
 end
