@@ -1,11 +1,11 @@
-## Call: PhoneSorter.new.ps_starter
+## Call: PhoneIdSorter.new.ps_starter
 
 ## Description: ID SORTER METHOD 4: PHONE ARRAY MOVER (EXPRESS).  ADDS CORE ID TO INDEXER PH ARRAY.  Checks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.
 
-class PhoneSorter
+class PhoneIdSorter
 
   def initialize
-    puts "\n\n== Welcome to the PhoneSorter Class! ==\n\n"
+    puts "\n\n== Welcome to the PhoneIdSorter Class! ==\n\n"
   end
 
   def ps_starter

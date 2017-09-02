@@ -862,22 +862,22 @@ class IndexerService
 
   #############################################
   ## ADDS CORE ID TO INDEXER URL ARRAY
-  ##def url_arr_mover:REPLACED BY: UrlSorter class => servicers/url_sorter.rb
+  ##def url_arr_mover:REPLACED BY: UrlIdSorter class => servicers/url_id_sorter.rb
   #############################################
 
   #############################################
   ## ADDS CORE ID TO INDEXER URL ARRAY
-  ##def pin_arr_mover:REPLACED BY: AddrPinSorter class => servicers/addr_pin_sorter.rb
+  ##def pin_arr_mover:REPLACED BY: AddrPinIdSorter class => servicers/addr_pin_id_sorter.rb
   #############################################
 
   #############################################
   ## ADDS CORE ID TO INDEXER ACCT ARRAY
-  ##def acct_arr_mover:REPLACED BY: AcctNameSorter class => servicers/acct_name_sorter.rb
+  ##def acct_arr_mover:REPLACED BY: AcctNameIdSorter class => servicers/acct_name_id_sorter.rb
   #############################################
 
   #############################################
   ## ADDS CORE ID TO INDEXER PH ARRAY
-  ##def ph_arr_mover_express:REPLACED BY: PhoneSorter class => servicers/phone_sorter.rb
+  ##def ph_arr_mover_express:REPLACED BY: PhoneIdSorter class => servicers/phone_id_sorter.rb
   #############################################
 
 

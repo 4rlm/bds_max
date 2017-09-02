@@ -1,10 +1,10 @@
-## Call: UrlSorter.new.us_starter
+## Call: UrlIdSorter.new.us_starter
 ## Description: ID SORTER METHOD 1: ADDS CORE ID TO INDEXER URL ARRAY.  Checks for SFDC Core IDs with same Scraped URL as Indexer and saves ID in array in Indexer/Scrapers.
 
-class UrlSorter
+class UrlIdSorter
 
   def initialize
-    puts "\n\n== Welcome to the UrlSorter Class! ==\n\n"
+    puts "\n\n== Welcome to the UrlIdSorter Class! ==\n\n"
   end
 
   def us_starter

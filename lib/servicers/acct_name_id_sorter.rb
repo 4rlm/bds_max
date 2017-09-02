@@ -1,11 +1,11 @@
-## Call: AcctNameSorter.new.ans_starter
+## Call: AcctNameIdSorter.new.ans_starter
 
 ## Description: ID SORTER METHOD 3a: ACCOUNT ARRAY MOVER-A.  ADDS CORE ID TO INDEXER ACCT ARRAY  Checks for SFDC Core IDs with same Scraped Account Name as Indexer and saves ID in array in Indexer/Scrapers.
 
-class AcctNameSorter
+class AcctNameIdSorter
 
   def initialize
-    puts "\n\n== Welcome to the AcctNameSorter Class! ==\n\n"
+    puts "\n\n== Welcome to the AcctNameIdSorter Class! ==\n\n"
   end
 
   def ans_starter

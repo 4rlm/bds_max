@@ -1,11 +1,11 @@
-## Call: AddrPinSorter.new.aps_starter
+## Call: AddrPinIdSorter.new.aps_starter
 
 ## Description: ID SORTER METHOD 2: ADDS CORE ID TO INDEXER PIN ARRAY.  Checks for SFDC Core IDs with same Scraped Address Pin as Indexer and saves ID in array in Indexer/Scrapers.
 
-class AddrPinSorter
+class AddrPinIdSorter
 
   def initialize
-    puts "\n\n== Welcome to the AddrPinSorter Class! ==\n\n"
+    puts "\n\n== Welcome to the AddrPinIdSorter Class! ==\n\n"
   end
 
   def aps_starter
