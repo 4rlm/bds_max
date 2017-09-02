@@ -875,44 +875,10 @@ class IndexerService
   ##def acct_arr_mover:REPLACED BY: AcctNameSorter class => servicers/acct_name_sorter.rb
   #############################################
 
-
   #############################################
-  # ADDS CORE ID TO INDEXER PH ARRAY
-  ## CHANGE NAME TO: PhoneSorter
-  def ph_arr_mover_express
-    # puts "\n\n#{"="*40}STARTING ID SORTER METHOD 4: PHONE ARRAY MOVER (EXPRESS)\nChecks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
-
-    cores = Core.where.not(sfdc_ph: nil)
-    # counter=0
-    cores.each do |core|
-      # sfdc_ph = core.sfdc_ph
-      # sfdc_id = core.sfdc_id
-
-      indexers = Indexer.where(archive: false).where(phone: sfdc_ph)
-
-      indexers.each do |indexer|
-        # phone = indexer.phone
-        # crm_ph_ids = indexer.crm_ph_ids
-
-        # counter+=1
-        # puts "\n\n#{"="*50}\n#{counter}"
-        # puts "IDs: #{crm_ph_ids}"
-        # puts "CRM ID: #{sfdc_id}"
-        # puts "CRM Ph: #{sfdc_ph}"
-        # puts "Web Ph: #{phone}"
-
-        crm_ph_ids << sfdc_id
-        final_array = crm_ph_ids.uniq.sort
-        # puts "IDs: #{crm_ph_ids}"
-        # puts "Final: #{final_array}"
-
-        indexer.update_attribute(:crm_ph_ids, final_array)
-      end
-    end
-  end
-
+  ## ADDS CORE ID TO INDEXER PH ARRAY
+  ##def ph_arr_mover_express:REPLACED BY: PhoneSorter class => servicers/phone_sorter.rb
   #############################################
-
 
 
 

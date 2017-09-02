@@ -18,7 +18,7 @@ class PhoneSorter
   end
 
   def query_compare_rows(core)
-    indexers = Indexer.select(:phone, :crm_acct_ids).where(archive: false).where(phone: core.sfdc_ph)
+    indexers = Indexer.select(:phone, :crm_ph_ids).where(archive: false).where(phone: core.sfdc_ph)
 
     indexers.each { |indexer| heavy_lifter(indexer, core.sfdc_id)}
   end
@@ -31,9 +31,9 @@ class PhoneSorter
   end
 
   def print_and_update(indexer, final_array)
-    puts "\ncrm_ph_ids: #{indexer.crm_ph_ids}"
-    puts "final_array: #{final_array}\n\n"
-    # indexer.update_attribute(:crm_ph_ids, final_array)
+    indexer.update_attribute(:crm_ph_ids, final_array)
+    # puts "\ncrm_ph_ids: #{indexer.crm_ph_ids}"
+    # puts "final_array: #{final_array}\n\n"
   end
 
 end
