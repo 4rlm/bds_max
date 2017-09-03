@@ -895,7 +895,9 @@ class IndexerService
       sfdc_pin = core.crm_acct_pin
       sfdc_phone = core.sfdc_ph
       core_acct = core.sfdc_acct
+
       g1_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(phone: sfdc_phone)
+
       g2_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(acct_pin: sfdc_pin)
       g3_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(clean_url: sfdc_url)
       acct_squeezer_processor(g3_indexers, core_acct, sfdc_id)
@@ -908,7 +910,7 @@ class IndexerService
     core_acct
     core_sqz = acct_squeezer(core_acct)
 
-    counter=0
+    # counter=0
     indexers.each do |indexer|
       crm_acct_ids = indexer.crm_acct_ids
 
@@ -920,17 +922,18 @@ class IndexerService
       indexer_sqz = acct_squeezer(indexer_acct)
 
       if (core_sqz && indexer_sqz) && core_sqz == indexer_sqz
-        puts "#{"-"*30}"
-        puts "\n\ncore_acct: #{core_acct}"
-        puts "indexer_acct: #{indexer_acct}\n\n"
-        puts "sfdc_id: #{sfdc_id}"
-        puts "IDs: #{crm_acct_ids}"
+        # puts "#{"-"*30}"
+        # puts "\n\ncore_acct: #{core_acct}"
+        # puts "indexer_acct: #{indexer_acct}\n\n"
+        # puts "sfdc_id: #{sfdc_id}"
+        # puts "IDs: #{crm_acct_ids}"
         crm_acct_ids << sfdc_id
         final_array = crm_acct_ids.uniq.sort
-        puts "Final: #{final_array}\n\n"
+        # puts "Final: #{final_array}\n\n"
 
         indexer.update_attribute(:crm_acct_ids, final_array)
       end
+
     end
   end
 
@@ -950,49 +953,6 @@ class IndexerService
   #############################################
       ######### FINALIZERS END #########
   #############################################
-
-
-
-
-
-
-
-
-  # ADDS CORE ID TO INDEXER PH ARRAY
-  # def ph_arr_mover
-  #     ## TAKES TOO LONG!  USE EXPRESS VERSION ABOVE INSTEAD.
-  #     puts "\n\n#{"="*40}STARTING ID SORTER METHOD 4: PHONE ARRAY MOVER (*EXTENDED VERSION)\nChecks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
-  #
-  #     cores = Core.where.not(sfdc_ph: nil)
-  #     counter=0
-  #     cores.each do |core|
-  #         sfdc_ph = core.sfdc_ph
-  #         sfdc_id = core.sfdc_id
-  #
-  #         indexers = Indexer.where(archive: false).where.not(phones: [])
-  #         indexers.each do |indexer|
-  #             phones = indexer.phones
-  #             if phones.include?(sfdc_ph)
-  #                 crm_ph_ids = indexer.crm_ph_ids
-  #
-  #                 counter+=1
-  #                 puts "\n\n#{"="*50}\n#{counter}"
-  #                 puts "IDs: #{crm_ph_ids}"
-  #                 puts "CRM ID: #{sfdc_id}"
-  #                 puts "CRM Ph: #{sfdc_ph}"
-  #                 puts "Web Ph: #{phones}"
-  #
-  #                 crm_ph_ids << sfdc_id
-  #                 final_array = crm_ph_ids.uniq.sort
-  #                 puts "IDs: #{crm_ph_ids}"
-  #                 puts "Final: #{final_array}"
-  #
-  #
-  #                 indexer.update_attribute(:crm_ph_ids, final_array)
-  #             end
-  #         end
-  #     end
-  # end
 
 
   def score_calculator
@@ -1166,5 +1126,47 @@ class IndexerService
   #   # p3_indexers = Indexer.where(indexer_status: "Geo Result", geo_status: "Geo Result")
   #   # geo_to_indexer(p3_indexers)  ## Use to re-write mistakes above.
   # end
+
+
+
+
+
+
+  # ADDS CORE ID TO INDEXER PH ARRAY
+  # def ph_arr_mover
+  #     ## TAKES TOO LONG!  USE EXPRESS VERSION ABOVE INSTEAD.
+  #     puts "\n\n#{"="*40}STARTING ID SORTER METHOD 4: PHONE ARRAY MOVER (*EXTENDED VERSION)\nChecks for SFDC Core IDs with same Scraped Phone as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
+  #
+  #     cores = Core.where.not(sfdc_ph: nil)
+  #     counter=0
+  #     cores.each do |core|
+  #         sfdc_ph = core.sfdc_ph
+  #         sfdc_id = core.sfdc_id
+  #
+  #         indexers = Indexer.where(archive: false).where.not(phones: [])
+  #         indexers.each do |indexer|
+  #             phones = indexer.phones
+  #             if phones.include?(sfdc_ph)
+  #                 crm_ph_ids = indexer.crm_ph_ids
+  #
+  #                 counter+=1
+  #                 puts "\n\n#{"="*50}\n#{counter}"
+  #                 puts "IDs: #{crm_ph_ids}"
+  #                 puts "CRM ID: #{sfdc_id}"
+  #                 puts "CRM Ph: #{sfdc_ph}"
+  #                 puts "Web Ph: #{phones}"
+  #
+  #                 crm_ph_ids << sfdc_id
+  #                 final_array = crm_ph_ids.uniq.sort
+  #                 puts "IDs: #{crm_ph_ids}"
+  #                 puts "Final: #{final_array}"
+  #
+  #
+  #                 indexer.update_attribute(:crm_ph_ids, final_array)
+  #             end
+  #         end
+  #     end
+  # end
+
 
 end # IndexerService class Ends ---
