@@ -75,6 +75,35 @@ class IndexerService
   ###############################################
 
 
+  ############# FINALIZERS BEGIN #############
+
+  #############################################
+  ## ADDS CORE ID TO INDEXER URL ARRAY
+  ##def url_arr_mover:REPLACED BY: UrlIdSorter class => servicers/url_id_sorter.rb
+  #############################################
+
+  #############################################
+  ## ADDS CORE ID TO INDEXER URL ARRAY
+  ##def pin_arr_mover:REPLACED BY: AddrPinIdSorter class => servicers/addr_pin_id_sorter.rb
+  #############################################
+
+  #############################################
+  ## ADDS CORE ID TO INDEXER PH ARRAY
+  ##def ph_arr_mover_express:REPLACED BY: PhoneIdSorter class => servicers/phone_id_sorter.rb
+  #############################################
+
+  #############################################
+  ## ADDS CORE ID TO INDEXER ACCT ARRAY
+  ##def acct_arr_mover:REPLACED BY: AcctNameIdSorter class => servicers/acct_name_id_sorter.rb
+  ##def acct_squeezer_caller:COMBINED INTO AcctNameIdSorter class
+  ##def acct_squeezer_processor:COMBINED INTO AcctNameIdSorter class
+  ##def acct_squeezer:COMBINED INTO AcctNameIdSorter class
+  #############################################
+
+  ############## FINALIZERS END ##############
+
+
+
 
 
   ########################################################
@@ -854,105 +883,6 @@ class IndexerService
 
 
 
-
-
-  #############################################
-      ######### FINALIZERS BEGIN #########
-  #############################################
-
-  #############################################
-  ## ADDS CORE ID TO INDEXER URL ARRAY
-  ##def url_arr_mover:REPLACED BY: UrlIdSorter class => servicers/url_id_sorter.rb
-  #############################################
-
-  #############################################
-  ## ADDS CORE ID TO INDEXER URL ARRAY
-  ##def pin_arr_mover:REPLACED BY: AddrPinIdSorter class => servicers/addr_pin_id_sorter.rb
-  #############################################
-
-  #############################################
-  ## ADDS CORE ID TO INDEXER ACCT ARRAY
-  ##def acct_arr_mover:REPLACED BY: AcctNameIdSorter class => servicers/acct_name_id_sorter.rb
-  #############################################
-
-  #############################################
-  ## ADDS CORE ID TO INDEXER PH ARRAY
-  ##def ph_arr_mover_express:REPLACED BY: PhoneIdSorter class => servicers/phone_id_sorter.rb
-  #############################################
-
-
-
-
-
-  #############################################
-  def acct_squeezer_caller
-    puts "\n\n#{"="*40}STARTING ID SORTER METHOD 3b: ACCOUNT ARRAY MOVER-B\n(Squeezed Method) Checks for SFDC Core IDs with same Scraped Account Name as Indexer and saves ID in array in Indexer/Scrapers.\n\n"
-
-    cores = Core.where.not(sfdc_acct: nil)
-    cores.each do |core|
-      sfdc_id = core.sfdc_id
-      sfdc_url = core.sfdc_clean_url
-      sfdc_pin = core.crm_acct_pin
-      sfdc_phone = core.sfdc_ph
-      core_acct = core.sfdc_acct
-
-      g1_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(phone: sfdc_phone)
-
-      g2_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(acct_pin: sfdc_pin)
-      g3_indexers = Indexer.where(archive: false).where.not(acct_name: core_acct).where(clean_url: sfdc_url)
-      acct_squeezer_processor(g3_indexers, core_acct, sfdc_id)
-      acct_squeezer_processor(g1_indexers, core_acct, sfdc_id)
-      acct_squeezer_processor(g2_indexers, core_acct, sfdc_id)
-    end
-  end
-
-  def acct_squeezer_processor(indexers, core_acct, sfdc_id)
-    core_acct
-    core_sqz = acct_squeezer(core_acct)
-
-    # counter=0
-    indexers.each do |indexer|
-      crm_acct_ids = indexer.crm_acct_ids
-
-      indexer_phone = indexer.phone
-      indexer_pin = indexer.acct_pin
-      indexer_url = indexer.clean_url
-
-      indexer_acct = indexer.acct_name
-      indexer_sqz = acct_squeezer(indexer_acct)
-
-      if (core_sqz && indexer_sqz) && core_sqz == indexer_sqz
-        # puts "#{"-"*30}"
-        # puts "\n\ncore_acct: #{core_acct}"
-        # puts "indexer_acct: #{indexer_acct}\n\n"
-        # puts "sfdc_id: #{sfdc_id}"
-        # puts "IDs: #{crm_acct_ids}"
-        crm_acct_ids << sfdc_id
-        final_array = crm_acct_ids.uniq.sort
-        # puts "Final: #{final_array}\n\n"
-
-        indexer.update_attribute(:crm_acct_ids, final_array)
-      end
-
-    end
-  end
-
-
-  def acct_squeezer(org)
-    squeezed_org = org.downcase
-    squeezed_org = squeezed_org.gsub(/[^A-Za-z]/, "")
-    squeezed_org.strip!
-    squeezed_org
-  end
-
-  #############################################
-
-
-
-
-  #############################################
-      ######### FINALIZERS END #########
-  #############################################
 
 
   def score_calculator
