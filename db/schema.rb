@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829160115) do
+ActiveRecord::Schema.define(version: 20170905220953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "full_addr"
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "addr_pin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "cores", id: :serial, force: :cascade do |t|
     t.string "bds_status"
@@ -274,6 +285,12 @@ ActiveRecord::Schema.define(version: 20170829160115) do
     t.string "geo_acct_pin"
   end
 
+  create_table "phones", force: :cascade do |t|
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "staffers", id: :serial, force: :cascade do |t|
     t.string "staffer_status"
     t.string "cont_status"
@@ -304,6 +321,12 @@ ActiveRecord::Schema.define(version: 20170829160115) do
     t.string "cont_pin"
     t.string "template"
     t.datetime "scrape_date"
+  end
+
+  create_table "urls", force: :cascade do |t|
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
