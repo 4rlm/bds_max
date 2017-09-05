@@ -1,35 +1,30 @@
-## Call: IdSorter.new.id_starter
-## Description: ID SORTER METHOD 3a: ACCOUNT ARRAY MOVER-A.  ADDS CORE ID TO INDEXER ACCT ARRAY  Checks for SFDC Core IDs with same Scraped Account Name as Indexer and saves ID in array in Indexer/Scrapers.
-require 'delayed_job'
+## Call: IdSorterFinalizer.new.id_starter
+## Description: Read below.  Handles entire id sorting finalizer.  Replaces AcctNameIdSorter, PhoneIdSorter, AddrPinIdSorter, UrlIdSorter.
 
+# require 'delayed_job'
 
-class IdSorter
+class IdSorterFinalizer
   def initialize
-    puts "\n\n#{"="*40}\n== Starting IdSorter Finalizer ==\nEntire Process can take 5 HOURS!!\nVery Important Process required to later create matching scores for scraped accounts vs crm accounts.\nAdds Core sfdc_id to Indexer :crm_acct_ids, crm_ph_ids, acct_pin_crm_ids or clean_url_crm_ids\nIf same url, acct name, phone, or addr_pin.\nNOTE: First deletes all stored ids from respective db arrays, to ensure non-contamination (if data has changed since prior scrape.)\n#{"="*40}\n"
+    puts "\n\n#{"="*40}\n== Starting IdSorterFinalizer Finalizer ==\nEntire Process can take 5 HOURS!!\nVery Important Process required to later create matching scores for scraped accounts vs crm accounts.\nAdds Core sfdc_id to Indexer :crm_acct_ids, crm_ph_ids, acct_pin_crm_ids or clean_url_crm_ids\nIf same url, acct name, phone, or addr_pin.\nNOTE: First deletes all stored ids from respective db arrays, to ensure non-contamination (if data has changed since prior scrape.)\n#{"="*40}\n"
   end
 
   def id_starter
-    reset_db_id_arrays
+    # reset_db_id_arrays
     generate_queries
   end
 
   def generate_queries
 
-    core_field_sets = [[:sfdc_id],
-                      [:sfdc_acct],
-                      [:sfdc_ph],
-                      [:crm_acct_pin],
-                      [:sfdc_clean_url]]
+    core_field_sets = [:id, :sfdc_id, :sfdc_acct, :sfdc_ph, :crm_acct_pin, :sfdc_clean_url]
+    indexer_fields = [:id,
+                      :acct_name, :crm_acct_ids,
+                      :phone, :crm_ph_ids,
+                      :acct_pin, :acct_pin_crm_ids,
+                      :clean_url, :clean_url_crm_ids]
 
-    indexer_field_sets = [[:acct_name, :crm_acct_ids],
-                          [:phone, :crm_ph_ids],
-                          [:acct_pin, :acct_pin_crm_ids],
-                          [:clean_url, :clean_url_crm_ids]]
-
-    cores = Core.select(unpack_field_sets(core_field_sets))
-    indexers = Indexer.select(unpack_field_sets(indexer_field_sets)).where(archive: false)
+    cores = Core.select(core_field_sets)
+    indexers = Indexer.select(indexer_fields).where(archive: false)
     cores.each { |core| indexers.each { |indexer| compare_rows(core, indexer) } }
-
     puts "\n\n#{"="*40}\n== COMPLETED: IdSorter Finalizer ==\n#{"="*40}"
   end
 
@@ -37,11 +32,6 @@ class IdSorter
     puts "\n\n== Deleting all stored Core sfdc_ids in Indexer :crm_acct_ids, crm_ph_ids, acct_pin_crm_ids or clean_url_crm_ids\n\nThis will prevent contamination and errors if data has changed since prior scraping. ==\n\n"
     indexers = Indexer.select(:crm_acct_ids, :crm_ph_ids, :acct_pin_crm_ids, :clean_url_crm_ids)
     indexers.update_all(crm_acct_ids: [], crm_ph_ids: [], acct_pin_crm_ids: [], clean_url_crm_ids: [])
-  end
-
-  def unpack_field_sets(field_sets)
-    query_fields = []
-    field_sets.each { |field| query_fields << field[0] }
   end
 
   def check_array_includes_id(core_sfdc_id, indexer, id_array_sym)
@@ -68,7 +58,14 @@ class IdSorter
       heavy_lifter(core.sfdc_id, indexer, :clean_url_crm_ids) if core.sfdc_clean_url == indexer.clean_url
     end
 
-    indexer.update_attributes(@update_hash) if not @update_hash.empty?
+    if not @update_hash.empty?
+      puts "\n\n-------------------------"
+      puts "indexer.id: #{indexer.id}"
+      puts @update_hash.inspect
+      indexer.update_attributes(@update_hash)
+    end
+
+    # indexer.update_attributes(@update_hash) if not @update_hash.empty?
   end
 
   def heavy_lifter(core_sfdc_id, indexer, id_array_sym)
