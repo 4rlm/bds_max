@@ -88,172 +88,12 @@ class IndexerService
   ##def acct_squeezer
   ###############################################
   ## 2) ....score_calculator
-
-
-  # def score_calculator
-  #   puts "\n\n#{"="*40}STARTING INDEXER SCORE CALCULATOR: Core SFDC ID in each Scraped Record gets scored based on how many matching fields of 4 (url, address pin, phone, org name) and each SFDC ID gets a Matching Score (25%, 50%, 75%, 100%) .\n\n"
-  #   indexers = Indexer.where(archive: false)
-  #
-  #   indexers.each do |indexer|
-  #     scores =  {score100: [], score75: [], score50: [], score25: []}
-  #     ids = indexer.clean_url_crm_ids + indexer.crm_acct_ids + indexer.acct_pin_crm_ids + indexer.crm_ph_ids
-  #     uniqs = ids.uniq
-  #
-  #     uniqs.each do |uniq_id|
-  #       num = ids.select {|id| uniq_id == id}.length
-  #       case num
-  #       when 4 then scores[:score100] << uniq_id
-  #       when 3 then scores[:score75] << uniq_id
-  #       when 2 then scores[:score50] << uniq_id
-  #       when 1 then scores[:score25] << uniq_id
-  #         puts uniq_id
-  #       end
-  #     end
-  #
-  #     indexer.update_attributes(scores)
-  #   end
-  # end
-
+  ## Call: ScoreCalculatorFinalizer.new.sc_starter
+  ## Replaces ##def score_calculator
   ###############################################
   ## 3) ....scraper_migrator
-
-  # ===== Move indexer info to core
-  def scraper_migrator
-    puts "\n\n#{"="*40}STARTING INDEXER SCRAPER MIGRATOR: Migrates final sorted and scored Indexer Data to Core account based on Match Score and ranked by hierarchy. If two indexers have same match score, the priority goes to those with the order of matching url, then account name, then phone, then address pin.\n\n"
-
-    p1_indexers = Indexer.where(archive: false).where.not("clean_url_crm_ids = '{}'")
-    by_score(p1_indexers, :clean_url_crm_ids)
-
-    p2_indexers =  Indexer.where(archive: false).where.not("crm_acct_ids = '{}'")
-    by_score(p2_indexers, :crm_acct_ids)
-
-    p3_indexers =  Indexer.where(archive: false).where.not("crm_ph_ids = '{}'")
-    by_score(p3_indexers, :crm_ph_ids)
-
-    p4_indexers =  Indexer.where(archive: false).where.not("acct_pin_crm_ids = '{}'")
-    by_score(p4_indexers, :acct_pin_crm_ids)
-
-    p5_indexers =  Indexer.where(archive: false).where("clean_url_crm_ids = '{}'").where("crm_acct_ids = '{}'").where("crm_ph_ids = '{}'").where("acct_pin_crm_ids = '{}'")
-    by_score(p5_indexers, :id, false)
-  end
-
-  def by_score(indexers, col, priority=true)
-    indexers.each do |indexer|
-      s100 = indexer.score100
-      s75 = indexer.score75
-      s50 = indexer.score50
-      s25 = indexer.score25
-
-      if s100.any?
-        good_ids = priority ? grab_good_ids(indexer.send(col), s100) : s100
-        update_core(indexer, good_ids, "100%", "Ready")
-      end
-
-      if s75.any?
-        good_ids = priority ? grab_good_ids(indexer.send(col), s75) : s75
-        update_core(indexer, good_ids, "75%", "Ready")
-      end
-
-      if s50.any?
-        good_ids = priority ? grab_good_ids(indexer.send(col), s50) : s50
-        update_core(indexer, good_ids, "50%", "Ready")
-      end
-
-      if s25.any?
-        good_ids = priority ? grab_good_ids(indexer.send(col), s25) : s25
-        update_core(indexer, good_ids, "25%", "Ready")
-      end
-
-    end
-  end # End by_score
-
-  # Helper method for 'by_score'
-  def grab_good_ids(clean_url_crm_ids, score_ids)
-    clean_url_crm_ids.select { |sfdc_id| score_ids.include?(sfdc_id) }
-  end
-
-  def grab_none_rejects(dropped_ids, ids)
-    ids.reject { |sfdc_id| dropped_ids.include?(sfdc_id) }
-  end
-
-  #  Helper method for `by_score`
-  def update_core(indexer, ids, score, status)
-    return if ids.empty?
-    good_ids = grab_none_rejects(indexer.dropped_ids, ids)
-    cores = Core.where(sfdc_id: good_ids).where(acct_merge_sts: [nil, "Drop", "Ready"])
-
-    cores.each do |core|
-      if compare_score(core.match_score, score)
-        new_values = {
-          staff_pf_sts: indexer.stf_status,
-          loc_pf_sts: indexer.loc_status,
-          staff_link: indexer.staff_url,
-          staff_text: indexer.staff_text,
-          location_link: indexer.location_url,
-          location_text: indexer.location_text,
-          staffer_sts: indexer.stf_status,
-          template: indexer.template,
-          who_sts: indexer.who_status,
-          match_score: score,
-          # acct_match_sts: compare_core_indexer(core.sfdc_acct, indexer.acct_name),
-          acct_match_sts: compare_acct_downcase(core.sfdc_acct, indexer.acct_name),
-          ph_match_sts: compare_core_indexer(core.sfdc_ph, indexer.phone),
-          pin_match_sts: compare_core_indexer(core.crm_acct_pin, indexer.acct_pin),
-          url_match_sts: compare_core_indexer(core.sfdc_clean_url, indexer.clean_url),
-          alt_acct_pin: indexer.acct_pin,
-          alt_acct: indexer.acct_name,
-          alt_street: indexer.street,
-          alt_city: indexer.city,
-          alt_state: indexer.state,
-          alt_zip: indexer.zip,
-          alt_ph: indexer.phone,
-          alt_url: indexer.clean_url,
-          alt_source: "Web",
-          alt_address: indexer.full_addr,
-          alt_template: indexer.template,
-          acct_merge_sts: status,
-          web_staff_count: indexer.web_staff_count
-        }
-
-        puts "\n\n#{'='*15}\n#{new_values.inspect}\n#{'='*15}\n\n"
-        core.update_attributes(new_values)
-      end
-    end
-  end
-
-  #  Helper method for `update_core`
-  def compare_core_indexer(core_col, indexer_col)
-    core_col == indexer_col ? "Same" : "Different"
-  end
-
-  def compare_acct_downcase_tester
-    # One-Time Use
-    cores = Core.where.not(alt_acct: nil)[0..1000]
-    cores.each do |core|
-      core_acct = core.sfdc_acct
-      core_alt = core.alt_acct
-      acct_match_sts = compare_acct_downcase(core_acct, core_alt)
-      if core_acct != core_alt && acct_match_sts == "Same"
-        puts "\n\n\ncore_acct: #{core_acct}"
-        puts "core_alt: #{core_alt}"
-        puts "acct_match_sts: #{acct_match_sts}\n\n\n"
-      else
-        puts "..."
-      end
-    end
-  end
-
-  def compare_acct_downcase(core_col, indexer_col)
-    core_col_result = acct_squeezer(core_col)
-    indexer_col_result = acct_squeezer(indexer_col)
-    core_col_result == indexer_col_result ? "Same" : "Different"
-  end
-
-
-  #  Helper method for `update_core`
-  def compare_score(core_score, new_score)
-    core_score.to_i < new_score.to_i # true: okay to update, false: do not update
-  end
+  ## Call: UltimateMigratorFinalizer.new.um_starter
+  ## Replaces ##def scraper_migrator
   ############################################
 
   ############## FINALIZERS END ##############
@@ -396,118 +236,6 @@ class IndexerService
       puts contacts_count
       puts
       indexer.update_attribute(:contacts_count, contacts_count)
-    end
-  end
-
-
-  def reset_errors
-    # indexers = Indexer.where(stf_status: "Error")[0..100]
-    # indexers = Indexer.where("staff_url LIKE '%TCP connection%'")
-    # indexers = Indexer.where(indexer_status: "Indexer Error")
-    indexers = Indexer.all
-
-    counter=0
-    indexers.each do |indexer|
-      puts
-      counter+=1
-      puts "Cleaning Record: #{counter} ....."
-
-      indexer_status = indexer.indexer_status
-
-      stf_status = indexer.stf_status
-      staff_text = indexer.staff_text
-      staff_url = indexer.staff_url
-
-      loc_status = indexer.loc_status
-      location_text = indexer.location_text
-      location_url = indexer.location_url
-
-      raw_url = indexer.raw_url
-      clean_url = indexer.clean_url
-      redirect_status = indexer.redirect_status
-
-
-      if staff_text && staff_text.length > 35
-        new_staff_text = staff_text[0..35]
-        indexer.update_attribute(:staff_text, new_staff_text)
-      end
-
-      if location_text && location_text.length > 35
-        new_location_text = location_text[0..35]
-        indexer.update_attribute(:location_text, new_location_text)
-      end
-
-      if loc_status && loc_status == "Re-Queue"
-        indexer.update_attribute(:loc_status, nil)
-      end
-
-      if stf_status && stf_status == "Re-Queue"
-        indexer.update_attribute(:stf_status, nil)
-      end
-
-      if stf_status && (stf_status == "Matched" || stf_status == "No Matches") || loc_status && (loc_status == "Matched" || loc_status == "No Matches") && indexer_status != "Indexer Result"
-        indexer.update_attribute(:indexer_status, "Indexer Result")
-      end
-
-      if redirect_status && redirect_status.include?("Error:")
-        if redirect_status.include?("SSL connect error")
-          indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "SSL Error")
-        elsif redirect_status.include?("Couldn't resolve host name")
-          indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Host Error")
-        elsif redirect_status.include?("Peer certificate")
-          indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Certificate Error")
-        elsif redirect_status.include?("Failure when receiving data")
-          indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Transfer Error")
-        elsif redirect_status.include?("Errno::ECONNRESET")
-          indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Reset Error")
-        elsif redirect_status.include?("Errno::ECONNRESET")
-          indexer.update_attributes(indexer_status: "504 => Net::HTTPGatewayTimeOut", redirect_status: "504 Error")
-        else
-          indexer.update_attributes(indexer_status: "Redirect Error", redirect_status: "Error")
-        end
-      end
-
-      if raw_url && clean_url
-        if raw_url == clean_url
-          indexer.update_attribute(:redirect_status, "Same")
-        else
-          indexer.update_attribute(:redirect_status, "Updated")
-        end
-      elsif raw_url == nil || clean_url == nil
-        indexer.update_attribute(:redirect_status, nil)
-      end
-
-      if (staff_url && staff_url.include?("TCP connection")) || (location_url && location_url.include?("TCP connection"))
-        status = "TCP Error"
-        indexer.update_attributes(indexer_status: status, loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("403 => Net::HTTPForbidden")) || (location_url && location_url.include?("403 => Net::HTTPForbidden"))
-        status = "403 Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("410 => Net::HTTPGone")) || (location_url && location_url.include?("410 => Net::HTTPGone"))
-        status = "410 Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("500 => Net::HTTPInternalServerError")) || (location_url && location_url.include?("500 => Net::HTTPInternalServerError"))
-        status = "500 Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("SSL_connect returned")) || (location_url && location_url.include?("500 => Net::HTTPInternalServerError"))
-        status = "SSL Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("404 => Net::HTTPNotFound")) || (location_url && location_url.include?("404 => Net::HTTPNotFound"))
-        status = "404 Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("400 => Net::HTTPBadRequest")) || (location_url && location_url.include?("400 => Net::HTTPBadRequest"))
-        status = "400 Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("nil:NilClass")) || (location_url && location_url.include?("nil:NilClass"))
-        status = "Nil Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("undefined method")) || (location_url && location_url.include?("undefined method"))
-        status = "Method Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      elsif (staff_url && staff_url.include?("undefined method")) || (location_url && location_url.include?("503 => Net::HTTPServiceUnavailable"))
-        status = "503 Error"
-        indexer.update_attributes(indexer_status: "Indexer Error", loc_status: status, stf_status: status, staff_text: nil, location_text: nil)
-      end
     end
   end
 
@@ -742,7 +470,6 @@ class IndexerService
         indexer.update_attributes(indexer_status: "Length Alert", staff_text: trim_staff_text, location_text: trim_location_text, acct_name: trim_acct_name, street: trim_street, city: trim_city, state: trim_state, zip: trim_zip, phone: trim_phone, full_addr: trim_full_addr)
       end
     end
-
   end
 
 
@@ -812,9 +539,7 @@ class IndexerService
         end
       end
     end
-
   end
-
 
 
   def acct_pin_gen_starter
@@ -1011,53 +736,8 @@ class IndexerService
     end
   end
 
-  # def m_zip_remover
-  #     ## One time use for removing "m" in core zips being imported.
-  #     cores = Core.where.not(sfdc_zip: nil)
-  #     cores.each do |core|
-  #         sfdc_zip = core.sfdc_zip
-  #         if sfdc_zip[0] == "m"
-  #             new_zip = sfdc_zip[1..-1]
-  #             puts "\n\nm is in ..."
-  #             puts "sfdc_zip: #{sfdc_zip}"
-  #
-  #             if new_zip.length  > 4
-  #                 zip = new_zip
-  #             else
-  #                 zip = nil
-  #             end
-  #
-  #             puts "zip: #{zip}\n\n"
-  #             core.update_attribute(:sfdc_zip, zip)
-  #         else
-  #             puts "nope! #{sfdc_zip}"
-  #         end
-  #     end
-  # end
-
-
-
-
-
 
 #####################################################
-
-
-
-
-  # def geo_to_indexer_caller
-  #   p1_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(acct_name: [nil, "", " ", ]) # 10,000
-  #   geo_to_indexer(p1_indexers)
-  #   p2_indexers = Indexer.where(archive: false).where.not(clean_url: nil).where(rt_sts: "MS Result") # 7,486
-  #   geo_to_indexer(p2_indexers)
-  #   # p3_indexers = Indexer.where(indexer_status: "Geo Result", geo_status: "Geo Result")
-  #   # geo_to_indexer(p3_indexers)  ## Use to re-write mistakes above.
-  # end
-
-
-
-
-
 
   # ADDS CORE ID TO INDEXER PH ARRAY
   # def ph_arr_mover
