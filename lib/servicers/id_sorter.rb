@@ -5,10 +5,11 @@ require 'delayed_job'
 
 class IdSorter
   def initialize
-    puts "\n\n#{"="*40}\n== Starting IdSorter Finalizer ==\nEntire Process can take 30-60 Minutes!!\nVery Important Process required to later create matching scores for scraped accounts vs crm accounts.\nAdds Core sfdc_id to Indexer :crm_acct_ids, crm_ph_ids, acct_pin_crm_ids or clean_url_crm_ids\nIf same url, acct name, phone, or addr_pin.\nNOTE: First deletes all stored ids from respective db arrays, to ensure non-contamination (if data has changed since prior scrape.)\n#{"="*40}\n"
+    puts "\n\n#{"="*40}\n== Starting IdSorter Finalizer ==\nEntire Process can take 5 HOURS!!\nVery Important Process required to later create matching scores for scraped accounts vs crm accounts.\nAdds Core sfdc_id to Indexer :crm_acct_ids, crm_ph_ids, acct_pin_crm_ids or clean_url_crm_ids\nIf same url, acct name, phone, or addr_pin.\nNOTE: First deletes all stored ids from respective db arrays, to ensure non-contamination (if data has changed since prior scrape.)\n#{"="*40}\n"
   end
 
   def id_starter
+    reset_db_id_arrays
     generate_queries
   end
 
@@ -28,6 +29,14 @@ class IdSorter
     cores = Core.select(unpack_field_sets(core_field_sets))
     indexers = Indexer.select(unpack_field_sets(indexer_field_sets)).where(archive: false)
     cores.each { |core| indexers.each { |indexer| compare_rows(core, indexer) } }
+
+    puts "\n\n#{"="*40}\n== COMPLETED: IdSorter Finalizer ==\n#{"="*40}"
+  end
+
+  def reset_db_id_arrays
+    puts "\n\n== Deleting all stored Core sfdc_ids in Indexer :crm_acct_ids, crm_ph_ids, acct_pin_crm_ids or clean_url_crm_ids\n\nThis will prevent contamination and errors if data has changed since prior scraping. ==\n\n"
+    indexers = Indexer.select(:crm_acct_ids, :crm_ph_ids, :acct_pin_crm_ids, :clean_url_crm_ids)
+    indexers.update_all(crm_acct_ids: [], crm_ph_ids: [], acct_pin_crm_ids: [], clean_url_crm_ids: [])
   end
 
   def unpack_field_sets(field_sets)
