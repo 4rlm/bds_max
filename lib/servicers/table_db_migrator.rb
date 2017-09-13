@@ -1,5 +1,6 @@
 ## Call: TableDbMigrator.new.td_starter
 ## Description: Read below.  Handles entire id sorting finalizer.  Replaces AcctNameIdSorter, PhoneIdSorter, AddrPinIdSorter, UrlIdSorter.
+require 'delayed_job'
 
 class TableDbMigrator
 
@@ -16,6 +17,8 @@ class TableDbMigrator
 
   ############################
   def migrate_addresses_starter
+    puts "\n\nmigrate_addresses_starter....\n\n"
+
     address_attrs = [:street, :city, :state, :zip, :full_addr, :addr_pin]
     core_attrs = [:sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :full_address, :crm_acct_pin]
     indexer_attrs = [:street, :city, :state, :zip, :full_addr, :acct_pin]
@@ -41,6 +44,8 @@ class TableDbMigrator
 
   ############################
   def migrate_urls_starter #=> PERFECT!
+    puts "\n\nmigrate_urls_starter....\n\n"
+
     original_urls = Url.select(:url).all.map { |row| row.url }.uniq.sort
     @urls = original_urls.compact.sort.uniq
     puts @urls.count
@@ -63,6 +68,8 @@ class TableDbMigrator
 
   ############################
   def migrate_phones_starter #=> PERFECT!
+    puts "\n\nmigrate_phones_starter....\n\n"
+
     original_phones = Phone.select(:phone).all.map { |row| row.phone }.uniq.sort
     @phones = original_phones.compact.sort.uniq
     puts @phones.count
@@ -85,6 +92,8 @@ class TableDbMigrator
 
   ############################
   def migrate_organizations_starter #=> PERFECT!
+    puts "\n\nmigrate_organizations_starter....\n\n"
+
     original_orgs = Organization.select(:name).all.map { |row| row.name }.uniq.sort
     @orgs = original_orgs.compact.sort.uniq
     puts @orgs.count
@@ -132,44 +141,5 @@ class TableDbMigrator
     # model.create(hashes_to_save) #=> Good, but '#transaction' is much faster!
   end
   #########################################################
-
-
-  ############################
-  # Indexer(:acct_name)
-  # Core(:sfdc_acct)
-  # Location(:geo_acct_name)
-  # Who(:registrant_organization)
-  #
-  ##########
-    # Indexer.select(:id, :raw_url, :clean_url, :acct_name, :phone, :street, :city, :state, :zip, :full_addr, :acct_pin)
-    # Core.select(:id, :sfdc_url, :sfdc_clean_url, :sfdc_acct, :sfdc_ph, :sfdc_street, :sfdc_city, :sfdc_state, :sfdc_zip, :full_address, :crm_acct_pin)
-    # Location.select(:id, :url, :geo_acct_name, :phone, :street, :city, :state_code, :postal_code, :geo_full_addr, :geo_acct_pin)
-    # Who.select(:id, :domain, :registrant_organization, :registrant_phone, :registrant_address, :registrant_city, :registrant_state, :registrant_zip, :who_addr_pin)
-  ############################
-
-
-
-  ##### NOTES START #####
-=begin
-  Organization
-    name
-
-  Address
-    full_addr
-    street
-    city
-    state
-    zip
-    addr_pin
-
-  Url
-    url
-
-  Phone
-    phone
-
-    Organization, Address, Url, Phone
-=end
-  ##### NOTES END #####
 
 end

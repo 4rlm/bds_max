@@ -83,6 +83,11 @@ group :development do
   # Use Redis adapter to run Action Cable in production
   gem 'redis', '~> 3.3', '>= 3.3.1'
 
+  # Use hirb for rails c table view.  Then in rails c:
+  # require 'hirb'
+  # Hirb.enable
+  gem 'hirb'
+
   ## This is attempt to replace daemons for multiple workers.
   #gem 'delayed_job_worker_pool', '~> 0.2.3'
 end
